@@ -26,7 +26,7 @@ These examples have been designed for a Smartphone screen size and **not** for t
 
 ## Philosophy
 
-The toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
+The bbUI toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
 on the BB5/BB6/BB7.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
 CSS used to generate the user interface is handled by the bbUI toolkit so that you don't have to deal with the idiosyncrasies
 of the different layout engines.
@@ -268,6 +268,26 @@ Much like the Image List, the Arrow list is a &lt;div&gt; that has the attribute
 
 ## Inbox Style Lists
 
+The Inbox Sytle List is pretty self explainatory.  It provides the ability to create a list much like that of the email application 
+found on a BlackBerry Smartphone.
+
+![Control Panel](bbUI.js/raw/master/screenshots/inboxList.png)
+
+The inbox list is again a &lt;div&gt; with an **x-bb-type="inbox-list"** attribute.  An inbox list can have both headers and line items.  A header
+is declared by creating a &lt;div&gt; with a **x-bb-type="header"** attribute and the contents of the header are displayed as the label.  
+
+Each line item is created with a **x-bb-type="item"** attribute and has values for an image to be displayed (**x-bb-img**), a title (**x-bb-title**), a 
+time (**x-bb-time**) and the inner contents of the &lt;div&gt; are displayed as the description.
+
+	<div x-bb-type="screen">
+		<div x-bb-type="inbox-list">
+			<div x-bb-type="header">Thu 27 May 2010</div>		
+			<div x-bb-type="item" x-bb-img="opened.png" x-bb-title="Fred M." x-bb-time="4:33p" >My car just broke down</div> 
+			<div x-bb-type="item" x-bb-img="opened.png" x-bb-title="Sue A." x-bb-time="4:15p" >Need to pick up Milk</div> 
+			<div x-bb-type="header">Thu 28 May 2010</div>		
+			<div x-bb-type="item" x-bb-img="new.png" x-bb-title="Tim N." x-bb-time="10:25a" x-bb-accent="true">Where do I find the new Document</div> 
+		</div>
+	</div>
 
 ## BBM Bubbles
 
