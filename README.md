@@ -1,9 +1,16 @@
-# bbUI JavaScript Tookit
+# bbUI.js Tookit
 
 The goal of the bbUI toolkit is to provide a BlackBerry look and feel for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
+
+**Milestones**
+
+This toolkit is currently in an incubation stage and I'm working on getting things up and going.  Milestones for added
+functionality can be found here:
+
+* [bbUI Milestones](/issues/milestones)
 
 **Author(s)** 
 
