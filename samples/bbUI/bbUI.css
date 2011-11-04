@@ -781,7 +781,7 @@ body, html {
 /* ================================================= 
    BBM Bubbles
    =================================================*/
-
+  
 .bb-bbm-bubble-left
 {
 	margin-left: 8px;
@@ -802,25 +802,28 @@ body, html {
 	margin-left:25px;
 }
 
+.bb-bbm-bubble-left .image {
+	/*background-image: url('../images/bbmBubbles/panelLeft.png');*/
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAAdCAYAAABSfAiGAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oFHBUjB5d+cecAAAI0SURBVHja7dw9a1t3GMbh+5gz/A0apM1jD3TR6K/h8QwZ/PEyZNSoMauGDIZCMSUFFdJQhwTsQdBnOHA6uCktNfQllknCdS3nRqDl2X4SUjdnTpJsN9u5pkqmpKYKAADAp2h9S/r758V40SVJN2fOZrOZ61BpraUtWlpbJfk1yel/fMa2bfsr2m5gfy47bmHb9he5q25Th0pVpS1axnHs+u1mO9ehsjw7y3oYZBoAAPBIzpIk1/t97m5u8t33P8x9TffffIgPAADgGNbDkB+TvHv7NidVlfPzc1cBAACO5tthyPsPNzlxCgAA4ElMESAAAMDTESAAAIAAAQAABAgAAIAAAQAABAgAAIAAAQAABAgAACBAAAAABAgAACBAAAAAHgqQ3hEAAIAn0CcnrW/ZvbpyDAAA4Gh2r3ZpaTlpfZIqFwEAAI7i+vV1MiWttXRz5mw2m7nuKmnJcrHMer1+8I3TNOXNL2+SKUmfvz9j27b9FW03sD+XHbewbfvL3FWVu0MlU6W1lvHZ2HVz5iTJdrOda6rc3t1m+GbIMAx/iY/9fp/9T/uctlMJBwAA/LM+aX1L61suxovuz5+n/PHCi+cv5od+mL7/+Sar5Srjs7FzSQAA4P/4V3/D+3K3y+r3r0ycDAAAOFqA7Ha7rPpkvBQfAADAEQPk49/zjpeX4gMAADhegFxdXSVTZblYuhIAAHCcAGl9Sx0qVffx8fHH6QAAAI8eIGktVZW2aOIDAAB4VL8B1hmhz0JjeFQAAAAASUVORK5CYII=");
+}
+
 .bb-bbm-bubble-left .top-left {
 	margin-right: 9px; 
 	height: 9px; 
-	background-image: url('../images/bbmBubbles/panelLeft.png');
 }
+
 .bb-bbm-bubble-left .top-right {
 	margin-top: -9px; 
 	margin-left: 9px; 
 	background-position: 100% 0; 
 	height: 9px; 
 	font-size: 2px;
-	background-image: url('../images/bbmBubbles/panelLeft.png');
 }
 .bb-bbm-bubble-left .bottom-left {
 	margin-right: 18px; 
 	background-position: 0 -11px; 
 	height: 18px;
 	font-size: 2px;
-	background-image: url('../images/bbmBubbles/panelLeft.png');
 }
 .bb-bbm-bubble-left .bottom-right {
 	margin-top: -18px; 
@@ -828,7 +831,6 @@ body, html {
 	background-position: 100% -11px; 
 	height: 18px; 
 	font-size: 2px; 
-	background-image: url('../images/bbmBubbles/panelLeft.png');
 }
 .bb-bbm-bubble-left .inside {
 	border-left: 1px solid #A5A2A5;
@@ -854,6 +856,12 @@ body, html {
 	/*font-size: 13pt;*/
 }
 
+
+.bb-bbm-bubble-right .image {
+	/*background-image: url('../images/bbmBubbles/panelRight.png');*/
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAAdCAYAAABSfAiGAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oFHBUgJ4c9AuwAAAJNSURBVHja7dyxa1tXGMbh95o7fIYOEmSIoIUIumjIkLEaM3rUkCFD/8AOd7NHj+pgiIcMHRpohoICCUjQgM4guB3clgZMSRorQ/w8i16MpiOd4YcldWPGJMnFcDG2Q0trLQAAAJ+r+kr6m8ez1VmXJN2YMcMwjNuWtMk8NZsnSU7Tsk/Z9r3ZzsJ2B+KO296Ttrtmf/T+78fkNJVt2yZ/7FLvfsu0T1bPVl13PpyPm/ctWSwzf1iZVUk1AADgzqxf75Jf15lV5aQdWtrDeZaPJuIDAAC4c8tHk7QH87RDy0lrLU+fLJwKAABwNE+fLG4CxFEAAABfxCECBAAA+HIECAAAIEAAAAABAgAAIEAAAAABAgAAIEAAAAABAgAACBAAAAABAgAACBAAAAABAgAACBAAAOCr1ycnVZXLq2uHAQAAHM3l1XUqlZPqK/Vuk/XrjVMBAADu3PrVJrXbpKrSjRkzDMO4fZ+0ySz13TynqSQt+8S279GOs7Dv9d6nueO296Ttrtmf/BpXJYsHdft/PV5tkrdvUrtNpt8kq9Wq68aMSZKL4WJsh5bWmkQDAAA+yvaQ1OKHLL+fffD369932V+dZzqZpvrkbLXqkuSfAAEAAPhUw0/DuG1JHi+z/HbyQYDk5WWe//i8+/fz/QoWAADwv62erbppJe3l+iY6/tbf/rEsAQIAAHx2hMwq2f7yIru/vtKxPzQBAgAAHDFC+pb1z+vsWnLaR4AAAADHjZD5oeXF1To5JOkFCAAAcERVlWl7k+3bTeqW74H8CX8ZrQX6MdddAAAAAElFTkSuQmCC");
+}
+
 .bb-bbm-bubble-right .details
 {
 	position:relative;
@@ -869,7 +877,6 @@ body, html {
 .bb-bbm-bubble-right .top-left {
 	margin-right: 9px; 
 	height: 9px; 
-	background-image: url('../images/bbmBubbles/panelRight.png');
 }
 .bb-bbm-bubble-right .top-right {
 	margin-top: -9px; 
@@ -877,14 +884,12 @@ body, html {
 	background-position: 100% 0; 
 	height: 9px; 
 	font-size: 2px;
-	background-image: url('../images/bbmBubbles/panelRight.png');
 }
 .bb-bbm-bubble-right .bottom-left {
 	margin-right: 18px; 
 	background-position: 0 -11px; 
 	height: 18px;
 	font-size: 2px;
-	background-image: url('../images/bbmBubbles/panelRight.png');
 }
 .bb-bbm-bubble-right .bottom-right {
 	margin-top: -18px; 
@@ -892,7 +897,6 @@ body, html {
 	background-position: 100% -11px; 
 	height: 18px; 
 	font-size: 2px; 
-	background-image: url('../images/bbmBubbles/panelRight.png');
 }
 .bb-bbm-bubble-right .inside {
 	border-left: 1px solid #A5A2A5;

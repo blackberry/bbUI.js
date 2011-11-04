@@ -57,6 +57,7 @@ bb = {
 		}
 	},
 	
+	
 	// Contains all device information
 	device: {
 	
@@ -125,19 +126,8 @@ bb = {
 			var oldScreen = document.getElementById(bb.screens[numItems -2].id);
 			document.body.removeChild(oldScreen);
 		}
-		
 	
-		
-		alice.fadeIn({'id': id, duration: 1.0});
-		
-		/*alice.slide({
-			'id': id,
-			duration: 1000,
-			//origin: '100% 0%',
-			timing: 'ease-in-out',
-			random: 10
-			});*/
-
+		//bb.animate.fadeIn({'id': id, duration: 1.0});
 		
 	},
 	
@@ -167,16 +157,8 @@ bb = {
 			// Apply dom changes
 			document.body.appendChild(container);
 			document.body.removeChild(current);
-			
-			/*	alice.slide({
-					'id': display.id,
-					duration: 1000,
-					//origin: '100% 0%',
-					timing: 'ease-in-out',
-					random: 10
-				});*/
-				
-			alice.fadeIn({'id': display.id, duration: 1.0});
+
+			//bb.animate.fadeIn({'id': display.id, duration: 1.0});
 			
 		} else {
 			if (blackberry) blackberry.app.exit();
@@ -588,10 +570,10 @@ bb = {
 					
 					// Create our new <div>'s
 					var placeholder = document.createElement('div');
-					placeholder.setAttribute('class','top-left');
+					placeholder.setAttribute('class','top-left image');
 					outerElement.appendChild(placeholder);
 					placeholder = document.createElement('div');
-					placeholder.setAttribute('class','top-right');
+					placeholder.setAttribute('class','top-right image');
 					outerElement.appendChild(placeholder);
 					
 					placeholder = document.createElement('div');
@@ -605,10 +587,10 @@ bb = {
 					
 					
 					placeholder = document.createElement('div');
-					placeholder.setAttribute('class','bottom-left');
+					placeholder.setAttribute('class','bottom-left image');
 					outerElement.appendChild(placeholder);
 					placeholder = document.createElement('div');
-					placeholder.setAttribute('class','bottom-right');
+					placeholder.setAttribute('class','bottom-right image');
 					outerElement.appendChild(placeholder);
 					// Add our previous children back to the insidePanel
 					for (var j = 0; j < innerElements.length; j++) {
