@@ -44,7 +44,7 @@ computation during JavaScript DOM manipulation is one of the single most expensi
 bbUI is designed to take advantage of the WebWorks [Focus Based Navigation](http://developer.blackberry.com/html5/apis/blackberry.focus.html). 
 The toolkit will automatically add the proper highlighting and focus based tags to your UI so that it provides standard BlackBerry trackpad navigation.
 
-## Base Requirements for Config.xml
+## Base Requirements for your Config.xml
 
 To properly use the functionality of bbUI in your application, you will need at least the following base capabilities declared in your application's 
 [config.xml file](http://developer.blackberry.com/html5/documentation/ww_developing/working_with_config_xml_file_1866970_11.html). 
@@ -163,7 +163,7 @@ the 48x48 pixel size since downscaling typically looks better than stretching.
 		</div>
 	</div>
 
-To add a click ation to one of the line items, simply add an onclick event to the &lt;div&gt;
+To add a click event to one of the line items, simply add an onclick event to the &lt;div&gt;
 
 	<div x-bb-type="item" onclic="alert('clicked')" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
 
@@ -191,8 +191,27 @@ below.
 	</div>
 
 
-## Input Rows
+## Label/Control Rows
 
+Label/Control rows are used in conjuction with a Rounded Control Panel to provide a label for a control and then a control to perform the interaction.
+Currently there&apos;s **only** support for Horizontal alignment where the Label is left justified, and the control is right justified.
+
+![Control Panel](bbUI.js/raw/master/screenshots/labelControlRow.png)
+
+
+To use a Label/Control row you create a &lt;div&gt; with the **x-bb-type="label-control-horizontal-row"** attribute.  You then create another &lt;div&gt; for
+your label with the attribute **x-bb-type="label"** and the contents of this &lt;div&gt; are displayed as the text of the left justified label.  The control is then
+added by adding another &lt;div&gt;.  In this example we are using a button.  More on buttons later.
+
+	<div x-bb-type="screen">
+		<div x-bb-type="round-panel"> 
+			<div x-bb-type="panel-header">Font Setting</div>
+			<div x-bb-type="label-control-horizontal-row">
+			   <div x-bb-type="label">Settings</div>
+			   <div x-bb-type="button" onclick="openEditScreen()">Edit</div>
+		   </div>
+		</div>
+	</div>
 
 ## Buttons
 
@@ -203,7 +222,10 @@ below.
 ## Inbox Style Lists
 
 
-## Twitter Style Lists
+## BBM Bubbles
+
+
+## Tall Lists
 
 
 ## Tabs
