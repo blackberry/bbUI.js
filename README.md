@@ -137,7 +137,7 @@ is popped off of the stack using the **onunload** attribute.
 
 ## Image Lists
 
-![Image List](bbUI.js/screenshots/imageList.png)
+![Image List](bbUI.js/raw/master/screenshots/imageList.png)
 
 
 
