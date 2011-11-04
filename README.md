@@ -70,7 +70,7 @@ WebWorks API so that it can trap the "back" hardware key and automatically handl
 	<html>
 		<head>
 			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-			<link  rel="stylesheet" type="text/css" href="bbUI/bbUI.css"><link />
+			<link  rel="stylesheet" type="text/css" href="bbUI/bbUI.css"></link>
 			<script type="text/javascript" src="bbUI/bbUI.js"></script>
 		</head>
 		<body onload="bb.pushScreen('menu.htm', 'menu');">	
@@ -80,7 +80,7 @@ WebWorks API so that it can trap the "back" hardware key and automatically handl
 ## Defining a Screen
 
 Creating a screen to be used with bbUI is as simple as creating an HTML file and placing the screen fragment markup in the file.  A screen declaration
-is simply a <div> with an attribute **x-bb-type="screen"**.  You will place all the contents for your screen inside this <div>.  There is also a **x-bb-title**
+is simply a &lt;div&gt; with an attribute **x-bb-type="screen"**.  You will place all the contents for your screen inside this &lt;div&gt;.  There is also a **x-bb-title**
 attribute where, if defined, a standard black screen title bar will appear with the text delared in this attribute shown.
 
 	<div x-bb-type="screen" x-bb-title="User Interface Examples">
