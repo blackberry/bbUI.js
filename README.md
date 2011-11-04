@@ -137,9 +137,32 @@ is popped off of the stack using the **onunload** attribute.
 
 ## Image Lists
 
+Image lists are option items that give the user options that they can choose.  This user interface can seen in the BlackBerry options area.
+
 ![Image List](bbUI.js/raw/master/screenshots/imageList.png)
 
+Creating an image list is really simple and begins with creating a &lt;div&gt; that has the attribute **x-bb-type="image-list"**.  Each item in the list is another 
+&lt;div&gt; that has the attribute **x-bb-type="item"**.  Each item has an image (**x-bb-img**), a title (**x-bb-title**), and a description which is the inner contents
+of the &lt;div&gt;.
 
+	<div x-bb-type="screen">
+		<div x-bb-type="image-list">
+			<div x-bb-type="item" x-bb-img="icon1.png" x-bb-title="Input Controls">Use native looking input controls</div>
+			<div x-bb-type="item" x-bb-img="icon2.png" x-bb-title="Inbox List">Style your list like the BlackBerry Inbox</div> 
+			<div x-bb-type="item" x-bb-img="icon3.png" x-bb-title="Settings">Create native looking options screens</div> 
+			<div x-bb-type="item" x-bb-img="icon5.png" x-bb-title="Tall List Items">Add some height to your list items</div> 
+			<div x-bb-type="item" x-bb-img="icon6.png" x-bb-title="BBM Bubbles">Generate a chat window like BBM</div> 
+			<div x-bb-type="item" x-bb-img="icon7.png" x-bb-title="Pill Buttons">Use pill buttons to organize your data</div> 
+			<div x-bb-type="item" x-bb-img="icon8.png" x-bb-title="Charts">Add charts to your application</div> 
+			<div x-bb-type="item" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
+			<div x-bb-type="item" x-bb-img="icon10.png" x-bb-title="Tab Controls">Use tabs to organize your data</div> 
+			<div x-bb-type="item" x-bb-img="icon11.png" x-bb-title="Arrow List">Create a navigation list with arrows</div>
+		</div>
+	</div>
+
+To add a click ation to one of the line items, simply add an onclick event to the &lt;div&gt;
+
+	<div x-bb-type="item" onclic="alert('clicked')" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
 
 
 ## Rounded Control Containers
