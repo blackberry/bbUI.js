@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div x-bb-type="screen">
+	<x-bb-script id="pillButtonsJS" src="js/pillButtons.js"/>
+	<style type="text/css">
+		.listSeparator
+		{
+			border-bottom: solid 1px Silver;
+		}
+
+		.tab
+		{
+			position:absolute;
+			top:50px;	
+			padding: 10px;
+		}
+
+		input 
+		{
+			display:inline; 
+			float:left;
+			font-family: BBAlpha Sans;
+			font-size: 16pt;
+			border: none;
+			padding-top: 0px;
+			width: 10px;
+			margin-top: 7px;
+		}
+	</style>
+
+	<!--<div id="buttons" class="bb-pill-buttons">
+		<a id="btnContact" class="buttonLeft" onmouseover="doHover('btnContact')"  onclick="selectContact();"><span>Contact</span></a>
+		<a id="btnAddress" class="buttonMiddle" onmouseover="doHover('btnAddress')"  onclick="selectAddress();"><span>Address</span></a>
+		<a id="btnPhone" class="buttonRight" onmouseover="doHover('btnPhone')"  onclick="selectPhone();"><span>Phone</span></a>
+	 </div>-->
+	 
+	 <div x-bb-type="pill-buttons">
+		<div x-bb-type="pill-button" x-bb-selected="true" onclick="selectContact();">Contact</div>
+		<div x-bb-type="pill-button" onclick="selectAddress();">Address</div>
+		<div x-bb-type="pill-button" onclick="selectPhone();">Phone</div>
+	 </div>
+	
+	<div id="contact" class="tab">
+		<div x-bb-type="round-panel" id="mainList"> 
+			<div class="bb-label-control-row">
+				<div class="label">Title:</div>       
+				<input type="text" value="Mr." onfocus="resetImages()"/>
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">First Name:</div>       
+				<input type="text" value="John" onfocus="resetImages()"/>
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">Last Name:</div>       
+				<input type="text" value="Doe" onfocus="resetImages()"/>
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">Email:</div>       
+				<input type="text" value="jdoe@foo.com" onfocus="resetImages()"/>
+			</div>
+			
+		</div>
+	</div>
+	<div id="phone" class="tab">
+		<div x-bb-type="round-panel" id="mainList">  
+			<div class="bb-label-control-row">
+				<div class="label">Home:</div>       
+				<input type="text" value="555-555-8987" onfocus="resetImages()" />
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">Mobile:</div>       
+				<input type="text" value="555-555-2569" onfocus="resetImages()" />
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">Fax:</div>       
+				<input type="text" value="Hello World" onfocus="resetImages()" />
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">PIN:</div>       
+				<input type="text" value="XYZ123XYZ" onfocus="resetImages()" />
+			</div>
+		</div>
+	 </div>
+	 <div id="address" class="tab">
+		<div x-bb-type="round-panel" id="mainList">  
+			<div class="bb-label-control-row">
+				<div class="label">Address 1:</div>       
+				<input type="text" value="555 Foo St." onfocus="resetImages()"/>
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">City:</div>       
+				<input type="text" value="Toronto" onfocus="resetImages()"/>
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">Province:</div>       
+				<input type="text" value="Ontario" onfocus="resetImages()" />
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="row">
+				<div class="label">Country:</div>       
+				<input type="text" value="Canada" onfocus="resetImages()" />
+			</div>
+			<div class="listSeparator"></div>    
+			<div class="bb-label-control-row">
+				<div class="label">Postal Code:</div>       
+				<input type="text" value="L5G 2H9" onfocus="resetImages()" />
+			</div>
+		</div>
+	 </div>
+</div>
+

@@ -1,6 +1,6 @@
 # bbUI.js Tookit
 
-The goal of the bbUI toolkit is to provide a BlackBerry look and feel for HTML5 applications using the 
+The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
@@ -38,6 +38,23 @@ then modify the DOM in any way that it needs in order to achieve the desired res
 All DOM manipulation occurs while the HTML fragment is not attached to the **live DOM**.  This allows DOM manipulation to occur
 VERY, VERY, FAST and it does not incur any Web view layout computation until the entire fragment is inserted into the DOM.  Layout 
 computation during JavaScript DOM manipulation is one of the single most expensive operations that can slow down a Web based UI.
+
+## Trackpad Navigation
+
+bbUI is designed to take advantage of the WebWorks [Focus Based Navigation](http://developer.blackberry.com/html5/apis/blackberry.focus.html). 
+The toolkit will automatically add the proper highlighting and focus based tags to your UI so that it provides standard BlackBerry trackpad navigation.
+
+## Base Requirements for Config.xml
+
+To properly use the functionality of bbUI in your application, you will need at least the following base capabilities declared in your application's 
+[config.xml file](http://developer.blackberry.com/html5/documentation/ww_developing/working_with_config_xml_file_1866970_11.html). 
+
+	<widget xmlns:rim="http://www.blackberry.com/ns/widgets" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">  
+	  <name>My App Name</name>
+	  <content src="mystartpage.htm" />
+	  <rim:navigation mode="focus" />
+	  <feature id="blackberry.system.event" />
+	</widget>
 
 ## Managing Screens
 

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div x-bb-type="screen">
+	<style type="text/css">
+		.bb-gauge
+		{
+			border: 1px solid Gray; 
+			overflow:hidden;
+			margin: 10px; 
+			background-color: White;
+			height:17px; 
+			padding:2px; 
+		}
+
+		.bb-gauge .image
+		{
+			width:0px;
+			height:17px;
+			margin:0px;
+			padding:0px	
+		}
+
+		.batteryGauge
+		{
+			overflow:hidden;
+			margin-right:15px;
+		}
+
+		.batteryImage
+		{
+			width:0px;
+			height:69px;
+			margin-left:4px;
+			margin-top:4px;
+			margin-bottom:4px;	
+			padding:0px
+		}
+	</style>
+	<x-bb-script id="gaugeJS" src="js/gauge.js"/>
+	<div style="margin:15px;color:Gray;">
+		<p align="center">
+		Below you will find some examples of how you can Create different gauges or progress bars<br />       
+		</p>
+	</div>
+
+	<div x-bb-type="round-panel" id="mainList">   
+		 
+			<!--<div id="button" class="bb-button-full" x-blackberry-focusable="true" onclick="doTimedEvent()" style="background-position:bottom right">
+					<span style="background-position:bottom left">Watch Progress</span>
+			</div>	-->
+			<div x-bb-type="button" x-bb-style="stretch" onclick="doTimedEvent()">Watch Progress</div>
+			
+			<div class="bb-gauge" style="height:20px;">
+				<div id="gauge0" style="background-color:Blue;width:0px;height:20px;"></div>
+			</div>  
+			
+			<div class="bb-gauge">
+				<div id="gauge1" class="image" style="background-image: url('images/gauge/gauge1.png');"></div>
+			</div> 
+			
+			<div class="bb-gauge">
+				<div id="gauge2" class="image" style="background-image: url('images/gauge/gauge2.png');"></div>
+			</div> 
+	</div>
+</div>

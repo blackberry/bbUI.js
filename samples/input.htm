@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+
+<div x-bb-type="screen">
+	<style type="text/css">
+		.tooltipRoot 
+		{
+			position: relative;
+			color: Blue;
+		}
+
+		.tooltipRoot:hover .tooltip {
+		  position: absolute;
+		  top: -40px;
+		  left: 0px;
+		  display: block;
+		  background-color: White;
+		  text-decoration:none;
+		  border: 1px solid Black;
+		}
+
+		.tooltip 
+		{
+			display: none;
+			text-decoration:none;
+			color: Black;
+}
+	</style>
+	 
+	<div x-bb-type="round-panel"> 
+		<div x-bb-type="panel-header">Drop-Down Buttons</div>
+		<div x-bb-type="label-control-horizontal-row">
+		   <div x-bb-type="label">Choose A City:</div>
+		   <div x-bb-type="button" onclick="openSpinner()">Brasilia</div>
+	   </div>
+	</div>
+
+	<div x-bb-type="round-panel"> 
+		<div x-bb-type="panel-header">Yes/No Buttons</div>
+		<div x-bb-type="label-control-horizontal-row">
+		   <div x-bb-type="label">Radio Status:</div>
+		   <div x-bb-type="button">Yes</div>
+	   </div>
+	   <div x-bb-type="label-control-horizontal-row">
+		   <div x-bb-type="label">Sound</div>
+		   <div x-bb-type="button">Yes</div>
+	   </div>  
+	</div>
+
+	
+	<div style="margin:15px;color:Gray;"><p align="center">This is text that I want to place in the middle of the screen to see what it looks like</p></div>
+	
+	<div x-bb-type="round-panel"> 
+		<div x-bb-type="panel-header">Text Entry Examples</div>
+		<div x-bb-type="label-control-horizontal-row">
+		   <div x-bb-type="label">Sample Text:</div>
+		   <input id="edit1" type="text" value="Hello World" />
+		</div>
+		<div x-bb-type="label-control-horizontal-row">
+		   <div x-bb-type="label">Another Label:</div>
+		   <input id="edit1" type="text" value="Hello World" />
+		</div>
+	</div>
+	
+	<div style="margin:15px;color:Gray;">
+		<p align="center">This is an example of <span class="tooltipRoot" x-blackberry-focusable="true">Tool Tips<span class="tooltip">My ToolTip!</span></span> using the functionality of CSS</p>
+	</div>
+	
+	
+</div>
+

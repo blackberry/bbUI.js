@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div x-ww-type="screen">
+	<x-bb-script id="tabsJS" src="js/tabs.js"/>
+	<link  rel="stylesheet" type="text/css" href="css/tabs.css"><link />
+	<div id="buttons" class="buttonPanel">
+		<a id="btnContact" class="tabButton" onmouseover="doHover('btnContact')"  onclick="selectContact();">
+			<div>
+				<img src="images/tabs/contact.png"/>
+				<p>Contact</p>
+			</div>
+		</a>
+		<a id="btnAddress" class="tabButton" onmouseover="doHover('btnAddress')"  onclick="selectAddress();">
+			<div>
+				<img src="images/tabs/address.png"/>
+				<p>Address</p>
+			</div>
+		</a>
+		<a id="btnPhone" class="tabButton" onmouseover="doHover('btnPhone')"  onclick="selectPhone();">
+			<div>
+				<img src="images/tabs/phone.png"/>
+				<p>Phone</p>
+			</div>
+		</a>
+	 </div>
+	<div class="tabSeparator"></div>
+	<div id="contact" class="tab">
+		<div class="main-panel">
+			<div class="panel-top-left"></div>
+			<div class="panel-top-right"></div>
+			<div class="panel-inside">
+			 <div class="panel-nogap">
+				<div class="row">
+					<div class="label">Title:</div>       
+					<input type="text" value="Mr." onfocus="resetImages()"/>
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">First Name:</div>       
+					<input type="text" value="John" onfocus="resetImages()"/>
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">Last Name:</div>       
+					<input type="text" value="Doe" onfocus="resetImages()"/>
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">Email:</div>       
+					<input type="text" value="jdoe@foo.com" onfocus="resetImages()"/>
+				</div>
+			 </div>
+			</div>
+			<div class="panel-bottom-left"></div>
+			<div class="panel-bottom-right"></div>
+		</div>
+	</div>
+	<div id="phone" class="tab">
+		<div class="main-panel">
+			<div class="panel-top-left"></div>
+			<div class="panel-top-right"></div>
+			<div class="panel-inside">
+			 <div class="panel-nogap">
+				<div class="row">
+					<div class="label">Home:</div>       
+					<input type="text" value="555-555-8987" onfocus="resetImages()" />
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">Mobile:</div>       
+					<input type="text" value="555-555-2569" onfocus="resetImages()" />
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">Fax:</div>       
+					<input type="text" value="Hello World" onfocus="resetImages()" />
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">PIN:</div>       
+					<input type="text" value="XYZ123XYZ" onfocus="resetImages()" />
+				</div>
+			 </div>
+			</div>
+			<div class="panel-bottom-left"></div>
+			<div class="panel-bottom-right"></div>
+		</div>
+	 </div>
+	 <div id="address" class="tab">
+		<div class="main-panel">
+			<div class="panel-top-left"></div>
+			<div class="panel-top-right"></div>
+			<div class="panel-inside">
+			 <div class="panel-nogap">
+				<div class="row">
+					<div class="label">Address 1:</div>       
+					<input type="text" value="555 Foo St." onfocus="resetImages()"/>
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">City:</div>       
+					<input type="text" value="Toronto" onfocus="resetImages()"/>
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">Province:</div>       
+					<input type="text" value="Ontario" onfocus="resetImages()" />
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">Country:</div>       
+					<input type="text" value="Canada" onfocus="resetImages()" />
+				</div>
+				<div class="listSeparator"></div>    
+				<div class="row">
+					<div class="label">Postal Code:</div>       
+					<input type="text" value="L5G 2H9" onfocus="resetImages()" />
+				</div>
+			 </div>
+			</div>
+			<div class="panel-bottom-left"></div>
+			<div class="panel-bottom-right"></div>
+		</div>
+	 </div>
+</div>
