@@ -31,7 +31,7 @@ on the BB5/BB6/BB7.  This means that in some cases toolbars are fixed, and in ot
 CSS used to generate the user interface is handled by the bbUI toolkit so that you don't have to deal with the idiosyncrasies
 of the different layout engines.
 
-Each of the layouts and controls use custom attributes that begin with **bb-** so that the toolkit can determine the type of
+Each of the layouts and controls use custom attributes that begin with **x-bb-** so that the toolkit can determine the type of
 control that is desired and then style it accordingly.  By not adding any kind of layout logic to the screen elements, bbUI can 
 then modify the DOM in any way that it needs in order to achieve the desired result.
 
@@ -58,9 +58,10 @@ To properly use the functionality of bbUI in your application, you will need at 
 
 ## Managing Screens
 
-the bbUI toolkit builds the application UI in the most optimized fashion for the operating system.  It follows a methodology of 
+the bbUI toolkit builds the application's UI in the most optimized fashion for the target operating system.  It follows a methodology of 
 a single web page that has screens loaded into it as HTML fragments.  Each screen is its own HTML fragment file.  The toolkit then 
-uses AJAX to **push** and **pop** screens off of the stack.  The toolkilt manages the screen stack and loading the content.
+uses AJAX to **push** and **pop** screens off of the stack.  The toolkilt manages the screen stack and loading the content.  This ensures 
+the best use of device memory.
 
 To open a new screen in an appliction using bbUI you simply call **bb.pushScreen('mypage.htm', 'mypagename')**.  To close the top screen
 you simply call **pp.popScreen()**.  The toolkit is designed to use the [Application Event](http://developer.blackberry.com/html5/apis/blackberry.app.event.html) 
@@ -78,12 +79,60 @@ WebWorks API so that it can trap the "back" hardware key and automatically handl
 	
 ## Defining a Screen
 
+Creating a screen to be used with bbUI is as simple as creating an HTML file and placing the screen fragment markup in the file.  A screen declaration
+is simply a <div> with an attribute **x-bb-type="screen"**.  You will place all the contents for your screen inside this <div>.  There is also a **x-bb-title**
+attribute where, if defined, a standard black screen title bar will appear with the text delared in this attribute shown.
+
+	<div x-bb-type="screen" x-bb-title="User Interface Examples">
+		
+	</div>
+
 
 ## Loading Screen Specific CSS
 
+If you have screen specific CSS that you would like to load with your screen, you can declare that CSS in one of two ways.
 
+First is by declaring it inline with your screen contents:
+
+	<div x-bb-type="screen">
+		<style type="text/css">
+			body, html {
+				background-color: White;
+			}
+		</style>
+	</div>
+
+An alternative is to declare a linked in style sheet within your screen's content.  Just remember that the path to your style sheet will 
+start from the main HTML page that you have loaded as the root of your application.  So you should make your paths relative to that root document.
+
+	<div x-bb-type="screen">
+		<link  rel="stylesheet" type="text/css" href="css/tabs.css"></link>
+	</div>
+
+	
 ## Loading Screen Specific JavaScript
 
+One of the more common scenarios is to have specific JavaScript files that you want to use for a certain screen.  You really don't want to load up all of 
+your screen's JavaScript on launch of your application, nor do you want to continue to use tons of memory to have your JavaScript objects sitting around
+while you're not using them.
+
+bbUI allows you to declare JavaScript files to include with your screen.  The toolkit will actually take care of including this JavaScript into your application
+when the screen is pushed onto the stack, and it will remove this JavaScript when the screen is popped back off of the stack.  Just remember that the path to your JS file will 
+start from the main HTML page that you have loaded as the root of your application.  So you should make your paths relative to that root document.
+
+	<div x-bb-type="screen">
+		<x-bb-script id="tabsJS" src="js/tabs.js"/>
+	</div>
+
+This is accomplished by adding the **x-bb-script** element into your DOM with an **id**, which is used by the toolkit to add and remove the JavaScript file, and the **src**
+path to the JavaScript file itself.
+
+If you have JavaScript that needs to perform some cleanup routines when your screen gets popped off of the stack, you can also declare JavaScript to be called before the screen
+is popped off of the stack using the **onunload** attribute.
+
+	<div x-bb-type="screen">
+		<x-bb-script id="tabsJS" src="js/tabs.js" onunload="unloadPushListeners()"/>
+	</div>
 
 
 ## Image Lists

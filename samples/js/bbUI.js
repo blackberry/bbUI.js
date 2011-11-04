@@ -108,7 +108,7 @@ bb = {
 		var scripts = container.getElementsByTagName('x-bb-script');
 		for (var i = 0; i < scripts.length; i++) {
 			var bbScript = scripts[i];
-			scriptIds.push({'id' : bbScript.getAttribute('id'), 'unloadFunction': bbScript.getAttribute('unloadFunction')});
+			scriptIds.push({'id' : bbScript.getAttribute('id'), 'onunload': bbScript.getAttribute('onunload')});
 			var scriptTag = document.createElement('script');
 			scriptTag.setAttribute('type','text/javascript');
 			scriptTag.setAttribute('src', bbScript.getAttribute('src'));
@@ -159,8 +159,8 @@ bb = {
 				var bbScript = currentStackItem.scripts[i];
 				var scriptTag = document.getElementById(bbScript.id);
 				// Call the unload function if any is defined
-				if (bbScript.unloadFunction) {
-					eval(bbScript.unloadFunction);
+				if (bbScript.onunload) {
+					eval(bbScript.onunload);
 				}
 				document.head.removeChild(scriptTag);
 			}
