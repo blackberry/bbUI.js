@@ -321,6 +321,27 @@ image to appear beside the line item by using the **x-bb-img** attribute. The co
 
 ## Tall Lists
 
+Tall lists are similar to those that you would find in the BlackBerry Twitter&reg; and Facebook&reg; applications.
 
+![Control Panel](bbUI.js/raw/master/screenshots/tallList.png)
 
+Tall lists are a &lt;div&gt; with a **x-bb-type="tall-list"** attribute.  Each line item is a &lt;div&gt; with an **x-bb-type="item"** attribute which allows for
+a display image (**x-bb-img**), a title (**x-bb-title**), a time (**x-bb-time**) and the inner contents of the &lt;div&gt; are the description that appears.
+
+	<div x-bb-type="screen">
+		<style type="text/css">
+			body, html {
+				background-color: White;
+			}
+		</style>
+		<div x-bb-type="tall-list">
+			<div x-bb-type="item" x-bb-img="adamA.jpg" x-bb-title="Adam A." x-bb-time="10:24 PM May 22">My car just broke down and I have one million things to do!!</div> 
+			<div x-bb-type="item" x-bb-img="brian.jpg" x-bb-title="Brian" x-bb-time="10:24 PM May 22">Need to pick up Milk.  Add one more thing to the &quot;Honey Do&quot; list!</div>
+			<div x-bb-type="item" x-bb-img="tim.jpg" x-bb-title="Tim" x-bb-time="10:24 PM May 22">Time for some BBQ Ribs!!</div> 
+			<div x-bb-type="item" x-bb-img="tim.jpg" x-bb-title="Tim" x-bb-time="10:24 PM May 22">Has anyone seen a good movie lately?  We're looking for something to do this weekend and I figured a movie would be good</div> 
+			<div x-bb-type="item" x-bb-img="mike.jpg" x-bb-title="Mike" x-bb-time="10:24 PM May 22">Yes, I do Love BlackBerry! Check out BlackBerry App World</div> 
+			<div x-bb-type="item" x-bb-img="douglas.jpg" x-bb-title="Douglas" x-bb-time="10:24 PM May 22">Blogging for BlackBerry is a ton of fun. </div> 
+			<div x-bb-type="item" x-bb-img="adamA.jpg" x-bb-title="AdamA" x-bb-time="10:24 PM May 22">Gotta love BlackBerry WebWorks!</div>
+		</div>
+	</div>
 
