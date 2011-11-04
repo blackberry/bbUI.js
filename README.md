@@ -10,7 +10,7 @@ and looks at home on a BlackBerry with very little effort.
 This toolkit is currently in an incubation stage and I'm working on getting things up and going.  Milestones for added
 functionality can be found here:
 
-* [bbUI Milestones](/issues/milestones)
+* [bbUI Milestones](issues/milestones)
 
 **Author(s)** 
 
