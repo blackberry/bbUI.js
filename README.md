@@ -145,6 +145,9 @@ Creating an image list is really simple and begins with creating a &lt;div&gt; t
 &lt;div&gt; that has the attribute **x-bb-type="item"**.  Each item has an image (**x-bb-img**), a title (**x-bb-title**), and a description which is the inner contents
 of the &lt;div&gt;.
 
+On High-Resolution screens, the image size is 48x48 pixels.  On a low resolution screen it is sized down to 32x32 pixels.  So it is best to create your image artwork at 
+the 48x48 pixel size since downscaling typically looks better than stretching.
+
 	<div x-bb-type="screen">
 		<div x-bb-type="image-list">
 			<div x-bb-type="item" x-bb-img="icon1.png" x-bb-title="Input Controls">Use native looking input controls</div>
@@ -165,7 +168,30 @@ To add a click ation to one of the line items, simply add an onclick event to th
 	<div x-bb-type="item" onclic="alert('clicked')" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
 
 
-## Rounded Control Containers
+## Rounded Control Panels
+
+Rounded control panel are found on many of the standard BlackBerry applications. They typically group different controls together into logical groupings. 
+Below is a screen shot of a rounded control panel that has a button and some progress indicators nested inside of it.  
+
+![Control Panel](bbUI.js/raw/master/screenshots/controlContainer.png)
+
+To declare a rounded control panel you create a &lt;div&gt; with the **x-bb-type="round-panel"** attribute.  All content that you add to the inside of this 
+&lt;div&gt; will appear inside the rounded control panel. 
+
+Rounded control panels can either be a simple panel, or they can also have a title added to them.  To add a title add a &lt;div&gt; with the **x-bb-type="panel-header"**
+attribute.  The text contained inside of this div will show up as a header on the panel.  An example of what this header looks like can be seen in the Input Rows section
+below.
+
+	<div x-bb-type="screen">
+		<div x-bb-type="round-panel"> 
+			<div x-bb-type="panel-header">My Header</div>
+			
+			
+		</div>
+	</div>
+
+
+## Input Rows
 
 
 ## Buttons
