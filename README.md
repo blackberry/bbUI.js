@@ -215,7 +215,7 @@ added by adding another &lt;div&gt;.  In this example we are using a button.  Mo
 
 ## Buttons
 
-![Control Panel](bbUI.js/raw/master/screenshots/labelControlRow.png)
+![Control Panel](bbUI.js/raw/master/screenshots/buttons.png)
 
 Buttons can be used pretty much anywhere.  Creating a button starts by creating a &lt;div&gt; with the **x-bb-type="button"** attribute. By default a button 
 will size itself to the text used for the caption.  You can however use the **x-bb-style="stretch"** setting for a button to make it stretch to the total width of
