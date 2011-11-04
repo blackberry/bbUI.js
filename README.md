@@ -215,6 +215,26 @@ added by adding another &lt;div&gt;.  In this example we are using a button.  Mo
 
 ## Buttons
 
+![Control Panel](bbUI.js/raw/master/screenshots/labelControlRow.png)
+
+Buttons can be used pretty much anywhere.  Creating a button starts by creating a &lt;div&gt; with the **x-bb-type="button"** attribute. By default a button 
+will size itself to the text used for the caption.  You can however use the **x-bb-style="stretch"** setting for a button to make it stretch to the total width of
+the container where it is embedded.  I wouldn't recommend using the "stretch" capability if you use a button in a Label/Control row.
+
+To add a click handler to the button simply add an onclick event to the &lt;div&gt;.
+
+	<div x-bb-type="screen">
+		<div x-bb-type="panel-header">Font</div>
+			<div style="margin-bottom:4px;">
+			   <div x-bb-type="label"> Font Family:</div>
+			   <div x-bb-type="button" x-bb-style="stretch">BBAlpha Sans</div>
+		   </div>
+		   <div x-bb-type="label-control-horizontal-row">
+			   <div x-bb-type="label">Font Size:</div>
+			   <div x-bb-type="button" onclick="alert('click');">7</div>
+		   </div>
+		</div>
+	</div>
 
 ## Arrow Lists
 
