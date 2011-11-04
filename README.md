@@ -137,7 +137,7 @@ is popped off of the stack using the **onunload** attribute.
 
 ## Image Lists
 
-Image lists are option items that give the user options that they can choose.  This user interface can seen in the BlackBerry options area.
+Image lists give the user different options that they can choose.  This user interface can seen in the BlackBerry options area.
 
 ![Image List](bbUI.js/raw/master/screenshots/imageList.png)
 
