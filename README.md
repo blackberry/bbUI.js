@@ -22,7 +22,7 @@ functionality can be found here:
 
 These examples have been designed for a Smartphone screen size and **not** for the BlackBerry&reg; PlayBook&trade;
 
-**Requires BlackBerry WebWorks SDK for Smartphones v2.0 or higher**
+**Requires BlackBerry WebWorks SDK for Smartphones v2.2 or higher**
 
 ## Philosophy
 
@@ -80,8 +80,8 @@ WebWorks API so that it can trap the "back" hardware key and automatically handl
 ## Defining a Screen
 
 Creating a screen to be used with bbUI is as simple as creating an HTML file and placing the screen fragment markup in the file.  A screen declaration
-is simply a &lt;div&gt; with an attribute **x-bb-type="screen"**.  You will place all the contents for your screen inside this &lt;div&gt;.  There is also a **x-bb-title**
-attribute where, if defined, a standard black screen title bar will appear with the text delared in this attribute shown.
+is simply a &lt;div&gt; with an attribute **x-bb-type="screen"**.  You then place all the contents for your screen inside this &lt;div&gt;.  There's also a **x-bb-title**
+attribute where, if defined, a standard black screen title bar will appear showing the declared text.
 
 	<div x-bb-type="screen" x-bb-title="User Interface Examples">
 		
@@ -136,6 +136,10 @@ is popped off of the stack using the **onunload** attribute.
 
 
 ## Image Lists
+
+![Image List](bbUI.js/screenshots/imageList.png)
+
+
 
 
 ## Rounded Control Containers
