@@ -279,6 +279,8 @@ is declared by creating a &lt;div&gt; with a **x-bb-type="header"** attribute an
 Each line item is created with a **x-bb-type="item"** attribute and has values for an image to be displayed (**x-bb-img**), a title (**x-bb-title**), a 
 time (**x-bb-time**) and the inner contents of the &lt;div&gt; are displayed as the description.
 
+The line item image is displayed as a 32x32 pixel image on a High-Resolution screen. 
+
 	<div x-bb-type="screen">
 		<div x-bb-type="inbox-list">
 			<div x-bb-type="header">Thu 27 May 2010</div>		
@@ -290,6 +292,31 @@ time (**x-bb-time**) and the inner contents of the &lt;div&gt; are displayed as 
 	</div>
 
 ## BBM Bubbles
+
+The BBM Bubbles UI format allows you to create chat bubbles that look like the ones in BBM. This is a great option for any BBM connected application.
+
+![Control Panel](bbUI.js/raw/master/screenshots/bbmBubbles.png)
+
+A BBM bubble is created by adding a &lt;div&gt; with the **x-bb-type="bbm-bubble"** attribute.  You can set the direction of the bubble to either "right" or 
+"left" by using the **x-bb-style** attribute.
+
+The conversation line items that appear inside the BBM Bubble are simply &lt;div&gt;&apos;s that have the **x-bb-type="item"** attribute.  You can also specify an 
+image to appear beside the line item by using the **x-bb-img** attribute. The contents of the line item &lt;div&gt; will be displayed as the line item text.
+
+	<div x-bb-type="screen">
+		<style type="text/css">
+			body,html {
+				background-color: #B5B2B5;
+			}	
+		</style>
+		<div x-bb-type="bbm-bubble" x-bb-style="right">
+			<div x-bb-type="item" x-bb-img="bullet.png">My car just broke down and I have one million things to do!!</div> 
+			<div x-bb-type="item" x-bb-img="bullet.png">Why can&apos;t groceries just come to you?</div> 
+		</div>
+		<div x-bb-type="bbm-bubble" x-bb-style="left">
+			<div x-bb-type="item" x-bb-img="read.png">The big island was fun.. We were there for our honeymoon.  One side of the island is pretty much desert grass and volcano ash, and the other side is rainforest</div> 
+		</div>
+	</div>
 
 
 ## Tall Lists
