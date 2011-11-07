@@ -28,7 +28,7 @@ These examples have been designed for a Smartphone screen size and **not** for t
 ## Philosophy
 
 The bbUI toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
-on the BB5/BB6/BB7.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
+on BB5/BB6/BB7.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
 CSS used to generate the user interface is handled by the bbUI toolkit so that you don't have to deal with the idiosyncrasies
 of the different layout engines.
 
@@ -37,7 +37,7 @@ control that is desired and then style it accordingly.  By not adding any kind o
 then modify the DOM in any way that it needs in order to achieve the desired result.
 
 All DOM manipulation occurs while the HTML fragment is not attached to the **live DOM**.  This allows DOM manipulation to occur
-VERY, VERY, FAST and it does not incur any Web view layout computation until the entire fragment is inserted into the DOM.  Layout 
+VERY, VERY, FAST and it does not incur any WebView layout computation until the entire fragment is inserted into the DOM.  Layout 
 computation during JavaScript DOM manipulation is one of the single most expensive operations that can slow down a Web based UI.
 
 ## Trackpad Navigation
@@ -70,6 +70,7 @@ WebWorks API so that it can trap the "back" hardware key and automatically handl
 
 	<html>
 		<head>
+			<meta name="x-blackberry-defaultHoverEffect" content="false" />
 			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
 			<link  rel="stylesheet" type="text/css" href="bbUI/bbUI.css"></link>
 			<script type="text/javascript" src="bbUI/bbUI.js"></script>
