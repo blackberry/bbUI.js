@@ -5,7 +5,7 @@ The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for H
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
-*This toolkit is currently in an incubation stage and I'm working on getting things up and going.**
+**This toolkit is currently in an incubation stage and I'm working on getting things up and going.**
 
 **Author(s)** 
 
