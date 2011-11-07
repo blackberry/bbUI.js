@@ -167,7 +167,7 @@ the 48x48 pixel size since downscaling typically looks better than stretching.
 
 To add a click event to one of the line items, simply add an onclick event to the &lt;div&gt;
 
-	<div x-bb-type="item" onclic="alert('clicked')" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
+	<div x-bb-type="item" onclick="alert('clicked')" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
 
 
 ## Rounded Control Panels
