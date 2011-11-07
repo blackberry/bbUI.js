@@ -46,25 +46,18 @@ bb = {
 		bb.button.apply(root.querySelectorAll('[x-bb-type=button]'));
 		
 		// perform device specific formatting
-		if (bb.device.isBB5()) {
-			document.body.style.height = screen.height - 27 + 'px';
-		}
-		else if (bb.device.isBB6()) {
-			document.body.style.height = screen.height - 17 + 'px';
-		}
-		else if (bb.device.isBB7() && (navigator.appVersion.indexOf('Ripple') < 0)) {
-			document.body.style.height = screen.height + 'px';
-		}
+		bb.screen.reAdjustHeight();
 	},
 	
 	
 	// Contains all device information
 	device: {
 	
-		isHiRes: window.innerWidth > 360,
+		isHiRes: window.innerHeight > 480 || window.innerWidth > 480,
 		
 		// Determine if this browser is BB5
 		isBB5: function() {
+			//return true;
 			return navigator.appVersion.indexOf('5.0.0') >= 0;
 		},
 		
@@ -99,8 +92,12 @@ bb = {
 		return container;
 	},
 	
+	
+	
 	// Add a new screen to the stack
-	pushScreen : function (url, id) {		
+	pushScreen : function (url, id) {			
+		
+		
 		var container = bb.loadScreen(url, id);
 		document.body.appendChild(container);
 		
@@ -114,7 +111,15 @@ bb = {
 			scriptTag.setAttribute('type','text/javascript');
 			scriptTag.setAttribute('src', bbScript.getAttribute('src'));
 			scriptTag.setAttribute('id', bbScript.getAttribute('id'));
-			document.head.appendChild(scriptTag);
+			// Special handling for inserting script tags into BB5
+			if (bb.device.isBB5()) {
+				var head = document.getElementsByTagName('head');
+				if (head.length > 0 ) {
+					head[0].appendChild(scriptTag);
+				}				
+			} else {
+				document.head.appendChild(scriptTag);
+			}
 		}
 		
 		// Add our screen to the stack
@@ -126,6 +131,8 @@ bb = {
 			var oldScreen = document.getElementById(bb.screens[numItems -2].id);
 			document.body.removeChild(oldScreen);
 		}
+		
+		window.scroll(0,0);
 	
 		//bb.animate.fadeIn({'id': id, duration: 1.0});
 		
@@ -158,16 +165,18 @@ bb = {
 			document.body.appendChild(container);
 			document.body.removeChild(current);
 
+			window.scroll(0,0);
 			//bb.animate.fadeIn({'id': display.id, duration: 1.0});
 			
 		} else {
-			if (blackberry) blackberry.app.exit();
+			if (blackberry) {
+				blackberry.app.exit();
+			}
 		}
 		
 	},
 	
 	screen: {
-	
 		apply: function(elements) {
 			for (var i = 0; i < elements.length; i++) {
 				var outerElement = elements[i];
@@ -193,17 +202,28 @@ bb = {
 					}
 				}
 			}
+		},
+		
+		reAdjustHeight: function() {
+			// perform device specific formatting
+			if (bb.device.isBB5()) {
+				document.body.style.height = screen.height - 27 + 'px';
+			}
+			else if (bb.device.isBB6()) {
+				document.body.style.height = screen.height - 17 + 'px';
+			}
+			else if (bb.device.isBB7() && (navigator.appVersion.indexOf('Ripple') < 0)) {
+				document.body.style.height = screen.height + 'px';
+			}
 		}
-	
 	},
 		
 	roundPanel: {
 		apply: function(elements) {
-			// Apply our transforms to all the panels
-			for (var i = 0; i < elements.length; i++) {
-				var outerElement = elements[i];
-				
-				if (bb.device.isBB5()) {
+			if (bb.device.isBB5()) {
+				// Apply our transforms to all the panels
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
 					outerElement.setAttribute('class','bb-round-panel');
 					if (outerElement.hasChildNodes()) {
 						var innerElements = new Array();
@@ -218,27 +238,35 @@ bb = {
 						}
 						// Create our new <div>'s
 						var placeholder = document.createElement('div');
-						placeholder.setAttribute('class','bb-round-panel-top-left');
+						placeholder.setAttribute('class','bb-round-panel-top-left bb-round-panel-background ');
 						outerElement.appendChild(placeholder);
 						placeholder = document.createElement('div');
-						placeholder.setAttribute('class','bb-round-panel-top-right');
+						placeholder.setAttribute('class','bb-round-panel-top-right bb-round-panel-background ');
 						outerElement.appendChild(placeholder);
 						var insidePanel = document.createElement('div');
 						insidePanel.setAttribute('class','bb-round-panel-inside');
 						outerElement.appendChild(insidePanel);
 						placeholder = document.createElement('div');
-						placeholder.setAttribute('class','bb-round-panel-bottom-left');
+						placeholder.setAttribute('class','bb-round-panel-bottom-left bb-round-panel-background ');
 						outerElement.appendChild(placeholder);
 						placeholder = document.createElement('div');
-						placeholder.setAttribute('class','bb-round-panel-bottom-right');
+						placeholder.setAttribute('class','bb-round-panel-bottom-right bb-round-panel-background ');
 						outerElement.appendChild(placeholder);
 						// Add our previous children back to the insidePanel
 						for (var j = 0; j < innerElements.length; j++) {
 							insidePanel.appendChild(innerElements[j]); 
 						}
 					}
+					// Handle the headers
+					var items = outerElement.querySelectorAll('[x-bb-type=panel-header]');
+					for (var j = 0; j < items.length; j++) {
+						items[j].setAttribute('class','bb-lowres-panel-header');
+					}
 				}
-				else {
+			}
+			else {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
 					outerElement.setAttribute('class','bb-bb7-round-panel');
 					var items = outerElement.querySelectorAll('[x-bb-type=panel-header]');
 					for (var j = 0; j < items.length; j++) {
@@ -247,7 +275,6 @@ bb = {
 						} else {
 							items[j].setAttribute('class','bb-lowres-panel-header');
 						}
-						
 					}
 				}
 			}
@@ -290,23 +317,53 @@ bb = {
 		
 		// Apply our transforms to all arrow lists passed in
 		apply: function(elements) {
-			for (var i = 0; i < elements.length; i++) {
-				var outerElement = elements[i];
-				var normal = 'bb-bb7-button';
-				var highlight = 'bb-bb7-button-highlight';
+		
+			if (bb.device.isBB5()) {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+					var caption = outerElement.innerHTML;
+					var normal = 'bb5-button';
+					var highlight = 'bb5-button-highlight';
 
-				if (outerElement.hasAttribute('x-bb-style')) {
-					var style = outerElement.getAttribute('x-bb-style');
-					if (style == 'stretch') {
-						normal = normal + ' button-stretch';
-						highlight = highlight + ' button-stretch';
-					}
+					/*if (outerElement.hasAttribute('x-bb-style')) {
+						var style = outerElement.getAttribute('x-bb-style');
+						if (style == 'stretch') {
+							normal = normal + ' button-stretch';
+							highlight = highlight + ' button-stretch';
+						}
+					}*/
+					outerElement.innerHTML = '';
+					outerElement.setAttribute('class','bb-bb5-button');
+					var button = document.createElement('a');
+				    //button.setAttribute('href','#');
+					button.setAttribute('class',normal);
+					button.setAttribute('x-blackberry-focusable','true');
+					button.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
+					button.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
+					outerElement.appendChild(button);
+					var span = document.createElement('span');
+					span.innerHTML = caption;
+					button.appendChild(span);					
 				}
-				outerElement.setAttribute('class',normal);
-				outerElement.setAttribute('x-blackberry-focusable','true');
-				outerElement.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
-				outerElement.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
-			}	
+			} else {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+					var normal = 'bb-bb7-button';
+					var highlight = 'bb-bb7-button-highlight';
+
+					if (outerElement.hasAttribute('x-bb-style')) {
+						var style = outerElement.getAttribute('x-bb-style');
+						if (style == 'stretch') {
+							normal = normal + ' button-stretch';
+							highlight = highlight + ' button-stretch';
+						}
+					}
+					outerElement.setAttribute('class',normal);
+					outerElement.setAttribute('x-blackberry-focusable','true');
+					outerElement.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
+					outerElement.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
+				}	
+			}
 		}
 	},
 	

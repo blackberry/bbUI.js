@@ -19,6 +19,12 @@ functionality can be found here:
 ## Tested On
 
 * BlackBerry Torch 9860 v7.0.0.x
+* BlackBerry Curve 9360 v7.0.0.x
+* BlackBerry Bold 9700 v6.0.0.546
+* BlackBerry Bold 9700 v5.0.0.979 
+* BlackBerry Storm 9520 v5.0.0.713
+
+**Please read the known issues list at the bottom of this page**
 
 These examples have been designed for a Smartphone screen size and **not** for the BlackBerry&reg; PlayBook&trade;
 
@@ -344,4 +350,16 @@ a display image (**x-bb-img**), a title (**x-bb-title**), a time (**x-bb-time**)
 			<div x-bb-type="item" x-bb-img="adamA.jpg" x-bb-title="AdamA" x-bb-time="10:24 PM May 22">Gotta love BlackBerry WebWorks!</div>
 		</div>
 	</div>
+
+# Known Issues
+
+* [Trackpad performance for scrolling is less than desirable on BB6/BB7](https://github.com/blackberry/WebWorks/issues/49)
+* Tabs and Pill Buttons are not working yet in the samples
+* Input boxes are not aligning properly in the rounded panels and have not been styled
+* There are various back button issues
+* Focus based navigation mode can get confused on BB5 devices when navigating between screens
+* Button scaling is not completed on hi-res/low-res devices for BB6/BB7
+* Button/list item highlighting not appearing on "touch" on a Storm device
+* Background color sizing issues on BB5
+
 
