@@ -19,7 +19,7 @@ body, html {
 	margin:0;
 	font-family: BBAlpha Sans;
 	font-size: 12pt;
-	overflow:auto;
+	overflow:visible;
 	background-color:#DDDDDD;
 	user-select: none;
 	-webkit-user-select: none;
