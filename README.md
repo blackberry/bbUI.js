@@ -65,7 +65,7 @@ uses AJAX to **push** and **pop** screens off of the stack.  The toolkilt manage
 the best use of device memory.
 
 To open a new screen in an appliction using bbUI you simply call **bb.pushScreen('mypage.htm', 'mypagename')**.  To close the top screen
-you simply call **pp.popScreen()**.  The toolkit is designed to use the [Application Event](http://developer.blackberry.com/html5/apis/blackberry.app.event.html) 
+you simply call **bb.popScreen()**.  The toolkit is designed to use the [Application Event](http://developer.blackberry.com/html5/apis/blackberry.app.event.html) 
 WebWorks API so that it can trap the "back" hardware key and automatically handle popping the last screen off of the stack.
 
 	<html>
