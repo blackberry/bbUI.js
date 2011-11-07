@@ -16,7 +16,7 @@
 -->
 
 <div x-bb-type="screen">
-	<x-bb-script id="inboxListJS" src="js/inboxList.js" unloadFunction="blackberry.ui.menu.clearMenuItems();"/>
+	<script id="inboxListJS" src="js/inboxList.js" onunload="blackberry.ui.menu.clearMenuItems();"></script>
 	<style type="text/css">
 		body, html {
 			background-color: White;

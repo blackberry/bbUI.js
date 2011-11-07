@@ -123,17 +123,17 @@ when the screen is pushed onto the stack, and it will remove this JavaScript whe
 start from the main HTML page that you have loaded as the root of your application.  So you should make your paths relative to that root document.
 
 	<div x-bb-type="screen">
-		<x-bb-script id="tabsJS" src="js/tabs.js"/>
+		<script id="tabsJS" src="js/tabs.js"></script>
 	</div>
 
-This is accomplished by adding the **x-bb-script** element into your DOM with an **id**, which is used by the toolkit to add and remove the JavaScript file, and the **src**
+This is accomplished by adding the &lt;script&gt; element into your DOM with an **id**, which is used by the toolkit to add and remove the JavaScript file, and the **src**
 path to the JavaScript file itself.
 
 If you have JavaScript that needs to perform some cleanup routines when your screen gets popped off of the stack, you can also declare JavaScript to be called before the screen
 is popped off of the stack using the **onunload** attribute.
 
 	<div x-bb-type="screen">
-		<x-bb-script id="tabsJS" src="js/tabs.js" onunload="unloadPushListeners()"/>
+		<script id="tabsJS" src="js/tabs.js" onunload="unloadPushListeners()"></script>
 	</div>
 
 

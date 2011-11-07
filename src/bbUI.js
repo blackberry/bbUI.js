@@ -95,15 +95,13 @@ bb = {
 	
 	
 	// Add a new screen to the stack
-	pushScreen : function (url, id) {			
-		
-		
+	pushScreen : function (url, id) {					
 		var container = bb.loadScreen(url, id);
-		document.body.appendChild(container);
 		
 		// Add any Java Script files that need to be included
 		var scriptIds = [];
-		var scripts = container.getElementsByTagName('x-bb-script');
+		var scripts = container.getElementsByTagName('script');
+		var newScriptTags = [];
 		for (var i = 0; i < scripts.length; i++) {
 			var bbScript = scripts[i];
 			scriptIds.push({'id' : bbScript.getAttribute('id'), 'onunload': bbScript.getAttribute('onunload')});
@@ -111,15 +109,20 @@ bb = {
 			scriptTag.setAttribute('type','text/javascript');
 			scriptTag.setAttribute('src', bbScript.getAttribute('src'));
 			scriptTag.setAttribute('id', bbScript.getAttribute('id'));
-			// Special handling for inserting script tags into BB5
-			if (bb.device.isBB5()) {
-				var head = document.getElementsByTagName('head');
-				if (head.length > 0 ) {
-					head[0].appendChild(scriptTag);
-				}				
-			} else {
-				document.head.appendChild(scriptTag);
-			}
+			newScriptTags.push(scriptTag);	
+			// Remove script tag from container because we are going to add it to <head>
+			bbScript.parentNode.removeChild(bbScript);
+		}
+		
+		// Load in the new content
+		document.body.appendChild(container);
+		
+		// Special handling for inserting script tags
+		for (var i = 0; i < newScriptTags.length; i++) {
+			var head = document.getElementsByTagName('head');
+			if (head.length > 0 ) {
+				head[0].appendChild(newScriptTags[i]);
+			}	
 		}
 		
 		// Add our screen to the stack
@@ -159,7 +162,10 @@ bb = {
 				if (bbScript.onunload) {
 					eval(bbScript.onunload);
 				}
-				document.head.removeChild(scriptTag);
+				var head = document.getElementsByTagName('head');
+				if (head.length > 0 ) {
+					head[0].removeChild(scriptTag);
+				}	
 			}
 			// Apply dom changes
 			document.body.appendChild(container);
