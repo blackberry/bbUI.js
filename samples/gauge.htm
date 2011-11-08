@@ -33,24 +33,8 @@
 			margin:0px;
 			padding:0px	
 		}
-
-		.batteryGauge
-		{
-			overflow:hidden;
-			margin-right:15px;
-		}
-
-		.batteryImage
-		{
-			width:0px;
-			height:69px;
-			margin-left:4px;
-			margin-top:4px;
-			margin-bottom:4px;	
-			padding:0px
-		}
 	</style>
-	<x-bb-script id="gaugeJS" src="js/gauge.js"/>
+	<script id="gaugeJS" src="js/gauge.js"></script>
 	<div style="margin:15px;color:Gray;">
 		<p align="center">
 		Below you will find some examples of how you can Create different gauges or progress bars<br />       
@@ -58,22 +42,18 @@
 	</div>
 
 	<div x-bb-type="round-panel" id="mainList">   
-		 
-			<!--<div id="button" class="bb-button-full" x-blackberry-focusable="true" onclick="doTimedEvent()" style="background-position:bottom right">
-					<span style="background-position:bottom left">Watch Progress</span>
-			</div>	-->
-			<div x-bb-type="button" x-bb-style="stretch" onclick="doTimedEvent()">Watch Progress</div>
-			
-			<div class="bb-gauge" style="height:20px;">
-				<div id="gauge0" style="background-color:Blue;width:0px;height:20px;"></div>
-			</div>  
-			
-			<div class="bb-gauge">
-				<div id="gauge1" class="image" style="background-image: url('images/gauge/gauge1.png');"></div>
-			</div> 
-			
-			<div class="bb-gauge">
-				<div id="gauge2" class="image" style="background-image: url('images/gauge/gauge2.png');"></div>
-			</div> 
+		<div x-bb-type="button" x-bb-style="stretch" onclick="doTimedEvent()">Watch Progress</div>
+		
+		<div class="bb-gauge" style="height:20px;">
+			<div id="gauge0" style="background-color:Blue;width:0px;height:20px;"></div>
+		</div>  
+		
+		<div class="bb-gauge">
+			<div id="gauge1" class="image" style="background-image: url('images/gauge/gauge1.png');"></div>
+		</div> 
+		
+		<div class="bb-gauge">
+			<div id="gauge2" class="image" style="background-image: url('images/gauge/gauge2.png');"></div>
+		</div> 
 	</div>
 </div>
