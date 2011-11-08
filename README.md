@@ -108,7 +108,7 @@ An alternative is to declare a linked in style sheet within your screen's conten
 start from the main HTML page that you have loaded as the root of your application.  So you should make your paths relative to that root document.
 
 	<div x-bb-type="screen">
-		<link  rel="stylesheet" type="text/css" href="css/tabs.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/tabs.css"></link>
 	</div>
 
 	
@@ -346,6 +346,25 @@ a display image (**x-bb-img**), a title (**x-bb-title**), a time (**x-bb-time**)
 			<div x-bb-type="item" x-bb-img="adamA.jpg" x-bb-title="AdamA" x-bb-time="10:24 PM May 22">Gotta love BlackBerry WebWorks!</div>
 		</div>
 	</div>
+	
+## Pill Buttons
+
+Pill Buttons can provide a "Tab Like" interface for quickly switching between multiple views of data.
+
+![Control Panel](bbUI.js/raw/master/screenshots/pillButtons.png)
+
+Pill Buttons are a &lt;div&gt; with a **x-bb-type="pill-buttons"** attribute.  Each pill button is then added to the container by creating a &lt;div&gt; with 
+a **x-bb-type="pill-button"** attribute. The caption the button is determined by the contents of the &lt;div&gt;.  The bbUI tookit knows which button is first and
+last to create the rounded ends of the pill button UI.  To handle the click of the button simply add an "onclick" handler.
+
+<div x-bb-type="screen">
+	 <div x-bb-type="pill-buttons">
+		<div x-bb-type="pill-button" onclick="selectContact()">Contact</div>
+		<div x-bb-type="pill-button" onclick="selectAddress()">Address</div>
+		<div x-bb-type="pill-button" onclick="selectPhone()">Phone</div>
+	 </div>
+</div>
+
 
 # Known Issues
 

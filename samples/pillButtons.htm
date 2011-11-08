@@ -15,119 +15,76 @@
 * limitations under the License.
 -->
 <div x-bb-type="screen">
-	<x-bb-script id="pillButtonsJS" src="js/pillButtons.js"/>
-	<style type="text/css">
-		.listSeparator
-		{
-			border-bottom: solid 1px Silver;
-		}
-
-		.tab
-		{
-			position:absolute;
-			top:50px;	
-			padding: 10px;
-		}
-
-		input 
-		{
-			display:inline; 
-			float:left;
-			font-family: BBAlpha Sans;
-			font-size: 16pt;
-			border: none;
-			padding-top: 0px;
-			width: 10px;
-			margin-top: 7px;
-		}
-	</style>
-
-	<!--<div id="buttons" class="bb-pill-buttons">
-		<a id="btnContact" class="buttonLeft" onmouseover="doHover('btnContact')"  onclick="selectContact();"><span>Contact</span></a>
-		<a id="btnAddress" class="buttonMiddle" onmouseover="doHover('btnAddress')"  onclick="selectAddress();"><span>Address</span></a>
-		<a id="btnPhone" class="buttonRight" onmouseover="doHover('btnPhone')"  onclick="selectPhone();"><span>Phone</span></a>
-	 </div>-->
-	 
+	<script id="pillButtonsJS" src="js/pillButtons.js"></script>
+	
 	 <div x-bb-type="pill-buttons">
-		<div x-bb-type="pill-button" x-bb-selected="true" onclick="selectContact();">Contact</div>
-		<div x-bb-type="pill-button" onclick="selectAddress();">Address</div>
-		<div x-bb-type="pill-button" onclick="selectPhone();">Phone</div>
+		<div x-bb-type="pill-button" x-bb-selected="true" onclick="selectContact()">Contact</div>
+		<div x-bb-type="pill-button" onclick="selectAddress()">Address</div>
+		<div x-bb-type="pill-button" onclick="selectPhone()">Phone</div>
 	 </div>
 	
-	<div id="contact" class="tab">
-		<div x-bb-type="round-panel" id="mainList"> 
-			<div class="bb-label-control-row">
-				<div class="label">Title:</div>       
-				<input type="text" value="Mr." onfocus="resetImages()"/>
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">First Name:</div>       
-				<input type="text" value="John" onfocus="resetImages()"/>
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">Last Name:</div>       
-				<input type="text" value="Doe" onfocus="resetImages()"/>
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">Email:</div>       
-				<input type="text" value="jdoe@foo.com" onfocus="resetImages()"/>
-			</div>
-			
+	<div x-bb-type="round-panel" id="contact"> 
+		<div x-bb-type="panel-header">Contact</div>
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Title:</div>       
+			<input type="text" value="Mr." />
+		</div>  
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">First Name:</div>       
+			<input type="text" value="John" />
+		</div>  
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Last Name:</div>       
+			<input type="text" value="Doe" />
+		</div>
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Email:</div>       
+			<input type="text" value="jdoe@foo.com" />
 		</div>
 	</div>
-	<div id="phone" class="tab">
-		<div x-bb-type="round-panel" id="mainList">  
-			<div class="bb-label-control-row">
-				<div class="label">Home:</div>       
-				<input type="text" value="555-555-8987" onfocus="resetImages()" />
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">Mobile:</div>       
-				<input type="text" value="555-555-2569" onfocus="resetImages()" />
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">Fax:</div>       
-				<input type="text" value="Hello World" onfocus="resetImages()" />
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">PIN:</div>       
-				<input type="text" value="XYZ123XYZ" onfocus="resetImages()" />
-			</div>
+	
+	<div x-bb-type="round-panel" id="phone" style="display:none">  
+		<div x-bb-type="panel-header">Phone</div>
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Home:</div>    
+			<input type="text" value="555-555-8987" onfocus="resetImages()" />
 		</div>
-	 </div>
-	 <div id="address" class="tab">
-		<div x-bb-type="round-panel" id="mainList">  
-			<div class="bb-label-control-row">
-				<div class="label">Address 1:</div>       
-				<input type="text" value="555 Foo St." onfocus="resetImages()"/>
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">City:</div>       
-				<input type="text" value="Toronto" onfocus="resetImages()"/>
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">Province:</div>       
-				<input type="text" value="Ontario" onfocus="resetImages()" />
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="row">
-				<div class="label">Country:</div>       
-				<input type="text" value="Canada" onfocus="resetImages()" />
-			</div>
-			<div class="listSeparator"></div>    
-			<div class="bb-label-control-row">
-				<div class="label">Postal Code:</div>       
-				<input type="text" value="L5G 2H9" onfocus="resetImages()" />
-			</div>
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Mobile:</div>       
+			<input type="text" value="555-555-2569" onfocus="resetImages()" />
 		</div>
-	 </div>
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Fax:</div>       
+			<input type="text" value="Hello World" onfocus="resetImages()" />
+		</div>  
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">PIN:</div>       
+			<input type="text" value="XYZ123XYZ" onfocus="resetImages()" />
+		</div>
+	</div>
+	
+	<div x-bb-type="round-panel" id="address" style="display:none">  
+		<div x-bb-type="panel-header">Address</div>
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Address 1:</div>       
+			<input type="text" value="555 Foo St." onfocus="resetImages()"/>
+		</div>  
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">City:</div>       
+			<input type="text" value="Toronto" onfocus="resetImages()"/>
+		</div>  
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Province:</div>       
+			<input type="text" value="Ontario" onfocus="resetImages()" />
+		</div> 
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Country:</div>       
+			<input type="text" value="Canada" onfocus="resetImages()" />
+		</div>   
+		<div x-bb-type="label-control-horizontal-row">
+			<div x-bb-type="label">Postal Code:</div>       
+			<input type="text" value="L5G 2H9" onfocus="resetImages()" />
+		</div>
+	</div>
 </div>
 

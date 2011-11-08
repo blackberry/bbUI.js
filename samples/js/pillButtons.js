@@ -14,48 +14,20 @@
 * limitations under the License.
 */
 
-doInputLoad();
-
-var addressTab = null;
-var contactTab = null;
-var phoneTab = null;
-
-
-function doInputLoad() {
-    var items = document.getElementsByTagName('input');
-    for (var i = 0; i < items.length; i++) {
-        var element = items[i];
-        element.style.width = screen.width - element.offsetLeft - 50 + 'px';
-    }  
-    // All the sections are visible to start off with so that the above 
-    // size calculations work 
-    var width = (screen.width - 20) + 'px';
-    addressTab = document.getElementById('address');
-    addressTab.style.width = width;
-    addressTab.style.display = 'none';
-    phoneTab = document.getElementById('phone');
-    phoneTab.style.width = width;
-    phoneTab.style.display = 'none';
-    contactTab = document.getElementById('contact');
-    contactTab.style.width = width;
-    contactTab.style.display = 'none';
-    contactTab.style.display = 'inline'; 
-}
-
 function selectPhone() {
-    phoneTab.style.display = 'inline';
-    addressTab.style.display = 'none';
-    contactTab.style.display = 'none';
+    document.getElementById('address').style.display = 'none';
+    document.getElementById('contact').style.display = 'none';
+	document.getElementById('phone').style.display = 'block';  
 }
 
 function selectAddress() {
-    addressTab.style.display = 'inline';
-    phoneTab.style.display = 'none';
-    contactTab.style.display = 'none';
+	 document.getElementById('phone').style.display = 'none';
+    document.getElementById('contact').style.display = 'none';
+    document.getElementById('address').style.display = 'block';
 }
 
 function selectContact() {
-    addressTab.style.display = 'none';
-    phoneTab.style.display = 'none';
-    contactTab.style.display = 'inline';
+    document.getElementById('address').style.display = 'none';
+    document.getElementById('phone').style.display = 'none';
+    document.getElementById('contact').style.display = 'block';
 }

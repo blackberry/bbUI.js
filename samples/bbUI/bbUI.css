@@ -272,7 +272,7 @@ a.bb5-button-highlight span {
 .bb-text-arrow-list-item-hover
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#0dacff), to(#0f75ff));
-	/*background-color:#2175F7;*/
+	background-color:#2175F7;
 }
 
 .bb-text-arrow-list-item-value
@@ -280,6 +280,7 @@ a.bb5-button-highlight span {
 	line-height:40px;
 	padding-left:7px;	
 	display:inline;
+	
 }
 
 .bb-text-arrow-list-item-hover .bb-text-arrow-list-item-value
@@ -300,6 +301,11 @@ a.bb5-button-highlight span {
 	display:inline;
 	margin-right: 5px;
 	top: 15px;
+	width: 20px;
+	height: 20px;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAALCAYAAACzkJeoAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oFGxUUItGqPS0AAABBSURBVBjTdcxBDgAhCATBlo87vnz2siYICidSHTBGkk3f4J+lZcpEPmoQtc5BwxxccQdPnJojXnB9u6FhhgMrAHy5yiKIJPT0DgAAAABJRU5ErkJggg==");	
+	background-repeat: no-repeat;
+	background-position: top right;
 }
 
 
@@ -969,6 +975,139 @@ a.bb5-button-highlight span {
 	color: #7C7E80;	
 	font-weight: bold;
 }
+
+/* ================================================= 
+   Pill Buttons
+   =================================================*/
+
+.bb-pill-buttons 
+{
+	margin: 8px;
+	margin-bottom: 0px;
+	text-align:center;
+	/*position:relative;*/
+	
+}
+
+.bb-pill-buttons .buttonLeft {
+    background: transparent url('../images/button/pillButtonRight.png') no-repeat scroll top right;
+    color: White;
+    display: block;
+    float: left;
+    height: 39px;
+    margin-right: 0px;
+    padding-right: 10px;  
+    text-decoration: none;
+    width: 30%;
+}
+
+.bb-pill-buttons .buttonLeft span {
+    background: transparent url('../images/button/button.png') no-repeat;
+    display: block;
+    line-height: 39px;
+    padding: 0px 0px 0px 10px;
+    text-align:center;
+}
+
+.bb-pill-buttons .buttonRight {
+    background: transparent url('../images/button/btnRight.png') no-repeat scroll top right;
+    color: White;
+    display: block;
+    float: left;
+    height: 39px;
+    margin-right: 0px;
+    padding-right: 10px;  
+    text-decoration: none;
+    width: 30%;
+}
+
+.bb-pill-buttons .buttonRight span {
+    background: transparent url('../images/button/button.png') no-repeat;
+    background-position: -10px 0px; 
+    display: block;
+    line-height: 39px;
+    padding: 0px 0px 0px 10px;
+    text-align:center;
+}
+
+.bb-pill-buttons .buttonMiddle {
+    background: transparent url('../images/button/pillButtonRight.png') no-repeat scroll top right;
+    color: White;
+    display: block;
+    float: left;
+    height: 39px;
+    margin-right: 0px;
+    padding-right: 10px;  
+    text-decoration: none;
+    width: 30%;
+}
+
+.bb-pill-buttons .buttonMiddle span {
+    background: transparent url('../images/button/button.png') no-repeat;
+    display: block;
+    line-height: 39px;
+    padding: 0px 0px 0px 10px;
+    text-align:center;
+    background-position: -10px 0px; 
+}
+
+/* ================================================= 
+   BB7 Pill Buttons
+   =================================================*/
+
+.bb-bb7-pill-buttons {
+	height:45px;
+	padding-top: 5px;
+}
+   
+.bb-bb7-pill-buttons .button {
+	float: left;
+	border-width:1px;
+	border-color:#BCBEC2;
+	border-style: solid;
+	height:40px;
+	color: black;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	padding-left: 0px;
+	padding-right: 0px;
+	line-height:40px;
+	display: table-cell;
+	box-shadow:1px 1px 1px #DCDCDC;
+	background-clip: padding-box;	
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
+}
+
+.bb-bb7-pill-buttons .highlight-button{
+	float: left;
+	border-width:1px;
+	border-color:#0060E6;
+	border-style: solid;
+	height:40px;
+	color: White;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	padding-left: 0px;
+	padding-right: 0px;
+	line-height:40px;
+	display: table-cell;
+	box-shadow:2px 2px 2px #DCDCDC;
+	background-clip: padding-box;	
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#098CEE), to(#1766DB));	
+}
+
+.bb-bb7-pill-buttons .left{
+	border-top-left-radius:5px;
+	border-bottom-left-radius:5px;
+}
+
+.bb-bb7-pill-buttons .right{
+	border-top-right-radius:5px;
+	border-bottom-right-radius:5px;
+}
+
 
 
 /* ================================================= 

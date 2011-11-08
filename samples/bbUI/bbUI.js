@@ -305,7 +305,7 @@ bb = {
 					var text = innerChildNode.innerHTML;
 					
 					innerChildNode.innerHTML = '<span class="bb-text-arrow-list-item-value">'+ text + '</span>' +
-											'<img class="bb-arrow-list-arrow" src="images/arrow.png"/>';
+											'<div class="bb-arrow-list-arrow"></div>';
 					
 					// Create our separator <div>
 					if (j < items.length - 1) {
@@ -393,46 +393,78 @@ bb = {
 	pillButtons: {
 		// Apply our transforms to all pill buttons passed in
 		apply: function(elements) {
-			for (var i = 0; i < elements.length; i++) {
-				var outerElement = elements[i];
-				outerElement.setAttribute('class','bb-pill-buttons');
-				// Gather our inner items
-				var items = outerElement.querySelectorAll('[x-bb-type=pill-button]');
-				for (var j = 0; j < items.length; j++) {
-					var innerChildNode = items[j];
-					innerChildNode.setAttribute('x-blackberry-focusable','true');
-					var text = innerChildNode.innerHTML;
-					innerChildNode.innerHTML = '<span>' + text + '</span>';
-					
-					if (j == 0) {
-						innerChildNode.setAttribute('class','buttonLeft');
-					}
-					else if (j == items.length -1) {
-						innerChildNode.setAttribute('class','buttonRight');
-					}
-					else {
-						innerChildNode.setAttribute('class','buttonMiddle');
-					}
-					
-					// See if the item is marked as selected
-					if (innerChildNode.hasAttribute('x-bb-selected') && innerChildNode.getAttribute('x-bb-selected').toLowerCase() == 'true') {
-						bb.pillButtons.selectButton(innerChildNode);
-					}
-					
-					// Change the selected state when a user presses the button
-					innerChildNode.onmousedown = function() {
-						bb.pillButtons.selectButton(this);
-						var buttons = this.parentNode.querySelectorAll('[x-bb-type=pill-button]');
-						for (var i = 0; i < buttons.length; i++) {
-							var button = buttons[i];
-							if (button != this) {
-								bb.pillButtons.deSelectButton(button);
+			if (bb.device.isBB5()) {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+					outerElement.setAttribute('class','bb-pill-buttons');
+					// Gather our inner items
+					var items = outerElement.querySelectorAll('[x-bb-type=pill-button]');
+					for (var j = 0; j < items.length; j++) {
+						var innerChildNode = items[j];
+						innerChildNode.setAttribute('x-blackberry-focusable','true');
+						var text = innerChildNode.innerHTML;
+						innerChildNode.innerHTML = '<span>' + text + '</span>';
+						
+						if (j == 0) {
+							innerChildNode.setAttribute('class','buttonLeft');
+						}
+						else if (j == items.length -1) {
+							innerChildNode.setAttribute('class','buttonRight');
+						}
+						else {
+							innerChildNode.setAttribute('class','buttonMiddle');
+						}
+						
+						// See if the item is marked as selected
+						if (innerChildNode.hasAttribute('x-bb-selected') && innerChildNode.getAttribute('x-bb-selected').toLowerCase() == 'true') {
+							bb.pillButtons.selectButton(innerChildNode);
+						}
+						
+						// Change the selected state when a user presses the button
+						innerChildNode.onmousedown = function() {
+							bb.pillButtons.selectButton(this);
+							var buttons = this.parentNode.querySelectorAll('[x-bb-type=pill-button]');
+							for (var i = 0; i < buttons.length; i++) {
+								var button = buttons[i];
+								if (button != this) {
+									bb.pillButtons.deSelectButton(button);
+								}
 							}
 						}
+					}			
+				}	
+			} else {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+					outerElement.setAttribute('class','bb-bb7-pill-buttons');
+					// Gather our inner items
+					var items = outerElement.querySelectorAll('[x-bb-type=pill-button]');
+					var percentWidth = Math.floor(98 / items.length);
+					var sidePadding = 102-(percentWidth * items.length);
+					outerElement.style['padding-left'] = sidePadding + '%';
+					outerElement.style['padding-right'] = sidePadding + '%';
+					for (var j = 0; j < items.length; j++) {
+						var innerChildNode = items[j];
+						innerChildNode.setAttribute('x-blackberry-focusable','true');
+						if (j == 0) {  // First button
+							innerChildNode.setAttribute('class','button left');
+							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','highlight-button left')");
+							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','button left')");
+						} else if (j == items.length -1) { // Right button
+							innerChildNode.setAttribute('class','button right');
+							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','highlight-button right')");
+							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','button right')");
+						} else { // Middle Buttons
+							innerChildNode.setAttribute('class','button');
+							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','highlight-button')");
+							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','button')");
+						}
+						// Set our width
+						innerChildNode.style.width = percentWidth + '%';
 					}
 				}			
-			}	
-		},
+			}
+		} /*,
 		
 		// Reset the button back to its un-selected state
 		deSelectButton: function(button) {
@@ -466,7 +498,7 @@ bb = {
 				button.style.backgroundPosition = 'bottom right';
 				button.firstChild.style.backgroundPosition = '-10px -39px';
 			}
-		}
+		}*/
 	},
 	
 	imageList: {
