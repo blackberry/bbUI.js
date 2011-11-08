@@ -377,5 +377,7 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 * Button/list item highlighting not appearing on "touch" on a Storm device
 * Background color sizing issues on BB5
 * There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
+* Pill Buttons do not currently keep their state in order to highlight accordingly
+* Pill Buttons do not work on BB5 devices yet
 
 
