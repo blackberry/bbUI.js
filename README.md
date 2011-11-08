@@ -357,13 +357,13 @@ Pill Buttons are a &lt;div&gt; with a **x-bb-type="pill-buttons"** attribute.  E
 a **x-bb-type="pill-button"** attribute. The caption the button is determined by the contents of the &lt;div&gt;.  The bbUI tookit knows which button is first and
 last to create the rounded ends of the pill button UI.  To handle the click of the button simply add an "onclick" handler.
 
-<div x-bb-type="screen">
-	 <div x-bb-type="pill-buttons">
-		<div x-bb-type="pill-button" onclick="selectContact()">Contact</div>
-		<div x-bb-type="pill-button" onclick="selectAddress()">Address</div>
-		<div x-bb-type="pill-button" onclick="selectPhone()">Phone</div>
-	 </div>
-</div>
+	<div x-bb-type="screen">
+		 <div x-bb-type="pill-buttons">
+			<div x-bb-type="pill-button" onclick="selectContact()">Contact</div>
+			<div x-bb-type="pill-button" onclick="selectAddress()">Address</div>
+			<div x-bb-type="pill-button" onclick="selectPhone()">Phone</div>
+		 </div>
+	</div>
 
 
 # Known Issues
