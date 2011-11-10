@@ -380,11 +380,13 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 * Back Button when on the main screen does not exit the app
 
 **BB6/BB7**
+
 * [Trackpad performance for scrolling is less than desirable on BB6/BB7](https://github.com/blackberry/WebWorks/issues/49)
 * There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
 * Pill Buttons do not currently keep their &quot;selected&quot; state when pressed
 
 **BB5**
+
 * Label/Control Containers are not working
 * Pill Buttons do not work yet
 * Buttons that stretch the width of the screen don&apos;t work yet
