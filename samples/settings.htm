@@ -21,17 +21,19 @@
 		   <div x-bb-type="label"> Font Family:</div>
 		   <div x-bb-type="button" x-blackberry-initialFocus="true" x-bb-style="stretch">BBAlpha Sans</div>
 	   </div>
-	   <div x-bb-type="label-control-horizontal-row">
-		   <div x-bb-type="label">Font Size:</div>
-		   <div x-bb-type="button">7</div>
-	   </div>
-		<div x-bb-type="label-control-horizontal-row">
-		   <div x-bb-type="label">Font Style:</div>
-		   <div x-bb-type="button">Plain</div>
-	   </div>
-	   <div x-bb-type="label-control-horizontal-row">
-		   <div x-bb-type="label">Font Smoothing:</div>
-		   <div x-bb-type="button">On</div>
+	   <div x-bb-type="label-control-container">
+		   <div x-bb-type="row">
+			   <div x-bb-type="label">Font Size:</div>
+			   <div x-bb-type="button">7</div>
+		   </div>
+			<div x-bb-type="row">
+			   <div x-bb-type="label">Font Style:</div>
+			   <div x-bb-type="button">Plain</div>
+		   </div>
+		   <div x-bb-type="row">
+			   <div x-bb-type="label">Font Smoothing:</div>
+			   <div x-bb-type="button">On</div>
+		   </div>
 	   </div>
 	   <div>
 		   <div x-bb-type="label">Sample:</div>
@@ -42,22 +44,24 @@
 
 	<div x-bb-type="round-panel" id="mainList"> 
 		<div x-bb-type="panel-header">Backlight</div>
-		<div x-bb-type="label-control-horizontal-row">
-		   <div x-bb-type="label">Backlight Brightness:</div>
-		   <div x-bb-type="button">100</div>
-	   </div>
-	   <div x-bb-type="label-control-horizontal-row">
-		   <div x-bb-type="label">Backlight Timeout:</div>
-		   <div x-bb-type="button">30 Sec.</div>
-	   </div>    
-		<div x-bb-type="label-control-horizontal-row">
-		   <div x-bb-type="label">Automatically Dim Backlight:</div>
-		   <div x-bb-type="button">Yes</div>
-	   </div>   
-	   <div x-bb-type="label-control-horizontal-row">
-		   <div x-bb-type="label">LED Coverage Indicator:</div>
-		   <div x-bb-type="button">No</div>
-	   </div> 	   
+		<div x-bb-type="label-control-container">
+			<div x-bb-type="row">
+			   <div x-bb-type="label">Backlight Brightness:</div>
+			   <div x-bb-type="button">100</div>
+		   </div>
+		   <div x-bb-type="row">
+			   <div x-bb-type="label">Backlight Timeout:</div>
+			   <div x-bb-type="button">30 Sec.</div>
+		   </div>    
+			<div x-bb-type="row">
+			   <div x-bb-type="label">Automatically Dim Backlight:</div>
+			   <div x-bb-type="button">Yes</div>
+		   </div>   
+		   <div x-bb-type="row">
+			   <div x-bb-type="label">LED Coverage Indicator:</div>
+			   <div x-bb-type="button">No</div>
+		   </div> 	   
+		</div>
 	</div>
 </div>
 

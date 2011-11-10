@@ -5,7 +5,7 @@ The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for H
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
-**This toolkit is currently in an incubation stage and I'm working on getting things up and going.**
+**This toolkit is currently in an incubation stage and I'm working on getting things up and going.  Focus is on BB6/BB7 and then back-port for BB5**
 
 **Author(s)** 
 
@@ -181,7 +181,7 @@ To declare a rounded control panel you create a &lt;div&gt; with the **x-bb-type
 &lt;div&gt; will appear inside the rounded control panel. 
 
 Rounded control panels can either be a simple panel, or they can also have a title added to them.  To add a title add a &lt;div&gt; with the **x-bb-type="panel-header"**
-attribute.  The text contained inside of this div will show up as a header on the panel.  An example of what this header looks like can be seen in the Input Rows section
+attribute.  The text contained inside of this div will show up as a header on the panel.  An example of what this header looks like can be seen in the Label/Control Container section
 below.
 
 	<div x-bb-type="screen">
@@ -193,25 +193,31 @@ below.
 	</div>
 
 
-## Label/Control Rows
+## Label/Control Container
 
-Label/Control rows are used in conjuction with a Rounded Control Panel to provide a label for a control and then a control to perform the interaction.
-Currently there&apos;s **only** support for Horizontal alignment where the Label is left justified, and the control is right justified.
+Label/Control containers are used in conjuction with a Rounded Control Panel to provide rows of labels and controls as seen in applications such as Calendar and Contacts.
+Currently there&apos;s **only** support for Labels to be left justified, buttons will be right justified, and inputs will stretch accordingly.
 
 ![Control Panel](bbUI.js/raw/master/screenshots/labelControlRow.png)
 
 
-To use a Label/Control row you create a &lt;div&gt; with the **x-bb-type="label-control-horizontal-row"** attribute.  You then create another &lt;div&gt; for
-your label with the attribute **x-bb-type="label"** and the contents of this &lt;div&gt; are displayed as the text of the left justified label.  The control is then
-added by adding another &lt;div&gt;.  In this example we are using a button.  More on buttons later.
+To use a Label/Control container you fist create a &lt;div&gt; with the **x-bb-type="label-control-container"** attribute. You then create a &lt;div&gt; with the **x-bb-type="label-control-horizontal-row"** attribute for 
+each row you want to add to the container.  You then create another &lt;div&gt; for your label with the attribute **x-bb-type="label"** and the contents of this &lt;div&gt; are displayed as the text of the left justified label. 
+The control is then added by adding another &lt;div&gt;.  In this example we are using a button and input box.  More on buttons later.
 
 	<div x-bb-type="screen">
 		<div x-bb-type="round-panel"> 
 			<div x-bb-type="panel-header">Font Setting</div>
-			<div x-bb-type="label-control-horizontal-row">
-			   <div x-bb-type="label">Settings</div>
-			   <div x-bb-type="button" onclick="openEditScreen()">Edit</div>
-		   </div>
+			<div x-bb-type="label-control-container">
+				<div x-bb-type="row">
+				   <div x-bb-type="label">Settings:</div>
+				   <div x-bb-type="button" onclick="openEditScreen()">Edit</div>
+			   </div>
+			   <div x-bb-type="row">
+				   <div x-bb-type="label">Your Name:</div>
+				   <input type="text" value="Hello World"/>
+			   </div>
+			</div>
 		</div>
 	</div>
 
@@ -368,16 +374,22 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 
 # Known Issues
 
+**General**
+
+* Tabs are not working in the samples
+* Back Button when on the main screen does not exit the app
+
+**BB6/BB7**
 * [Trackpad performance for scrolling is less than desirable on BB6/BB7](https://github.com/blackberry/WebWorks/issues/49)
-* Tabs and Pill Buttons are not working yet in the samples
+* There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
+* Pill Buttons do not currently keep their &quot;selected&quot; state when pressed
+
+**BB5**
+* Label/Control Containers are not working
+* Pill Buttons do not work yet
+* Buttons that stretch the width of the screen don&apos;t work yet
+* Background color sizing issues on BB5
+* Button/list item highlighting not appearing on "touch" on a Storm device
 * Input boxes are not aligning properly in the rounded panels and have not been styled
 * There are various back button issues
-* Focus based navigation mode can get confused on BB5 devices when navigating between screens
-* Button scaling is not completed on hi-res/low-res devices for BB6/BB7
-* Button/list item highlighting not appearing on "touch" on a Storm device
-* Background color sizing issues on BB5
-* There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
-* Pill Buttons do not currently keep their state in order to highlight accordingly
-* Pill Buttons do not work on BB5 devices yet
-
-
+* Focus based navigation mode can get confused when navigating between screens

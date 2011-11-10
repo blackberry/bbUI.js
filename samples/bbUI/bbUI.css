@@ -56,6 +56,28 @@ body, html {
 }
 
 /* ================================================= 
+   BB7 Input Box
+   =================================================*/
+
+.bb-bb7-input {
+	border-radius:5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #C6C6C6; 
+	height:41px;
+	background-color:#FAFAFA;
+	width: 100%;
+}
+
+.bb-bb7-input-hires {
+	height:41px;
+}
+
+.bb-bb7-input-lowres {
+	height:33px;
+}
+
+/* ================================================= 
    BB7 Round panels
    =================================================*/
 .bb-bb7-round-panel {
@@ -80,14 +102,12 @@ body, html {
 	border-width:1px;
 	border-color:#BCBEC2;
 	border-style: solid;
-	height:40px;
 	color: black;
 	text-align:center;
 	white-space:nowrap;
 	vertical-align: middle;
 	padding-left: 15px;
 	padding-right: 15px;
-	line-height:40px;
 	display: table-cell;
 	border-radius:5px;
 	box-shadow:1px 1px 1px #DCDCDC;
@@ -95,19 +115,26 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
 }
 
+.bb-bb7-button-hires {
+	line-height:54px;
+	height:54px;
+}
+
+.bb-bb7-button-lowres {
+	line-height:40px;
+	height:40px;
+}
 
 .bb-bb7-button-highlight{
 	border-width:1px;
 	border-color:#0060E6;
 	border-style: solid;
-	height:40px;
 	color: White;
 	text-align:center;
 	white-space:nowrap;
 	vertical-align: middle;
 	padding-left: 15px;
 	padding-right: 15px;
-	line-height:40px;
 	display: table-cell;
 	border-radius:5px;
 	box-shadow:2px 2px 2px #DCDCDC;
@@ -231,11 +258,11 @@ a.bb5-button-highlight span {
 .bb-label-control-horizontal-row .bb-label {
 	float:left;
 	position:relative;
-	top:5px;
+	top:10px;
 }
    
 .bb-label-control-horizontal-row {
-	height:42px;
+	height:56px;
 	/*border:1px solid black;*/
 	margin-bottom:4px;
 }
@@ -251,6 +278,18 @@ a.bb5-button-highlight span {
 .bb-label-control-horizontal-row  .bb-bb5-button {
 	float:right;
 }
+
+
+/* ================================================= 
+   Label Control Rows 
+   =================================================*/
+
+.bb-bb7-label-control-rows {
+	margin:0px;
+	padding:0px;
+	width:100%;
+}
+
 
 
 
@@ -1055,55 +1094,70 @@ a.bb5-button-highlight span {
    BB7 Pill Buttons
    =================================================*/
 
+
+   
 .bb-bb7-pill-buttons {
-	height:45px;
 	padding-top: 5px;
 }
+
+.bb-bb7-pill-buttons-hires {
+	height:59px;
+}
+
+.bb-bb7-pill-buttons-lowres {
+	height:45px;
+}
    
-.bb-bb7-pill-buttons .button {
+.bb-bb7-pill-button {
 	float: left;
 	border-width:1px;
 	border-color:#BCBEC2;
 	border-style: solid;
-	height:40px;
 	color: black;
 	text-align:center;
 	white-space:nowrap;
 	vertical-align: middle;
 	padding-left: 0px;
 	padding-right: 0px;
-	line-height:40px;
 	display: table-cell;
 	box-shadow:1px 1px 1px #DCDCDC;
 	background-clip: padding-box;	
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
 }
 
-.bb-bb7-pill-buttons .highlight-button{
+.bb-bb7-pill-button-highlight{
 	float: left;
 	border-width:1px;
 	border-color:#0060E6;
 	border-style: solid;
-	height:40px;
 	color: White;
 	text-align:center;
 	white-space:nowrap;
 	vertical-align: middle;
 	padding-left: 0px;
 	padding-right: 0px;
-	line-height:40px;
 	display: table-cell;
 	box-shadow:2px 2px 2px #DCDCDC;
 	background-clip: padding-box;	
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#098CEE), to(#1766DB));	
 }
 
-.bb-bb7-pill-buttons .left{
+.bb-bb7-pill-button-lowres {
+	height:40px;
+	line-height:40px;
+}
+
+.bb-bb7-pill-button-hires {
+	height:54px;
+	line-height:54px;
+}
+
+.bb-bb7-pill-button-left{
 	border-top-left-radius:5px;
 	border-bottom-left-radius:5px;
 }
 
-.bb-bb7-pill-buttons .right{
+.bb-bb7-pill-button-right{
 	border-top-right-radius:5px;
 	border-bottom-right-radius:5px;
 }

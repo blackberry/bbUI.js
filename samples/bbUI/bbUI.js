@@ -35,6 +35,7 @@ bb = {
 		}
 		
 		bb.screen.apply(root.querySelectorAll('[x-bb-type=screen]'));
+		bb.textInput.apply(root.querySelectorAll('input[type=text]'));
 		bb.roundPanel.apply(root.querySelectorAll('[x-bb-type=round-panel]'));
 		bb.textArrowList.apply(root.querySelectorAll('[x-bb-type=text-arrow-list]'));	
 		bb.imageList.apply(root.querySelectorAll('[x-bb-type=image-list]'));	
@@ -42,7 +43,7 @@ bb = {
 		bb.inboxList.apply(root.querySelectorAll('[x-bb-type=inbox-list]'));
 		bb.bbmBubble.apply(root.querySelectorAll('[x-bb-type=bbm-bubble]'));
 		bb.pillButtons.apply(root.querySelectorAll('[x-bb-type=pill-buttons]'));
-		bb.labelControlRow.apply(root.querySelectorAll('[x-bb-type=label-control-horizontal-row]'));
+		bb.labelControlContainers.apply(root.querySelectorAll('[x-bb-type=label-control-container]'));
 		bb.button.apply(root.querySelectorAll('[x-bb-type=button]'));
 		
 		// perform device specific formatting
@@ -318,6 +319,32 @@ bb = {
 		}
 	},
 	
+	/* Object that contains all the logic for inputs of type text */
+	textInput: {
+		apply: function(elements) {
+			if (bb.device.isBB5()) {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+				}
+			} else {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+					var style = 'bb-bb7-input';
+					
+					if (bb.device.isHiRes) {
+						style = style + ' bb-bb7-input-hires';
+					} else {
+						style = style + ' bb-bb7-input-lowres';
+					}
+					// Apply our style
+					outerElement.setAttribute('class', style);
+				}
+			
+			}		
+		}
+	
+	},
+	
 	/* Object that contains all the logic for buttons */
 	button: {
 		
@@ -356,6 +383,14 @@ bb = {
 					var outerElement = elements[i];
 					var normal = 'bb-bb7-button';
 					var highlight = 'bb-bb7-button-highlight';
+					
+					if (bb.device.isHiRes) {
+						normal = normal + ' bb-bb7-button-hires';
+						highlight = highlight + ' bb-bb7-button-hires';
+					} else {
+						normal = normal + ' bb-bb7-button-lowres';
+						highlight = highlight + ' bb-bb7-button-lowres';
+					}
 
 					if (outerElement.hasAttribute('x-bb-style')) {
 						var style = outerElement.getAttribute('x-bb-style');
@@ -373,19 +408,56 @@ bb = {
 		}
 	},
 	
-	labelControlRow: {
+	labelControlContainers: {
 		// Apply our transforms to all label control rows
 		apply: function(elements) {
-			for (var i = 0; i < elements.length; i++) {
-				var outerElement = elements[i];
-				outerElement.setAttribute('class','bb-label-control-horizontal-row');
-				// Gather our inner items
-				var items = outerElement.querySelectorAll('[x-bb-type=label]');
-				for (var j = 0; j < items.length; j++) {
-					var label = items[j];
-					label.setAttribute('class', 'bb-label');
-				}
-			}	
+			if (bb.device.isBB5()) {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+					outerElement.setAttribute('class','bb-label-control-horizontal-row');
+					// Gather our inner items
+					var items = outerElement.querySelectorAll('[x-bb-type=label]');
+					for (var j = 0; j < items.length; j++) {
+						var label = items[j];
+						label.setAttribute('class', 'bb-label');
+					}
+				}	
+			} else {
+				for (var i = 0; i < elements.length; i++) {
+					var outerElement = elements[i];
+					
+					// Fetch all our rows
+					var items = outerElement.querySelectorAll('[x-bb-type=row]');
+					if (items.length > 0 ) {
+						// Create our containing table
+						var table = document.createElement('table');
+						table.setAttribute('class','bb-bb7-label-control-rows');
+						outerElement.insertBefore(table,items[0]);
+						
+						for (var j = 0; j < items.length; j++) {
+							var row = items[j];
+							var tr = document.createElement('tr');
+							table.appendChild(tr);
+							// Get the label
+							var tdLabel = document.createElement('td');
+							tr.appendChild(tdLabel);
+							var label = row.querySelectorAll('[x-bb-type=label]')[0];
+							row.removeChild(label);
+							tdLabel.appendChild(label);
+							// Get the control
+							var tdControl = document.createElement('td');
+							tr.appendChild(tdControl);
+							var control = row.querySelectorAll('[x-bb-type=button],input')[0];
+							row.removeChild(control);
+							tdControl.appendChild(control);
+							outerElement.removeChild(row);
+							if (control.getAttribute('x-bb-type') == 'button') {
+								control.style.float = 'right';
+							}
+						}
+					}
+				}				
+			}
 		}
 	},
 	
@@ -397,6 +469,7 @@ bb = {
 				for (var i = 0; i < elements.length; i++) {
 					var outerElement = elements[i];
 					outerElement.setAttribute('class','bb-pill-buttons');
+
 					// Gather our inner items
 					var items = outerElement.querySelectorAll('[x-bb-type=pill-button]');
 					for (var j = 0; j < items.length; j++) {
@@ -436,7 +509,21 @@ bb = {
 			} else {
 				for (var i = 0; i < elements.length; i++) {
 					var outerElement = elements[i];
-					outerElement.setAttribute('class','bb-bb7-pill-buttons');
+					
+					var containerStyle = 'bb-bb7-pill-buttons';
+					var buttonStyle = '';
+					
+					// Set our container style
+					if (bb.device.isHiRes) {
+						containerStyle = containerStyle + ' bb-bb7-pill-buttons-hires';
+						buttonStyle = 'bb-bb7-pill-button-hires';
+					} else {
+						containerStyle = containerStyle + ' bb-bb7-pill-buttons-lowres';
+						buttonStyle = 'bb-bb7-pill-button-lowres';
+					}
+					outerElement.setAttribute('class',containerStyle);
+					
+					
 					// Gather our inner items
 					var items = outerElement.querySelectorAll('[x-bb-type=pill-button]');
 					var percentWidth = Math.floor(98 / items.length);
@@ -447,17 +534,17 @@ bb = {
 						var innerChildNode = items[j];
 						innerChildNode.setAttribute('x-blackberry-focusable','true');
 						if (j == 0) {  // First button
-							innerChildNode.setAttribute('class','button left');
-							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','highlight-button left')");
-							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','button left')");
+							innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
+							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
+							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
 						} else if (j == items.length -1) { // Right button
-							innerChildNode.setAttribute('class','button right');
-							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','highlight-button right')");
-							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','button right')");
+							innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
+							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
+							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
 						} else { // Middle Buttons
-							innerChildNode.setAttribute('class','button');
-							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','highlight-button')");
-							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','button')");
+							innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
+							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
+							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
 						}
 						// Set our width
 						innerChildNode.style.width = percentWidth + '%';
