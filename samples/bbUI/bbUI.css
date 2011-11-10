@@ -25,6 +25,8 @@ body, html {
 	-webkit-user-select: none;
 }
 
+@-webkit-keyframes bbUI-fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+
 .bb-hires-screen {
 	font-size: 16pt;
 }

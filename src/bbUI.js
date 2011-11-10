@@ -58,7 +58,6 @@ bb = {
 		
 		// Determine if this browser is BB5
 		isBB5: function() {
-			//return true;
 			return navigator.appVersion.indexOf('5.0.0') >= 0;
 		},
 		
@@ -137,9 +136,7 @@ bb = {
 		}
 		
 		window.scroll(0,0);
-	
-		//bb.animate.fadeIn({'id': id, duration: 1.0});
-		
+		bb.screen.applyEffect(id, container);	
 	},
 	
 	// Pop a screen from the stack
@@ -173,7 +170,7 @@ bb = {
 			document.body.removeChild(current);
 
 			window.scroll(0,0);
-			//bb.animate.fadeIn({'id': display.id, duration: 1.0});
+			bb.screen.applyEffect(display.id, container);
 			
 		} else {
 			if (blackberry) {
@@ -206,6 +203,68 @@ bb = {
 						outerElement.insertBefore(title, firstChild);
 					} else {
 						outerElement.appendChild(title);
+					}
+				}
+			}
+		},
+		
+		fadeIn: function (params) {
+			// set default values
+			var r = 0;
+			var duration = 1;
+			var iteration = 1;
+			var timing = 'ease-out';
+
+			if (document.getElementById(params.id)) {
+				var elem = document.getElementById(params.id);
+				var s = elem.style;
+
+				if (params.random) {
+					r = Math.random() * (params.random / 50) - params.random / 100;
+				}
+
+				if (params.duration) {
+					duration = parseFloat(params.duration) + parseFloat(params.duration) * r;
+					duration = Math.round(duration * 1000) / 1000;
+				}
+
+				if (params.iteration) {
+					iteration = params.iteration;
+				}
+
+				if (params.timing) {
+					timing = params.timing;
+				}
+
+				s['-webkit-animation-name']            = 'bbUI-fade-in';
+				s['-webkit-animation-duration']        = duration + 's';
+				s['-webkit-animation-timing-function'] = timing;
+			}
+			else {
+				console.warn('Could not access ' + params.id);
+			}
+		},
+		
+		applyEffect: function(id, container) {
+			// see if there is a display effect
+			if (!bb.device.isBB5()) {
+				var screen = container.querySelectorAll('[x-bb-type=screen]');
+				if (screen.length > 0 ) {
+					screen = screen[0];
+					var effect = screen.getAttribute('x-bb-effect');
+					if (effect != null && effect != undefined) {
+						if (effect.toLowerCase() == 'fade') {
+							if (bb.device.isBB6()) {
+								// On BB6 Fade doesn't work well when input controls are on the screen
+								// so we disable the fade effect for the sake of performance
+								var inputControls = container.querySelectorAll('input');
+								if (inputControls.length == 0) {
+									bb.screen.fadeIn({'id': id, 'duration': 1.0});
+								}							
+							} else {						
+								bb.screen.fadeIn({'id': id, 'duration': 1.0});
+							}
+						}
 					}
 				}
 			}

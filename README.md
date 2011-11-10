@@ -85,9 +85,15 @@ Creating a screen to be used with bbUI is as simple as creating an HTML file and
 is simply a &lt;div&gt; with an attribute **x-bb-type="screen"**.  You then place all the contents for your screen inside this &lt;div&gt;.  There's also a **x-bb-title**
 attribute where, if defined, a standard black screen title bar will appear showing the declared text.
 
-	<div x-bb-type="screen" x-bb-title="User Interface Examples">
+A display effect can also be declared on your screen. Currently only **x-bb-effect="fade"** is supported.  This will fade in your screen when it displays.  This is 
+supported both on BB6 &amp; BB7.  However, if your screen has &lt;input&gt; controls on it and you declare the &quot;fade&quot; effect, BB6 will not fade in the page.  This 
+has been disabled on purpose in bbUI because the fade effect doesn&apos;t perform well on BB6 when input controls are on the screen.
+
+	<div x-bb-type="screen" x-bb-title="User Interface Examples" x-bb-effect="fade">
 		
 	</div>
+	
+
 
 
 ## Loading Screen Specific CSS
