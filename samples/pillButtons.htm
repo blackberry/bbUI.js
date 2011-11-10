@@ -14,80 +14,80 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 -->
-<div x-bb-type="screen" x-bb-effect="fade">
+<div data-bb-type="screen" data-bb-effect="fade">
 	<script id="pillButtonsJS" src="js/pillButtons.js"></script>
 	
-	 <div x-bb-type="pill-buttons">
-		<div x-bb-type="pill-button" x-bb-selected="true" onclick="selectContact()">Contact</div>
-		<div x-bb-type="pill-button" onclick="selectAddress()">Address</div>
-		<div x-bb-type="pill-button" onclick="selectPhone()">Phone</div>
+	 <div data-bb-type="pill-buttons">
+		<div data-bb-type="pill-button" data-bb-selected="true" onclick="selectContact()">Contact</div>
+		<div data-bb-type="pill-button" onclick="selectAddress()">Address</div>
+		<div data-bb-type="pill-button" onclick="selectPhone()">Phone</div>
 	 </div>
 	
-	<div x-bb-type="round-panel" id="contact"> 
-		<div x-bb-type="panel-header">Contact</div>
-		<div x-bb-type="label-control-container">
-			<div x-bb-type="row">
-				<div x-bb-type="label">Title:</div>       
+	<div data-bb-type="round-panel" id="contact"> 
+		<div data-bb-type="panel-header">Contact</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+				<div data-bb-type="label">Title:</div>       
 				<input type="text" value="Mr." />
 			</div>  
-			<div x-bb-type="row">
-				<div x-bb-type="label">First Name:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">First Name:</div>       
 				<input type="text" value="John" />
 			</div>  
-			<div x-bb-type="row">
-				<div x-bb-type="label">Last Name:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">Last Name:</div>       
 				<input type="text" value="Doe" />
 			</div>
-			<div x-bb-type="row">
-				<div x-bb-type="label">Email:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">Email:</div>       
 				<input type="text" value="jdoe@foo.com" />
 			</div>
 		</div>
 	</div>
 	
-	<div x-bb-type="round-panel" id="phone" style="display:none">  
-		<div x-bb-type="panel-header">Phone</div>
-		<div x-bb-type="label-control-container">
-			<div x-bb-type="row">
-				<div x-bb-type="label">Home:</div>    
+	<div data-bb-type="round-panel" id="phone" style="display:none">  
+		<div data-bb-type="panel-header">Phone</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+				<div data-bb-type="label">Home:</div>    
 				<input type="text" value="555-555-8987" onfocus="resetImages()" />
 			</div>
-			<div x-bb-type="row">
-				<div x-bb-type="label">Mobile:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">Mobile:</div>       
 				<input type="text" value="555-555-2569" onfocus="resetImages()" />
 			</div>
-			<div x-bb-type="row">
-				<div x-bb-type="label">Fax:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">Fax:</div>       
 				<input type="text" value="Hello World" onfocus="resetImages()" />
 			</div>  
-			<div x-bb-type="row">
-				<div x-bb-type="label">PIN:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">PIN:</div>       
 				<input type="text" value="XYZ123XYZ" onfocus="resetImages()" />
 			</div>
 		</div>
 	</div>
 	
-	<div x-bb-type="round-panel" id="address" style="display:none">  
-		<div x-bb-type="panel-header">Address</div>
-		<div x-bb-type="label-control-container">
-			<div x-bb-type="row">
-				<div x-bb-type="label">Address 1:</div>       
+	<div data-bb-type="round-panel" id="address" style="display:none">  
+		<div data-bb-type="panel-header">Address</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+				<div data-bb-type="label">Address 1:</div>       
 				<input type="text" value="555 Foo St." onfocus="resetImages()"/>
 			</div>  
-			<div x-bb-type="row">
-				<div x-bb-type="label">City:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">City:</div>       
 				<input type="text" value="Toronto" onfocus="resetImages()"/>
 			</div>  
-			<div x-bb-type="row">
-				<div x-bb-type="label">Province:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">Province:</div>       
 				<input type="text" value="Ontario" onfocus="resetImages()" />
 			</div> 
-			<div x-bb-type="row">
-				<div x-bb-type="label">Country:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">Country:</div>       
 				<input type="text" value="Canada" onfocus="resetImages()" />
 			</div>   
-			<div x-bb-type="row">
-				<div x-bb-type="label">Postal Code:</div>       
+			<div data-bb-type="row">
+				<div data-bb-type="label">Postal Code:</div>       
 				<input type="text" value="L5G 2H9" onfocus="resetImages()" />
 			</div>
 		</div>

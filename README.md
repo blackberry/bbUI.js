@@ -32,7 +32,7 @@ on BB5/BB6/BB7.  This means that in some cases toolbars are fixed, and in others
 CSS used to generate the user interface is handled by the bbUI toolkit so that you don't have to deal with the idiosyncrasies
 of the different layout engines.
 
-Each of the layouts and controls use custom attributes that begin with **x-bb-** so that the toolkit can determine the type of
+Each of the layouts and controls use custom attributes that begin with **data-bb-** so that the toolkit can determine the type of
 control that is desired and then style it accordingly.  By not adding any kind of layout logic to the screen elements, bbUI can 
 then modify the DOM in any way that it needs in order to achieve the desired result.
 
@@ -82,14 +82,14 @@ WebWorks API so that it can trap the "back" hardware key and automatically handl
 ## Defining a Screen
 
 Creating a screen to be used with bbUI is as simple as creating an HTML file and placing the screen fragment markup in the file.  A screen declaration
-is simply a &lt;div&gt; with an attribute **x-bb-type="screen"**.  You then place all the contents for your screen inside this &lt;div&gt;.  There's also a **x-bb-title**
+is simply a &lt;div&gt; with an attribute **data-bb-type="screen"**.  You then place all the contents for your screen inside this &lt;div&gt;.  There's also a **data-bb-title**
 attribute where, if defined, a standard black screen title bar will appear showing the declared text.
 
-A display effect can also be declared on your screen. Currently only **x-bb-effect="fade"** is supported.  This will fade in your screen when it displays.  This is 
+A display effect can also be declared on your screen. Currently only **data-bb-effect="fade"** is supported.  This will fade in your screen when it displays.  This is 
 supported both on BB6 &amp; BB7.  However, if your screen has &lt;input&gt; controls on it and you declare the &quot;fade&quot; effect, BB6 will not fade in the page.  This 
 has been disabled on purpose in bbUI because the fade effect doesn&apos;t perform well on BB6 when input controls are on the screen.
 
-	<div x-bb-type="screen" x-bb-title="User Interface Examples" x-bb-effect="fade">
+	<div data-bb-type="screen" data-bb-title="User Interface Examples" data-bb-effect="fade">
 		
 	</div>
 	
@@ -102,7 +102,7 @@ If you have screen specific CSS that you would like to load with your screen, yo
 
 First is by declaring it inline with your screen contents:
 
-	<div x-bb-type="screen">
+	<div data-bb-type="screen">
 		<style type="text/css">
 			body, html {
 				background-color: White;
@@ -113,7 +113,7 @@ First is by declaring it inline with your screen contents:
 An alternative is to declare a linked in style sheet within your screen's content.  Just remember that the path to your style sheet will 
 start from the main HTML page that you have loaded as the root of your application.  So you should make your paths relative to that root document.
 
-	<div x-bb-type="screen">
+	<div data-bb-type="screen">
 		<link rel="stylesheet" type="text/css" href="css/tabs.css"></link>
 	</div>
 
@@ -128,7 +128,7 @@ bbUI allows you to declare JavaScript files to include with your screen.  The to
 when the screen is pushed onto the stack, and it will remove this JavaScript when the screen is popped back off of the stack.  Just remember that the path to your JS file will 
 start from the main HTML page that you have loaded as the root of your application.  So you should make your paths relative to that root document.
 
-	<div x-bb-type="screen">
+	<div data-bb-type="screen">
 		<script id="tabsJS" src="js/tabs.js"></script>
 	</div>
 
@@ -138,7 +138,7 @@ path to the JavaScript file itself.
 If you have JavaScript that needs to perform some cleanup routines when your screen gets popped off of the stack, you can also declare JavaScript to be called before the screen
 is popped off of the stack using the **onunload** attribute.
 
-	<div x-bb-type="screen">
+	<div data-bb-type="screen">
 		<script id="tabsJS" src="js/tabs.js" onunload="unloadPushListeners()"></script>
 	</div>
 
@@ -149,31 +149,31 @@ Image lists give the user different options that they can choose.  This user int
 
 ![Image List](bbUI.js/raw/master/screenshots/imageList.png)
 
-Creating an image list is really simple and begins with creating a &lt;div&gt; that has the attribute **x-bb-type="image-list"**.  Each item in the list is another 
-&lt;div&gt; that has the attribute **x-bb-type="item"**.  Each item has an image (**x-bb-img**), a title (**x-bb-title**), and a description which is the inner contents
+Creating an image list is really simple and begins with creating a &lt;div&gt; that has the attribute **data-bb-type="image-list"**.  Each item in the list is another 
+&lt;div&gt; that has the attribute **data-bb-type="item"**.  Each item has an image (**data-bb-img**), a title (**data-bb-title**), and a description which is the inner contents
 of the &lt;div&gt;.
 
 On High-Resolution screens, the image size is 48x48 pixels.  On a low resolution screen it is sized down to 32x32 pixels.  So it is best to create your image artwork at 
 the 48x48 pixel size since downscaling typically looks better than stretching.
 
-	<div x-bb-type="screen">
-		<div x-bb-type="image-list">
-			<div x-bb-type="item" x-bb-img="icon1.png" x-bb-title="Input Controls">Use native looking input controls</div>
-			<div x-bb-type="item" x-bb-img="icon2.png" x-bb-title="Inbox List">Style your list like the BlackBerry Inbox</div> 
-			<div x-bb-type="item" x-bb-img="icon3.png" x-bb-title="Settings">Create native looking options screens</div> 
-			<div x-bb-type="item" x-bb-img="icon5.png" x-bb-title="Tall List Items">Add some height to your list items</div> 
-			<div x-bb-type="item" x-bb-img="icon6.png" x-bb-title="BBM Bubbles">Generate a chat window like BBM</div> 
-			<div x-bb-type="item" x-bb-img="icon7.png" x-bb-title="Pill Buttons">Use pill buttons to organize your data</div> 
-			<div x-bb-type="item" x-bb-img="icon8.png" x-bb-title="Charts">Add charts to your application</div> 
-			<div x-bb-type="item" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
-			<div x-bb-type="item" x-bb-img="icon10.png" x-bb-title="Tab Controls">Use tabs to organize your data</div> 
-			<div x-bb-type="item" x-bb-img="icon11.png" x-bb-title="Arrow List">Create a navigation list with arrows</div>
+	<div data-bb-type="screen">
+		<div data-bb-type="image-list">
+			<div data-bb-type="item" data-bb-img="icon1.png" data-bb-title="Input Controls">Use native looking input controls</div>
+			<div data-bb-type="item" data-bb-img="icon2.png" data-bb-title="Inbox List">Style your list like the BlackBerry Inbox</div> 
+			<div data-bb-type="item" data-bb-img="icon3.png" data-bb-title="Settings">Create native looking options screens</div> 
+			<div data-bb-type="item" data-bb-img="icon5.png" data-bb-title="Tall List Items">Add some height to your list items</div> 
+			<div data-bb-type="item" data-bb-img="icon6.png" data-bb-title="BBM Bubbles">Generate a chat window like BBM</div> 
+			<div data-bb-type="item" data-bb-img="icon7.png" data-bb-title="Pill Buttons">Use pill buttons to organize your data</div> 
+			<div data-bb-type="item" data-bb-img="icon8.png" data-bb-title="Charts">Add charts to your application</div> 
+			<div data-bb-type="item" data-bb-img="icon9.png" data-bb-title="Guages">Use gauges and progress bars</div> 
+			<div data-bb-type="item" data-bb-img="icon10.png" data-bb-title="Tab Controls">Use tabs to organize your data</div> 
+			<div data-bb-type="item" data-bb-img="icon11.png" data-bb-title="Arrow List">Create a navigation list with arrows</div>
 		</div>
 	</div>
 
 To add a click event to one of the line items, simply add an onclick event to the &lt;div&gt;
 
-	<div x-bb-type="item" onclick="alert('clicked')" x-bb-img="icon9.png" x-bb-title="Guages">Use gauges and progress bars</div> 
+	<div data-bb-type="item" onclick="alert('clicked')" data-bb-img="icon9.png" data-bb-title="Guages">Use gauges and progress bars</div> 
 
 
 ## Rounded Control Panels
@@ -183,16 +183,16 @@ Below is a screen shot of a rounded control panel that has a button and some pro
 
 ![Control Panel](bbUI.js/raw/master/screenshots/controlContainer.png)
 
-To declare a rounded control panel you create a &lt;div&gt; with the **x-bb-type="round-panel"** attribute.  All content that you add to the inside of this 
+To declare a rounded control panel you create a &lt;div&gt; with the **data-bb-type="round-panel"** attribute.  All content that you add to the inside of this 
 &lt;div&gt; will appear inside the rounded control panel. 
 
-Rounded control panels can either be a simple panel, or they can also have a title added to them.  To add a title add a &lt;div&gt; with the **x-bb-type="panel-header"**
+Rounded control panels can either be a simple panel, or they can also have a title added to them.  To add a title add a &lt;div&gt; with the **data-bb-type="panel-header"**
 attribute.  The text contained inside of this div will show up as a header on the panel.  An example of what this header looks like can be seen in the Label/Control Container section
 below.
 
-	<div x-bb-type="screen">
-		<div x-bb-type="round-panel"> 
-			<div x-bb-type="panel-header">My Header</div>
+	<div data-bb-type="screen">
+		<div data-bb-type="round-panel"> 
+			<div data-bb-type="panel-header">My Header</div>
 			
 			
 		</div>
@@ -207,20 +207,20 @@ Currently there&apos;s **only** support for Labels to be left justified, buttons
 ![Control Panel](bbUI.js/raw/master/screenshots/labelControlRow.png)
 
 
-To use a Label/Control container you fist create a &lt;div&gt; with the **x-bb-type="label-control-container"** attribute. You then create a &lt;div&gt; with the **x-bb-type="label-control-horizontal-row"** attribute for 
-each row you want to add to the container.  You then create another &lt;div&gt; for your label with the attribute **x-bb-type="label"** and the contents of this &lt;div&gt; are displayed as the text of the left justified label. 
+To use a Label/Control container you fist create a &lt;div&gt; with the **data-bb-type="label-control-container"** attribute. You then create a &lt;div&gt; with the **data-bb-type="label-control-horizontal-row"** attribute for 
+each row you want to add to the container.  You then create another &lt;div&gt; for your label with the attribute **data-bb-type="label"** and the contents of this &lt;div&gt; are displayed as the text of the left justified label. 
 The control is then added by adding another &lt;div&gt;.  In this example we are using a button and input box.  More on buttons later.
 
-	<div x-bb-type="screen">
-		<div x-bb-type="round-panel"> 
-			<div x-bb-type="panel-header">Font Setting</div>
-			<div x-bb-type="label-control-container">
-				<div x-bb-type="row">
-				   <div x-bb-type="label">Settings:</div>
-				   <div x-bb-type="button" onclick="openEditScreen()">Edit</div>
+	<div data-bb-type="screen">
+		<div data-bb-type="round-panel"> 
+			<div data-bb-type="panel-header">Font Setting</div>
+			<div data-bb-type="label-control-container">
+				<div data-bb-type="row">
+				   <div data-bb-type="label">Settings:</div>
+				   <div data-bb-type="button" onclick="openEditScreen()">Edit</div>
 			   </div>
-			   <div x-bb-type="row">
-				   <div x-bb-type="label">Your Name:</div>
+			   <div data-bb-type="row">
+				   <div data-bb-type="label">Your Name:</div>
 				   <input type="text" value="Hello World"/>
 			   </div>
 			</div>
@@ -231,21 +231,21 @@ The control is then added by adding another &lt;div&gt;.  In this example we are
 
 ![Control Panel](bbUI.js/raw/master/screenshots/buttons.png)
 
-Buttons can be used pretty much anywhere.  Creating a button starts by creating a &lt;div&gt; with the **x-bb-type="button"** attribute. By default a button 
-will size itself to the text used for the caption.  You can however use the **x-bb-style="stretch"** setting for a button to make it stretch to the total width of
+Buttons can be used pretty much anywhere.  Creating a button starts by creating a &lt;div&gt; with the **data-bb-type="button"** attribute. By default a button 
+will size itself to the text used for the caption.  You can however use the **data-bb-style="stretch"** setting for a button to make it stretch to the total width of
 the container where it is embedded.  I wouldn't recommend using the "stretch" capability if you use a button in a Label/Control row.
 
 To add a click handler to the button simply add an onclick event to the &lt;div&gt;.
 
-	<div x-bb-type="screen">
-		<div x-bb-type="panel-header">Font</div>
+	<div data-bb-type="screen">
+		<div data-bb-type="panel-header">Font</div>
 			<div style="margin-bottom:4px;">
-			   <div x-bb-type="label"> Font Family:</div>
-			   <div x-bb-type="button" x-bb-style="stretch">BBAlpha Sans</div>
+			   <div data-bb-type="label"> Font Family:</div>
+			   <div data-bb-type="button" data-bb-style="stretch">BBAlpha Sans</div>
 		   </div>
-		   <div x-bb-type="label-control-horizontal-row">
-			   <div x-bb-type="label">Font Size:</div>
-			   <div x-bb-type="button" onclick="alert('click');">7</div>
+		   <div data-bb-type="label-control-horizontal-row">
+			   <div data-bb-type="label">Font Size:</div>
+			   <div data-bb-type="button" onclick="alert('click');">7</div>
 		   </div>
 		</div>
 	</div>
@@ -257,23 +257,23 @@ provides a very simple interface.
 
 ![Control Panel](bbUI.js/raw/master/screenshots/arrowList.png)
 
-Much like the Image List, the Arrow list is a &lt;div&gt; that has the attribute **x-bb-type="text-arrow-list"**.  Each of its line items are
-&lt;div&gt;&apos;s with the attribute **x-bb-type="item"**.  The contents of the &lt;div&gt; are shown as the label in the arrow list.
+Much like the Image List, the Arrow list is a &lt;div&gt; that has the attribute **data-bb-type="text-arrow-list"**.  Each of its line items are
+&lt;div&gt;&apos;s with the attribute **data-bb-type="item"**.  The contents of the &lt;div&gt; are shown as the label in the arrow list.
 
-	<div x-bb-type="screen">
+	<div data-bb-type="screen">
 		<div style="margin:15px;color:Gray;">
 			<p align="center">Below you will find an example of using an arrow list in a BlackBerry application</p>
 		</div>
-		<div x-bb-type="round-panel"> 
+		<div data-bb-type="round-panel"> 
 		
-			 <div x-bb-type="text-arrow-list">
-				<div x-bb-type="item" onclick="alert('click')">Sleepy</div>
-				<div x-bb-type="item" onclick="alert('click')">Sneezy</div>
-				<div x-bb-type="item" onclick="alert('click')">Dopey</div>
-				<div x-bb-type="item" onclick="alert('click')">Grumpy</div>
-				<div x-bb-type="item" onclick="alert('click')">Doc</div>
-				<div x-bb-type="item" onclick="alert('click')">Bashful</div>
-				<div x-bb-type="item" onclick="alert('click')">Happy</div>
+			 <div data-bb-type="text-arrow-list">
+				<div data-bb-type="item" onclick="alert('click')">Sleepy</div>
+				<div data-bb-type="item" onclick="alert('click')">Sneezy</div>
+				<div data-bb-type="item" onclick="alert('click')">Dopey</div>
+				<div data-bb-type="item" onclick="alert('click')">Grumpy</div>
+				<div data-bb-type="item" onclick="alert('click')">Doc</div>
+				<div data-bb-type="item" onclick="alert('click')">Bashful</div>
+				<div data-bb-type="item" onclick="alert('click')">Happy</div>
 			 </div>
 			 
 		</div>
@@ -287,21 +287,21 @@ found on a BlackBerry Smartphone.
 
 ![Control Panel](bbUI.js/raw/master/screenshots/inboxList.png)
 
-The inbox list is again a &lt;div&gt; with an **x-bb-type="inbox-list"** attribute.  An inbox list can have both headers and line items.  A header
-is declared by creating a &lt;div&gt; with a **x-bb-type="header"** attribute and the contents of the header are displayed as the label.  
+The inbox list is again a &lt;div&gt; with an **data-bb-type="inbox-list"** attribute.  An inbox list can have both headers and line items.  A header
+is declared by creating a &lt;div&gt; with a **data-bb-type="header"** attribute and the contents of the header are displayed as the label.  
 
-Each line item is created with a **x-bb-type="item"** attribute and has values for an image to be displayed (**x-bb-img**), a title (**x-bb-title**), a 
-time (**x-bb-time**) and the inner contents of the &lt;div&gt; are displayed as the description.
+Each line item is created with a **data-bb-type="item"** attribute and has values for an image to be displayed (**data-bb-img**), a title (**data-bb-title**), a 
+time (**data-bb-time**) and the inner contents of the &lt;div&gt; are displayed as the description.
 
 The line item image is displayed as a 32x32 pixel image on a High-Resolution screen. 
 
-	<div x-bb-type="screen">
-		<div x-bb-type="inbox-list">
-			<div x-bb-type="header">Thu 27 May 2010</div>		
-			<div x-bb-type="item" x-bb-img="opened.png" x-bb-title="Fred M." x-bb-time="4:33p" >My car just broke down</div> 
-			<div x-bb-type="item" x-bb-img="opened.png" x-bb-title="Sue A." x-bb-time="4:15p" >Need to pick up Milk</div> 
-			<div x-bb-type="header">Thu 28 May 2010</div>		
-			<div x-bb-type="item" x-bb-img="new.png" x-bb-title="Tim N." x-bb-time="10:25a" x-bb-accent="true">Where do I find the new Document</div> 
+	<div data-bb-type="screen">
+		<div data-bb-type="inbox-list">
+			<div data-bb-type="header">Thu 27 May 2010</div>		
+			<div data-bb-type="item" data-bb-img="opened.png" data-bb-title="Fred M." data-bb-time="4:33p" >My car just broke down</div> 
+			<div data-bb-type="item" data-bb-img="opened.png" data-bb-title="Sue A." data-bb-time="4:15p" >Need to pick up Milk</div> 
+			<div data-bb-type="header">Thu 28 May 2010</div>		
+			<div data-bb-type="item" data-bb-img="new.png" data-bb-title="Tim N." data-bb-time="10:25a" data-bb-accent="true">Where do I find the new Document</div> 
 		</div>
 	</div>
 
@@ -311,24 +311,24 @@ The BBM Bubbles UI format allows you to create chat bubbles that look like the o
 
 ![Control Panel](bbUI.js/raw/master/screenshots/bbmBubbles.png)
 
-A BBM bubble is created by adding a &lt;div&gt; with the **x-bb-type="bbm-bubble"** attribute.  You can set the direction of the bubble to either "right" or 
-"left" by using the **x-bb-style** attribute.
+A BBM bubble is created by adding a &lt;div&gt; with the **data-bb-type="bbm-bubble"** attribute.  You can set the direction of the bubble to either "right" or 
+"left" by using the **data-bb-style** attribute.
 
-The conversation line items that appear inside the BBM Bubble are simply &lt;div&gt;&apos;s that have the **x-bb-type="item"** attribute.  You can also specify an 
-image to appear beside the line item by using the **x-bb-img** attribute. The contents of the line item &lt;div&gt; will be displayed as the line item text.
+The conversation line items that appear inside the BBM Bubble are simply &lt;div&gt;&apos;s that have the **data-bb-type="item"** attribute.  You can also specify an 
+image to appear beside the line item by using the **data-bb-img** attribute. The contents of the line item &lt;div&gt; will be displayed as the line item text.
 
-	<div x-bb-type="screen">
+	<div data-bb-type="screen">
 		<style type="text/css">
 			body,html {
 				background-color: #B5B2B5;
 			}	
 		</style>
-		<div x-bb-type="bbm-bubble" x-bb-style="right">
-			<div x-bb-type="item" x-bb-img="bullet.png">My car just broke down and I have one million things to do!!</div> 
-			<div x-bb-type="item" x-bb-img="bullet.png">Why can&apos;t groceries just come to you?</div> 
+		<div data-bb-type="bbm-bubble" data-bb-style="right">
+			<div data-bb-type="item" data-bb-img="bullet.png">My car just broke down and I have one million things to do!!</div> 
+			<div data-bb-type="item" data-bb-img="bullet.png">Why can&apos;t groceries just come to you?</div> 
 		</div>
-		<div x-bb-type="bbm-bubble" x-bb-style="left">
-			<div x-bb-type="item" x-bb-img="read.png">The big island was fun.. We were there for our honeymoon.  One side of the island is pretty much desert grass and volcano ash, and the other side is rainforest</div> 
+		<div data-bb-type="bbm-bubble" data-bb-style="left">
+			<div data-bb-type="item" data-bb-img="read.png">The big island was fun.. We were there for our honeymoon.  One side of the island is pretty much desert grass and volcano ash, and the other side is rainforest</div> 
 		</div>
 	</div>
 
@@ -339,23 +339,23 @@ Tall lists are similar to those that you would find in the BlackBerry Twitter&re
 
 ![Control Panel](bbUI.js/raw/master/screenshots/tallList.png)
 
-Tall lists are a &lt;div&gt; with a **x-bb-type="tall-list"** attribute.  Each line item is a &lt;div&gt; with an **x-bb-type="item"** attribute which allows for
-a display image (**x-bb-img**), a title (**x-bb-title**), a time (**x-bb-time**) and the inner contents of the &lt;div&gt; are the description that appears.
+Tall lists are a &lt;div&gt; with a **data-bb-type="tall-list"** attribute.  Each line item is a &lt;div&gt; with an **data-bb-type="item"** attribute which allows for
+a display image (**data-bb-img**), a title (**data-bb-title**), a time (**data-bb-time**) and the inner contents of the &lt;div&gt; are the description that appears.
 
-	<div x-bb-type="screen">
+	<div data-bb-type="screen">
 		<style type="text/css">
 			body, html {
 				background-color: White;
 			}
 		</style>
-		<div x-bb-type="tall-list">
-			<div x-bb-type="item" x-bb-img="adamA.jpg" x-bb-title="Adam A." x-bb-time="10:24 PM May 22">My car just broke down and I have one million things to do!!</div> 
-			<div x-bb-type="item" x-bb-img="brian.jpg" x-bb-title="Brian" x-bb-time="10:24 PM May 22">Need to pick up Milk.  Add one more thing to the &quot;Honey Do&quot; list!</div>
-			<div x-bb-type="item" x-bb-img="tim.jpg" x-bb-title="Tim" x-bb-time="10:24 PM May 22">Time for some BBQ Ribs!!</div> 
-			<div x-bb-type="item" x-bb-img="tim.jpg" x-bb-title="Tim" x-bb-time="10:24 PM May 22">Has anyone seen a good movie lately?  We're looking for something to do this weekend and I figured a movie would be good</div> 
-			<div x-bb-type="item" x-bb-img="mike.jpg" x-bb-title="Mike" x-bb-time="10:24 PM May 22">Yes, I do Love BlackBerry! Check out BlackBerry App World</div> 
-			<div x-bb-type="item" x-bb-img="douglas.jpg" x-bb-title="Douglas" x-bb-time="10:24 PM May 22">Blogging for BlackBerry is a ton of fun. </div> 
-			<div x-bb-type="item" x-bb-img="adamA.jpg" x-bb-title="AdamA" x-bb-time="10:24 PM May 22">Gotta love BlackBerry WebWorks!</div>
+		<div data-bb-type="tall-list">
+			<div data-bb-type="item" data-bb-img="adamA.jpg" data-bb-title="Adam A." data-bb-time="10:24 PM May 22">My car just broke down and I have one million things to do!!</div> 
+			<div data-bb-type="item" data-bb-img="brian.jpg" data-bb-title="Brian" data-bb-time="10:24 PM May 22">Need to pick up Milk.  Add one more thing to the &quot;Honey Do&quot; list!</div>
+			<div data-bb-type="item" data-bb-img="tim.jpg" data-bb-title="Tim" data-bb-time="10:24 PM May 22">Time for some BBQ Ribs!!</div> 
+			<div data-bb-type="item" data-bb-img="tim.jpg" data-bb-title="Tim" data-bb-time="10:24 PM May 22">Has anyone seen a good movie lately?  We're looking for something to do this weekend and I figured a movie would be good</div> 
+			<div data-bb-type="item" data-bb-img="mike.jpg" data-bb-title="Mike" data-bb-time="10:24 PM May 22">Yes, I do Love BlackBerry! Check out BlackBerry App World</div> 
+			<div data-bb-type="item" data-bb-img="douglas.jpg" data-bb-title="Douglas" data-bb-time="10:24 PM May 22">Blogging for BlackBerry is a ton of fun. </div> 
+			<div data-bb-type="item" data-bb-img="adamA.jpg" data-bb-title="AdamA" data-bb-time="10:24 PM May 22">Gotta love BlackBerry WebWorks!</div>
 		</div>
 	</div>
 	
@@ -365,15 +365,15 @@ Pill Buttons can provide a "Tab Like" interface for quickly switching between mu
 
 ![Control Panel](bbUI.js/raw/master/screenshots/pillButtons.png)
 
-Pill Buttons are a &lt;div&gt; with a **x-bb-type="pill-buttons"** attribute.  Each pill button is then added to the container by creating a &lt;div&gt; with 
-a **x-bb-type="pill-button"** attribute. The caption the button is determined by the contents of the &lt;div&gt;.  The bbUI tookit knows which button is first and
+Pill Buttons are a &lt;div&gt; with a **data-bb-type="pill-buttons"** attribute.  Each pill button is then added to the container by creating a &lt;div&gt; with 
+a **data-bb-type="pill-button"** attribute. The caption the button is determined by the contents of the &lt;div&gt;.  The bbUI tookit knows which button is first and
 last to create the rounded ends of the pill button UI.  To handle the click of the button simply add an "onclick" handler.
 
-	<div x-bb-type="screen">
-		 <div x-bb-type="pill-buttons">
-			<div x-bb-type="pill-button" onclick="selectContact()">Contact</div>
-			<div x-bb-type="pill-button" onclick="selectAddress()">Address</div>
-			<div x-bb-type="pill-button" onclick="selectPhone()">Phone</div>
+	<div data-bb-type="screen">
+		 <div data-bb-type="pill-buttons">
+			<div data-bb-type="pill-button" onclick="selectContact()">Contact</div>
+			<div data-bb-type="pill-button" onclick="selectAddress()">Address</div>
+			<div data-bb-type="pill-button" onclick="selectPhone()">Phone</div>
 		 </div>
 	</div>
 

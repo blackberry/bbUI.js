@@ -34,17 +34,17 @@ bb = {
 			root = element;
 		}
 		
-		bb.screen.apply(root.querySelectorAll('[x-bb-type=screen]'));
+		bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
 		bb.textInput.apply(root.querySelectorAll('input[type=text]'));
-		bb.roundPanel.apply(root.querySelectorAll('[x-bb-type=round-panel]'));
-		bb.textArrowList.apply(root.querySelectorAll('[x-bb-type=text-arrow-list]'));	
-		bb.imageList.apply(root.querySelectorAll('[x-bb-type=image-list]'));	
-		bb.tallList.apply(root.querySelectorAll('[x-bb-type=tall-list]'));
-		bb.inboxList.apply(root.querySelectorAll('[x-bb-type=inbox-list]'));
-		bb.bbmBubble.apply(root.querySelectorAll('[x-bb-type=bbm-bubble]'));
-		bb.pillButtons.apply(root.querySelectorAll('[x-bb-type=pill-buttons]'));
-		bb.labelControlContainers.apply(root.querySelectorAll('[x-bb-type=label-control-container]'));
-		bb.button.apply(root.querySelectorAll('[x-bb-type=button]'));
+		bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
+		bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));	
+		bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));	
+		bb.tallList.apply(root.querySelectorAll('[data-bb-type=tall-list]'));
+		bb.inboxList.apply(root.querySelectorAll('[data-bb-type=inbox-list]'));
+		bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
+		bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
+		bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
+		bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
 		
 		// perform device specific formatting
 		bb.screen.reAdjustHeight();
@@ -187,7 +187,7 @@ bb = {
 				if (bb.device.isHiRes) {
 					outerElement.setAttribute('class', 'bb-hires-screen');
 				}
-				if (outerElement.hasAttribute('x-bb-title')) {
+				if (outerElement.hasAttribute('data-bb-title')) {
 					var outerStyle = outerElement.getAttribute('style'); 
 					var title = document.createElement('div');
 					if (bb.device.isHiRes) {
@@ -197,7 +197,7 @@ bb = {
 						title.setAttribute('class', 'bb-lowres-screen-title');
 						outerElement.setAttribute('style', outerStyle + ';padding-top:27px');
 					}
-					title.innerHTML = outerElement.getAttribute('x-bb-title');
+					title.innerHTML = outerElement.getAttribute('data-bb-title');
 					var firstChild = outerElement.firstChild;
 					if (firstChild != undefined && firstChild != null) {
 						outerElement.insertBefore(title, firstChild);
@@ -248,10 +248,10 @@ bb = {
 		applyEffect: function(id, container) {
 			// see if there is a display effect
 			if (!bb.device.isBB5()) {
-				var screen = container.querySelectorAll('[x-bb-type=screen]');
+				var screen = container.querySelectorAll('[data-bb-type=screen]');
 				if (screen.length > 0 ) {
 					screen = screen[0];
-					var effect = screen.getAttribute('x-bb-effect');
+					var effect = screen.getAttribute('data-bb-effect');
 					if (effect != null && effect != undefined) {
 						if (effect.toLowerCase() == 'fade') {
 							if (bb.device.isBB6()) {
@@ -324,7 +324,7 @@ bb = {
 						}
 					}
 					// Handle the headers
-					var items = outerElement.querySelectorAll('[x-bb-type=panel-header]');
+					var items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
 					for (var j = 0; j < items.length; j++) {
 						items[j].setAttribute('class','bb-lowres-panel-header');
 					}
@@ -334,7 +334,7 @@ bb = {
 				for (var i = 0; i < elements.length; i++) {
 					var outerElement = elements[i];
 					outerElement.setAttribute('class','bb-bb7-round-panel');
-					var items = outerElement.querySelectorAll('[x-bb-type=panel-header]');
+					var items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
 					for (var j = 0; j < items.length; j++) {
 						if (bb.device.isHiRes) {
 							items[j].setAttribute('class','bb-hires-panel-header');
@@ -356,7 +356,7 @@ bb = {
 				var outerElement = elements[i];
 				outerElement.setAttribute('class','bb-text-arrow-list');
 				// Gather our inner items
-				var items = outerElement.querySelectorAll('[x-bb-type=item]');
+				var items = outerElement.querySelectorAll('[data-bb-type=item]');
 				for (var j = 0; j < items.length; j++) {
 					var innerChildNode = items[j];
 					innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-text-arrow-list-item-hover')");
@@ -417,8 +417,8 @@ bb = {
 					var normal = 'bb5-button';
 					var highlight = 'bb5-button-highlight';
 
-					/*if (outerElement.hasAttribute('x-bb-style')) {
-						var style = outerElement.getAttribute('x-bb-style');
+					/*if (outerElement.hasAttribute('data-bb-style')) {
+						var style = outerElement.getAttribute('data-bb-style');
 						if (style == 'stretch') {
 							normal = normal + ' button-stretch';
 							highlight = highlight + ' button-stretch';
@@ -451,8 +451,8 @@ bb = {
 						highlight = highlight + ' bb-bb7-button-lowres';
 					}
 
-					if (outerElement.hasAttribute('x-bb-style')) {
-						var style = outerElement.getAttribute('x-bb-style');
+					if (outerElement.hasAttribute('data-bb-style')) {
+						var style = outerElement.getAttribute('data-bb-style');
 						if (style == 'stretch') {
 							normal = normal + ' button-stretch';
 							highlight = highlight + ' button-stretch';
@@ -475,7 +475,7 @@ bb = {
 					var outerElement = elements[i];
 					outerElement.setAttribute('class','bb-label-control-horizontal-row');
 					// Gather our inner items
-					var items = outerElement.querySelectorAll('[x-bb-type=label]');
+					var items = outerElement.querySelectorAll('[data-bb-type=label]');
 					for (var j = 0; j < items.length; j++) {
 						var label = items[j];
 						label.setAttribute('class', 'bb-label');
@@ -486,7 +486,7 @@ bb = {
 					var outerElement = elements[i];
 					
 					// Fetch all our rows
-					var items = outerElement.querySelectorAll('[x-bb-type=row]');
+					var items = outerElement.querySelectorAll('[data-bb-type=row]');
 					if (items.length > 0 ) {
 						// Create our containing table
 						var table = document.createElement('table');
@@ -500,17 +500,17 @@ bb = {
 							// Get the label
 							var tdLabel = document.createElement('td');
 							tr.appendChild(tdLabel);
-							var label = row.querySelectorAll('[x-bb-type=label]')[0];
+							var label = row.querySelectorAll('[data-bb-type=label]')[0];
 							row.removeChild(label);
 							tdLabel.appendChild(label);
 							// Get the control
 							var tdControl = document.createElement('td');
 							tr.appendChild(tdControl);
-							var control = row.querySelectorAll('[x-bb-type=button],input')[0];
+							var control = row.querySelectorAll('[data-bb-type=button],input')[0];
 							row.removeChild(control);
 							tdControl.appendChild(control);
 							outerElement.removeChild(row);
-							if (control.getAttribute('x-bb-type') == 'button') {
+							if (control.getAttribute('data-bb-type') == 'button') {
 								control.style.float = 'right';
 							}
 						}
@@ -530,7 +530,7 @@ bb = {
 					outerElement.setAttribute('class','bb-pill-buttons');
 
 					// Gather our inner items
-					var items = outerElement.querySelectorAll('[x-bb-type=pill-button]');
+					var items = outerElement.querySelectorAll('[data-bb-type=pill-button]');
 					for (var j = 0; j < items.length; j++) {
 						var innerChildNode = items[j];
 						innerChildNode.setAttribute('x-blackberry-focusable','true');
@@ -548,14 +548,14 @@ bb = {
 						}
 						
 						// See if the item is marked as selected
-						if (innerChildNode.hasAttribute('x-bb-selected') && innerChildNode.getAttribute('x-bb-selected').toLowerCase() == 'true') {
+						if (innerChildNode.hasAttribute('data-bb-selected') && innerChildNode.getAttribute('data-bb-selected').toLowerCase() == 'true') {
 							bb.pillButtons.selectButton(innerChildNode);
 						}
 						
 						// Change the selected state when a user presses the button
 						innerChildNode.onmousedown = function() {
 							bb.pillButtons.selectButton(this);
-							var buttons = this.parentNode.querySelectorAll('[x-bb-type=pill-button]');
+							var buttons = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
 							for (var i = 0; i < buttons.length; i++) {
 								var button = buttons[i];
 								if (button != this) {
@@ -584,7 +584,7 @@ bb = {
 					
 					
 					// Gather our inner items
-					var items = outerElement.querySelectorAll('[x-bb-type=pill-button]');
+					var items = outerElement.querySelectorAll('[data-bb-type=pill-button]');
 					var percentWidth = Math.floor(98 / items.length);
 					var sidePadding = 102-(percentWidth * items.length);
 					outerElement.style['padding-left'] = sidePadding + '%';
@@ -659,11 +659,11 @@ bb = {
 					outerElement.setAttribute('class','bb-lowres-image-list');
 				}
 				// Gather our inner items
-				var items = outerElement.querySelectorAll('[x-bb-type=item]');
+				var items = outerElement.querySelectorAll('[data-bb-type=item]');
 				for (var j = 0; j < items.length; j++) {
 					var innerChildNode = items[j];
-					if (innerChildNode.hasAttribute('x-bb-type')) {
-						var type = innerChildNode.getAttribute('x-bb-type').toLowerCase();
+					if (innerChildNode.hasAttribute('data-bb-type')) {
+						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 						var description = innerChildNode.innerHTML;
 						
 						if (bb.device.isHiRes) {
@@ -671,9 +671,9 @@ bb = {
 							innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-hires-image-list-item-hover')");
 							innerChildNode.setAttribute('onmouseout', "this.setAttribute('class','bb-hires-image-list-item')");
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
-							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('x-bb-img') +'" />\n'+
+							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
 											'<div class="details">\n'+
-											'	<span class="title">' + innerChildNode.getAttribute('x-bb-title') + '</span>\n'+
+											'	<span class="title">' + innerChildNode.getAttribute('data-bb-title') + '</span>\n'+
 											'	<div class="description">' + description + '</div>\n'+
 											'</div>\n';
 						} else {
@@ -681,14 +681,14 @@ bb = {
 							innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-lowres-image-list-item-hover')");
 							innerChildNode.setAttribute('onmouseout', "this.setAttribute('class','bb-lowres-image-list-item')");
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
-							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('x-bb-img') +'" />\n'+
+							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
 											'<div class="details">\n'+
-											'	<span class="title">' + innerChildNode.getAttribute('x-bb-title') + '</span>\n'+
+											'	<span class="title">' + innerChildNode.getAttribute('data-bb-title') + '</span>\n'+
 											'	<div class="description">' + description + '</div>\n'+
 											'</div>\n';						
 						}
-						innerChildNode.removeAttribute('x-bb-img');
-						innerChildNode.removeAttribute('x-bb-title');						
+						innerChildNode.removeAttribute('data-bb-img');
+						innerChildNode.removeAttribute('data-bb-title');						
 					}				
 				}			
 			}	
@@ -703,11 +703,11 @@ bb = {
 				outerElement.setAttribute('class','bb-tall-list');
 				
 				// Gather our inner items
-				var items = outerElement.querySelectorAll('[x-bb-type=item]');
+				var items = outerElement.querySelectorAll('[data-bb-type=item]');
 				for (var j = 0; j < items.length; j++) {
 					var innerChildNode = items[j];
-					if (innerChildNode.hasAttribute('x-bb-type')) {
-						var type = innerChildNode.getAttribute('x-bb-type').toLowerCase();
+					if (innerChildNode.hasAttribute('data-bb-type')) {
+						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 						
 						if (type == 'item') {
 							var description = innerChildNode.innerHTML;
@@ -715,16 +715,16 @@ bb = {
 							innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-tall-list-item-hover')");
 							innerChildNode.setAttribute('onmouseout', "this.setAttribute('class','bb-tall-list-item')");
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
-							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('x-bb-img') +'" />\n'+
+							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
 											'<div class="details">\n'+
-											'	<span class="title">' + innerChildNode.getAttribute('x-bb-title') + '</span>\n'+
+											'	<span class="title">' + innerChildNode.getAttribute('data-bb-title') + '</span>\n'+
 											'	<span class="description">' + description + '</span>\n'+
-											'   <div class="time">' + innerChildNode.getAttribute('x-bb-time')+ '</div>\n'+
+											'   <div class="time">' + innerChildNode.getAttribute('data-bb-time')+ '</div>\n'+
 											'</div>\n';
 											
-							innerChildNode.removeAttribute('x-bb-img');
-							innerChildNode.removeAttribute('x-bb-title');
-							innerChildNode.removeAttribute('x-bb-time');
+							innerChildNode.removeAttribute('data-bb-img');
+							innerChildNode.removeAttribute('data-bb-title');
+							innerChildNode.removeAttribute('data-bb-time');
 						
 						}
 					}				
@@ -740,11 +740,11 @@ bb = {
 				var outerElement = elements[i];
 				outerElement.setAttribute('class','bb-inbox-list');
 				// Gather our inner items
-				var items = outerElement.querySelectorAll('[x-bb-type=item], [x-bb-type=header]');
+				var items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
 				for (var j = 0; j < items.length; j++) {
 					var innerChildNode = items[j];
-					if (innerChildNode.hasAttribute('x-bb-type')) {
-						var type = innerChildNode.getAttribute('x-bb-type').toLowerCase();
+					if (innerChildNode.hasAttribute('data-bb-type')) {
+						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 						
 						if (type == 'header') {
 							var description = innerChildNode.innerHTML;
@@ -762,17 +762,17 @@ bb = {
 						}
 						else if (type == 'item') {
 							var description = innerChildNode.innerHTML;
-							var title = innerChildNode.getAttribute('x-bb-title');
-							if (innerChildNode.hasAttribute('x-bb-accent') && innerChildNode.getAttribute('x-bb-accent').toLowerCase() == 'true') {
+							var title = innerChildNode.getAttribute('data-bb-title');
+							if (innerChildNode.hasAttribute('data-bb-accent') && innerChildNode.getAttribute('data-bb-accent').toLowerCase() == 'true') {
 								title = '<b>' + title + '</b>';
 							}
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
-							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('x-bb-img') +'" />\n'+
+							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
 											'<div class="title">'+ title +'</div>\n'+
-											'<div class="time">' + innerChildNode.getAttribute('x-bb-time') + '</div>\n'+
+											'<div class="time">' + innerChildNode.getAttribute('data-bb-time') + '</div>\n'+
 											'<div class="description">' + description + '</div>\n';
-							innerChildNode.removeAttribute('x-bb-img');
-							innerChildNode.removeAttribute('x-bb-title');	
+							innerChildNode.removeAttribute('data-bb-img');
+							innerChildNode.removeAttribute('data-bb-title');	
 							
 							if (bb.device.isHiRes) {
 								innerChildNode.setAttribute('class', 'bb-hires-inbox-list-item');
@@ -797,14 +797,14 @@ bb = {
 			for (var i = 0; i < elements.length; i++) {
 				var outerElement = elements[i];
 				
-				if (outerElement.hasAttribute('x-bb-style')) {
-					var style = outerElement.getAttribute('x-bb-style').toLowerCase();
+				if (outerElement.hasAttribute('data-bb-style')) {
+					var style = outerElement.getAttribute('data-bb-style').toLowerCase();
 					if (style == 'left')
 						outerElement.setAttribute('class','bb-bbm-bubble-left');
 					else
 						outerElement.setAttribute('class','bb-bbm-bubble-right');
 						
-					var innerElements = outerElement.querySelectorAll('[x-bb-type=item]');
+					var innerElements = outerElement.querySelectorAll('[data-bb-type=item]');
 					for (var j = 0; j > innerElements.length; j++) {
 						outerElement.removeChild(innerElements[j]);
 					}
@@ -837,7 +837,7 @@ bb = {
 					for (var j = 0; j < innerElements.length; j++) {
 						var innerChildNode = innerElements[j];
 						var description = innerChildNode.innerHTML;
-						innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('x-bb-img') +'" />\n' +
+						innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n' +
 								'<div class="details">'+ description +'</div>\n';
 						insidePanel.appendChild(innerChildNode); 
 					}
