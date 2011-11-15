@@ -252,14 +252,12 @@ selected item when the control first shows you can can use the **selected="true"
 
 	<div data-bb-type="screen">
 		<div data-bb-type="panel-header">Font</div>
-			<div style="margin-bottom:4px;">
-			   <div data-bb-type="label"> Font Family:</div>
-			   <select data-bb-style="stretch" onchange="alert('changed')" >
-					<option value="bbalphasans" selected="true">BBAlpha Sans</option>
-					<option value="arial">Arial</option>
-					<option value="andalemono">Andale Mono</option>
-			   </select>
-		   </div>
+		   <div data-bb-type="label"> Font Family:</div>
+		   <select data-bb-style="stretch" onchange="alert('changed')" >
+				<option value="bbalphasans" selected="true">BBAlpha Sans</option>
+				<option value="arial">Arial</option>
+				<option value="andalemono">Andale Mono</option>
+		   </select>
 		</div>
 	</div>
 
