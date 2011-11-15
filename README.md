@@ -68,6 +68,9 @@ To open a new screen in an appliction using bbUI you simply call **bb.pushScreen
 you simply call **bb.popScreen()**.  The toolkit is designed to use the [Application Event](http://developer.blackberry.com/html5/apis/blackberry.app.event.html) 
 WebWorks API so that it can trap the "back" hardware key and automatically handle popping the last screen off of the stack.
 
+If you want to override the back button handling, and substitute it with your own handler, you can simply call **bb.assignBackHandler(callback)** and your **callback** function will now
+be invoked when the back button is clicked.  It is then up to you to handle all back button navigation.
+
 	<html>
 		<head>
 			<meta name="x-blackberry-defaultHoverEffect" content="false" />
