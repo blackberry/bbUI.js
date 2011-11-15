@@ -146,6 +146,72 @@ body, html {
 
 .button-stretch{
 	display:block;
+}
+
+/* ================================================= 
+   BB7 DropDown Buttons
+   =================================================*/
+
+.bb-bb7-dropdown {
+	border-width:1px;
+	border-color:#BCBEC2;
+	border-style: solid;
+	color: black;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	padding-left: 15px;
+	padding-right: 15px;
+	display: table-cell;
+	border-radius:5px;
+	box-shadow:1px 1px 1px #DCDCDC;
+	background-clip: padding-box;	
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
+}
+
+.bb-bb7-dropdown div {
+	padding-right: 25px;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAHCAYAAAA8sqwkAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sLDg41JLeOCwMAAACLSURBVBjTjY1NCsIwFITn1d27QigEs60niI10pW4UvKf0CMWgJ2i3kdxkXFloQOk3u/lh5Hg6cxonrKHZNahUFWtRVQhBHELHlNLfsnMOjziIEAQAhNDx/WO0dQ4xDgIA8wAA9j4w57woW2vxfEWZDRbyvqUxNY2p6X3LMl88fLlebqw2gr6/S5l9AEmQPAvlqOifAAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+.bb-bb7-dropdown-hires {
+	line-height:54px;
+	height:54px;
+}
+
+.bb-bb7-dropdown-lowres {
+	line-height:40px;
+	height:40px;
+}
+
+.bb-bb7-dropdown-highlight{
+	border-width:1px;
+	border-color:#0060E6;
+	border-style: solid;
+	color: White;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	padding-left: 15px;
+	padding-right: 15px;
+	display: table-cell;
+	border-radius:5px;
+	box-shadow:2px 2px 2px #DCDCDC;
+	background-clip: padding-box;	
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#098CEE), to(#1766DB));	
+}
+
+.bb-bb7-dropdown-highlight div {
+	padding-right: 25px;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAHCAYAAAA8sqwkAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sLDg41LyBc0osAAACaSURBVBjTjY0hC8JgGITv1emCVcaSTQcLNrFZNPoX/RGCVYNNZliQwRQWTGPYBvIy8TuTg32I7K7dc8fJZntm6L3QRknRg1OxD9fttBpUdCAEsTumHHv/y7cCWC8CEYIAgH10Z+D/fkpzg+VsJABQDwDglDw48buN8jV/Yx4OpQ5oOc5KqipVlXFW0uaNh68OlyeNIVbTgdjsA+l3TCWqdAgEAAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+.dropdown-stretch{
+	display:block;
 
 }
 
@@ -1095,8 +1161,6 @@ a.bb5-button-highlight span {
 /* ================================================= 
    BB7 Pill Buttons
    =================================================*/
-
-
    
 .bb-bb7-pill-buttons {
 	padding-top: 5px;
@@ -1164,7 +1228,44 @@ a.bb5-button-highlight span {
 	border-bottom-right-radius:5px;
 }
 
+/* ================================================= 
+   Ripple Drop-Down dialog
+   =================================================*/
 
+.ripple-dropdown-dialog {
+	position:absolute;
+	background-color:black;
+	left:10px;
+	padding-top:10px;
+	padding-bottom:10px;
+	right:10px;
+	border-radius:10px;
+	padding: 15px;
+	overflow:auto;
+}
+
+
+.ripple-dropdown-dialog .backgroundHighlight:hover {
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#098CEE), to(#1766DB));
+}
+
+.ripple-dropdown-dialog .backgroundSelected{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#098CEE), to(#1766DB));
+}
+
+.ripple-dropdown-dialog .item {
+	color:white;
+	padding-left:35px;
+	height:45px;
+	line-height:45px;
+	vertical-align:center;
+}
+
+.ripple-dropdown-dialog .selected {
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAPCAYAAAAGRPQsAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sLDhI4FDHFH/YAAAEJSURBVDjLrdO9SsNQFMDx/w3euSUkDxApltLsUnURfQuxOHSQUmJQfA9BxMEPpOCouKlFaDvVtVhfwa52sMslXCdLbgTxNj3TmX6cTxGUKuSJ5SDQtdoqd/cPLOWByuUVfdu+xnVdfN/DWQSUJAnD4dt8WBaK4iO6vb5wFgE9PnUEYFdZGlJKGZAVloXiw2MDAnCklEStpt5YX9N5IACnvruj44MWVxfnbG9t6nkhAGcweOVzMkFKydnpiQHaQAAiKFUIw6pu31xSLBRQSrHfjPgYj8kO+7nzIv6aq/h5pyz4NZ3O8v9AxjZHo3dR32vMWraFfp1GGrSFjDbTEYZV7Xse3V5f2Bz1N0W6rXbndMo2AAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
 
 /* ================================================= 
    Not sure if these are needed anymore

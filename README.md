@@ -227,28 +227,42 @@ The control is then added by adding another &lt;div&gt;.  In this example we are
 		</div>
 	</div>
 
-## Buttons
+## Buttons and Dropdowns
 
 ![Control Panel](bbUI.js/raw/master/screenshots/buttons.png)
 
-Buttons can be used pretty much anywhere.  Creating a button starts by creating a &lt;div&gt; with the **data-bb-type="button"** attribute. By default a button 
+Buttons and Dropdowns can be used pretty much anywhere.  Creating a button starts by creating a &lt;div&gt; with the **data-bb-type="button"** attribute. By default a button 
 will size itself to the text used for the caption.  You can however use the **data-bb-style="stretch"** setting for a button to make it stretch to the total width of
 the container where it is embedded.  I wouldn't recommend using the "stretch" capability if you use a button in a Label/Control row.
 
-To add a click handler to the button simply add an onclick event to the &lt;div&gt;.
+To add a click handler to the button simply add an "onclick" event to the &lt;div&gt;.
+
+	<div data-bb-type="screen">
+		<div data-bb-type="panel-header">Font</div>
+		   <div data-bb-type="label-control-horizontal-row">
+			   <div data-bb-type="label">Font Style:</div>
+			   <div data-bb-type="button" onclick="alert('click');">Plain</div>
+		   </div>
+		</div>
+	</div>
+	
+Dropdowns are created by adding a &lt;select&gt; element to your screen.  You can also set the **data-bb-style="stretch"** attribute to the &lt;select&gt; to have it stretch 
+to the width of its container.  Add an "onchange" event to your &lt;select&gt; element to capture when the user changes their selection.  To specify the default
+selected item when the control first shows you can can use the **selected="true"** attribute on the desired &lt;option&gt; element.
 
 	<div data-bb-type="screen">
 		<div data-bb-type="panel-header">Font</div>
 			<div style="margin-bottom:4px;">
 			   <div data-bb-type="label"> Font Family:</div>
-			   <div data-bb-type="button" data-bb-style="stretch">BBAlpha Sans</div>
-		   </div>
-		   <div data-bb-type="label-control-horizontal-row">
-			   <div data-bb-type="label">Font Size:</div>
-			   <div data-bb-type="button" onclick="alert('click');">7</div>
+			   <select data-bb-style="stretch" onchange="alert('changed')" >
+					<option value="bbalphasans" selected="true">BBAlpha Sans</option>
+					<option value="arial">Arial</option>
+					<option value="andalemono">Andale Mono</option>
+			   </select>
 		   </div>
 		</div>
 	</div>
+
 
 ## Arrow Lists
 
@@ -390,6 +404,7 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 * [Trackpad performance for scrolling is less than desirable on BB6/BB7](https://github.com/blackberry/WebWorks/issues/49)
 * There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
 * Pill Buttons do not currently keep their &quot;selected&quot; state when pressed
+* Dropdown button popups can currently only be interacted with using the touch screen for selection and not with the trackpad
 
 **BB5**
 
@@ -401,3 +416,4 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 * Input boxes are not aligning properly in the rounded panels and have not been styled
 * There are various back button issues
 * Focus based navigation mode can get confused when navigating between screens
+* Dropdown buttons do not work

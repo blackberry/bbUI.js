@@ -17,14 +17,29 @@
 <div data-bb-type="screen" data-bb-title="Screen Display" data-bb-effect="fade">
 	<div data-bb-type="round-panel" id="mainList"> 
 		<div data-bb-type="panel-header">Font</div>
-		<div style="margin-bottom:4px;">
+		<div style="margin:3px;">
 		   <div data-bb-type="label"> Font Family:</div>
-		   <div data-bb-type="button" x-blackberry-initialFocus="true" data-bb-style="stretch">BBAlpha Sans</div>
+		   <select data-bb-style="stretch" onchange="alert('Changed to value ' + this.options[this.selectedIndex].text)">
+				<option value="bbalphasans" selected="true">BBAlpha Sans</option>
+				<option value="arial">Arial</option>
+				<option value="andalemono">Andale Mono</option>
+		   </select>
 	   </div>
 	   <div data-bb-type="label-control-container">
 		   <div data-bb-type="row">
 			   <div data-bb-type="label">Font Size:</div>
-			   <div data-bb-type="button">7</div>
+			   <select>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option selected="true" value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+			   </select>
 		   </div>
 			<div data-bb-type="row">
 			   <div data-bb-type="label">Font Style:</div>
@@ -32,10 +47,13 @@
 		   </div>
 		   <div data-bb-type="row">
 			   <div data-bb-type="label">Font Smoothing:</div>
-			   <div data-bb-type="button">On</div>
+			   <select>
+					<option value="on" selected="true">On</option>
+					<option value="off">Off</option>
+			   </select>
 		   </div>
 	   </div>
-	   <div>
+	   <div style="margin:3px;">
 		   <div data-bb-type="label">Sample:</div>
 		   <div style="margin-left:10px;margin-right:10px;font-size:15pt">The quick brown fox jumps over the lazy dog.</div>
 		   <div data-bb-type="button" data-bb-style="stretch" >Restore Default</div>
