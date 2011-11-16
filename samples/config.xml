@@ -31,4 +31,5 @@
   <feature id="blackberry.ui.menu" />
   <feature id="blackberry.identity" />
   <feature id="blackberry.system.event" />
+  <feature id="blackberry.app" />
 </widget>

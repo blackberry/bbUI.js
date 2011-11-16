@@ -55,6 +55,7 @@ To properly use the functionality of bbUI in your application, you will need at 
 	  <content src="mystartpage.htm" />
 	  <rim:navigation mode="focus" />
 	  <feature id="blackberry.system.event" />
+	  <feature id="blackberry.app" />
 	</widget>
 
 ## Managing Screens
@@ -398,7 +399,6 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 **General**
 
 * Tabs are not working in the samples
-* Back Button when on the main screen does not exit the app
 
 **BB6/BB7**
 

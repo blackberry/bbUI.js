@@ -18,12 +18,11 @@ bb = {
 	screens: [], 
 	
 	// Assign any listeners we need to make the bbUI framework function
-	assignBackHandler: function(callback) {
+	assignHandlers: function() {
 		if (blackberry) {
-			blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, callback);
+			blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.popScreen);
 		}
 	},
-	
 	
 	doLoad: function(element) {
 		// Apply our styling
@@ -995,7 +994,9 @@ bb = {
 }
 
 
-bb.assignBackHandler(bb.popScreen);
+//addEventListener("DOMContentLoaded", bb.assignHandlers, false)
+
+setTimeout("bb.assignHandlers()", 200);
 
 
 
