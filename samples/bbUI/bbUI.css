@@ -117,6 +117,21 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
 }
 
+.bb-bb7-button-disabled {
+	border-width:1px;
+	border-color:#BDBEBD;
+	border-style: solid;
+	color: #636563;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	padding-left: 15px;
+	padding-right: 15px;
+	display: table-cell;
+	border-radius:5px;
+	background-color: #BDBEBD;
+}
+
 .bb-bb7-button-hires {
 	line-height:54px;
 	height:54px;

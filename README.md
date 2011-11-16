@@ -239,13 +239,19 @@ Buttons and Dropdowns can be used pretty much anywhere.  Creating a button start
 will size itself to the text used for the caption.  You can however use the **data-bb-style="stretch"** setting for a button to make it stretch to the total width of
 the container where it is embedded.  I wouldn't recommend using the "stretch" capability if you use a button in a Label/Control row.
 
+You can disable in your initial markup by setting the **data-bb-disabled="true"** attribute.  When you want to dynamically change the state of your button you can
+call it&apos;s **enable()** and **disable()** functions.
+
+	document.getElementById('plain').enable();
+	document.getElementById('plain').disable();
+
 To add a click handler to the button simply add an "onclick" event to the &lt;div&gt;.
 
 	<div data-bb-type="screen">
 		<div data-bb-type="panel-header">Font</div>
 		   <div data-bb-type="label-control-horizontal-row">
 			   <div data-bb-type="label">Font Style:</div>
-			   <div data-bb-type="button" onclick="alert('click');">Plain</div>
+			   <div data-bb-type="button" onclick="alert('click');" id="plain">Plain</div>
 		   </div>
 		</div>
 	</div>
@@ -399,6 +405,7 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 **General**
 
 * Tabs are not working in the samples
+* No disabled dropdowns yet
 
 **BB6/BB7**
 
@@ -418,3 +425,4 @@ last to create the rounded ends of the pill button UI.  To handle the click of t
 * There are various back button issues
 * Focus based navigation mode can get confused when navigating between screens
 * Dropdown buttons do not work
+* Disabled buttons are not supported

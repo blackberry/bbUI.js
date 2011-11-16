@@ -43,7 +43,7 @@
 		   </div>
 			<div data-bb-type="row">
 			   <div data-bb-type="label">Font Style:</div>
-			   <div data-bb-type="button">Plain</div>
+			   <div id="fontstyle" data-bb-type="button" data-bb-disabled="true" onclick="alert('clicked Plain');">Plain</div>
 		   </div>
 		   <div data-bb-type="row">
 			   <div data-bb-type="label">Font Smoothing:</div>
@@ -56,7 +56,7 @@
 	   <div style="margin:3px;">
 		   <div data-bb-type="label">Sample:</div>
 		   <div style="margin-left:10px;margin-right:10px;font-size:15pt">The quick brown fox jumps over the lazy dog.</div>
-		   <div data-bb-type="button" data-bb-style="stretch" >Restore Default</div>
+		   <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontstyle').enable();">Restore Default</div>
 	   </div>
 	</div>
 
