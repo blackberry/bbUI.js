@@ -21,7 +21,6 @@ function loadPushListeners() {
 }
 
 function unloadPushListeners() {
-	alert('unload push listener');
 	blackberry.message.sms.removeReceiveListener();
 	
 }

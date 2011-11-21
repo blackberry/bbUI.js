@@ -88,9 +88,6 @@ bb = {
 		container.setAttribute('id', id);
 		container.innerHTML = newScreen;
 		
-		// Load in the new content
-		document.body.appendChild(container);
-		
 		// Add any Java Script files that need to be included
 		var scriptIds = [];
 		var scripts = container.getElementsByTagName('script');
@@ -123,6 +120,8 @@ bb = {
 							bb.onscreenready(container, container.getAttribute('id'));
 						}
 						bb.doLoad(container);
+						// Load in the new content
+						document.body.appendChild(container);
 					}
 				};
 			}	
@@ -131,6 +130,8 @@ bb = {
 		// In case there are no scripts at all we simply doLoad() now
 		if(bb.screen.totalScripts == 0) {
 			bb.doLoad(container);
+			// Load in the new content
+			document.body.appendChild(container);
 		}
 		return container;
 	},
@@ -500,7 +501,7 @@ bb = {
 						outerElement.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
 					}
 					
-					
+									
 					// Trap the click and call it only if the button is enabled
 					outerElement.trappedClick = outerElement.onclick;
 					outerElement.onclick = undefined;	
