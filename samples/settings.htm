@@ -18,8 +18,8 @@
 	<div data-bb-type="round-panel" id="mainList"> 
 		<div data-bb-type="panel-header">Font</div>
 		<div style="margin:3px;">
-		   <div data-bb-type="label"> Font Family:</div>
-		   <select data-bb-style="stretch" onchange="alert('Changed to value ' + this.options[this.selectedIndex].text)">
+		   <div data-bb-type="label">Font Family:</div>
+		   <select data-bb-style="stretch" onchange="alert('Changed to value ' + this.options[this.selectedIndex].text)" id="fontFamily">
 				<option value="bbalphasans" selected="true">BBAlpha Sans</option>
 				<option value="arial">Arial</option>
 				<option value="andalemono">Andale Mono</option>
@@ -65,7 +65,7 @@
 		<div data-bb-type="label-control-container">
 			<div data-bb-type="row">
 			   <div data-bb-type="label">Backlight Brightness:</div>
-			   <div data-bb-type="button">100</div>
+			   <div data-bb-type="button" onclick="document.getElementById('fontFamily').setValue('andalemono')">100</div>
 		   </div>
 		   <div data-bb-type="row">
 			   <div data-bb-type="label">Backlight Timeout:</div>

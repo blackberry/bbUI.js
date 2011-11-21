@@ -81,7 +81,37 @@ be invoked when the back button is clicked.  It is then up to you to handle all 
 		</head>
 		<body onload="bb.pushScreen('menu.htm', 'menu');">	
 		</body>
-	</html
+	</html>
+	
+You can also be notified when your screen, and all associated &lt;script&gt;> tags, are loaded and ready for manipulation.  The screen is still not contained in the DOM of the page 
+at this point, but can be manipulated to modify its contents before the bbUI styling is applied. This minimizes layouts which are very expensive.
+
+To subscribe to this event simply assign a function to the **bb.onscreenready** event.  You should make this subscription globally in your application and assign it only once.  The 
+function will be called with the DOM element of your screen, and the id you have specified for that screen so that you can apply any screen specific changes.
+
+	<html>
+		<head>
+			<meta name="x-blackberry-defaultHoverEffect" content="false" />
+			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
+			<link  rel="stylesheet" type="text/css" href="bbUI/bbUI.css"></link>
+			<script type="text/javascript" src="bbUI/bbUI.js"></script>
+			<script type="text/javascript">
+			
+				bb.onscreenready = function(element, id) {
+						if (id == 'menu') {
+							do_Menu_Specific_Loading_From_Loaded_Script_File();
+						} else if (id == 'foo') {
+							do_Foo_Specific_Loading_From_Foos_Loaded_Script_File();
+						}
+					}
+			</script>
+		</head>
+		<body onload="bb.pushScreen('menu.htm', 'menu');">	
+		</body>
+	</html>
+	
+Since all of the script files for the specific screen are loaded before the **onscreenready** event is fired, you can place all your screen specific logic in those files
+and only have one **onscreenready** global handler to act as the "traffic cop".
 	
 ## Defining a Screen
 
@@ -263,7 +293,7 @@ selected item when the control first shows you can can use the **selected="true"
 	<div data-bb-type="screen">
 		<div data-bb-type="panel-header">Font</div>
 		   <div data-bb-type="label"> Font Family:</div>
-		   <select data-bb-style="stretch" onchange="alert('changed')" >
+		   <select data-bb-style="stretch" onchange="alert('changed')" id="fontfamily">
 				<option value="bbalphasans" selected="true">BBAlpha Sans</option>
 				<option value="arial">Arial</option>
 				<option value="andalemono">Andale Mono</option>
@@ -271,6 +301,13 @@ selected item when the control first shows you can can use the **selected="true"
 		</div>
 	</div>
 
+To select an item in a dropdown from JavaScript you can use the **setValue()** function that has been added to the &lt;select&gt; object. In many browsers, the **onchange** event
+is not fired on a &lt;select&gt; if the value is set from JavaScript.  Only if it is set from the interaction with the UI.  Because of this bbUI cannot listen to the change made 
+from outside JavaScript and apply the styling in the UI. When you call the **setValue()** method, the **onchange** of the select will also fire.
+
+An example of how to set the value of the &lt;select&gt; element seen in the above sample is as follows:
+
+		document.getElementById('fontfamily').setValue('arial');
 
 ## Arrow Lists
 

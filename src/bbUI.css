@@ -117,6 +117,21 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
 }
 
+.bb-bb7-button-disabled {
+	border-width:1px;
+	border-color:#BDBEBD;
+	border-style: solid;
+	color: #636563;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	padding-left: 15px;
+	padding-right: 15px;
+	display: table-cell;
+	border-radius:5px;
+	background-color: #BDBEBD;
+}
+
 .bb-bb7-button-hires {
 	line-height:54px;
 	height:54px;
@@ -169,6 +184,12 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
 }
 
+.bb-bb7-dropdown.dropdown-stretch div[data-bb-type="caption"] span {
+	overflow: hidden;
+	padding-right:40px;
+	display: block;
+}
+
 .bb-bb7-dropdown div {
 	padding-right: 25px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAHCAYAAAA8sqwkAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sLDg41JLeOCwMAAACLSURBVBjTjY1NCsIwFITn1d27QigEs60niI10pW4UvKf0CMWgJ2i3kdxkXFloQOk3u/lh5Hg6cxonrKHZNahUFWtRVQhBHELHlNLfsnMOjziIEAQAhNDx/WO0dQ4xDgIA8wAA9j4w57woW2vxfEWZDRbyvqUxNY2p6X3LMl88fLlebqw2gr6/S5l9AEmQPAvlqOifAAAAAElFTkSuQmCC");
@@ -208,7 +229,13 @@ body, html {
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAHCAYAAAA8sqwkAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sLDg41LyBc0osAAACaSURBVBjTjY0hC8JgGITv1emCVcaSTQcLNrFZNPoX/RGCVYNNZliQwRQWTGPYBvIy8TuTg32I7K7dc8fJZntm6L3QRknRg1OxD9fttBpUdCAEsTumHHv/y7cCWC8CEYIAgH10Z+D/fkpzg+VsJABQDwDglDw48buN8jV/Yx4OpQ5oOc5KqipVlXFW0uaNh68OlyeNIVbTgdjsA+l3TCWqdAgEAAAAAElFTkSuQmCC");
 	background-repeat: no-repeat;
 	background-position: center right;
-}
+}	
+
+.bb-bb7-dropdown-highlight.dropdown-stretch div[data-bb-type="caption"] span {
+		overflow: hidden;
+		padding-right:40px;
+		display: block;
+	}
 
 .dropdown-stretch{
 	display:block;
@@ -1259,6 +1286,12 @@ a.bb5-button-highlight span {
 	height:45px;
 	line-height:45px;
 	vertical-align:center;
+}
+
+.ripple-dropdown-dialog .item span {
+	overflow: hidden;
+	height: 45px;
+	display: block;	
 }
 
 .ripple-dropdown-dialog .selected {

@@ -21,7 +21,9 @@ function loadPushListeners() {
 }
 
 function unloadPushListeners() {
+	alert('unload push listener');
 	blackberry.message.sms.removeReceiveListener();
+	
 }
 
 function onSMS(message, sender, dateTime) {
@@ -32,20 +34,18 @@ function onSMS(message, sender, dateTime) {
 function insertText(data, direction) {
 	var topContent = document.getElementById('chatWindow');
 	var newEntry= document.createElement('div');
-	newEntry.setAttribute('x-bb-type', 'bbm-bubble');
-	newEntry.setAttribute('x-bb-style', direction);
+	newEntry.setAttribute('data-bb-type', 'bbm-bubble');
+	newEntry.setAttribute('data-bb-style', direction);
 	var text = document.createElement('div');
 	newEntry.appendChild(text);
-	text.setAttribute('x-bb-type', 'item');
-	text.setAttribute('x-bb-img', 'images/bbmBubbles/bullet.png');
+	text.setAttribute('data-bb-type', 'item');
+	text.setAttribute('data-bb-img', 'images/bbmBubbles/bullet.png');
 	text.innerHTML = data;
 	
 	topContent.appendChild(newEntry);
-	var elements = new Array();
+	var elements = [];
 	elements.push(newEntry);
 	bb.bbmBubble.apply(elements);
-	var scrollPos = newEntry.offsetTop + newEntry.style.height;
-	topContent.scrollTo(0, scrollPos);
 }
 
 loadPushListeners();

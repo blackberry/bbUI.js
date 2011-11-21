@@ -18,9 +18,9 @@ bb = {
 	screens: [], 
 	
 	// Assign any listeners we need to make the bbUI framework function
-	assignHandlers: function() {
+	assignBackHandler: function(callback) {
 		if (blackberry) {
-			blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.popScreen);
+			blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, callback);
 		}
 	},
 	
@@ -50,7 +50,6 @@ bb = {
 		// perform device specific formatting
 		bb.screen.reAdjustHeight();
 	},
-	
 	
 	// Contains all device information
 	device: {
@@ -88,20 +87,14 @@ bb = {
 		var container = document.createElement('div');
 		container.setAttribute('id', id);
 		container.innerHTML = newScreen;
-		// Apply our styling and insert into the dom
-		bb.doLoad(container);
-		return container;
-	},
-	
-	
-	
-	// Add a new screen to the stack
-	pushScreen : function (url, id) {					
-		var container = bb.loadScreen(url, id);
+		
+		// Load in the new content
+		document.body.appendChild(container);
 		
 		// Add any Java Script files that need to be included
 		var scriptIds = [];
 		var scripts = container.getElementsByTagName('script');
+		container.scriptIds = scriptIds;
 		var newScriptTags = [];
 		for (var i = 0; i < scripts.length; i++) {
 			var bbScript = scripts[i];
@@ -115,19 +108,42 @@ bb = {
 			bbScript.parentNode.removeChild(bbScript);
 		}
 		
-		// Load in the new content
-		document.body.appendChild(container);
-		
-		// Special handling for inserting script tags
+		// Special handling for inserting script tags		
+		bb.screen.scriptCounter = 0;
+		bb.screen.totalScripts = newScriptTags.length;
 		for (var i = 0; i < newScriptTags.length; i++) {
 			var head = document.getElementsByTagName('head');
 			if (head.length > 0 ) {
 				head[0].appendChild(newScriptTags[i]);
+				newScriptTags[i].onload = function() {
+					bb.screen.scriptCounter++;
+					if(bb.screen.scriptCounter == bb.screen.totalScripts) {
+						// When we have scripts we fire the onscreenready and then apply our changes in doLoad()
+						if (bb.onscreenready) { 
+							bb.onscreenready(container, container.getAttribute('id'));
+						}
+						bb.doLoad(container);
+					}
+				};
 			}	
 		}
 		
+		// In case there are no scripts at all we simply doLoad() now
+		if(bb.screen.totalScripts == 0) {
+			bb.doLoad(container);
+		}
+		return container;
+	},
+	
+
+	// Add a new screen to the stack
+	pushScreen : function (url, id) {					
+		
+		bb.removeLoadedScripts();
+		var container = bb.loadScreen(url, id);
+		
 		// Add our screen to the stack
-		bb.screens.push({'id' : id, 'url' : url, 'scripts' : scriptIds});
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
 		
 		// Remove the old screen
 		var numItems = bb.screens.length;
@@ -142,16 +158,36 @@ bb = {
 	
 	// Pop a screen from the stack
 	popScreen: function() {
+		
 		var numItems = bb.screens.length;
 		if (numItems > 1) {
-			// pop the old item
+			bb.removeLoadedScripts();
 			var currentStackItem = bb.screens[numItems-1];
 			var current = document.getElementById(currentStackItem.id);
+			document.body.removeChild(current);
 			bb.screens.pop();
-
+			
 			// Retrieve our new screen
 			var display = bb.screens[numItems-2];
 			var container = bb.loadScreen(display.url, display.id);
+			
+			window.scroll(0,0);
+			bb.screen.applyEffect(display.id, container);
+			
+		} else {
+			if (blackberry) {
+				blackberry.app.exit();
+			}
+		}
+		
+	},
+	
+	removeLoadedScripts: function() {
+		// pop the old item
+		var numItems = bb.screens.length;
+		if (numItems > 0) {
+			var currentStackItem = bb.screens[numItems-1];
+			var current = document.getElementById(currentStackItem.id);
 
 			// Remove any JavaScript files
 			for (var i = 0; i < currentStackItem.scripts.length; i++) {
@@ -166,22 +202,13 @@ bb = {
 					head[0].removeChild(scriptTag);
 				}	
 			}
-			// Apply dom changes
-			document.body.appendChild(container);
-			document.body.removeChild(current);
-
-			window.scroll(0,0);
-			bb.screen.applyEffect(display.id, container);
-			
-		} else {
-			if (blackberry) {
-				blackberry.app.exit();
-			}
 		}
-		
 	},
 	
 	screen: {
+		scriptCounter:  0,
+		totalScripts: 0,
+		
 		apply: function(elements) {
 			for (var i = 0; i < elements.length; i++) {
 				var outerElement = elements[i];
@@ -567,7 +594,7 @@ bb = {
 					
 					// Create our new dropdown button
 					var dropdown = document.createElement('div');
-					dropdown.innerHTML = '<div data-bb-type="caption">' + caption + '</div>';
+					dropdown.innerHTML = '<div data-bb-type="caption"><span>' + caption + '</span></div>';
 					
 					var normal = 'bb-bb7-dropdown';
 					var highlight = 'bb-bb7-dropdown-highlight';
@@ -594,6 +621,25 @@ bb = {
 					dropdown.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
 					outerElement.parentNode.insertBefore(dropdown, outerElement);
 					dropdown.appendChild(outerElement);
+					
+					// Assign our functions to be able to set the value
+					outerElement.dropdown = dropdown;
+					outerElement.setValue = function(value) {
+						var select = this.dropdown.getElementsByTagName('select')[0];
+						if (select && select.value != value) {
+							select.value = value;
+							// Change our button caption
+							var caption = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
+							if (caption) {
+								caption.innerHTML = '<span>' + select.options[select.selectedIndex].text + '</span>';
+							}
+							// Raise the DOM event
+							var evObj = document.createEvent('HTMLEvents');
+							evObj.initEvent('change', false, true );
+							select.dispatchEvent(evObj);
+						}	
+					
+					}					
 					
 					// Set our click handler
 					dropdown.onclick = function() {
@@ -637,27 +683,19 @@ bb = {
 										option.setAttribute('class', 'item');
 										highlight.setAttribute('class','backgroundHighlight');
 									}
-									option.innerHTML = item.text;
+
+									option.innerHTML = '<span>' + item.text + '</span>';
 									option.setAttribute('x-blackberry-focusable','true');
 									option.setAttribute('data-bb-value', item.getAttribute('value'));
 									// Assign our dropdown for when the item is clicked
 									option.dropdown = this;
 									option.onclick = function() {
 										var value = this.getAttribute('data-bb-value');
-										// Retrieve our select
+										// Retrieve our select										
 										var select = this.dropdown.getElementsByTagName('select')[0];
-										if (select && select.value != value) {
-											select.value = value;
-											// Change our button caption
-											var caption = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
-											if (caption) {
-												caption.innerHTML = select.options[select.selectedIndex].text;
-											}
-											// Raise the DOM event
-											var evObj = document.createEvent('HTMLEvents');
-											evObj.initEvent('change', false, true );
-											select.dispatchEvent(evObj);
-										}	
+										if (select) {
+											select.setValue(value);
+										}
 									}
 									// Add to the DOM
 									highlight.appendChild(option);	
@@ -1012,7 +1050,7 @@ bb = {
 		apply: function(elements) {
 			for (var i = 0; i < elements.length; i++) {
 				var outerElement = elements[i];
-				
+					
 				if (outerElement.hasAttribute('data-bb-style')) {
 					var style = outerElement.getAttribute('data-bb-style').toLowerCase();
 					if (style == 'left')
@@ -1066,10 +1104,8 @@ bb = {
 	
 }
 
-
-//addEventListener("DOMContentLoaded", bb.assignHandlers, false)
-
-setTimeout("bb.assignHandlers()", 200);
+// Load our back handler
+bb.assignBackHandler(bb.popScreen);
 
 
 
