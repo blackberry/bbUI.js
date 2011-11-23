@@ -122,6 +122,8 @@ bb = {
 						bb.doLoad(container);
 						// Load in the new content
 						document.body.appendChild(container);
+						window.scroll(0,0);
+						bb.screen.applyEffect(id, container);	
 					}
 				};
 			}	
@@ -129,9 +131,14 @@ bb = {
 		
 		// In case there are no scripts at all we simply doLoad() now
 		if(bb.screen.totalScripts == 0) {
+			if (bb.onscreenready) { 
+				bb.onscreenready(container, container.getAttribute('id'));
+			}
 			bb.doLoad(container);
 			// Load in the new content
 			document.body.appendChild(container);
+			window.scroll(0,0);
+			bb.screen.applyEffect(id, container);	
 		}
 		return container;
 	},
@@ -140,21 +147,17 @@ bb = {
 	// Add a new screen to the stack
 	pushScreen : function (url, id) {					
 		
+		// Remove our old screen
 		bb.removeLoadedScripts();
-		var container = bb.loadScreen(url, id);
-		
-		// Add our screen to the stack
-		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
-		
-		// Remove the old screen
 		var numItems = bb.screens.length;
-		if (numItems > 1) {
-			var oldScreen = document.getElementById(bb.screens[numItems -2].id);
+		if (numItems > 0) {
+			var oldScreen = document.getElementById(bb.screens[numItems -1].id);
 			document.body.removeChild(oldScreen);
 		}
 		
-		window.scroll(0,0);
-		bb.screen.applyEffect(id, container);	
+		// Add our screen to the stack
+		var container = bb.loadScreen(url, id);
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
 	},
 	
 	// Pop a screen from the stack
