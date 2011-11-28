@@ -19,7 +19,7 @@ bb = {
 	
 	// Assign any listeners we need to make the bbUI framework function
 	assignBackHandler: function(callback) {
-		if (blackberry) {
+		if (blackberry.system.event.onHardwareKey) {
 			blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, callback);
 		}
 	},
@@ -83,20 +83,20 @@ bb = {
 		xmlhttp.open("GET",url,false);
 		xmlhttp.send();
 		// generate our screen content
-		var newScreen = xmlhttp.responseText;
-		var container = document.createElement('div');
+		var newScreen = xmlhttp.responseText,
+			container = document.createElement('div');
 		container.setAttribute('id', id);
 		container.innerHTML = newScreen;
 		
 		// Add any Java Script files that need to be included
-		var scriptIds = [];
-		var scripts = container.getElementsByTagName('script');
+		var scriptIds = [],
+			scripts = container.getElementsByTagName('script'),
+			newScriptTags = [];
 		container.scriptIds = scriptIds;
-		var newScriptTags = [];
 		for (var i = 0; i < scripts.length; i++) {
-			var bbScript = scripts[i];
+			var bbScript = scripts[i],
+				scriptTag = document.createElement('script');
 			scriptIds.push({'id' : bbScript.getAttribute('id'), 'onunload': bbScript.getAttribute('onunload')});
-			var scriptTag = document.createElement('script');
 			scriptTag.setAttribute('type','text/javascript');
 			scriptTag.setAttribute('src', bbScript.getAttribute('src'));
 			scriptTag.setAttribute('id', bbScript.getAttribute('id'));
@@ -166,14 +166,14 @@ bb = {
 		var numItems = bb.screens.length;
 		if (numItems > 1) {
 			bb.removeLoadedScripts();
-			var currentStackItem = bb.screens[numItems-1];
-			var current = document.getElementById(currentStackItem.id);
+			var currentStackItem = bb.screens[numItems-1],
+				current = document.getElementById(currentStackItem.id);
 			document.body.removeChild(current);
 			bb.screens.pop();
 			
 			// Retrieve our new screen
-			var display = bb.screens[numItems-2];
-			var container = bb.loadScreen(display.url, display.id);
+			var display = bb.screens[numItems-2],
+				container = bb.loadScreen(display.url, display.id);
 			
 			window.scroll(0,0);
 			bb.screen.applyEffect(display.id, container);
@@ -190,18 +190,18 @@ bb = {
 		// pop the old item
 		var numItems = bb.screens.length;
 		if (numItems > 0) {
-			var currentStackItem = bb.screens[numItems-1];
-			var current = document.getElementById(currentStackItem.id);
+			var currentStackItem = bb.screens[numItems-1],
+				current = document.getElementById(currentStackItem.id);
 
 			// Remove any JavaScript files
 			for (var i = 0; i < currentStackItem.scripts.length; i++) {
-				var bbScript = currentStackItem.scripts[i];
-				var scriptTag = document.getElementById(bbScript.id);
+				var bbScript = currentStackItem.scripts[i],
+					scriptTag = document.getElementById(bbScript.id),
+					head = document.getElementsByTagName('head');
 				// Call the unload function if any is defined
 				if (bbScript.onunload) {
 					eval(bbScript.onunload);
 				}
-				var head = document.getElementsByTagName('head');
 				if (head.length > 0 ) {
 					head[0].removeChild(scriptTag);
 				}	
@@ -220,8 +220,8 @@ bb = {
 					outerElement.setAttribute('class', 'bb-hires-screen');
 				}
 				if (outerElement.hasAttribute('data-bb-title')) {
-					var outerStyle = outerElement.getAttribute('style'); 
-					var title = document.createElement('div');
+					var outerStyle = outerElement.getAttribute('style'),
+						title = document.createElement('div');
 					if (bb.device.isHiRes) {
 						title.setAttribute('class', 'bb-hires-screen-title');
 						outerElement.setAttribute('style', outerStyle + ';padding-top:33px');
@@ -242,14 +242,14 @@ bb = {
 		
 		fadeIn: function (params) {
 			// set default values
-			var r = 0;
-			var duration = 1;
-			var iteration = 1;
-			var timing = 'ease-out';
+			var r = 0,
+				duration = 1,
+				iteration = 1,
+				timing = 'ease-out';
 
 			if (document.getElementById(params.id)) {
-				var elem = document.getElementById(params.id);
-				var s = elem.style;
+				var elem = document.getElementById(params.id),
+					s = elem.style;
 
 				if (params.random) {
 					r = Math.random() * (params.random / 50) - params.random / 100;
@@ -324,10 +324,10 @@ bb = {
 					var outerElement = elements[i];
 					outerElement.setAttribute('class','bb-round-panel');
 					if (outerElement.hasChildNodes()) {
-						var innerElements = new Array();
+						var innerElements = new Array(),
+							innerCount = outerElement.childNodes.length;
 						// Grab the internal contents so that we can add them
 						// back to the massaged version of this div
-						var innerCount = outerElement.childNodes.length;
 						for (var j = 0; j < innerCount; j++) {
 							innerElements.push(outerElement.childNodes[j]);
 						}	
@@ -390,11 +390,11 @@ bb = {
 				// Gather our inner items
 				var items = outerElement.querySelectorAll('[data-bb-type=item]');
 				for (var j = 0; j < items.length; j++) {
-					var innerChildNode = items[j];
+					var innerChildNode = items[j],
+						text = innerChildNode.innerHTML;
 					innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-text-arrow-list-item-hover')");
 					innerChildNode.setAttribute('onmouseout', "this.setAttribute('class','bb-text-arrow-list-item')");
 					innerChildNode.setAttribute('x-blackberry-focusable','true');
-					var text = innerChildNode.innerHTML;
 					
 					innerChildNode.innerHTML = '<span class="bb-text-arrow-list-item-value">'+ text + '</span>' +
 											'<div class="bb-arrow-list-arrow"></div>';
@@ -419,8 +419,8 @@ bb = {
 				}
 			} else {
 				for (var i = 0; i < elements.length; i++) {
-					var outerElement = elements[i];
-					var style = 'bb-bb7-input';
+					var outerElement = elements[i],
+						style = 'bb-bb7-input';
 					
 					if (bb.device.isHiRes) {
 						style = style + ' bb-bb7-input-hires';
@@ -444,10 +444,10 @@ bb = {
 		
 			if (bb.device.isBB5()) {
 				for (var i = 0; i < elements.length; i++) {
-					var outerElement = elements[i];
-					var caption = outerElement.innerHTML;
-					var normal = 'bb5-button';
-					var highlight = 'bb5-button-highlight';
+					var outerElement = elements[i],
+						caption = outerElement.innerHTML,
+						normal = 'bb5-button',
+						highlight = 'bb5-button-highlight';
 
 					/*if (outerElement.hasAttribute('data-bb-style')) {
 						var style = outerElement.getAttribute('data-bb-style');
@@ -471,11 +471,12 @@ bb = {
 				}
 			} else {
 				for (var i = 0; i < elements.length; i++) {
-					var outerElement = elements[i];
-					var disabled = outerElement.hasAttribute('data-bb-disabled');
+					var outerElement = elements[i],
+						disabled = outerElement.hasAttribute('data-bb-disabled'),
+						normal = 'bb-bb7-button',
+						highlight = 'bb-bb7-button-highlight';
+						
 					outerElement.enabled = !disabled;
-					var normal = 'bb-bb7-button';
-					var highlight = 'bb-bb7-button-highlight';
 					
 					if (disabled) {
 						normal = 'bb-bb7-button-disabled';
@@ -519,8 +520,8 @@ bb = {
 					// Assign our enable function
 					outerElement.enable = function(){
 							if (this.enabled) return;
-							var normal = 'bb-bb7-button';
-							var highlight = 'bb-bb7-button-highlight';
+							var normal = 'bb-bb7-button',
+								highlight = 'bb-bb7-button-highlight';
 							
 							if (bb.device.isHiRes) {
 								normal = normal + ' bb-bb7-button-hires';
@@ -581,11 +582,12 @@ bb = {
 				
 			} else {
 				for (var i = 0; i < elements.length; i++) {
-					var outerElement = elements[i];
+					var outerElement = elements[i],
+						options = outerElement.getElementsByTagName('option'),
+						caption = '';
+						
 					outerElement.style.display = 'none';
 					// Get our selected item
-					var options = outerElement.getElementsByTagName('option');
-					var caption = '';
 					if (options.length > 0) {
 						caption = options[0].innerHTML;
 					}
@@ -600,8 +602,8 @@ bb = {
 					var dropdown = document.createElement('div');
 					dropdown.innerHTML = '<div data-bb-type="caption"><span>' + caption + '</span></div>';
 					
-					var normal = 'bb-bb7-dropdown';
-					var highlight = 'bb-bb7-dropdown-highlight';
+					var normal = 'bb-bb7-dropdown',
+						highlight = 'bb-bb7-dropdown-highlight';
 					
 					if (bb.device.isHiRes) {
 						normal = normal + ' bb-bb7-dropdown-hires';
@@ -675,8 +677,8 @@ bb = {
 								
 								// Add our options
 								for (var i = 0; i < select.options.length; i++) {
-									var item = select.options[i];
-									var highlight = document.createElement('div');
+									var item = select.options[i],
+										highlight = document.createElement('div');
 									
 									dialog.appendChild(highlight);
 									var option = document.createElement('div');
@@ -705,8 +707,8 @@ bb = {
 									highlight.appendChild(option);	
 								}
 								
-								var height = (select.options.length * 45) + 20;
-								var maxHeight = window.innerHeight - 80;
+								var height = (select.options.length * 45) + 20,
+									maxHeight = window.innerHeight - 80;
 								if (height > maxHeight) {
 									height = maxHeight;
 									dialog.style.height = maxHeight + 'px';
@@ -751,8 +753,8 @@ bb = {
 						outerElement.insertBefore(table,items[0]);
 						
 						for (var j = 0; j < items.length; j++) {
-							var row = items[j];
-							var tr = document.createElement('tr');
+							var row = items[j],
+								tr = document.createElement('tr');
 							table.appendChild(tr);
 							// Get the label
 							var tdLabel = document.createElement('td');
@@ -825,10 +827,9 @@ bb = {
 				}	
 			} else {
 				for (var i = 0; i < elements.length; i++) {
-					var outerElement = elements[i];
-					
-					var containerStyle = 'bb-bb7-pill-buttons';
-					var buttonStyle = '';
+					var outerElement = elements[i],
+						containerStyle = 'bb-bb7-pill-buttons',
+						buttonStyle = '';
 					
 					// Set our container style
 					if (bb.device.isHiRes) {
@@ -842,9 +843,10 @@ bb = {
 					
 					
 					// Gather our inner items
-					var items = outerElement.querySelectorAll('[data-bb-type=pill-button]');
-					var percentWidth = Math.floor(98 / items.length);
-					var sidePadding = 102-(percentWidth * items.length);
+					var items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
+						percentWidth = Math.floor(98 / items.length),
+						sidePadding = 102-(percentWidth * items.length);
+						
 					outerElement.style['padding-left'] = sidePadding + '%';
 					outerElement.style['padding-right'] = sidePadding + '%';
 					for (var j = 0; j < items.length; j++) {
@@ -921,8 +923,8 @@ bb = {
 				for (var j = 0; j < items.length; j++) {
 					var innerChildNode = items[j];
 					if (innerChildNode.hasAttribute('data-bb-type')) {
-						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
-						var description = innerChildNode.innerHTML;
+						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase(),
+							description = innerChildNode.innerHTML;
 						
 						if (bb.device.isHiRes) {
 							innerChildNode.setAttribute('class', 'bb-hires-image-list-item');
@@ -1019,8 +1021,8 @@ bb = {
 							}
 						}
 						else if (type == 'item') {
-							var description = innerChildNode.innerHTML;
-							var title = innerChildNode.getAttribute('data-bb-title');
+							var description = innerChildNode.innerHTML,
+								title = innerChildNode.getAttribute('data-bb-title');
 							if (innerChildNode.hasAttribute('data-bb-accent') && innerChildNode.getAttribute('data-bb-accent').toLowerCase() == 'true') {
 								title = '<b>' + title + '</b>';
 							}
@@ -1093,8 +1095,8 @@ bb = {
 					outerElement.appendChild(placeholder);
 					// Add our previous children back to the insidePanel
 					for (var j = 0; j < innerElements.length; j++) {
-						var innerChildNode = innerElements[j];
-						var description = innerChildNode.innerHTML;
+						var innerChildNode = innerElements[j],
+							description = innerChildNode.innerHTML;
 						innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n' +
 								'<div class="details">'+ description +'</div>\n';
 						insidePanel.appendChild(innerChildNode); 
