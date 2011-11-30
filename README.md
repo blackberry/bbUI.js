@@ -112,6 +112,9 @@ function will be called with the DOM element of your screen, and the id you have
 	
 Since all of the script files for the specific screen are loaded before the **onscreenready** event is fired, you can place all your screen specific logic in those files
 and only have one **onscreenready** global handler to act as the "traffic cop".
+
+The **getElementById()** function has been added to the element object that is passed into **onscreenready** so that you can manipulate the DOM of the element before it is inserted
+into the document.
 	
 ## Defining a Screen
 

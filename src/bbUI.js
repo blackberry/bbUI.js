@@ -105,6 +105,27 @@ bb = {
 			bbScript.parentNode.removeChild(bbScript);
 		}
 		
+		// Add getElementById for the container so that it can be used in the onscreenready event
+		container.getElementById = function(id, node) {
+				var result = null;
+				if (!node) {
+					node = this;
+				}
+				
+				if ( node.getAttribute('id') == id )
+					return node;
+
+				for ( var i = 0; i < node.childNodes.length; i++ ) {
+					var child = node.childNodes[i];
+					if ( child.nodeType == 1 ) {
+						result = this.getElementById( id, child );
+						if ( result != null )
+							break;
+					}
+				}
+				return result;
+			}
+		
 		// Special handling for inserting script tags		
 		bb.screen.scriptCounter = 0;
 		bb.screen.totalScripts = newScriptTags.length;
