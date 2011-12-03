@@ -431,9 +431,11 @@ Pill Buttons are a &lt;div&gt; with a **data-bb-type="pill-buttons"** attribute.
 a **data-bb-type="pill-button"** attribute. The caption the button is determined by the contents of the &lt;div&gt;.  The bbUI tookit knows which button is first and
 last to create the rounded ends of the pill button UI.  To handle the click of the button simply add an "onclick" handler.
 
+To specify which button should be selected by default simply add the **data-bb-selected="true"** attribute to the default button.
+
 	<div data-bb-type="screen">
 		 <div data-bb-type="pill-buttons">
-			<div data-bb-type="pill-button" onclick="selectContact()">Contact</div>
+			<div data-bb-type="pill-button" data-bb-selected="true" onclick="selectContact()">Contact</div>
 			<div data-bb-type="pill-button" onclick="selectAddress()">Address</div>
 			<div data-bb-type="pill-button" onclick="selectPhone()">Phone</div>
 		 </div>

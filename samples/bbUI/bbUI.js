@@ -874,20 +874,74 @@ bb = {
 						var innerChildNode = items[j];
 						innerChildNode.setAttribute('x-blackberry-focusable','true');
 						if (j == 0) {  // First button
-							innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
-							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
-							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
+							if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
+								innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
+							} else {
+								innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
+								innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
+								innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
+							}
 						} else if (j == items.length -1) { // Right button
-							innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
-							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
-							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
+							if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
+								innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right '+ buttonStyle);
+							} else {
+								innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
+								innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
+								innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
+							}
 						} else { // Middle Buttons
-							innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
-							innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
-							innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
+							if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
+								innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight '+ buttonStyle);
+							} else {
+								innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
+								innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
+								innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
+							}
 						}
 						// Set our width
 						innerChildNode.style.width = percentWidth + '%';
+						// Add our subscription for click events to change highlighting
+						innerChildNode.addEventListener('click',function (e) {
+								var items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
+								for (var j = 0; j < items.length; j++) {
+									var innerChildNode = items[j];
+									
+									if (j == 0) {  // First button
+										if (innerChildNode == this) {
+											innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
+											innerChildNode.onmouseover = null;
+											innerChildNode.onmouseout = null;
+										} else {
+											innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
+											innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
+											innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
+										}
+									} else if (j == items.length -1) { // Right button
+										if (innerChildNode == this) {
+											innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right '+ buttonStyle);
+											innerChildNode.onmouseover = null;
+											innerChildNode.onmouseout = null;
+										} else {
+											innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
+											innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
+											innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
+										}
+									} else { // Middle Buttons
+										if (innerChildNode == this) {
+											innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight '+ buttonStyle);
+											innerChildNode.onmouseover = null;
+											innerChildNode.onmouseout = null;
+										} else {
+											innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
+											innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
+											innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
+										}
+									}
+								}
+								
+							},false);
+						
+						
 					}
 				}			
 			}
