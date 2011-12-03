@@ -453,7 +453,6 @@ To specify which button should be selected by default simply add the **data-bb-s
 
 * [Trackpad performance for scrolling is less than desirable on BB6/BB7](https://github.com/blackberry/WebWorks/issues/49)
 * There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
-* Pill Buttons do not currently keep their &quot;selected&quot; state when pressed
 * Dropdown button popups can currently only be interacted with using the touch screen for selection and not with the trackpad
 
 **BB5**
