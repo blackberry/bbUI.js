@@ -132,7 +132,7 @@ The **data-bb-caption** attribute defines the text to show in this title area.
 		<div data-bb-type="title" data-bb-caption="User Interface Examples" ></div>
 	</div>
 	
-You can also add a **back** button to your title bar that will appear when you display your content on a PlayBook.  To define a back button in your title bar, add the caption of your back button to the
+You can also add a **back** button to your title bar that will **ONLY** appear when you display your content on a PlayBook.  To define a back button in your title bar, add the caption of your back button to the
 **data-bb-back-caption** attribute.
 
 	<div data-bb-type="title" data-bb-caption="User Interface Examples" data-bb-back-caption="Back"></div>
