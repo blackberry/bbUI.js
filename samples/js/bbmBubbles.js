@@ -17,12 +17,15 @@
 
 
 function loadPushListeners() {
-	blackberry.message.sms.addReceiveListener(onSMS);
+	if (blackberry.message) {
+		blackberry.message.sms.addReceiveListener(onSMS);
+	}
 }
 
 function unloadPushListeners() {
-	blackberry.message.sms.removeReceiveListener();
-	
+	if (blackberry.message) {
+		blackberry.message.sms.removeReceiveListener();
+	}
 }
 
 function onSMS(message, sender, dateTime) {

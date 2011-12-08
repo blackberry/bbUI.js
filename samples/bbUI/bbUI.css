@@ -164,6 +164,55 @@ body, html {
 }
 
 /* ================================================= 
+   PlayBook Title Bar
+   =================================================*/
+.pb-title-bar {
+	height:50px;
+	border-bottom:solid #2E2E2E 1px;
+	position:fixed;
+	top:0px;
+	left:0px;
+	right:0px;
+	background-color:#181818;
+	text-align:center;
+	color:#626262;
+	line-height:50px;
+	font-size: 12pt;
+	z-index:1000;
+}
+
+.pb-title-bar-back {
+	position: fixed;
+	border:solid black 1px;
+	top:10px;
+	left:10px;
+	height:30px;
+	line-height:30px;
+	font-size: 12pt; 
+	box-shadow: 0px 1px 0px #2E2E2E; 
+	border-radius:4px;
+	color:white;
+	z-index:1001;
+}
+
+.pb-title-bar-back-hover{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#0dacff), to(#0f75ff));
+	box-shadow: none;
+}
+
+.pb-title-bar-back-inner {
+	border-top: 1px solid #2E2E2E;
+	padding-left:30px;
+	padding-right:10px;
+	border-radius:4px;
+	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAASCAYAAACNdSR1AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sMCBYODUzwDVMAAALNSURBVCjPNcFfaFV1AMDx7+93zu/8zs7d/RNezE1bWy4vN5uFKFdpQWJqLXc369GHMrJR6w9T8kGYzbXKCnqoGK2NRgx6i0ilbKOHWK3VwzIIwqK3qIdk1Mp7/v3O+fXU5yM6e4/4WvuYJEUpF5MlKOUQRv9arUQ21BzYefGTy784bqHlFgvFLI5j8tQgXIfAdwmjDQpt0kyeP1cebB642td3B1NTbwqxpfuQr7Wm1F4gDP8hTjcyKUz++htTlYGHDl5XDpgchoZHhCy3FyOTxFEShVEc3Yi0J9PXLkyODzcPXvccaIVwamyq9vO1X6Gn9iC1vkFu7T1Az45++dGl5fuS3NrQWJtYa08+c26i2tWguz6AK0hJ0xDPy8TE+fHfmkf7O4SFOIHnTp8Z/ezzr6c9VcB1NC4iQUijX3r5xehY8zDCgjHwwtjZ0aXFL+ddFUjlF2i1Ek9mtlV+5cL4wtDwYUxmATg1NvHj5YtfTHtuKVRK5Uka5spzIvHhx1fsseEjSEACT42cnl1aXH7SE2UhXU8mMsQgMiECR27eXCUxKQB/bWywvr6+InCEUtqCzFxHZ57SOFJl8vETJ8W3q2trFiiVSnywMD/f2Le3lueJRBiiKCJPwaSpIx3RzrOjZxpLiytruQXfh5nZt37aeXfvtJUxWnlo3eYKHCl6dtxPnLTwtai+Pz/7557ddbSG8AY8Pfq8WPnmBywa1w2QQhQ6gqDaYYz39/HjJ+qr331PaqGtAG9Pv2ob++/sskROalquBJmmiflDKW19v/3ao489seWr5VVyIAgC3p15Z3VfY/c2KXIpttcHq9ZmaZ6bNunYJDXhuiDVc3PvRff070ICNoeHHxnZRLHcBQiUV5DFylavs3tvZdv2e2XnbfvlpaWrv0fW2rmFT+P6XYc0lU23A4L/SdenVNnKzbfsobbrAc5OztjSTZ11gP8A9IAhyN2oEbQAAAAASUVORK5CYII="); 
+	background-repeat: no-repeat;
+	background-position: 10px 6px;
+}
+   
+   
+
+/* ================================================= 
    BB7 DropDown Buttons
    =================================================*/
 

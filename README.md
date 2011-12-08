@@ -119,18 +119,27 @@ into the document.
 ## Defining a Screen
 
 Creating a screen to be used with bbUI is as simple as creating an HTML file and placing the screen fragment markup in the file.  A screen declaration
-is simply a &lt;div&gt; with an attribute **data-bb-type="screen"**.  You then place all the contents for your screen inside this &lt;div&gt;.  There's also a **data-bb-title**
-attribute where, if defined, a standard black screen title bar will appear showing the declared text.
+is simply a &lt;div&gt; with an attribute **data-bb-type="screen"**.  You then place all the contents for your screen inside this &lt;div&gt;.  
 
 A display effect can also be declared on your screen. Currently only **data-bb-effect="fade"** is supported.  This will fade in your screen when it displays.  This is 
 supported both on BB6 &amp; BB7.  However, if your screen has &lt;input&gt; controls on it and you declare the &quot;fade&quot; effect, BB6 will not fade in the page.  This 
 has been disabled on purpose in bbUI because the fade effect doesn&apos;t perform well on BB6 when input controls are on the screen.
 
+You can also create a nested **data-bb-type="title"** &lt;div&gt; in your screen to declare a title bar. If defined, a standard black screen title bar will appear showing the declared text. 
+The **data-bb-caption** attribute defines the text to show in this title area.
+
 	<div data-bb-type="screen" data-bb-title="User Interface Examples" data-bb-effect="fade">
-		
+		<div data-bb-type="title" data-bb-caption="User Interface Examples" ></div>
 	</div>
 	
+You can also add a **back** button to your title bar that will appear when you display your content on a PlayBook.  To define a back button in your title bar, add the caption of your back button to the
+**data-bb-back-caption** attribute.
 
+	<div data-bb-type="title" data-bb-caption="User Interface Examples" data-bb-back-caption="Back"></div>
+	
+This will appear as the standard back button in your UI as seen below:
+
+![Image List](bbUI.js/raw/master/screenshots/backBtn.png)
 
 
 ## Loading Screen Specific CSS

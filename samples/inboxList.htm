@@ -16,7 +16,8 @@
 -->
 
 <div data-bb-type="screen" data-bb-effect="fade">
-	<script id="inboxListJS" src="js/inboxList.js" onunload="blackberry.ui.menu.clearMenuItems();"></script>
+	<div data-bb-type="title" data-bb-caption="Inbox List" data-bb-back-caption="Back" ></div>
+	<script id="inboxListJS" src="js/inboxList.js" onunload="unloadMessageList();"></script>
 	<style type="text/css">
 		body, html {
 			background-color: White;

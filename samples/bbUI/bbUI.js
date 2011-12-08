@@ -71,6 +71,10 @@ bb = {
 			return (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || (navigator.appVersion.indexOf('Ripple') >= 0);
 		},
 		
+		isPlayBook: function() {
+			return ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
+		},
+		
 		// Determines if this device supports touch
 		isTouch: function() {
 			return true;
@@ -204,7 +208,6 @@ bb = {
 				blackberry.app.exit();
 			}
 		}
-		
 	},
 	
 	removeLoadedScripts: function() {
@@ -240,22 +243,53 @@ bb = {
 				if (bb.device.isHiRes) {
 					outerElement.setAttribute('class', 'bb-hires-screen');
 				}
-				if (outerElement.hasAttribute('data-bb-title')) {
-					var outerStyle = outerElement.getAttribute('style'),
-						title = document.createElement('div');
-					if (bb.device.isHiRes) {
-						title.setAttribute('class', 'bb-hires-screen-title');
-						outerElement.setAttribute('style', outerStyle + ';padding-top:33px');
-					} else {
-						title.setAttribute('class', 'bb-lowres-screen-title');
-						outerElement.setAttribute('style', outerStyle + ';padding-top:27px');
+				
+				if (bb.device.isPlayBook()) {
+					//alert(bb.screens.length);
+					var titleBar = outerElement.querySelectorAll('[data-bb-type=title]')
+					if (titleBar.length > 0) {
+						titleBar = titleBar[0];
+						
+						titleBar.setAttribute('class', 'pb-title-bar');
+						titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
+						if (titleBar.hasAttribute('data-bb-back-caption')) {
+							var button = document.createElement('div'), 
+								buttonInner = document.createElement('div');
+							button.setAttribute('class', 'pb-title-bar-back');
+							button.onmouseover = function() { 
+									this.setAttribute('class', 'pb-title-bar-back pb-title-bar-back-hover');
+								}
+							button.onmouseout = function() {
+									this.setAttribute('class', 'pb-title-bar-back');
+								}
+							button.onclick = bb.popScreen;
+							
+							buttonInner.setAttribute('class','pb-title-bar-back-inner');
+							buttonInner.innerHTML = titleBar.getAttribute('data-bb-back-caption'); 
+							button.appendChild(buttonInner);
+							titleBar.appendChild(button);
+						}
+						// Set padding for scrolling under the fixed position
+						outerElement.setAttribute('style', 'padding-top:51px;');
 					}
-					title.innerHTML = outerElement.getAttribute('data-bb-title');
-					var firstChild = outerElement.firstChild;
-					if (firstChild != undefined && firstChild != null) {
-						outerElement.insertBefore(title, firstChild);
-					} else {
-						outerElement.appendChild(title);
+					
+				}
+				else {
+					// See if there is a title bar
+					var titleBar = outerElement.querySelectorAll('[data-bb-type=title]')
+					if (titleBar.length > 0) {
+						titleBar = titleBar[0];
+						if (titleBar.hasAttribute('data-bb-caption')) {
+							var outerStyle = outerElement.getAttribute('style');
+							if (bb.device.isHiRes) {
+								titleBar.setAttribute('class', 'bb-hires-screen-title');
+								outerElement.setAttribute('style', outerStyle + ';padding-top:33px');
+							} else {
+								titleBar.setAttribute('class', 'bb-lowres-screen-title');
+								outerElement.setAttribute('style', outerStyle + ';padding-top:27px');
+							}
+							titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
+						}
 					}
 				}
 			}
