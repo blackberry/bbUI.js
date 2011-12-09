@@ -27,6 +27,11 @@ body, html {
 
 @-webkit-keyframes bbUI-fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
 
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
 .bb-hires-screen {
 	font-size: 16pt;
 }
@@ -169,7 +174,7 @@ body, html {
 .pb-title-bar {
 	height:54px;
 	border-bottom:solid #626262 1px;
-	position:fixed;
+	position:absolute;
 	top:0px;
 	left:0px;
 	right:0px;
@@ -182,7 +187,7 @@ body, html {
 }
 
 .pb-title-bar-back {
-	position: fixed;
+	position: absolute;
 	border:solid black 1px;
 	top:8px;
 	left:11px;

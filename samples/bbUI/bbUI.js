@@ -72,7 +72,7 @@ bb = {
 		},
 		
 		isPlayBook: function() {
-			return ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
+			return (navigator.appVersion.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		},
 		
 		// Determines if this device supports touch
@@ -245,10 +245,32 @@ bb = {
 				}
 				
 				if (bb.device.isPlayBook()) {
+					outerElement.style.height = window.innerHeight;
+					outerElement.style.width = window.innerWidth;
+					outerElement.style.overflow = 'auto';
 					//alert(bb.screens.length);
 					var titleBar = outerElement.querySelectorAll('[data-bb-type=title]')
 					if (titleBar.length > 0) {
 						titleBar = titleBar[0];
+						
+						// Create our scrollable <div>
+						var scrollArea = document.createElement('div');
+						scrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:55px;left:0px;right:0px;');
+						outerElement.appendChild(scrollArea);
+						// Copy all nodes that are not the title bar
+						var tempHolder = [],
+							childNode = null, 
+							j;
+						for (j = 0; j < outerElement.childNodes.length - 1; j++) {
+							childNode = outerElement.childNodes[j];
+							if (childNode != titleBar) {
+								tempHolder.push(childNode);
+							}
+						}
+						// Add them into the scrollable area
+						for (j = 0; j < tempHolder.length -1; j++) {
+							scrollArea.appendChild(tempHolder[j]);
+						}
 						
 						titleBar.setAttribute('class', 'pb-title-bar');
 						titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
@@ -256,12 +278,7 @@ bb = {
 							var button = document.createElement('div'), 
 								buttonInner = document.createElement('div');
 							button.setAttribute('class', 'pb-title-bar-back');
-							/*button.onmouseover = function() { 
-									this.setAttribute('class', 'pb-title-bar-back pb-title-bar-back-hover');
-								}
-							button.onmouseout = function() {
-									this.setAttribute('class', 'pb-title-bar-back');
-								}*/
+							
 							button.onclick = bb.popScreen;
 							
 							buttonInner.setAttribute('class','pb-title-bar-back-inner');
@@ -269,8 +286,6 @@ bb = {
 							button.appendChild(buttonInner);
 							titleBar.appendChild(button);
 						}
-						// Set padding for scrolling under the fixed position
-						outerElement.setAttribute('style', 'padding-top:55px;');
 					}
 					
 				}
