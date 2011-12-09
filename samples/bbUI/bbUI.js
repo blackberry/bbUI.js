@@ -256,12 +256,12 @@ bb = {
 							var button = document.createElement('div'), 
 								buttonInner = document.createElement('div');
 							button.setAttribute('class', 'pb-title-bar-back');
-							button.onmouseover = function() { 
+							/*button.onmouseover = function() { 
 									this.setAttribute('class', 'pb-title-bar-back pb-title-bar-back-hover');
 								}
 							button.onmouseout = function() {
 									this.setAttribute('class', 'pb-title-bar-back');
-								}
+								}*/
 							button.onclick = bb.popScreen;
 							
 							buttonInner.setAttribute('class','pb-title-bar-back-inner');
@@ -270,7 +270,7 @@ bb = {
 							titleBar.appendChild(button);
 						}
 						// Set padding for scrolling under the fixed position
-						outerElement.setAttribute('style', 'padding-top:51px;');
+						outerElement.setAttribute('style', 'padding-top:55px;');
 					}
 					
 				}
