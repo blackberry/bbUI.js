@@ -10,6 +10,7 @@ and looks at home on a BlackBerry with very little effort.
 **Author(s)** 
 
 * [Tim Neil](https://github.com/tneil)
+* [Gord Tanner](https://github.com/gtanner)
 
 ## Tested On
 
