@@ -26,20 +26,14 @@ bb = {
 	
 	doLoad: function(element) {
 		// Apply our styling
-		var root;
+		var root = element || document.body;
 
-		if (element == undefined) {
-			root = document.body;
-		} else  {
-			root = element;
-		}
-		
 		bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
 		bb.textInput.apply(root.querySelectorAll('input[type=text]'));
 		bb.dropdown.apply(root.querySelectorAll('select'));
 		bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
-		bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));	
-		bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));	
+		bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
+		bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
 		bb.tallList.apply(root.querySelectorAll('[data-bb-type=tall-list]'));
 		bb.inboxList.apply(root.querySelectorAll('[data-bb-type=inbox-list]'));
 		bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
@@ -78,7 +72,7 @@ bb = {
 		// Determines if this device supports touch
 		isTouch: function() {
 			return true;
-		}		
+		}
 	},
 	
 	loadScreen: function(url, id) {
@@ -104,7 +98,7 @@ bb = {
 			scriptTag.setAttribute('type','text/javascript');
 			scriptTag.setAttribute('src', bbScript.getAttribute('src'));
 			scriptTag.setAttribute('id', bbScript.getAttribute('id'));
-			newScriptTags.push(scriptTag);	
+			newScriptTags.push(scriptTag);
 			// Remove script tag from container because we are going to add it to <head>
 			bbScript.parentNode.removeChild(bbScript);
 		}
@@ -123,14 +117,14 @@ bb = {
 					var child = node.childNodes[i];
 					if ( child.nodeType == 1 ) {
 						result = this.getElementById( id, child );
-						if ( result != null )
+						if (result)
 							break;
 					}
 				}
 				return result;
-			}
+			};
 		
-		// Special handling for inserting script tags		
+		// Special handling for inserting script tags
 		bb.screen.scriptCounter = 0;
 		bb.screen.totalScripts = newScriptTags.length;
 		for (var i = 0; i < newScriptTags.length; i++) {
@@ -148,14 +142,14 @@ bb = {
 						// Load in the new content
 						document.body.appendChild(container);
 						window.scroll(0,0);
-						bb.screen.applyEffect(id, container);	
+						bb.screen.applyEffect(id, container);
 					}
 				};
-			}	
+			}
 		}
 		
 		// In case there are no scripts at all we simply doLoad() now
-		if(bb.screen.totalScripts == 0) {
+		if(bb.screen.totalScripts === 0) {
 			if (bb.onscreenready) { 
 				bb.onscreenready(container, container.getAttribute('id'));
 			}
@@ -163,14 +157,14 @@ bb = {
 			// Load in the new content
 			document.body.appendChild(container);
 			window.scroll(0,0);
-			bb.screen.applyEffect(id, container);	
+			bb.screen.applyEffect(id, container);
 		}
 		return container;
 	},
 	
 
 	// Add a new screen to the stack
-	pushScreen : function (url, id) {					
+	pushScreen : function (url, id) {
 		
 		// Remove our old screen
 		bb.removeLoadedScripts();
@@ -249,7 +243,7 @@ bb = {
 					outerElement.style.width = window.innerWidth;
 					outerElement.style.overflow = 'auto';
 					//alert(bb.screens.length);
-					var titleBar = outerElement.querySelectorAll('[data-bb-type=title]')
+					var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
 					if (titleBar.length > 0) {
 						titleBar = titleBar[0];
 						
@@ -291,7 +285,7 @@ bb = {
 				}
 				else {
 					// See if there is a title bar
-					var titleBar = outerElement.querySelectorAll('[data-bb-type=title]')
+					var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
 					if (titleBar.length > 0) {
 						titleBar = titleBar[0];
 						if (titleBar.hasAttribute('data-bb-caption')) {
@@ -354,18 +348,16 @@ bb = {
 				if (screen.length > 0 ) {
 					screen = screen[0];
 					var effect = screen.getAttribute('data-bb-effect');
-					if (effect != null && effect != undefined) {
-						if (effect.toLowerCase() == 'fade') {
-							if (bb.device.isBB6()) {
-								// On BB6 Fade doesn't work well when input controls are on the screen
-								// so we disable the fade effect for the sake of performance
-								var inputControls = container.querySelectorAll('input');
-								if (inputControls.length == 0) {
-									bb.screen.fadeIn({'id': id, 'duration': 1.0});
-								}							
-							} else {						
-								bb.screen.fadeIn({'id': id, 'duration': 1.0});
-							}
+					if (effect && effect.toLowerCase() == 'fade') {
+						if (bb.device.isBB6()) {
+						// On BB6 Fade doesn't work well when input controls are on the screen
+						// so we disable the fade effect for the sake of performance
+						var inputControls = container.querySelectorAll('input');
+						if (inputControls.length === 0) {
+							bb.screen.fadeIn({'id': id, 'duration': 1.0});
+						}
+						} else {
+						bb.screen.fadeIn({'id': id, 'duration': 1.0});
 						}
 					}
 				}
@@ -394,7 +386,7 @@ bb = {
 					var outerElement = elements[i];
 					outerElement.setAttribute('class','bb-round-panel');
 					if (outerElement.hasChildNodes()) {
-						var innerElements = new Array(),
+						var innerElements = [],
 							innerCount = outerElement.childNodes.length;
 						// Grab the internal contents so that we can add them
 						// back to the massaged version of this div
@@ -529,7 +521,7 @@ bb = {
 					outerElement.innerHTML = '';
 					outerElement.setAttribute('class','bb-bb5-button');
 					var button = document.createElement('a');
-				    //button.setAttribute('href','#');
+					//button.setAttribute('href','#');
 					button.setAttribute('class',normal);
 					button.setAttribute('x-blackberry-focusable','true');
 					button.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
@@ -715,7 +707,7 @@ bb = {
 							select.dispatchEvent(evObj);
 						}	
 					
-					}					
+					};
 					
 					// Set our click handler
 					dropdown.onclick = function() {
@@ -772,7 +764,7 @@ bb = {
 										if (select) {
 											select.setValue(value);
 										}
-									}
+									};
 									// Add to the DOM
 									highlight.appendChild(option);	
 								}
@@ -867,7 +859,7 @@ bb = {
 						var text = innerChildNode.innerHTML;
 						innerChildNode.innerHTML = '<span>' + text + '</span>';
 						
-						if (j == 0) {
+						if (j === 0) {
 							innerChildNode.setAttribute('class','buttonLeft');
 						}
 						else if (j == items.length -1) {
@@ -892,7 +884,7 @@ bb = {
 									bb.pillButtons.deSelectButton(button);
 								}
 							}
-						}
+						};
 					}			
 				}	
 			} else {
@@ -922,7 +914,7 @@ bb = {
 					for (var j = 0; j < items.length; j++) {
 						var innerChildNode = items[j];
 						innerChildNode.setAttribute('x-blackberry-focusable','true');
-						if (j == 0) {  // First button
+						if (j === 0) {  // First button
 							if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
 								innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
 							} else {
@@ -955,7 +947,7 @@ bb = {
 								for (var j = 0; j < items.length; j++) {
 									var innerChildNode = items[j];
 									
-									if (j == 0) {  // First button
+									if (j === 0) {  // First button
 										if (innerChildNode == this) {
 											innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
 											innerChildNode.onmouseover = null;
@@ -1230,13 +1222,8 @@ bb = {
 			}	
 		}
 		
-	},
-	
-}
+	}
+};
 
 // Load our back handler
 bb.assignBackHandler(bb.popScreen);
-
-
-
-
