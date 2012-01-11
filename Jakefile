@@ -53,9 +53,11 @@ task('build', ['clean'], function () {
 
     output += "bb.assignBackHandler(bb.popScreen);";
     fs.writeFileSync(__dirname + "/pkg/bbUI.js", output);
+    fs.writeFileSync(__dirname + "/samples/bbUI.js", output);
 
     css += include("src/bbUI.css");
     fs.writeFileSync(__dirname + "/pkg/bbUI.css", css);
+    fs.writeFileSync(__dirname + "/samples/bbUI.css", css);
 
     console.log("Prepare ship for ludicrous speed!");
 });
