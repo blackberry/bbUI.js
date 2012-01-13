@@ -10,6 +10,7 @@ and looks at home on a BlackBerry with very little effort.
 **Author(s)** 
 
 * [Tim Neil](https://github.com/tneil)
+* [Gord Tanner](https://github.com/gtanner)
 
 ## Tested On
 
@@ -476,3 +477,9 @@ To specify which button should be selected by default simply add the **data-bb-s
 * Focus based navigation mode can get confused when navigating between screens
 * Dropdown buttons do not work
 * Disabled buttons are not supported
+
+
+# Contributing
+
+To build and contribute to bbUI.js please see the HACKING.md file
+
