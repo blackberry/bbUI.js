@@ -254,7 +254,7 @@ Currently there&apos;s **only** support for Labels to be left justified, buttons
 ![Control Panel](bbUI.js/raw/master/screenshots/labelControlRow.png)
 
 
-To use a Label/Control container you fist create a &lt;div&gt; with the **data-bb-type="label-control-container"** attribute. You then create a &lt;div&gt; with the **data-bb-type="label-control-horizontal-row"** attribute for 
+To use a Label/Control container you first create a &lt;div&gt; with the **data-bb-type="label-control-container"** attribute. You then create a &lt;div&gt; with the **data-bb-type="label-control-horizontal-row"** attribute for 
 each row you want to add to the container.  You then create another &lt;div&gt; for your label with the attribute **data-bb-type="label"** and the contents of this &lt;div&gt; are displayed as the text of the left justified label. 
 The control is then added by adding another &lt;div&gt;.  In this example we are using a button and input box.  More on buttons later.
 
