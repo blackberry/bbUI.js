@@ -15,15 +15,15 @@
 */
 
 bb = {
-    screens: [], 
-    
+    screens: [],
+
     // Assign any listeners we need to make the bbUI framework function
     assignBackHandler: function(callback) {
         if (blackberry.system.event.onHardwareKey) {
             blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, callback);
         }
     },
-    
+
     doLoad: function(element) {
         // Apply our styling
         var root = element || document.body;
@@ -40,39 +40,43 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
-            
+
         // perform device specific formatting
         bb.screen.reAdjustHeight();
     },
-    
+
     device: {
         isHiRes: window.innerHeight > 480 || window.innerWidth > 480,
-        
+
         // Determine if this browser is BB5
         isBB5: function() {
             return navigator.appVersion.indexOf('5.0.0') >= 0;
         },
-        
+
         // Determine if this browser is BB6
         isBB6: function() {
             return navigator.appVersion.indexOf('6.0.0') >= 0;
         },
-        
+
         // Determine if this browser is BB7.. Ripple's Render is similar to that in BB7
         isBB7: function() {
-            return (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || (navigator.appVersion.indexOf('Ripple') >= 0);
+            return (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || isRipple();
         },
-        
+
         isPlayBook: function() {
             return (navigator.appVersion.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
         },
-        
+
+        isRipple: function() {
+            return (navigator.appVersion.indexOf('Ripple') >= 0);
+        },
+
         // Determines if this device supports touch
         isTouch: function() {
             return true;
         }
     },
-    
+
     loadScreen: function(url, id) {
         // Retrieve the screen contents
         var xmlhttp = new XMLHttpRequest();
@@ -83,7 +87,7 @@ bb = {
             container = document.createElement('div');
         container.setAttribute('id', id);
         container.innerHTML = newScreen;
-        
+
         // Add any Java Script files that need to be included
         var scriptIds = [],
             scripts = container.getElementsByTagName('script'),
@@ -100,14 +104,14 @@ bb = {
             // Remove script tag from container because we are going to add it to <head>
             bbScript.parentNode.removeChild(bbScript);
         }
-        
+
         // Add getElementById for the container so that it can be used in the onscreenready event
         container.getElementById = function(id, node) {
                 var result = null;
                 if (!node) {
                     node = this;
                 }
-                
+
                 if ( node.getAttribute('id') == id )
                     return node;
 
@@ -121,7 +125,7 @@ bb = {
                 }
                 return result;
             };
-        
+
         // Special handling for inserting script tags
         bb.screen.scriptCounter = 0;
         bb.screen.totalScripts = newScriptTags.length;
@@ -133,7 +137,7 @@ bb = {
                     bb.screen.scriptCounter++;
                     if(bb.screen.scriptCounter == bb.screen.totalScripts) {
                         // When we have scripts we fire the onscreenready and then apply our changes in doLoad()
-                        if (bb.onscreenready) { 
+                        if (bb.onscreenready) {
                             bb.onscreenready(container, container.getAttribute('id'));
                         }
                         bb.doLoad(container);
@@ -145,10 +149,10 @@ bb = {
                 };
             }
         }
-        
+
         // In case there are no scripts at all we simply doLoad() now
         if(bb.screen.totalScripts === 0) {
-            if (bb.onscreenready) { 
+            if (bb.onscreenready) {
                 bb.onscreenready(container, container.getAttribute('id'));
             }
             bb.doLoad(container);
@@ -159,11 +163,11 @@ bb = {
         }
         return container;
     },
-    
+
 
     // Add a new screen to the stack
     pushScreen : function (url, id) {
-        
+
         // Remove our old screen
         bb.removeLoadedScripts();
         var numItems = bb.screens.length;
@@ -171,15 +175,15 @@ bb = {
             var oldScreen = document.getElementById(bb.screens[numItems -1].id);
             document.body.removeChild(oldScreen);
         }
-        
+
         // Add our screen to the stack
         var container = bb.loadScreen(url, id);
         bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
     },
-    
+
     // Pop a screen from the stack
     popScreen: function() {
-        
+
         var numItems = bb.screens.length;
         if (numItems > 1) {
             bb.removeLoadedScripts();
@@ -187,21 +191,21 @@ bb = {
                 current = document.getElementById(currentStackItem.id);
             document.body.removeChild(current);
             bb.screens.pop();
-            
+
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 container = bb.loadScreen(display.url, display.id);
-            
+
             window.scroll(0,0);
             bb.screen.applyEffect(display.id, container);
-            
+
         } else {
             if (blackberry) {
                 blackberry.app.exit();
             }
         }
     },
-    
+
     removeLoadedScripts: function() {
         // pop the old item
         var numItems = bb.screens.length;
@@ -220,11 +224,11 @@ bb = {
                 }
                 if (head.length > 0 ) {
                     head[0].removeChild(scriptTag);
-                }   
+                }
             }
         }
     },
-    
+
     //screen
     //roundPanel
     //textArrowList
@@ -434,13 +438,13 @@ bb.dropdown = {
     // Apply our transforms to all dropdowns passed in
     apply: function(elements) {
         if (bb.device.isBB5()) {
-            
+
         } else {
             for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i],
                     options = outerElement.getElementsByTagName('option'),
                     caption = '';
-                    
+
                 outerElement.style.display = 'none';
                 // Get our selected item
                 if (options.length > 0) {
@@ -452,14 +456,14 @@ bb.dropdown = {
                         break;
                     }
                 }
-                
+
                 // Create our new dropdown button
                 var dropdown = document.createElement('div');
                 dropdown.innerHTML = '<div data-bb-type="caption"><span>' + caption + '</span></div>';
-                
+
                 var normal = 'bb-bb7-dropdown',
                     highlight = 'bb-bb7-dropdown-highlight';
-                
+
                 if (bb.device.isHiRes) {
                     normal = normal + ' bb-bb7-dropdown-hires';
                     highlight = highlight + ' bb-bb7-dropdown-hires';
@@ -482,17 +486,17 @@ bb.dropdown = {
                 dropdown.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
                 outerElement.parentNode.insertBefore(dropdown, outerElement);
                 dropdown.appendChild(outerElement);
-                
+
                 // Assign our functions to be able to set the value
                 outerElement.dropdown = dropdown;
-                outerElement.setValue = function(value) {
+                outerElement.setSelectedItem = function(index) {
                     var select = this.dropdown.getElementsByTagName('select')[0];
-                    if (select && select.value != value) {
-                        select.value = value;
+                    if (select && select.selectedIndex != index) {
+                        select.selectedIndex = index;
                         // Change our button caption
                         var caption = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
                         if (caption) {
-                            caption.innerHTML = '<span>' + select.options[select.selectedIndex].text + '</span>';
+                            caption.innerHTML = '<span>' + select.options[index].text + '</span>';
                         }
                         // Raise the DOM event
                         var evObj = document.createEvent('HTMLEvents');
@@ -500,12 +504,12 @@ bb.dropdown = {
                         select.dispatchEvent(evObj);
                     }
                 };
-                
+
                 // Set our click handler
                 dropdown.onclick = function() {
                         var select = this.getElementsByTagName('select')[0];
                         // Add our emulation for Ripple
-                        if (!bb.device.isBB5()) {
+                        if (bb.device.isPlayBook() || bb.device.isRipple()) {
                             // Create the overlay to trap clicks on the screen
                             var overlay = document.createElement('div');
                             overlay.setAttribute('id', 'ripple-dropdown-overlay');
@@ -516,7 +520,7 @@ bb.dropdown = {
                                     this.parentNode.removeChild(this);
                                 }
                             };
-                            
+
                             // Create our dialog
                             var dialog = document.createElement('div');
                             if (bb.device.isHiRes) {
@@ -528,12 +532,12 @@ bb.dropdown = {
                             dialog.onclick = function() {
                                 this.parentNode.parentNode.removeChild(this.parentNode);
                             };
-                            
+
                             // Add our options
                             for (var i = 0; i < select.options.length; i++) {
                                 var item = select.options[i],
                                     highlight = document.createElement('div');
-                                
+
                                 dialog.appendChild(highlight);
                                 var option = document.createElement('div');
                                 if (item.selected) {
@@ -546,21 +550,21 @@ bb.dropdown = {
 
                                 option.innerHTML = '<span>' + item.text + '</span>';
                                 option.setAttribute('x-blackberry-focusable','true');
-                                option.setAttribute('data-bb-value', item.getAttribute('value'));
+                                option.setAttribute('data-bb-index', i);
                                 // Assign our dropdown for when the item is clicked
                                 option.dropdown = this;
                                 option.onclick = function() {
-                                    var value = this.getAttribute('data-bb-value');
+                                    var index = this.getAttribute('data-bb-index');
                                     // Retrieve our select
                                     var select = this.dropdown.getElementsByTagName('select')[0];
                                     if (select) {
-                                        select.setValue(value);
+                                        select.setSelectedItem(index);
                                     }
                                 };
                                 // Add to the DOM
                                 highlight.appendChild(option);
                             }
-                            
+
                             var height = (select.options.length * 45) + 20,
                                 maxHeight = window.innerHeight - 80;
                             if (height > maxHeight) {
@@ -570,16 +574,32 @@ bb.dropdown = {
 
                             var top = (window.innerHeight/2) - (height/2);
                             dialog.style.top = top + 'px';
-                            
+
                             // Add the overlay to the DOM now that we are done
                             document.body.appendChild(overlay);
+                        } else {
+                            //On Smartphones, use the new Select Asynch dialog in blackberry.ui.dialog
+                            var inputs = [];
+                            for (var i = 0; i < select.options.length; i++) {
+                                inputs[i] = { label : select.options[i].text, selected : i == select.selectedIndex, enabled : true, type : "option"};
+                            }
+                            try {
+                                blackberry.ui.dialog.selectAsync(false, inputs,
+                                    function (indices) {
+                                        if (indices.length > 0 && indices[0] < select.options.length) {
+                                            select.setSelectedItem(indices[0]);
+                                        }
+                                    }
+                                );
+                            } catch (e) {
+                                //alert("Exception in selectAsync: " + e);
+                            }
                         }
                     };
             }
         }
     }
 };
-
 bb.imageList = {
     apply: function(elements) {
         // Apply our transforms to all Dark Image Lists
