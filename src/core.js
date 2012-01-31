@@ -44,7 +44,7 @@ bb = {
 
         // Determine if this browser is BB7.. Ripple's Render is similar to that in BB7
         isBB7: function() {
-            return (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || isRipple();
+            return (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || bb.device.isRipple();
         },
 
         isPlayBook: function() {
