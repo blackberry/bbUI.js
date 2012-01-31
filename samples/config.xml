@@ -29,6 +29,7 @@
   <feature id="blackberry.push" />
   <feature id="blackberry.message.sms" />
   <feature id="blackberry.ui.menu" />
+  <feature id="blackberry.ui.dialog"/>
   <feature id="blackberry.identity" />
   <feature id="blackberry.system.event" />
   <feature id="blackberry.app" />
