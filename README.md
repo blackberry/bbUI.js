@@ -11,6 +11,7 @@ and looks at home on a BlackBerry with very little effort.
 
 * [Tim Neil](https://github.com/tneil)
 * [Gord Tanner](https://github.com/gtanner)
+* [Ken Wallis](https://github.com/kwallis)
 
 ## Tested On
 
@@ -24,7 +25,7 @@ and looks at home on a BlackBerry with very little effort.
 
 These examples have been designed for a Smartphone screen size and **not** for the BlackBerry&reg; PlayBook&trade;
 
-**Requires BlackBerry WebWorks SDK for Smartphones v2.2 or higher**
+**Requires BlackBerry WebWorks SDK for Smartphones v2.3 or higher**
 
 ## Philosophy
 
@@ -58,6 +59,10 @@ To properly use the functionality of bbUI in your application, you will need at 
 	  <feature id="blackberry.system.event" />
 	  <feature id="blackberry.app" />
 	</widget>
+
+Additionally, if you use dropdowns in your application, you will need to include the additional feature:
+
+	<feature id="blackberry.ui.dialog" />
 
 ## Managing Screens
 
@@ -314,13 +319,13 @@ selected item when the control first shows you can can use the **selected="true"
 		</div>
 	</div>
 
-To select an item in a dropdown from JavaScript you can use the **setValue()** function that has been added to the &lt;select&gt; object. In many browsers, the **onchange** event
+To select an item in a dropdown from JavaScript you can use the **setSelectedItem()** function that has been added to the &lt;select&gt; object. In many browsers, the **onchange** event
 is not fired on a &lt;select&gt; if the value is set from JavaScript.  Only if it is set from the interaction with the UI.  Because of this bbUI cannot listen to the change made 
-from outside JavaScript and apply the styling in the UI. When you call the **setValue()** method, the **onchange** of the select will also fire.
+from outside JavaScript and apply the styling in the UI. When you call the **setSelectedItem()** method, the **onchange** of the select will also fire.
 
-An example of how to set the value of the &lt;select&gt; element seen in the above sample is as follows:
+An example of how to select an item of the &lt;select&gt; element seen in the above sample is as follows:
 
-		document.getElementById('fontfamily').setValue('arial');
+		document.getElementById('fontfamily').setSelectedItem(1); //Parameter is the index of the item in the list
 
 ## Arrow Lists
 
