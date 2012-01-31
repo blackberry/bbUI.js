@@ -24,21 +24,11 @@
   <rim:loadingScreen backgroundImage="images\background.png" foregroundImage="images\hippo.png" onFirstLaunch="true">
     <rim:transitionEffect type="fadeIn" />
   </rim:loadingScreen>
-  <content src="http://dl.dropbox.com/u/43144305/samples/index.htm" />
+  <content src="index.htm" />
   <access uri="http://chart.apis.google.com" subdomains="true" />
-  <access uri="http://dl.dropbox.com/u/43144305/samples" subdomains="true">
-    <feature id="blackberry.push" />
-    <feature id="blackberry.message.sms" />
-    <feature id="blackberry.ui.menu" />
-    <feature id="blackberry.ui.dialog"/>
-    <feature id="blackberry.identity" />
-    <feature id="blackberry.system.event" />
-    <feature id="blackberry.app" />
-  </access>
   <feature id="blackberry.push" />
   <feature id="blackberry.message.sms" />
   <feature id="blackberry.ui.menu" />
-  <feature id="blackberry.ui.dialog"/>
   <feature id="blackberry.identity" />
   <feature id="blackberry.system.event" />
   <feature id="blackberry.app" />
