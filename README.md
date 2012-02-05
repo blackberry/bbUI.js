@@ -465,3 +465,5 @@ To specify which button should be selected by default simply add the **data-bb-s
 
 To build and contribute to bbUI.js please see the HACKING.md file
 
+If you would like to contribute code to the bbUI.js project please follow the [How to Contribute](http://blackberry.github.com/howToContribute.html) instructions for contributor agreements.
+
