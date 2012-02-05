@@ -21,7 +21,7 @@ and looks at home on a BlackBerry with very little effort.
 * BlackBerry Bold 9700 v5.0.0.979 
 * BlackBerry Storm 9520 v5.0.0.713
 
-**Please read the known issues list at the bottom of this page**
+**Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
 
 These examples have been designed for a Smartphone screen size and **not** for the BlackBerry&reg; PlayBook&trade;
 
@@ -459,31 +459,6 @@ To specify which button should be selected by default simply add the **data-bb-s
 			<div data-bb-type="pill-button" onclick="selectPhone()">Phone</div>
 		 </div>
 	</div>
-
-
-# Known Issues
-
-**General**
-
-* Tabs are not working in the samples
-* No disabled dropdowns yet
-
-**BB6/BB7**
-
-* There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
-
-**BB5**
-
-* Label/Control Containers are not working
-* Pill Buttons do not work yet
-* Buttons that stretch the width of the screen don&apos;t work yet
-* Background color sizing issues on BB5
-* Button/list item highlighting not appearing on "touch" on a Storm device
-* Input boxes are not aligning properly in the rounded panels and have not been styled
-* There are various back button issues
-* Focus based navigation mode can get confused when navigating between screens
-* Dropdown buttons do not work
-* Disabled buttons are not supported
 
 
 # Contributing
