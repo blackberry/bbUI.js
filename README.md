@@ -84,7 +84,6 @@ be invoked when the back button is clicked.  It is then up to you to handle all 
 
 	<html>
 		<head>
-			<meta name="x-blackberry-defaultHoverEffect" content="false" />
 			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
 			<link  rel="stylesheet" type="text/css" href="bbUI.css"></link>
 			<script type="text/javascript" src="bbUI.js"></script>
@@ -101,7 +100,6 @@ function will be called with the DOM element of your screen, and the id you have
 
 	<html>
 		<head>
-			<meta name="x-blackberry-defaultHoverEffect" content="false" />
 			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
 			<link  rel="stylesheet" type="text/css" href="bbUI.css"></link>
 			<script type="text/javascript" src="bbUI.js"></script>
