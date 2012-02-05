@@ -1,11 +1,11 @@
-# bbUI.js Tookit
+![Image List](bbUI.js/raw/master//logos/bbUI_100x403.png)
 
 The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
-**This toolkit is currently in an incubation stage and I'm working on getting things up and going.  Focus is on BB6/BB7 and then back-port for BB5**
+**This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7 and then back-port for BB5.  We'll also be adding some PlayBook look and feel**
 
 **Author(s)** 
 
@@ -26,6 +26,10 @@ and looks at home on a BlackBerry with very little effort.
 These examples have been designed for a Smartphone screen size and **not** for the BlackBerry&reg; PlayBook&trade;
 
 **Requires BlackBerry WebWorks SDK for Smartphones v2.3 or higher**
+
+## Source files to include
+
+You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository
 
 ## Philosophy
 
@@ -82,8 +86,8 @@ be invoked when the back button is clicked.  It is then up to you to handle all 
 		<head>
 			<meta name="x-blackberry-defaultHoverEffect" content="false" />
 			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-			<link  rel="stylesheet" type="text/css" href="bbUI/bbUI.css"></link>
-			<script type="text/javascript" src="bbUI/bbUI.js"></script>
+			<link  rel="stylesheet" type="text/css" href="bbUI.css"></link>
+			<script type="text/javascript" src="bbUI.js"></script>
 		</head>
 		<body onload="bb.pushScreen('menu.htm', 'menu');">	
 		</body>
@@ -99,8 +103,8 @@ function will be called with the DOM element of your screen, and the id you have
 		<head>
 			<meta name="x-blackberry-defaultHoverEffect" content="false" />
 			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-			<link  rel="stylesheet" type="text/css" href="bbUI/bbUI.css"></link>
-			<script type="text/javascript" src="bbUI/bbUI.js"></script>
+			<link  rel="stylesheet" type="text/css" href="bbUI.css"></link>
+			<script type="text/javascript" src="bbUI.js"></script>
 			<script type="text/javascript">
 			
 				bb.onscreenready = function(element, id) {
@@ -466,9 +470,7 @@ To specify which button should be selected by default simply add the **data-bb-s
 
 **BB6/BB7**
 
-* [Trackpad performance for scrolling is less than desirable on BB6/BB7](https://github.com/blackberry/WebWorks/issues/49)
 * There is currently a touch delay on BB6 Torch devices when you select a button or a list item.  
-* Dropdown button popups can currently only be interacted with using the touch screen for selection and not with the trackpad
 
 **BB5**
 
