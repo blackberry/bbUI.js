@@ -5,7 +5,9 @@ The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for H
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
-**This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7 and then back-port for BB5.  We'll also be adding some PlayBook look and feel**
+_**NOTE: bbUI DropDowns require BlackBerry WebWorks SDK v2.3 for Smartphones or higher**_
+
+This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7 and then back-port for BB5.  We'll also be adding some PlayBook look and feel
 
 **Author(s)** 
 
@@ -24,8 +26,6 @@ and looks at home on a BlackBerry with very little effort.
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
 
 These examples have been designed for a Smartphone screen size and **not** for the BlackBerry&reg; PlayBook&trade;
-
-**Requires BlackBerry WebWorks SDK for Smartphones v2.3 or higher**
 
 ## Source files to include
 
