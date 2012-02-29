@@ -15,7 +15,8 @@ bb.screen = {
                 outerElement.style.overflow = 'auto';
                 //alert(bb.screens.length);
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
-                if (titleBar.length > 0) {
+
+				if (titleBar.length > 0) {
                     titleBar = titleBar[0];
                     
                     // Create our scrollable <div>

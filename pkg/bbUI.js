@@ -205,6 +205,18 @@ bb = {
             }
         }
     },
+	showMenuBar: function(){
+		blackberry.app.event.onSwipeDown(bb.hideMenuBar);
+		document.addEventListener("click", bb.hideMenuBar, false);
+		//TODO: fix stile name and fix how item is being found?
+		document.getElementById("menuBar").className = "showMenuBar";
+	},
+
+	hideMenuBar: function(){
+		blackberry.app.event.onSwipeDown(bb.showMenuBar);
+		document.removeEventListener("click", bb.hideMenuBar, false);
+		document.getElementById("menuBar").className = "hideMenuBar";
+	},
 
     removeLoadedScripts: function() {
         // pop the old item
@@ -1016,6 +1028,16 @@ bb.screen = {
                 outerElement.style.width = window.innerWidth;
                 outerElement.style.overflow = 'auto';
                 //alert(bb.screens.length);
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+
+				if (menuBar.length >0){
+					menuBar = menuBar[0];
+                    menuBar.setAttribute('class', 'pb-menu-bar');
+					blackberry.app.event.onSwipeDown(bb.showMenuBar);
+				}else{
+					menuBar = false;
+				}
+
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
                 if (titleBar.length > 0) {
                     titleBar = titleBar[0];
@@ -1030,7 +1052,7 @@ bb.screen = {
                         j;
                     for (j = 0; j < outerElement.childNodes.length - 1; j++) {
                         childNode = outerElement.childNodes[j];
-                        if (childNode != titleBar) {
+                        if (childNode != titleBar && childNode != menuBar) {
                             tempHolder.push(childNode);
                         }
                     }
