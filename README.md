@@ -196,6 +196,16 @@ is popped off of the stack using the **onunload** attribute.
 		<script id="tabsJS" src="js/tabs.js" onunload="unloadPushListeners()"></script>
 	</div>
 
+You can also use in-line script tags with your screen. The bbUI framework will load and unload these from scope when the screen is pushed or popped.
+
+	<div data-bb-type="screen">
+		<script type="text/javascript">
+			function foo() {
+				alert('foo');
+			}	
+		</script>
+	</div>
+
 
 ## Image Lists
 
