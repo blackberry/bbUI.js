@@ -1,4 +1,4 @@
-![Image List](bbUI.js/raw/master//logos/bbUI_100x403.png)
+![Image List](bbUI.js/raw/master/logos/bbUI_100x403.png)
 
 The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
