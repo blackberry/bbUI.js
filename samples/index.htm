@@ -20,6 +20,14 @@
 		<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
 		<link  rel="stylesheet" type="text/css" href="bbUI.css"><link />
 		<script type="text/javascript" src="bbUI.js"></script>
+		<script type="text/javascript">
+			// Handle all of the initial load events and broker accordingly
+			bb.onscreenready = function(element, id) {
+                    if (id == 'dataOnLoad') {
+                        dataOnLoad_initialLoad(element);
+                    } 
+                }
+		</script>
 	</head>
 	<body onload="bb.pushScreen('menu.htm', 'menu');">	
 	</body>
