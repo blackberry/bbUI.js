@@ -170,6 +170,7 @@ bb = {
 
         // Remove our old screen
         bb.removeLoadedScripts();
+		bb.removeMenus();
         var numItems = bb.screens.length;
         if (numItems > 0) {
             var oldScreen = document.getElementById(bb.screens[numItems -1].id);
@@ -190,7 +191,8 @@ bb = {
             var currentStackItem = bb.screens[numItems-1],
                 current = document.getElementById(currentStackItem.id);
             document.body.removeChild(current);
-            bb.screens.pop();
+			bb.removeMenus();
+			bb.screens.pop();
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
@@ -205,18 +207,6 @@ bb = {
             }
         }
     },
-	showMenuBar: function(){
-		blackberry.app.event.onSwipeDown(bb.hideMenuBar);
-		document.addEventListener("click", bb.hideMenuBar, false);
-		//TODO: fix stile name and fix how item is being found?
-		document.getElementById("menuBar").className = "showMenuBar";
-	},
-
-	hideMenuBar: function(){
-		blackberry.app.event.onSwipeDown(bb.showMenuBar);
-		document.removeEventListener("click", bb.hideMenuBar, false);
-		document.getElementById("menuBar").className = "hideMenuBar";
-	},
 
     removeLoadedScripts: function() {
         // pop the old item
@@ -240,6 +230,19 @@ bb = {
             }
         }
     },
+
+	removeMenus: function(){
+		//clear menus
+		if (bb.device.isPlayBook()) {
+			//TODO: clear menu
+		}
+		else{
+			console.log('not playbook');
+			if(blackberry.ui.menu){
+				blackberry.ui.menu.clearMenuItems();
+			}
+		}
+	},
 
     //screen
     //roundPanel
@@ -1028,18 +1031,19 @@ bb.screen = {
                 outerElement.style.width = window.innerWidth;
                 outerElement.style.overflow = 'auto';
                 //alert(bb.screens.length);
+				//TODO: check for menu, create it if found create
 				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
-
-				if (menuBar.length >0){
+				if (menuBar.length > 0) {
 					menuBar = menuBar[0];
-                    menuBar.setAttribute('class', 'pb-menu-bar');
-					blackberry.app.event.onSwipeDown(bb.showMenuBar);
-				}else{
-					menuBar = false;
+					//TODO: create menu shell
+					//TODO: find all menu items
+					//TODO: for each menu item check for image, function and text
+					//TODO: add menu item to menu bar, remove from page
 				}
 
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
-                if (titleBar.length > 0) {
+
+				if (titleBar.length > 0) {
                     titleBar = titleBar[0];
                     
                     // Create our scrollable <div>
@@ -1076,7 +1080,6 @@ bb.screen = {
                         titleBar.appendChild(button);
                     }
                 }
-                
             }
             else {
                 // See if there is a title bar
@@ -1095,6 +1098,22 @@ bb.screen = {
                         titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
                     }
                 }
+
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+				if (menuBar.length > 0) {
+					menuBar = menuBar[0];
+					if(blackberry.ui.menu){
+						blackberry.ui.menu.clearMenuItems();
+		                var items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
+						for (var j = 0; j < items.length; j++) {
+							var item = new blackberry.ui.menu.MenuItem(false, j, items[j].innerHTML, items[j].onclick);
+							blackberry.ui.menu.addMenuItem(item);
+						}
+					}else{
+						console.log('blackberry.ui.menu must be enabled to setup a menu');
+					}
+					menuBar.parentNode.removeChild(menuBar);
+				}
             }
         }
     },
