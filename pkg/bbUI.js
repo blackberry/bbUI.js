@@ -232,14 +232,15 @@ bb = {
     },
 
 	removeMenus: function(){
-		//clear menus
-		if (bb.device.isPlayBook()) {
-			//TODO: clear menu
-		}
-		else{
-			console.log('not playbook');
-			if(blackberry.ui.menu){
-				blackberry.ui.menu.clearMenuItems();
+		if(blackberry && blackberry.ui && blackberry.ui.menu){
+			//clear menus
+			if (bb.device.isPlayBook()) {
+				//TODO: clear PB menu
+			}
+			else{
+				if(blackberry.ui.menu){
+					blackberry.ui.menu.clearMenuItems();
+				}
 			}
 		}
 	},
@@ -1099,20 +1100,29 @@ bb.screen = {
                     }
                 }
 
-				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
-				if (menuBar.length > 0) {
-					menuBar = menuBar[0];
-					if(blackberry.ui.menu){
-						blackberry.ui.menu.clearMenuItems();
-		                var items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
+				if(blackberry && blackberry.ui && blackberry.ui.menu){
+					var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+					if (menuBar.length > 0) {
+						menuBar = menuBar[0];
+						var items = menuBar.getElementsByTagName('div');
 						for (var j = 0; j < items.length; j++) {
-							var item = new blackberry.ui.menu.MenuItem(false, j, items[j].innerHTML, items[j].onclick);
-							blackberry.ui.menu.addMenuItem(item);
+							if(items[j].getAttribute('data-bb-type') === "menu-item"){
+								var item = new blackberry.ui.menu.MenuItem(false, j, items[j].innerHTML, items[j].onclick);
+								blackberry.ui.menu.addMenuItem(item);
+								if(items[j].hasAttribute('data-bb-selected') && items[j].getAttribute('data-bb-selected') === "true"){
+									blackberry.ui.menu.setDefaultMenuItem(item);
+								}
+							}else if(items[j].getAttribute('data-bb-type') === "menu-separator"){
+								var item = new blackberry.ui.menu.MenuItem(true, j);
+								blackberry.ui.menu.addMenuItem(item);
+							}else{
+								console.log('invalid menu item type');
+							}
 						}
-					}else{
-						console.log('blackberry.ui.menu must be enabled to setup a menu');
+						menuBar.parentNode.removeChild(menuBar);
 					}
-					menuBar.parentNode.removeChild(menuBar);
+				}else{
+					console.log('blackberry.ui.menu must be enabled to setup a menu');
 				}
             }
         }
