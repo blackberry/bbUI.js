@@ -1,4 +1,4 @@
-![Image List](bbUI.js/raw/master//logos/bbUI_100x403.png)
+![Image List](bbUI.js/raw/master/logos/bbUI_100x403.png)
 
 The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
@@ -11,9 +11,10 @@ This toolkit is currently in an incubation stage and we're working on getting th
 
 **Author(s)** 
 
-* [Tim Neil](https://github.com/tneil)
-* [Gord Tanner](https://github.com/gtanner)
-* [Ken Wallis](https://github.com/kwallis)
+* [Tim Neil](https://github.com/tneil) follow me on Twitter [@brcewane](https://twitter.com/#!/brcewane)
+* [Gord Tanner](https://github.com/gtanner) follow me on Twitter [@gordtanner](https://twitter.com/#!/gordtanner)
+* [Ken Wallis](https://github.com/kwallis) follow me on Twitter [@ken_wallis](https://twitter.com/#!/ken_wallis)
+* [David Sosby](https://github.com/dsosby) follow me on Twitter [@ramdump](https://twitter.com/#!/ramdump)
 
 ## Tested On
 
@@ -194,6 +195,16 @@ is popped off of the stack using the **onunload** attribute.
 
 	<div data-bb-type="screen">
 		<script id="tabsJS" src="js/tabs.js" onunload="unloadPushListeners()"></script>
+	</div>
+
+You can also use in-line script tags with your screen. The bbUI framework will load and unload these from scope when the screen is pushed or popped.
+
+	<div data-bb-type="screen">
+		<script type="text/javascript">
+			function foo() {
+				alert('foo');
+			}	
+		</script>
 	</div>
 
 

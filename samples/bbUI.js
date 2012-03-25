@@ -78,32 +78,54 @@ bb = {
     },
 
     loadScreen: function(url, id) {
-        // Retrieve the screen contents
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET",url,false);
-        xmlhttp.send();
-        // generate our screen content
-        var newScreen = xmlhttp.responseText,
-            container = document.createElement('div');
+        var xhr = new XMLHttpRequest(),
+            container = document.createElement('div'),
+            _reduce = function (nl, func, start) {
+                var result = start;
+
+                Array.prototype.forEach.apply(nl, [function (v) {
+                    result = func(result, v);
+                }]);
+
+                return result;
+            },
+            whereScript = function (result, el) {
+                if (el.nodeName === "SCRIPT") {
+                    result.push(el);
+                }
+
+                return _reduce(el.childNodes, whereScript, result);
+            },
+            i,
+            scripts = [],
+            newScriptTags = [];
+
+        xhr.open("GET", url, false);
+        xhr.send();
+
         container.setAttribute('id', id);
-        container.innerHTML = newScreen;
+        container.innerHTML = xhr.responseText;
 
         // Add any Java Script files that need to be included
-        var scriptIds = [],
-            scripts = container.getElementsByTagName('script'),
-            newScriptTags = [];
-        container.scriptIds = scriptIds;
-        for (var i = 0; i < scripts.length; i++) {
-            var bbScript = scripts[i],
-                scriptTag = document.createElement('script');
-            scriptIds.push({'id' : bbScript.getAttribute('id'), 'onunload': bbScript.getAttribute('onunload')});
+        scripts = _reduce(container.childNodes, whereScript, []),
+        container.scriptIds = [];
+
+        scripts.forEach(function (script) {
+            var scriptTag = document.createElement('script');
+
+            if (script.text) {
+                //if there is text, just eval it since they probably don't have a src.
+                eval(script.text);
+                return;
+            }
+            container.scriptIds.push({'id' : script.getAttribute('id'), 'onunload': script.getAttribute('onunload')});
             scriptTag.setAttribute('type','text/javascript');
-            scriptTag.setAttribute('src', bbScript.getAttribute('src'));
-            scriptTag.setAttribute('id', bbScript.getAttribute('id'));
+            scriptTag.setAttribute('src', script.getAttribute('src'));
+            scriptTag.setAttribute('id', script.getAttribute('id'));
             newScriptTags.push(scriptTag);
             // Remove script tag from container because we are going to add it to <head>
-            bbScript.parentNode.removeChild(bbScript);
-        }
+            script.parentNode.removeChild(script);
+        });
 
         // Add getElementById for the container so that it can be used in the onscreenready event
         container.getElementById = function(id, node) {
@@ -130,9 +152,7 @@ bb = {
         bb.screen.scriptCounter = 0;
         bb.screen.totalScripts = newScriptTags.length;
         for (var i = 0; i < newScriptTags.length; i++) {
-            var head = document.getElementsByTagName('head');
-            if (head.length > 0 ) {
-                head[0].appendChild(newScriptTags[i]);
+                document.body.appendChild(newScriptTags[i]);
                 newScriptTags[i].onload = function() {
                     bb.screen.scriptCounter++;
                     if(bb.screen.scriptCounter == bb.screen.totalScripts) {
@@ -147,7 +167,6 @@ bb = {
                         bb.screen.applyEffect(id, container);
                     }
                 };
-            }
         }
 
         // In case there are no scripts at all we simply doLoad() now
@@ -216,15 +235,13 @@ bb = {
             // Remove any JavaScript files
             for (var i = 0; i < currentStackItem.scripts.length; i++) {
                 var bbScript = currentStackItem.scripts[i],
-                    scriptTag = document.getElementById(bbScript.id),
-                    head = document.getElementsByTagName('head');
+                    scriptTag = document.getElementById(bbScript.id);
                 // Call the unload function if any is defined
                 if (bbScript.onunload) {
                     eval(bbScript.onunload);
                 }
-                if (head.length > 0 ) {
-                    head[0].removeChild(scriptTag);
-                }
+                
+                document.body.removeChild(scriptTag);
             }
         }
     },
@@ -1228,8 +1245,9 @@ bb.textInput = {
             }
         } else {
             for (var i = 0; i < elements.length; i++) {
-                var outerElement = elements[i],
-                    style = 'bb-bb7-input';
+                var outerElement = elements[i];
+                var style = outerElement.getAttribute('class');
+                style = style + ' bb-bb7-input';
                 
                 if (bb.device.isHiRes) {
                     style = style + ' bb-bb7-input-hires';
