@@ -1,11 +1,11 @@
-bb.screen = {
+bb.screen = {  
     scriptCounter:  0,
     totalScripts: 0,
     
     apply: function(elements) {
         for (var i = 0; i < elements.length; i++) {
             var outerElement = elements[i];
-            if (bb.device.isHiRes) {
+            if (bb.device.isHiRes()) {
                 outerElement.setAttribute('class', 'bb-hires-screen');
             }
             
@@ -13,46 +13,61 @@ bb.screen = {
                 outerElement.style.height = window.innerHeight;
                 outerElement.style.width = window.innerWidth;
                 outerElement.style.overflow = 'auto';
-                //alert(bb.screens.length);
+                
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
                 if (titleBar.length > 0) {
-                    titleBar = titleBar[0];
-                    
-                    // Create our scrollable <div>
-                    var scrollArea = document.createElement('div');
-                    scrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:55px;left:0px;right:0px;');
-                    outerElement.appendChild(scrollArea);
-                    // Copy all nodes that are not the title bar
-                    var tempHolder = [],
-                        childNode = null, 
-                        j;
-                    for (j = 0; j < outerElement.childNodes.length - 1; j++) {
-                        childNode = outerElement.childNodes[j];
-                        if (childNode != titleBar) {
-                            tempHolder.push(childNode);
-                        }
-                    }
-                    // Add them into the scrollable area
-                    for (j = 0; j < tempHolder.length -1; j++) {
-                        scrollArea.appendChild(tempHolder[j]);
-                    }
-                    
+                    titleBar = titleBar[0]; }
+				else {
+					titleBar = null;
+				}
+				
+				// Create our scrollable <div>
+				var outerScrollArea = document.createElement('div'); 
+				var outerScrollArea = document.createElement('div');
+				outerElement.appendChild(outerScrollArea);
+				// Turn off scrolling effects if they don't want them
+				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
+					outerScrollArea.setAttribute('id','bbUIscrollWrapper'); 
+				}
+				// Inner Scroll Area
+				var scrollArea = document.createElement('div');
+				outerScrollArea.appendChild(scrollArea); 
+				
+				
+				// Copy all nodes that are not the title bar
+				var tempHolder = [],
+					childNode = null, 
+					j;
+				for (j = 0; j < outerElement.childNodes.length - 1; j++) {
+					childNode = outerElement.childNodes[j];
+					if (childNode != titleBar) {
+						tempHolder.push(childNode);
+					}
+				}
+				// Add them into the scrollable area
+				for (j = 0; j < tempHolder.length -1; j++) {
+					scrollArea.appendChild(tempHolder[j]);
+				}
+                   
+				if (titleBar) {
+					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:55px;left:0px;right:0px;');
+					
                     titleBar.setAttribute('class', 'pb-title-bar');
                     titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
                     if (titleBar.hasAttribute('data-bb-back-caption')) {
                         var button = document.createElement('div'), 
                             buttonInner = document.createElement('div');
                         button.setAttribute('class', 'pb-title-bar-back');
-                        
                         button.onclick = bb.popScreen;
-                        
                         buttonInner.setAttribute('class','pb-title-bar-back-inner');
                         buttonInner.innerHTML = titleBar.getAttribute('data-bb-back-caption'); 
                         button.appendChild(buttonInner);
                         titleBar.appendChild(button);
                     }
                 }
-                
+				else {
+					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
+				}
             }
             else {
                 // See if there is a title bar
@@ -61,7 +76,7 @@ bb.screen = {
                     titleBar = titleBar[0];
                     if (titleBar.hasAttribute('data-bb-caption')) {
                         var outerStyle = outerElement.getAttribute('style');
-                        if (bb.device.isHiRes) {
+                        if (bb.device.isHiRes()) {
                             titleBar.setAttribute('class', 'bb-hires-screen-title');
                             outerElement.setAttribute('style', outerStyle + ';padding-top:33px');
                         } else {

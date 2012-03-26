@@ -1,4 +1,4 @@
-bb.dropdown = {
+bb.dropdown = { 
     // Apply our transforms to all dropdowns passed in
     apply: function(elements) {
         if (bb.device.isBB5()) {
@@ -7,7 +7,18 @@ bb.dropdown = {
             for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i],
                     options = outerElement.getElementsByTagName('option'),
-                    caption = '';
+                    caption = '',
+					inEvent,
+					outEvent;
+					
+				// Set our highlight events
+				if (bb.device.isPlayBook()) {
+					inEvent = 'ontouchstart';
+					outEvent = 'ontouchend';
+				} else {
+					inEvent = 'onmouseover';
+					outEvent = 'onmouseout';
+				}
 
                 outerElement.style.display = 'none';
                 // Get our selected item
@@ -28,7 +39,7 @@ bb.dropdown = {
                 var normal = 'bb-bb7-dropdown',
                     highlight = 'bb-bb7-dropdown-highlight';
 
-                if (bb.device.isHiRes) {
+                if (bb.device.isHiRes()) {
                     normal = normal + ' bb-bb7-dropdown-hires';
                     highlight = highlight + ' bb-bb7-dropdown-hires';
                 } else {
@@ -46,8 +57,8 @@ bb.dropdown = {
                 dropdown.setAttribute('data-bb-type','dropdown');
                 dropdown.setAttribute('class',normal);
                 dropdown.setAttribute('x-blackberry-focusable','true');
-                dropdown.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
-                dropdown.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
+				dropdown.setAttribute(inEvent,"this.setAttribute('class','" + highlight +"')");
+				dropdown.setAttribute(outEvent,"this.setAttribute('class','" + normal + "')");
                 outerElement.parentNode.insertBefore(dropdown, outerElement);
                 dropdown.appendChild(outerElement);
 
@@ -87,7 +98,7 @@ bb.dropdown = {
 
                             // Create our dialog
                             var dialog = document.createElement('div');
-                            if (bb.device.isHiRes) {
+                            if (bb.device.isHiRes()) {
                                 dialog.setAttribute('class', 'ripple-dropdown-dialog bb-hires-screen');
                             } else {
                                 dialog.setAttribute('class', 'ripple-dropdown-dialog');

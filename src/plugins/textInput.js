@@ -1,4 +1,4 @@
-bb.textInput = {
+bb.textInput = { 
     apply: function(elements) {
         if (bb.device.isBB5()) {
             for (var i = 0; i < elements.length; i++) {
@@ -10,7 +10,7 @@ bb.textInput = {
                 var style = outerElement.getAttribute('class');
                 style = style + ' bb-bb7-input';
                 
-                if (bb.device.isHiRes) {
+                if (bb.device.isHiRes()) {
                     style = style + ' bb-bb7-input-hires';
                 } else {
                     style = style + ' bb-bb7-input-lowres';
