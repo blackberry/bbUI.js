@@ -1,4 +1,4 @@
-bb.pillButtons = {
+bb.pillButtons = {  
     // Apply our transforms to all pill buttons passed in
     apply: function(elements) {
         if (bb.device.isBB5()) {
@@ -49,7 +49,7 @@ bb.pillButtons = {
                     buttonStyle = '';
                 
                 // Set our container style
-                if (bb.device.isHiRes) {
+                if (bb.device.isHiRes()) {
                     containerStyle = containerStyle + ' bb-bb7-pill-buttons-hires';
                     buttonStyle = 'bb-bb7-pill-button-hires';
                 } else {
@@ -60,9 +60,19 @@ bb.pillButtons = {
                 
                 
                 // Gather our inner items
-                var items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
+                var inEvent, 
+					outEvent, 
+					items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
                     percentWidth = Math.floor(98 / items.length),
                     sidePadding = 102-(percentWidth * items.length);
+					
+				if (bb.device.isPlayBook()) {
+					inEvent = 'ontouchstart';
+					outEvent = 'ontouchend';
+				} else {
+					inEvent = 'onmouseover';
+					outEvent = 'onmouseout';
+				}
                     
                 outerElement.style['padding-left'] = sidePadding + '%';
                 outerElement.style['padding-right'] = sidePadding + '%';
@@ -74,31 +84,41 @@ bb.pillButtons = {
                             innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
                         } else {
                             innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
-                            innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
-                            innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
+                            innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
+                            innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
                         }
                     } else if (j == items.length -1) { // Right button
                         if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
                             innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right '+ buttonStyle);
                         } else {
                             innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
-                            innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
-                            innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
+                            innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
+                            innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
                         }
                     } else { // Middle Buttons
                         if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
                             innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight '+ buttonStyle);
                         } else {
                             innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
-                            innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
-                            innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
+                            innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
+                            innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
                         }
                     }
+										
                     // Set our width
                     innerChildNode.style.width = percentWidth + '%';
                     // Add our subscription for click events to change highlighting
                     innerChildNode.addEventListener('click',function (e) {
-                            var items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
+                            var inEvent, outEvent, items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
+							
+							if (bb.device.isPlayBook()) {
+								inEvent = 'ontouchstart';
+								outEvent = 'ontouchend';
+							} else {
+								inEvent = 'onmouseover';
+								outEvent = 'onmouseout';
+							}
+							
                             for (var j = 0; j < items.length; j++) {
                                 var innerChildNode = items[j];
                                 
@@ -109,8 +129,8 @@ bb.pillButtons = {
                                         innerChildNode.onmouseout = null;
                                     } else {
                                         innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
-                                        innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
-                                        innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
+                                        innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
+                                        innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
                                     }
                                 } else if (j == items.length -1) { // Right button
                                     if (innerChildNode == this) {
@@ -119,8 +139,8 @@ bb.pillButtons = {
                                         innerChildNode.onmouseout = null;
                                     } else {
                                         innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
-                                        innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
-                                        innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
+                                        innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
+                                        innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
                                     }
                                 } else { // Middle Buttons
                                     if (innerChildNode == this) {
@@ -129,8 +149,8 @@ bb.pillButtons = {
                                         innerChildNode.onmouseout = null;
                                     } else {
                                         innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
-                                        innerChildNode.setAttribute('onmouseover',"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
-                                        innerChildNode.setAttribute('onmouseout',"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
+                                        innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
+                                        innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
                                     }
                                 }
                             }
