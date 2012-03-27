@@ -170,7 +170,7 @@ bb = {
 
         // Remove our old screen
         bb.removeLoadedScripts();
-		bb.removeMenus();
+		bb.menuBar.clearMenu();
         var numItems = bb.screens.length;
         if (numItems > 0) {
             var oldScreen = document.getElementById(bb.screens[numItems -1].id);
@@ -191,7 +191,7 @@ bb = {
             var currentStackItem = bb.screens[numItems-1],
                 current = document.getElementById(currentStackItem.id);
             document.body.removeChild(current);
-			bb.removeMenus();
+			bb.menuBar.clearMenu();
 			bb.screens.pop();
 
             // Retrieve our new screen
@@ -230,20 +230,6 @@ bb = {
             }
         }
     },
-
-	removeMenus: function(){
-		if(blackberry && blackberry.ui && blackberry.ui.menu){
-			//clear menus
-			if (bb.device.isPlayBook()) {
-				//TODO: clear PB menu
-			}
-			else{
-				if(blackberry.ui.menu){
-					blackberry.ui.menu.clearMenuItems();
-				}
-			}
-		}
-	},
 
     //screen
     //roundPanel
@@ -597,7 +583,7 @@ bb.dropdown = {
                             //On Smartphones, use the new Select Asynch dialog in blackberry.ui.dialog
                             var inputs = [];
                             for (var i = 0; i < select.options.length; i++) {
-                                inputs[i] = { label : select.options[i].text, selected : i == select.selectedIndex, enabled : true, type : "option"};
+                                inputs[i] = {label : select.options[i].text, selected : i == select.selectedIndex, enabled : true, type : "option"};
                             }
                             try {
                                 blackberry.ui.dialog.selectAsync(false, inputs,
@@ -773,6 +759,176 @@ bb.labelControlContainers = {
             }
         }
     }
+};
+
+bb.menuBar = {
+	//TODO: need to allow for height to change;
+	height: 70,
+	activeClick: false,
+	ignoreClick: false,
+	menuOpen: false,
+	menu: false,
+
+	apply: function(menuBar){
+		if (blackberry && blackberry.app && bb.device.isPlayBook()) {
+			bb.menuBar.createSwipeMenu(menuBar);
+			menuBar.parentNode.removeChild(menuBar);
+			document.addEventListener("click", bb.menuBar.globalClickHandler, false);
+			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
+		}else if(blackberry && blackberry.ui && blackberry.ui.menu){
+			bb.menuBar.createBlackberryMenu(menuBar);
+			menuBar.parentNode.removeChild(menuBar);
+		}else{
+			console.log('Unable to create Blackberry menu');
+		}
+	},
+
+	createBlackberryMenu: function(menuBar){
+		var items, item;
+		
+		items = menuBar.getElementsByTagName('div');
+		
+		for (var j = 0; j < items.length; j++) {
+			if(items[j].getAttribute('data-bb-type') === "menu-item"){
+				item = new blackberry.ui.menu.MenuItem(false, j, items[j].innerHTML, items[j].onclick);
+				blackberry.ui.menu.addMenuItem(item);
+				if(items[j].hasAttribute('data-bb-selected') && items[j].getAttribute('data-bb-selected') === "true"){
+					blackberry.ui.menu.setDefaultMenuItem(item);
+				}
+			}else if(items[j].getAttribute('data-bb-type') === "menu-separator"){
+				item = new blackberry.ui.menu.MenuItem(true, j);
+				blackberry.ui.menu.addMenuItem(item);
+			}else{
+				console.log('invalid menu item type');
+			}
+		}		
+	},
+	
+	createSwipeMenu: function(menuBar){
+		var pbMenu, items, pbMenuInner, top, style;
+		
+		pbMenu				= document.createElement("div");
+		pbMenu.id			= 'pb-menu-bar';
+		style				= pbMenu.style;
+		style.height		= bb.menuBar.height + 'px';
+		style.top			= '-' + (bb.menuBar.height + 3) + 'px';
+		pbMenu.style		= style;
+		pbMenu.addEventListener("click", bb.menuBar.onMenuBarClicked, false);
+
+		items				= menuBar.getElementsByTagName('div');
+		if(items.length > 0){
+			top						= parseInt(bb.menuBar.height / 9, 10);
+			pbMenuInner				= document.createElement("ul");
+			style					= pbMenuInner.style;
+			style.top				= top +'px';
+			pbMenuInner.style		= style;
+			for (var j = 0; j < items.length; j++) {
+				if(items[j].getAttribute('data-bb-type') === "menu-item"){
+					var img, title, span, fontHeight, br;
+					
+					fontHeight			= parseInt(bb.menuBar.height /2.5, 10);
+					
+					var pbMenuItem		= document.createElement("li");
+					style				= pbMenuItem.style;
+					style.padding		= parseInt(fontHeight/1.65, 10) + "px 12px";
+					style.fontSize		= fontHeight + "px";
+					pbMenuItem.style	= style;
+					
+					title				= items[j].hasAttribute('data-bb-caption') ? items[j].getAttribute('data-bb-caption') : '';
+					iconPath			= items[j].hasAttribute('data-bb-img') ? items[j].getAttribute('data-bb-img') : '';
+					
+					if(iconPath){
+						style				= pbMenuItem.style;
+						style.padding		= parseInt(fontHeight /4, 10) + "px 12px";
+						pbMenuItem.style	= style;
+						
+						img					= new Image();
+						img.src				= iconPath;
+						style				= img.style;
+						style.height		= parseInt(bb.menuBar.height * 0.6, 10) + "px";
+						img.style			= style;
+						pbMenuItem.appendChild(img);
+						
+						if(title){
+							br				= document.createElement("br");
+							pbMenuItem.appendChild(br);
+							style			= img.style;
+							style.height	= parseInt(bb.menuBar.height * 0.45, 10) + "px";
+							img.style		= style;
+							style			= pbMenuItem.style;
+							style.fontSize	= parseInt(fontHeight/2,10) +"px";
+							pbMenuItem.style;
+						}
+					}
+					
+					span				= document.createElement("span");
+					span.innerText		= title;
+					pbMenuItem.appendChild(span);
+					pbMenuItem.onclick	= items[j].onclick;
+
+					pbMenuInner.appendChild(pbMenuItem);
+
+					if(items[j].hasAttribute('data-bb-selected') && items[j].getAttribute('data-bb-selected') === "true"){
+						//TODO: any way to handle default?
+					}
+				}else if(items[j].getAttribute('data-bb-type') === "menu-separator"){
+					//TODO: should a separator be handled in PB?
+				}else{
+					console.log('invalid menu item type');
+				}
+			}
+			pbMenu.appendChild(pbMenuInner);
+		}
+		document.body.appendChild(pbMenu);
+		pbMenu.style['-webkit-transform']	= 'translate(0,0)';
+		
+		bb.menuBar.menu	= pbMenu;		
+	},
+
+	showMenuBar: function(){
+		if(!bb.menuBar.menuOpen){
+			blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
+			bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
+			bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, ' + (bb.menuBar.height + 3) + 'px)';
+
+			bb.menuBar.menuOpen = true;
+		}
+	},
+
+	hideMenuBar: function(){
+		if(bb.menuBar.menuOpen){
+			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
+			bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
+			bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, -' + (bb.menuBar.height + 3) + 'px)';
+
+			bb.menuBar.menuOpen = false;
+		}
+	},
+
+	globalClickHandler: function(){
+		if (bb.menuBar.menuOpen && !bb.menuBar.activeClick && !bb.menuBar.ignoreClick) {
+			bb.menuBar.hideMenuBar();
+		}
+		bb.menuBar.activeClick = false;
+		bb.menuBar.ignoreClick = false;
+	},
+
+	onMenuBarClicked: function () {
+		bb.menuBar.activeClick = true;
+	},
+
+	clearMenu: function(){
+		if(blackberry){
+			if(blackberry.app && bb.menuBar.menu && bb.device.isPlayBook() && bb.menuBar.menu){
+				blackberry.app.event.onSwipeDown('');
+				document.removeEventListener("click", bb.menuBar.globalClickHandler, false);
+				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
+				bb.menuBar.menu = false;
+			}else if(blackberry.ui && blackberry.ui.menu){
+				blackberry.ui.menu.clearMenuItems();
+			}
+		}
+	}
 };
 
 bb.pillButtons = {
@@ -1026,21 +1182,18 @@ bb.screen = {
             if (bb.device.isHiRes) {
                 outerElement.setAttribute('class', 'bb-hires-screen');
             }
-            
+
+			var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+			if (menuBar.length > 0) {
+				menuBar = menuBar[0];
+				bb.menuBar.apply(menuBar);
+			}
+
             if (bb.device.isPlayBook()) {
                 outerElement.style.height = window.innerHeight;
                 outerElement.style.width = window.innerWidth;
                 outerElement.style.overflow = 'auto';
                 //alert(bb.screens.length);
-				//TODO: check for menu, create it if found create
-				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
-				if (menuBar.length > 0) {
-					menuBar = menuBar[0];
-					//TODO: create menu shell
-					//TODO: find all menu items
-					//TODO: for each menu item check for image, function and text
-					//TODO: add menu item to menu bar, remove from page
-				}
 
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
 
@@ -1099,31 +1252,6 @@ bb.screen = {
                         titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
                     }
                 }
-
-				if(blackberry && blackberry.ui && blackberry.ui.menu){
-					var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
-					if (menuBar.length > 0) {
-						menuBar = menuBar[0];
-						var items = menuBar.getElementsByTagName('div');
-						for (var j = 0; j < items.length; j++) {
-							if(items[j].getAttribute('data-bb-type') === "menu-item"){
-								var item = new blackberry.ui.menu.MenuItem(false, j, items[j].innerHTML, items[j].onclick);
-								blackberry.ui.menu.addMenuItem(item);
-								if(items[j].hasAttribute('data-bb-selected') && items[j].getAttribute('data-bb-selected') === "true"){
-									blackberry.ui.menu.setDefaultMenuItem(item);
-								}
-							}else if(items[j].getAttribute('data-bb-type') === "menu-separator"){
-								var item = new blackberry.ui.menu.MenuItem(true, j);
-								blackberry.ui.menu.addMenuItem(item);
-							}else{
-								console.log('invalid menu item type');
-							}
-						}
-						menuBar.parentNode.removeChild(menuBar);
-					}
-				}else{
-					console.log('blackberry.ui.menu must be enabled to setup a menu');
-				}
             }
         }
     },
