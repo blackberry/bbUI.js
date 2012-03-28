@@ -8,7 +8,14 @@ bb.screen = {
             if (bb.device.isHiRes) {
                 outerElement.setAttribute('class', 'bb-hires-screen');
             }
-            
+
+			//check to see if a menu/menuBar needs to be created
+			var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+			if (menuBar.length > 0) {
+				menuBar = menuBar[0];
+				bb.menuBar.apply(menuBar);
+			}
+
             if (bb.device.isPlayBook()) {
                 outerElement.style.height = window.innerHeight;
                 outerElement.style.width = window.innerWidth;

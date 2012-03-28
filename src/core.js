@@ -173,6 +173,7 @@ bb = {
 
         // Remove our old screen
         bb.removeLoadedScripts();
+		bb.menuBar.clearMenu();
         var numItems = bb.screens.length;
         if (numItems > 0) {
             var oldScreen = document.getElementById(bb.screens[numItems -1].id);
@@ -190,6 +191,7 @@ bb = {
         var numItems = bb.screens.length;
         if (numItems > 1) {
             bb.removeLoadedScripts();
+			bb.menuBar.clearMenu();
             var currentStackItem = bb.screens[numItems-1],
                 current = document.getElementById(currentStackItem.id);
             document.body.removeChild(current);

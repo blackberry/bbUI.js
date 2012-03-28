@@ -762,38 +762,42 @@ bb.labelControlContainers = {
 };
 
 bb.menuBar = {
-	//TODO: need to allow for height to change;
-	height: 70,
+	height: 100,
 	activeClick: false,
 	ignoreClick: false,
 	menuOpen: false,
 	menu: false,
 
 	apply: function(menuBar){
-		if (blackberry && blackberry.app && bb.device.isPlayBook()) {
+		if (blackberry && blackberry.app.event && bb.device.isPlayBook()) {
 			bb.menuBar.createSwipeMenu(menuBar);
 			menuBar.parentNode.removeChild(menuBar);
 			document.addEventListener("click", bb.menuBar.globalClickHandler, false);
 			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
-		}else if(blackberry && blackberry.ui && blackberry.ui.menu){
+		}else if(blackberry && blackberry.ui.menu){
 			bb.menuBar.createBlackberryMenu(menuBar);
 			menuBar.parentNode.removeChild(menuBar);
 		}else{
-			console.log('Unable to create Blackberry menu');
+			console.log('Unable to create Blackberry/onSwipeDown menu.');
 		}
 	},
 
 	createBlackberryMenu: function(menuBar){
-		var items, item;
+		var items, item, title;
 		
 		items = menuBar.getElementsByTagName('div');
 		
 		for (var j = 0; j < items.length; j++) {
 			if(items[j].getAttribute('data-bb-type') === "menu-item"){
-				item = new blackberry.ui.menu.MenuItem(false, j, items[j].innerHTML, items[j].onclick);
-				blackberry.ui.menu.addMenuItem(item);
-				if(items[j].hasAttribute('data-bb-selected') && items[j].getAttribute('data-bb-selected') === "true"){
-					blackberry.ui.menu.setDefaultMenuItem(item);
+				title	= items[j].hasAttribute('data-bb-caption') ? items[j].getAttribute('data-bb-caption') : false;
+				if(title){
+					item	= new blackberry.ui.menu.MenuItem(false, j, title, items[j].onclick);
+					blackberry.ui.menu.addMenuItem(item);
+					if(items[j].hasAttribute('data-bb-selected') && items[j].getAttribute('data-bb-selected') === "true"){
+						blackberry.ui.menu.setDefaultMenuItem(item);
+					}
+				}else{
+					console.log("can't add menu item without data-bb-caption");
 				}
 			}else if(items[j].getAttribute('data-bb-type') === "menu-separator"){
 				item = new blackberry.ui.menu.MenuItem(true, j);
@@ -809,6 +813,9 @@ bb.menuBar = {
 		
 		pbMenu				= document.createElement("div");
 		pbMenu.id			= 'pb-menu-bar';
+		if(menuBar.hasAttribute('class')) {
+			pbMenu.setAttribute('class', menuBar.getAttribute('class'));
+		}
 		style				= pbMenu.style;
 		style.height		= bb.menuBar.height + 'px';
 		style.top			= '-' + (bb.menuBar.height + 3) + 'px';
@@ -824,11 +831,14 @@ bb.menuBar = {
 			pbMenuInner.style		= style;
 			for (var j = 0; j < items.length; j++) {
 				if(items[j].getAttribute('data-bb-type') === "menu-item"){
-					var img, title, span, fontHeight, br;
+					var img, title, span, fontHeight, br, iconOnly;
 					
 					fontHeight			= parseInt(bb.menuBar.height /2.5, 10);
 					
 					var pbMenuItem		= document.createElement("li");
+					if(items[j].hasAttribute('class')) {
+						pbMenuItem.setAttribute('class', items[j].getAttribute('class'));
+					}
 					style				= pbMenuItem.style;
 					style.padding		= parseInt(fontHeight/1.65, 10) + "px 12px";
 					style.fontSize		= fontHeight + "px";
@@ -836,7 +846,8 @@ bb.menuBar = {
 					
 					title				= items[j].hasAttribute('data-bb-caption') ? items[j].getAttribute('data-bb-caption') : '';
 					iconPath			= items[j].hasAttribute('data-bb-img') ? items[j].getAttribute('data-bb-img') : '';
-					
+					iconOnly			= items[j].hasAttribute('data-bb-icon-only') ? items[j].getAttribute('data-bb-icon-only') : false;
+
 					if(iconPath){
 						style				= pbMenuItem.style;
 						style.padding		= parseInt(fontHeight /4, 10) + "px 12px";
@@ -849,30 +860,32 @@ bb.menuBar = {
 						img.style			= style;
 						pbMenuItem.appendChild(img);
 						
-						if(title){
-							br				= document.createElement("br");
+						if(title && !iconOnly){
+							br					= document.createElement("br");
 							pbMenuItem.appendChild(br);
-							style			= img.style;
-							style.height	= parseInt(bb.menuBar.height * 0.45, 10) + "px";
-							img.style		= style;
-							style			= pbMenuItem.style;
-							style.fontSize	= parseInt(fontHeight/2,10) +"px";
-							pbMenuItem.style;
+							style				= img.style;
+							style.height		= parseInt(bb.menuBar.height * 0.45, 10) + "px";
+							img.style			= style;
+							style				= pbMenuItem.style;
+							style.fontSize		= parseInt(fontHeight/2,10) +"px";
+							pbMenuItem.style	= style;
 						}
 					}
-					
-					span				= document.createElement("span");
-					span.innerText		= title;
-					pbMenuItem.appendChild(span);
-					pbMenuItem.onclick	= items[j].onclick;
 
-					pbMenuInner.appendChild(pbMenuItem);
-
-					if(items[j].hasAttribute('data-bb-selected') && items[j].getAttribute('data-bb-selected') === "true"){
-						//TODO: any way to handle default?
+					if(!iconOnly){
+						span				= document.createElement("span");
+						span.innerText		= title;
+						pbMenuItem.appendChild(span);
 					}
+
+					pbMenuItem.onclick	= items[j].onclick;
+					pbMenuInner.appendChild(pbMenuItem);
 				}else if(items[j].getAttribute('data-bb-type') === "menu-separator"){
-					//TODO: should a separator be handled in PB?
+					pbMenu.appendChild(pbMenuInner);
+					pbMenuInner	= document.createElement("ul")
+					style					= pbMenuInner.style;
+					style.top				= top +'px';
+					pbMenuInner.style		= style;
 				}else{
 					console.log('invalid menu item type');
 				}
@@ -919,12 +932,12 @@ bb.menuBar = {
 
 	clearMenu: function(){
 		if(blackberry){
-			if(blackberry.app && bb.menuBar.menu && bb.device.isPlayBook() && bb.menuBar.menu){
+			if(blackberry.app.event && bb.menuBar.menu && bb.device.isPlayBook()){
 				blackberry.app.event.onSwipeDown('');
 				document.removeEventListener("click", bb.menuBar.globalClickHandler, false);
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
-			}else if(blackberry.ui && blackberry.ui.menu){
+			}else if(blackberry.ui.menu){
 				blackberry.ui.menu.clearMenuItems();
 			}
 		}
@@ -1183,6 +1196,7 @@ bb.screen = {
                 outerElement.setAttribute('class', 'bb-hires-screen');
             }
 
+			//check to see if a menu/menuBar needs to be created
 			var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
 			if (menuBar.length > 0) {
 				menuBar = menuBar[0];

@@ -220,6 +220,7 @@ body, html {
    PlayBook Swipe Menu
    =================================================*/
 #pb-menu-bar {
+	font-family: "Myriad Pro", sans serif;
 	position: fixed;
 	left: 0px;
 	width: 100%;
@@ -229,20 +230,21 @@ body, html {
 	line-height: 1;
 	border: 0;
 	font-size: 100%;
-	background: rgb(56,54,56);
-	border-bottom: solid 1px #ddd;
+	background: #181818;
+	border-bottom: solid #626262 1px;
 	box-shadow: 0px 2px 2px #888;
-	color: #CCC;
+	color: #626262;
 	z-index:1002;
 }   
 
 #pb-menu-bar ul {
-	float: left;
+	float: right;
 	list-style: none;
 	margin: 0;
 	padding: 0 5px;
 	border: 0;
 	position: relative;
+	border-left: solid #626262 1px;
 }
 
 #pb-menu-bar ul li {
