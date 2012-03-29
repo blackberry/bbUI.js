@@ -5,7 +5,9 @@ The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for H
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
-_**NOTE: bbUI DropDowns require BlackBerry WebWorks SDK v2.3 for Smartphones or higher**_
+All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo.
+
+_**NOTE: bbUI DropDowns on BB5/BB6/B7 require BlackBerry WebWorks SDK v2.3 for Smartphones or higher**_
 
 This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7 and then back-port for BB5.  We'll also be adding some PlayBook look and feel
 
@@ -23,10 +25,9 @@ This toolkit is currently in an incubation stage and we're working on getting th
 * BlackBerry Bold 9700 v6.0.0.546
 * BlackBerry Bold 9700 v5.0.0.979 
 * BlackBerry Storm 9520 v5.0.0.713
+* BlackBerry PlayBook v2.0.0.7971
 
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
-
-These examples have been designed for a Smartphone screen size and **not** for the BlackBerry&reg; PlayBook&trade;
 
 ## Source files to include
 
@@ -35,7 +36,7 @@ You can find both the JS and CSS files that you need to add to your page in the 
 ## Philosophy
 
 The bbUI toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
-on BB5/BB6/BB7.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
+on BB5/BB6/BB7/PlayBook.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
 CSS used to generate the user interface is handled by the bbUI toolkit so that you don't have to deal with the idiosyncrasies
 of the different layout engines.
 
@@ -149,6 +150,17 @@ You can also add a **back** button to your title bar that will **ONLY** appear w
 This will appear as the standard back button in your UI as seen below:
 
 ![Image List](bbUI.js/raw/master/screenshots/backBtn.png)
+
+
+## Screen Scrolling Effects
+
+Inertial screen scrolling effects with elastic ends are implemented by default for **PlayBook only** (this means no scrolling effects for other devices at the moment).  This has been accomplished by integrating iScroll into bbUI.  
+This will provide a native scrolling experience on each of your screens.  If you do not want the scrolling effects applied to a screen you can simply turn them off using the **data-bb-scroll-effect="off"** attribute on the 
+&lt;screen&gt; element.  You may want to remove these effects on screens where you want all the content within the screen to be fixed without providing an elastic pull down effect on the content.
+
+	<div data-bb-type="screen" data-bb-scroll-effect="off">
+
+	</div>
 
 
 ## Loading Screen Specific CSS

@@ -1,4 +1,4 @@
-bb.button = {
+bb.button = { 
     
     // Apply our transforms to all arrow buttons passed in
     apply: function(elements) {
@@ -35,7 +35,18 @@ bb.button = {
                 var outerElement = elements[i],
                     disabled = outerElement.hasAttribute('data-bb-disabled'),
                     normal = 'bb-bb7-button',
-                    highlight = 'bb-bb7-button-highlight';
+                    highlight = 'bb-bb7-button-highlight',
+					inEvent,
+					outEvent;
+					
+				// Set our highlight events
+				if (bb.device.isPlayBook()) {
+					inEvent = 'ontouchstart';
+					outEvent = 'ontouchend';
+				} else {
+					inEvent = 'onmouseover';
+					outEvent = 'onmouseout';
+				}
                     
                 outerElement.enabled = !disabled;
                 
@@ -44,7 +55,7 @@ bb.button = {
                     outerElement.removeAttribute('data-bb-disabled');
                 }
                 
-                if (bb.device.isHiRes) {
+                if (bb.device.isHiRes()) {
                     normal = normal + ' bb-bb7-button-hires';
                     highlight = highlight + ' bb-bb7-button-hires';
                 } else {
@@ -62,10 +73,9 @@ bb.button = {
                 outerElement.setAttribute('class',normal);
                 if (!disabled) {
                     outerElement.setAttribute('x-blackberry-focusable','true');
-                    outerElement.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
-                    outerElement.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
+					outerElement.setAttribute(inEvent,"this.setAttribute('class','" + highlight +"')");
+					outerElement.setAttribute(outEvent,"this.setAttribute('class','" + normal + "')");
                 }
-                
                                 
                 // Trap the click and call it only if the button is enabled
                 outerElement.trappedClick = outerElement.onclick;
@@ -84,7 +94,7 @@ bb.button = {
                         var normal = 'bb-bb7-button',
                             highlight = 'bb-bb7-button-highlight';
                         
-                        if (bb.device.isHiRes) {
+                        if (bb.device.isHiRes()) {
                             normal = normal + ' bb-bb7-button-hires';
                             highlight = highlight + ' bb-bb7-button-hires';
                         } else {
@@ -101,8 +111,8 @@ bb.button = {
                         }
                         this.setAttribute('class',normal);
                         this.setAttribute('x-blackberry-focusable','true');
-                        this.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
-                        this.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
+						this.setAttribute(inEvent,"this.setAttribute('class','" + highlight +"')");
+						this.setAttribute(outEvent,"this.setAttribute('class','" + normal + "')");
                         this.enabled = true;
                     };
                 // Assign our disable function
@@ -110,7 +120,7 @@ bb.button = {
                         if (!this.enabled) return;
                         var normal = 'bb-bb7-button-disabled';
                         
-                        if (bb.device.isHiRes) {
+                        if (bb.device.isHiRes()) {
                             normal = normal + ' bb-bb7-button-hires';
                         } else {
                             normal = normal + ' bb-bb7-button-lowres';
@@ -127,6 +137,8 @@ bb.button = {
                         this.removeAttribute('x-blackberry-focusable');
                         this.removeAttribute('onmouseover');
                         this.removeAttribute('onmouseout');
+						this.removeAttribute('ontouchstart');
+                        this.removeAttribute('ontouchend');
                         this.enabled = false;
                     };
             }
