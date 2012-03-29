@@ -1,10 +1,19 @@
-bb.imageList = {
+bb.imageList = {  
     apply: function(elements) {
         // Apply our transforms to all Dark Image Lists
         for (var i = 0; i < elements.length; i++) {
-            var outerElement = elements[i];
-            
-            if (bb.device.isHiRes) {
+            var inEvent, 
+				outEvent, 
+				outerElement = elements[i];
+			// Set our highlight events
+			if (bb.device.isPlayBook()) {
+				inEvent = 'ontouchstart';
+				outEvent = 'ontouchend';
+			} else {
+				inEvent = 'onmouseover';
+				outEvent = 'onmouseout';
+			}
+            if (bb.device.isHiRes()) {
                 outerElement.setAttribute('class','bb-hires-image-list');
             } else {
                 outerElement.setAttribute('class','bb-lowres-image-list');
@@ -17,10 +26,10 @@ bb.imageList = {
                     var type = innerChildNode.getAttribute('data-bb-type').toLowerCase(),
                         description = innerChildNode.innerHTML;
                     
-                    if (bb.device.isHiRes) {
+                    if (bb.device.isHiRes()) {
                         innerChildNode.setAttribute('class', 'bb-hires-image-list-item');
-                        innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-hires-image-list-item-hover')");
-                        innerChildNode.setAttribute('onmouseout', "this.setAttribute('class','bb-hires-image-list-item')");
+						innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-hires-image-list-item-hover')");
+						innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-hires-image-list-item')");
                         innerChildNode.setAttribute('x-blackberry-focusable','true');
                         innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
                                         '<div class="details">\n'+
@@ -29,8 +38,10 @@ bb.imageList = {
                                         '</div>\n';
                     } else {
                         innerChildNode.setAttribute('class', 'bb-lowres-image-list-item');
-                        innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-lowres-image-list-item-hover')");
-                        innerChildNode.setAttribute('onmouseout', "this.setAttribute('class','bb-lowres-image-list-item')");
+                        innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-lowres-image-list-item-hover')");
+						innerChildNode.ontouchstart = innerChildNode.onmouseover;  
+                        innerChildNode.ontouchend = innerChildNode.onmouseout;  
+						innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-lowres-image-list-item')");
                         innerChildNode.setAttribute('x-blackberry-focusable','true');
                         innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
                                         '<div class="details">\n'+

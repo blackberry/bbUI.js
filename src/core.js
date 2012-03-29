@@ -1,4 +1,5 @@
 bb = {
+	scroller: null,  
     screens: [],
 
     // Assign any listeners we need to make the bbUI framework function
@@ -29,8 +30,14 @@ bb = {
         bb.screen.reAdjustHeight();
     },
 
-    device: {
-        isHiRes: window.innerHeight > 480 || window.innerWidth > 480,
+    device: {  
+        isHiRes: function() { 
+			if (bb.device.isRipple()) {
+				return window.innerHeight > 480 || window.innerWidth > 480; 
+			} else {
+				return screen.width > 480 || screen.height > 480;
+			}
+		}, 
 
         // Determine if this browser is BB5
         isBB5: function() {
@@ -149,6 +156,7 @@ bb = {
                         document.body.appendChild(container);
                         window.scroll(0,0);
                         bb.screen.applyEffect(id, container);
+						bb.createScreenScroller();  
                     }
                 };
         }
@@ -163,10 +171,25 @@ bb = {
             document.body.appendChild(container);
             window.scroll(0,0);
             bb.screen.applyEffect(id, container);
+			bb.createScreenScroller(); 
         }
         return container;
     },
+	
+	// Creates the scroller for the screen
+	createScreenScroller : function() {   
+	
+		var scrollWrapper = document.getElementById('bbUIscrollWrapper');
+		if (scrollWrapper) {
+			bb.scroller = new iScroll(scrollWrapper, {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
+				var target = e.target;
+				while (target.nodeType != 1) target = target.parentNode;
 
+				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+					e.preventDefault();
+			}}); 
+		}
+	},  
 
     // Add a new screen to the stack
     pushScreen : function (url, id) {
@@ -182,6 +205,7 @@ bb = {
 
         // Add our screen to the stack
         var container = bb.loadScreen(url, id);
+		
         bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
     },
 
@@ -200,7 +224,7 @@ bb = {
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 container = bb.loadScreen(display.url, display.id);
-
+				
             window.scroll(0,0);
             bb.screen.applyEffect(display.id, container);
 
@@ -230,17 +254,5 @@ bb = {
                 document.body.removeChild(scriptTag);
             }
         }
-    },
-
-    //screen
-    //roundPanel
-    //textArrowList
-    //textInput
-    //button
-    //dropdown
-    //labelControlContainers
-    //pillButtons
-    //imageList
-    //inboxList
-    //bbBubble
+    }
 };

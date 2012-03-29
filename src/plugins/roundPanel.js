@@ -1,4 +1,4 @@
-bb.roundPanel = {
+bb.roundPanel = {  
     apply: function(elements) {
         if (bb.device.isBB5()) {
             // Apply our transforms to all the panels
@@ -50,7 +50,7 @@ bb.roundPanel = {
                 outerElement.setAttribute('class','bb-bb7-round-panel');
                 var items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
                 for (var j = 0; j < items.length; j++) {
-                    if (bb.device.isHiRes) {
+                    if (bb.device.isHiRes()) {
                         items[j].setAttribute('class','bb-hires-panel-header');
                     } else {
                         items[j].setAttribute('class','bb-lowres-panel-header');

@@ -22,13 +22,38 @@ bb.screen = {
                 outerElement.style.overflow = 'auto';
                 
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
+<<<<<<< HEAD
+
+				if (titleBar.length > 0) {
+                    titleBar = titleBar[0];
+                    
+                    // Create our scrollable <div>
+                    var scrollArea = document.createElement('div');
+                    scrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:55px;left:0px;right:0px;');
+                    outerElement.appendChild(scrollArea);
+                    // Copy all nodes that are not the title bar
+                    var tempHolder = [],
+                        childNode = null, 
+                        j;
+                    for (j = 0; j < outerElement.childNodes.length - 1; j++) {
+                        childNode = outerElement.childNodes[j];
+                        if (childNode != titleBar) {
+                            tempHolder.push(childNode);
+                        }
+                    }
+                    // Add them into the scrollable area
+                    for (j = 0; j < tempHolder.length -1; j++) {
+                        scrollArea.appendChild(tempHolder[j]);
+                    }
+                    
+=======
                 if (titleBar.length > 0) {
                     titleBar = titleBar[0]; }
 				else {
 					titleBar = null;
 				}
-                    
-                    // Create our scrollable <div>
+				
+				// Create our scrollable <div>
 				var outerScrollArea = document.createElement('div'); 
 				var outerScrollArea = document.createElement('div');
 				outerElement.appendChild(outerScrollArea);
@@ -59,6 +84,7 @@ bb.screen = {
 				if (titleBar) {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:55px;left:0px;right:0px;');
 					
+>>>>>>> upstream/master
                     titleBar.setAttribute('class', 'pb-title-bar');
                     titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
                     if (titleBar.hasAttribute('data-bb-back-caption')) {
@@ -75,7 +101,7 @@ bb.screen = {
 				else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
 				}
-             }
+            }
             else {
                 // See if there is a title bar
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
