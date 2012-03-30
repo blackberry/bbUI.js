@@ -844,7 +844,7 @@ bb.menuBar = {
 			bb.menuBar.createSwipeMenu(menuBar);
 			menuBar.parentNode.removeChild(menuBar);
 			document.addEventListener("click", bb.menuBar.globalClickHandler, false);
-			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
+			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
 		}else if(blackberry && blackberry.ui.menu){
 			bb.menuBar.createBlackberryMenu(menuBar);
 			menuBar.parentNode.removeChild(menuBar);
@@ -855,9 +855,9 @@ bb.menuBar = {
 
 	createBlackberryMenu: function(menuBar){
 		var items, item, title;
-		
+
 		items = menuBar.getElementsByTagName('div');
-		
+
 		for (var j = 0; j < items.length; j++) {
 			if(items[j].getAttribute('data-bb-type') === "menu-item"){
 				title	= items[j].hasAttribute('data-bb-caption') ? items[j].getAttribute('data-bb-caption') : false;
@@ -876,12 +876,12 @@ bb.menuBar = {
 			}else{
 				console.log('invalid menu item type');
 			}
-		}		
+		}
 	},
-	
+
 	createSwipeMenu: function(menuBar){
 		var pbMenu, items, pbMenuInner, top, style;
-		
+
 		pbMenu				= document.createElement("div");
 		pbMenu.id			= 'pb-menu-bar';
 		if(menuBar.hasAttribute('class')) {
@@ -903,9 +903,9 @@ bb.menuBar = {
 			for (var j = 0; j < items.length; j++) {
 				if(items[j].getAttribute('data-bb-type') === "menu-item"){
 					var img, title, span, fontHeight, br, iconOnly;
-					
+
 					fontHeight			= parseInt(bb.menuBar.height /2.5, 10);
-					
+
 					var pbMenuItem		= document.createElement("li");
 					if(items[j].hasAttribute('class')) {
 						pbMenuItem.setAttribute('class', items[j].getAttribute('class'));
@@ -914,7 +914,7 @@ bb.menuBar = {
 					style.padding		= parseInt(fontHeight/1.65, 10) + "px 12px";
 					style.fontSize		= fontHeight + "px";
 					pbMenuItem.style	= style;
-					
+
 					title				= items[j].hasAttribute('data-bb-caption') ? items[j].getAttribute('data-bb-caption') : '';
 					iconPath			= items[j].hasAttribute('data-bb-img') ? items[j].getAttribute('data-bb-img') : '';
 					iconOnly			= items[j].hasAttribute('data-bb-icon-only') ? items[j].getAttribute('data-bb-icon-only') : false;
@@ -923,19 +923,19 @@ bb.menuBar = {
 						style				= pbMenuItem.style;
 						style.padding		= parseInt(fontHeight /4, 10) + "px 12px";
 						pbMenuItem.style	= style;
-						
+
 						img					= new Image();
 						img.src				= iconPath;
 						style				= img.style;
-						style.height		= parseInt(bb.menuBar.height * 0.6, 10) + "px";
+						style.height		= parseInt(bb.menuBar.height * 0.55, 10) + "px";
 						img.style			= style;
 						pbMenuItem.appendChild(img);
-						
+
 						if(title && !iconOnly){
 							br					= document.createElement("br");
 							pbMenuItem.appendChild(br);
 							style				= img.style;
-							style.height		= parseInt(bb.menuBar.height * 0.45, 10) + "px";
+							style.height		= parseInt(bb.menuBar.height * 0.4, 10) + "px";
 							img.style			= style;
 							style				= pbMenuItem.style;
 							style.fontSize		= parseInt(fontHeight/2,10) +"px";
@@ -965,8 +965,8 @@ bb.menuBar = {
 		}
 		document.body.appendChild(pbMenu);
 		pbMenu.style['-webkit-transform']	= 'translate(0,0)';
-		
-		bb.menuBar.menu	= pbMenu;		
+
+		bb.menuBar.menu	= pbMenu;
 	},
 
 	showMenuBar: function(){

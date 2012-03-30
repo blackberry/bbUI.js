@@ -93,7 +93,7 @@ bb.menuBar = {
 						img					= new Image();
 						img.src				= iconPath;
 						style				= img.style;
-						style.height		= parseInt(bb.menuBar.height * 0.6, 10) + "px";
+						style.height		= parseInt(bb.menuBar.height * 0.55, 10) + "px";
 						img.style			= style;
 						pbMenuItem.appendChild(img);
 
@@ -101,7 +101,7 @@ bb.menuBar = {
 							br					= document.createElement("br");
 							pbMenuItem.appendChild(br);
 							style				= img.style;
-							style.height		= parseInt(bb.menuBar.height * 0.45, 10) + "px";
+							style.height		= parseInt(bb.menuBar.height * 0.4, 10) + "px";
 							img.style			= style;
 							style				= pbMenuItem.style;
 							style.fontSize		= parseInt(fontHeight/2,10) +"px";
