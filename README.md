@@ -236,11 +236,11 @@ Creating a menu is straight forward. Start by creating a &lt;div&gt; that has th
 
 	<div data-bb-type="screen">
 		<div data-bb-type="menu">
-	 		<div data-bb-type="menu-item" data-bb-img="icon1.png" data-bb-caption="Foo" onclick="foo()"></div>
-	 		<div data-bb-type="menu-item" data-bb-selected="true" data-bb-img="icon2.png" data-bb-icon-only="true" data-bb-caption="Bar" onclick="bar()"></div>
-	 		<div data-bb-type="menu-item" data-bb-img="icon3.png" data-bb-caption="FooBar" onclick="fooBar()"></div>
-	 		<div data-bb-type="menu-separator">
-	 		<div data-bb-type="menu-item" data-bb-caption="BarFoo" onclick="barFoo()"></div>
+	 		<div data-bb-type="menu-item" data-bb-img="icon1.png" data-bb-caption="Foo" onclick="foo();"></div>
+	 		<div data-bb-type="menu-item" data-bb-selected="true" data-bb-img="icon2.png" data-bb-icon-only="true" data-bb-caption="Bar" onclick="bar();"></div>
+	 		<div data-bb-type="menu-item" data-bb-img="icon3.png" data-bb-caption="FooBar" onclick="fooBar();"></div>
+	 		<div data-bb-type="menu-separator"></div>
+	 		<div data-bb-type="menu-item" data-bb-caption="BarFoo" onclick="barFoo();"></div>
 		</div>
 	</div>
 
