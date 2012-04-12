@@ -20,11 +20,12 @@ bb.textArrowList = {
             for (var j = 0; j < items.length; j++) {
                 var innerChildNode = items[j],
                     text = innerChildNode.innerHTML;
+				innerChildNode.setAttribute('class', 'bb-text-arrow-list-item');
                 innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-text-arrow-list-item-hover');");
                 innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-text-arrow-list-item')");
                 innerChildNode.setAttribute('x-blackberry-focusable','true');
                 
-                innerChildNode.innerHTML = '<span class="bb-text-arrow-list-item-value">'+ text + '</span>' +
+                innerChildNode.innerHTML = '<div class="bb-text-arrow-list-item-value">'+ text + '</div>' +
                                         '<div class="bb-arrow-list-arrow"></div>';
                 
                 // Create our separator <div>

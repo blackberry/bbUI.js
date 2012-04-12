@@ -17,6 +17,7 @@ This toolkit is currently in an incubation stage and we're working on getting th
 * [Gord Tanner](https://github.com/gtanner) follow me on Twitter [@gordtanner](https://twitter.com/#!/gordtanner)
 * [Ken Wallis](https://github.com/kwallis) follow me on Twitter [@ken_wallis](https://twitter.com/#!/ken_wallis)
 * [David Sosby](https://github.com/dsosby) follow me on Twitter [@ramdump](https://twitter.com/#!/ramdump)
+* [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy)
 
 ## Tested On
 
@@ -69,6 +70,15 @@ To properly use the functionality of bbUI in your application, you will need at 
 Additionally, if you use dropdowns in your application, you will need to include the additional feature:
 
 	<feature id="blackberry.ui.dialog" />
+	
+For menus to work on Smartphones you will need to include the feature:
+
+	<feature id="blackberry.ui.menu"/>
+	
+For menus to work on PlayBook you will need to include the feature:
+
+	<feature id="blackberry.app.event"/>
+
 
 ## Managing Screens
 
@@ -219,6 +229,24 @@ You can also use in-line script tags with your screen. The bbUI framework will l
 		</script>
 	</div>
 
+## Loading Screen Specific Menus
+bbUI handles loading of screen specific menus on both PlayBook and Smartphones with the same code. Each screen must have a menu defined if you want it displayed. Clean-up occurs on bb.popScreen and bb.pushScreen.
+
+Creating a menu is straight forward. Start by creating a &lt;div&gt; that has the attribute **data-bb-type=“menu”**. Each item in the menu is another &lt;div&gt; that has the attribute **data-bb-type=“menu-item”**. For a menu item to appear on the PlayBook it must have at least one of: an image (data-bb-img) or a caption (data-bb-caption). The on a Smartphone it must have a caption (data-bb-caption). For an icon only menu item that will be used on both Smartphone and PlayBook add **data-bb-icon-only="true"** to all menu items to have the caption left off on the PlayBook. In both cases the *onclick()* event is the function that will fire when the menu item is selected.
+
+	<div data-bb-type="screen">
+		<div data-bb-type="menu">
+	 		<div data-bb-type="menu-item" data-bb-img="icon1.png" data-bb-caption="Foo" onclick="foo();"></div>
+	 		<div data-bb-type="menu-item" data-bb-selected="true" data-bb-img="icon2.png" data-bb-icon-only="true" data-bb-caption="Bar" onclick="bar();"></div>
+	 		<div data-bb-type="menu-item" data-bb-img="icon3.png" data-bb-caption="FooBar" onclick="fooBar();"></div>
+	 		<div data-bb-type="menu-separator"></div>
+	 		<div data-bb-type="menu-item" data-bb-caption="BarFoo" onclick="barFoo();"></div>
+		</div>
+	</div>
+
+There is an additional type of item you can use **data-bb-type="menu-separator"** which creates a menu separator.
+
+Also on Smartphones you can  add the attribute **data-bb-selected="true"** which makes that the default item when the menu is displayed.
 
 ## Image Lists
 

@@ -4,7 +4,7 @@ bb = {
 
     // Assign any listeners we need to make the bbUI framework function
     assignBackHandler: function(callback) {
-        if (blackberry.system.event.onHardwareKey) {
+        if (window.blackberry && blackberry.system.event.onHardwareKey) {
             blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, callback);
         }
     },
@@ -196,6 +196,7 @@ bb = {
 
         // Remove our old screen
         bb.removeLoadedScripts();
+		bb.menuBar.clearMenu();
         var numItems = bb.screens.length;
         if (numItems > 0) {
             var oldScreen = document.getElementById(bb.screens[numItems -1].id);
@@ -217,6 +218,7 @@ bb = {
             var currentStackItem = bb.screens[numItems-1],
                 current = document.getElementById(currentStackItem.id);
             document.body.removeChild(current);
+			bb.menuBar.clearMenu();
             bb.screens.pop();
 
             // Retrieve our new screen
@@ -254,3 +256,5 @@ bb = {
         }
     }
 };
+
+bb.assignBackHandler(bb.popScreen);
