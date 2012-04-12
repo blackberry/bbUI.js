@@ -1,5 +1,4 @@
 bb.button = { 
-    
     // Apply our transforms to all arrow buttons passed in
     apply: function(elements) {
     
