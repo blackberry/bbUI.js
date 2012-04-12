@@ -28,11 +28,9 @@ bb.bbmBubble = {
                 placeholder.setAttribute('class','inside');
                 outerElement.appendChild(placeholder);
                 
-                
                 var insidePanel = document.createElement('div');
                 insidePanel.setAttribute('class','nogap');
                 placeholder.appendChild(insidePanel);
-                
                 
                 placeholder = document.createElement('div');
                 placeholder.setAttribute('class','bottom-left image');

@@ -8,14 +8,14 @@ bb.screen = {
             if (bb.device.isHiRes()) {
                 outerElement.setAttribute('class', 'bb-hires-screen');
             }
-
+			
 			//check to see if a menu/menuBar needs to be created
 			var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
 			if (menuBar.length > 0) {
 				menuBar = menuBar[0];
 				bb.menuBar.apply(menuBar);
 			}
-
+            
             if (bb.device.isPlayBook()) {
                 outerElement.style.height = window.innerHeight;
                 outerElement.style.width = window.innerWidth;
@@ -27,8 +27,8 @@ bb.screen = {
 				else {
 					titleBar = null;
 				}
- 
-                // Create our scrollable <div>
+				
+				// Create our scrollable <div>
 				var outerScrollArea = document.createElement('div'); 
 				var outerScrollArea = document.createElement('div');
 				outerElement.appendChild(outerScrollArea);
@@ -75,7 +75,7 @@ bb.screen = {
 				else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
 				}
-             }
+            }
             else {
                 // See if there is a title bar
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]');
