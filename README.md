@@ -17,7 +17,7 @@ This toolkit is currently in an incubation stage and we're working on getting th
 * [Gord Tanner](https://github.com/gtanner) follow me on Twitter [@gordtanner](https://twitter.com/#!/gordtanner)
 * [Ken Wallis](https://github.com/kwallis) follow me on Twitter [@ken_wallis](https://twitter.com/#!/ken_wallis)
 * [David Sosby](https://github.com/dsosby) follow me on Twitter [@ramdump](https://twitter.com/#!/ramdump)
-* [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy) 
+* [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy)
 
 ## Tested On
 
