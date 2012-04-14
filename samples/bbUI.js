@@ -1215,7 +1215,7 @@ bb.pillButtons = {
 
 bb.roundPanel = {  
     apply: function(elements) {
-        if (bb.device.isBB5()) {
+        if (bb.device.isBB7() || bb.device.isBB6() || bb.device.isBB5()) {
             // Apply our transforms to all the panels
             for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i];
