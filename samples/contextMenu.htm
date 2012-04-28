@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="fade">
+	<div data-bb-type="title" data-bb-caption="Context menu example" data-bb-back-caption="Menu" ></div>
+	<div data-bb-type="round-panel" style="margin-top:10px;"> 
+		<div data-bb-type="panel-header">BlackBerry 10 Only</div>
+		<p style="text-align:center;">The Delete menu item demonstrates how to grab the currently selected item of the context menu</p>
+	</div>
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="image-list">
+			<div data-bb-type="item" data-bb-img="images/icons/icon1.png" data-bb-title="Contex Menu" onclick="document.getElementById('foo').menu.show({title:'Context Menu',description: 'Show Menu',selected:this});">Show Menu</div>
+			<div data-bb-type="item" data-bb-img="images/icons/icon3.png" data-bb-title="Context Menu" onclick="document.getElementById('foo').menu.peek({title:'Context Menu',description: 'Peek Menu',selected:this});">Peek Menu</div> 
+		</div>
+	</div>
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">BlackBerry 10 Only</div>
+		<p style="text-align:center;">The below list demonstrates using the built in press and hold context menu for image lists</p>
+	</div>
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="image-list" data-bb-context="true">
+			<div data-bb-type="item" data-bb-img="images/icons/icon7.png" data-bb-title="Superman" onclick="alert('You clicked me instead of press and hold');">Dude from another planet</div> 
+			<div data-bb-type="item" data-bb-img="images/icons/icon10.png" data-bb-title="Batman">Dark Knight of Gotham</div>
+			<div data-bb-type="item" data-bb-img="images/icons/icon2.png" data-bb-title="Green Lantern">Cool shiny ring</div> 
+			<div data-bb-type="item" data-bb-img="images/icons/icon5.png" data-bb-title="Captain America">That sheild rocks!</div> 
+			<div data-bb-type="item" data-bb-img="images/icons/icon11.png" data-bb-title="Iron Man">That&apos;s some serious tech</div>		
+			<div data-bb-type="item" data-bb-img="images/icons/icon6.png" data-bb-title="Hulk">Hulk Smash!</div> 
+			<div data-bb-type="item" data-bb-img="images/icons/icon10.png" data-bb-title="Thor">Bring down the Hammer!</div> 
+		</div>
+	</div>
+	<div id="foo" data-bb-type="context-menu">
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Email Work</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Invite to Meeting</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Call Work</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">View details</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('Your Item is ' + document.getElementById('foo').menu.selected.description+'?');">Delete</div>
+	</div>
+</div>
+	

@@ -15,48 +15,53 @@
 * limitations under the License.
 -->
 
-<div data-bb-type="screen" data-bb-effect="fade">
+<div data-bb-type="screen" data-bb-effect="fade" >
 	<div data-bb-type="title" data-bb-caption="Input Controls" data-bb-back-caption="Back" ></div>
-	<div data-bb-type="round-panel"> 
-		<div data-bb-type="panel-header">Buttons</div>
-		<div data-bb-type="label-control-container">
-			<div data-bb-type="row">
-			   <div data-bb-type="label">Choose A City:</div>
-			   <div data-bb-type="button" onclick="alert('click');">Brasilia</div>
-		   </div>
-		</div>
-	</div>
-
-	<div data-bb-type="round-panel"> 
-		<div data-bb-type="panel-header">Buttons</div>
-		<div data-bb-type="label-control-container">
-			<div data-bb-type="row">
-			   <div data-bb-type="label">Radio Status:</div>
-			   <div data-bb-type="button">Yes</div>
-		   </div>
-		   <div data-bb-type="row">
-			   <div data-bb-type="label">Sound:</div>
-			   <div data-bb-type="button">Yes</div>
-		   </div>  
-		</div>
-	</div>
-
-	
-	<div style="margin:15px;color:Gray;"><p align="center">This is text that I want to place in the middle of the screen to see how it looks</p></div>
 	
 	<div data-bb-type="round-panel"> 
 		<div data-bb-type="panel-header">Text Entry Examples</div>
 		<div data-bb-type="label-control-container">
 			<div data-bb-type="row">
-			   <div data-bb-type="label">Sample Text:</div>
+			   <div data-bb-type="label">Sample Text</div>
 			   <input type="text" value="Hello World" />
 		   </div>
 		   <div data-bb-type="row">
-			   <div data-bb-type="label">Another Label:</div>
-			   <input type="text" value="Hello World"/>
+			   <div data-bb-type="label">Another Label</div>
+			   <input type="text" value="" placeholder="My Placeholder Text"/>
 			</div>
 		</div>
 	</div>
 	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Dropdown Buttons</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+			   <div data-bb-type="label">Sample Dropdown</div>
+			   <select data-bb-label="Font Family">
+					<option value="bbalphasans" selected="true">Slate</option>
+					<option value="arial">Arial</option>
+					<option value="andalemono">Andale Mono</option>
+					<option value="arial">Arial</option>
+					<option value="andalemono">Andale Mono 1</option>
+					<option value="arial">Arial</option>
+					<option value="andalemono">Andale Mono 2</option>
+					<option value="arial">Arial</option>
+					<option value="andalemono">Andale Mono 3</option>
+					<option value="arial">Arial</option>
+					<option value="andalemono">Andale Mono 4</option>
+			   </select>
+		   </div>
+		</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Buttons</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+			   <div data-bb-type="label">This is a button</div>
+			   <div data-bb-type="button" onclick="alert('Button Clicked');">My Button</div>
+		   </div>
+		</div>
+	</div>
 </div>
 

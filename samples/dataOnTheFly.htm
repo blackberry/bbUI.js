@@ -17,11 +17,6 @@
 <div data-bb-type="screen" data-bb-effect="fade">
 	<div data-bb-type="title" data-bb-caption="[hack] Data on the Fly [/hack]" data-bb-back-caption="Menu" ></div>
 	<script id="dataOnTheFlyJS" src="js/dataOnTheFly.js"></script>
-	<style type="text/css">
-		body, html {
-			background-color: White;
-		}
-	</style>	
 	
 	<p align="center" style="color:orange;">This example shows you how to &quot;hack&quot; your way to adding UI elements on the fly.  You can use as is, but it will be subject to change once a 
 	permanent solution is in place</p>
@@ -30,6 +25,10 @@
         <div data-bb-type="button" data-bb-style="stretch" onclick="dataOnTheFly_addListItem();" id="plain">Add List Item</div>
 		<div data-bb-type="button" data-bb-style="stretch" onclick="dataOnTheFly_addDropDown();" id="plain">Add DropDown</div>
     </div>
+	
+	<div id="waiting" style="text-align:center;padding-top:50px;padding-bottom:50px;">
+		<img src="images/loading1.gif" />
+	</div>
 	
 	<div id="dataList" data-bb-type="image-list">
 		

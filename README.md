@@ -1,15 +1,17 @@
-![Image List](bbUI.js/raw/master/logos/bbUI_100x403.png)
+![logo](bbUI.js/raw/master/logos/bbUI_100x403.png)
+
+_**Current version: 0.9.1 BETA**_
 
 The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
 are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
-All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo.
+All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
 
 _**NOTE: bbUI DropDowns on BB5/BB6/B7 require BlackBerry WebWorks SDK v2.3 for Smartphones or higher**_
 
-This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7 and then back-port for BB5.  We'll also be adding some PlayBook look and feel
+This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7/PlayBook/BB10 and then back-port for BB5.  
 
 **Author(s)** 
 
@@ -19,8 +21,12 @@ This toolkit is currently in an incubation stage and we're working on getting th
 * [David Sosby](https://github.com/dsosby) follow me on Twitter [@ramdump](https://twitter.com/#!/ramdump)
 * [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy)
 
+Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
+[specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
+
 ## Tested On
 
+* BlackBerry Dev Alpha
 * BlackBerry Torch 9860 v7.0.0.x
 * BlackBerry Curve 9360 v7.0.0.x
 * BlackBerry Bold 9700 v6.0.0.546
@@ -67,7 +73,7 @@ To properly use the functionality of bbUI in your application, you will need at 
 	  <feature id="blackberry.app" />
 	</widget>
 
-Additionally, if you use dropdowns in your application, you will need to include the additional feature:
+Additionally, if you use dropdowns in your application, you will need to include the additional feature: 
 
 	<feature id="blackberry.ui.dialog" />
 	
@@ -75,11 +81,73 @@ For menus to work on Smartphones you will need to include the feature:
 
 	<feature id="blackberry.ui.menu"/>
 	
-For menus to work on PlayBook you will need to include the feature:
+For menus to work on PlayBook and BlackBerry 10 you will need to include the feature:
 
 	<feature id="blackberry.app.event"/>
 
 
+## Toolkit Initialization
+
+To initialize bbUI you need to call the **bb.init()** function before you start loading UI elements into your application. **THIS IS MANDITORY**  The bb.int() function takes one parameter which is a JSON
+structure containing any of the options you wish to override.  If you want to simply use the default configuration call the initialization function with no parameters _bb.init()_. 
+
+The default values of the options which can be overriden are:
+
+    {
+		onbackkey: null, 				// Custom handler for back key on BlackBerry 5/6/7 smartphones
+		onscreenready: null,			// Manipulate your screen before it's inserted into the DOM
+		ondomready: null,				// Manipulate your screen after it's inserted into the DOM
+		bb10ActionBarDark: true, 		// If set to true, the action bar will use the dark theme
+		bb10ControlsDark: true,			// If set to true, the controls will use the dark theme
+		bb10ListsDark: false,			// If set to true, lists will use the dark theme (you need a dark background)
+		bb10ForPlayBook: false,			// If set to true, PlayBook will be considered a BB10 device
+		bb10AccentColor: '#2D566F',		// An accent color to be used for headers and other areas
+		bb10HighlightColor: '#00A8DF'	// A highlight color to use when a user selects an item
+	}
+	
+You can be notified when your screen, and all associated &lt;script&gt; tags, are loaded and ready for manipulation before styling is applied using the **onscreenready** event.  The screen is still not 
+contained in the DOM of the page at this point, but can be manipulated to modify its contents before the bbUI styling is applied. This allows you to perform your data manipulation **before** the screen has
+been displayed to the user and minimizes rendering engine layouts which are very expensive.
+
+You can also be notified when your screen, and all associated &lt;script&gt; tags, have been inserted into the DOM using the **ondomready** event.  This allows you to perform your data manipulation **after** 
+the screen has been displayed to the user.
+
+To subscribe to this event simply assign a function to the **onscreenready** parameter of the init function.  The function will be called with the DOM element of your screen, and 
+the id you have specified for that screen so that you can apply any screen specific changes.
+
+Since all of the script files for the specific screen are loaded before the **onscreenready** or **ondomready* events are fired, you can place all your screen specific logic in those files
+and only have one **onscreenready** and **ondomready** global handler to act as the "traffic cop".
+
+The **getElementById()** function has been added to the element object that is passed into **onscreenready** and **ondomready* events so that you can manipulate the DOM of the element passed into the event.
+
+	<html>
+		<head>
+			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
+			<link  rel="stylesheet" type="text/css" href="bbui-0.9.1.css"></link>
+			<script type="text/javascript" src="bbui-0.9.1.js"></script>
+			<script type="text/javascript">
+			
+				bb.init(onscreenready : function(element, id) {
+							if (id == 'menu') {
+								doMenuLoadingBeforeInsert(element);
+							} 
+						},
+						ondomready: function(element, id) {
+							if (id == 'menu') {
+								doMenuLoadingAfterInsert(element);
+							} 
+						});
+			</script>
+		</head>
+		<body onload="bb.pushScreen('menu.htm', 'menu');">	
+		</body>
+	</html>
+	
+
+
+
+	
+	
 ## Managing Screens
 
 the bbUI toolkit builds the application's UI in the most optimized fashion for the target operating system.  It follows a methodology of 
@@ -97,44 +165,13 @@ be invoked when the back button is clicked.  It is then up to you to handle all 
 	<html>
 		<head>
 			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-			<link  rel="stylesheet" type="text/css" href="bbUI.css"></link>
-			<script type="text/javascript" src="bbUI.js"></script>
+			<link  rel="stylesheet" type="text/css" href="bbui-0.9.1.css"></link>
+			<script type="text/javascript" src="bbui-0.9.1.js"></script>
 		</head>
 		<body onload="bb.pushScreen('menu.htm', 'menu');">	
 		</body>
 	</html>
 	
-You can also be notified when your screen, and all associated &lt;script&gt;> tags, are loaded and ready for manipulation.  The screen is still not contained in the DOM of the page 
-at this point, but can be manipulated to modify its contents before the bbUI styling is applied. This minimizes layouts which are very expensive.
-
-To subscribe to this event simply assign a function to the **bb.onscreenready** event.  You should make this subscription globally in your application and assign it only once.  The 
-function will be called with the DOM element of your screen, and the id you have specified for that screen so that you can apply any screen specific changes.
-
-	<html>
-		<head>
-			<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-			<link  rel="stylesheet" type="text/css" href="bbUI.css"></link>
-			<script type="text/javascript" src="bbUI.js"></script>
-			<script type="text/javascript">
-			
-				bb.onscreenready = function(element, id) {
-						if (id == 'menu') {
-							do_Menu_Specific_Loading_From_Loaded_Script_File();
-						} else if (id == 'foo') {
-							do_Foo_Specific_Loading_From_Foos_Loaded_Script_File();
-						}
-					}
-			</script>
-		</head>
-		<body onload="bb.pushScreen('menu.htm', 'menu');">	
-		</body>
-	</html>
-	
-Since all of the script files for the specific screen are loaded before the **onscreenready** event is fired, you can place all your screen specific logic in those files
-and only have one **onscreenready** global handler to act as the "traffic cop".
-
-The **getElementById()** function has been added to the element object that is passed into **onscreenready** so that you can manipulate the DOM of the element before it is inserted
-into the document.
 	
 ## Defining a Screen
 
@@ -142,24 +179,26 @@ Creating a screen to be used with bbUI is as simple as creating an HTML file and
 is simply a &lt;div&gt; with an attribute **data-bb-type="screen"**.  You then place all the contents for your screen inside this &lt;div&gt;.  
 
 A display effect can also be declared on your screen. Currently only **data-bb-effect="fade"** is supported.  This will fade in your screen when it displays.  This is 
-supported both on BB6 &amp; BB7.  However, if your screen has &lt;input&gt; controls on it and you declare the &quot;fade&quot; effect, BB6 will not fade in the page.  This 
-has been disabled on purpose in bbUI because the fade effect doesn&apos;t perform well on BB6 when input controls are on the screen.
+supported both on BB7 and up.  This has been disabled on purpose in bbUI because the fade effect doesn&apos;t perform well on devices below BB7.
 
 You can also create a nested **data-bb-type="title"** &lt;div&gt; in your screen to declare a title bar. If defined, a standard black screen title bar will appear showing the declared text. 
 The **data-bb-caption** attribute defines the text to show in this title area.
+
+_NOTE: Title bars are not available for BlackBerry 10 yet for bbUI_
 
 	<div data-bb-type="screen" data-bb-title="User Interface Examples" data-bb-effect="fade">
 		<div data-bb-type="title" data-bb-caption="User Interface Examples" ></div>
 	</div>
 	
 You can also add a **back** button to your title bar that will **ONLY** appear when you display your content on a PlayBook.  To define a back button in your title bar, add the caption of your back button to the
-**data-bb-back-caption** attribute.
+**data-bb-back-caption** attribute.  When running on BlackBerry 10, if you provide a back button in your title bar it will automatically create an action bar with a back button on it "if" there are no tabs on your action
+bar.
 
 	<div data-bb-type="title" data-bb-caption="User Interface Examples" data-bb-back-caption="Back"></div>
 	
 This will appear as the standard back button in your UI as seen below:
 
-![Image List](bbUI.js/raw/master/screenshots/backBtn.png)
+![Back Button](bbUI.js/raw/master/screenshots/backBtn.png)
 
 
 ## Screen Scrolling Effects
@@ -229,53 +268,213 @@ You can also use in-line script tags with your screen. The bbUI framework will l
 		</script>
 	</div>
 
+
+## BlackBerry 10 Grid Layouts
+
+Grid layouts allow you to present your information in a graphical and cinematic way.  **Grid layouts are currently only supported on PlayBook and BB10 devices**. 
+
+![Grid Layout](bbUI.js/raw/master/screenshots/grid.png)
+
+If you have multiple images to show you can arrange them in groups and rows. A grouping of information can have a header title which will be the color provided by the **bb10AccentColor** property
+used in the **bb.init()** function.  Highlights of items will use the **bb10HighlightColor**.
+
+Each group has one or more rows. Each row can have up to 3 items.  Currently the layout assumes that images are a 16:9 aspect ratio.  For example if a row has only one item in it, it's width will be the full width of
+the size of the grid.  A row with 2 items will be 1/6, and 3 items will be 1/9 the height of the screen.  All images are currently set to be stretched to the size of their container.
+
+Every item in the grid has an image, a title and a sub-title which is provided as the contents of the &lt;div&gt;.  Each item can also provide an **onclick** handler for when the user 
+selects the item.
+
+    <div data-bb-type="grid-layout">
+		<div data-bb-type="group" data-bb-title="My Title">
+			<div data-bb-type="row">
+				<div data-bb-type="item" data-bb-img="images/grid/1.jpg" data-bb-title="Hello" onclick="alert('You clicked me');">World</div>
+			</div>
+			<div data-bb-type="row">
+				<div data-bb-type="item" data-bb-img="images/grid/2.png" data-bb-title="Hello">World</div> 
+				<div data-bb-type="item" data-bb-img="images/grid/3.jpg" data-bb-title="Hello">World</div> 
+			</div>
+		</div>
+		<div data-bb-type="group" data-bb-title="Recently Added">
+			<div data-bb-type="row">
+				<div data-bb-type="item" data-bb-img="images/grid/4.jpg" data-bb-title="Hello">World</div>		
+				<div data-bb-type="item" data-bb-img="images/grid/5.jpg" data-bb-title="Hello">World</div> 
+				<div data-bb-type="item" data-bb-img="images/grid/6.jpg" data-bb-title="Hello">World</div>
+			</div>
+		</div>
+	</div>
+	
+	
+## BlackBerry 10 Action Bar
+
+The BlackBerry 10 action bar allow for a combination of buttons and tabs.  **Action Bars are currently only supported on PlayBook and BB10 devices**. It is essentially a toolbar that appears at the bottom of the screen 
+allowing for scrolling content above it.
+
+![Action Bar](bbUI.js/raw/master/screenshots/actionBar.png)
+ 
+If you have a title bar with a back button specified for PlayBook, and an action bar is not already specified for your screen, an action bar will be created with a back button as long as you don't already have an
+action bar defined with tabs.  Action bars allow you to both navigate back to the previous screen but also provide tabs and/or buttons for your user.  
+
+_NOTE: Combining a back button and tabs on an action bar is not allowed_
+
+If you provide a **data-bb-back-caption** attribute on the action bar, a back button will automatically be created.  If 
+you are using tabs on your screen, you can specify their tab styles using the **data-bb-tab-style** attribute.  Currently only "highlight" is supported.  Each item on the bar is defined as a **data-bb-type="action"** and its
+type is defined by the **data-bb-style** attribute which can either be a "tab" or a "button".  Tabs automatically handle the highlighting of the selected tab.  it is recommended that you group your tabs and buttons together
+to provide a clean user interface.
+
+You can handle the selection of the action by assigning an **onclick** event handler.  
+
+The color style of the action bar is either a dark or light theme.  This is applied using the **bb10ActionBarDark** property in the **bb.int()** function. Simply set bb10ActionBarDark to true/false to have the dark or light theme. This
+theme will be carried over for the entire application to ensure a consistent look and feel.
+
+    <div data-bb-type="action-bar" data-bb-tab-style="highlight">
+		<div data-bb-type="action" data-bb-style="tab" data-bb-img="images/actionBar/cog_dark_theme.png">Library</div>
+		<div data-bb-type="action" data-bb-style="tab" data-bb-selected="true" data-bb-img="images/actionBar/cog_dark_theme.png">Smart</div>
+		<div data-bb-type="action" data-bb-style="button" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('Find');">Find</div>
+	</div>
+	
+### Action Item Image Sizes
+
+Images used for Actions will be scaled to the following resolutions and centered on the action bar items.
+
+* BlackBerry PlayBook - 40 x 40 pixels
+* BlackBerry 10 - 80 x 80 pixels
+	
+### Action Overflow Menu
+
+If there are more than 5 total actions that are added to the action bar (including the back button) an overflow action menu will be created on the far right of the action bar.  This button will trigger a slide in overflow menu
+that will contain the remaining items that were defined on the action bar.
+
 ## Loading Screen Specific Menus
-bbUI handles loading of screen specific menus on both PlayBook and Smartphones with the same code. Each screen must have a menu defined if you want it displayed. Clean-up occurs on bb.popScreen and bb.pushScreen.
+bbUI handles loading of screen specific menus on both PlayBook, BlackBerry 10 and Smartphones with the same code. Each screen must have a menu defined if you want it displayed. Clean-up occurs on bb.popScreen and bb.pushScreen.
 
 **Smartphone**
 
-![Image List](bbUI.js/raw/master/screenshots/menuBar-phone.png)
+![Menu Phone](bbUI.js/raw/master/screenshots/menuBar-phone.png)
 
 **PlayBook**
 
-![Image List](bbUI.js/raw/master/screenshots/menuBar-playbook.png)
+![Menu PlayBook](bbUI.js/raw/master/screenshots/menuBar-playbook.png)
 
+Creating a menu is straight forward. Start by creating a &lt;div&gt; that has the attribute **data-bb-type="menu"**. Each item in the menu is another &lt;div&gt; that has the attribute **data-bb-type="menu-item"**. For a menu item 
+to appear on PlayBook 2.x or BlackBerry 10 it must have **both** an image (data-bb-img) and a caption (data-bb-caption) or it will be ignored. The on a Smartphone it must have a caption (data-bb-caption). In both cases the _onclick()_ event is the function 
+that will fire when the menu item is selected.  On BlackBerry 5/6/7 smartphones you can add the attribute **data-bb-selected="true"** which makes that the default item when the menu is displayed.
 
-Creating a menu is straight forward. Start by creating a &lt;div&gt; that has the attribute **data-bb-type=“menu”**. Each item in the menu is another &lt;div&gt; that has the attribute **data-bb-type=“menu-item”**. For a menu item to appear on the PlayBook it must have at least one of: an image (data-bb-img) or a caption (data-bb-caption). The on a Smartphone it must have a caption (data-bb-caption). For an icon only menu item that will be used on both Smartphone and PlayBook add **data-bb-icon-only="true"** to all menu items to have the caption left off on the PlayBook. In both cases the *onclick()* event is the function that will fire when the menu item is selected.
+There is an additional type of item you can use **data-bb-type="menu-separator"** which creates a menu separator on PlayBook 2.x and BlackBerry 5/6/7 smartphones.  
+
+_NOTE: BlackBerry 10 will ignore separators and will only allow a maximum of 5 menu items_
 
 	<div data-bb-type="screen">
 		<div data-bb-type="menu">
-	 		<div data-bb-type="menu-item" data-bb-img="icon1.png" data-bb-caption="Foo" onclick="foo();"></div>
-	 		<div data-bb-type="menu-item" data-bb-selected="true" data-bb-img="icon2.png" data-bb-icon-only="true" data-bb-caption="Bar" onclick="bar();"></div>
-	 		<div data-bb-type="menu-item" data-bb-img="icon3.png" data-bb-caption="FooBar" onclick="fooBar();"></div>
+	 		<div data-bb-type="menu-item" data-bb-img="icon1.png" onclick="foo();">Foo</div>
+	 		<div data-bb-type="menu-item" data-bb-img="icon2.png" onclick="bar();" data-bb-selected="true">Bar</div>
+	 		<div data-bb-type="menu-item" data-bb-img="icon3.png" onclick="fooBar();">FooBar</div>
 	 		<div data-bb-type="menu-separator"></div>
-	 		<div data-bb-type="menu-item" data-bb-caption="BarFoo" onclick="barFoo();"></div>
+	 		<div data-bb-type="menu-item" onclick="barFoo();">BarFoo</div>
 		</div>
 	</div>
 
-There is an additional type of item you can use **data-bb-type="menu-separator"** which creates a menu separator.
+### PlayBook and BlackBerry 10 menu image sizes
 
-Also on Smartphones you can  add the attribute **data-bb-selected="true"** which makes that the default item when the menu is displayed.
+When styling is applied to menus on **BlackBerry 10** the images used for menus will be scaled to the following resolutions and centered on the menu items.
+
+* BlackBerry PlayBook - 40 x 40 pixels
+* BlackBerry 10 - 80 x 80 pixels
+
+When styling is applied to menus on PlayBook 2.x with BlackBerry 10 styling turned off images will be scaled to the following resolutions and centered on the menu items.
+
+* BlackBerry PlayBook 2.x - 65 x 65 pixels
+	
+
+## BlackBerry 10 Context Menu
+
+BlackBerry 10 allows for a press and hold context menu that is very similar to the action bar overflow menu.  If you add one of these menus to your screen you can also automatically 
+wire up your image lists to the control.  _**NOTE: You can only have one context menu on a screen**_
+
+When wired to an image list, pressing and holding on the image list item will "peek" the context menu and passing it the selected element.  Peeking the
+context menu will show the row of action icons that can be clicked and part of the context information in the header of the menu.
+
+When the user swipes from right to left it will pull the full menu into view if they want to see the text labels for all the items.
+
+Markup for the context menu looks a lot like the action bar markup.  You are able to create a **data-bb-type="context-menu"** that has a series of **data-bb-type="action"** elements.  An action item consists
+of an image and text.  To react to the clicking of an action simply assign an **onclick** handler to the action element.
+
+    <div data-bb-type="context-menu">
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Email Work</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Invite to Meeting</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Call Work</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">View details</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('Delete');">Delete</div>
+	</div>
+	
+
+### Interacting with the context menu from JavaScript
+
+![Context Menu](bbUI.js/raw/master/screenshots/contextMenu.png)
+
+Each context menu has the ability to be both **peeked** and **shown** using JavaScript.  These methods are called with a parameter that contains a title, description and selected DOM element.  
+
+To **peek** the icons on the context menu use the following code:
+	
+    var context = document.getElementById('mycontextmenu');
+	context.menu.peek({title:'My Title', description: 'My Description', selected: mySelectedDOMElement});
+	
+To **show** the full context menu use the following code:
+
+    var context = document.getElementById('mycontextmenu');
+	context.menu.show({title:'My Title', description: 'My Description', selected: mySelectedDOMElement});
+
+To grab the item that was selected from within your **onclick** of an action item.  This selected object is the one that was passed into the peek or show functions. You can refer to the **selected** property of the menu like in the following code:
+
+    function myclick() {
+		var selectedItem,
+			context = document.getElementById('mycontextmenu');
+		selectedItem  = context.menu.selected;
+		if (selectedItem) {
+			//... do something
+		}
+	}
+	
+	
+### Image Sizes
+
+Images for actions on the context menu will be scaled the same as the action bar.
+
+* BlackBerry PlayBook - 40 x 40 pixels
+* BlackBerry 10 - 80 x 80 pixels
+
 
 ## Image Lists
 
 Image lists give the user different options that they can choose.  This user interface can seen in the BlackBerry options area.
 
-![Image List](bbUI.js/raw/master/screenshots/imageList.png)
+![Image List](bbUI.js/raw/master/screenshots/imageList.png) ![Image List](bbUI.js/raw/master/screenshots/inboxList.png)
 
 Creating an image list is really simple and begins with creating a &lt;div&gt; that has the attribute **data-bb-type="image-list"**.  Each item in the list is another 
-&lt;div&gt; that has the attribute **data-bb-type="item"**.  Each item has an image (**data-bb-img**), a title (**data-bb-title**), and a description which is the inner contents
-of the &lt;div&gt;.
+&lt;div&gt; that has the attribute **data-bb-type="item"**.  Each item has an image (**data-bb-img**), a title (**data-bb-title**), accent text that floats in the top right (**data-bb-accent-text**), and a description which is the inner contents
+of the &lt;div&gt;.  An image list can have both headers and line items. A header is declared by creating a &lt;div&gt; with a **data-bb-type="header"** attribute and the contents of the header are displayed as the label.  
+Headers have their text centered by default.  To left justify your header text add the **data-bb-justify="left"** or to right justify your text add the **data-bb-justify="right"**attribute to your header.
 
-On High-Resolution screens, the image size is 48x48 pixels.  On a low resolution screen it is sized down to 32x32 pixels.  So it is best to create your image artwork at 
-the 48x48 pixel size since downscaling typically looks better than stretching.
+### Image Sizes
+
+* BlackBerry 5 &amp; 6 - 60 x 60 pixels 
+* BlackBerry PlayBook &amp; BlackBerry 7 - 70 x 70 pixels
+* BlackBerry PlayBook with BB10 styling - 64 x 64 pixels
+* BlackBerry 10 - 119 x 119 pixels
+
+
+If you want to attach a BlackBerry 10 context menu to your image list you can add the **data-bb-context="true"** attribute.  This will automatically hook up your image list to the 
+press and hold context menu that you have declared for the screen.  When the image list item is pressed and held for 667ms it will **peek** the screen's context menu passing the 
+title and description of the list item along with a handle to the item element.  See the Context Menu area for mor details of interacting with the menu.  
+
+**NOTE: The context menu integration with the image list only works on BlackBerry 10**
 
 	<div data-bb-type="screen">
-		<div data-bb-type="image-list">
+		<div data-bb-type="image-list" data-bb-context="true">
+			<div data-bb-type="header">My sample header</div>
 			<div data-bb-type="item" data-bb-img="icon1.png" data-bb-title="Input Controls">Use native looking input controls</div>
 			<div data-bb-type="item" data-bb-img="icon2.png" data-bb-title="Inbox List">Style your list like the BlackBerry Inbox</div> 
 			<div data-bb-type="item" data-bb-img="icon3.png" data-bb-title="Settings">Create native looking options screens</div> 
-			<div data-bb-type="item" data-bb-img="icon5.png" data-bb-title="Tall List Items">Add some height to your list items</div> 
+			<div data-bb-type="header">Look at me</div>
 			<div data-bb-type="item" data-bb-img="icon6.png" data-bb-title="BBM Bubbles">Generate a chat window like BBM</div> 
 			<div data-bb-type="item" data-bb-img="icon7.png" data-bb-title="Pill Buttons">Use pill buttons to organize your data</div> 
 			<div data-bb-type="item" data-bb-img="icon8.png" data-bb-title="Charts">Add charts to your application</div> 
@@ -380,6 +579,8 @@ selected item when the control first shows you can can use the **selected="true"
 		   </select>
 		</div>
 	</div>
+	
+BlackBerry 10 has an additional feature where you can specify a **data-bb-label="my label"** to have the label text appear in the dropdown control.
 
 To select an item in a dropdown from JavaScript you can use the **setSelectedItem()** function that has been added to the &lt;select&gt; object. In many browsers, the **onchange** event
 is not fired on a &lt;select&gt; if the value is set from JavaScript.  Only if it is set from the interaction with the UI.  Because of this bbUI cannot listen to the change made 
@@ -419,31 +620,6 @@ Much like the Image List, the Arrow list is a &lt;div&gt; that has the attribute
 	</div>
 
 
-## Inbox Style Lists
-
-The Inbox Sytle List is pretty self explainatory.  It provides the ability to create a list much like that of the email application 
-found on a BlackBerry Smartphone.
-
-![Control Panel](bbUI.js/raw/master/screenshots/inboxList.png)
-
-The inbox list is again a &lt;div&gt; with an **data-bb-type="inbox-list"** attribute.  An inbox list can have both headers and line items.  A header
-is declared by creating a &lt;div&gt; with a **data-bb-type="header"** attribute and the contents of the header are displayed as the label.  
-
-Each line item is created with a **data-bb-type="item"** attribute and has values for an image to be displayed (**data-bb-img**), a title (**data-bb-title**), a 
-time (**data-bb-time**) and the inner contents of the &lt;div&gt; are displayed as the description.
-
-The line item image is displayed as a 32x32 pixel image on a High-Resolution screen. 
-
-	<div data-bb-type="screen">
-		<div data-bb-type="inbox-list">
-			<div data-bb-type="header">Thu 27 May 2010</div>		
-			<div data-bb-type="item" data-bb-img="opened.png" data-bb-title="Fred M." data-bb-time="4:33p" >My car just broke down</div> 
-			<div data-bb-type="item" data-bb-img="opened.png" data-bb-title="Sue A." data-bb-time="4:15p" >Need to pick up Milk</div> 
-			<div data-bb-type="header">Thu 28 May 2010</div>		
-			<div data-bb-type="item" data-bb-img="new.png" data-bb-title="Tim N." data-bb-time="10:25a" data-bb-accent="true">Where do I find the new Document</div> 
-		</div>
-	</div>
-
 ## BBM Bubbles
 
 The BBM Bubbles UI format allows you to create chat bubbles that look like the ones in BBM. This is a great option for any BBM connected application.
@@ -471,32 +647,6 @@ image to appear beside the line item by using the **data-bb-img** attribute. The
 		</div>
 	</div>
 
-
-## Tall Lists
-
-Tall lists are similar to those that you would find in the BlackBerry Twitter&reg; and Facebook&reg; applications.
-
-![Control Panel](bbUI.js/raw/master/screenshots/tallList.png)
-
-Tall lists are a &lt;div&gt; with a **data-bb-type="tall-list"** attribute.  Each line item is a &lt;div&gt; with an **data-bb-type="item"** attribute which allows for
-a display image (**data-bb-img**), a title (**data-bb-title**), a time (**data-bb-time**) and the inner contents of the &lt;div&gt; are the description that appears.
-
-	<div data-bb-type="screen">
-		<style type="text/css">
-			body, html {
-				background-color: White;
-			}
-		</style>
-		<div data-bb-type="tall-list">
-			<div data-bb-type="item" data-bb-img="adamA.jpg" data-bb-title="Adam A." data-bb-time="10:24 PM May 22">My car just broke down and I have one million things to do!!</div> 
-			<div data-bb-type="item" data-bb-img="brian.jpg" data-bb-title="Brian" data-bb-time="10:24 PM May 22">Need to pick up Milk.  Add one more thing to the &quot;Honey Do&quot; list!</div>
-			<div data-bb-type="item" data-bb-img="tim.jpg" data-bb-title="Tim" data-bb-time="10:24 PM May 22">Time for some BBQ Ribs!!</div> 
-			<div data-bb-type="item" data-bb-img="tim.jpg" data-bb-title="Tim" data-bb-time="10:24 PM May 22">Has anyone seen a good movie lately?  We're looking for something to do this weekend and I figured a movie would be good</div> 
-			<div data-bb-type="item" data-bb-img="mike.jpg" data-bb-title="Mike" data-bb-time="10:24 PM May 22">Yes, I do Love BlackBerry! Check out BlackBerry App World</div> 
-			<div data-bb-type="item" data-bb-img="douglas.jpg" data-bb-title="Douglas" data-bb-time="10:24 PM May 22">Blogging for BlackBerry is a ton of fun. </div> 
-			<div data-bb-type="item" data-bb-img="adamA.jpg" data-bb-title="AdamA" data-bb-time="10:24 PM May 22">Gotta love BlackBerry WebWorks!</div>
-		</div>
-	</div>
 	
 ## Pill Buttons
 

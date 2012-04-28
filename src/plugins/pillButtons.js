@@ -1,7 +1,7 @@
 bb.pillButtons = {  
     // Apply our transforms to all pill buttons passed in
     apply: function(elements) {
-        if (bb.device.isBB5()) {
+        if (bb.device.isBB5) {
             for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i];
                 outerElement.setAttribute('class','bb-pill-buttons');
@@ -42,6 +42,104 @@ bb.pillButtons = {
                     };
                 }
             }
+		} else if (bb.device.isBB10) {
+			var res;
+			if (bb.device.isPlayBook) {
+				res = 'lowres';
+			} else {
+				res = 'hires';
+			}
+			var i,
+				outerElement,
+				containerStyle = 'bb-bb10-pill-buttons-container-'+res+' bb-bb10-pill-buttons-container-' + bb.screen.controlColor,
+				buttonStyle = 'bb-bb10-pill-button-'+res,
+				containerDiv,
+				innerBorder;
+	
+			for (i = 0; i < elements.length; i++) {
+				outerElement = elements[i];
+                outerElement.setAttribute('class','bb-bb10-pill-buttons-'+res);
+				containerDiv = document.createElement('div');
+				outerElement.appendChild(containerDiv);
+				containerDiv.setAttribute('class',containerStyle);
+                
+                // Gather our inner items
+                var items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
+                    percentWidth = Math.floor(100 / items.length),
+					sidePadding = 102-(percentWidth * items.length),
+                    sidePadding,
+					innerChildNode,
+					j;
+				
+                outerElement.style['padding-left'] = sidePadding + '%';
+                outerElement.style['padding-right'] = sidePadding + '%';
+                for (j = 0; j < items.length; j++) {
+                    innerChildNode = items[j];
+					containerDiv.appendChild(innerChildNode);
+					
+                    // Set our styling
+					innerChildNode.selected = buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor;
+					innerChildNode.normal = buttonStyle;
+					innerChildNode.highlight = buttonStyle + ' bb-bb10-pill-button-highlight-'+res+'-'+ bb.screen.controlColor +' bb10Highlight';
+					if (j == items.length - 1) {
+						innerChildNode.style.float = 'right';
+						if (!bb.device.isPlayBook && j > 2) {
+							innerChildNode.style.width = percentWidth-2 + '%';
+						} else {
+							innerChildNode.style.width = percentWidth-1 + '%';
+						}						
+					} else {
+						innerChildNode.style.width = percentWidth + '%';
+					}
+					
+					// Create our inner container to have double borders
+					innerBorder = document.createElement('div');
+					innerBorder.normal = 'bb-bb10-pill-button-inner-'+res;
+					innerBorder.selected = innerBorder.normal +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor;
+					
+					innerBorder.innerHTML = innerChildNode.innerHTML;
+					innerChildNode.innerHTML = '';
+					innerChildNode.appendChild(innerBorder);
+					
+					if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
+						innerChildNode.setAttribute('class',innerChildNode.selected);
+						innerBorder.setAttribute('class',innerBorder.selected);
+					} else {
+						innerChildNode.setAttribute('class',innerChildNode.normal);
+						innerBorder.setAttribute('class',innerBorder.normal);
+						innerChildNode.ontouchstart = function() {
+													this.setAttribute('class',this.highlight);
+												};
+						innerChildNode.ontouchend = function() {
+													this.setAttribute('class',this.normal);
+												};
+					}
+					
+                    // Add our subscription for click events to change highlighting
+                    innerChildNode.addEventListener('click',function (e) {
+                            var innerChildNode,
+								innerBorder,
+								items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
+                            for (var j = 0; j < items.length; j++) {
+                                innerChildNode = items[j];
+								innerBorder = innerChildNode.firstChild;
+								if (innerChildNode == this) {
+									innerChildNode.setAttribute('class',innerChildNode.selected);
+									innerBorder.setAttribute('class',innerBorder.selected);
+								} else {
+									innerBorder.setAttribute('class',innerBorder.normal);
+									innerChildNode.setAttribute('class',innerChildNode.normal);
+									innerChildNode.ontouchstart = function() {
+													this.setAttribute('class',this.highlight);
+												};
+									innerChildNode.ontouchend = function() {
+													this.setAttribute('class',this.normal);
+												};
+								}
+                            }
+                        },false);
+                }
+            }
         } else {
             for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i],
@@ -49,7 +147,7 @@ bb.pillButtons = {
                     buttonStyle = '';
                 
                 // Set our container style
-                if (bb.device.isHiRes()) {
+                if (bb.device.isHiRes) {
                     containerStyle = containerStyle + ' bb-bb7-pill-buttons-hires';
                     buttonStyle = 'bb-bb7-pill-button-hires';
                 } else {
@@ -66,7 +164,7 @@ bb.pillButtons = {
                     percentWidth = Math.floor(98 / items.length),
                     sidePadding = 102-(percentWidth * items.length);
 					
-				if (bb.device.isPlayBook()) {
+				if (bb.device.isPlayBook) {
 					inEvent = 'ontouchstart';
 					outEvent = 'ontouchend';
 				} else {
@@ -111,7 +209,7 @@ bb.pillButtons = {
                     innerChildNode.addEventListener('click',function (e) {
                             var inEvent, outEvent, items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
 							
-							if (bb.device.isPlayBook()) {
+							if (bb.device.isPlayBook) {
 								inEvent = 'ontouchstart';
 								outEvent = 'ontouchend';
 							} else {

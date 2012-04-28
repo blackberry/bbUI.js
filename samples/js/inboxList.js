@@ -18,14 +18,14 @@ function clickMe() {
  alert('Your device pin is:' + blackberry.identity.PIN);
 }
 
-if (blackberry.ui && blackberry.ui.menu) {
+if (window.blackberry && blackberry.ui && blackberry.ui.menu) {
 	blackberry.ui.menu.clearMenuItems();
 	var item = new blackberry.ui.menu.MenuItem(false, 1, 'Custom Menu', clickMe);
 	blackberry.ui.menu.addMenuItem(item);
 }
 
 function unloadMessageList() {
-	if (blackberry.ui && blackberry.ui.menu) {
+	if (window.blackberry && blackberry.ui && blackberry.ui.menu) {
 		blackberry.ui.menu.clearMenuItems();
 	}
 }

@@ -14,6 +14,19 @@
 * limitations under the License.
 */
 
+function dataOnTheFly_initialLoad(element) {
+	// I'm just doing a setTimeout to mimic processing some data
+	// in a background worker thread
+	setTimeout(dataOnTheFly_loadAfterTimeout,2000);
+}
+
+function dataOnTheFly_loadAfterTimeout() {
+	document.getElementById('waiting').style.display = 'none';
+	dataOnTheFly_addListItem()
+	dataOnTheFly_addListItem()
+	dataOnTheFly_addListItem()
+}
+
 function dataOnTheFly_addListItem() {
 	var listItem, container, dataList = document.getElementById('dataList');
 	// Create our list item
@@ -29,6 +42,10 @@ function dataOnTheFly_addListItem() {
 	bb.imageList.apply([container]);
 	// Append the item
 	dataList.appendChild(container.firstChild);
+	// re-compute the scrolling area
+	if (bb.scroller) {
+		bb.scroller.refresh();
+	}
 }
 
 function dataOnTheFly_addDropDown() {
@@ -56,4 +73,8 @@ function dataOnTheFly_addDropDown() {
 	bb.dropdown.apply([dropdown]);
 	// Append the item
 	buttonPanel.appendChild(container);
+	// re-compute the scrolling area
+	if (bb.scroller) {
+		bb.scroller.refresh();
+	}
 }

@@ -17,18 +17,18 @@
 <div data-bb-type="screen" data-bb-title="Menus" data-bb-effect="fade">
 	<div data-bb-type="title" data-bb-caption="Menus" data-bb-back-caption="Back"></div>
 	<script id="menuBar" src="js/menuBar.js"></script>
-	<div data-bb-type="menu" class="foo">
-		<div data-bb-type="menu-item" class="bar" data-bb-img="images/menu_icons/icon1.png" data-bb-caption="Rules" onclick="foo();"></div>
-		<div data-bb-type="menu-item" data-bb-selected="true" data-bb-img="images/menu_icons/icon2.png" data-bb-caption="Options" data-bb-icon-only="true" onclick="bar();"></div>
+	<div data-bb-type="menu" >
+		<div data-bb-type="menu-item" data-bb-img="images/menu_icons/icon1.png" onclick="foo();">Rules</div>
+		<div data-bb-type="menu-item" data-bb-img="images/menu_icons/icon2.png" onclick="bar();" data-bb-selected="true">Options</div>
 		<div data-bb-type="menu-separator"></div>
-		<div data-bb-type="menu-item" data-bb-img="images/menu_icons/icon3.png" data-bb-caption="Stats" onclick="fooBar();"></div>
-		<div data-bb-type="menu-item" data-bb-caption="Play" onclick="barFoo();"></div>
+		<div data-bb-type="menu-item" data-bb-img="images/menu_icons/icon3.png" onclick="fooBar();">Stats</div>
+		<div data-bb-type="menu-item" onclick="barFoo();">Play</div>
 	</div>
-	<div data-bb-type="round-panel" id="playbook-instruc">
-		<div data-bb-type="panel-header">PlayBook</div>
-		<p>When viewed on the PlayBook the menu will appear on bezel swipe down.</p>
+	<div data-bb-type="round-panel">
+		<div data-bb-type="panel-header">PlayBook &amp; BlackBerry 10</div>
+		<p>When viewed on the PlayBook or BlackBerry 10 the menu will appear on the top bezel swipe down.</p>
 	</div>
-	<div data-bb-type="round-panel" id="smartphone-instruc">
+	<div data-bb-type="round-panel">
 		<div data-bb-type="panel-header">Smartphone</div>
 		<p>When viewed on a Smartphone the menu will appear when you use the Blackberry button.</p>
 	</div>
