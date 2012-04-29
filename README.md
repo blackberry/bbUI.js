@@ -1,6 +1,6 @@
 ![logo](bbUI.js/raw/master/logos/bbUI_100x403.png)
 
-_**Current version: 0.9.1 BETA**_
+_**Current version: 0.9.1 BETA**_ 
 
 The goal of the bbUI toolkit is to provide a BlackBerry&reg; look and feel for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
