@@ -1,4 +1,4 @@
-bb.roundPanel = {  
+bb.roundPanel = {
     apply: function(elements) {
         if (bb.device.isBB7 || bb.device.isBB6 || bb.device.isBB5) {
             // Apply our transforms to all the panels
@@ -34,7 +34,7 @@ bb.roundPanel = {
                     outerElement.appendChild(placeholder);
                     // Add our previous children back to the insidePanel
                     for (var j = 0; j < innerElements.length; j++) {
-                        insidePanel.appendChild(innerElements[j]); 
+                        insidePanel.appendChild(innerElements[j]);
                     }
                 }
                 // Handle the headers
@@ -44,20 +44,20 @@ bb.roundPanel = {
                 }
             }
         }
-		else if (bb.device.isBB10) {
-			var i,
-				j,
-				outerElement,
-				items,
-				res;	
+    else if (bb.device.isBB10) {
+      var i,
+        j,
+        outerElement,
+        items,
+        res;
 
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}
-				
-			for (i = 0; i < elements.length; i++) {
+      if (bb.device.isPlayBook) {
+        res = 'lowres';
+      } else {
+        res = 'hires';
+      }
+
+      for (i = 0; i < elements.length; i++) {
                 outerElement = elements[i];
                 outerElement.setAttribute('class','bb-bb10-round-panel-'+res+' bb-bb10-round-panel-light');
                 items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
@@ -65,7 +65,7 @@ bb.roundPanel = {
                      items[j].setAttribute('class','bb-bb10-panel-header-'+res+' bb-bb10-panel-header-'+res+'-light');
                 }
             }
-		}
+    }
         else {
             for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i];
