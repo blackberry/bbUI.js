@@ -9,8 +9,6 @@ and looks at home on a BlackBerry with very little effort.
 
 All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
 
-_**NOTE: bbUI DropDowns on BB5/BB6/B7 require BlackBerry WebWorks SDK v2.3 for Smartphones or higher**_
-
 This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7/PlayBook/BB10 and then back-port for BB5.  
 
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
