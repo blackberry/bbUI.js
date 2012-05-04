@@ -13,6 +13,8 @@ _**NOTE: bbUI DropDowns on BB5/BB6/B7 require BlackBerry WebWorks SDK v2.3 for S
 
 This toolkit is currently in an incubation stage and we're working on getting things up and going.  Focus is on BB6/BB7/PlayBook/BB10 and then back-port for BB5.  
 
+**Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
+
 **Author(s)** 
 
 * [Tim Neil](https://github.com/tneil) follow me on Twitter [@brcewane](https://twitter.com/#!/brcewane)
@@ -23,18 +25,6 @@ This toolkit is currently in an incubation stage and we're working on getting th
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
-
-## Tested On
-
-* BlackBerry Dev Alpha
-* BlackBerry Torch 9860 v7.0.0.x
-* BlackBerry Curve 9360 v7.0.0.x
-* BlackBerry Bold 9700 v6.0.0.546
-* BlackBerry Bold 9700 v5.0.0.979 
-* BlackBerry Storm 9520 v5.0.0.713
-* BlackBerry PlayBook v2.0.0.7971
-
-**Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
 
 ## Source files to include
 
@@ -65,7 +55,7 @@ The toolkit will automatically add the proper highlighting and focus based tags 
 
 ## Documentation
 
-We've provided documentation for each of the controls in our wiki and you can check out the table of contents below to find the information you're looking for
+We've provided documentation for each of the controls in our wiki and you can check out the table of contents below to find the information you're looking for:
 
 ### The Basics
 
@@ -92,7 +82,18 @@ We've provided documentation for each of the controls in our wiki and you can ch
 * [Pill Buttons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
 * [Screen Menus](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus)
 
-# Contributing
+## Tested On
+
+* BlackBerry Dev Alpha
+* BlackBerry Torch 9860 v7.0.0.x
+* BlackBerry Curve 9360 v7.0.0.x
+* BlackBerry Bold 9700 v6.0.0.546
+* BlackBerry Bold 9700 v5.0.0.979 
+* BlackBerry Storm 9520 v5.0.0.713
+* BlackBerry PlayBook v2.0.0.7971
+
+
+## Contributing
 
 To build and contribute to bbUI.js please see the HACKING.md file
 
