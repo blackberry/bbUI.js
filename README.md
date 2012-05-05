@@ -1,4 +1,4 @@
-![logo](bbUI.js/raw/master/logos/bbUI_100x403.png)
+![logo](https://raw.github.com/wiki/blackberry/bbUI.js/images/bbUI_100x403.png)
 
 _**Current version: 0.9.1 BETA**_ 
 
@@ -79,6 +79,10 @@ We've provided documentation for each of the controls in our wiki and you can ch
 * [Label/Control Container](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container)
 * [Pill Buttons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
 * [Screen Menus](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus)
+
+### Reference
+
+** [Data- Attribute Reference](https://github.com/blackberry/bbUI.js/wiki/Data-Attribute-Reference)
 
 ## Tested On
 
