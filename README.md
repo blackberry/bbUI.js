@@ -82,7 +82,8 @@ We've provided documentation for each of the controls in our wiki and you can ch
 
 ### Reference
 
-** [Data- Attribute Reference](https://github.com/blackberry/bbUI.js/wiki/Data-Attribute-Reference)
+* [Data- Attribute Reference](https://github.com/blackberry/bbUI.js/wiki/Data-Attribute-Reference)
+* [WebWorks Config.xml Reference](http://developer.blackberry.com/html5/documentation/ww_developing/Working_with_Config_XML_file_1866970_11.html)
 
 ## Tested On
 
