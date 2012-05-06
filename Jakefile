@@ -42,7 +42,10 @@ task('build', ['clean'], function () {
         css = "",
         plugins = [];
 
-    output += include("LICENSE");
+    output += include("LICENSE", function(str, file) {
+      var out = "/**\n" + str + "\n*/";
+      return out;  
+    });
     output += include("src/core.js");
 
     collect(__dirname + "/src/plugins", plugins);
