@@ -1,5 +1,5 @@
 bb.menuBar = {
-	height: 103,
+	height: 100,
 	activeClick: false,
 	ignoreClick: false,
 	menuOpen: false,
