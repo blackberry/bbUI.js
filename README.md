@@ -20,6 +20,7 @@ This toolkit is currently in an incubation stage and we're working on getting th
 * [Ken Wallis](https://github.com/kwallis) follow me on Twitter [@ken_wallis](https://twitter.com/#!/ken_wallis)
 * [David Sosby](https://github.com/dsosby) follow me on Twitter [@ramdump](https://twitter.com/#!/ramdump)
 * [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy)
+* [Justin Tokarchuk](https://github.com/jtokarchuk) follow me on Twitter [@jtokarchuk](https://twitter.com/#!/jtokarchuk)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
