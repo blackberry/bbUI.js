@@ -1627,7 +1627,10 @@ bb.grid = {
 					innerChildNode,
 					outerElement = elements[i];
 					
-				outerElement.setAttribute('class','bb-bb10-grid-'+res);			
+				outerElement.setAttribute('class','bb-bb10-grid-'+res);	
+				// See if it is square or landscape layout
+				outerElement.isSquare = (outerElement.hasAttribute('data-bb-style') && outerElement.getAttribute('data-bb-style').toLowerCase() == 'square');
+				
 				// Gather our inner items
 				items = outerElement.querySelectorAll('[data-bb-type=group], [data-bb-type=row]');
 				for (j = 0; j < items.length; j++) {
@@ -1681,7 +1684,11 @@ bb.grid = {
 								} else {
 									width = ((window.innerWidth/numItems) - 8);
 								}
-								height = Math.ceil(width*0.5625);
+								if (outerElement.isSquare) {
+									height = width;
+								} else {
+									height = Math.ceil(width*0.5625);
+								}
 								itemNode.setAttribute('class', 'bb-bb10-grid-item ' + columnClass);
 								itemNode.style.width = width + 'px';
 								itemNode.style.height = height + 'px';
@@ -1737,7 +1744,6 @@ bb.grid = {
 												innerWidth = 1280;
 											}
 										}
-										
 					
 										for (i = 0; i < items.length; i++) {
 											rowItems = items[i].querySelectorAll('[data-bb-type=item]');
@@ -1749,7 +1755,11 @@ bb.grid = {
 												} else {
 													width = ((innerWidth/numItems) - 8);
 												}
-												height = Math.ceil(width*0.5625);
+												if (outerElement.isSquare) {
+													height = width;
+												} else {
+													height = Math.ceil(width*0.5625);
+												}
 												itemNode.style.width = width+'px';
 												itemNode.style.height = height+'px';
 											}
