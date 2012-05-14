@@ -1871,7 +1871,7 @@ bb.labelControlContainers = {
                         table.appendChild(tr);
                         tdControl = document.createElement('td');
                         tr.appendChild(tdControl);
-                        control = row.querySelectorAll('[data-bb-type=button],input,[data-bb-type=dropdown]')[0];
+                        control = row.querySelectorAll('[data-bb-type=button],input,[data-bb-type=dropdown],textarea')[0];
                         row.removeChild(control);
                         tdControl.appendChild(control);
                         outerElement.removeChild(row);
@@ -1907,7 +1907,7 @@ bb.labelControlContainers = {
                         // Get the control
                         var tdControl = document.createElement('td');
                         tr.appendChild(tdControl);
-                        var control = row.querySelectorAll('[data-bb-type=button],input,[data-bb-type=dropdown]')[0];
+                        var control = row.querySelectorAll('[data-bb-type=button],input,[data-bb-type=dropdown],textarea')[0];
                         row.removeChild(control);
                         tdControl.appendChild(control);
                         outerElement.removeChild(row);
