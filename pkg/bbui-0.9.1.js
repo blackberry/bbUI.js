@@ -105,6 +105,7 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+        bb.textInput.apply(root.querySelectorAll('input[type=password]'));
 
         // perform device specific formatting
         bb.screen.reAdjustHeight();
