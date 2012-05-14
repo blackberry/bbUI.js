@@ -2947,6 +2947,9 @@ a.bb5-button-highlight span {
 	line-height:30px;
 	padding-left: 15px;
 	margin:0px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-context-menu-header-title-hires
@@ -2957,6 +2960,9 @@ a.bb5-button-highlight span {
 	padding-left: 18px;
 	margin:0px;
 	padding-top:20px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-context-menu-header-description-lowres
@@ -2968,6 +2974,9 @@ a.bb5-button-highlight span {
 	padding-left: 15px;
 	margin:0px;
 	margin-top:-10px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-context-menu-header-description-hires
@@ -2979,6 +2988,10 @@ a.bb5-button-highlight span {
 	padding-left: 18px;
 	margin:0px;
 	margin-top:5px;
+	padding-top:5px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-context-menu-header-title-dark

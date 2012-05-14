@@ -95,12 +95,12 @@ bb = {
         var root = element || document.body;
 
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
-        bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password]'));
+        bb.textInput.apply(root.querySelectorAll('input[type=text]'));
         bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
         bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
-        bb.grid.apply(root.querySelectorAll('[data-bb-type=grid-layout]'));
+		bb.grid.apply(root.querySelectorAll('[data-bb-type=grid-layout]'));
         bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
@@ -2894,11 +2894,13 @@ bb.contextMenu = {
 		
 		// Create our title container
 		title.setAttribute('class','bb-bb10-context-menu-header-title-'+res+' bb-bb10-context-menu-header-title-'+bb.actionBar.color);
+		title.style.width = bb.contextMenu.getWidth() - 20 + 'px';
 		menu.topTitle = title;
 		header.appendChild(title);
 		
 		// Create our description container
 		description.setAttribute('class','bb-bb10-context-menu-header-description-'+res);
+		description.style.width = bb.contextMenu.getWidth() - 20 + 'px';
 		menu.description = description;
 		header.appendChild(description);
 
@@ -2919,7 +2921,7 @@ bb.contextMenu = {
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + ', 0)';	
+						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);		
 						// Remove the header click handling while peeking
 						this.header.addEventListener("click", this.hide, false);	
@@ -2930,7 +2932,7 @@ bb.contextMenu = {
 						this.overlay.style.display = 'none';
 						this.removeEventListener("touchstart", this.touchHandler, false);
 						this.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(' + bb.contextMenu.getWidth() + ', 0px)';
+						this.style['-webkit-transform'] = 'translate(' + bb.contextMenu.getWidth() + 'px, 0px)';
 						if (!this.peeking) {
 							// Remove the header click handling 
 							this.header.removeEventListener("click", this.hide, false);	
@@ -3066,9 +3068,9 @@ bb.contextMenu = {
 	// Calculate the proper width of the context menu
 	getWidth : function() {
 		if (bb.device.isPlayBook) {
-			return '300px';
+			return '300';
 		} else {
-			return '563px';		
+			return '563';		
 		}
 	},
 	
