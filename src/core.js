@@ -79,7 +79,7 @@ bb = {
         var root = element || document.body;
 
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
-        bb.textInput.apply(root.querySelectorAll('input[type=text]'));
+        bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password]'));
         bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
@@ -89,7 +89,7 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
-	bb.textInput.apply(root.querySelectorAll('input[type=password]'));
+
 	
         // perform device specific formatting
         bb.screen.reAdjustHeight();
