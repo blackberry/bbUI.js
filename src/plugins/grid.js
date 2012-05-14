@@ -14,11 +14,17 @@ bb.grid = {
 					type,
 					title,
 					innerChildNode,
+					contextMenu,
 					outerElement = elements[i];
 					
 				outerElement.setAttribute('class','bb-bb10-grid-'+res);	
 				// See if it is square or landscape layout
 				outerElement.isSquare = (outerElement.hasAttribute('data-bb-style') && outerElement.getAttribute('data-bb-style').toLowerCase() == 'square');
+				
+				// Assign our context menu if there is one
+				if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
+					contextMenu = bb.screen.contextMenu;
+				}
 				
 				// Gather our inner items
 				items = outerElement.querySelectorAll('[data-bb-type=group], [data-bb-type=row]');
@@ -67,6 +73,7 @@ bb.grid = {
 							for (k = 0; k < numItems; k++) {
 								itemNode = rowItems[k];
 								subtitle = itemNode.innerHTML;
+								title = itemNode.getAttribute('data-bb-title');
 								itemNode.innerHTML = '';
 								if (bb.device.isPlayBook) {
 									width = ((window.innerWidth/numItems) - 5);
@@ -90,18 +97,42 @@ bb.grid = {
 								// Create our translucent overlay
 								overlay = document.createElement('div');
 								overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
-								overlay.innerHTML = '<div><p class="title">' + itemNode.getAttribute('data-bb-title') + '<br/>' + subtitle +'</p></div>';								
+								overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
 								itemNode.appendChild(overlay);
-								// Add the overlay to the itemNode as a pointer for convenience when highlighting
+								itemNode.removeAttribute('data-bb-img');
+								itemNode.removeAttribute('data-bb-title');
+								
+								// Setup our variables
 								itemNode.overlay = overlay;
+								itemNode.title = title;
+								itemNode.description = subtitle;
+								itemNode.fingerDown = false;
+								itemNode.contextShown = false;
+								itemNode.contextMenu = contextMenu;
 								itemNode.ontouchstart = function() {
 															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.bb10HighlightColor +';');
+															itemNode.fingerDown = true;
+															itemNode.contextShown = false;
+															if (itemNode.contextMenu) {
+																window.setTimeout(this.touchTimer, 667);
+															}
 														};
 								itemNode.ontouchend = function() {
 															this.overlay.setAttribute('style','');
+															itemNode.fingerDown = false;
+															if (itemNode.contextShown) {
+																event.preventDefault();
+																event.stopPropagation();
+															}
 														};
-								itemNode.removeAttribute('data-bb-img');
-								itemNode.removeAttribute('data-bb-title');
+								itemNode.touchTimer = function() {
+																if (itemNode.fingerDown) {
+																	itemNode.contextShown = true;
+																	itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
+																}
+															};
+								itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
+								
 							}						
 							
 						}
