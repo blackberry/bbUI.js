@@ -95,7 +95,7 @@ bb = {
         var root = element || document.body;
 
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
-        bb.textInput.apply(root.querySelectorAll('input[type=text]'));
+        bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password]'));
         bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
