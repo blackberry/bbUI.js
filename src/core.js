@@ -89,6 +89,7 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+		bb.slider.apply(root.querySelectorAll('input[type=range]'));
 
         // perform device specific formatting
         bb.screen.reAdjustHeight();

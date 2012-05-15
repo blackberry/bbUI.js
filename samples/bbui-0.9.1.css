@@ -101,6 +101,117 @@ body, html {
 }
 
 /* ================================================= 
+   BB10 Slider
+   =================================================*/
+ @-webkit-keyframes explode {  
+  0% { -webkit-transform: scale(0); }  
+  70% { 
+    -webkit-transform: scale(1.2); 
+    -webkit-animation-timing-function: ease-in;
+  }  
+  100% { -webkit-transform: scale(1); }  
+}  
+
+@-webkit-keyframes implode {  
+  0% { -webkit-transform: scale(1); }  
+  20% { 
+    -webkit-transform: scale(1.2); 
+    -webkit-animation-timing-function: ease-in;
+  }  
+  100% { -webkit-transform: scale(0); }  
+}  
+
+.slider
+{
+	margin: 1.8em;
+}
+
+.slider .outer
+{
+    display: inline-block;
+    background: #070707;
+    padding: 0.2em;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    border-left: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.4); 
+    border-radius: 0.4em;
+	position: relative;
+    padding: 0px;
+    height: 0.4em;
+    text-align: left;
+    border-radius: 0.2em;
+	
+	width:100%;
+}
+
+.slider .halo {
+    border-radius: 2.1em;
+    width: 4em;
+    height: 4em;
+    border: 0px solid red;
+    position: absolute;
+    display: inline-block;
+    -webkit-animation-duration: 0.3s;  
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    -webkit-scale-origin: center center;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba(57, 187, 229, 0.15)), color-stop(0.8, rgba(57, 187, 229, 0.15)), to(rgba(57, 187, 229, 0.7)));   
+    -webkit-transform: scale(0);
+}
+
+.slider .indicator
+{
+    color: #f9f9f9;
+    display: inline-block;
+    background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
+    padding: 0.5em 1.8em;
+    border-radius: 0.15em;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    border-left: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.025);   
+    box-shadow: 0px 0px 0.2em #030303;
+    text-align: center;
+    cursor: pointer;
+	
+	position: absolute;
+    margin: 1.15em;
+    width: 1.8em;
+    height: 1.8em;
+    border-radius: 1em;
+    padding: 0px;
+    border: 0px;
+}
+
+.slider .indicator_hover   {
+    border-top: 2px solid #555;
+    border-left: 2px solid #454545;
+    border-right: 2px solid #454545;
+    border-bottom: 2px solid #353535;
+    background: -webkit-linear-gradient(top, #3DBCE6 0%, #00A7DE 100%);
+    border: 0px;
+}
+
+.slider .fill {
+    position: absolute;
+    background: -webkit-linear-gradient(top, #3DBCE6 0%, #00A7DE 100%);
+    height: 100%;
+    width: 0px;
+    border-radius: 0.2em;
+}
+
+.slider .inner {
+    top: -1.9em;
+    left: -1.9em;
+    position: absolute;
+    width: 4em;
+    height: 4em;
+    display: inline-block;
+}
+   
+
+/* ================================================= 
    BB10 Swipe Menu
    =================================================*/
 .bb-bb10-menu-bar-lowres {
