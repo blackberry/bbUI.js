@@ -374,8 +374,6 @@ Function.prototype.bind = function(object){
 
 bb.menuBar = {
 	height: 100,
-	activeClick: false,
-	ignoreClick: false,
 	menuOpen: false,
 	menu: false,
 
@@ -385,7 +383,6 @@ bb.menuBar = {
 			if (bb.device.isPlayBook && !bb.device.isBB10) {
 				menuBar.parentNode.removeChild(menuBar);
 			}
-			document.addEventListener("click", bb.menuBar.globalClickHandler, false);
 			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
 		}else if(window.blackberry && blackberry.ui.menu){
 			bb.menuBar.createBlackberryMenu(menuBar);
@@ -400,9 +397,7 @@ bb.menuBar = {
 			item, 
 			title,
 			div;
-		
 		items = menuBar.getElementsByTagName('div');
-		
 		for (var j = 0; j < items.length; j++) {
 			div = items[j];
 			if(div.getAttribute('data-bb-type') === "menu-item"){
@@ -426,7 +421,6 @@ bb.menuBar = {
 	},
 	
 	createSwipeMenu: function(menuBar, screen){
-		
 		// Get our resolution text for BB10 styling			
 		if (bb.device.isBB10) {
 			var res,
@@ -560,9 +554,7 @@ bb.menuBar = {
 					} else{
 						console.log('invalid menu item type');
 					}
-					
 				}
-				
 			}
 			// Set the size of the menu bar and assign the lstener
 			pbMenu.style['-webkit-transform']	= 'translate(0,0)';
@@ -576,9 +568,9 @@ bb.menuBar = {
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
 			bb.screen.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
-			screen.appendChild(bb.screen.overlay);
-			bb.menuBar.menu.overlay = bb.screen.overlay;	
 		}
+		screen.appendChild(bb.screen.overlay);
+		bb.menuBar.menu.overlay = bb.screen.overlay;	
 	},
 
 	showMenuBar: function(){
@@ -588,6 +580,7 @@ bb.menuBar = {
 			bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 			bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, ' + (bb.menuBar.height + 3) + 'px)';
 			bb.menuBar.menuOpen = true;
+			bb.menuBar.menu.overlay.addEventListener('touchstart', bb.menuBar.overlayTouchHandler, false);
 		}
 	},
 
@@ -598,19 +591,17 @@ bb.menuBar = {
 			bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 			bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, -' + (bb.menuBar.height + 3) + 'px)';
 			bb.menuBar.menuOpen = false;
+			bb.menuBar.menu.overlay.removeEventListener('touchstart', bb.menuBar.overlayTouchHandler, false);
 		}
 	},
 
-	globalClickHandler: function(){
-		if (bb.menuBar.menuOpen && !bb.menuBar.activeClick && !bb.menuBar.ignoreClick) {
-			bb.menuBar.hideMenuBar();
-		}
-		bb.menuBar.activeClick = false;
-		bb.menuBar.ignoreClick = false;
+	overlayTouchHandler: function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		bb.menuBar.hideMenuBar();
 	},
 
 	onMenuBarClicked: function () {
-		bb.menuBar.activeClick = true;
 		bb.menuBar.hideMenuBar();
 	},
 
@@ -618,9 +609,9 @@ bb.menuBar = {
 		if(window.blackberry){
 			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10) && blackberry.app.event){
 				blackberry.app.event.onSwipeDown('');
-				document.removeEventListener("click", bb.menuBar.globalClickHandler, false);
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
+				bb.menuBar.menuOpen = false;
 			}else if(blackberry.ui && blackberry.ui.menu){
 				blackberry.ui.menu.clearMenuItems();
 			}
