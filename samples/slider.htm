@@ -21,13 +21,16 @@
 			background-color: #252525;		
 		}
 	</style>
-	
-	
-	<div style="height:100px;line-height:100px;color:white;text-align:center;vertical-align:center;">
-		<span>Value:</span><span id="display">100</span>
+	<div style="text-align:center;margin-right:15px;margin-left:15px;margin-top:50px;">
+		<img src="images/slider/sunshine.png" style="width:550px;"/>
+		<img id="lightning" src="images/slider/lightning.png" style="width:552px;margin-top:-312px;"/>
 	</div>
-	
-	<input type="range" min="0" max="200" value="100" onchange="document.getElementById('display').innerHTML = this.value;"/>
-	
+	<table style="margin:15px;">
+		<tr>
+			<td style="width:100px;"><img src="images/slider/moon.png"/></td>
+			<td style="width:100%"><input type="range" min="0" max="100" value="0" onchange="document.getElementById('lightning').style.opacity = 1 - (parseInt(this.value)/100);"/></td>
+			<td style="width:100px;"><img src="images/slider/sun.png"/></td>
+		</tr>
+	</table>
 </div>
 	
