@@ -63,30 +63,25 @@ We've provided documentation for each of the controls in our wiki and you can ch
 * [Toolkit Initialization](https://github.com/blackberry/bbUI.js/wiki/Toolkit-Initialization)
 * [Screens](https://github.com/blackberry/bbUI.js/wiki/Screens)
 * [Screen Specific CSS and JavaScript](https://github.com/blackberry/bbUI.js/wiki/Screen-Specific-CSS-and-JavaScript)
+* [Data- Attribute Reference](https://github.com/blackberry/bbUI.js/wiki/Data-Attribute-Reference)
+* [WebWorks Config.xml Reference](http://developer.blackberry.com/html5/documentation/ww_developing/Working_with_Config_XML_file_1866970_11.html)
 
 ### BlackBerry 10 "Only" controls
 
-* [Action Bar](https://github.com/blackberry/bbUI.js/wiki/Action-Bar)
-* [Context Menu](https://github.com/blackberry/bbUI.js/wiki/Context-Menus)
-* [Grid List](https://github.com/blackberry/bbUI.js/wiki/Grid-List)
+These controls are only supported on BlackBerry 10 devices or a PlayBook that has specified that it would like to use BlackBerry 10 styling
+
+[ActionBar](https://github.com/blackberry/bbUI.js/wiki/Action-Bar) &nbsp;&nbsp; [ContextMenu](https://github.com/blackberry/bbUI.js/wiki/Context-Menus)  &nbsp;&nbsp; [GridList](https://github.com/blackberry/bbUI.js/wiki/Grid-List)
+
 
 ### Common Controls
 
-* [Arrow List](https://github.com/blackberry/bbUI.js/wiki/Arrow-List)
-* [BBM Bubbles](https://github.com/blackberry/bbUI.js/wiki/BBM-Bubbles)
-* [Buttons](https://github.com/blackberry/bbUI.js/wiki/Buttons)
-* [Control Groups](https://github.com/blackberry/bbUI.js/wiki/Control-Groups)
-* [DropDowns](https://github.com/blackberry/bbUI.js/wiki/DropDowns)
-* [Image List](https://github.com/blackberry/bbUI.js/wiki/Image-List)
-* [Label/Control Container](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container)
-* [Pill Buttons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
-* [Screen Menus](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus)
-* [Sliders](https://github.com/blackberry/bbUI.js/wiki/Sliders)
+These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
-### Reference
+[ArrowList](https://github.com/blackberry/bbUI.js/wiki/Arrow-List) &nbsp;&nbsp; [BBMBubbles](https://github.com/blackberry/bbUI.js/wiki/BBM-Bubbles) &nbsp;&nbsp; [Buttons](https://github.com/blackberry/bbUI.js/wiki/Buttons)
+ &nbsp;&nbsp; [ControlGroups](https://github.com/blackberry/bbUI.js/wiki/Control-Groups) &nbsp;&nbsp; [DropDowns](https://github.com/blackberry/bbUI.js/wiki/DropDowns) &nbsp;&nbsp; [ImageList](https://github.com/blackberry/bbUI.js/wiki/Image-List)
+ &nbsp;&nbsp; [LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
+ &nbsp;&nbsp; [ScreenMenus](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus) &nbsp;&nbsp; [Sliders](https://github.com/blackberry/bbUI.js/wiki/Sliders)
 
-* [Data- Attribute Reference](https://github.com/blackberry/bbUI.js/wiki/Data-Attribute-Reference)
-* [WebWorks Config.xml Reference](http://developer.blackberry.com/html5/documentation/ww_developing/Working_with_Config_XML_file_1866970_11.html)
 
 ## Tested On
 
