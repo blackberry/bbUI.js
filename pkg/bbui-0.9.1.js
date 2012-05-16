@@ -1665,6 +1665,7 @@ bb.grid = {
 								subtitle,
 								height,
 								width,
+								hasOverlay,
 								rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
 							
 							innerChildNode.setAttribute('class', 'bb-bb10-grid-row-'+res);
@@ -1677,6 +1678,7 @@ bb.grid = {
 								itemNode = rowItems[k];
 								subtitle = itemNode.innerHTML;
 								title = itemNode.getAttribute('data-bb-title');
+								hasOverlay = (subtitle || title);
 								itemNode.innerHTML = '';
 								if (bb.device.isPlayBook) {
 									width = ((window.innerWidth/numItems) - 5);
@@ -1698,10 +1700,16 @@ bb.grid = {
 								image.setAttribute('style','height:100%;width:100%;');
 								itemNode.appendChild(image);
 								// Create our translucent overlay
-								overlay = document.createElement('div');
-								overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
-								overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
-								itemNode.appendChild(overlay);
+								if (hasOverlay) {
+									overlay = document.createElement('div');
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
+									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
+									itemNode.appendChild(overlay);
+									
+								} else {
+									overlay = null;
+								}
+								
 								itemNode.removeAttribute('data-bb-img');
 								itemNode.removeAttribute('data-bb-title');
 								
@@ -1713,7 +1721,9 @@ bb.grid = {
 								itemNode.contextShown = false;
 								itemNode.contextMenu = contextMenu;
 								itemNode.ontouchstart = function() {
-															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.bb10HighlightColor +';');
+															if (this.overlay) {
+																this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.bb10HighlightColor +';');
+															}
 															itemNode.fingerDown = true;
 															itemNode.contextShown = false;
 															if (itemNode.contextMenu) {
@@ -1721,7 +1731,9 @@ bb.grid = {
 															}
 														};
 								itemNode.ontouchend = function() {
-															this.overlay.setAttribute('style','');
+															if (this.overlay) {
+																this.overlay.setAttribute('style','');
+															}
 															itemNode.fingerDown = false;
 															if (itemNode.contextShown) {
 																event.preventDefault();
@@ -2600,7 +2612,8 @@ bb.slider = {
 				res,
 				R,
 				G,
-				B;
+				B,
+				color = bb.options.bb10ControlsDark ? 'dark' : 'light';
 			if (bb.device.isPlayBook) {
 				res = 'lowres';
 			} else {
@@ -2631,7 +2644,7 @@ bb.slider = {
 				// Set our styling and create the inner divs
 				outerElement.className = 'bb-bb10-slider';
 				outerElement.outer = document.createElement('div');
-				outerElement.outer.className = 'outer';
+				outerElement.outer.setAttribute('class','outer bb-bb10-slider-outer-' + color);
 				outerElement.appendChild(outerElement.outer);
 				outerElement.fill = document.createElement('div');
 				outerElement.fill.className = 'fill';
@@ -2645,7 +2658,7 @@ bb.slider = {
 				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ R +', '+ G +', '+ B +', 0.15)), color-stop(0.8, rgba('+ R +', '+ G +', '+ B +', 0.15)), to(rgba('+ R +', '+ G +', '+ B +', 0.7)))';
 				outerElement.inner.appendChild(outerElement.halo);
 				outerElement.indicator = document.createElement('div');
-				outerElement.indicator.className = 'indicator';
+				outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);
 				outerElement.inner.appendChild(outerElement.indicator);
 				// Assign our function to set the value for the control
 				range.outerElement = outerElement;
@@ -2678,7 +2691,7 @@ bb.slider = {
 											outerElement.initialXPos = event.touches[0].pageX;	
 											outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 											outerElement.halo.style['-webkit-animation-name'] = 'explode';
-											outerElement.indicator.setAttribute('class','indicator indicator_hover');
+											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
 											outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
 											
 											
@@ -2693,7 +2706,7 @@ bb.slider = {
 											outerElement.value = parseInt(outerElement.range.value);
 											outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 											outerElement.halo.style['-webkit-animation-name'] = 'implode';
-											outerElement.indicator.setAttribute('class','indicator');    
+											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
 											outerElement.indicator.style.background = '';											
 										}
 									};

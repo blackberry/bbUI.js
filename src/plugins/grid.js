@@ -62,6 +62,7 @@ bb.grid = {
 								subtitle,
 								height,
 								width,
+								hasOverlay,
 								rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
 							
 							innerChildNode.setAttribute('class', 'bb-bb10-grid-row-'+res);
@@ -74,6 +75,7 @@ bb.grid = {
 								itemNode = rowItems[k];
 								subtitle = itemNode.innerHTML;
 								title = itemNode.getAttribute('data-bb-title');
+								hasOverlay = (subtitle || title);
 								itemNode.innerHTML = '';
 								if (bb.device.isPlayBook) {
 									width = ((window.innerWidth/numItems) - 5);
@@ -95,10 +97,16 @@ bb.grid = {
 								image.setAttribute('style','height:100%;width:100%;');
 								itemNode.appendChild(image);
 								// Create our translucent overlay
-								overlay = document.createElement('div');
-								overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
-								overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
-								itemNode.appendChild(overlay);
+								if (hasOverlay) {
+									overlay = document.createElement('div');
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
+									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
+									itemNode.appendChild(overlay);
+									
+								} else {
+									overlay = null;
+								}
+								
 								itemNode.removeAttribute('data-bb-img');
 								itemNode.removeAttribute('data-bb-title');
 								
@@ -110,7 +118,9 @@ bb.grid = {
 								itemNode.contextShown = false;
 								itemNode.contextMenu = contextMenu;
 								itemNode.ontouchstart = function() {
-															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.bb10HighlightColor +';');
+															if (this.overlay) {
+																this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.bb10HighlightColor +';');
+															}
 															itemNode.fingerDown = true;
 															itemNode.contextShown = false;
 															if (itemNode.contextMenu) {
@@ -118,7 +128,9 @@ bb.grid = {
 															}
 														};
 								itemNode.ontouchend = function() {
-															this.overlay.setAttribute('style','');
+															if (this.overlay) {
+																this.overlay.setAttribute('style','');
+															}
 															itemNode.fingerDown = false;
 															if (itemNode.contextShown) {
 																event.preventDefault();
