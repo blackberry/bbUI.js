@@ -89,8 +89,6 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 * BlackBerry Torch 9860 v7.0.0.x
 * BlackBerry Curve 9360 v7.0.0.x
 * BlackBerry Bold 9700 v6.0.0.546
-* BlackBerry Bold 9700 v5.0.0.979 
-* BlackBerry Storm 9520 v5.0.0.713
 * BlackBerry PlayBook v2.0.0.7971
 
 
