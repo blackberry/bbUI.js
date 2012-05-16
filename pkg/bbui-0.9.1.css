@@ -2645,32 +2645,40 @@ a.bb5-button-highlight span {
 
 .bb-bb10-grid-item-col-1-lowres
 {
-	margin:1px;
+	margin-left:1px;
+	margin-right:1px;
+	margin-bottom:3px;
 }
 
 .bb-bb10-grid-item-col-1-hires
 {
-	margin:1px;
+	margin-left:1px;
+	margin-right:1px;
+	margin-bottom:5px;
 }
 
 .bb-bb10-grid-item-col-2-lowres
 {
 	margin-left: 1px;
+	margin-bottom: -8px;
 }
 
 .bb-bb10-grid-item-col-2-hires
 {
 	margin-left: 1px;
+	margin-bottom: -8px;
 }
 
 .bb-bb10-grid-item-col-3-lowres
 {
-	margin-left: -3px;
+	margin-left: 1px;
+	margin-bottom: -8px;
 }
 
 .bb-bb10-grid-item-col-3-hires
 {
-	margin-left: -3px;
+	margin-left: 1px;
+	margin-bottom: -8px;
 }
 
 .bb-bb10-grid-item-overlay-lowres
