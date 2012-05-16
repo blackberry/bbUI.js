@@ -28,7 +28,7 @@ Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://icon
 
 ## Source files to include
 
-You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository.  You can also [Download the current release as a zip](https://github.com/downloads/blackberry/bbUI.js/master.zip)
+You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository.  You can also [download the current release as a zip](https://github.com/downloads/blackberry/bbUI.js/bbUI.zip)
 
 ## Philosophy
 
