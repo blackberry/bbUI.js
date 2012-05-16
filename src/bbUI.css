@@ -129,27 +129,38 @@ body, html {
 .bb-bb10-slider .outer
 {
     display: inline-block;
-    background: #070707;
     padding: 0.2em;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-right: 1px solid rgba(255,255,255,0.1);
-    border-left: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.4); 
     border-radius: 0.4em;
 	position: relative;
     padding: 0px;
     height: 0.4em;
     text-align: left;
     border-radius: 0.2em;
-	
 	width:100%;
+}
+
+.bb-bb10-slider-outer-dark
+{
+	background: #070707;
+	border-top: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    border-left: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.4); 
+}
+
+.bb-bb10-slider-outer-light
+{
+	background: -webkit-linear-gradient(top, #C9C9C9 0%, #DEDEDE 100%);
+	border-top: 1px solid #9B9B9B;
+    border-right: 1px solid #9B9B9B;
+    border-left: 1px solid #9B9B9B;
+    border-bottom: 1px solid #C8C8C8; 
 }
 
 .bb-bb10-slider .halo {
     border-radius: 2.1em;
     width: 4em;
     height: 4em;
-    border: 0px solid red;
     position: absolute;
     display: inline-block;
     -webkit-animation-duration: 0.3s;  
@@ -160,35 +171,49 @@ body, html {
 }
 
 .bb-bb10-slider .indicator
-{
-    color: #f9f9f9;
+{ 
     display: inline-block;
-    background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
     padding: 0.5em 1.8em;
     border-radius: 0.15em;
-    border-top: 1px solid rgba(255,255,255,0.3);
-    border-right: 1px solid rgba(255,255,255,0.1);
-    border-left: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.025);   
-    box-shadow: 0px 0px 0.2em #030303;
-    text-align: center;
     cursor: pointer;
-	
 	position: absolute;
     margin: 1.15em;
     width: 1.8em;
     height: 1.8em;
     border-radius: 1em;
-    padding: 0px;
+    padding: 1px;
     border: 0px;
 }
 
-.bb-bb10-slider .indicator_hover   {
+.bb-bb10-slider-indicator-dark
+{
+	color: #f9f9f9;
+	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
+	border-top: 1px solid rgba(255,255,255,0.3);
+    border-right: 1px solid rgba(255,255,255,0.1);
+    border-left: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.025);   
+    box-shadow: 0px 0px 0.2em #030303;
+}
+
+.bb-bb10-slider-indicator-light
+{
+	color: #f9f9f9;
+	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DDDDDD 100%);
+	border: 1px solid #BFBFBF;
+    box-shadow: 0px 0px 0.2em #030303;
+}
+
+.bb-bb10-slider .indicator-hover-dark   {
     border-top: 2px solid #555;
     border-left: 2px solid #454545;
     border-right: 2px solid #454545;
     border-bottom: 2px solid #353535;
     border: 0px;
+}
+
+.bb-bb10-slider .indicator-hover-light   {
+	border: 1px solid #BFBFBF;
 }
 
 .bb-bb10-slider .fill {
