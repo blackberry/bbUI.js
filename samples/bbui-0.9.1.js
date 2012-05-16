@@ -2597,12 +2597,20 @@ bb.slider = {
 		if (bb.device.isBB10) {
 			var i, 
 				range,
-				res;
+				res,
+				R,
+				G,
+				B;
 			if (bb.device.isPlayBook) {
 				res = 'lowres';
 			} else {
 				res = 'hires';
 			}	
+			// Get our highlight RGB colors
+			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
+			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
+			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+			
 			for (i = 0; i < elements.length; i++) {
 				range = elements[i];
 				// Create our container div
@@ -2612,26 +2620,29 @@ bb.slider = {
 				range.style.display = 'none';
 				outerElement.appendChild(range);
 				// Get our values
-				outerElement.minValue = range.hasAttribute('min') ? range.getAttribute('min').toLowerCase() : 0;
-				outerElement.maxValue = range.hasAttribute('max') ? range.getAttribute('max').toLowerCase() : 0;
-				outerElement.value = range.hasAttribute('value') ? range.getAttribute('value').toLowerCase() : 0;
+				outerElement.minValue = range.hasAttribute('min') ? parseInt(range.getAttribute('min')) : 0;
+				outerElement.maxValue = range.hasAttribute('max') ? parseInt(range.getAttribute('max')) : 0;
+				outerElement.value = range.hasAttribute('value') ? parseInt(range.getAttribute('value')) : 0;
+				outerElement.step = range.hasAttribute('step') ? parseInt(range.getAttribute('step')) : 0;
 				outerElement.isActivated = false;
 				outerElement.initialXPos = 0;
 				outerElement.currentXPos = 0;
 				outerElement.transientXPos = 0;
 				// Set our styling and create the inner divs
-				outerElement.className = 'slider';
+				outerElement.className = 'bb-bb10-slider';
 				outerElement.outer = document.createElement('div');
 				outerElement.outer.className = 'outer';
 				outerElement.appendChild(outerElement.outer);
 				outerElement.fill = document.createElement('div');
 				outerElement.fill.className = 'fill';
+				outerElement.fill.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
 				outerElement.outer.appendChild(outerElement.fill);
 				outerElement.inner = document.createElement('div');
 				outerElement.inner.className = 'inner';
 				outerElement.outer.appendChild(outerElement.inner);
 				outerElement.halo = document.createElement('div');
 				outerElement.halo.className = 'halo';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ R +', '+ G +', '+ B +', 0.15)), color-stop(0.8, rgba('+ R +', '+ G +', '+ B +', 0.15)), to(rgba('+ R +', '+ G +', '+ B +', 0.7)))';
 				outerElement.inner.appendChild(outerElement.halo);
 				outerElement.indicator = document.createElement('div');
 				outerElement.indicator.className = 'indicator';
@@ -2664,10 +2675,13 @@ bb.slider = {
 				outerElement.inner.animateBegin = function(event) {
 										if (outerElement.isActivated === false) {
 											outerElement.isActivated = true;
-											outerElement.initialXPos = event.touches[0].pageX;										
+											outerElement.initialXPos = event.touches[0].pageX;	
 											outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 											outerElement.halo.style['-webkit-animation-name'] = 'explode';
 											outerElement.indicator.setAttribute('class','indicator indicator_hover');
+											outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
+											
+											
 										}
 									};
 				outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
@@ -2676,9 +2690,11 @@ bb.slider = {
 										if (outerElement.isActivated === true) {
 											outerElement.isActivated = false;
 											outerElement.currentXPos = outerElement.transientXPos;
+											outerElement.value = parseInt(outerElement.range.value);
 											outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 											outerElement.halo.style['-webkit-animation-name'] = 'implode';
-											outerElement.indicator.setAttribute('class','indicator');                 
+											outerElement.indicator.setAttribute('class','indicator');    
+											outerElement.indicator.style.background = '';											
 										}
 									};
 				outerElement.inner.animateEnd = outerElement.inner.animateEnd.bind(outerElement.inner);
@@ -2690,8 +2706,6 @@ bb.slider = {
 										event.preventDefault();
 										outerElement.transientXPos = outerElement.currentXPos + event.touches[0].pageX - outerElement.initialXPos;
 										outerElement.transientXPos = Math.max(0, Math.min(outerElement.transientXPos, parseInt(window.getComputedStyle(outerElement.outer).width)));
-										/*
-										notifyUpdated();*/
 										this.notifyUpdated();
 										this.fill.style.width = outerElement.transientXPos + 'px';
 										this.inner.style['-webkit-transform'] = 'translate3d(' + outerElement.transientXPos + 'px,0px,0px)';
@@ -2700,20 +2714,32 @@ bb.slider = {
 				outerElement.moveSlider = outerElement.moveSlider.bind(outerElement);
 				// Handle sending event to person trapping
 				outerElement.notifyUpdated = function() {
-									var percent = outerElement.transientXPos/parseInt(window.getComputedStyle(outerElement.outer).width);
-									outerElement.range.value = Math.ceil((parseInt(outerElement.minValue) + parseInt(outerElement.maxValue))*percent);
-									var evObj = document.createEvent('HTMLEvents');
-									evObj.initEvent('change', false, true );
-									outerElement.range.dispatchEvent(evObj);
+									var percent = outerElement.transientXPos/parseInt(window.getComputedStyle(outerElement.outer).width),
+										newValue = Math.ceil((parseInt(outerElement.minValue) + parseInt(outerElement.maxValue))*percent);
+									// Fire our events based on the step provided
+									if (Math.abs(newValue - parseInt(outerElement.range.value)) > outerElement.step) {
+										outerElement.range.value = newValue;
+										var evObj = document.createEvent('HTMLEvents');
+										evObj.initEvent('change', false, true );
+										outerElement.range.dispatchEvent(evObj);
+									}
 								};
-								
+				outerElement.doOrientationChange = function() {
+									window.setTimeout(outerElement.range.setValue, 0);
+								};
+				outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 				// Assign our document event listeners
-				document.addEventListener("touchmove", outerElement.moveSlider, false);
-				document.addEventListener("touchend", outerElement.inner.animateEnd, false);
+				document.addEventListener('touchmove', outerElement.moveSlider, false);
+				document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+				window.addEventListener('orientationchange', outerElement.doOrientationChange,false); 
 			}
 		}	
+	},
+	
+	cutHex : function(h) {
+		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	}
-}
+};
 
 // Apply styling to an action bar
 bb.actionBar = {
