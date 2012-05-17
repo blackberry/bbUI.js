@@ -2,6 +2,18 @@
 
 Below you will find all the different changes that have been added since the first introduction of versioning for the bbUI toolkit.
 
+## Version 0.9.2
+* Grid list margins corrected
+* Grid list now supports square 1:1 ratio images
+* Grid list now will only show overlay if either a title or sub-title is provided
+* Grid list now has press-and-hold context menu support
+* Large text for title/description on context menu now truncated with an ellipsis 
+* Large text for label on text arrow lists now truncated with an ellipsis
+* Bug fixes for swipe down menu
+* HTML5 input fields now supported in a Label/Control container
+* Added slider styling for BlackBerry 10
+
+
 ## Version 0.9.1
 
 * First version number provided for the toolkit
