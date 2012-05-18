@@ -848,6 +848,144 @@ body, html {
 }
 
 /* ================================================= 
+   BB10 Title Bar
+   =================================================*/
+.bb-bb10-title-bar-hires {
+	height:132px;
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	text-align:center;
+	padding-top:8px;
+	line-height:140px;
+	font-size: 26pt;
+	z-index:1000;
+}
+
+.bb-bb10-title-bar-lowres {
+	height:68px;
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	text-align:center;
+	line-height:73px;
+	font-size: 16pt;
+	padding-top: 5px;
+	z-index:1000;
+}
+
+.bb-bb10-title-bar-dark
+{
+	background-color:#333333;
+	color:white;
+}
+
+.bb-bb10-title-bar-light
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#F1F1F1), to(#D4D4D4));;
+	color:black;
+}
+
+.bb-bb10-titlebar-button-container-light
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#BDBDBD), to(#D4D4D4));
+	color: black;
+	border-top-color: #A3A3A3;
+	border-bottom-color: #CECECE;
+	border-left-color: #C3C3C3;
+	border-right-color: #C4C4C4;
+}
+
+.bb-bb10-titlebar-button-container-dark
+{
+	background-color: #0B0B0B;
+	color: white;
+	border-color: #333333;
+}
+
+.bb-bb10-titlebar-button-container-hires
+{
+	position: absolute;
+	top: 0px;
+	border-width:4px;
+	border-style: solid;
+	border-radius:10px;
+	padding: 2px;
+	margin: 20px;
+}  
+
+.bb-bb10-titlebar-button-container-lowres
+{
+	position: absolute;
+	top: 0px;
+	border-width:2px;
+	border-style: solid;
+	border-radius:4px;
+	padding: 1px;
+	margin: 7px;
+}    
+   
+.bb-bb10-titlebar-button {
+	border-style: solid;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	display: block;
+	background-clip: padding-box;	
+}
+
+.bb-bb10-titlebar-button-light {
+	border-top-color: #B4B4B4;
+	border-left-color: #C2C2C2;
+	border-bottom-color: #B4B4B4;
+	border-right-color: #C8C8C8;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
+}
+
+.bb-bb10-titlebar-button-dark {
+	border-color:#5C5C5C;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
+}
+
+.bb-bb10-titlebar-button-disabled-dark {
+	border-color:#262626;
+	background-color: #262626;
+	color: #666666;
+	
+}
+
+.bb-bb10-titlebar-button-disabled-light {
+	border-color: #D4D4D4;
+	background-color: #C1C1C1;
+	color: #838383;
+}
+
+.bb-bb10-titlebar-button-hires {
+	border-width:1px;
+	border-radius:5px;
+	line-height:75px;
+	height:75px;
+	padding-top:12px;
+	padding-left: 35px;
+	padding-right: 35px;
+	font-size:28pt;
+}
+
+.bb-bb10-titlebar-button-lowres {
+	border-width:1px;
+	border-radius:2px;
+	line-height:46px;
+	height:46px;
+	padding-top:5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size:16pt;
+}
+
+
+/* ================================================= 
    PlayBook Title Bar
    =================================================*/
 .pb-title-bar {

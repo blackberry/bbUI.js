@@ -13,6 +13,8 @@ Below you will find all the different changes that have been added since the fir
 * HTML5 input fields now supported in a Label/Control container
 * Added slider styling for BlackBerry 10
 * Added progress indicators for BlackBerry 5/6/7/PlayBook/10
+* Supplying a back caption in a title bar no longer creates an action bar with a back button
+* Added title bar support to BB10
 
 
 ## Version 0.9.1
