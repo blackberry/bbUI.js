@@ -12,6 +12,7 @@ Below you will find all the different changes that have been added since the fir
 * Bug fixes for swipe down menu
 * HTML5 input fields now supported in a Label/Control container
 * Added slider styling for BlackBerry 10
+* Added progress indicators for BlackBerry 5/6/7/PlayBook/10
 
 
 ## Version 0.9.1
