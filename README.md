@@ -80,16 +80,16 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 [ArrowList](https://github.com/blackberry/bbUI.js/wiki/Arrow-List) &nbsp;&nbsp; [BBMBubbles](https://github.com/blackberry/bbUI.js/wiki/BBM-Bubbles) &nbsp;&nbsp; [Buttons](https://github.com/blackberry/bbUI.js/wiki/Buttons)
  &nbsp;&nbsp; [ControlGroups](https://github.com/blackberry/bbUI.js/wiki/Control-Groups) &nbsp;&nbsp; [DropDowns](https://github.com/blackberry/bbUI.js/wiki/DropDowns) &nbsp;&nbsp; [ImageList](https://github.com/blackberry/bbUI.js/wiki/Image-List)
  &nbsp;&nbsp; [LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
- &nbsp;&nbsp; [ScreenMenus](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus) &nbsp;&nbsp; [Sliders](https://github.com/blackberry/bbUI.js/wiki/Sliders)
+ &nbsp;&nbsp; [ProgressIndicator](https://github.com/blackberry/bbUI.js/wiki/Progress-Indicator) &nbsp;&nbsp; [ScreenMenus](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus) &nbsp;&nbsp; [Sliders](https://github.com/blackberry/bbUI.js/wiki/Sliders)
 
 
 ## Tested On
 
 * BlackBerry Dev Alpha
+* BlackBerry PlayBook v2.0.1.x
 * BlackBerry Torch 9860 v7.0.0.x
 * BlackBerry Curve 9360 v7.0.0.x
 * BlackBerry Bold 9700 v6.0.0.546
-* BlackBerry PlayBook v2.0.0.7971
 
 
 ## Contributing

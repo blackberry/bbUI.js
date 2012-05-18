@@ -7,7 +7,8 @@ bb.slider = {
 				res,
 				R,
 				G,
-				B;
+				B,
+				color = bb.options.bb10ControlsDark ? 'dark' : 'light';
 			if (bb.device.isPlayBook) {
 				res = 'lowres';
 			} else {
@@ -36,9 +37,9 @@ bb.slider = {
 				outerElement.currentXPos = 0;
 				outerElement.transientXPos = 0;
 				// Set our styling and create the inner divs
-				outerElement.className = 'bb-bb10-slider';
+				outerElement.className = 'bb-bb10-slider-'+res;
 				outerElement.outer = document.createElement('div');
-				outerElement.outer.className = 'outer';
+				outerElement.outer.setAttribute('class','outer bb-bb10-slider-outer-' + color);
 				outerElement.appendChild(outerElement.outer);
 				outerElement.fill = document.createElement('div');
 				outerElement.fill.className = 'fill';
@@ -52,17 +53,22 @@ bb.slider = {
 				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ R +', '+ G +', '+ B +', 0.15)), color-stop(0.8, rgba('+ R +', '+ G +', '+ B +', 0.15)), to(rgba('+ R +', '+ G +', '+ B +', 0.7)))';
 				outerElement.inner.appendChild(outerElement.halo);
 				outerElement.indicator = document.createElement('div');
-				outerElement.indicator.className = 'indicator';
+				outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);
 				outerElement.inner.appendChild(outerElement.indicator);
 				// Assign our function to set the value for the control
 				range.outerElement = outerElement;
 				range.setValue = function(value) {
 								var percent = 0,
-									width;
+									width,
+									evObj;
 								if (value && (value < parseInt(this.outerElement.minValue) || value > parseInt(this.outerElement.maxValue))) {
 									return;
 								} else if (value) {
 									this.outerElement.value = value;
+									this.value = value;
+									evObj = document.createEvent('HTMLEvents');
+									evObj.initEvent('change', false, true );
+									this.dispatchEvent(evObj);
 								}
 								// Calculate our percentage
 								if (this.outerElement.value == this.outerElement.maxValue) {
@@ -85,7 +91,7 @@ bb.slider = {
 											outerElement.initialXPos = event.touches[0].pageX;	
 											outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 											outerElement.halo.style['-webkit-animation-name'] = 'explode';
-											outerElement.indicator.setAttribute('class','indicator indicator_hover');
+											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
 											outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
 											
 											
@@ -100,7 +106,7 @@ bb.slider = {
 											outerElement.value = parseInt(outerElement.range.value);
 											outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 											outerElement.halo.style['-webkit-animation-name'] = 'implode';
-											outerElement.indicator.setAttribute('class','indicator');    
+											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
 											outerElement.indicator.style.background = '';											
 										}
 									};

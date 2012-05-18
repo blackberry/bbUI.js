@@ -44,6 +44,7 @@ bb = {
 		if (document.styleSheets && document.styleSheets.length) {
 			try {
 				document.styleSheets[0].insertRule('.bb10Highlight {background-color:'+ bb.options.bb10HighlightColor +';background-image:none;}', 0);
+				document.styleSheets[0].insertRule('.bbProgressHighlight {background-color:#92B43B;background-image:none;}', 0);
 				document.styleSheets[0].insertRule('.bb10-button-highlight {color:White;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.bb10AccentColor+'), to('+bb.options.bb10HighlightColor+'));border-color:#53514F;}', 0);
 				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.bb10AccentColor +';}', 0);
 			}
@@ -90,6 +91,7 @@ bb = {
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
 		bb.slider.apply(root.querySelectorAll('input[type=range]'));
+		bb.progress.apply(root.querySelectorAll('progress'));
 
         // perform device specific formatting
         bb.screen.reAdjustHeight();

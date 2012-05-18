@@ -16,6 +16,7 @@
 -->
 <div data-bb-type="screen" data-bb-effect="fade">
 	<div data-bb-type="title" data-bb-caption="Slider" data-bb-back-caption="Back" ></div>
+	<script id="sliderJS" src="js/slider.js"></script>
 	<style>
 		body {
 			background-color: #252525;		
@@ -28,9 +29,12 @@
 	<table style="margin:15px;">
 		<tr>
 			<td style="width:100px;"><img src="images/slider/moon.png"/></td>
-			<td style="width:100%"><input type="range" min="0" max="100" value="0" step="10" style="width:100%" onchange="document.getElementById('lightning').style.opacity = 1 - (parseInt(this.value)/100);"/></td>
+			<td style="width:100%"><input id="myslider" type="range" min="0" max="100" value="0" step="10" style="width:100%" onchange="document.getElementById('lightning').style.opacity = 1 - (parseInt(this.value)/100);"/></td>
 			<td style="width:100px;"><img src="images/slider/sun.png"/></td>
 		</tr>
 	</table>
+	<div style="padding-top:50px">
+		<div data-bb-type="button" data-bb-stretch="true" onclick="moveSlider()">Slide with a Timer</div>
+	</div>
 </div>
 	

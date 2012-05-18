@@ -14,29 +14,40 @@
 * limitations under the License.
 */
 
-var percent = 3;
+var percent = 4,
+	paused = false;
 		  
 function setValuesToPercent(percent) {
-   var gauge = document.getElementById('gauge0');
-	setPercent(gauge, percent);
-	gauge = document.getElementById('gauge1');
-	setPercent(gauge, percent);
-	gauge = document.getElementById('gauge2');
-	setPercent(gauge, percent);
+	gauge = document.getElementById('progress');
+	gauge.setValue(percent);
 }
   
 function doTimedEvent() {
+	if (paused) {
+		document.getElementById('reset').enable();
+		document.getElementById('pause').disable();
+		document.getElementById('watch').enable();
+		return;
+	}
 	if (percent > 100) {
-		percent = 3;
+		percent = 4;
+		document.getElementById('reset').enable();
+		document.getElementById('pause').disable();
+		document.getElementById('watch').enable();
 		return;
 	}
 	setValuesToPercent(percent);
-	percent = percent + 3;
+	percent = percent + 4;
 	setTimeout('doTimedEvent()', 100);          
 }
-  
-function setPercent(gauge, percent) {
-	var percentValue = percent / 100;
-	var gaugeWidth = percentValue * gauge.parentNode.clientWidth;
-	gauge.style.width = gaugeWidth + 'px';
+
+function watchProgress() {
+	paused = false;
+	document.getElementById('watch').disable();
+	document.getElementById('reset').disable();
+	document.getElementById('pause').enable();
+	doTimedEvent();
 }
+
+
+  
