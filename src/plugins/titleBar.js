@@ -65,13 +65,13 @@ bb.titleBar = {
 			}
 		} else {
 			if (titleBar.hasAttribute('data-bb-caption')) {
-				var outerStyle = outerElement.getAttribute('style');
+				var outerStyle = titleBar.getAttribute('style');
 				if (bb.device.isHiRes) {
 					titleBar.setAttribute('class', 'bb-hires-screen-title');
-					outerElement.setAttribute('style', outerStyle + ';padding-top:33px');
+					titleBar.setAttribute('style', outerStyle + ';padding-top:33px');
 				} else {
 					titleBar.setAttribute('class', 'bb-lowres-screen-title');
-					outerElement.setAttribute('style', outerStyle + ';padding-top:27px');
+					titleBar.setAttribute('style', outerStyle + ';padding-top:27px');
 				}
 				titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
 			}
@@ -155,4 +155,4 @@ bb.titleBar = {
         
 	
 	}
-}
+};
