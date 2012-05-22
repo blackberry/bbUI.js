@@ -17,10 +17,9 @@
 body, html {
 	padding:0;
 	margin:0;
-	font-family: Slate,Myriad Pro,BBAlpha Sans;
+	font-family: Slate,Myriad Pro,BBAlpha Sans,Helvetica;
 	font-size: 12pt;
 	overflow:visible;
-	/*background-color:#DDDDDD;*/
 	user-select: none;
 	-webkit-user-select: none;
 }
