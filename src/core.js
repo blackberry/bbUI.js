@@ -22,13 +22,14 @@ bb = {
 			}
 		}
 		
+			
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.appVersion.indexOf('Ripple') >= 0);
 		bb.device.isPlayBook = (navigator.appVersion.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
-			bb.device.isBB10 = (navigator.appVersion.indexOf('Version/10.0') >= 0);
+			bb.device.isBB10 = (navigator.userAgent.indexOf('Version/10.0') >= 0);
 		}
 		bb.device.isBB7 = (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || bb.device.isRipple;
 		bb.device.isBB6 = navigator.appVersion.indexOf('6.0.0') >= 0;
