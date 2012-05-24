@@ -15,6 +15,9 @@ Below you will find all the different changes that have been added since the fir
 * Added progress indicators for BlackBerry 5/6/7/PlayBook/10
 * Supplying a back caption in a title bar no longer creates an action bar with a back button
 * Added title bar support to BB10
+* Added placeholder image support for image lists
+* Added image effect on image lists for BB10
+* Added support for images lists to just have text and no images
 
 
 ## Version 0.9.1

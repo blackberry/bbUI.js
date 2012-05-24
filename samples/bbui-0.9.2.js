@@ -38,7 +38,6 @@ bb = {
 			}
 		}
 		
-			
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.appVersion.indexOf('Ripple') >= 0);
 		bb.device.isPlayBook = (navigator.appVersion.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
@@ -958,6 +957,7 @@ bb.dropdown = {
 
 				// Create the dropdown container and insert it where the select was
 				dropdown = document.createElement('div');
+				dropdown.items = [];
 				dropdown.setAttribute('data-bb-type','dropdown');
 				select.dropdown = dropdown;
 				select.parentNode.insertBefore(dropdown, select);
@@ -1023,6 +1023,7 @@ bb.dropdown = {
                 for (j = 0; j < options.length; j++) {
 					option = options[j];
 					item = document.createElement('div');
+					dropdown.items.push(item);
 					item.slectedStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor+' bb-bb10-dropdown-item-selected-'+ bb.screen.controlColor;
 					item.normalStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor;
 					item.index = j;
@@ -1059,18 +1060,7 @@ bb.dropdown = {
 											this.style['color'] = '';
 										};			
 					item.onclick = function() {
-										// Style the previously selected item as no longer selected
-										if (this.dropdown.selected) {
-											this.dropdown.selected.setAttribute('class',this.normalStyle);
-											this.dropdown.selected.img.style.visibility = 'hidden';
-										}
-										// Style this item as selected
-										this.setAttribute('class',this.slectedStyle);
-										this.img.style.visibility = 'visible';
-										this.dropdown.selected = this;
-										// Set our index and fire the event
 										this.select.setSelectedItem(this.index);
-										this.dropdown.hide();
 								   };
                 }
 				
@@ -1182,12 +1172,26 @@ bb.dropdown = {
 				// Assign our functions to be able to set the value
                 select.setSelectedItem = function(index) {
                     if (this.selectedIndex != index) {
-                        this.selectedIndex = index;
+                        var item = this.dropdown.items[index];
+						if (!item) return;
+						// Style the previously selected item as no longer selected
+						if (this.dropdown.selected) {
+							this.dropdown.selected.setAttribute('class',item.normalStyle);
+							this.dropdown.selected.img.style.visibility = 'hidden';
+						}
+						// Style this item as selected
+						item.setAttribute('class',item.slectedStyle);
+						item.img.style.visibility = 'visible';
+						this.dropdown.selected = item;
+						// Set our index and fire the event
+						this.selectedIndex = index;
 						this.dropdown.caption.innerHTML = this.options[index].text;
-						
+						this.dropdown.hide();
                         window.setTimeout(this.fireEvent,0);
                     }
                 };
+				select.setSelectedItem = select.setSelectedItem.bind(select);
+				
 				// Have this function so we can asynchronously fire the change event
 				select.fireEvent = function() {
 									// Raise the DOM event
@@ -1373,28 +1377,36 @@ bb.dropdown = {
 bb.imageList = {  
     apply: function(elements) {
 		if (bb.device.isBB10) {
-			var res;
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}
+			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+				i,j,
+				outerElement,
+				innerChildNode,
+				normal,
+				highlight,
+				contextMenu,
+				items,
+				hideImages,
+				imageEffect,
+				imagePlaceholder;
 		
 			// Apply our transforms to all Image Lists
-			for (var i = 0; i < elements.length; i++) {
-				var outerElement = elements[i],
-					normal,
-					highlight,
-					contextMenu;
+			for (i = 0; i < elements.length; i++) {
+				outerElement = elements[i];
 				outerElement.setAttribute('class','bb-bb10-image-list');
+				hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
+				if (!hideImages) {
+					imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
+					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				}
+				
 				// Assign our context menu if there is one
 				if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
 					contextMenu = bb.screen.contextMenu;
 				}
 				// Gather our inner items
-				var items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
-				for (var j = 0; j < items.length; j++) {
-					var innerChildNode = items[j];
+				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				for (j = 0; j < items.length; j++) {
+					innerChildNode = items[j];
 					if (innerChildNode.hasAttribute('data-bb-type')) {
 						// Figure out the type of item
 						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase(),
@@ -1446,15 +1458,56 @@ bb.imageList = {
 							innerChildNode.setAttribute('class', normal);
 							innerChildNode.innerHTML = '';
 							// Create our image
-							img = document.createElement('img');
-							img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
-							innerChildNode.appendChild(img);
+							if (!hideImages) {
+								img = document.createElement('img');
+								if (imagePlaceholder) {
+									img.placeholder = imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+								} else {
+									img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
+								}
+								innerChildNode.appendChild(img);
+								
+								if (imageEffect) {
+									img.style.opacity = '0.0';
+									img.even = (j%2 == 0)
+									img.onload = function() {
+													this.show();
+												};
+									img.show = function() {
+													this.style.opacity = '1.0';
+													if (this.even) { // Change timing based on even and odd numbers for some randomness
+														this.style['-webkit-transition'] = 'opacity 0.5s linear';
+													} else {
+														this.style['-webkit-transition'] = 'opacity 1.0s linear';
+													}
+													this.style['-webkit-backface-visibility'] = 'hidden';
+													this.style['-webkit-perspective'] = 1000;
+													this.style['-webkit-transform'] = 'translate3d(0,0,0)';
+												};
+									img.show = img.show.bind(img);
+								}
+								// Handle the error scenario
+								if (imagePlaceholder) {
+									img.onerror = function() {
+													if (this.src == this.placeholder) return;
+													this.src = this.placeholder;
+													if (imageEffect) {
+														this.show();
+													}
+												};
+								}
+							}
 							// Create the details container
 							details = document.createElement('div');
-							details.setAttribute('class','details');
+							if (hideImages) {
+								details.setAttribute('class','bb-bb10-image-list-item-details-'+res+' bb-bb10-image-list-item-noimage-'+res);
+							} else {
+								details.setAttribute('class','bb-bb10-image-list-item-details-'+res);
+							}
 							innerChildNode.appendChild(details);
 							// Create our title
-							title = document.createElement('span');
+							title = document.createElement('div');
 							title.setAttribute('class','title');
 							title.innerHTML = innerChildNode.getAttribute('data-bb-title');
 							details.appendChild(title);
@@ -1512,7 +1565,13 @@ bb.imageList = {
 			for (var i = 0; i < elements.length; i++) {
 				var inEvent, 
 					outEvent, 
-					outerElement = elements[i];
+					outerElement = elements[i],
+					imagePlaceholder,
+					hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
+					
+				if (!hideImages) {
+					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				}
 				// Set our highlight events
 				if (bb.device.isPlayBook) {
 					inEvent = 'ontouchstart';
@@ -1535,13 +1594,12 @@ bb.imageList = {
 					accentText,
 					normal,
 					highlight,
-					res;
-					
-				if (bb.device.isHiRes) {
-					res = 'hires';
-				} else {
-					res = 'lowres';
-				}
+					details,
+					titleDiv,
+					descriptionDiv,
+					accentDiv,
+					img,
+					res = (bb.device.isHiRes) ? 'hires' : 'lowres';
 					
 				for (j = 0; j < items.length; j++) {
 					innerChildNode = items[j];
@@ -1584,16 +1642,48 @@ bb.imageList = {
 							innerChildNode.setAttribute(outEvent, "this.setAttribute('class',this.normal)");
 						} 
 						else if (type == 'item') {
+							innerChildNode.innerHTML = '';
 							innerChildNode.setAttribute('class', 'bb-'+res+'-image-list-item');
 							innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-"+res+"-image-list-item-hover')");
 							innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-"+res+"-image-list-item')");
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
-							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
-											'<div class="details">\n'+
-											'   <span class="title">' + innerChildNode.getAttribute('data-bb-title') + '</span>\n'+
-											'   <span class="accent-text">' + accentText + '</span>\n'+
-											'   <div class="description">' + description + '</div>\n'+
-											'</div>\n';
+							
+							if (!hideImages) {
+								img = document.createElement('img');
+								if (imagePlaceholder) {
+									img.placeholder = imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+									img.onerror = function() {
+													if (this.src == this.placeholder) return;
+													this.src = this.placeholder;
+												};
+								} else {
+									img.setAttribute('src',innerChildNode.getAttribute('data-bb-img') );
+								}
+								innerChildNode.appendChild(img);
+							}
+							
+							details = document.createElement('div');
+							innerChildNode.appendChild(details);
+							if (hideImages) {
+								details.setAttribute('class','bb-'+res+'-image-list-details bb-'+res+'-image-list-noimage');
+							} else {
+								details.setAttribute('class','bb-'+res+'-image-list-details');
+							}
+							
+							titleDiv = document.createElement('div');
+							titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
+							titleDiv.className = 'title';
+							details.appendChild(titleDiv);
+							accentDiv = document.createElement('div');
+							accentDiv.innerHTML = accentText;
+							accentDiv.className = 'accent-text';
+							details.appendChild(accentDiv);
+							descriptionDiv = document.createElement('div');
+							descriptionDiv.innerHTML = description;
+							descriptionDiv.className = 'description';
+							details.appendChild(descriptionDiv);
+							
 							innerChildNode.removeAttribute('data-bb-img');
 							innerChildNode.removeAttribute('data-bb-title');
 						}
@@ -2925,13 +3015,10 @@ bb.titleBar = {
 			}
 		} else {
 			if (titleBar.hasAttribute('data-bb-caption')) {
-				var outerStyle = titleBar.getAttribute('style');
 				if (bb.device.isHiRes) {
 					titleBar.setAttribute('class', 'bb-hires-screen-title');
-					titleBar.setAttribute('style', outerStyle + ';padding-top:33px');
 				} else {
 					titleBar.setAttribute('class', 'bb-lowres-screen-title');
-					titleBar.setAttribute('style', outerStyle + ';padding-top:27px');
 				}
 				titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
 			}

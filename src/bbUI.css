@@ -498,7 +498,7 @@ body, html {
    BB7 Screen Title
    =================================================*/  
 .bb-hires-screen-title {
-	position:absolute;
+	position:relative;
 	top:0px;
 	left:0px;
 	right:0px;
@@ -506,11 +506,11 @@ body, html {
 	color:white;
 	padding:4px;
 	height: 25px;
-	z-index: 100;
+	/*z-index: 100;*/
 }
 
 .bb-lowres-screen-title {
-	position:absolute;
+	position:relative;
 	top:0px;
 	left:0px;
 	right:0px;
@@ -1790,7 +1790,7 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-item-lowres
 {
-	padding-top: 8px;	
+	padding-top: 3px;	
 	padding-left: 5px;
 	height: 56px;
 	border-bottom-width: 1px;
@@ -1798,26 +1798,36 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-item-hires
 {
-	padding-top: 10px;	
+	padding-top: 6px;	
 	padding-left: 5px;
-	height: 109px;
+	height: 113px;
 	border-bottom-width: 2px;
 }
 
-.bb-bb10-image-list-item-lowres .details
+.bb-bb10-image-list-item-details-lowres 
 {
 	position:relative;
 	margin-left:70px;
 	margin-bottom: 0px;
-	margin-top:8px;
+	margin-top:5px;
 }
 
-.bb-bb10-image-list-item-hires .details
+.bb-bb10-image-list-item-noimage-lowres
+{
+	margin-left:5px;
+}
+
+.bb-bb10-image-list-item-details-hires
 {
 	position:relative;
 	margin-left:130px;
 	margin-bottom: 0px;
 	margin-top:17px;
+}
+
+.bb-bb10-image-list-item-noimage-hires
+{
+	margin-left:10px;
 }
 
 .bb-bb10-image-list-item-dark
@@ -1837,17 +1847,22 @@ a.bb5-button-highlight span {
 .bb-bb10-image-list-item-lowres .title
 {
 	overflow: hidden;
-	font-size: 20pt;
-	line-height:20px;
+	white-space: nowrap;
 	text-overflow: ellipsis;
+	font-size: 20pt;
+	line-height:20px;	
+	padding-top:5px;
 }
 
 .bb-bb10-image-list-item-hires .title
 {
 	overflow: hidden;
+	white-space: nowrap;
 	font-size: 40pt;
-	line-height:45px;
+	line-height:50px;
 	text-overflow: ellipsis;
+	padding-top:5px;
+	margin-top: -3px;
 }
 
 .bb-bb10-image-list-item-hover
@@ -1874,7 +1889,7 @@ a.bb5-button-highlight span {
 {
 	position:relative;
 	left: -5px;	
-	top: -10px;
+	top: -6px;
 	float:left;
 	height:119px;
 	width:119px;
@@ -1898,17 +1913,13 @@ a.bb5-button-highlight span {
 	white-space:nowrap;
 	font-size: 28pt;	
 	margin-bottom: 0px;
-	margin-top:-6px;
+	margin-top:-9px;
 	text-overflow: ellipsis;
 }
 
 .bb-bb10-image-list-item-hover .description
 {
 	color: White;
-/*	overflow: hidden;
-	white-space:nowrap;
-	font-size: 15pt;	
-	margin-bottom: 0px;*/
 }
 
 .bb-bb10-image-list-item-lowres .accent-text
@@ -1918,6 +1929,7 @@ a.bb5-button-highlight span {
 	color:#606060;
 	font-size:14pt;
 	margin-right: 5px;
+	margin-top:-20px;
 }
 
 .bb-bb10-image-list-item-hires .accent-text
@@ -1927,7 +1939,7 @@ a.bb5-button-highlight span {
 	color:#606060;
 	font-size:22pt;
 	margin-right: 10px;
-	margin-top:5px;
+	margin-top:-43px;
 }
 
 .bb-bb10-image-list-item-hover .accent-text
@@ -1968,28 +1980,42 @@ a.bb5-button-highlight span {
 	padding-bottom: 0px;
 	overflow:hidden;
 	height: 60px;
+	color: white;
 }
 
-.bb-hires-image-list .details
+.bb-hires-image-list-details
 {
 	position:relative;
 	margin-left:74px;
 	margin-bottom: 0px;
 }
 
+.bb-hires-image-list-noimage
+{
+	margin-left: 10px;
+}
+
+
 .bb-hires-image-list-item .title
 {
 	color:Black;
 	overflow: hidden;
+	white-space:nowrap;
 	text-overflow: ellipsis;
+	font-size: 20pt;	
+	line-height:30px;
 }
 
 .bb-hires-image-list-item-hover .title
 {
 	color:White;
 	overflow: hidden;
+	white-space:nowrap;
 	text-overflow: ellipsis;
+	font-size: 20pt;	
+	line-height:30px;
 }
+
 
 .bb-hires-image-list img
 {
@@ -2001,7 +2027,7 @@ a.bb5-button-highlight span {
 	top:-10px;
 }
 
-.bb-hires-image-list .description
+.bb-hires-image-list-item .description
 {
 	color:#737173;
 	overflow: hidden;
@@ -2009,16 +2035,20 @@ a.bb5-button-highlight span {
 	font-size: 14pt;	
 	margin-bottom: 0px;
 	text-overflow: ellipsis;
+	margin-left:0px;
+	padding-top:0px;
 }
 
 .bb-hires-image-list-item-hover .description
 {
-	color: White;
+	color:white;
 	overflow: hidden;
 	white-space:nowrap;
 	font-size: 14pt;	
 	margin-bottom: 0px;
 	text-overflow: ellipsis;
+	margin-left:0px;
+	padding-top:0px;
 }
 
 .bb-hires-image-list-item .accent-text
@@ -2027,6 +2057,7 @@ a.bb5-button-highlight span {
 	float:right;	
 	font-size:14pt;
 	margin-right: 5px;
+	margin-top: -30px;
 	color: Black;
 }
 
@@ -2036,7 +2067,8 @@ a.bb5-button-highlight span {
 	float:right;	
 	font-size:14pt;
 	margin-right: 5px;
-	color:White;
+	margin-top: -30px;
+	color: White;
 }
 
 .bb-hires-image-list-header
@@ -2116,18 +2148,26 @@ a.bb5-button-highlight span {
 	height: 60px;
 }
 
-.bb-lowres-image-list .details
+.bb-lowres-image-list-details
 {
 	position:relative;
 	margin-left:68px;
 	margin-bottom: 0px;
 	margin-top:8px;
+	margin-top: 5px;
+}
+
+.bb-lowres-image-list-noimage
+{
+	margin-left: 5px;
 }
 
 .bb-lowres-image-list-item .title
 {
 	color:Black;
 	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 	font-size:14pt;
 }
 
@@ -2135,6 +2175,8 @@ a.bb5-button-highlight span {
 {
 	color:White;
 	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 	font-size:14pt;
 }
 
@@ -2152,6 +2194,7 @@ a.bb5-button-highlight span {
 	color:#737173;
 	overflow: hidden;
 	white-space:nowrap;
+	text-overflow: ellipsis;
 	font-size: 12pt;	
 	margin-bottom: 0px;
 }
@@ -2161,6 +2204,7 @@ a.bb5-button-highlight span {
 	color: White;
 	overflow: hidden;
 	white-space:nowrap;
+	text-overflow: ellipsis;
 	font-size: 12pt;	
 	margin-bottom: 0px;
 }
@@ -2173,6 +2217,7 @@ a.bb5-button-highlight span {
 	margin-right: 5px;
 	color:#696969;
 	margin-top:5px;
+	margin-top:-20px;
 }
 
 .bb-lowres-image-list-item-hover .accent-text
@@ -2182,7 +2227,7 @@ a.bb5-button-highlight span {
 	font-size:10pt;
 	margin-right: 5px;
 	color:White;
-	margin-top:5px;
+	margin-top:-20px;
 }
 
 .bb-lowres-image-list-header

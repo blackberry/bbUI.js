@@ -1,28 +1,36 @@
 bb.imageList = {  
     apply: function(elements) {
 		if (bb.device.isBB10) {
-			var res;
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}
+			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+				i,j,
+				outerElement,
+				innerChildNode,
+				normal,
+				highlight,
+				contextMenu,
+				items,
+				hideImages,
+				imageEffect,
+				imagePlaceholder;
 		
 			// Apply our transforms to all Image Lists
-			for (var i = 0; i < elements.length; i++) {
-				var outerElement = elements[i],
-					normal,
-					highlight,
-					contextMenu;
+			for (i = 0; i < elements.length; i++) {
+				outerElement = elements[i];
 				outerElement.setAttribute('class','bb-bb10-image-list');
+				hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
+				if (!hideImages) {
+					imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
+					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				}
+				
 				// Assign our context menu if there is one
 				if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
 					contextMenu = bb.screen.contextMenu;
 				}
 				// Gather our inner items
-				var items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
-				for (var j = 0; j < items.length; j++) {
-					var innerChildNode = items[j];
+				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				for (j = 0; j < items.length; j++) {
+					innerChildNode = items[j];
 					if (innerChildNode.hasAttribute('data-bb-type')) {
 						// Figure out the type of item
 						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase(),
@@ -74,15 +82,56 @@ bb.imageList = {
 							innerChildNode.setAttribute('class', normal);
 							innerChildNode.innerHTML = '';
 							// Create our image
-							img = document.createElement('img');
-							img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
-							innerChildNode.appendChild(img);
+							if (!hideImages) {
+								img = document.createElement('img');
+								if (imagePlaceholder) {
+									img.placeholder = imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+								} else {
+									img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
+								}
+								innerChildNode.appendChild(img);
+								
+								if (imageEffect) {
+									img.style.opacity = '0.0';
+									img.even = (j%2 == 0)
+									img.onload = function() {
+													this.show();
+												};
+									img.show = function() {
+													this.style.opacity = '1.0';
+													if (this.even) { // Change timing based on even and odd numbers for some randomness
+														this.style['-webkit-transition'] = 'opacity 0.5s linear';
+													} else {
+														this.style['-webkit-transition'] = 'opacity 1.0s linear';
+													}
+													this.style['-webkit-backface-visibility'] = 'hidden';
+													this.style['-webkit-perspective'] = 1000;
+													this.style['-webkit-transform'] = 'translate3d(0,0,0)';
+												};
+									img.show = img.show.bind(img);
+								}
+								// Handle the error scenario
+								if (imagePlaceholder) {
+									img.onerror = function() {
+													if (this.src == this.placeholder) return;
+													this.src = this.placeholder;
+													if (imageEffect) {
+														this.show();
+													}
+												};
+								}
+							}
 							// Create the details container
 							details = document.createElement('div');
-							details.setAttribute('class','details');
+							if (hideImages) {
+								details.setAttribute('class','bb-bb10-image-list-item-details-'+res+' bb-bb10-image-list-item-noimage-'+res);
+							} else {
+								details.setAttribute('class','bb-bb10-image-list-item-details-'+res);
+							}
 							innerChildNode.appendChild(details);
 							// Create our title
-							title = document.createElement('span');
+							title = document.createElement('div');
 							title.setAttribute('class','title');
 							title.innerHTML = innerChildNode.getAttribute('data-bb-title');
 							details.appendChild(title);
@@ -140,7 +189,13 @@ bb.imageList = {
 			for (var i = 0; i < elements.length; i++) {
 				var inEvent, 
 					outEvent, 
-					outerElement = elements[i];
+					outerElement = elements[i],
+					imagePlaceholder,
+					hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
+					
+				if (!hideImages) {
+					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				}
 				// Set our highlight events
 				if (bb.device.isPlayBook) {
 					inEvent = 'ontouchstart';
@@ -163,13 +218,12 @@ bb.imageList = {
 					accentText,
 					normal,
 					highlight,
-					res;
-					
-				if (bb.device.isHiRes) {
-					res = 'hires';
-				} else {
-					res = 'lowres';
-				}
+					details,
+					titleDiv,
+					descriptionDiv,
+					accentDiv,
+					img,
+					res = (bb.device.isHiRes) ? 'hires' : 'lowres';
 					
 				for (j = 0; j < items.length; j++) {
 					innerChildNode = items[j];
@@ -212,16 +266,48 @@ bb.imageList = {
 							innerChildNode.setAttribute(outEvent, "this.setAttribute('class',this.normal)");
 						} 
 						else if (type == 'item') {
+							innerChildNode.innerHTML = '';
 							innerChildNode.setAttribute('class', 'bb-'+res+'-image-list-item');
 							innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-"+res+"-image-list-item-hover')");
 							innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-"+res+"-image-list-item')");
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
-							innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n'+
-											'<div class="details">\n'+
-											'   <span class="title">' + innerChildNode.getAttribute('data-bb-title') + '</span>\n'+
-											'   <span class="accent-text">' + accentText + '</span>\n'+
-											'   <div class="description">' + description + '</div>\n'+
-											'</div>\n';
+							
+							if (!hideImages) {
+								img = document.createElement('img');
+								if (imagePlaceholder) {
+									img.placeholder = imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+									img.onerror = function() {
+													if (this.src == this.placeholder) return;
+													this.src = this.placeholder;
+												};
+								} else {
+									img.setAttribute('src',innerChildNode.getAttribute('data-bb-img') );
+								}
+								innerChildNode.appendChild(img);
+							}
+							
+							details = document.createElement('div');
+							innerChildNode.appendChild(details);
+							if (hideImages) {
+								details.setAttribute('class','bb-'+res+'-image-list-details bb-'+res+'-image-list-noimage');
+							} else {
+								details.setAttribute('class','bb-'+res+'-image-list-details');
+							}
+							
+							titleDiv = document.createElement('div');
+							titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
+							titleDiv.className = 'title';
+							details.appendChild(titleDiv);
+							accentDiv = document.createElement('div');
+							accentDiv.innerHTML = accentText;
+							accentDiv.className = 'accent-text';
+							details.appendChild(accentDiv);
+							descriptionDiv = document.createElement('div');
+							descriptionDiv.innerHTML = description;
+							descriptionDiv.className = 'description';
+							details.appendChild(descriptionDiv);
+							
 							innerChildNode.removeAttribute('data-bb-img');
 							innerChildNode.removeAttribute('data-bb-title');
 						}
