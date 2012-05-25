@@ -51,7 +51,7 @@
 										if (id == 'dataOnLoad') {
 											dataOnLoad_initialLoad(element);
 										}
-										// Remove all titles "exept" input and pill buttons screen if runnint on BB10
+										// Remove all titles "except" input and pill buttons screen if running on BB10
 										if (bb.device.isBB10 && id != 'input' && id != 'pillButtons') {
 											var titles = element.querySelectorAll('[data-bb-type=title]');
 											if (titles.length > 0) {
