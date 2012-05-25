@@ -22,7 +22,6 @@ bb = {
 			}
 		}
 		
-			
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.appVersion.indexOf('Ripple') >= 0);
 		bb.device.isPlayBook = (navigator.appVersion.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
@@ -93,7 +92,7 @@ bb = {
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
 		bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		bb.progress.apply(root.querySelectorAll('progress'));
-
+		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
     },
