@@ -5,7 +5,6 @@ bb.radio = {
 				i,
 				outerElement,
 				containerDiv,
-				innerDiv,
 				dotDiv,
 				centerDotDiv,
 				radio,
@@ -73,12 +72,6 @@ bb.radio = {
 									this.style['-webkit-backface-visibility'] = 'hidden';
 									this.style['-webkit-perspective'] = 1000;
 									this.style['-webkit-transform'] = 'translate3d(0,0,0)';
-									// Adjust the container
-									this.innerDiv.style['margin-top'] = '0px';
-									this.innerDiv.style['-webkit-transition'] = 'margin-top 0.1s linear';
-									this.innerDiv.style['-webkit-backface-visibility'] = 'hidden';
-									this.innerDiv.style['-webkit-perspective'] = 1000;
-									this.innerDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
 								};
 				dotDiv.slideOutUp = dotDiv.slideOutUp.bind(dotDiv);
 				
@@ -101,12 +94,6 @@ bb.radio = {
 									this.style['-webkit-backface-visibility'] = 'hidden';
 									this.style['-webkit-perspective'] = 1000;
 									this.style['-webkit-transform'] = 'translate3d(0,0,0)';
-									// Adjust the container
-									this.innerDiv.style['margin-top'] = '0px';
-									this.innerDiv.style['-webkit-transition'] = 'margin-top 0.1s linear';
-									this.innerDiv.style['-webkit-backface-visibility'] = 'hidden';
-									this.innerDiv.style['-webkit-perspective'] = 1000;
-									this.innerDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
 								};
 				dotDiv.slideOutDown = dotDiv.slideOutDown.bind(dotDiv);
 				
@@ -120,7 +107,6 @@ bb.radio = {
 										this.centerDotDiv.style.width = '10px';
 										this.centerDotDiv.style.top = '5px';
 										this.centerDotDiv.style.left = '5px';
-										this.innerDiv.style['margin-top'] = '-20px';
 									} else {
 										this.style.height = '40px';
 										this.style.width = '40px';
@@ -130,7 +116,6 @@ bb.radio = {
 										this.centerDotDiv.style.width = '18px';
 										this.centerDotDiv.style.top = '11px';
 										this.centerDotDiv.style.left = '11px';
-										this.innerDiv.style['margin-top'] = '-40px';
 									}
 									this.style['-webkit-transition-property'] = 'all';
 									this.style['-webkit-transition-duration'] = '0.1s';
@@ -138,13 +123,8 @@ bb.radio = {
 									this.style['-webkit-backface-visibility'] = 'hidden';
 									this.style['-webkit-perspective'] = 1000;
 									this.style['-webkit-transform'] = 'translate3d(0,0,0)';
-									// Adjust the container
-									this.innerDiv.style['-webkit-transition'] = 'margin-top 0.1s linear';
-									this.innerDiv.style['-webkit-backface-visibility'] = 'hidden';
-									this.innerDiv.style['-webkit-perspective'] = 1000;
-									this.innerDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
 									// Make our center white dot visible
-									this.centerDotDiv.style['-webkit-transition-delay'] = '0.2s';
+									this.centerDotDiv.style['-webkit-transition-delay'] = '0.1s';
 									this.centerDotDiv.style['-webkit-transition-property'] = 'all';
 									this.centerDotDiv.style['-webkit-transition-duration'] = '0.1s';
 									this.centerDotDiv.style['-webkit-transition-timing-function'] = 'ease-in';
@@ -154,12 +134,6 @@ bb.radio = {
 									
 								};
 				dotDiv.slideIn = dotDiv.slideIn.bind(dotDiv);
-						
-				innerDiv = document.createElement('div');
-				dotDiv.innerDiv = innerDiv;
-				outerElement.innerDiv = innerDiv;
-				innerDiv.setAttribute('class','bb-bb10-radio-inner-'+res+'-'+color);
-				outerElement.appendChild(innerDiv);
 				
 				// Set up properties
 				outerElement.selectedRadio = undefined;		
@@ -176,19 +150,16 @@ bb.radio = {
 													} 
 													// Reset for our highlights
 													this.dotDiv.style['-webkit-transition'] = 'none';
-													this.innerDiv.style['-webkit-transition'] = 'none';
 													if (bb.device.isPlayBook) {
 														this.dotDiv.style.height = '20px';
 														this.dotDiv.style.width = '20px';
 														this.dotDiv.style.top = '10px';
 														this.dotDiv.style.left = '9px';
-														this.innerDiv.style['margin-top'] ='-20px';
 													} else {
 														this.dotDiv.style.height = '40px';
 														this.dotDiv.style.width = '40px';
 														this.dotDiv.style.top = '19px';
 														this.dotDiv.style.left = '19px';
-														this.innerDiv.style['margin-top'] ='-40px';
 													}
 													// Reset our center white dot
 													bb.radio.resetDot(this.dotDiv.centerDotDiv);
@@ -199,17 +170,14 @@ bb.radio = {
 				outerElement.ontouchend = function() {
 												if (!this.input.checked) {
 													this.dotDiv.style['-webkit-transition'] = 'none';
-													this.innerDiv.style['-webkit-transition'] = 'none';
 													if (bb.device.isPlayBook) {
 														this.dotDiv.style.height = '0px';
 														this.dotDiv.style.width = '9px';
 														this.dotDiv.style.left = '16px';
-														this.innerDiv.style['margin-top'] ='0px';
 													} else {
 														this.dotDiv.style.height = '0px';
 														this.dotDiv.style.width = '18px';
 														this.dotDiv.style.left = '32px';
-														this.innerDiv.style['margin-top'] ='0px';
 													}
 													// Reset top position
 													if (this.slideFromTop) {
