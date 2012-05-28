@@ -49,6 +49,7 @@ bb.imageList = {
 						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase(),
 							description = innerChildNode.innerHTML,
 							title,
+							overlay,
 							accentText,
 							img,
 							details,
@@ -62,9 +63,7 @@ bb.imageList = {
 								innerChildNode.style.color = 'white';
 								title.style['border-bottom-color'] = 'transparent';
 							} else {
-								innerChildNode.style.background = '-webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD))';
-								innerChildNode.style['font-weight'] = 'normal';
-								innerChildNode.style.color = 'black';
+								normal = normal + ' bb-bb10-image-list-header-normal-'+bb.screen.listColor;
 								innerChildNode.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
 							}
 							
@@ -158,14 +157,23 @@ bb.imageList = {
 							// Clean-up
 							innerChildNode.removeAttribute('data-bb-img');
 							innerChildNode.removeAttribute('data-bb-title');
+							// Add our highlight overlay
+							overlay = document.createElement('div');
+							overlay.setAttribute('class','bb-bb10-image-list-item-overlay-'+res);
+							innerChildNode.appendChild(overlay);
+								
 							// Set up our variables
 							innerChildNode.fingerDown = false;
 							innerChildNode.contextShown = false;
+							innerChildNode.overlay = overlay;
 							innerChildNode.contextMenu = contextMenu;
 							innerChildNode.description = description;
 							innerChildNode.title = title.innerHTML;
+							
+							
 							innerChildNode.ontouchstart = function () {
-															this.setAttribute('class',this.highlight);
+															//this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
 															innerChildNode.fingerDown = true;
 															innerChildNode.contextShown = false;
 															if (innerChildNode.contextMenu) {
@@ -173,7 +181,8 @@ bb.imageList = {
 															}
 														};
 							innerChildNode.ontouchend = function (event) {
-															this.setAttribute('class',this.normal);
+															//this.setAttribute('class',this.normal);
+															this.overlay.style['border-color'] = 'transparent';
 															innerChildNode.fingerDown = false;
 															if (innerChildNode.contextShown) {
 																event.preventDefault();
@@ -187,6 +196,23 @@ bb.imageList = {
 															}
 														};
 							innerChildNode.touchTimer = innerChildNode.touchTimer.bind(innerChildNode);
+							
+							// Add our subscription for click events to change highlighting on click
+							innerChildNode.trappedClick = innerChildNode.onclick;
+							innerChildNode.onclick = undefined;
+							innerChildNode.addEventListener('click',function (e) {
+									this.setAttribute('class',this.highlight);
+									if (this.trappedClick) {
+										setTimeout(this.trappedClick, 0);
+									}
+									setTimeout(this.finishHighlight, 250);
+								},false);
+								
+							// Finish the highlight on a delay
+							innerChildNode.finishHighlight = function() {
+														this.setAttribute('class',this.normal);
+													};
+							innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);		
 						}
 					}
 				}

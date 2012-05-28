@@ -52,9 +52,7 @@ bb.grid = {
 								title.style.color = 'white';
 								title.style['border-bottom-color'] = 'transparent';
 							} else {
-								title.style.background = '-webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD))';
-								title.style['font-weight'] = 'normal';
-								title.style.color = 'black';
+								title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
 								title.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
 							}
 							

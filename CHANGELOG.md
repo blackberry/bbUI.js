@@ -21,6 +21,7 @@ Below you will find all the different changes that have been added since the fir
 * Added radio button styling for BB10
 * Added header styling (normal, solid) to the BB10 image and grid list
 * Changed header text justification on the image and grid list
+* Changed list highlighting for BB10 to match UX specs
 
 
 ## Version 0.9.1
