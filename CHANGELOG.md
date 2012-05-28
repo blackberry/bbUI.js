@@ -19,6 +19,8 @@ Below you will find all the different changes that have been added since the fir
 * Added image effect on image lists for BB10
 * Added support for images lists to just have text and no images
 * Added radio button styling for BB10
+* Added header styling (normal, solid) to the BB10 image and grid list
+* Changed header text justification on the image and grid list
 
 
 ## Version 0.9.1

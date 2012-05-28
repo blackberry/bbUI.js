@@ -1,12 +1,15 @@
 bb.grid = {  
     apply: function(elements) {
 		if (bb.device.isBB10) {
-			var res;
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}
+			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+				R,G,B,
+				solidHeader = false,
+				headerJustify;
+
+			// Get our highlight RGB colors
+			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
+			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
+			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 			// Apply our transforms to all grids
 			for (var i = 0; i < elements.length; i++) {
 				var j,
@@ -20,6 +23,11 @@ bb.grid = {
 				outerElement.setAttribute('class','bb-bb10-grid-'+res);	
 				// See if it is square or landscape layout
 				outerElement.isSquare = (outerElement.hasAttribute('data-bb-style') && outerElement.getAttribute('data-bb-style').toLowerCase() == 'square');
+				
+				// Get our header style
+				solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
+				// Get our header justification
+				headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
 				
 				// Assign our context menu if there is one
 				if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
@@ -35,16 +43,32 @@ bb.grid = {
 						type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 						if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 							title = document.createElement('div');
-							title.normal = 'bb-bb10-grid-header-'+res+' bb10Accent';
-							title.highlight = 'bb-bb10-grid-header-'+res+' bb10Highlight';
+							title.normal = 'bb-bb10-grid-header-'+res;
 							title.innerHTML = '<p>'+ innerChildNode.getAttribute('data-bb-title') +'</p>';
+							
+							// Style our header for appearance
+							if (solidHeader) {
+								title.normal = title.normal +' bb10Accent';
+								title.style.color = 'white';
+								title.style['border-bottom-color'] = 'transparent';
+							} else {
+								title.style.background = '-webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD))';
+								title.style['font-weight'] = 'normal';
+								title.style.color = 'black';
+								title.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+							}
+							
+							// Style our header for text justification
+							if (headerJustify == 'left') {
+								title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
+							} else if (headerJustify == 'right') {
+								title.normal = title.normal + ' bb-bb10-grid-header-right-'+res;
+							} else {
+								title.normal = title.normal + ' bb-bb10-grid-header-center';
+							}
+							
 							title.setAttribute('class', title.normal);
-							title.ontouchstart = function() {
-													this.setAttribute('class',this.highlight);
-												};
-							title.ontouchend = function() {
-													this.setAttribute('class',this.normal);
-												};
+							
 							if (innerChildNode.firstChild) {
 								innerChildNode.insertBefore(title, innerChildNode.firstChild);
 							} else {

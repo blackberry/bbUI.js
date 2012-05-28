@@ -7,11 +7,19 @@ bb.imageList = {
 				innerChildNode,
 				normal,
 				highlight,
+				R,G,B,
 				contextMenu,
 				items,
 				hideImages,
 				imageEffect,
-				imagePlaceholder;
+				imagePlaceholder,
+				solidHeader = false,
+				headerJustify;
+				
+			// Get our highlight RGB colors
+			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
+			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
+			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		
 			// Apply our transforms to all Image Lists
 			for (i = 0; i < elements.length; i++) {
@@ -22,6 +30,11 @@ bb.imageList = {
 					imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
 					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
 				}
+				
+				// Get our header style
+				solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
+				// Get our header justification
+				headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
 				
 				// Assign our context menu if there is one
 				if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
@@ -43,36 +56,31 @@ bb.imageList = {
 						
 						if (type == 'header') {
 							// Set our normal and highlight styling
-							normal = 'bb-bb10-image-list-header bb10Accent bb-bb10-image-list-header-'+res;
-							highlight = 'bb-bb10-image-list-header bb10Highlight bb-bb10-image-list-header-'+res;
+							normal = 'bb-bb10-image-list-header bb-bb10-image-list-header-'+res;
+							if (solidHeader) {
+								normal = normal +' bb10Accent';
+								innerChildNode.style.color = 'white';
+								title.style['border-bottom-color'] = 'transparent';
+							} else {
+								innerChildNode.style.background = '-webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD))';
+								innerChildNode.style['font-weight'] = 'normal';
+								innerChildNode.style.color = 'black';
+								innerChildNode.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+							}
+							
 							// Check for alignment
-							if (innerChildNode.hasAttribute('data-bb-justify')) {
-								if (innerChildNode.getAttribute('data-bb-justify').toLowerCase() == 'left') {
-									normal = normal + ' bb-bb10-image-list-header-left-'+res;
-									highlight = highlight + ' bb-bb10-image-list-header-left-'+res;
-								} else if (innerChildNode.getAttribute('data-bb-justify').toLowerCase() == 'right') {
-									normal = normal + ' bb-bb10-image-list-header-right-'+res;
-									highlight = highlight + ' bb-bb10-image-list-header-right-'+res;
-								} else {
-									normal = normal + ' bb-bb10-image-list-header-center';
-									highlight = highlight + ' bb-bb10-image-list-header-center';
-								}
+							if (headerJustify == 'left') {
+								normal = normal + ' bb-bb10-image-list-header-left-'+res;
+							} else if (headerJustify == 'right') {
+								normal = normal + ' bb-bb10-image-list-header-right-'+res;
 							} else {
 								normal = normal + ' bb-bb10-image-list-header-center';
-								highlight = highlight + ' bb-bb10-image-list-header-center';
 							}
 							
 							// Set our styling
 							innerChildNode.normal = normal;
-							innerChildNode.highlight = highlight;
 							innerChildNode.innerHTML = '<p>'+ description +'</p>';
 							innerChildNode.setAttribute('class', normal);
-							innerChildNode.ontouchstart = function () {
-															this.setAttribute('class', this.highlight);
-														}
-							innerChildNode.ontouchend = function () {
-															this.setAttribute('class',this.normal);
-														}
 						}
 						else if (type == 'item') {
 							normal = 'bb-bb10-image-list-item bb-bb10-image-list-item-' + bb.screen.listColor + ' bb-bb10-image-list-item-' + res;
@@ -191,6 +199,7 @@ bb.imageList = {
 					outEvent, 
 					outerElement = elements[i],
 					imagePlaceholder,
+					headerJustify,
 					hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
 					
 				if (!hideImages) {
@@ -209,6 +218,10 @@ bb.imageList = {
 				} else {
 					outerElement.setAttribute('class','bb-lowres-image-list');
 				}
+				
+				// Get our header justification
+				headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
+				
 				// Gather our inner items
 				var items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]'),
 					innerChildNode,
@@ -241,17 +254,12 @@ bb.imageList = {
 							normal = 'bb-'+res+'-image-list-header';
 							highlight = 'bb-'+res+'-image-list-header-hover';
 							// Check for alignment
-							if (innerChildNode.hasAttribute('data-bb-justify')) {
-								if (innerChildNode.getAttribute('data-bb-justify').toLowerCase() == 'left') {
-									normal = normal + ' bb-'+res+'-image-list-header-left';
-									highlight = highlight + ' bb-'+res+'-image-list-header-left';
-								} else if (innerChildNode.getAttribute('data-bb-justify').toLowerCase() == 'right') {
-									normal = normal + ' bb-'+ res+'-image-list-header-right';
-									highlight = highlight + ' bb-'+res+'-image-list-header-right';
-								} else {
-									normal = normal + ' bb-'+res+'-image-list-header-center';
-									highlight = highlight + ' bb-'+res+'-image-list-header-center';
-								}
+							if (headerJustify == 'left') {
+								normal = normal + ' bb-'+res+'-image-list-header-left';
+								highlight = highlight + ' bb-'+res+'-image-list-header-left';
+							} else if (headerJustify == 'right') {
+								normal = normal + ' bb-'+ res+'-image-list-header-right';
+								highlight = highlight + ' bb-'+res+'-image-list-header-right';
 							} else {
 								normal = normal + ' bb-'+res+'-image-list-header-center';
 								highlight = highlight + ' bb-'+res+'-image-list-header-center';
