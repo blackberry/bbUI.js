@@ -1115,7 +1115,7 @@ bb.dropdown = {
 											this.dropdown.hide();
 										}
 									};
-				// Collapse the combo-box			
+				// Show the combo-box			
 				dropdown.show = function() {
 										var scrollHeight;
 										this.open = true;
@@ -1152,6 +1152,11 @@ bb.dropdown = {
 										this.img.style.opacity = '1.0';
 										this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 										this.img.style['-webkit-transform'] = 'rotate(-720deg)';
+										
+										// Refresh our screen srolling height
+										if (bb.scroller) {
+											bb.scroller.refresh();
+										}
 									};
 				dropdown.show = dropdown.show.bind(dropdown);
 				// Collapse the combo-box
@@ -1175,6 +1180,10 @@ bb.dropdown = {
 										this.img.style.opacity = '0.0';
 										this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 										this.img.style['-webkit-transform'] = 'rotate(0deg)';
+										// Refresh our screen srolling height
+										if (bb.scroller) {
+											bb.scroller.refresh();
+										}
 									};
 				dropdown.hide = dropdown.hide.bind(dropdown);
 
