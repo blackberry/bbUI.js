@@ -16,7 +16,7 @@ bb.progress = {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			color = bb.options.bb10ControlsDark ? 'dark' : 'light';
 			highlightColor = bb.options.bb10HighlightColor;
-			accentColor = bb.options.bb10AccentColor;
+			accentColor = bb.options.shades.darkHighlight;
 		} else {
 			res = 'lowres';
 			color = 'light';
