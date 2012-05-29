@@ -43,6 +43,7 @@ bb.dropdown = {
 
 				// Create the dropdown container and insert it where the select was
 				dropdown = document.createElement('div');
+				dropdown.items = [];
 				dropdown.setAttribute('data-bb-type','dropdown');
 				select.dropdown = dropdown;
 				select.parentNode.insertBefore(dropdown, select);
@@ -108,6 +109,7 @@ bb.dropdown = {
                 for (j = 0; j < options.length; j++) {
 					option = options[j];
 					item = document.createElement('div');
+					dropdown.items.push(item);
 					item.slectedStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor+' bb-bb10-dropdown-item-selected-'+ bb.screen.controlColor;
 					item.normalStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor;
 					item.index = j;
@@ -144,18 +146,7 @@ bb.dropdown = {
 											this.style['color'] = '';
 										};			
 					item.onclick = function() {
-										// Style the previously selected item as no longer selected
-										if (this.dropdown.selected) {
-											this.dropdown.selected.setAttribute('class',this.normalStyle);
-											this.dropdown.selected.img.style.visibility = 'hidden';
-										}
-										// Style this item as selected
-										this.setAttribute('class',this.slectedStyle);
-										this.img.style.visibility = 'visible';
-										this.dropdown.selected = this;
-										// Set our index and fire the event
 										this.select.setSelectedItem(this.index);
-										this.dropdown.hide();
 								   };
                 }
 				
@@ -201,7 +192,7 @@ bb.dropdown = {
 											this.dropdown.hide();
 										}
 									};
-				// Collapse the combo-box			
+				// Show the combo-box			
 				dropdown.show = function() {
 										var scrollHeight;
 										this.open = true;
@@ -238,6 +229,11 @@ bb.dropdown = {
 										this.img.style.opacity = '1.0';
 										this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 										this.img.style['-webkit-transform'] = 'rotate(-720deg)';
+										
+										// Refresh our screen srolling height
+										if (bb.scroller) {
+											bb.scroller.refresh();
+										}
 									};
 				dropdown.show = dropdown.show.bind(dropdown);
 				// Collapse the combo-box
@@ -261,18 +257,36 @@ bb.dropdown = {
 										this.img.style.opacity = '0.0';
 										this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 										this.img.style['-webkit-transform'] = 'rotate(0deg)';
+										// Refresh our screen srolling height
+										if (bb.scroller) {
+											bb.scroller.refresh();
+										}
 									};
 				dropdown.hide = dropdown.hide.bind(dropdown);
 
 				// Assign our functions to be able to set the value
                 select.setSelectedItem = function(index) {
                     if (this.selectedIndex != index) {
-                        this.selectedIndex = index;
+                        var item = this.dropdown.items[index];
+						if (!item) return;
+						// Style the previously selected item as no longer selected
+						if (this.dropdown.selected) {
+							this.dropdown.selected.setAttribute('class',item.normalStyle);
+							this.dropdown.selected.img.style.visibility = 'hidden';
+						}
+						// Style this item as selected
+						item.setAttribute('class',item.slectedStyle);
+						item.img.style.visibility = 'visible';
+						this.dropdown.selected = item;
+						// Set our index and fire the event
+						this.selectedIndex = index;
 						this.dropdown.caption.innerHTML = this.options[index].text;
-						
+						this.dropdown.hide();
                         window.setTimeout(this.fireEvent,0);
                     }
                 };
+				select.setSelectedItem = select.setSelectedItem.bind(select);
+				
 				// Have this function so we can asynchronously fire the change event
 				select.fireEvent = function() {
 									// Raise the DOM event

@@ -18,30 +18,25 @@
 	<head>
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
 		<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-		<link  rel="stylesheet" type="text/css" href="bbui-0.9.1.css"><link />
-		<script type="text/javascript" src="bbui-0.9.1.js"></script>
+		<link  rel="stylesheet" type="text/css" href="bbui-0.9.2.css"><link />
+		<script type="text/javascript" src="bbui-0.9.2.js"></script>
 		<script type="text/javascript">
 			
 			// For some fun I did some random color scheme generation :o)
 			var bb10HighlightColor,
-				bb10AccentColor,
 				randomNumber;
 			randomNumber=Math.floor(Math.random()*100);
 			if (randomNumber > 60) {
-				  bb10HighlightColor = '#6356AF';
-				  bb10AccentColor = '#3E385F';
+				  bb10HighlightColor = '#BA55D3';
 			} else if (randomNumber > 30) {
 				  bb10HighlightColor = '#00BC9F';
-				  bb10AccentColor = '#2A524C';
 			} else {
 				  bb10HighlightColor = '#00A8DF';
-				  bb10AccentColor = '#2D566F';
 			}
 			
 			// You must call init on bbUI before any other code loads.  
 			// If you want default functionality simply don't pass any parameters.. bb.init();
-			bb.init({bb10AccentColor: bb10AccentColor,
-					bb10HighlightColor: bb10HighlightColor,
+			bb.init({bb10HighlightColor: bb10HighlightColor,
 					bb10ActionBarDark: true,
 					bb10ControlsDark: true,
 					bb10ListsDark: false,
@@ -51,6 +46,13 @@
 										if (id == 'dataOnLoad') {
 											dataOnLoad_initialLoad(element);
 										}
+										// Remove all titles "except" input and pill buttons screen if running on BB10
+										if (bb.device.isBB10 && id != 'input' && id != 'pillButtons') {
+											var titles = element.querySelectorAll('[data-bb-type=title]');
+											if (titles.length > 0) {
+												titles[0].parentNode.removeChild(titles[0]);
+											}
+										}
 									},
 					// Fires "after" styling is applied and "after" the screen is inserted in the DOM
 					ondomready: function(element, id) {
@@ -59,7 +61,6 @@
 										}
 									}
 					});
-			
 		</script>
 	</head>
 	<body onload="bb.pushScreen('menu.htm', 'menu');">	
