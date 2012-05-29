@@ -1,6 +1,6 @@
 ![logo](https://raw.github.com/wiki/blackberry/bbUI.js/images/bbUI_100x403.png)
 
-_**Current version: 0.9.1 BETA**_ 
+_**Current version: 0.9.2 BETA**_ 
 
 The goal of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
@@ -20,13 +20,15 @@ This toolkit is currently in an incubation stage and we're working on getting th
 * [Ken Wallis](https://github.com/kwallis) follow me on Twitter [@ken_wallis](https://twitter.com/#!/ken_wallis)
 * [David Sosby](https://github.com/dsosby) follow me on Twitter [@ramdump](https://twitter.com/#!/ramdump)
 * [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy)
+* [Justin Tokarchuk](https://github.com/jtokarchuk) follow me on Twitter [@jtokarchuk](https://twitter.com/#!/jtokarchuk)
+* [James Blashill](https://github.com/jblashill) 
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
 
 ## Source files to include
 
-You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository
+You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository.  You can also [download the current release as a zip](https://github.com/blackberry/bbUI.js/tags)
 
 ## Philosophy
 
@@ -61,39 +63,33 @@ We've provided documentation for each of the controls in our wiki and you can ch
 * [Toolkit Initialization](https://github.com/blackberry/bbUI.js/wiki/Toolkit-Initialization)
 * [Screens](https://github.com/blackberry/bbUI.js/wiki/Screens)
 * [Screen Specific CSS and JavaScript](https://github.com/blackberry/bbUI.js/wiki/Screen-Specific-CSS-and-JavaScript)
+* [Data- Attribute Reference](https://github.com/blackberry/bbUI.js/wiki/Data-Attribute-Reference)
+* [WebWorks Config.xml Reference](http://developer.blackberry.com/html5/documentation/ww_developing/Working_with_Config_XML_file_1866970_11.html)
 
 ### BlackBerry 10 "Only" controls
 
-* [Action Bar](https://github.com/blackberry/bbUI.js/wiki/Action-Bar)
-* [Context Menu](https://github.com/blackberry/bbUI.js/wiki/Context-Menus)
-* [Grid List](https://github.com/blackberry/bbUI.js/wiki/Grid-List)
+These controls are only supported on BlackBerry 10 devices or a PlayBook that has specified that it would like to use BlackBerry 10 styling
+
+[ActionBar](https://github.com/blackberry/bbUI.js/wiki/Action-Bar) &nbsp;&nbsp; [ContextMenu](https://github.com/blackberry/bbUI.js/wiki/Context-Menus)  &nbsp;&nbsp; [GridList](https://github.com/blackberry/bbUI.js/wiki/Grid-List)
+
 
 ### Common Controls
 
-* [Arrow List](https://github.com/blackberry/bbUI.js/wiki/Arrow-List)
-* [BBM Bubbles](https://github.com/blackberry/bbUI.js/wiki/BBM-Bubbles)
-* [Buttons](https://github.com/blackberry/bbUI.js/wiki/Buttons)
-* [Control Groups](https://github.com/blackberry/bbUI.js/wiki/Control-Groups)
-* [DropDowns](https://github.com/blackberry/bbUI.js/wiki/DropDowns)
-* [Image List](https://github.com/blackberry/bbUI.js/wiki/Image-List)
-* [Label/Control Container](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container)
-* [Pill Buttons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
-* [Screen Menus](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus)
+These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
-### Reference
+[ArrowList](https://github.com/blackberry/bbUI.js/wiki/Arrow-List) &nbsp;&nbsp; [BBMBubbles](https://github.com/blackberry/bbUI.js/wiki/BBM-Bubbles) &nbsp;&nbsp; [Button](https://github.com/blackberry/bbUI.js/wiki/Buttons)
+ &nbsp;&nbsp; [ControlGroup](https://github.com/blackberry/bbUI.js/wiki/Control-Groups) &nbsp;&nbsp; [DropDown](https://github.com/blackberry/bbUI.js/wiki/DropDowns) &nbsp;&nbsp; [ImageList](https://github.com/blackberry/bbUI.js/wiki/Image-List)
+ &nbsp;&nbsp; [LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
+ &nbsp;&nbsp; [ProgressIndicator](https://github.com/blackberry/bbUI.js/wiki/Progress-Indicator) &nbsp;&nbsp; [RadioButtons](https://github.com/blackberry/bbUI.js/wiki/Radio-Buttons) &nbsp;&nbsp;[ScreenMenu](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus) &nbsp;&nbsp; [Slider](https://github.com/blackberry/bbUI.js/wiki/Sliders)
 
-* [Data- Attribute Reference](https://github.com/blackberry/bbUI.js/wiki/Data-Attribute-Reference)
-* [WebWorks Config.xml Reference](http://developer.blackberry.com/html5/documentation/ww_developing/Working_with_Config_XML_file_1866970_11.html)
 
 ## Tested On
 
 * BlackBerry Dev Alpha
+* BlackBerry PlayBook v2.0.1.x
 * BlackBerry Torch 9860 v7.0.0.x
 * BlackBerry Curve 9360 v7.0.0.x
 * BlackBerry Bold 9700 v6.0.0.546
-* BlackBerry Bold 9700 v5.0.0.979 
-* BlackBerry Storm 9520 v5.0.0.713
-* BlackBerry PlayBook v2.0.0.7971
 
 
 ## Contributing

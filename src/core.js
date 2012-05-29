@@ -28,7 +28,7 @@ bb = {
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
-			bb.device.isBB10 = (navigator.appVersion.indexOf('Version/10.0') >= 0);
+			bb.device.isBB10 = (navigator.userAgent.indexOf('Version/10.0') >= 0);
 		}
 		bb.device.isBB7 = (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || bb.device.isRipple;
 		bb.device.isBB6 = navigator.appVersion.indexOf('6.0.0') >= 0;
@@ -40,12 +40,23 @@ bb = {
 			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
 		}
 		
+		// Create our shades of colors
+		var R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
+			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
+			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+		bb.options.shades = {
+			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')'
+		
+		
+		};
+		
 		// Create our coloring
 		if (document.styleSheets && document.styleSheets.length) {
 			try {
 				document.styleSheets[0].insertRule('.bb10Highlight {background-color:'+ bb.options.bb10HighlightColor +';background-image:none;}', 0);
-				document.styleSheets[0].insertRule('.bb10-button-highlight {color:White;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.bb10AccentColor+'), to('+bb.options.bb10HighlightColor+'));border-color:#53514F;}', 0);
-				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.bb10AccentColor +';}', 0);
+				document.styleSheets[0].insertRule('.bbProgressHighlight {background-color:#92B43B;background-image:none;}', 0);
+				document.styleSheets[0].insertRule('.bb10-button-highlight {color:White;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.shades.darkHighlight+'), to('+bb.options.bb10HighlightColor+'));border-color:#53514F;}', 0);
+				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.shades.darkHighlight +';}', 0);
 			}
 			catch (ex) {
 				console.log(ex.message);
@@ -79,7 +90,7 @@ bb = {
         var root = element || document.body;
 
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
-        bb.textInput.apply(root.querySelectorAll('input[type=text]'));
+        bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
         bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
@@ -89,7 +100,9 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
-
+		bb.slider.apply(root.querySelectorAll('input[type=range]'));
+		bb.progress.apply(root.querySelectorAll('progress'));
+		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
     },
@@ -113,7 +126,6 @@ bb = {
 		bb10ControlsDark: true, 
 		bb10ListsDark: false,
 		bb10ForPlayBook: false,
-		bb10AccentColor: '#2D566F',
 		bb10HighlightColor: '#00A8DF'
 	},
 	

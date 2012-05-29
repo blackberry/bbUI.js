@@ -15,46 +15,24 @@
 * limitations under the License.
 -->
 <div data-bb-type="screen" data-bb-effect="fade">
-	<div data-bb-type="title" data-bb-caption="Gauges" data-bb-back-caption="Back" ></div>
-	<style type="text/css">
-		.bb-gauge
-		{
-			border: 1px solid Gray; 
-			overflow:hidden;
-			margin: 10px; 
-			background-color: White;
-			height:17px; 
-			padding:2px; 
-		}
-
-		.bb-gauge .image
-		{
-			width:0px;
-			height:17px;
-			margin:0px;
-			padding:0px	
-		}
+	<div data-bb-type="title" data-bb-caption="Progress Bar" data-bb-back-caption="Back" ></div>
+	<style>
+		body {background-color: #252525}
 	</style>
 	<script id="gaugeJS" src="js/gauge.js"></script>
 	<div style="margin:15px;color:Gray;">
 		<p align="center">
-		Below you will find some examples of how you can Create different gauges or progress bars<br />       
+		Below you will find an example of how to use the progress bar<br />       
 		</p>
 	</div>
 
-	<div data-bb-type="round-panel" id="mainList">   
-		<div data-bb-type="button" data-bb-style="stretch" onclick="doTimedEvent()">Watch Progress</div>
-		
-		<div class="bb-gauge" style="height:20px;">
-			<div id="gauge0" style="background-color:Blue;width:0px;height:20px;"></div>
-		</div>  
-		
-		<div class="bb-gauge">
-			<div id="gauge1" class="image" style="background-image: url('images/gauge/gauge1.png');"></div>
-		</div> 
-		
-		<div class="bb-gauge">
-			<div id="gauge2" class="image" style="background-image: url('images/gauge/gauge2.png');"></div>
-		</div> 
+	<div id="watch" data-bb-type="button" data-bb-style="stretch" onclick="watchProgress()" style="margin-bottom:10px">Watch Progress</div>
+	<div id="pause" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').pause();">Pause</div>
+	<div id="reset" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="percent=4;document.getElementById('progress').setValue(0);">Reset</div>
+	
+	<div style="margin:20px;">
+		<progress id="progress" value="0" max="100"></progress>
 	</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
