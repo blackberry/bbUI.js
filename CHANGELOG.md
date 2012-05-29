@@ -2,7 +2,14 @@
 
 Below you will find all the different changes that have been added since the first introduction of versioning for the bbUI toolkit.
 
+## Version 0.9.3
+
+* Action Bar overflow must now be configured
+
+
+
 ## Version 0.9.2
+
 * Grid list margins corrected
 * Grid list now supports square 1:1 ratio images
 * Grid list now will only show overlay if either a title or sub-title is provided

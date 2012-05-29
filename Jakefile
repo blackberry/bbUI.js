@@ -52,12 +52,12 @@ task('build', ['clean'], function () {
     });
 
     output += "bb.assignBackHandler(bb.popScreen);";
-    fs.writeFileSync(__dirname + "/pkg/bbui-0.9.2.js", output);
-    fs.writeFileSync(__dirname + "/samples/bbui-0.9.2.js", output);
+    fs.writeFileSync(__dirname + "/pkg/bbui-0.9.3.js", output);
+    fs.writeFileSync(__dirname + "/samples/bbui-0.9.3.js", output);
 
     css += include("src/bbUI.css");
-    fs.writeFileSync(__dirname + "/pkg/bbui-0.9.2.css", css);
-    fs.writeFileSync(__dirname + "/samples/bbui-0.9.2.css", css);
+    fs.writeFileSync(__dirname + "/pkg/bbui-0.9.3.css", css);
+    fs.writeFileSync(__dirname + "/samples/bbui-0.9.3.css", css);
 
     console.log("Prepare ship for ludicrous speed!");
 });
