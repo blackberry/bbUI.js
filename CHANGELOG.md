@@ -5,6 +5,7 @@ Below you will find all the different changes that have been added since the fir
 ## Version 0.9.3
 
 * Action Bar overflow must now be configured
+* Action Bar back buttons now have a colored slash &quot;/&quot;
 
 
 

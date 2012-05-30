@@ -45,9 +45,8 @@ bb = {
 			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
 			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		bb.options.shades = {
-			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')'
-		
-		
+			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
+			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'		
 		};
 		
 		// Create our coloring

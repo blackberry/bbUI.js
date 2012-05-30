@@ -61,9 +61,8 @@ bb = {
 			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
 			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		bb.options.shades = {
-			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')'
-		
-		
+			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
+			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'		
 		};
 		
 		// Create our coloring
@@ -3482,14 +3481,27 @@ bb.actionBar = {
 					
 		// Create the back button if it has one and there are no tabs in the action bar
 		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {		
+			var chevron,
+				backCaption,
+				backslash;
+			
 			backBtn = document.createElement('div');
-			backBtn.innerHTML = actionBar.getAttribute('data-bb-back-caption');
 			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color);
 			backBtn.onclick = bb.popScreen;
-			// Set tab coloring
-			backBtn.normal = 'bb-bb10-action-bar-tab-normal-'+color;
-			backBtn.highlight = 'bb-bb10-action-bar-tab-selected-'+color;
 			actionBar.backBtn = backBtn;
+			// Create and add the chevron to the back button
+			chevron = document.createElement('div');
+			chevron.setAttribute('class','bb-bb10-action-bar-back-chevron-'+res+'-'+color);
+			backBtn.appendChild(chevron);
+			// Create and add our back caption to the back button
+			backCaption = document.createElement('div');
+			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res);
+			backCaption.innerHTML = actionBar.getAttribute('data-bb-back-caption');
+			backBtn.appendChild(backCaption);
+			// Create our backslash
+			backslash = document.createElement('div');
+			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color); 
+			
 			// Create a table to hold the back button and our actions
 			var table = document.createElement('table'),
 				tr = document.createElement('tr'),
@@ -3497,16 +3509,23 @@ bb.actionBar = {
 			actionBar.appendChild(table);
 			table.appendChild(tr);
 			table.setAttribute('class','bb-bb10-action-bar-table');
-			// Create the container for the back button
+			// Set Back Button widths
 			if (bb.device.isPlayBook) {
-				actionBar.backBtnWidth = 86;
-				td.style.width = actionBar.backBtnWidth+'px';
+				actionBar.backBtnWidth = 93;
+				td.style.width = 77+'px';
 			} else {
-				actionBar.backBtnWidth = 178;
-				td.style.width = actionBar.backBtnWidth+'px';
+				actionBar.backBtnWidth = 187;
+				td.style.width = 154+'px';
 			}
 			tr.appendChild(td);
 			td.appendChild(backBtn);
+			// Create the container for our backslash
+			td = document.createElement('td');
+			// Set backslash widths
+			td.style.width = bb.device.isPlayBook ? 16 + 'px' : 33+'px';
+			backslash.style['background-color'] = bb.options.shades.darkOutline;
+			tr.appendChild(td);
+			td.appendChild(backslash);
 			// Create the container for the rest of the actions
 			td = document.createElement('td');
 			td.style.width = '100%';
