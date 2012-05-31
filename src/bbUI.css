@@ -3715,10 +3715,20 @@ a.bb5-button-highlight span {
 	border-bottom: solid 1px #D9DCDE;
 }
 
+.bb-bb10-context-menu-item-first-lowres-light
+{
+	border-top: solid 1px #D9DCDE;
+}
+
 .bb-bb10-context-menu-item-hires-light
 {
 	color:Black;
 	border-bottom: solid 2px #D9DCDE;
+}
+
+.bb-bb10-context-menu-item-first-hires-light
+{
+	border-top: solid 2px #D9DCDE;
 }
 
 .bb-bb10-context-menu-item-lowres-dark
@@ -3727,10 +3737,20 @@ a.bb5-button-highlight span {
 	border-bottom: solid 1px #404040	
 }
 
+.bb-bb10-context-menu-item-first-lowres-dark
+{
+	border-top: solid 1px #404040	
+}
+
 .bb-bb10-context-menu-item-hires-dark
 {
 	color:White;
 	border-bottom: solid 2px #404040	
+}
+
+.bb-bb10-context-menu-item-first-hires-dark
+{
+	border-top: solid 2px #404040	
 }
 
 .bb-bb10-context-menu-item-hover-lowres

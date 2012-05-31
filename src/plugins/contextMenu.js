@@ -34,7 +34,7 @@ bb.contextMenu = {
 											if (!this.menu.peeking) return;
 											var touch = event.touches[0];
 											if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
-												this.menu.show();
+												this.menu.show(this.menu.selected);
 												this.closeMenu = false;
 											}
 										};
@@ -77,6 +77,7 @@ bb.contextMenu = {
 		// Display the menu
 		menu.show = function(data){
 						if (data) {
+							this.header.style.display = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -84,6 +85,9 @@ bb.contextMenu = {
 								this.description.innerHTML = data.description;
 							}
 							this.selected = data;
+						} else {
+							this.header.style.display = 'none';	
+							this.selected = undefined;							
 						}
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
@@ -118,6 +122,8 @@ bb.contextMenu = {
 							}
 							this.selected = data;
 						}
+						this.header.style.display = '';
+						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
@@ -146,30 +152,35 @@ bb.contextMenu = {
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
 		
-		// Calculate the header bottom margin to center the items in the list
-		menu.setHeaderHeight = function() {
+		// Center the items in the list
+		menu.centerMenuItems = function() {
 								var windowHeight,
 									itemHeight,
 									margin;
 								if (bb.device.isPlayBook) {
 									itemHeight = 53;
-									if (window.orientation == 0 || window.orientation == 180) {
+									// Hack for ripple
+									if (!window.orientation) {
+										windowHeight = window.innerHeight;
+									} else if (window.orientation == 0 || window.orientation == 180) {
 										windowHeight = 600;
 									} else if (window.orientation == -90 || window.orientation == 90) {
 										windowHeight = 1024;
 									}
 								} else {
 									itemHeight = 111;
-									if (window.orientation == 0 || window.orientation == 180) {
+									if (!window.orientation) {
+										windowHeight = window.innerHeight;
+									} else if (window.orientation == 0 || window.orientation == 180) {
 										windowHeight = 1280;
 									} else if (window.orientation == -90 || window.orientation == 90) {
 										windowHeight = 768;
 									}
 								}
-								margin = Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2);
-								this.header.style['margin-bottom'] = margin + 'px';
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
+								this.actions[0].style['margin-top'] = margin + 'px';
 							};
-		menu.setHeaderHeight = menu.setHeaderHeight.bind(menu);
+		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
 		
 		// Make sure we move when the orientation of the device changes
@@ -188,6 +199,7 @@ bb.contextMenu = {
 										this.style.left = '1283px';
 									}
 								}
+								this.centerMenuItems();
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
@@ -200,9 +212,12 @@ bb.contextMenu = {
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
-				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				this.appendChild(action);
 				this.actions.push(action);
+				if (this.actions.length == 1) {
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+				}
+				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				action.normal = normal;
 				action.highlight = highlight;
 				// Set our inner information
@@ -219,16 +234,15 @@ bb.contextMenu = {
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										this.setAttribute('class',this.highlight);
-										this.setAttribute('style','border-left-color:'+ bb.options.bb10HighlightColor);
+										this.style['border-left-color'] = bb.options.bb10HighlightColor;
 									}
 				action.ontouchend = function () {
 										this.setAttribute('class',this.normal);
-										this.setAttribute('style','');
+										this.style['border-left-color'] = 'transparent';
 									}
 				action.addEventListener("click", this.hide, false);
 		};
 		menu.add = menu.add.bind(menu);
-		
 		return menu;
 	},
 	

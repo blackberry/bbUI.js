@@ -120,10 +120,13 @@ bb.actionBar = {
 			actionBar.appendChild(actionBar.menu);
 			// Create our action bar overflow button
 			action = document.createElement('div');
+			action.menu = actionBar.menu;
 			action.setAttribute('data-bb-type','action');
 			action.setAttribute('data-bb-style','button');
 			action.setAttribute('data-bb-img','overflow');
-			action.onclick = actionBar.menu.show;
+			action.onclick = function() {
+							this.menu.show();
+						}
 			// Insert our more button
 			actionContainer.appendChild(action);
 			visibleButtons.push(action);
@@ -343,9 +346,9 @@ bb.actionBar = {
 			action.appendChild(display);	
 		}
 		// Set the proper header height
-		/*if (actionBar.menu) {
-			actionBar.menu.setHeaderHeight();
-		}*/
+		if (actionBar.menu) {
+			actionBar.menu.centerMenuItems();
+		}
 	},
 
 	// Apply the proper highlighting for the action

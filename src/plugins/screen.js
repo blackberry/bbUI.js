@@ -201,6 +201,7 @@ bb.screen = {
 		for (i = 0; i < actions.length; i++) {
 			context.menu.add(actions[i]);
 		}
+		context.menu.centerMenuItems();
 	},
     
     fadeIn: function (params) {
