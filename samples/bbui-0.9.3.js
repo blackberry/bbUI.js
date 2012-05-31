@@ -372,7 +372,51 @@ bb = {
                 document.body.removeChild(scriptTag);
             }
         }
-    }
+    },
+	
+	innerHeight: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 600;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1024;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1280;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 768;
+			}
+		}
+	},
+	
+	innerWidth: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1024;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 600;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 768;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1280;
+			}
+		}
+	}
 };
 
 Function.prototype.bind = function(object){ 
@@ -3948,30 +3992,13 @@ bb.contextMenu = {
 		
 		// Center the items in the list
 		menu.centerMenuItems = function() {
-								var windowHeight,
-									itemHeight,
-									margin;
-								if (bb.device.isPlayBook) {
-									itemHeight = 53;
-									// Hack for ripple
-									if (!window.orientation) {
-										windowHeight = window.innerHeight;
-									} else if (window.orientation == 0 || window.orientation == 180) {
-										windowHeight = 600;
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										windowHeight = 1024;
-									}
-								} else {
-									itemHeight = 111;
-									if (!window.orientation) {
-										windowHeight = window.innerHeight;
-									} else if (window.orientation == 0 || window.orientation == 180) {
-										windowHeight = 1280;
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										windowHeight = 768;
-									}
-								}
-								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
+								var windowHeight = bb.innerHeight(),
+									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
+									margin,
+									numActions;
+								// See how many actions to use for calculations
+								numActions = (this.pinnedAction) ? this.actions.length - 1 : this.actions.length;
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - itemHeight; //itemHeight is the header
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
@@ -3979,20 +4006,9 @@ bb.contextMenu = {
 		
 		// Make sure we move when the orientation of the device changes
 		menu.orientationChanged = function(event) {
-								// Orientation is backwards between playbook and BB10 smartphones
-								if (bb.device.isPlayBook) {
-									if (window.orientation == 0 || window.orientation == 180) {
-										this.style.left = '1027px';
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										this.style.left = '603px';
-									}
-								} else {
-									if (window.orientation == 0 || window.orientation == 180) {
-										this.style.left = '771px';
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										this.style.left = '1283px';
-									}
-								}
+								this.style['-webkit-transition'] = '';
+								this.style.left = bb.innerWidth() + 'px';
+								this.style.height = bb.innerHeight() + 'px';
 								this.centerMenuItems();
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
@@ -4002,12 +4018,23 @@ bb.contextMenu = {
 		menu.add = function(action) {
 				var normal, 
 					highlight,
-					caption = action.innerHTML;
+					caption = action.innerHTML,
+					pin = false;
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
 				this.appendChild(action);
 				this.actions.push(action);
+				// See if this item should be pinned to the bottom
+				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
+				if (pin && !this.pinnedAction) {
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+					action.style['bottom'] = '-2px';
+					action.style.position = 'absolute';
+					action.style.width = '100%';
+					this.pinnedAction = action;
+				}				
+				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
 					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
 				}

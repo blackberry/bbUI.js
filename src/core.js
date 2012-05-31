@@ -356,7 +356,51 @@ bb = {
                 document.body.removeChild(scriptTag);
             }
         }
-    }
+    },
+	
+	innerHeight: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 600;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1024;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1280;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 768;
+			}
+		}
+	},
+	
+	innerWidth: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1024;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 600;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 768;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1280;
+			}
+		}
+	}
 };
 
 Function.prototype.bind = function(object){ 

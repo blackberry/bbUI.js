@@ -7,7 +7,8 @@ Below you will find all the different changes that have been added since the fir
 * Action Bar overflow must now be configured
 * Action Bar back buttons now have a colored slash &quot;/&quot;
 * Action Bar dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
-* Action Bar and Context Menu items are now centered in the menu
+* Action Bar Overflow and Context Menu items are now centered in the menu
+* Action Bar Overflow and Context Menu can now "pin" an action to the bottom of the menu
 
 
 

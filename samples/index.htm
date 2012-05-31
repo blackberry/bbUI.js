@@ -26,12 +26,14 @@
 			var bb10HighlightColor,
 				randomNumber;
 			randomNumber=Math.floor(Math.random()*100);
-			if (randomNumber > 60) {
+			if (randomNumber > 90) {
 				  bb10HighlightColor = '#BA55D3';
-			} else if (randomNumber > 30) {
+			} else if (randomNumber > 60) {
 				  bb10HighlightColor = '#00BC9F';
-			} else {
+			} else if (randomNumber > 30) {
 				  bb10HighlightColor = '#00A8DF';
+			} else {
+				bb10HighlightColor = '#B2CC00';
 			}
 			
 			// You must call init on bbUI before any other code loads.  
