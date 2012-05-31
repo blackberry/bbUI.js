@@ -10,6 +10,7 @@ bb.actionBar = {
 			overflowButtons = [],
 			visibleTabs = [],
 			overflowTabs = [],
+			shownActions = [],
 			action,
 			target,
 			caption,
@@ -30,6 +31,7 @@ bb.actionBar = {
 		actionBar.visibleTabs = visibleTabs;
 		actionBar.visibleButtons = visibleButtons;
 		actionBar.overflowButtons = overflowButtons;
+		actionBar.shownActions = shownActions;
 		
 		// Gather our visible and overflow tabs and buttons
 		for (j = 0; j < actions.length; j++) {
@@ -129,7 +131,27 @@ bb.actionBar = {
 		
 		// Determines the total width of the screen
 		actionBar.getTotalWidth = function() {
-				return window.innerWidth;	
+				var innerWidth;
+				
+				// Hack for ripple until it adds the window.orientation object
+				if (!window.orientation) {
+					return window.innerWidth;
+				}
+				
+				if (bb.device.isPlayBook) {
+					if (window.orientation == 0 || window.orientation == 180) {
+						innerWidth = 1025;
+					} else if (window.orientation == -90 || window.orientation == 90) {
+						innerWidth = 600;
+					}
+				} else {
+					if (window.orientation == 0 || window.orientation == 180) {
+						innerWidth = 768;
+					} else if (window.orientation == -90 || window.orientation == 90) {
+						innerWidth = 1280;
+					}
+				}
+				return innerWidth;	
 			}
 		actionBar.getTotalWidth = actionBar.getTotalWidth.bind(actionBar);
 		
@@ -138,7 +160,7 @@ bb.actionBar = {
 				if (this.backBtn && (this.actionOverflowBtnWidth > 0) && (this.visibleButtons.length >= 5)) {
 					return this.getTotalWidth() - this.backBtnWidth;
 				}
-				else if ((this.actionOverflowBtnWidth > 0) && ((this.visibleTabs.length + this.visibleButtons.length) >= 6)) {
+				else if (this.moreBtn && ((this.visibleTabs.length + this.visibleButtons.length) >= 6)) {
 					return this.getTotalWidth() - this.backBtnWidth;
 				} else {
 					return this.getTotalWidth() - this.backBtnWidth - this.actionOverflowBtnWidth;	
@@ -172,6 +194,34 @@ bb.actionBar = {
 		// Get our button width
 		btnWidth = actionBar.calculateActionWidths();
 		
+		// Make sure we move when the orientation of the device changes
+		actionBar.orientationChanged = function(event) {
+								var actionWidth = actionBar.calculateActionWidths(),
+									i,
+									action,
+									actionType,
+									length = this.shownActions.length,
+									margins = 2;
+								for (i = 0; length; i++) {
+									action = this.shownActions[i];
+									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
+									// Compute margins
+									margins = (actionType == 'tab') ? 2 : 0;
+									action.style.width = (actionWidth - margins) + 'px'; 
+								}
+								// Adjust our more button
+								if (this.moreBtn && (this.shownActions.length > 0)) {
+									if (actionType == 'tab') {
+										// Stretch the last button if all tabs are before the overflow button  
+										this.moreBtn.style.width = (this.getTotalWidth() - (this.shownActions.length * actionWidth)) + 'px';
+									} else {
+										this.moreBtn.style.width = this.actionOverflowBtnWidth + 'px'; 
+									}
+								}
+							};
+		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
+		window.addEventListener('orientationchange', actionBar.orientationChanged,false); 
+		
 		// Add all of our overflow button actions
 		for (j = 0; j < overflowButtons.length; j++) {
 			action = overflowButtons[j];
@@ -189,12 +239,11 @@ bb.actionBar = {
 				action.style.display = 'none';
 				continue;			
 			}
+			shownActions.push(action);
 			action.res = res;
 			caption = action.innerHTML;
 			// Size our last visible tab differently
-			if ((j == visibleTabs.length -1) && (j < 4)) {
-				action.style.width = (btnWidth - (tabMargins + 1)) + 'px';  
-			} else if ((j == visibleTabs.length -1) && (j == 4)) {
+			if ((j == visibleTabs.length -1) && (j == 4)) {
 				// Stretch the last tab if actionbar only has tabs in case of any kind of rounding errors based on division  
 				action.style.width = (actionBar.getUsableWidth() - (4 * btnWidth) - tabMargins) + 'px';
 			} else {
@@ -222,14 +271,12 @@ bb.actionBar = {
 			if ((j == visibleTabs.length-1) && (j < 4)) {
 				action.style['border-right-width'] = '1px';
 			} 	
-			
 			// Add our click listener
 			action.addEventListener('click',function (e) {
 				var i,
 					action,
 					tabs = this.actionBar.visibleTabs,
 					firstTab = false;
-					
 				for (i = 0; i < tabs.length; i++) {
 					action = tabs[i];
 					if (action == this) {
@@ -239,7 +286,6 @@ bb.actionBar = {
 						bb.actionBar.unhighlightAction(action);
 					}					
 				}
-				
 			},false);
 		}
 		
@@ -265,6 +311,7 @@ bb.actionBar = {
 			// Add the icon
 			icon = document.createElement('img');
 			if (action.getAttribute('data-bb-img') == 'overflow') {
+				actionBar.moreBtn = action;
 				// Set our transparent pixel
 				icon.setAttribute('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A'+
 										'/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQXKc14qEQAAAAZdEVYdENv'+
@@ -281,6 +328,7 @@ bb.actionBar = {
 					action.style.float = 'right';
 				}
 			} else {
+				shownActions.push(action);
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
 				action.style.width = btnWidth + 'px'; 
