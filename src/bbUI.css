@@ -35,8 +35,22 @@ body, html {
 	font-size: 16pt;
 }
 
+.bb-bb10-lowres-screen {
+	font-size: 16pt;
+	position:absolute;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right: 0px;
+}
+
 .bb-bb10-hires-screen {
 	font-size: 30pt;
+	position:absolute;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right: 0px;
 }
 
 .bb-bb10-background-dark
@@ -3519,6 +3533,54 @@ a.bb5-button-highlight span {
 	height: 71px;
 }
 
+.bb-bb10-action-bar-tab-overflow-hires-dark 
+{
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AYBDiM67O9n6AAAAmxJREFUeNrt28+K2kAABvBvJn8IRmmMIIUgHoU+Qz3uA3TpgxT2FbwW+hiFHvoABS8ufQTv4i4URAmoJJtJZvbQHnrpIQmxZPg+yNFAfkwymfmMMMaAaRdJAiISkYgMEYlIRCIyRCQiEYnIEJGIRCQiQ0QiEpGIDBGJSEQiMkQkIhEZIhKRiERk/o7b9gRKqV4DeJ73f0aiUipRSn1VSj0BMH0+lFJGKfX053qSJh6i7j9lq6paaK1/AogtvDNPUsql4zjbThGLovgG4KPFj7jvvu/fd42YAnhjMeLF9/1RpxOLEAJaa3tfV2T9aaL2L1zXXVv9uuK6PzqfWAC8M8ZsyrKMtdaw4RMOIQSklHBd9ySEWALYdo0IAAmALwDeA3hrwQD8BeARwCcAz7cYiQyXfUQkIhEZIhKRiERkiEjE3qR1x5Kmaa8BoihqfY5Ga+c0TRNjzGf83oBILBhMzwAehRAPURR1vwFxuVwWRVFY27H4vr8cDofbTm/noihWxhgbAQEgLopiBeC+U0RjzJ3l22d3nU8snufh5eXFWkHf97t/xQnDcC2EsBJQCIEwDG/TsWitN+fzOVZKWdH8SSnheR5Go9FJSsmOpWHYsXDZR0SGiEQkIhEZIhKRiERk/pXWHctut+s1wHw+b32ORmvn/X6faK2t61iklA+z2az7DYjD4bC4Xq/WdiyDwWA5nU5rbYXVfiZmWbayFBAA4jzPV50/E23vWIwxtTuW2iMxCAKrZ9om11d7JI7H43WWZR9s/CBISonxeHybjqUsy83xeIzzPEdVVb3HcxwHQRBgMpmcXNdlx9IwrTqWVyY3JzOg14TmAAAAAElFTkSuQmCC");
+}
+
+.bb-bb10-action-bar-tab-overflow-lowres-dark 
+{
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AYBFCMy84XJfAAAAQRJREFUWMPt1TFqhEAUxvHvc8YRLUSmsAmC97BNsd1eIOSMW66QE6RIrrDYi3VE5qVJlWRDBuIQ2PcHq2Hg8Qb8AZqmaZqmadotx2sH67oWAB4AdDvP8Abg7Jx7jR3wBOCYYksispEcnHPPn8/sD5cOCV/SArgH8GXA7NoNY8z4MejuH8nNWvsU9cQiUgB4BHC38/ZWAGeSL/pL0LS/lGRZlkJEkknivY+TZJ7npJJkWTZ47+MkEZFkkpCMk6SqqpFkEknyPN/qulZJNO22JJmmqQghJJOk7/s4SS6Xy0lEjokWtVlrh67rfi8JyUMI4f9K0jTNaIzZXREAKMtya9v2W0neAU2/NK9h/6pNAAAAAElFTkSuQmCC");
+}
+
+.bb-bb10-action-bar-tab-overflow-hires-light 
+{
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AYBFBcYkxTzXQAAAcxJREFUeNrtmzFqw0AQRb9DTpAq4AOkcysQCcGF3Bk2OUkgrUu3gRwkxYI6C+QmCHQB38DgylfYFFER0tnaVazJ+wcQzOPvzsyOZhJCEOqnKxAAEYhAREAEIhCBiIAIRCACEQERiEAEIgIiEIEIRAREIAIRiAiIQAQiAiIQL0XXfT/gnBs1AO89TrwETc75P9E5N5X0Jule0tQAh72kT0mv3vt9cojOuTtJjaQbg6Y6Snrw3u+S3okhhLVRgOriWkt6Tn0nFsavuJPjI7H8RYkTQqglPRlmUg3hxFV3AVvUsYsvfYmzXC6nkt67EufWALxDV+K8lGW5HwTiL6CjpleWJR2Lid6ZjSwgRhHHGSfiRJyIE3EiTgQixxlF650Xi4XZGctms0n/AFEUhfkZS1VVu9TH+T/MWNImlhACMxYSywWUOMxY4kBcSXo0nFhWyY9zXdc7STNJH/qeTVjQoYtn1sWXvk78qfl8Pmp62+2Wto+2jwcInAhEjjNOxIkIJ+JEnAhEIEbvnfM8NztjaZom/Ywlz3PzM5amadhj6SH2WCLp5PjOcSI1TQQn1saZsMcSIbEMs8eSZZnZPZa2bYffY8mybNT02rbt/Y0vc129t8+tkSwAAAAASUVORK5CYII=");	
+}
+
+.bb-bb10-action-bar-tab-overflow-lowres-light 
+{
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AYBFCgZvM3p9wAAAPFJREFUWMPtl7GKwkAURU9U2G8Q5wv2D9KnFFJYi11+ycXWXghYptguzf7Fxk+wMEWuTdzCdQSFGYW8A1M9Zri8Ye6dB4ZhGIZhGMaQSXyFPM/nwBpwgTWcgD2wKsvyeF2c+HZJ2gDTCE36ABZABXxdF0fPdDcmozsdLCQdJBF4tZJ2krb24gxjUEmSZdkcWCdJEjRJJP0lSVVVx0d8cAO40D54SRJJy1s6Jve62x/wUrwCu64r+s/CLLCGtr9iSxLDGFaSpGkafSap6/pfkox9u5xz3xE88OLFn8Bv0zQ/jwxN7z2TAAVwiKChBXa+JDkDnZrciSa+gysAAAAASUVORK5CYII=");
+}
+
+.bb-bb10-action-bar-tab-overflow-highlight-hires 
+{
+	background-repeat: no-repeat;
+	background-position: -56px center;
+	height: 86px;
+	width: 16px;
+	margin-top: -117px;
+	display:none;
+}
+
+.bb-bb10-action-bar-tab-overflow-highlight-lowres 
+{
+	background-repeat: no-repeat;
+	background-position: -28px center;
+	height: 43px;
+	width: 8px;
+	margin-top: -63px;
+	display:none;
+}
+
 .bb-bb10-action-bar-overflow-button-lowres-dark 
 {
 	background-repeat: no-repeat;
@@ -3547,6 +3609,136 @@ a.bb5-button-highlight span {
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQNFCU9Ho4AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAABqUlEQVR42u3b223bQBBG4ZmdFfXsRnhBakkNKSEtpBa3oisbSQPkcvMgLCHKDK3kaWScDxBgQC/EDy8I8IgiAAAAAAAAAADgBai3C2qaJpuZqN4uLaUk1+tVGfDJ8Xa73TxekVKS8/nscsTg5ULqpj7GGCWE8OFjZtJ2bfY4YPRzFPSbmUkIYfEfmHO+jRhMGHBrQNXF51W4OcI5Z5mmaXXQ8j0Dbuj7XsdxnMd7vImM4/iDu/ATuq7LVVVJCEFyzjIMg5xOp9c50wAAAAAAfHEem8hvM3ujifzPeG2Tq111u7C754BpSnI+0UQ21XX9K1qcG8iiiQSTrutoIptHQfVniUqPTUREJIQgDLg94GoTKX977STumsjfhrrvJQy4ojSRtXhEE/kHpYmY2dxEjscjTQQAAAAAACdcvicSYxRVnR9xXS4Xmsgz2rad3xNZNJGU3P5K1VMTeS+P9D80EaOJfH4UVL/fD1fknEVV3T6RdtVEynhrj/VpIp+4f0/kMTA9vkPCgCv6vtdhGFa/m6bJ7U3EZRPZ7/eLJnI4HGgiAAAAAADga/gD0hGqxramvjAAAAAASUVORK5CYII=");
 }
    
+/* ================================================= 
+  BB10 Tab Overflow Menu
+=================================================*/   
+.bb-bb10-tab-overflow-menu-overlay 
+{
+	z-index: 1000;
+	position: fixed;
+	top: 0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
+	display:none;
+	background-color:black;
+	opacity:0.25;
+}
+
+.bb-bb10-tab-overflow-menu
+{
+	position:absolute;
+	top: 0px;
+	bottom: 0px;
+	width: 0px;
+	left: 0px;
+	overflow: hidden;
+	z-index:1001;
+	white-space:nowrap;
+}
+
+.bb-bb10-tab-overflow-menu-dark
+{
+	background-color: #121212;
+}
+
+.bb-bb10-tab-overflow-menu-light
+{
+	background-color: #F9F9F9;
+}
+
+.bb-bb10-tab-overflow-menu-item-lowres
+{
+	padding-top: 7px;
+	padding-bottom: 3px;	
+	padding-left: 5px;
+	height: 52px;
+	line-height: 52px;
+	vertical-align: center;
+	font-size:20pt;
+}
+
+.bb-bb10-tab-overflow-menu-item-hires
+{
+	padding-top: 14px;
+	padding-bottom: 3px;	
+	padding-left: 10px;
+	height: 109px;
+	line-height: 109px;
+	vertical-align: center;
+	font-size:39pt;
+}
+
+.bb-bb10-tab-overflow-menu-item-inner-lowres
+{
+	padding-left: 5px;
+}
+
+.bb-bb10-tab-overflow-menu-item-inner-hires
+{
+	padding-left: 15px;
+}
+
+
+.bb-bb10-tab-overflow-menu-item-lowres-light
+{
+	color:Black;
+	border-bottom: solid 1px #D9DCDE;
+}
+
+.bb-bb10-tab-overflow-menu-item-first-lowres-light
+{
+	border-top: solid 1px #D9DCDE;
+}
+
+.bb-bb10-tab-overflow-menu-item-hires-light
+{
+	color:Black;
+	border-bottom: solid 2px #D9DCDE;
+}
+
+.bb-bb10-tab-overflow-menu-item-first-hires-light
+{
+	border-top: solid 2px #D9DCDE;
+}
+
+.bb-bb10-tab-overflow-menu-item-lowres-dark
+{
+	color:White;
+	border-bottom: solid 1px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-first-lowres-dark
+{
+	border-top: solid 1px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-hires-dark
+{
+	color:White;
+	border-bottom: solid 2px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-first-hires-dark
+{
+	border-top: solid 2px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-image-lowres
+{
+	height: 42px;
+	width: 42px;
+	margin-top:-9px;
+}
+
+.bb-bb10-tab-overflow-menu-item-image-hires
+{
+	height: 80px;
+	width: 80px;
+	margin-top: -15px;
+	margin-left:12px;
+}
+
 /* ================================================= 
   BB10 Context Menu
 =================================================*/

@@ -2,6 +2,10 @@ bb = {
 	scroller: null,  
     screens: [],
 	dropdownScrollers: [],
+	transparentPixel: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A'+
+						'/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQXKc14qEQAAAAZdEVYdENv'+
+						'bW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJ'+
+						'RU5ErkJggg==',
 
     	
 	// Initialize the the options of bbUI
@@ -122,7 +126,7 @@ bb = {
 		onscreenready: null,
 		ondomready: null,  	
 		bb10ActionBarDark: true, 	
-		bb10ControlsDark: true, 
+		bb10ControlsDark: false, 
 		bb10ListsDark: false,
 		bb10ForPlayBook: false,
 		bb10HighlightColor: '#00A8DF'
@@ -322,6 +326,7 @@ bb = {
             bb.screens.pop();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
+			bb.screen.tabOverlay = null;
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
