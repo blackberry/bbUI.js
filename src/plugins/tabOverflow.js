@@ -5,6 +5,7 @@ bb.tabOverflow = {
 			overlay;
 		menu.screen = screen;
 		menu.itemClicked = false;
+		menu.visible = false;
 		menu.actions = [];
 		menu.tabOverflowState = {
 			display : undefined,
@@ -34,12 +35,20 @@ bb.tabOverflow = {
 		
 		menu.show = function() {
 					this.itemClicked = false;
+					this.visible = true;
 					var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 					this.tabOverflowState.display = tabOverflowBtn.tabHighlight.style.display;
 					this.tabOverflowState.img = tabOverflowBtn.icon.src;
 					this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
 					this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					this.setDimensions();					
+					// Reset our overflow menu button
+					tabOverflowBtn.reset();
+				};
+		menu.show = menu.show.bind(menu);	
 		
+		// Adjust the dimensions of the menu and screen
+		menu.setDimensions = function() {
 					var width = (bb.device.isPlayBook) ? bb.innerWidth() - 77 : bb.innerWidth() - 154;
 					// Set our screen's parent to have no overflow so the browser doesn't think it needs to scroll
 					this.screen.parentNode.style.position = 'absolute';
@@ -47,7 +56,7 @@ bb.tabOverflow = {
 					this.screen.parentNode.style.top = '0px';
 					this.screen.parentNode.style.bottom = '0px';
 					this.screen.parentNode.style.right = '0px';
-					this.screen.parentNode.style.width = bb.innerWidth()+'px';
+					this.screen.parentNode.style.width = '100%';
 					this.screen.parentNode.style['overflow'] = 'hidden';
 					// Make our overlay visible
 					this.overlay.style.display = 'block';
@@ -60,12 +69,11 @@ bb.tabOverflow = {
 					this.screen.style.right = '-' + width +'px';
 					this.screen.style['-webkit-transition'] = 'all 0.3s ease-out';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
-					// Reset our overflow menu button
-					tabOverflowBtn.reset();
 				};
-		menu.show = menu.show.bind(menu);	
+		menu.setDimensions = menu.setDimensions.bind(menu);	
 		
 		menu.hide = function() {
+					this.visible = false;
 					// Set our sizes
 					this.style.width = '0px';
 					this.screen.style.left = '0px';
@@ -101,10 +109,11 @@ bb.tabOverflow = {
 		
 		// Make sure we move when the orientation of the device changes
 		menu.orientationChanged = function(event) {
-								//TODO: Implement orientation change when visible and not visible
-								
-								
 								this.centerMenuItems();
+								// Resize the menu if it is currently open
+								if (this.visible) {
+									this.setDimensions();
+								}
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 

@@ -2168,7 +2168,6 @@ bb.grid = {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
 									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
 									itemNode.appendChild(overlay);
-									
 								} else {
 									overlay = null;
 								}
@@ -3739,7 +3738,6 @@ bb.actionBar = {
 				action.style.display = 'none';
 				continue;			
 			}
-			shownActions.push(action);
 			action.res = res;
 			caption = action.innerHTML;
 			// Size our last visible tab differently
@@ -3791,6 +3789,7 @@ bb.actionBar = {
 				action.reset = action.reset.bind(action);	
 			} // See if it was a selected tab
 			else {
+				shownActions.push(action);
 				// Set our image
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				
@@ -3929,6 +3928,7 @@ bb.tabOverflow = {
 			overlay;
 		menu.screen = screen;
 		menu.itemClicked = false;
+		menu.visible = false;
 		menu.actions = [];
 		menu.tabOverflowState = {
 			display : undefined,
@@ -3958,12 +3958,20 @@ bb.tabOverflow = {
 		
 		menu.show = function() {
 					this.itemClicked = false;
+					this.visible = true;
 					var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 					this.tabOverflowState.display = tabOverflowBtn.tabHighlight.style.display;
 					this.tabOverflowState.img = tabOverflowBtn.icon.src;
 					this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
 					this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					this.setDimensions();					
+					// Reset our overflow menu button
+					tabOverflowBtn.reset();
+				};
+		menu.show = menu.show.bind(menu);	
 		
+		// Adjust the dimensions of the menu and screen
+		menu.setDimensions = function() {
 					var width = (bb.device.isPlayBook) ? bb.innerWidth() - 77 : bb.innerWidth() - 154;
 					// Set our screen's parent to have no overflow so the browser doesn't think it needs to scroll
 					this.screen.parentNode.style.position = 'absolute';
@@ -3971,7 +3979,7 @@ bb.tabOverflow = {
 					this.screen.parentNode.style.top = '0px';
 					this.screen.parentNode.style.bottom = '0px';
 					this.screen.parentNode.style.right = '0px';
-					this.screen.parentNode.style.width = bb.innerWidth()+'px';
+					this.screen.parentNode.style.width = '100%';
 					this.screen.parentNode.style['overflow'] = 'hidden';
 					// Make our overlay visible
 					this.overlay.style.display = 'block';
@@ -3984,12 +3992,11 @@ bb.tabOverflow = {
 					this.screen.style.right = '-' + width +'px';
 					this.screen.style['-webkit-transition'] = 'all 0.3s ease-out';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
-					// Reset our overflow menu button
-					tabOverflowBtn.reset();
 				};
-		menu.show = menu.show.bind(menu);	
+		menu.setDimensions = menu.setDimensions.bind(menu);	
 		
 		menu.hide = function() {
+					this.visible = false;
 					// Set our sizes
 					this.style.width = '0px';
 					this.screen.style.left = '0px';
@@ -4025,10 +4032,11 @@ bb.tabOverflow = {
 		
 		// Make sure we move when the orientation of the device changes
 		menu.orientationChanged = function(event) {
-								//TODO: Implement orientation change when visible and not visible
-								
-								
 								this.centerMenuItems();
+								// Resize the menu if it is currently open
+								if (this.visible) {
+									this.setDimensions();
+								}
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
@@ -4132,6 +4140,7 @@ bb.contextMenu = {
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
 		menu.actions = [];
 		menu.res = res;
+		menu.visible = false;
 		// Add the overlay for trapping clicks on items below
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
@@ -4206,7 +4215,9 @@ bb.contextMenu = {
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);		
 						// Remove the header click handling while peeking
-						this.header.addEventListener("click", this.hide, false);	
+						this.header.addEventListener("click", this.hide, false);
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
@@ -4220,6 +4231,7 @@ bb.contextMenu = {
 							this.header.removeEventListener("click", this.hide, false);	
 						}
 						this.peeking = false;
+						this.visible = false;
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -4241,7 +4253,9 @@ bb.contextMenu = {
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);	
 						// Remove the header click handling while peeking
-						this.header.removeEventListener("click", this.hide, false);						
+						this.header.removeEventListener("click", this.hide, false);		
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.peek = menu.peek.bind(menu);
 		
@@ -4286,6 +4300,13 @@ bb.contextMenu = {
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		
+		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
+		menu.addEventListener('webkitTransitionEnd', function() { 
+						if (!this.visible) {
+							this.style.visibility = 'hidden';
+						}
+					});
 		
 		// Create our add item function
 		menu.add = function(action) {

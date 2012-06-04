@@ -262,7 +262,6 @@ bb.actionBar = {
 				action.style.display = 'none';
 				continue;			
 			}
-			shownActions.push(action);
 			action.res = res;
 			caption = action.innerHTML;
 			// Size our last visible tab differently
@@ -314,6 +313,7 @@ bb.actionBar = {
 				action.reset = action.reset.bind(action);	
 			} // See if it was a selected tab
 			else {
+				shownActions.push(action);
 				// Set our image
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				

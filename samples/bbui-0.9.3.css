@@ -3751,6 +3751,7 @@ a.bb5-button-highlight span {
 	width: 80%;
 	top: 0px;
 	clear: both;
+	visibility : hidden;
 }
 
 .bb-bb10-context-menu-overlay

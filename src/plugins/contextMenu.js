@@ -21,6 +21,7 @@ bb.contextMenu = {
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
 		menu.actions = [];
 		menu.res = res;
+		menu.visible = false;
 		// Add the overlay for trapping clicks on items below
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
@@ -95,7 +96,9 @@ bb.contextMenu = {
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);		
 						// Remove the header click handling while peeking
-						this.header.addEventListener("click", this.hide, false);	
+						this.header.addEventListener("click", this.hide, false);
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
@@ -109,6 +112,7 @@ bb.contextMenu = {
 							this.header.removeEventListener("click", this.hide, false);	
 						}
 						this.peeking = false;
+						this.visible = false;
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -130,7 +134,9 @@ bb.contextMenu = {
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);	
 						// Remove the header click handling while peeking
-						this.header.removeEventListener("click", this.hide, false);						
+						this.header.removeEventListener("click", this.hide, false);		
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.peek = menu.peek.bind(menu);
 		
@@ -175,6 +181,13 @@ bb.contextMenu = {
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		
+		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
+		menu.addEventListener('webkitTransitionEnd', function() { 
+						if (!this.visible) {
+							this.style.visibility = 'hidden';
+						}
+					});
 		
 		// Create our add item function
 		menu.add = function(action) {
