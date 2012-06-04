@@ -31,12 +31,7 @@ bb.button = {
                 button.appendChild(span);
             }
         } else if (bb.device.isBB10) {
-			var res;
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}
+			var res = (bb.device.isPlayBook) ? res = 'lowres' : 'hires';
 			for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i],
 					disabledStyle,
@@ -50,6 +45,7 @@ bb.button = {
 				innerElement.innerHTML = outerElement.innerHTML;
 				outerElement.innerHTML = '';
 				outerElement.appendChild(innerElement);
+				outerElement.innerElement = innerElement;
 
                 if (outerElement.hasAttribute('data-bb-style')) {
                     var style = outerElement.getAttribute('data-bb-style');
@@ -96,6 +92,11 @@ bb.button = {
                         },false);
                 }
                 
+				// Assign our set caption function
+				outerElement.setCaption = function(value) {
+						this.innerElement.innerHTML = value;
+					};
+				
                 // Assign our enable function
                 outerElement.enable = function(){ 
                         if (this.enabled) return;
@@ -176,6 +177,11 @@ bb.button = {
                         },false);
                 }
                 
+				// Assign our set caption function
+				outerElement.setCaption = function(value) {
+						this.innerHTML = value;
+					};
+				
                 // Assign our enable function
                 outerElement.enable = function(){
                         if (this.enabled) return;

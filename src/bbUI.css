@@ -766,20 +766,20 @@ body, html {
 .bb-bb10-file-button-hires {
 	position : relative;
 	width : 100%;
-	height : 100%;
+	height : 87px;
 	display :block;
 	z-index : 100;
-	margin-top : -83px;
+	margin-top : -86px;
 	opacity: 0.0;
 }   
 
 .bb-bb10-file-button-lowres {
 	position : relative;
 	width : 100%;
-	height : 100%;
+	height : 51px;
 	display :block;
 	z-index : 100;
-	margin-top : -48px;
+	margin-top : -50px;
 	opacity: 0.0;
 } 
 

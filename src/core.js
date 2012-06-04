@@ -94,7 +94,6 @@ bb = {
 
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
         bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
-        bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
@@ -104,6 +103,7 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+		bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		bb.progress.apply(root.querySelectorAll('progress'));
 		bb.radio.apply(root.querySelectorAll('input[type=radio]'));

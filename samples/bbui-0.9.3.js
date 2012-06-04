@@ -110,7 +110,6 @@ bb = {
 
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
         bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
-        bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
@@ -120,6 +119,7 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+		bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		bb.progress.apply(root.querySelectorAll('progress'));
 		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
@@ -736,23 +736,40 @@ bb.bbmBubble = {
 
 
 bb.fileInput = {
+
 	apply: function(elements) {
 		var i,
 			outerElement,
 			btn,
-			resClass;
+			span,
+			res;
 		if (bb.device.isBB10) {
-			resClass = (bb.device.isPlayBook) ? 'bb-bb10-file-button-lowres' : 'bb-bb10-file-button-hires';
+			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 			for (i = 0; i < elements.length; i++) {
 				outerElement = elements[i];
-				outerElement.setAttribute('class',resClass);
+				outerElement.setAttribute('class','bb-bb10-file-button-'+res);
 				btn = document.createElement('div');
 				btn.setAttribute('data-bb-type','button');
 				btn.innerHTML = outerElement.hasAttribute('data-bb-caption') ? outerElement.getAttribute('data-bb-caption') : 'Choose File';
+				btn.origCaption = btn.innerHTML;
+				// Apply our styling
+				bb.button.apply([btn]);
 				btn.input = outerElement;
 				// Add the button and insert the file input as an invisible node in the new button element
 				outerElement.parentNode.insertBefore(btn, outerElement);
 				btn.appendChild(outerElement);
+				
+				// Handle the file change
+				btn.handleChange = function() {
+					if ( this.input.value) {
+						this.setCaption(this.input.value.replace(/^.*[\\\/]/, ''));
+					
+					} else {
+						this.setCaption(this.origCaption);
+					}
+				};
+				btn.handleChange = btn.handleChange.bind(btn);
+				outerElement.addEventListener('change',btn.handleChange,false);
 			}
 		}
 	}
@@ -792,12 +809,7 @@ bb.button = {
                 button.appendChild(span);
             }
         } else if (bb.device.isBB10) {
-			var res;
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}
+			var res = (bb.device.isPlayBook) ? res = 'lowres' : 'hires';
 			for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i],
 					disabledStyle,
@@ -811,6 +823,7 @@ bb.button = {
 				innerElement.innerHTML = outerElement.innerHTML;
 				outerElement.innerHTML = '';
 				outerElement.appendChild(innerElement);
+				outerElement.innerElement = innerElement;
 
                 if (outerElement.hasAttribute('data-bb-style')) {
                     var style = outerElement.getAttribute('data-bb-style');
@@ -857,6 +870,11 @@ bb.button = {
                         },false);
                 }
                 
+				// Assign our set caption function
+				outerElement.setCaption = function(value) {
+						this.innerElement.innerHTML = value;
+					};
+				
                 // Assign our enable function
                 outerElement.enable = function(){ 
                         if (this.enabled) return;
