@@ -11,9 +11,10 @@ Below you will find all the different changes that have been added since the fir
 * Action Bar Overflow and Context Menu items are now centered in the menu
 * Action Bar Overflow and Context Menu can now "pin" an action to the bottom of the menu
 * Action Bar now supports Tab Overflow Menus
-* Bug Fix: Action Bar overflow used to appear briefly when changing orientation
 * Input of type "file" is now styled on BlackBerry 10 as a button
 * Added setCaption() function to buttons
+* Bug Fix: Action Bar overflow used to appear briefly when changing orientation
+* Bug Fix: Solid headers on image lists had a JavaScript exception
 
 
 

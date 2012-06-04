@@ -61,7 +61,7 @@ bb.imageList = {
 							if (solidHeader) {
 								normal = normal +' bb10Accent';
 								innerChildNode.style.color = 'white';
-								title.style['border-bottom-color'] = 'transparent';
+								innerChildNode.style['border-bottom-color'] = 'transparent';
 							} else {
 								normal = normal + ' bb-bb10-image-list-header-normal-'+bb.screen.listColor;
 								innerChildNode.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
