@@ -760,6 +760,31 @@ body, html {
 }
 
 /* ================================================= 
+   File Input buttons
+   =================================================*/
+
+.bb-bb10-file-button-hires {
+	position : relative;
+	width : 100%;
+	height : 100%;
+	display :block;
+	z-index : 100;
+	margin-top : -83px;
+	opacity: 0.0;
+}   
+
+.bb-bb10-file-button-lowres {
+	position : relative;
+	width : 100%;
+	height : 100%;
+	display :block;
+	z-index : 100;
+	margin-top : -48px;
+	opacity: 0.0;
+} 
+
+
+/* ================================================= 
    BB10 Buttons
    =================================================*/
 
