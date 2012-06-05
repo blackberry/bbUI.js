@@ -107,6 +107,7 @@ bb = {
 		bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		bb.progress.apply(root.querySelectorAll('progress'));
 		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
+		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
     },
@@ -415,3 +416,4 @@ Function.prototype.bind = function(object){
     return fn.apply(object, arguments); 
   }; 
 }; 
+

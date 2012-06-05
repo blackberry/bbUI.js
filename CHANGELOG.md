@@ -13,6 +13,7 @@ Below you will find all the different changes that have been added since the fir
 * Action Bar now supports Tab Overflow Menus
 * Input of type "file" is now styled on BlackBerry 10 as a button
 * Added setCaption() function to buttons
+* Added new BlackBerry 10 Activity Indicator
 * Bug Fix: Action Bar overflow used to appear briefly when changing orientation
 * Bug Fix: Solid headers on image lists had a JavaScript exception
 
