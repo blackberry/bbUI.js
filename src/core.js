@@ -49,6 +49,9 @@ bb = {
 			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
 			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		bb.options.shades = {
+			R : R,
+			G : G,
+			B : B,
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'		
 		};
@@ -108,6 +111,7 @@ bb = {
 		bb.progress.apply(root.querySelectorAll('progress'));
 		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
 		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
+		bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
     },
@@ -416,4 +420,3 @@ Function.prototype.bind = function(object){
     return fn.apply(object, arguments); 
   }; 
 }; 
-
