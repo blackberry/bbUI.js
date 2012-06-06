@@ -1881,6 +1881,9 @@ bb.imageList = {
 							title = document.createElement('div');
 							title.setAttribute('class','title');
 							title.innerHTML = innerChildNode.getAttribute('data-bb-title');
+							if (title.innerHTML.length == 0) {
+								title.innerHTML = '&nbsp;';
+							}
 							details.appendChild(title);
 							// Create the accent text
 							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
@@ -1892,6 +1895,9 @@ bb.imageList = {
 							// Create our description
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.setAttribute('class','description');
+							if (description.length == 0) {
+								description = '&nbsp;';
+							}
 							descriptionDiv.innerHTML = description;
 							details.appendChild(descriptionDiv);
 							// Clean-up
