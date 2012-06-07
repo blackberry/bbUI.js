@@ -2024,6 +2024,8 @@ bb.imageList = {
 							innerChildNode.touchTimer = function() {
 															if (innerChildNode.fingerDown) {
 																innerChildNode.contextShown = true;
+																this.setAttribute('class',this.highlight);
+																innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 																innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
 														};
@@ -4353,6 +4355,7 @@ bb.contextMenu = {
 			header;
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
 		menu.actions = [];
+		menu.hideEvents = [];
 		menu.res = res;
 		menu.visible = false;
 		// Add the overlay for trapping clicks on items below
@@ -4446,6 +4449,13 @@ bb.contextMenu = {
 						}
 						this.peeking = false;
 						this.visible = false;
+						
+						// See if there was anyone listenting for hide events and call them
+						// starting from the last one registered and pop them off
+						for (var i = menu.hideEvents.length-1; i >= 0; i--) {
+							menu.hideEvents[i]();
+							menu.hideEvents.pop();
+						}
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu

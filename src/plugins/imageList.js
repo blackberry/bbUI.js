@@ -191,6 +191,8 @@ bb.imageList = {
 							innerChildNode.touchTimer = function() {
 															if (innerChildNode.fingerDown) {
 																innerChildNode.contextShown = true;
+																this.setAttribute('class',this.highlight);
+																innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 																innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
 														};
