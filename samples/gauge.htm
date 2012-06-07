@@ -25,10 +25,12 @@
 		Below you will find an example of how to use the progress bar<br />       
 		</p>
 	</div>
-
-	<div id="watch" data-bb-type="button" data-bb-style="stretch" onclick="watchProgress()" style="margin-bottom:10px">Watch Progress</div>
-	<div id="pause" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').pause();">Pause</div>
-	<div id="reset" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="percent=4;document.getElementById('progress').setValue(0);">Reset</div>
+	<div style="margin:15px">
+		<div id="watch" data-bb-type="button" data-bb-style="stretch" onclick="watchProgress()" style="margin-bottom:10px">Watch Progress</div>
+		<div id="pause" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').setState(bb.progress.PAUSED);">Pause</div>
+		<div id="error" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').setState(bb.progress.ERROR);">Simulate Error</div>
+		<div id="reset" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="percent=4;document.getElementById('progress').setValue(0);">Reset</div>
+	</div>
 	
 	<div style="margin:20px;">
 		<progress id="progress" value="0" max="100"></progress>
