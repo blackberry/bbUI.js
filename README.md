@@ -70,7 +70,7 @@ We've provided documentation for each of the controls in our wiki and you can ch
 
 These controls are only supported on BlackBerry 10 devices or a PlayBook that has specified that it would like to use BlackBerry 10 styling
 
-[ActionBar](https://github.com/blackberry/bbUI.js/wiki/Action-Bar) &nbsp;&nbsp; [ContextMenu](https://github.com/blackberry/bbUI.js/wiki/Context-Menus)  &nbsp;&nbsp; [GridList](https://github.com/blackberry/bbUI.js/wiki/Grid-List)
+[ActionBar](https://github.com/blackberry/bbUI.js/wiki/Action-Bar) &nbsp;&nbsp; [ActivityIndicator](https://github.com/blackberry/bbUI.js/wiki/Activity-Indicator) &nbsp;&nbsp; [ContextMenu](https://github.com/blackberry/bbUI.js/wiki/Context-Menus)  &nbsp;&nbsp; [GridList](https://github.com/blackberry/bbUI.js/wiki/Grid-List)
 
 
 ### Common Controls
