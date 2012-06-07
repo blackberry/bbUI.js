@@ -4,7 +4,8 @@ Below you will find all the different changes that have been added since the fir
 
 ## Version 0.9.3
 
-* Default for control colors changed from dark to light
+* _**Compatibility Change:**_ Default for control colors changed from dark to light
+* _**Compatibility Change:**_ The progress bar _pause()_ function has been removed and replaced with _setState(state)_
 * Action Bar overflow must now be configured
 * Action Bar back buttons now have a colored slash &quot;/&quot;
 * Action Bar dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
@@ -18,7 +19,7 @@ Below you will find all the different changes that have been added since the fir
 * Added animation to images on orientation change for grid layouts
 * Bug Fix: Action Bar overflow used to appear briefly when changing orientation
 * Bug Fix: Solid headers on image lists had a JavaScript exception
-* Change: The progress bar _pause()_ function has been removed and replaced with _setState(state)_
+
 
 
 
