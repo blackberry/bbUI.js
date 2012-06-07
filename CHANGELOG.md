@@ -4,24 +4,25 @@ Below you will find all the different changes that have been added since the fir
 
 ## Version 0.9.3
 
-* _**Compatibility Change:**_ Default for control colors changed from dark to light
-* _**Compatibility Change:**_ The progress bar _pause()_ function has been removed and replaced with _setState(state)_
-* Action Bar: Overflow must now be configured
-    * Action Bar: Back buttons now have a colored slash &quot;/&quot;
-    * Action Bar: Dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
-    * Action Bar: Overflow and Context Menu items are now centered in the menu
-    * Action Bar: Overflow and Context Menu can now "pin" an action to the bottom of the menu
-    * Action Bar: Now supports Tab Overflow Menus
+* _**Compatibility Changes:**_ 
+    * Default for control colors changed from dark to light
+    * The progress bar _pause()_ function has been removed and replaced with _setState(state)_
+	* Action Bar Overflow menu must now be configured
+* Action Bar: 
+    * Back buttons now have a colored slash &quot;/&quot;
+    * Dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
+    * Overflow and Context Menu items are now centered in the menu
+    * Overflow and Context Menu can now "pin" an action to the bottom of the menu
+    * Now supports Tab Overflow Menus
 * File Input: BlackBerry 10 button styling to input of type "file"
 * Buttons: setCaption() function to buttons
 * Activity Indicator: Added new BlackBerry 10 Activity Indicator
 * CheckBoxes: Added new BlackBerry 10 styling to check boxes
 * Grid Layout: Added animation to images on orientation change for grid layouts
-* Noteable Bug Fix: Action Bar overflow used to appear briefly when changing orientation
-* Noteable Bug Fix: Solid headers on image lists used to have a JavaScript exception
-* Noteable Bug Fix: Jake file for building used to paste the wrong license file text causing exceptions in JavaScript
-
-
+* Noteable Bug Fixes: 
+    * Action Bar overflow used to appear briefly when changing orientation
+    * Solid headers on image lists used to have a JavaScript exception
+    * Jake file for building used to paste the wrong license file text causing exceptions in JavaScript
 
 
 ## Version 0.9.2
