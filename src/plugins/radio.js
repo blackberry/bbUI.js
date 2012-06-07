@@ -8,13 +8,7 @@ bb.radio = {
 				dotDiv,
 				centerDotDiv,
 				radio,
-				R,G,B,
-				color = bb.screen.controlColor;
-				
-			// Get our highlight and accent RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+				color = bb.screen.controlColor;			
 				
 			// Apply our transforms to all Radio buttons
 			for (i = 0; i < elements.length; i++) {
@@ -36,8 +30,8 @@ bb.radio = {
 				// Create our colored dot
 				dotDiv = document.createElement('div');
 				dotDiv.setAttribute('class','bb-bb10-radio-dot-'+res);
-				dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +') 0%, rgb('+ R +', '+ G +', '+ B +') 100%)';
-				dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (R - 64) +', '+ (G - 64) +', '+ (B - 64) +',0.25) 0%, rgba('+ R +', '+ G +', '+ B +',0.25) 100%)';
+				dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
 				if (input.checked) {
 					dotDiv.style.background = dotDiv.highlight;
 				}

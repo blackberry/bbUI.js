@@ -45,9 +45,9 @@ bb = {
 		}
 		
 		// Create our shades of colors
-		var R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+		var R = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
+			G = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
+			B = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		bb.options.shades = {
 			R : R,
 			G : G,
@@ -411,6 +411,10 @@ bb = {
 				return 1280;
 			}
 		}
+	},
+	
+	cutHex : function(h) {
+		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	}
 };
 
@@ -419,4 +423,4 @@ Function.prototype.bind = function(object){
   return function(){ 
     return fn.apply(object, arguments); 
   }; 
-}; 
+};

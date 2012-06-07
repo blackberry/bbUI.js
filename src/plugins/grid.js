@@ -2,14 +2,9 @@ bb.grid = {
     apply: function(elements) {
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-				R,G,B,
 				solidHeader = false,
 				headerJustify;
 
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 			// Apply our transforms to all grids
 			for (var i = 0; i < elements.length; i++) {
 				var j,
@@ -53,7 +48,7 @@ bb.grid = {
 								title.style['border-bottom-color'] = 'transparent';
 							} else {
 								title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
-								title.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+								title.style['border-bottom-color'] = bb.options.shades.darkOutline;
 							}
 							
 							// Style our header for text justification
@@ -124,7 +119,6 @@ bb.grid = {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
 									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
 									itemNode.appendChild(overlay);
-									
 								} else {
 									overlay = null;
 								}

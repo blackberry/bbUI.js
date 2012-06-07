@@ -7,7 +7,6 @@ bb.imageList = {
 				innerChildNode,
 				normal,
 				highlight,
-				R,G,B,
 				contextMenu,
 				items,
 				hideImages,
@@ -15,11 +14,6 @@ bb.imageList = {
 				imagePlaceholder,
 				solidHeader = false,
 				headerJustify;
-				
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		
 			// Apply our transforms to all Image Lists
 			for (i = 0; i < elements.length; i++) {
@@ -64,7 +58,7 @@ bb.imageList = {
 								innerChildNode.style['border-bottom-color'] = 'transparent';
 							} else {
 								normal = normal + ' bb-bb10-image-list-header-normal-'+bb.screen.listColor;
-								innerChildNode.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+								innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
 							}
 							
 							// Check for alignment
@@ -174,12 +168,11 @@ bb.imageList = {
 							innerChildNode.overlay = overlay;
 							innerChildNode.contextMenu = contextMenu;
 							innerChildNode.description = description;
-							innerChildNode.title = title.innerHTML;
-							
+							innerChildNode.title = title.innerHTML;	
 							
 							innerChildNode.ontouchstart = function () {
 															//this.setAttribute('class',this.highlight);
-															this.overlay.style['border-color'] =  'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 															innerChildNode.fingerDown = true;
 															innerChildNode.contextShown = false;
 															if (innerChildNode.contextMenu) {

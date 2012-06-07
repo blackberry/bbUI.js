@@ -117,10 +117,5 @@ bb.progress = {
 			// Assign our document event listeners
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 
 		}
-	},
-
-	
-	cutHex : function(h) {
-		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	}
 };
