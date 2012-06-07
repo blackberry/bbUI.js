@@ -70,9 +70,11 @@ bb.grid = {
 						}
 						else if (type == 'row') {
 							var k,
+								table,
+								tr,
+								td,
 								numItems,
 								itemNode,
-								columnClass,
 								subtitle,
 								image,
 								overlay,
@@ -82,11 +84,14 @@ bb.grid = {
 								hasOverlay,
 								rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
 							
-							innerChildNode.setAttribute('class', 'bb-bb10-grid-row-'+res);
 							numItems = rowItems.length;
-							if (numItems > 0) {
-								columnClass = 'bb-bb10-grid-item-col-' + numItems+'-'+res;
-							}
+							if (numItems == 0) continue;
+							
+							table = document.createElement('table');
+							table.style.width = '100%';
+							innerChildNode.appendChild(table);
+							tr = document.createElement('tr');
+							table.appendChild(tr);
 
 							for (k = 0; k < numItems; k++) {
 								itemNode = rowItems[k];
@@ -94,24 +99,28 @@ bb.grid = {
 								title = itemNode.getAttribute('data-bb-title');
 								hasOverlay = (subtitle || title);
 								itemNode.innerHTML = '';
-								if (bb.device.isPlayBook) {
-									width = ((window.innerWidth/numItems) - 5);
-								} else {
-									width = ((window.innerWidth/numItems) - 8);
-								}
+								// Add our cell to the table
+								td = document.createElement('td');
+								tr.appendChild(td);
+								td.appendChild(itemNode);
+								// deal with our margins
+								width = (window.innerWidth/numItems) - 5;
+								// Find out how to size the images
 								if (outerElement.isSquare) {
 									height = width;
 								} else {
 									height = Math.ceil(width*0.5625);
 								}
-								itemNode.setAttribute('class', 'bb-bb10-grid-item ' + columnClass);
+								// Set our dimensions
 								itemNode.style.width = width + 'px';
 								itemNode.style.height = height + 'px';
 
 								// Create our display image
 								image = document.createElement('img');
 								image.setAttribute('src',itemNode.getAttribute('data-bb-img'));
-								image.setAttribute('style','height:100%;width:100%;');
+								image.style.height = height + 'px';
+								image.style.width = width + 'px';
+								itemNode.image = image;
 								itemNode.appendChild(image);
 								// Create our translucent overlay
 								if (hasOverlay) {
@@ -122,9 +131,6 @@ bb.grid = {
 								} else {
 									overlay = null;
 								}
-								
-								itemNode.removeAttribute('data-bb-img');
-								itemNode.removeAttribute('data-bb-title');
 								
 								// Setup our variables
 								itemNode.overlay = overlay;
@@ -160,9 +166,7 @@ bb.grid = {
 																}
 															};
 								itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
-								
-							}						
-							
+							}
 						}
 					}
 				}
@@ -175,46 +179,37 @@ bb.grid = {
 											numItems,
 											itemNode,
 											width,
-											height,
-											innerWidth;
-										
-										// Orientation is backwards between playbook and BB10 smartphones
-										if (bb.device.isPlayBook) {
-											if (window.orientation == 0 || window.orientation == 180) {
-												innerWidth = 1024;  // Doesn't seem to calculate width to the new width when this even fires
-											} else if (window.orientation == -90 || window.orientation == 90) {
-												innerWidth = 600;
-											}
-										} else {
-											if (window.orientation == 0 || window.orientation == 180) {
-												innerWidth = 768;
-											} else if (window.orientation == -90 || window.orientation == 90) {
-												innerWidth = 1280;
-											}
-										}
+											height;
 					
 										for (i = 0; i < items.length; i++) {
 											rowItems = items[i].querySelectorAll('[data-bb-type=item]');
 											numItems = rowItems.length;
 											for (j = 0; j < numItems; j++ ) {
 												itemNode = rowItems[j];
-												if (bb.device.isPlayBook) {
-													width = ((innerWidth/numItems) - 5);
-												} else {
-													width = ((innerWidth/numItems) - 8);
-												}
+												width = (window.innerWidth/numItems) - 5;
 												if (outerElement.isSquare) {
 													height = width;
 												} else {
 													height = Math.ceil(width*0.5625);
 												}
+												// Animate our image and container
+												itemNode.image.style.height = height+'px';
+												itemNode.image.style.width = width + 'px';
+												itemNode.image.style['-webkit-transition-property'] = 'all';
+												itemNode.image.style['-webkit-transition-duration'] = '0.2s';
+												itemNode.image.style['-webkit-transition-timing-function'] = 'linear';
+												itemNode.image.style['-webkit-transform'] = 'translate3d(0,0,0)';
 												itemNode.style.width = width+'px';
 												itemNode.style.height = height+'px';
+												itemNode.style['-webkit-transition-property'] = 'all';
+												itemNode.style['-webkit-transition-duration'] = '0.2s';
+												itemNode.style['-webkit-transition-timing-function'] = 'linear';
+												itemNode.style['-webkit-transform'] = 'translate3d(0,0,0)';
 											}
 										}
 									};
 				outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
-				window.addEventListener('orientationchange', outerElement.orientationChanged,false); 
+				window.addEventListener('resize', outerElement.orientationChanged,false); 
 			}		
 		} else {
 			// Make the grids invisible if it isn't BB10

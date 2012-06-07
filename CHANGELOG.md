@@ -15,6 +15,7 @@ Below you will find all the different changes that have been added since the fir
 * Added setCaption() function to buttons
 * Added new BlackBerry 10 Activity Indicator
 * Added new BlackBerry 10 styling to check boxes
+* Added animation to images on orientation change for grid layouts
 * Bug Fix: Action Bar overflow used to appear briefly when changing orientation
 * Bug Fix: Solid headers on image lists had a JavaScript exception
 * Change: The progress bar _pause()_ function has been removed and replaced with _setState(state)_
