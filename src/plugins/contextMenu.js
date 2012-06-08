@@ -20,7 +20,9 @@ bb.contextMenu = {
 			header;
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
 		menu.actions = [];
+		menu.hideEvents = [];
 		menu.res = res;
+		menu.visible = false;
 		// Add the overlay for trapping clicks on items below
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
@@ -34,7 +36,7 @@ bb.contextMenu = {
 											if (!this.menu.peeking) return;
 											var touch = event.touches[0];
 											if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
-												this.menu.show();
+												this.menu.show(this.menu.selected);
 												this.closeMenu = false;
 											}
 										};
@@ -77,6 +79,7 @@ bb.contextMenu = {
 		// Display the menu
 		menu.show = function(data){
 						if (data) {
+							this.header.style.display = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -84,6 +87,9 @@ bb.contextMenu = {
 								this.description.innerHTML = data.description;
 							}
 							this.selected = data;
+						} else {
+							this.header.style.display = 'none';	
+							this.selected = undefined;							
 						}
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
@@ -91,7 +97,9 @@ bb.contextMenu = {
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);		
 						// Remove the header click handling while peeking
-						this.header.addEventListener("click", this.hide, false);	
+						this.header.addEventListener("click", this.hide, false);
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
@@ -105,6 +113,14 @@ bb.contextMenu = {
 							this.header.removeEventListener("click", this.hide, false);	
 						}
 						this.peeking = false;
+						this.visible = false;
+						
+						// See if there was anyone listenting for hide events and call them
+						// starting from the last one registered and pop them off
+						for (var i = menu.hideEvents.length-1; i >= 0; i--) {
+							menu.hideEvents[i]();
+							menu.hideEvents.pop();
+						}
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -118,13 +134,17 @@ bb.contextMenu = {
 							}
 							this.selected = data;
 						}
+						this.header.style.display = '';
+						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);	
 						// Remove the header click handling while peeking
-						this.header.removeEventListener("click", this.hide, false);						
+						this.header.removeEventListener("click", this.hide, false);		
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.peek = menu.peek.bind(menu);
 		
@@ -146,63 +166,62 @@ bb.contextMenu = {
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
 		
-		// Calculate the header bottom margin to center the items in the list
-		menu.setHeaderHeight = function() {
-								var windowHeight,
-									itemHeight,
-									margin;
-								if (bb.device.isPlayBook) {
-									itemHeight = 53;
-									if (window.orientation == 0 || window.orientation == 180) {
-										windowHeight = 600;
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										windowHeight = 1024;
-									}
-								} else {
-									itemHeight = 111;
-									if (window.orientation == 0 || window.orientation == 180) {
-										windowHeight = 1280;
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										windowHeight = 768;
-									}
-								}
-								margin = Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2);
-								this.header.style['margin-bottom'] = margin + 'px';
+		// Center the items in the list
+		menu.centerMenuItems = function() {
+								var windowHeight = bb.innerHeight(),
+									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
+									margin,
+									numActions;
+								// See how many actions to use for calculations
+								numActions = (this.pinnedAction) ? this.actions.length - 1 : this.actions.length;
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - itemHeight; //itemHeight is the header
+								this.actions[0].style['margin-top'] = margin + 'px';
 							};
-		menu.setHeaderHeight = menu.setHeaderHeight.bind(menu);
+		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
 		
 		// Make sure we move when the orientation of the device changes
 		menu.orientationChanged = function(event) {
-								// Orientation is backwards between playbook and BB10 smartphones
-								if (bb.device.isPlayBook) {
-									if (window.orientation == 0 || window.orientation == 180) {
-										this.style.left = '1027px';
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										this.style.left = '603px';
-									}
-								} else {
-									if (window.orientation == 0 || window.orientation == 180) {
-										this.style.left = '771px';
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										this.style.left = '1283px';
-									}
-								}
+								this.style['-webkit-transition'] = '';
+								this.style.left = bb.innerWidth() + 'px';
+								this.style.height = bb.innerHeight() + 'px';
+								this.centerMenuItems();
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		
+		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
+		menu.addEventListener('webkitTransitionEnd', function() { 
+						if (!this.visible) {
+							this.style.visibility = 'hidden';
+						}
+					});
 		
 		// Create our add item function
 		menu.add = function(action) {
 				var normal, 
 					highlight,
-					caption = action.innerHTML;
+					caption = action.innerHTML,
+					pin = false;
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
-				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				this.appendChild(action);
 				this.actions.push(action);
+				// See if this item should be pinned to the bottom
+				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
+				if (pin && !this.pinnedAction) {
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+					action.style['bottom'] = '-2px';
+					action.style.position = 'absolute';
+					action.style.width = '100%';
+					this.pinnedAction = action;
+				}				
+				// If it is the top item it needs a top border
+				if (this.actions.length == 1) {
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+				}
+				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				action.normal = normal;
 				action.highlight = highlight;
 				// Set our inner information
@@ -219,16 +238,15 @@ bb.contextMenu = {
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										this.setAttribute('class',this.highlight);
-										this.setAttribute('style','border-left-color:'+ bb.options.bb10HighlightColor);
+										this.style['border-left-color'] = bb.options.bb10HighlightColor;
 									}
 				action.ontouchend = function () {
 										this.setAttribute('class',this.normal);
-										this.setAttribute('style','');
+										this.style['border-left-color'] = 'transparent';
 									}
 				action.addEventListener("click", this.hide, false);
 		};
 		menu.add = menu.add.bind(menu);
-		
 		return menu;
 	},
 	

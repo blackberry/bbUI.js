@@ -5,20 +5,9 @@ bb.slider = {
 			var i, 
 				range,
 				res,
-				R,
-				G,
-				B,
-				color = bb.options.bb10ControlsDark ? 'dark' : 'light';
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}	
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
-			
+				color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+				res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+
 			for (i = 0; i < elements.length; i++) {
 				range = elements[i];
 				// Create our container div
@@ -43,14 +32,16 @@ bb.slider = {
 				outerElement.appendChild(outerElement.outer);
 				outerElement.fill = document.createElement('div');
 				outerElement.fill.className = 'fill';
-				outerElement.fill.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
+				outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+				outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+				outerElement.fill.style.background = outerElement.fill.dormant;
 				outerElement.outer.appendChild(outerElement.fill);
 				outerElement.inner = document.createElement('div');
 				outerElement.inner.className = 'inner';
 				outerElement.outer.appendChild(outerElement.inner);
 				outerElement.halo = document.createElement('div');
 				outerElement.halo.className = 'halo';
-				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ R +', '+ G +', '+ B +', 0.15)), color-stop(0.8, rgba('+ R +', '+ G +', '+ B +', 0.15)), to(rgba('+ R +', '+ G +', '+ B +', 0.7)))';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
 				outerElement.inner.appendChild(outerElement.halo);
 				outerElement.indicator = document.createElement('div');
 				outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);
@@ -92,9 +83,8 @@ bb.slider = {
 											outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 											outerElement.halo.style['-webkit-animation-name'] = 'explode';
 											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
-											outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
-											
-											
+											outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+											outerElement.fill.style.background = outerElement.fill.active;
 										}
 									};
 				outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
@@ -107,7 +97,8 @@ bb.slider = {
 											outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 											outerElement.halo.style['-webkit-animation-name'] = 'implode';
 											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
-											outerElement.indicator.style.background = '';											
+											outerElement.indicator.style.background = '';	
+											outerElement.fill.style.background = outerElement.fill.dormant;
 										}
 									};
 				outerElement.inner.animateEnd = outerElement.inner.animateEnd.bind(outerElement.inner);
@@ -144,12 +135,8 @@ bb.slider = {
 				// Assign our document event listeners
 				document.addEventListener('touchmove', outerElement.moveSlider, false);
 				document.addEventListener('touchend', outerElement.inner.animateEnd, false);
-				window.addEventListener('orientationchange', outerElement.doOrientationChange,false); 
+				window.addEventListener('resize', outerElement.doOrientationChange,false); 
 			}
 		}	
-	},
-	
-	cutHex : function(h) {
-		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	}
 };

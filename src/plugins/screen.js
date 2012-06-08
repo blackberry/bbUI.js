@@ -4,6 +4,7 @@ bb.screen = {
 	controlColor: 'light',
 	listColor: 'light',
 	overlay : null,
+	tabOverlay : null,
 	contextMenu : null,
     
     apply: function(elements) {
@@ -13,7 +14,7 @@ bb.screen = {
 		bb.screen.contextMenu = null;
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
-			screenRes = 'bb-hires-screen';
+			screenRes = 'bb-bb10-lowres-screen';
 		} else if (bb.device.isBB10) {
 			screenRes = 'bb-bb10-hires-screen';
 		} else if (bb.device.isHiRes) {
@@ -34,7 +35,6 @@ bb.screen = {
 			}
            
             if (bb.device.isBB10) {
-				
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]'),
@@ -201,6 +201,7 @@ bb.screen = {
 		for (i = 0; i < actions.length; i++) {
 			context.menu.add(actions[i]);
 		}
+		context.menu.centerMenuItems();
 	},
     
     fadeIn: function (params) {

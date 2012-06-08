@@ -18,20 +18,22 @@
 	<head>
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
 		<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-		<link  rel="stylesheet" type="text/css" href="bbui-0.9.2.css"><link />
-		<script type="text/javascript" src="bbui-0.9.2.js"></script>
+		<link  rel="stylesheet" type="text/css" href="bbui-0.9.3.css"><link />
+		<script type="text/javascript" src="bbui-0.9.3.js"></script>
 		<script type="text/javascript">
 			
 			// For some fun I did some random color scheme generation :o)
 			var bb10HighlightColor,
 				randomNumber;
 			randomNumber=Math.floor(Math.random()*100);
-			if (randomNumber > 60) {
+			if (randomNumber > 90) {
 				  bb10HighlightColor = '#BA55D3';
-			} else if (randomNumber > 30) {
+			} else if (randomNumber > 60) {
 				  bb10HighlightColor = '#00BC9F';
-			} else {
+			} else if (randomNumber > 30) {
 				  bb10HighlightColor = '#00A8DF';
+			} else {
+				bb10HighlightColor = '#B2CC00';
 			}
 			
 			// You must call init on bbUI before any other code loads.  

@@ -2,6 +2,10 @@ bb = {
 	scroller: null,  
     screens: [],
 	dropdownScrollers: [],
+	transparentPixel: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A'+
+						'/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQXKc14qEQAAAAZdEVYdENv'+
+						'bW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJ'+
+						'RU5ErkJggg==',
 
     	
 	// Initialize the the options of bbUI
@@ -41,13 +45,15 @@ bb = {
 		}
 		
 		// Create our shades of colors
-		var R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+		var R = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
+			G = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
+			B = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		bb.options.shades = {
-			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')'
-		
-		
+			R : R,
+			G : G,
+			B : B,
+			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
+			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'		
 		};
 		
 		// Create our coloring
@@ -91,7 +97,7 @@ bb = {
 
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
         bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
-        bb.dropdown.apply(root.querySelectorAll('select'));
+		bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
         bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
@@ -100,9 +106,12 @@ bb = {
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+		bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		bb.progress.apply(root.querySelectorAll('progress'));
 		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
+		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
+		bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
     },
@@ -123,7 +132,7 @@ bb = {
 		onscreenready: null,
 		ondomready: null,  	
 		bb10ActionBarDark: true, 	
-		bb10ControlsDark: true, 
+		bb10ControlsDark: false, 
 		bb10ListsDark: false,
 		bb10ForPlayBook: false,
 		bb10HighlightColor: '#00A8DF'
@@ -323,6 +332,7 @@ bb = {
             bb.screens.pop();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
+			bb.screen.tabOverlay = null;
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
@@ -357,7 +367,55 @@ bb = {
                 document.body.removeChild(scriptTag);
             }
         }
-    }
+    },
+	
+	innerHeight: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 600;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1024;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1280;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 768;
+			}
+		}
+	},
+	
+	innerWidth: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1024;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 600;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 768;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1280;
+			}
+		}
+	},
+	
+	cutHex : function(h) {
+		return (h.charAt(0)=="#") ? h.substring(1,7):h
+	}
 };
 
 Function.prototype.bind = function(object){ 
@@ -365,4 +423,4 @@ Function.prototype.bind = function(object){
   return function(){ 
     return fn.apply(object, arguments); 
   }; 
-}; 
+};

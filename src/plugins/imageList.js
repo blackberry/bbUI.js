@@ -7,7 +7,6 @@ bb.imageList = {
 				innerChildNode,
 				normal,
 				highlight,
-				R,G,B,
 				contextMenu,
 				items,
 				hideImages,
@@ -15,11 +14,6 @@ bb.imageList = {
 				imagePlaceholder,
 				solidHeader = false,
 				headerJustify;
-				
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		
 			// Apply our transforms to all Image Lists
 			for (i = 0; i < elements.length; i++) {
@@ -61,10 +55,10 @@ bb.imageList = {
 							if (solidHeader) {
 								normal = normal +' bb10Accent';
 								innerChildNode.style.color = 'white';
-								title.style['border-bottom-color'] = 'transparent';
+								innerChildNode.style['border-bottom-color'] = 'transparent';
 							} else {
 								normal = normal + ' bb-bb10-image-list-header-normal-'+bb.screen.listColor;
-								innerChildNode.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+								innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
 							}
 							
 							// Check for alignment
@@ -141,6 +135,9 @@ bb.imageList = {
 							title = document.createElement('div');
 							title.setAttribute('class','title');
 							title.innerHTML = innerChildNode.getAttribute('data-bb-title');
+							if (title.innerHTML.length == 0) {
+								title.innerHTML = '&nbsp;';
+							}
 							details.appendChild(title);
 							// Create the accent text
 							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
@@ -152,6 +149,9 @@ bb.imageList = {
 							// Create our description
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.setAttribute('class','description');
+							if (description.length == 0) {
+								description = '&nbsp;';
+							}
 							descriptionDiv.innerHTML = description;
 							details.appendChild(descriptionDiv);
 							// Clean-up
@@ -168,12 +168,11 @@ bb.imageList = {
 							innerChildNode.overlay = overlay;
 							innerChildNode.contextMenu = contextMenu;
 							innerChildNode.description = description;
-							innerChildNode.title = title.innerHTML;
-							
+							innerChildNode.title = title.innerHTML;	
 							
 							innerChildNode.ontouchstart = function () {
 															//this.setAttribute('class',this.highlight);
-															this.overlay.style['border-color'] =  'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 															innerChildNode.fingerDown = true;
 															innerChildNode.contextShown = false;
 															if (innerChildNode.contextMenu) {
@@ -192,6 +191,8 @@ bb.imageList = {
 							innerChildNode.touchTimer = function() {
 															if (innerChildNode.fingerDown) {
 																innerChildNode.contextShown = true;
+																this.setAttribute('class',this.highlight);
+																innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 																innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
 														};

@@ -1,16 +1,20 @@
 bb.progress = {
 
+	NORMAL : 0,
+	PAUSED : 1,
+	ERROR : 2,
+	
 	apply: function(elements) {
 		
 		var i, 
 			progress,
 			res,
-			R,
-			G,
-			B,
 			color,
 			highlightColor,
-			accentColor;
+			accentColor,
+			NORMAL = 0,
+			PAUSED = 1,
+			ERROR = 2;
 			
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
@@ -24,16 +28,12 @@ bb.progress = {
 			accentColor = '#8FB03B';
 		}
 		
-		// Get our highlight RGB colors
-		R = parseInt((bb.progress.cutHex(highlightColor)).substring(0,2),16)
-		G = parseInt((bb.progress.cutHex(highlightColor)).substring(2,4),16);
-		B = parseInt((bb.progress.cutHex(highlightColor)).substring(4,6),16);
-		
 		for (i = 0; i < elements.length; i++) {
 			progress = elements[i];
 			// Create our container div
 			outerElement = document.createElement('div');
 			outerElement.progress = progress;
+			outerElement.state = bb.progress.NORMAL;
 			progress.parentNode.insertBefore(outerElement, progress);
 			progress.style.display = 'none';
 			outerElement.appendChild(progress);
@@ -56,7 +56,7 @@ bb.progress = {
 			outerElement.inner = document.createElement('div');
 			outerElement.inner.className = 'inner';
 			outerElement.outer.appendChild(outerElement.inner);
-			
+					
 			// Assign our function to set the value for the control
 			progress.outerElement = outerElement;
 			progress.setValue = function(value) {
@@ -75,43 +75,47 @@ bb.progress = {
 							} else {
 								value = parseInt(this.outerElement.value);
 							}
-							
-							// Calculate our percentage
+
+							// Calculate percentage and styling
 							if (value == this.outerElement.maxValue) {
+								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(' + accentColor+ '), to('+highlightColor+'))';
 								percent = 1;
-								this.outerElement.fill.style.background ='-webkit-linear-gradient(top,  '+accentColor+' 0%, '+highlightColor+' 100%)';
 							} else if (value == 0) {
 								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
 							} else {
-								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
-								this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
-								this.outerElement.fill.style.background ='';
-								percent = (this.outerElement.value/parseInt(this.outerElement.maxValue));								
+								if (this.outerElement.state == bb.progress.PAUSED) {
+									this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(#EDC842), to(#BA991E))';
+								} else if (this.outerElement.state == bb.progress.ERROR) {
+									this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from( #E04242), to(#D91111))';
+								} else {
+									this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+									this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
+									this.outerElement.fill.style.background ='';	
+								} 
+								percent = (this.outerElement.value/parseInt(this.outerElement.maxValue));
 							}	
 							
 							// Determine width by percentage
 							xpos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
 							this.outerElement.fill.style.width = xpos + 'px';
-							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + xpos + 'px,0px,0px)';
 						};
 			progress.setValue = progress.setValue.bind(progress);
-			// Display the control paused
-			progress.pause = function() {
-							this.outerElement.fill.style.background ='-webkit-linear-gradient(top,  '+accentColor+' 0%, '+highlightColor+' 100%)';
+			
+			// Set the state of the control
+			progress.setState = function(state) {
+							this.outerElement.state = state;
+							this.setValue();
 						};
-			progress.pause = progress.pause.bind(progress);
+			progress.setState = progress.setState.bind(progress);
+			
 			// Set our value on a timeout so that it can calculate width once in the DOM
 			window.setTimeout(progress.setValue, 0);
 			outerElement.doOrientationChange = function() {
-								window.setTimeout(outerElement.progress.setValue, 0);
+								window.setTimeout(this.progress.setValue, 0);
 							};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 			// Assign our document event listeners
-			window.addEventListener('orientationchange', outerElement.doOrientationChange,false); 
+			window.addEventListener('resize', outerElement.doOrientationChange,false); 
 		}
-	},
-	
-	cutHex : function(h) {
-		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	}
 };
