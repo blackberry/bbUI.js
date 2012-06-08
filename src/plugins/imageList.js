@@ -4,40 +4,33 @@ bb.imageList = {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 				i,j,
 				outerElement,
-				innerChildNode,
-				normal,
-				highlight,
-				contextMenu,
-				items,
-				hideImages,
-				imageEffect,
-				imagePlaceholder,
-				solidHeader = false,
-				headerJustify;
+				items;
 		
 			// Apply our transforms to all Image Lists
 			for (i = 0; i < elements.length; i++) {
 				outerElement = elements[i];
 				outerElement.setAttribute('class','bb-bb10-image-list');
-				hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
-				if (!hideImages) {
-					imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
-					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
+				if (!outerElement.hideImages) {
+					outerElement.imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
+					outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
 				}
 				
+				// See what kind of style they want for this list
+				outerElement.listStyle = outerElement.hasAttribute('data-bb-style') ? outerElement.getAttribute('data-bb-style').toLowerCase() : 'default';
+				
 				// Get our header style
-				solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
+				outerElement.solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
 				// Get our header justification
-				headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
+				outerElement.headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
 				
 				// Assign our context menu if there is one
 				if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
-					contextMenu = bb.screen.contextMenu;
+					outerElement.contextMenu = bb.screen.contextMenu;
 				}
-				// Gather our inner items
-				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
-				for (j = 0; j < items.length; j++) {
-					innerChildNode = items[j];
+				
+				// Style an item
+				outerElement.styleItem = function(innerChildNode) {
 					if (innerChildNode.hasAttribute('data-bb-type')) {
 						// Figure out the type of item
 						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase(),
@@ -47,12 +40,18 @@ bb.imageList = {
 							accentText,
 							img,
 							details,
-							descriptionDiv;
+							detailsClass,
+							descriptionDiv,
+							btn,
+							btnBorder,
+							highlight,
+							normal,
+							btnInner;
 						
 						if (type == 'header') {
 							// Set our normal and highlight styling
 							normal = 'bb-bb10-image-list-header bb-bb10-image-list-header-'+res;
-							if (solidHeader) {
+							if (this.solidHeader) {
 								normal = normal +' bb10Accent';
 								innerChildNode.style.color = 'white';
 								innerChildNode.style['border-bottom-color'] = 'transparent';
@@ -62,9 +61,9 @@ bb.imageList = {
 							}
 							
 							// Check for alignment
-							if (headerJustify == 'left') {
+							if (this.headerJustify == 'left') {
 								normal = normal + ' bb-bb10-image-list-header-left-'+res;
-							} else if (headerJustify == 'right') {
+							} else if (this.headerJustify == 'right') {
 								normal = normal + ' bb-bb10-image-list-header-right-'+res;
 							} else {
 								normal = normal + ' bb-bb10-image-list-header-center';
@@ -83,17 +82,19 @@ bb.imageList = {
 							innerChildNode.setAttribute('class', normal);
 							innerChildNode.innerHTML = '';
 							// Create our image
-							if (!hideImages) {
+							if (!this.hideImages) {
 								img = document.createElement('img');
-								if (imagePlaceholder) {
-									img.placeholder = imagePlaceholder;
-									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+								img.outerElement = this;
+								innerChildNode.img = img;
+								if (this.imagePlaceholder) {
+									img.placeholder = this.imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
 								} else {
 									img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
 								}
 								innerChildNode.appendChild(img);
 								
-								if (imageEffect) {
+								if (this.imageEffect) {
 									img.style.opacity = '0.0';
 									img.even = (j%2 == 0)
 									img.onload = function() {
@@ -113,11 +114,11 @@ bb.imageList = {
 									img.show = img.show.bind(img);
 								}
 								// Handle the error scenario
-								if (imagePlaceholder) {
+								if (this.imagePlaceholder) {
 									img.onerror = function() {
 													if (this.src == this.placeholder) return;
 													this.src = this.placeholder;
-													if (imageEffect) {
+													if (this.outerElement.imageEffect) {
 														this.show();
 													}
 												};
@@ -125,48 +126,134 @@ bb.imageList = {
 							}
 							// Create the details container
 							details = document.createElement('div');
-							if (hideImages) {
-								details.setAttribute('class','bb-bb10-image-list-item-details-'+res+' bb-bb10-image-list-item-noimage-'+res);
-							} else {
-								details.setAttribute('class','bb-bb10-image-list-item-details-'+res);
-							}
+							details.innerChildNode = innerChildNode;
+							innerChildNode.details = details;
 							innerChildNode.appendChild(details);
+							detailsClass = 'bb-bb10-image-list-item-details-'+res;
+							if (this.hideImages) {
+								detailsClass = detailsClass + ' bb-bb10-image-list-item-noimage-'+res;
+							} 
+							
 							// Create our title
 							title = document.createElement('div');
 							title.setAttribute('class','title');
 							title.innerHTML = innerChildNode.getAttribute('data-bb-title');
+							details.title = title;
 							if (title.innerHTML.length == 0) {
 								title.innerHTML = '&nbsp;';
 							}
 							details.appendChild(title);
-							// Create the accent text
-							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
-								accentText = document.createElement('div');
-								accentText.setAttribute('class','accent-text');
-								accentText.innerHTML = innerChildNode.getAttribute('data-bb-accent-text');
-								details.appendChild(accentText);
-							}
+							
 							// Create our description
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.setAttribute('class','description');
+							details.description = descriptionDiv;
 							if (description.length == 0) {
 								description = '&nbsp;';
 							}
 							descriptionDiv.innerHTML = description;
 							details.appendChild(descriptionDiv);
-							// Clean-up
-							innerChildNode.removeAttribute('data-bb-img');
-							innerChildNode.removeAttribute('data-bb-title');
+							
 							// Add our highlight overlay
 							overlay = document.createElement('div');
 							overlay.setAttribute('class','bb-bb10-image-list-item-overlay-'+res);
 							innerChildNode.appendChild(overlay);
+							
+							// See if we need the button area
+							if ((this.listStyle == 'arrowlist') || (this.listStyle == 'arrowbuttons') || (this.listStyle == 'addbuttons') || (this.listStyle == 'removebuttons')) {
+								btn = document.createElement('div');
+								innerChildNode.appendChild(btn);
+								innerChildNode.btn = btn;
+								btn.outerElement = this;
+								btn.innerChildNode = innerChildNode;
 								
+								// Assign our event if one exists
+								if (innerChildNode.onbtnclick) {
+									btn.onbtnclick = innerChildNode.onbtnclick;
+								}
+								else if (innerChildNode.hasAttribute('onbtnclick')) {
+									innerChildNode.onbtnclick = innerChildNode.getAttribute('onbtnclick');
+									btn.onbtnclick = function() {
+													eval(this.innerChildNode.onbtnclick);
+												};
+								} 
+								
+								// Set the margins to show the button area
+								detailsClass = detailsClass + ' details-button-margin';
+								btn.setAttribute('class','button');
+								// Create the button border
+								btnBorder = document.createElement('div');
+								btnBorder.normal = 'bb-bb10-image-list-item-button-border-'+res+' bb-bb10-image-list-item-button-'+ bb.screen.listColor;
+								btnBorder.setAttribute('class',btnBorder.normal);
+								btn.btnBorder = btnBorder;
+								btn.appendChild(btnBorder);
+								// Create the inner button that has the image
+								btnInner = document.createElement('div');
+								btnInner.normal = 'bb-bb10-image-list-item-button-inner-'+res;
+								btnInner.highlight = btnInner.normal;
+								btn.btnInner = btnInner;
+								btnBorder.appendChild(btnInner);
+								
+								if (this.listStyle !== 'arrowlist') {
+									if (this.listStyle == 'arrowbuttons') {
+										btnInner.normal = btnInner.normal + ' bb-image-list-item-chevron-'+bb.screen.listColor;
+										btnInner.highlight = btnInner.highlight + ' bb-image-list-item-chevron-dark';
+									}
+									else if (this.listStyle == 'addbuttons') {
+										btnInner.normal = btnInner.normal + ' bb-image-list-item-add-'+bb.screen.listColor;
+										btnInner.highlight = btnInner.highlight + ' bb-image-list-item-add-dark';
+									}
+									else if (this.listStyle == 'removebuttons') {
+										btnInner.normal = btnInner.normal + ' bb-image-list-item-remove-'+bb.screen.listColor;
+										btnInner.highlight = btnInner.highlight + ' bb-image-list-item-remove-dark';
+									}		
+									
+									// Assign our touch handlers
+									btn.ontouchstart = function() {
+													this.btnInner.setAttribute('class',this.btnInner.highlight);
+													this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.bb10HighlightColor+'))';
+												};
+												
+									btn.ontouchend = function() {
+													this.btnBorder.style.background = '';
+													this.btnInner.setAttribute('class',this.btnInner.normal);
+												};
+									
+									// Assign our click handler if one was available
+									if (btn.onbtnclick) {
+										btn.onclick = function(e) {
+														e.stopPropagation();
+														this.outerElement.selected = this.innerChildNode;
+														this.onbtnclick();
+													}
+									}
+									
+								} else { // Arrow list
+									btnInner.normal = btnInner.normal + ' bb-image-list-item-chevron-'+bb.screen.listColor;
+									btnBorder.style['background'] = 'transparent';
+									btnBorder.style['border-color'] = 'transparent';
+								}	
+								// Set our class
+								btnInner.setAttribute('class',btnInner.normal);								
+							} else {
+								// Create the accent text
+								if (innerChildNode.hasAttribute('data-bb-accent-text')) {
+									accentText = document.createElement('div');
+									accentText.setAttribute('class','accent-text');
+									accentText.innerHTML = innerChildNode.getAttribute('data-bb-accent-text');
+									details.appendChild(accentText);
+									details.accentText = accentText;
+								}
+							}
+							
+							// Apply our details class
+							details.setAttribute('class',detailsClass);
+							
 							// Set up our variables
 							innerChildNode.fingerDown = false;
 							innerChildNode.contextShown = false;
 							innerChildNode.overlay = overlay;
-							innerChildNode.contextMenu = contextMenu;
+							innerChildNode.contextMenu = this.contextMenu;
 							innerChildNode.description = description;
 							innerChildNode.title = title.innerHTML;	
 							
@@ -201,8 +288,10 @@ bb.imageList = {
 							// Add our subscription for click events to change highlighting on click
 							innerChildNode.trappedClick = innerChildNode.onclick;
 							innerChildNode.onclick = undefined;
+							innerChildNode.outerElement = this;
 							innerChildNode.addEventListener('click',function (e) {
 									this.setAttribute('class',this.highlight);
+									this.outerElement.selected = this;
 									if (this.trappedClick) {
 										setTimeout(this.trappedClick, 0);
 									}
@@ -213,9 +302,65 @@ bb.imageList = {
 							innerChildNode.finishHighlight = function() {
 														this.setAttribute('class',this.normal);
 													};
-							innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);		
+							innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);	
+
+							// Add the remove function for the item
+							innerChildNode.remove = function() {
+									this.style.height = '0px';
+									this.style.opacity = '0.0';
+									this.style['-webkit-transition-property'] = 'all';
+									this.style['-webkit-transition-duration'] = '0.1s';
+									this.style['-webkit-transition-timing-function'] = 'linear';
+									this.style['-webkit-transform'] = 'translate3d(0,0,0)';
+									if (bb.scroller) {
+										bb.scroller.refresh();
+									}
+									window.setTimeout(this.details.performRemove,100);
+								}
+							innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);	
+							
+							// Perform the final remove after the transition effect
+							details.performRemove = function() {
+									this.innerChildNode.parentNode.removeChild(this.innerChildNode);
+							}
+							details.performRemove = details.performRemove.bind(details);	
+							
+							// Add our getter functions
+							innerChildNode.getTitle = function() {
+									return this.title;
+								}
+							innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+							innerChildNode.getDescription = function() {
+									return this.details.description.innerHTML;
+								}
+							innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+							innerChildNode.getAccentText = function() {
+									return (this.details.accentText) ? this.details.accentText.innerHTML : undefined;
+								}
+							innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+							innerChildNode.getImage = function() {
+									return (this.img) ? this.img.getAttribute('src') : undefined;
+								}
+							innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
 						}
 					}
+				}
+				outerElement.styleItem = outerElement.styleItem.bind(outerElement);
+				
+				// Append an item to the end of the list control
+				outerElement.appendItem = function(item) {
+						this.styleItem(item);
+						this.appendChild(item);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.appendItem = outerElement.appendItem.bind(outerElement);
+				
+				// Gather our inner items and style them
+				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				for (j = 0; j < items.length; j++) {
+					outerElement.styleItem(items[j]);
 				}
 			}		
 		}

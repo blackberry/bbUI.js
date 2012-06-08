@@ -8,6 +8,7 @@ Below you will find all the different changes that have been added since the fir
     * Default for control colors changed from dark to light
     * The progress bar _pause()_ function has been removed and replaced with _setState(state)_
 	* Action Bar Overflow menu must now be configured
+	* Arrow Lists have now been merged into the Image List control
 * Action Bar: 
     * Back buttons now have a colored slash &quot;/&quot;
     * Dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
