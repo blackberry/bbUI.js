@@ -15,6 +15,10 @@ Below you will find all the different changes that have been added since the fir
     * Overflow and Context Menu items are now centered in the menu
     * Overflow and Context Menu can now "pin" an action to the bottom of the menu
     * Now supports Tab Overflow Menus
+* Image List:
+	* Now supports (default | arrowlist | arrowbuttons | addbuttons | removebuttons) styling
+	* Added JavaScript interface to list and items
+	* Onbtnclick events are now availble for image lists that have secondary action buttons
 * File Input: BlackBerry 10 button styling to input of type "file"
 * Buttons: setCaption() function to buttons
 * Activity Indicator: Added new BlackBerry 10 Activity Indicator
