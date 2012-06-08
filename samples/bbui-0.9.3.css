@@ -1865,96 +1865,6 @@ a.bb5-button-highlight span {
 
 
 /* ================================================= 
-   Arrow List 
-   =================================================*/
-
-
-.bb-text-arrow-list-item
-{
-	vertical-align: middle;
-	line-height: 40px;
-	height: 40px;
-	padding-top: 7px;
-	padding-left: 7px;
-	white-space: nowrap;
-	overflow: hidden;
-	padding-right: 20px;
-	text-overflow: ellipsis;
-	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAALCAYAAACzkJeoAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oFGxUUItGqPS0AAABBSURBVBjTdcxBDgAhCATBlo87vnz2siYICidSHTBGkk3f4J+lZcpEPmoQtc5BwxxccQdPnJojXnB9u6FhhgMrAHy5yiKIJPT0DgAAAABJRU5ErkJggg==");	
-	background-repeat: no-repeat;
-	background-position: 99% 50%;
-}
-   
-.bb-text-arrow-list-item-hover
-{
-	background-color: -webkit-gradient(linear, center top, center bottom, from(#0dacff), to(#0f75ff));
-	background-color:#2175F7;
-	color:White;
-}
-   
-
-
-/* ================================================= 
-   Arrow List BB10
-   =================================================*/
-.bb-bb10-text-arrow-list-lowres
-{
-	font-size: 20pt;
-}
-
-.bb-bb10-text-arrow-list-hires
-{
-	font-size: 40pt;
-}
-
-.bb-bb10-text-arrow-list-item-lowres
-{
-	vertical-align: middle;
-	line-height: 50px;
-	height: 50px;
-	padding-top: 7px;
-	padding-left: 7px;
-	white-space: nowrap;
-	overflow: hidden;
-	padding-right: 20px;
-	text-overflow: ellipsis;
-	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAALCAYAAACzkJeoAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oFGxUUItGqPS0AAABBSURBVBjTdcxBDgAhCATBlo87vnz2siYICidSHTBGkk3f4J+lZcpEPmoQtc5BwxxccQdPnJojXnB9u6FhhgMrAHy5yiKIJPT0DgAAAABJRU5ErkJggg==");	
-	background-repeat: no-repeat;
-	background-position: 99% 50%;
-}
-
-.bb-bb10-text-arrow-list-item-hires
-{
-	vertical-align: middle;
-	line-height: 100px;
-	height: 100px;
-	padding-top: 10px;
-	padding-left: 14px;
-	white-space: nowrap;
-	overflow: hidden;
-	padding-right: 40px;
-	text-overflow: ellipsis;
-	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAeCAYAAADzXER0AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFBckHH9TGOAAAACRSURBVDjLndNBDoAgDETRYS4OnLyuMIhQ2jExUcj7QUW01szMoJwEgN67QTg4LpQA55tsgOtAJsDdYDTA00QkQG/yFuCt7gUYebZTgNE3uwsw813XALO7ag5Q2dMjIOERkHGttVCF0rIHTOMZpvAKw3gHQ/gEr9iDLr7BI47ALY7CH87AD87CFysQAIqZqT8WHrs4Z4yW5p4FAAAAAElFTkSuQmCC");		
-	background-repeat: no-repeat;
-	background-position: 99% 50%;
-}
-
-.bb-bb10-text-arrow-list-item-dark
-{
-	color: White;
-}
-
-.bb-bb10-text-arrow-list-item-light
-{
-	color: Black;
-}
-
-.bb-bb10-text-arrow-list-item-hover
-{
-	color: White;
-}
-
-/* ================================================= 
    Radio button BB10
    =================================================*/
 
@@ -2315,7 +2225,7 @@ a.bb5-button-highlight span {
 	color:#606060;
 	font-size:14pt;
 	margin-right: 5px;
-	margin-top:-20px;
+	margin-top:-50px;
 }
 
 .bb-bb10-image-list-item-hires .accent-text
@@ -2325,12 +2235,122 @@ a.bb5-button-highlight span {
 	color:#606060;
 	font-size:22pt;
 	margin-right: 10px;
-	margin-top:-43px;
+	margin-top:-83px;
 }
 
 .bb-bb10-image-list-item-hover .accent-text
 {
 	color:White;
+}
+
+.bb-bb10-image-list-item-hires .button
+{
+	position:relative;
+	float:right;
+	width:68px;
+	height:118px;
+	margin-top: -110px;
+	padding-left: 20px;
+	z-index: 100;
+}
+
+.bb-bb10-image-list-item-lowres .button
+{
+	position:relative;
+	float:right;
+	width:34px;
+	height:59px;
+	margin-top: -59px;
+	padding-left: 10px;
+	z-index: 100;
+}
+
+.bb-bb10-image-list-item-button-border-hires
+{
+	width: 46px;
+	height: 46px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 24px;
+	margin-top: 26px;
+}
+
+.bb-bb10-image-list-item-button-border-lowres
+{
+	width: 23px;
+	height: 23px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 12px;
+	margin-top: 17px;
+}
+
+.bb-bb10-image-list-item-button-inner-hires
+{
+	width: 46px;
+	height: 46px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-bb10-image-list-item-button-inner-lowres
+{
+	width: 23px;
+	height: 23px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-bb10-image-list-item-hires .details-button-margin
+{
+	margin-right: 68px;
+}
+
+.bb-bb10-image-list-item-lowres .details-button-margin
+{
+	margin-right: 34px;
+}
+
+.bb-bb10-image-list-item-button-dark
+{
+	border-color: #606060;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#404040), to(#272727));
+}
+
+.bb-bb10-image-list-item-button-light
+{
+	border-color: #CACACA;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#FBFBFB), to(#DFDFDF));
+}
+
+.bb-image-list-item-chevron-light
+{
+	background-image: url('images/core_Listitem_more.png');
+}
+
+.bb-image-list-item-chevron-dark
+{
+	background-image: url('images/core_Listitem_more_pressed.png');
+}
+
+.bb-image-list-item-add-light
+{
+	background-image: url('images/core_Listitem_add_button.png');
+}
+
+.bb-image-list-item-add-dark
+{
+	background-image: url('images/core_Listitem_add_button-white.png');
+}
+
+.bb-image-list-item-remove-light
+{
+	background-image: url('images/core_Listitem_remove_button.png');
+}
+
+.bb-image-list-item-remove-dark
+{
+	background-image: url('images/core_Listitem_remove_button-white.png');
 }
    
 
