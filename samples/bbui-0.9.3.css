@@ -2369,7 +2369,7 @@ a.bb5-button-highlight span {
 .bb-hires-image-list-item
 {
 	border-bottom: solid 1px #D9DCDE;
-	padding-top: 10px;	
+	padding-top: 8px;	
 	padding-left: 5px;
 	padding-bottom: 0px;
 	overflow:hidden;
@@ -2381,7 +2381,7 @@ a.bb5-button-highlight span {
 	/*background-color:#2175F7;*/
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#0dacff), to(#0f75ff));
 	border-bottom: solid 1px #D9DCDE;
-	padding-top: 10px;	
+	padding-top: 8px;	
 	padding-left: 5px;
 	padding-bottom: 0px;
 	overflow:hidden;
@@ -2409,7 +2409,7 @@ a.bb5-button-highlight span {
 	white-space:nowrap;
 	text-overflow: ellipsis;
 	font-size: 20pt;	
-	line-height:30px;
+	line-height:36px;
 }
 
 .bb-hires-image-list-item-hover .title
@@ -2419,7 +2419,7 @@ a.bb5-button-highlight span {
 	white-space:nowrap;
 	text-overflow: ellipsis;
 	font-size: 20pt;	
-	line-height:30px;
+	line-height:36px;
 }
 
 
