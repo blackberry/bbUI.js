@@ -1980,10 +1980,6 @@ bb.imageList = {
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.setAttribute('class','description');
 							details.description = descriptionDiv;
-							if (description.length == 0) {
-								description = '&nbsp;';
-							}
-							descriptionDiv.innerHTML = description;
 							details.appendChild(descriptionDiv);
 							
 							// Add our highlight overlay
@@ -2065,6 +2061,7 @@ bb.imageList = {
 									btnBorder.style['background'] = 'transparent';
 									btnBorder.style['border-color'] = 'transparent';
 								}	
+								
 								// Set our class
 								btnInner.setAttribute('class',btnInner.normal);								
 							} else {
@@ -2077,6 +2074,22 @@ bb.imageList = {
 									details.accentText = accentText;
 								}
 							}
+							
+							// Adjust the description description
+							if (description.length == 0) {
+								description = '&nbsp;';
+								descriptionDiv.style.visibilty = 'hidden';
+								// Center the title if no description is given
+								title.style['margin-top'] = (bb.device.isPlayBook) ? '17px' : '32px';
+								// Adjust highlight overlay
+								overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-73px' : '-136px';
+								// Adjust accent text
+								if (accentText) {
+									accentText.style['margin-top'] = (bb.device.isPlayBook) ? '-52px' : '-90px';
+								}
+							}
+							descriptionDiv.innerHTML = description;
+							
 							
 							// Apply our details class
 							details.setAttribute('class',detailsClass);
@@ -2347,9 +2360,26 @@ bb.imageList = {
 							
 							// Add the description
 							descriptionDiv = document.createElement('div');
-							descriptionDiv.innerHTML = description;
 							descriptionDiv.className = 'description';
 							details.appendChild(descriptionDiv);
+							
+							// Adjust the description description
+							if (description.length == 0) {
+								description = '&nbsp;';
+								descriptionDiv.style.visibilty = 'hidden';
+								// Center the title if no description is given
+								titleDiv.style['margin-top'] = (bb.device.isHiRes) ? '14px' : '18px';
+								// Adjust accent text
+								if (accentDiv) {
+									accentDiv.style['margin-top'] = (bb.device.isHiRes) ? '-32px' : '-25px';
+								}
+								// Adjust any arrows
+								if (this.listStyle == 'arrowlist') {
+									btn.style['margin-top'] = (bb.device.isHiRes) ? '-73px' : '-70px';
+									
+								}
+							}
+							descriptionDiv.innerHTML = description;
 							
 							// Add the remove function for the item
 							innerChildNode.remove = function() {

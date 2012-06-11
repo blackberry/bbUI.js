@@ -19,6 +19,7 @@ Below you will find all the different changes that have been added since the fir
 	* Now supports (default | arrowlist | arrowbuttons | addbuttons | removebuttons) styling
 	* Added JavaScript interface to list and items
 	* Onbtnclick events are now availble for image lists that have secondary action buttons
+	* Now re-adjust alignment when no description is given
 * File Input: BlackBerry 10 button styling to input of type "file"
 * Buttons: setCaption() function to buttons
 * Activity Indicator: Added new BlackBerry 10 Activity Indicator
