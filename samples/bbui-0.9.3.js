@@ -2197,53 +2197,59 @@ bb.imageList = {
 			}		
 		}
 		else {
+		
+			var i,j,
+				outerElement,
+				items;
+					
 			// Apply our transforms to all Image Lists
 			for (var i = 0; i < elements.length; i++) {
-				var inEvent, 
-					outEvent, 
-					outerElement = elements[i],
-					imagePlaceholder,
-					headerJustify,
-					hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
+				outerElement = elements[i],
 					
-				if (!hideImages) {
-					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false
+				if (!outerElement.hideImages) {
+					outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
 				}
-				// Set our highlight events
-				if (bb.device.isPlayBook) {
-					inEvent = 'ontouchstart';
-					outEvent = 'ontouchend';
-				} else {
-					inEvent = 'onmouseover';
-					outEvent = 'onmouseout';
-				}
+				// Get our header justification
+				outerElement.headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
+				// See what kind of style they want for this list
+				outerElement.listStyle = outerElement.hasAttribute('data-bb-style') ? outerElement.getAttribute('data-bb-style').toLowerCase() : 'default';
+				
 				if (bb.device.isHiRes) {
-					outerElement.setAttribute('class','bb-hires-image-list');
+						outerElement.setAttribute('class','bb-hires-image-list');
 				} else {
 					outerElement.setAttribute('class','bb-lowres-image-list');
 				}
 				
-				// Get our header justification
-				headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
-				
-				// Gather our inner items
-				var items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]'),
-					innerChildNode,
-					type,
-					j,
-					description,
-					accentText,
-					normal,
-					highlight,
-					details,
-					titleDiv,
-					descriptionDiv,
-					accentDiv,
-					img,
-					res = (bb.device.isHiRes) ? 'hires' : 'lowres';
-					
-				for (j = 0; j < items.length; j++) {
-					innerChildNode = items[j];
+				outerElement.styleItem = function (innerChildNode) {
+					// Gather our inner items
+					var innerChildNode,
+						inEvent, 
+						outEvent,
+						type,
+						description,
+						accentText,
+						normal,
+						highlight,
+						details,
+						titleDiv,
+						descriptionDiv,
+						accentDiv,
+						img,
+						btn,
+						btnBorder,
+						btnInner,
+						res = (bb.device.isHiRes) ? 'hires' : 'lowres';
+						
+					// Set our highlight events
+					if (bb.device.isPlayBook) {
+						inEvent = 'ontouchstart';
+						outEvent = 'ontouchend';
+					} else {
+						inEvent = 'onmouseover';
+						outEvent = 'onmouseout';
+					}
+								
 					if (innerChildNode.hasAttribute('data-bb-type')) {
 						type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 						description = innerChildNode.innerHTML;
@@ -2258,10 +2264,10 @@ bb.imageList = {
 							normal = 'bb-'+res+'-image-list-header';
 							highlight = 'bb-'+res+'-image-list-header-hover';
 							// Check for alignment
-							if (headerJustify == 'left') {
+							if (this.headerJustify == 'left') {
 								normal = normal + ' bb-'+res+'-image-list-header-left';
 								highlight = highlight + ' bb-'+res+'-image-list-header-left';
-							} else if (headerJustify == 'right') {
+							} else if (this.headerJustify == 'right') {
 								normal = normal + ' bb-'+ res+'-image-list-header-right';
 								highlight = highlight + ' bb-'+res+'-image-list-header-right';
 							} else {
@@ -2280,15 +2286,15 @@ bb.imageList = {
 						else if (type == 'item') {
 							innerChildNode.innerHTML = '';
 							innerChildNode.setAttribute('class', 'bb-'+res+'-image-list-item');
-							innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-"+res+"-image-list-item-hover')");
+							innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-"+res+"-image-list-item bb-"+res+"-image-list-item-hover')");
 							innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-"+res+"-image-list-item')");
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
 							
-							if (!hideImages) {
+							if (!this.hideImages) {
 								img = document.createElement('img');
-								if (imagePlaceholder) {
-									img.placeholder = imagePlaceholder;
-									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+								if (this.imagePlaceholder) {
+									img.placeholder = this.imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
 									img.onerror = function() {
 													if (this.src == this.placeholder) return;
 													this.src = this.placeholder;
@@ -2301,29 +2307,88 @@ bb.imageList = {
 							
 							details = document.createElement('div');
 							innerChildNode.appendChild(details);
-							if (hideImages) {
-								details.setAttribute('class','bb-'+res+'-image-list-details bb-'+res+'-image-list-noimage');
+							if (this.hideImages) {
+								details.normal = 'bb-'+res+'-image-list-details bb-'+res+'-image-list-noimage';
 							} else {
-								details.setAttribute('class','bb-'+res+'-image-list-details');
+								details.normal = 'bb-'+res+'-image-list-details';
 							}
 							
 							titleDiv = document.createElement('div');
 							titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
 							titleDiv.className = 'title';
 							details.appendChild(titleDiv);
-							accentDiv = document.createElement('div');
-							accentDiv.innerHTML = accentText;
-							accentDiv.className = 'accent-text';
-							details.appendChild(accentDiv);
+							
+							// Add our arrows if needed
+							if (this.listStyle == 'arrowlist') {
+								// Add the margin to details
+								details.normal = details.normal + ' details-button-margin';
+								btn = document.createElement('div');
+								innerChildNode.appendChild(btn);
+								innerChildNode.btn = btn;
+								btn.setAttribute('class','button');
+								// Create the button border
+								btnBorder = document.createElement('div');
+								btnBorder.normal = 'bb-'+res+'-image-list-item-button-border';
+								btnBorder.setAttribute('class',btnBorder.normal);
+								btn.appendChild(btnBorder);
+								// Create the inner button that has the image
+								btnInner = document.createElement('div');
+								btnInner.setAttribute('class','bb-'+res+'-image-list-item-button-inner bb-image-list-item-chevron-light');
+								btnBorder.appendChild(btnInner);
+							} else {
+								// Only add accent text if there are no arrows
+								accentDiv = document.createElement('div');
+								accentDiv.innerHTML = accentText;
+								accentDiv.className = 'accent-text';
+								details.appendChild(accentDiv);
+							}
+							
+							details.setAttribute('class', details.normal);
+							
+							// Add the description
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.innerHTML = description;
 							descriptionDiv.className = 'description';
 							details.appendChild(descriptionDiv);
 							
-							innerChildNode.removeAttribute('data-bb-img');
-							innerChildNode.removeAttribute('data-bb-title');
+							// Add the remove function for the item
+							innerChildNode.remove = function() {
+									this.parentNode.removeChild(this);
+									if (bb.scroller) {
+										bb.scroller.refresh();
+									}
+								}
+							innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);	
+							
+							// Add our subscription for click events to set selected
+							innerChildNode.trappedClick = innerChildNode.onclick;
+							innerChildNode.onclick = undefined;
+							innerChildNode.outerElement = this;
+							innerChildNode.addEventListener('click',function (e) {
+									this.outerElement.selected = this;
+									if (this.trappedClick) {
+										this.trappedClick();
+									}
+								},false);
 						}
 					}
+				}
+				outerElement.styleItem = outerElement.styleItem.bind(outerElement);
+				
+				// Append an item to the end of the list control
+				outerElement.appendItem = function(item) {
+						this.styleItem(item);
+						this.appendChild(item);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.appendItem = outerElement.appendItem.bind(outerElement);
+				
+				// Gather our inner items and style them
+				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				for (j = 0; j < items.length; j++) {
+					outerElement.styleItem(items[j]);
 				}
 			}
 		}

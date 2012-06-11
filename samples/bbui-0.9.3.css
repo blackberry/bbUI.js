@@ -2527,6 +2527,38 @@ a.bb5-button-highlight span {
 	padding:0px;
 }
 
+.bb-hires-image-list-item .button
+{
+	position:relative;
+	float:right;
+	width:34px;
+	height:59px;
+	margin-top: -59px;
+	padding-left: 10px;
+}
+
+.bb-hires-image-list-item-button-border
+{
+	width: 23px;
+	height: 23px;
+	margin-top: 17px;
+}
+
+.bb-hires-image-list-item-button-inner
+{
+	width: 23px;
+	height: 23px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-hires-image-list-item .details-button-margin
+{
+	margin-right: 44px;
+}
+
+
+
 /* ================================================= 
    Image List Low-Resolution
    =================================================*/
@@ -2685,7 +2717,35 @@ a.bb5-button-highlight span {
 	padding:0px;
 }
 
+.bb-lowres-image-list-item .button
+{
+	position:relative;
+	float:right;
+	width:34px;
+	height:59px;
+	margin-top: -59px;
+	padding-left: 10px;
+}
 
+.bb-lowres-image-list-item-button-border
+{
+	width: 23px;
+	height: 23px;
+	margin-top: 23px;
+}
+
+.bb-lowres-image-list-item-button-inner
+{
+	width: 23px;
+	height: 23px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-lowres-image-list-item .details-button-margin
+{
+	margin-right: 44px;
+}
 
 
 /* ================================================= 
