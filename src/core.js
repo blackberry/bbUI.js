@@ -1,7 +1,8 @@
 bb = {
 	scroller: null,  
-    screens: [],
+        screens: [],
 	dropdownScrollers: [],
+        param: [],
 
     	
 	// Initialize the the options of bbUI
@@ -233,7 +234,7 @@ bb = {
 		if (bb.options.ondomready) {
 			bb.domready.container = container;
 			bb.domready.id = id;
-			setTimeout(bb.domready.fire(), 1); 
+			setTimeout("bb.domready.fire()", 1); 
 		}
 		window.scroll(0,0);
 		bb.screen.applyEffect(id, container);
@@ -292,7 +293,16 @@ bb = {
 	},
 	
     // Add a new screen to the stack
-    pushScreen : function (url, id) {
+    pushScreen : function (url, id, params) {
+        
+        if (typeof(params) != 'undefined')
+        {
+            bb.param = params;
+        }
+        else
+        {
+            bb.param = {};
+        }
 
         // Remove our old screen
         bb.removeLoadedScripts();
@@ -307,7 +317,7 @@ bb = {
         // Add our screen to the stack
         var container = bb.loadScreen(url, id);
 		
-        bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
+        bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'params' : params});
     },
 
     // Pop a screen from the stack
@@ -327,6 +337,16 @@ bb = {
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 container = bb.loadScreen(display.url, display.id);
+                
+            //Retreive parameter for new screen
+            if (typeof(display.params) != 'undefined')
+            {    
+                bb.param = display.params;
+            }
+            else
+            {
+                bb.param = {};
+            }
 				
             window.scroll(0,0);
             bb.screen.applyEffect(display.id, container);
