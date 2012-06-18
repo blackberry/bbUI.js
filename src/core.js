@@ -94,7 +94,6 @@ bb = {
     doLoad: function(element) {
         // Apply our styling
         var root = element || document.body;
-
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
         bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
 		bb.dropdown.apply(root.querySelectorAll('select'));
@@ -137,7 +136,7 @@ bb = {
 		bb10HighlightColor: '#00A8DF'
 	},
 	
-    loadScreen: function(url, id) {
+    loadScreen: function(url, id, popping) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
             _reduce = function (nl, func, start) {
@@ -193,7 +192,6 @@ bb = {
                 if (!node) {
                     node = this;
                 }
-
                 if ( node.getAttribute('id') == id )
                     return node;
 
@@ -216,20 +214,20 @@ bb = {
                 newScriptTags[i].onload = function() {
                     bb.screen.scriptCounter++;
                     if(bb.screen.scriptCounter == bb.screen.totalScripts) {
-						bb.initContainer(container, id);
+						bb.initContainer(container, id, popping);
                     }
                 };
         }
 
         // In case there are no scripts at all we simply doLoad() now
         if(bb.screen.totalScripts === 0) {
-            bb.initContainer(container, id);
+            bb.initContainer(container, id, popping);
         }
         return container;
     },
 	
 	// Initialize the container
-	initContainer : function(container, id) {
+	initContainer : function(container, id, popping) {
 		// Fire the onscreenready and then apply our changes in doLoad()
 		if (bb.options.onscreenready) {
 			bb.options.onscreenready(container, id);
@@ -243,9 +241,73 @@ bb = {
 			bb.domready.id = id;
 			setTimeout(bb.domready.fire(), 1); 
 		}
-		window.scroll(0,0);
-		bb.screen.applyEffect(id, container);
-		bb.createScreenScroller();  
+		
+		var screen = container.querySelectorAll('[data-bb-type=screen]'),
+			effect,
+			effectApplied = false;
+				
+        if (screen.length > 0 ) {
+            screen = screen[0];
+			screen.popping = popping;
+			if (screen.hasAttribute('data-bb-effect')) {
+				// see if there is a display effect
+				if (!bb.device.isBB5 && !bb.device.isBB6) {
+					effect = screen.getAttribute('data-bb-effect');
+					if (effect) {
+						if (effect.toLowerCase() == 'fade') {
+							effectApplied = true;
+							bb.screen.fadeIn(screen);
+						} else if ((effect.toLowerCase() == 'slide-left') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideLeft(screen);
+						} else if ((effect.toLowerCase() == 'slide-right') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideRight(screen);
+						} else if ((effect.toLowerCase() == 'slide-up') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideUp(screen);
+						}  else if ((effect.toLowerCase() == 'slide-down') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideDown(screen);
+						} 
+						// Listen for when the animation ends so that we can clear the previous screen
+						if (effectApplied) {
+							screen.addEventListener('webkitAnimationEnd', function() { 
+									var s = this.style;
+									// Only remove the screen at the end of animation "IF" it isn't the only screen left
+									if (bb.screens.length > 1) {
+										if (!this.popping) {
+											bb.removePreviousScreenFromDom();
+										} else {
+											bb.removeTopMostScreenFromDom();
+										}
+									}
+									// Clear style changes that may have been made for the animation
+									s.left = '';
+									s.right = '';
+									s.top = '';
+									s.bottom = '';
+									s.width = '';
+									s.height = '';
+									s['-webkit-animation-name'] = '';
+									s['-webkit-animation-duration'] = '';
+									s['-webkit-animation-timing-function'] = ''; 
+									s['-webkit-transform'] = '';
+								});
+						}
+					} 
+				}				
+			} 
+			bb.createScreenScroller(screen); 
+		} 
+		// If an effect was applied then the popping will be handled at the end of the animation
+		if (!effectApplied) {
+			if (!this.popping) {
+				bb.removePreviousScreenFromDom();
+			} else {
+				bb.removeTopMostScreenFromDom();
+			}
+		}
 	},
 	
 	// Function pointer to allow us to asynchronously fire ondomready
@@ -263,8 +325,8 @@ bb = {
 	},
 	
 	// Creates the scroller for the screen
-	createScreenScroller : function() {   
-		var scrollWrapper = document.getElementById('bbUIscrollWrapper');
+	createScreenScroller : function(screen) {  
+		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
 			bb.scroller = new iScroll(scrollWrapper, {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 				var target = e.target;
@@ -293,29 +355,51 @@ bb = {
 			scroller = null;
 			bb.dropdownScrollers.pop();
 		}
-		if (bb.scroller) {
+		/*if (bb.scroller) { // Not sure that we need to do this?
 			bb.scroller.destroy();
 			bb.scroller = null;
+		}*/
+	},
+	
+	// Remove the topmost screen from the dom
+	removeTopMostScreenFromDom: function() {
+		var numItems = bb.screens.length,
+			oldScreen = document.getElementById(bb.screens[numItems -1].id);	
+		document.body.removeChild(oldScreen);
+	},
+	
+	// Remove the previous screen from the dom
+	removePreviousScreenFromDom: function() {
+		var numItems = bb.screens.length,
+			oldScreen;	
+		if (numItems > 1) {
+			oldScreen = document.getElementById(bb.screens[numItems -2].id);
+			document.body.removeChild(oldScreen);
 		}
 	},
 	
     // Add a new screen to the stack
-    pushScreen : function (url, id) {
+    pushScreen: function (url, id) {
 
         // Remove our old screen
         bb.removeLoadedScripts();
 		bb.menuBar.clearMenu();
-        var numItems = bb.screens.length;
+        var numItems = bb.screens.length,
+			currentScreen;
         if (numItems > 0) {
-            var oldScreen = document.getElementById(bb.screens[numItems -1].id);
-            document.body.removeChild(oldScreen);
 			bb.clearScrollers();
+			// Quirk with displaying with animations
+			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
+				currentScreen = document.getElementById(bb.screens[numItems -1].id);
+				currentScreen.style.display = 'none';
+				window.scroll(0,0);
+			}
         }
-
-        // Add our screen to the stack
-        var container = bb.loadScreen(url, id);
 		
-        bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
+        // Add our screen to the stack
+        var container = bb.loadScreen(url, id, false);
+		
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});    
     },
 
     // Pop a screen from the stack
@@ -325,9 +409,7 @@ bb = {
         if (numItems > 1) {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
-            var currentStackItem = bb.screens[numItems-1],
-                current = document.getElementById(currentStackItem.id);
-            document.body.removeChild(current);
+			bb.removeTopMostScreenFromDom();
             bb.screens.pop();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
@@ -335,11 +417,12 @@ bb = {
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                container = bb.loadScreen(display.url, display.id);
+                container = bb.loadScreen(display.url, display.id, true);
 				
-            window.scroll(0,0);
-            bb.screen.applyEffect(display.id, container);
-
+            // Quirky BrowserField2 bug on BBOS
+			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
+				window.scroll(0,0);
+			}
         } else {
             if (blackberry) {
                 blackberry.app.exit();

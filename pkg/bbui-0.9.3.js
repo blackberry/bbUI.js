@@ -153,7 +153,7 @@ bb = {
 		bb10HighlightColor: '#00A8DF'
 	},
 	
-    loadScreen: function(url, id) {
+    loadScreen: function(url, id, popping) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
             _reduce = function (nl, func, start) {
@@ -209,7 +209,6 @@ bb = {
                 if (!node) {
                     node = this;
                 }
-
                 if ( node.getAttribute('id') == id )
                     return node;
 
@@ -232,20 +231,20 @@ bb = {
                 newScriptTags[i].onload = function() {
                     bb.screen.scriptCounter++;
                     if(bb.screen.scriptCounter == bb.screen.totalScripts) {
-						bb.initContainer(container, id);
+						bb.initContainer(container, id, popping);
                     }
                 };
         }
 
         // In case there are no scripts at all we simply doLoad() now
         if(bb.screen.totalScripts === 0) {
-            bb.initContainer(container, id);
+            bb.initContainer(container, id, popping);
         }
         return container;
     },
 	
 	// Initialize the container
-	initContainer : function(container, id) {
+	initContainer : function(container, id, popping) {
 		// Fire the onscreenready and then apply our changes in doLoad()
 		if (bb.options.onscreenready) {
 			bb.options.onscreenready(container, id);
@@ -259,9 +258,73 @@ bb = {
 			bb.domready.id = id;
 			setTimeout(bb.domready.fire(), 1); 
 		}
-		window.scroll(0,0);
-		bb.screen.applyEffect(id, container);
-		bb.createScreenScroller();  
+		
+		var screen = container.querySelectorAll('[data-bb-type=screen]'),
+			effect,
+			effectApplied = false;
+				
+        if (screen.length > 0 ) {
+            screen = screen[0];
+			screen.popping = popping;
+			if (screen.hasAttribute('data-bb-effect')) {
+				// see if there is a display effect
+				if (!bb.device.isBB5 && !bb.device.isBB6) {
+					effect = screen.getAttribute('data-bb-effect');
+					if (effect) {
+						if (effect.toLowerCase() == 'fade') {
+							effectApplied = true;
+							bb.screen.fadeIn(screen);
+						} else if ((effect.toLowerCase() == 'slide-left') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideLeft(screen);
+						} else if ((effect.toLowerCase() == 'slide-right') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideRight(screen);
+						} else if ((effect.toLowerCase() == 'slide-up') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideUp(screen);
+						}  else if ((effect.toLowerCase() == 'slide-down') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideDown(screen);
+						} 
+						// Listen for when the animation ends so that we can clear the previous screen
+						if (effectApplied) {
+							screen.addEventListener('webkitAnimationEnd', function() { 
+									var s = this.style;
+									// Only remove the screen at the end of animation "IF" it isn't the only screen left
+									if (bb.screens.length > 1) {
+										if (!this.popping) {
+											bb.removePreviousScreenFromDom();
+										} else {
+											bb.removeTopMostScreenFromDom();
+										}
+									}
+									// Clear style changes that may have been made for the animation
+									s.left = '';
+									s.right = '';
+									s.top = '';
+									s.bottom = '';
+									s.width = '';
+									s.height = '';
+									s['-webkit-animation-name'] = '';
+									s['-webkit-animation-duration'] = '';
+									s['-webkit-animation-timing-function'] = ''; 
+									s['-webkit-transform'] = '';
+								});
+						}
+					} 
+				}				
+			} 
+			bb.createScreenScroller(screen); 
+		} 
+		// If an effect was applied then the popping will be handled at the end of the animation
+		if (!effectApplied) {
+			if (!this.popping) {
+				bb.removePreviousScreenFromDom();
+			} else {
+				bb.removeTopMostScreenFromDom();
+			}
+		}
 	},
 	
 	// Function pointer to allow us to asynchronously fire ondomready
@@ -279,8 +342,8 @@ bb = {
 	},
 	
 	// Creates the scroller for the screen
-	createScreenScroller : function() {   
-		var scrollWrapper = document.getElementById('bbUIscrollWrapper');
+	createScreenScroller : function(screen) {  
+		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
 			bb.scroller = new iScroll(scrollWrapper, {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 				var target = e.target;
@@ -309,29 +372,51 @@ bb = {
 			scroller = null;
 			bb.dropdownScrollers.pop();
 		}
-		if (bb.scroller) {
+		/*if (bb.scroller) { // Not sure that we need to do this?
 			bb.scroller.destroy();
 			bb.scroller = null;
+		}*/
+	},
+	
+	// Remove the topmost screen from the dom
+	removeTopMostScreenFromDom: function() {
+		var numItems = bb.screens.length,
+			oldScreen = document.getElementById(bb.screens[numItems -1].id);	
+		document.body.removeChild(oldScreen);
+	},
+	
+	// Remove the previous screen from the dom
+	removePreviousScreenFromDom: function() {
+		var numItems = bb.screens.length,
+			oldScreen;	
+		if (numItems > 1) {
+			oldScreen = document.getElementById(bb.screens[numItems -2].id);
+			document.body.removeChild(oldScreen);
 		}
 	},
 	
     // Add a new screen to the stack
-    pushScreen : function (url, id) {
+    pushScreen: function (url, id) {
 
         // Remove our old screen
         bb.removeLoadedScripts();
 		bb.menuBar.clearMenu();
-        var numItems = bb.screens.length;
+        var numItems = bb.screens.length,
+			currentScreen;
         if (numItems > 0) {
-            var oldScreen = document.getElementById(bb.screens[numItems -1].id);
-            document.body.removeChild(oldScreen);
 			bb.clearScrollers();
+			// Quirk with displaying with animations
+			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
+				currentScreen = document.getElementById(bb.screens[numItems -1].id);
+				currentScreen.style.display = 'none';
+				window.scroll(0,0);
+			}
         }
-
-        // Add our screen to the stack
-        var container = bb.loadScreen(url, id);
 		
-        bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
+        // Add our screen to the stack
+        var container = bb.loadScreen(url, id, false);
+		
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});    
     },
 
     // Pop a screen from the stack
@@ -341,9 +426,7 @@ bb = {
         if (numItems > 1) {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
-            var currentStackItem = bb.screens[numItems-1],
-                current = document.getElementById(currentStackItem.id);
-            document.body.removeChild(current);
+			bb.removeTopMostScreenFromDom();
             bb.screens.pop();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
@@ -351,11 +434,12 @@ bb = {
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                container = bb.loadScreen(display.url, display.id);
+                container = bb.loadScreen(display.url, display.id, true);
 				
-            window.scroll(0,0);
-            bb.screen.applyEffect(display.id, container);
-
+            // Quirky BrowserField2 bug on BBOS
+			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
+				window.scroll(0,0);
+			}
         } else {
             if (blackberry) {
                 blackberry.app.exit();
@@ -2376,7 +2460,6 @@ bb.imageList = {
 								// Adjust any arrows
 								if (this.listStyle == 'arrowlist') {
 									btn.style['margin-top'] = (bb.device.isHiRes) ? '-73px' : '-70px';
-									
 								}
 							}
 							descriptionDiv.innerHTML = description;
@@ -2471,7 +2554,6 @@ bb.activityIndicator = {
 				ctx.fill();
 				
 				swirl = canvas.toDataURL();
-				//alert(swirl);
 			}
 			
 			for (i = 0; i < elements.length; i++)  {
@@ -3285,6 +3367,7 @@ bb.screen = {
 				// Assign our action bar
 				if (actionBar.length > 0) {
                     actionBar = actionBar[0]; 
+					outerElement.actionBar = actionBar;
 				} else {
 					actionBar = null;
 				}
@@ -3294,7 +3377,7 @@ bb.screen = {
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
-					outerScrollArea.setAttribute('id','bbUIscrollWrapper'); 
+					outerElement.bbUIscrollWrapper = outerScrollArea;
 				}
 				
 				// Inner Scroll Area
@@ -3370,7 +3453,7 @@ bb.screen = {
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
-					outerScrollArea.setAttribute('id','bbUIscrollWrapper'); 
+					outerElement.bbUIscrollWrapper = outerScrollArea;
 				}
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
@@ -3434,58 +3517,77 @@ bb.screen = {
 		context.menu.centerMenuItems();
 	},
     
-    fadeIn: function (params) {
+    fadeIn: function (screen) {
+        // set default values
+        var duration = 1.0,
+            timing = 'ease-out',
+			s = screen.style;
+		s['-webkit-animation-name']            = 'bbUI-fade-in';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideLeft: function (screen) {
         // set default values
         var r = 0,
-            duration = 1,
-            iteration = 1,
-            timing = 'ease-out';
-
-        if (document.getElementById(params.id)) {
-            var elem = document.getElementById(params.id),
-                s = elem.style;
-
-            if (params.random) {
-                r = Math.random() * (params.random / 50) - params.random / 100;
-            }
-
-            if (params.duration) {
-                duration = parseFloat(params.duration) + parseFloat(params.duration) * r;
-                duration = Math.round(duration * 1000) / 1000;
-            }
-
-            if (params.iteration) {
-                iteration = params.iteration;
-            }
-
-            if (params.timing) {
-                timing = params.timing;
-            }
-
-            s['-webkit-animation-name']            = 'bbUI-fade-in';
-            s['-webkit-animation-duration']        = duration + 's';
-            s['-webkit-animation-timing-function'] = timing;
-        }
-        else {
-            console.warn('Could not access ' + params.id);
-        }
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-left';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
-    
-    applyEffect: function(id, container) {
-        // see if there is a display effect
-        if (!bb.device.isBB5 && !bb.device.isBB6) {
-            var screen = container.querySelectorAll('[data-bb-type=screen]');
-            if (screen.length > 0 ) {
-                screen = screen[0];
-                var effect = screen.getAttribute('data-bb-effect');
-                if (effect && effect.toLowerCase() == 'fade') {
-                    bb.screen.fadeIn({'id': id, 'duration': 1.0});
-                }
-            }
-        }
+	slideRight: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-right';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
+	slideUp: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-up';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideDown: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-down';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
 	
     
     reAdjustHeight: function() {
@@ -3711,7 +3813,6 @@ bb.progress = {
 								width,
 								xpos;
 							if ((value && (value < 0)) || (value && (value > parseInt(this.outerElement.maxValue)))) {
-								alert('should not be in here');
 								return;
 							} else if (value) {
 								this.outerElement.value = value;
@@ -4388,7 +4489,7 @@ bb.tabOverflow = {
 		};
 		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-'+bb.actionBar.color);
-		document.body.appendChild(menu);
+		screen.parentNode.appendChild(menu);
 		
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');
@@ -4404,7 +4505,6 @@ bb.tabOverflow = {
 			
 		}
 		menu.overlay = bb.screen.tabOverlay;
-		
 		
 		menu.show = function() {
 					this.itemClicked = false;
@@ -4435,12 +4535,12 @@ bb.tabOverflow = {
 					this.overlay.style.display = 'block';
 					// Show our menu
 					this.style.width = width + 'px';
-					this.style['-webkit-transition'] = 'all 0.3s ease-out';
+					this.style['-webkit-transition'] = 'all 0.2s ease-out';
 					this.style['-webkit-backface-visibility'] = 'hidden';
 					// Slide our screen
 					this.screen.style.left = width + 'px';
 					this.screen.style.right = '-' + width +'px';
-					this.screen.style['-webkit-transition'] = 'all 0.3s ease-out';
+					this.screen.style['-webkit-transition'] = 'all 0.2s ease-out';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
 		menu.setDimensions = menu.setDimensions.bind(menu);	
@@ -4559,12 +4659,8 @@ bb.tabOverflow = {
 								};
 		};
 		menu.add = menu.add.bind(menu);
-		
 		return menu;
 	}
-
-
-
 },
 
 // BlackBerry 10 Context Menu

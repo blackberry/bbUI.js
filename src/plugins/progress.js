@@ -64,7 +64,6 @@ bb.progress = {
 								width,
 								xpos;
 							if ((value && (value < 0)) || (value && (value > parseInt(this.outerElement.maxValue)))) {
-								alert('should not be in here');
 								return;
 							} else if (value) {
 								this.outerElement.value = value;

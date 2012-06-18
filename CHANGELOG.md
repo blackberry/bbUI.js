@@ -9,6 +9,7 @@ Below you will find all the different changes that have been added since the fir
     * The progress bar _pause()_ function has been removed and replaced with _setState(state)_
 	* Action Bar Overflow menu must now be configured
 	* Arrow Lists have now been merged into the Image List control
+	* By default screens are white unless you explicitly set their style
 * Action Bar: 
     * Back buttons now have a colored slash &quot;/&quot;
     * Dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
@@ -29,6 +30,7 @@ Below you will find all the different changes that have been added since the fir
     * Action Bar overflow used to appear briefly when changing orientation
     * Solid headers on image lists used to have a JavaScript exception
     * Jake file for building used to paste the wrong license file text causing exceptions in JavaScript
+	* Increased Trackpad navigation speeds on input controls for BB7 devices (had to remove border radius on inputs)
 
 
 ## Version 0.9.2

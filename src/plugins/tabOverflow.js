@@ -15,7 +15,7 @@ bb.tabOverflow = {
 		};
 		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-'+bb.actionBar.color);
-		document.body.appendChild(menu);
+		screen.parentNode.appendChild(menu);
 		
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');
@@ -31,7 +31,6 @@ bb.tabOverflow = {
 			
 		}
 		menu.overlay = bb.screen.tabOverlay;
-		
 		
 		menu.show = function() {
 					this.itemClicked = false;
@@ -62,12 +61,12 @@ bb.tabOverflow = {
 					this.overlay.style.display = 'block';
 					// Show our menu
 					this.style.width = width + 'px';
-					this.style['-webkit-transition'] = 'all 0.3s ease-out';
+					this.style['-webkit-transition'] = 'all 0.2s ease-out';
 					this.style['-webkit-backface-visibility'] = 'hidden';
 					// Slide our screen
 					this.screen.style.left = width + 'px';
 					this.screen.style.right = '-' + width +'px';
-					this.screen.style['-webkit-transition'] = 'all 0.3s ease-out';
+					this.screen.style['-webkit-transition'] = 'all 0.2s ease-out';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
 		menu.setDimensions = menu.setDimensions.bind(menu);	
@@ -186,10 +185,6 @@ bb.tabOverflow = {
 								};
 		};
 		menu.add = menu.add.bind(menu);
-		
 		return menu;
 	}
-
-
-
 },

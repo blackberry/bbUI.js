@@ -24,7 +24,35 @@ body, html {
 	-webkit-user-select: none;
 }
 
-@-webkit-keyframes bbUI-fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+@-webkit-keyframes bbUI-fade-in 
+{ 
+	0% { opacity: 0; } 
+	100% { opacity: 1; } 
+}
+
+@-webkit-keyframes bbUI-slide-left 
+{ 
+	0% { left: 450px; } 
+	100% { left: 0px; } 
+}
+
+@-webkit-keyframes bbUI-slide-right 
+{ 
+	0% { left: -450px; } 
+	100% { left: 0px; } 
+}
+
+@-webkit-keyframes bbUI-slide-up 
+{ 
+	0% { top: 800px; } 
+	100% { top: 0px; } 
+}
+
+@-webkit-keyframes bbUI-slide-down 
+{ 
+	0% { top: -800px; } 
+	100% { top: 0px; } 
+}
 
 ::-webkit-scrollbar {
     width: 0px;
@@ -42,6 +70,7 @@ body, html {
 	left:0px;
 	bottom:0px;
 	right: 0px;
+	background-color: white;
 }
 
 .bb-bb10-hires-screen {
@@ -51,6 +80,7 @@ body, html {
 	left:0px;
 	bottom:0px;
 	right: 0px;
+	background-color: white;
 }
 
 .bb-bb10-background-dark
@@ -539,7 +569,6 @@ body, html {
    =================================================*/
 
 .bb-bb7-input {
-	border-radius:5px;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #C6C6C6; 
