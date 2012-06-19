@@ -238,7 +238,8 @@ bb = {
 			
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
 			effect,
-			effectApplied = false;
+			effectApplied = false,
+			overlay;
 				
         if (screen.length > 0 ) {
             screen = screen[0];
@@ -266,10 +267,19 @@ bb = {
 						} 
 						// Listen for when the animation ends so that we can clear the previous screen
 						if (effectApplied) {
+							// Create our overlay
+							overlay = document.createElement('div');
+							screen.overlay = overlay;
+							overlay.setAttribute('class','bb-transition-overlay');
+							document.body.appendChild(overlay);
+							// Add our listener and animation state
 							bb.screen.animating = true;
 							screen.addEventListener('webkitAnimationEnd', function() { 
 									var s = this.style;
-									bb.screen.animating = false;
+									bb.screen.animating = false;									
+									// Remove our overlay
+									document.body.removeChild(this.overlay);
+									this.overlay = null;
 									// Only remove the screen at the end of animation "IF" it isn't the only screen left
 									if (bb.screens.length > 1) {
 										if (!this.popping) {

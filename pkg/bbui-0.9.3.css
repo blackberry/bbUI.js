@@ -83,9 +83,14 @@ body, html {
 	background-color: white;
 }
 
-.bb-bb10-background-dark
+.bb-transition-overlay
 {
-	background-color: #121212;
+	z-index: 1000;
+	position: fixed;
+	top: 0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
 }
 
 /* ================================================= 
