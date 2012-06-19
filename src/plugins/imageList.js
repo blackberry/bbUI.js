@@ -313,7 +313,11 @@ bb.imageList = {
 								
 							// Finish the highlight on a delay
 							innerChildNode.finishHighlight = function() {
-														this.setAttribute('class',this.normal);
+														if (bb.screen.animating) {
+															setTimeout(this.finishHighlight,250);
+														} else {
+															this.setAttribute('class',this.normal);
+														}
 													};
 							innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);	
 

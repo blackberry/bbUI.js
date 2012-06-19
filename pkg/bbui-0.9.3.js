@@ -110,7 +110,6 @@ bb = {
     doLoad: function(element) {
         // Apply our styling
         var root = element || document.body;
-
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
         bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
 		bb.dropdown.apply(root.querySelectorAll('select'));
@@ -252,13 +251,7 @@ bb = {
 		bb.doLoad(container);
 		// Load in the new content
 		document.body.appendChild(container);
-		// Fire the ondomready after the element is added to the DOM
-		if (bb.options.ondomready) {
-			bb.domready.container = container;
-			bb.domready.id = id;
-			setTimeout(bb.domready.fire(), 1); 
-		}
-		
+			
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
 			effect,
 			effectApplied = false;
@@ -289,8 +282,10 @@ bb = {
 						} 
 						// Listen for when the animation ends so that we can clear the previous screen
 						if (effectApplied) {
+							bb.screen.animating = true;
 							screen.addEventListener('webkitAnimationEnd', function() { 
 									var s = this.style;
+									bb.screen.animating = false;
 									// Only remove the screen at the end of animation "IF" it isn't the only screen left
 									if (bb.screens.length > 1) {
 										if (!this.popping) {
@@ -317,6 +312,14 @@ bb = {
 			} 
 			bb.createScreenScroller(screen); 
 		} 
+		
+		// Fire the ondomready after the element is added to the DOM and we've set our animation flags
+		if (bb.options.ondomready) {
+			bb.domready.container = container;
+			bb.domready.id = id;
+			setTimeout(bb.domready.fire, 1); 
+		}
+		
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectApplied) {
 			if (!this.popping) {
@@ -334,9 +337,13 @@ bb = {
 		id : null,
 		
 		fire : function() {
+			if (bb.screen.animating) {
+				setTimeout(bb.domready.fire, 250);
+				return;
+			}
 			bb.options.ondomready(bb.domready.container, bb.domready.id);
 			bb.domready.container = null;
-			 bb.domready.id = null;		
+			bb.domready.id = null;		
 		}
 	
 	},
@@ -2229,7 +2236,11 @@ bb.imageList = {
 								
 							// Finish the highlight on a delay
 							innerChildNode.finishHighlight = function() {
-														this.setAttribute('class',this.normal);
+														if (bb.screen.animating) {
+															setTimeout(this.finishHighlight,250);
+														} else {
+															this.setAttribute('class',this.normal);
+														}
 													};
 							innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);	
 
@@ -3318,6 +3329,7 @@ bb.screen = {
 	overlay : null,
 	tabOverlay : null,
 	contextMenu : null,
+	animating : false,
     
     apply: function(elements) {
 		var screenRes,

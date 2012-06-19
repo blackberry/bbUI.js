@@ -49,7 +49,7 @@
 											dataOnLoad_initialLoad(element);
 										}
 										// Remove all titles "except" input and pill buttons screen if running on BB10
-										if (bb.device.isBB10 && id != 'input' && id != 'pillButtons') {
+										if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
 											var titles = element.querySelectorAll('[data-bb-type=title]');
 											if (titles.length > 0) {
 												titles[0].parentNode.removeChild(titles[0]);
