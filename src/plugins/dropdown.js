@@ -204,8 +204,8 @@ bb.dropdown = {
 										}
 										// Set the open height
 										if (bb.device.isPlayBook) {
-											scrollHeight = (this.numItems * 54);
-											this.style.height = 60 + scrollHeight +'px';
+											scrollHeight = (this.numItems * 43);
+											this.style.height = 45 + scrollHeight +'px';
 										} else {
 											scrollHeight = (this.numItems * 99);
 											this.style.height = 95 + scrollHeight +'px';
@@ -242,7 +242,7 @@ bb.dropdown = {
 										this.style.height = '59px';
 										
 										if (bb.device.isPlayBook) {
-											this.style.height = '60px';
+											this.style.height = '43px';
 										} else {
 											this.style.height = '95px';
 										}
