@@ -1040,6 +1040,72 @@ body, html {
 	border-color: #333333;
 }
 
+.bb-bb10-button-caption-with-image-hires
+{
+	float:left;
+	text-align:left;
+	margin-right: 14px;
+}
+
+.bb-bb10-button-caption-with-image-lowres
+{
+	float:left;
+	text-align:left;
+	margin-left: 7px;
+}
+
+.bb-bb10-button-image-hires
+{
+	height: 71px;
+	width: 71px;
+	float: left;
+	margin-left: -27px;
+	margin-top: -4px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-bb10-button-image-lowres
+{
+	height: 29px;
+	width: 29px;
+	float: left;
+	margin-left: -12px;
+	margin-top: -2px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-bb10-button-caption-with-image-only-hires
+{
+	height:71px;
+	width:71px;
+	background-position: center center;
+	background-size: cover;
+	margin-top: -4px;
+	margin-left: -27px;
+}
+
+.bb-bb10-button-caption-with-image-only-lowres
+{
+	height:29px;
+	width:29px;
+	background-position: center center;
+	background-size: cover;
+	margin-top: -2px;
+	margin-left: -12px;
+}
+
+.bb-bb10-button-container-image-only-hires
+{
+	width: 89px;
+}
+
+.bb-bb10-button-container-image-only-lowres
+{
+	width: 37px;
+}
+
 .bb-bb10-button-container-hires
 {
 	border-width:4px;
@@ -1107,12 +1173,12 @@ body, html {
 .bb-bb10-button-lowres {
 	border-width:1px;
 	border-radius:2px;
-	line-height:46px;
-	height:46px;
+	line-height:30px;
+	height:30px;
 	padding-top:5px;
 	padding-left: 15px;
 	padding-right: 15px;
-	font-size:16pt;
+	font-size:14pt;
 }
 
 

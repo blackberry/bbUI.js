@@ -21,8 +21,12 @@ Below you will find all the different changes that have been added since the fir
 	* Added JavaScript interface to list and items
 	* Onbtnclick events are now availble for image lists that have secondary action buttons
 	* Now re-adjust alignment when no description is given
-* File Input: BlackBerry 10 button styling to input of type "file"
-* Buttons: setCaption() function to buttons
+*Buttons:
+	* BB10 styling now supports: text only | image only | text + image
+	* BB10 styling now has a setImage() function added to buttons
+	* setCaption() function added to buttons for all OS versions
+	* PlayBook buttons have now been resized to better suit the screen resolution
+* File Input: BlackBerry 10 button styling applied to input of type "file"
 * Activity Indicator: Added new BlackBerry 10 Activity Indicator
 * CheckBoxes: Added new BlackBerry 10 styling to check boxes
 * Grid Layout: Added animation to images on orientation change for grid layouts
