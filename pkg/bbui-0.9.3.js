@@ -43,16 +43,16 @@ bb = {
 		}
 		
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
-		bb.device.isRipple = (navigator.appVersion.indexOf('Ripple') >= 0);
-		bb.device.isPlayBook = (navigator.appVersion.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
+		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0);
+		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
 			bb.device.isBB10 = (navigator.userAgent.indexOf('Version/10.0') >= 0);
 		}
-		bb.device.isBB7 = (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || bb.device.isRipple;
-		bb.device.isBB6 = navigator.appVersion.indexOf('6.0.0') >= 0;
-		bb.device.isBB5 = navigator.appVersion.indexOf('5.0.0') >= 0;
+		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0) || bb.device.isRipple;
+		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
+		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
 		// Determine HiRes
 		if (bb.device.isRipple) {
 			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
@@ -332,9 +332,7 @@ bb = {
 		
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectApplied) {
-			if (!this.popping) {
-				bb.removePreviousScreenFromDom();
-			} else {
+			if (!popping && (bb.screens.length > 0)) {
 				bb.removeTopMostScreenFromDom();
 			}
 		}
@@ -414,7 +412,6 @@ bb = {
 	
     // Add a new screen to the stack
     pushScreen: function (url, id) {
-
         // Remove our old screen
         bb.removeLoadedScripts();
 		bb.menuBar.clearMenu();
@@ -444,7 +441,6 @@ bb = {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
 			bb.removeTopMostScreenFromDom();
-            bb.screens.pop();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
@@ -453,6 +449,8 @@ bb = {
             var display = bb.screens[numItems-2],
                 container = bb.loadScreen(display.url, display.id, true);
 				
+			bb.screens.pop();	
+			
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
 				window.scroll(0,0);
