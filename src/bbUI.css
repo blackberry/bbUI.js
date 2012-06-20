@@ -1203,14 +1203,14 @@ body, html {
 }
 
 .bb-bb10-title-bar-lowres {
-	height:68px;
+	height:56px;
 	position:absolute;
 	top:0px;
 	left:0px;
 	right:0px;
 	text-align:center;
-	line-height:73px;
-	font-size: 16pt;
+	line-height:56px;
+	font-size: 14pt;
 	padding-top: 5px;
 	z-index:1000;
 }
@@ -1315,12 +1315,12 @@ body, html {
 .bb-bb10-titlebar-button-lowres {
 	border-width:1px;
 	border-radius:2px;
-	line-height:46px;
-	height:46px;
+	line-height:34px;
+	height:34px;
 	padding-top:5px;
 	padding-left: 15px;
 	padding-right: 15px;
-	font-size:16pt;
+	font-size:14pt;
 }
 
 

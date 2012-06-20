@@ -44,7 +44,8 @@ bb.screen = {
 					tempHolder = [],
 					childNode = null, 
 					j,
-					height = (bb.device.isPlayBook) ? 73 : 140;
+					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
+					titleBarHeight = (bb.device.isPlayBook) ? 61 : 140;
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
@@ -87,11 +88,11 @@ bb.screen = {
 				
 				// Set our outer scroll area dimensions
 				if (titleBar && actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+height+'px;top:'+height+'px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:'+titleBarHeight+'px;left:0px;right:0px;');
 				} else if (titleBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+height+'px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+titleBarHeight+'px;left:0px;right:0px;');
 				} else if (actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+height+'px;top:0px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:0px;left:0px;right:0px;');
 				} else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
 				}
