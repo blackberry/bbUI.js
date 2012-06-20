@@ -641,10 +641,10 @@ body, html {
 }
 
 .bb-bb10-input-lowres {
-	height:45px;
+	height:30px;
 	border-radius:4px;
 	border-width: 1px;
-	font-size: 16pt;
+	font-size: 14pt;
 }
 
 
@@ -3171,8 +3171,8 @@ a.bb5-button-highlight span {
 	border-style: solid;
 	border-radius:3px;
 	padding: 2px;
-	font-size: 16pt;
-	height:46px;
+	font-size: 14pt;
+	height:37px;
 }
 
 .bb-bb10-pill-buttons-container-hires {
@@ -3216,7 +3216,7 @@ a.bb5-button-highlight span {
 	border-color: transparent;
 	display: table-cell;
 	background-clip: padding-box;	
-	height:43px;
+	height:35px;
 	border-radius: 3px;
 }
 
@@ -3242,8 +3242,8 @@ a.bb5-button-highlight span {
 	border-width:1px;	
 	border-style: solid;
 	border-radius: 3px;
-	height:36px;
-	line-height:36px;
+	height:28px;
+	line-height:28px;
 	z-index:10;
 	border-color: transparent;
 	padding-top: 5px;
