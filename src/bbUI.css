@@ -92,6 +92,14 @@ body, html {
 	bottom:0px;
 	left:0px;
 }
+/* ================================================= 
+   Scroll Panel
+   =================================================*/
+.bb-scroll-panel
+{
+	overflow:auto;
+	position:relative;
+}
 
 /* ================================================= 
    PlayBook Swipe Menu
