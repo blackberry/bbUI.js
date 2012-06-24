@@ -2012,6 +2012,7 @@ bb.imageList = {
 			// Apply our transforms to all Image Lists
 			for (i = 0; i < elements.length; i++) {
 				outerElement = elements[i];
+				outerElement.items = [];
 				outerElement.setAttribute('class','bb-bb10-image-list');
 				outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
 				if (!outerElement.hideImages) {
@@ -2341,7 +2342,10 @@ bb.imageList = {
 							
 							// Perform the final remove after the transition effect
 							details.performRemove = function() {
-									this.innerChildNode.parentNode.removeChild(this.innerChildNode);
+									var listControl = this.innerChildNode.parentNode,
+										index = listControl.items.indexOf(this.innerChildNode);
+									listControl.removeChild(this.innerChildNode);
+									listControl.items.splice(index,1);									
 							}
 							details.performRemove = details.performRemove.bind(details);	
 							
@@ -2371,16 +2375,41 @@ bb.imageList = {
 				outerElement.appendItem = function(item) {
 						this.styleItem(item);
 						this.appendChild(item);
+						this.items.push(item);
 						if (bb.scroller) {
 							bb.scroller.refresh();
 						}
 					};
 				outerElement.appendItem = outerElement.appendItem.bind(outerElement);
 				
+				// Insert an item before another item in the list
+				outerElement.insertItemBefore = function(newItem, existingItem) {
+						this.styleItem(newItem);
+						this.insertBefore(newItem,existingItem);
+						this.items.splice(this.items.indexOf(existingItem),0,newItem);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
+				
+				// Return the items in the list in a read-only fashion
+				outerElement.getItems = function() {
+						var i,
+							result = [];
+							for (i = 0; i < this.items.length;i++) {
+								result.push(this.items[i]);
+							}	
+						return result;
+					};
+				
 				// Gather our inner items and style them
 				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				var item;
 				for (j = 0; j < items.length; j++) {
-					outerElement.styleItem(items[j]);
+					item = items[j];
+					outerElement.styleItem(item);
+					outerElement.items.push(item);
 				}
 			}		
 		}
@@ -2392,8 +2421,8 @@ bb.imageList = {
 					
 			// Apply our transforms to all Image Lists
 			for (var i = 0; i < elements.length; i++) {
-				outerElement = elements[i],
-					
+				outerElement = elements[i];
+				outerElement.items = [];
 				outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false
 				if (!outerElement.hideImages) {
 					outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
@@ -2557,7 +2586,10 @@ bb.imageList = {
 							
 							// Add the remove function for the item
 							innerChildNode.remove = function() {
+									var listControl = this.parentNode,
+										index = listControl.items.indexOf(this);
 									this.parentNode.removeChild(this);
+									listControl.items.splice(index,1);	
 									if (bb.scroller) {
 										bb.scroller.refresh();
 									}
@@ -2583,16 +2615,41 @@ bb.imageList = {
 				outerElement.appendItem = function(item) {
 						this.styleItem(item);
 						this.appendChild(item);
+						this.items.push(item);
 						if (bb.scroller) {
 							bb.scroller.refresh();
 						}
 					};
 				outerElement.appendItem = outerElement.appendItem.bind(outerElement);
 				
+				// Insert an item before another item in the list
+				outerElement.insertItemBefore = function(newItem, existingItem) {
+						this.styleItem(newItem);
+						this.insertBefore(newItem,existingItem);
+						this.items.splice(this.items.indexOf(existingItem),0,newItem);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
+				
+				// Return the items in the list in a read-only fashion
+				outerElement.getItems = function() {
+						var i,
+							result = [];
+							for (i = 0; i < this.items.length;i++) {
+								result.push(this.items[i]);
+							}	
+						return result;
+					};
+				
 				// Gather our inner items and style them
 				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				var item;
 				for (j = 0; j < items.length; j++) {
-					outerElement.styleItem(items[j]);
+					item = items[j];
+					outerElement.styleItem(item);
+					outerElement.items.push(item);
 				}
 			}
 		}

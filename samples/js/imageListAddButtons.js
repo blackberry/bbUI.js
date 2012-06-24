@@ -19,8 +19,7 @@ function removeItem() {
 		item;
 	if (selected) {
 		item = createItemElement(selected.getTitle(), selected.getDescription(), selected.getImage());
-		//item.setAttribute('onbtnclick','addItem()');
-		item.onbtnclick = addItem;
+		item.onbtnclick = prependItem;
 		selected.remove();
 		// Add it to the end of the top list
 		document.getElementById('topList').appendItem(item);
@@ -29,15 +28,26 @@ function removeItem() {
 	}
 }
 
-function addItem() {
+function prependItem() {
 	var selected = document.getElementById('topList').selected,
-		item;
+		item,
+		topItem,
+		listItems,
+		bottomList;
 	if (selected) {
 		item = createItemElement(selected.getTitle(), selected.getDescription(), selected.getImage());
 		item.setAttribute('onbtnclick','removeItem()');
 		selected.remove();
-		// Add it to the end of the bottom list
-		document.getElementById('bottomList').appendItem(item);
+		// Get the top 
+		bottomList = document.getElementById('bottomList');
+		listItems = bottomList.getItems();
+		if (listItems.length == 0) {
+			bottomList.appendItem(item);
+		} else {
+			topItem = listItems[0];
+			bottomList.insertItemBefore(item,topItem);
+		}
+		listItems = null;
 	} else {
 		alert('no item selected');
 	}
