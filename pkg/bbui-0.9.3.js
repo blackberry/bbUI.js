@@ -1700,6 +1700,7 @@ bb.checkbox = {
 				input.style.display = 'none';
 				touchTarget.appendChild(input);
 				touchTarget.input = input;
+				input.touchTarget = touchTarget;
 				// Main outer border of the control
 				outerElement = document.createElement('div');
 				outerElement.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
@@ -1755,6 +1756,19 @@ bb.checkbox = {
 							};
 				touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
 				
+				// Add our set Checked function
+				input.setChecked = function(value) {
+							if (value == this.checked) return;
+							this.checked = value;
+							this.touchTarget.drawChecked();
+						};
+				input.setChecked = input.setChecked.bind(input);
+				// Add our get Checked function
+				input.getChecked = function() {
+							return this.checked;
+						};
+				input.setChecked = input.setChecked.bind(input);
+				
 				// Set our initial state
 				touchTarget.drawChecked();
 			}
@@ -1781,6 +1795,7 @@ bb.radio = {
 				outerElement = document.createElement('div');
 				outerElement.setAttribute('class','bb-bb10-radio-container-'+res + '-'+color);
 				outerElement.input = input;
+				input.outerElement = outerElement;
 
 				// Make the existing <input[type=radio]> invisible so that we can hide it and create our own display
 				input.style.display = 'none';
@@ -1984,6 +1999,50 @@ bb.radio = {
 									}
 									return top;
 								};	
+								
+				// Add our set Checked function
+				input.setChecked = function() {							
+							if (!this.checked) {
+								// Emulate Touch Start
+								this.slideFromTop = true;
+								this.outerElement.selectedRadio = this.outerElement.getCurrentlyChecked();
+								if (this.outerElement.selectedRadio) {
+									if (this.outerElement.getTop(this.outerElement.selectedRadio.radio) >= this.outerElement.getTop(this.outerElement)) {
+										this.outerElement.slideFromTop = false;
+									}
+								} 
+							
+								// Emulate TouchEnd
+								this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
+								if (bb.device.isPlayBook) {
+									this.outerElement.dotDiv.style.height = '0px';
+									this.outerElement.dotDiv.style.width = '9px';
+									this.outerElement.dotDiv.style.left = '16px';
+								} else {
+									this.outerElement.dotDiv.style.height = '0px';
+									this.outerElement.dotDiv.style.width = '18px';
+									this.outerElement.dotDiv.style.left = '32px';
+								}
+								// Reset top position
+								if (this.outerElement.slideFromTop) {
+									this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '9px' : '18px';
+								} else {
+									this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '30px' : '60px';
+								}
+								
+								// Fire our clicked event
+								var ev = document.createEvent('MouseEvents');
+								ev.initMouseEvent('click', true, true);
+								this.outerElement.dispatchEvent(ev);
+							}
+							
+						};
+				input.setChecked = input.setChecked.bind(input);
+				// Add our get Checked function
+				input.getChecked = function() {
+							return this.checked;
+						};
+				input.setChecked = input.setChecked.bind(input);
 			}
 		}
 	},

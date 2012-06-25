@@ -28,7 +28,10 @@ Below you will find all the different changes that have been added since the fir
 	* PlayBook buttons have now been resized to better suit the screen resolution
 * File Input: BlackBerry 10 button styling applied to input of type "file"
 * Activity Indicator: Added new BlackBerry 10 Activity Indicator
-* CheckBoxes: Added new BlackBerry 10 styling to check boxes
+* CheckBoxes: 
+	* Added new BlackBerry 10 styling to check boxes
+	* Added getChecked(), setChecked(value) javascript functions
+* RadioButtons: Added getChecked(), setChecked(value) javascript functions
 * Grid Layout: Added animation to images on orientation change for grid layouts
 * Scroll Panel: Added panel where all inner contents will scroll
 * Screen Transitions: Slide screen transitions are now supported for BlackBerry 10 and PlayBook 

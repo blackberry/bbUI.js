@@ -23,6 +23,7 @@ bb.checkbox = {
 				input.style.display = 'none';
 				touchTarget.appendChild(input);
 				touchTarget.input = input;
+				input.touchTarget = touchTarget;
 				// Main outer border of the control
 				outerElement = document.createElement('div');
 				outerElement.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
@@ -77,6 +78,19 @@ bb.checkbox = {
 								}				
 							};
 				touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
+				
+				// Add our set Checked function
+				input.setChecked = function(value) {
+							if (value == this.checked) return;
+							this.checked = value;
+							this.touchTarget.drawChecked();
+						};
+				input.setChecked = input.setChecked.bind(input);
+				// Add our get Checked function
+				input.getChecked = function() {
+							return this.checked;
+						};
+				input.setChecked = input.setChecked.bind(input);
 				
 				// Set our initial state
 				touchTarget.drawChecked();
