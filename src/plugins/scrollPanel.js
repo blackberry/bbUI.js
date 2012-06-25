@@ -4,11 +4,12 @@ bb.scrollPanel = {
 			outerElement,
 			childNode,
 			scrollArea,
-			tempHolder = [];
+			tempHolder;
 		
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
-		
+			tempHolder = [];
+			
 			if (bb.device.isBB10 || bb.device.isPlayBook) {				
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
@@ -36,11 +37,23 @@ bb.scrollPanel = {
 										}
 									}});
 				
+				// Set refresh
 				outerElement.refresh = function() {
 						this.scroller.refresh();
 					};
 				outerElement.refresh = outerElement.refresh.bind(outerElement);
 				setTimeout(outerElement.refresh,0);
+				// Set ScrollTo
+				outerElement.scrollTo = function(x, y, time, relative) {
+						this.scroller.scrollTo(x, y, time, relative);
+					};
+				outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
+				// Set ScrollToElement
+				outerElement.scrollToElement = function(element, time) {
+						this.scroller.scrollToElement(element, time);
+					};
+				outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
+				
 			} 
 			outerElement.setAttribute('class','bb-scroll-panel');
 		}

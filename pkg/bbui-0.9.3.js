@@ -108,6 +108,7 @@ bb = {
 	},
 
     doLoad: function(element) {
+		
         // Apply our styling
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
@@ -129,6 +130,7 @@ bb = {
 		bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
+		
     },
 	
 	device: {  
@@ -252,7 +254,7 @@ bb = {
 		bb.doLoad(container);
 		// Load in the new content
 		document.body.appendChild(container);
-			
+		
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
 			effect,
 			effectApplied = false,
@@ -282,6 +284,8 @@ bb = {
 							effectApplied = true;
 							bb.screen.slideDown(screen);
 						} 
+						screen.style.display = 'inline'; // This is a wierd hack
+						
 						// Listen for when the animation ends so that we can clear the previous screen
 						if (effectApplied) {
 							// Create our overlay
@@ -293,7 +297,7 @@ bb = {
 							bb.screen.animating = true;
 							screen.addEventListener('webkitAnimationEnd', function() { 
 									var s = this.style;
-									bb.screen.animating = false;									
+									bb.screen.animating = false;	
 									// Remove our overlay
 									document.body.removeChild(this.overlay);
 									this.overlay = null;
@@ -430,7 +434,6 @@ bb = {
 		
         // Add our screen to the stack
         var container = bb.loadScreen(url, id, false);
-		
 		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});    
     },
 
@@ -2509,6 +2512,7 @@ bb.imageList = {
 							
 							if (!this.hideImages) {
 								img = document.createElement('img');
+								innerChildNode.img = img;
 								if (this.imagePlaceholder) {
 									img.placeholder = this.imagePlaceholder;
 									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
@@ -2533,6 +2537,7 @@ bb.imageList = {
 							titleDiv = document.createElement('div');
 							titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
 							titleDiv.className = 'title';
+							innerChildNode.titleDiv = titleDiv;
 							details.appendChild(titleDiv);
 							
 							// Add our arrows if needed
@@ -2557,6 +2562,7 @@ bb.imageList = {
 								accentDiv = document.createElement('div');
 								accentDiv.innerHTML = accentText;
 								accentDiv.className = 'accent-text';
+								innerChildNode.accentDiv = accentDiv;
 								details.appendChild(accentDiv);
 							}
 							
@@ -2565,6 +2571,7 @@ bb.imageList = {
 							// Add the description
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.className = 'description';
+							innerChildNode.descriptionDiv = descriptionDiv;
 							details.appendChild(descriptionDiv);
 							
 							// Adjust the description description
@@ -2606,6 +2613,24 @@ bb.imageList = {
 										this.trappedClick();
 									}
 								},false);
+								
+							// Add our getter functions
+							innerChildNode.getTitle = function() {
+									return this.titleDiv.innerHTML;
+								}
+							innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+							innerChildNode.getDescription = function() {
+									return this.descriptionDiv.innerHTML;
+								}
+							innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+							innerChildNode.getAccentText = function() {
+									return (this.accentDiv) ? this.accentDiv.innerHTML : undefined;
+								}
+							innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+							innerChildNode.getImage = function() {
+									return (this.img) ? this.img.getAttribute('src') : undefined;
+								}
+							innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
 						}
 					}
 				}
@@ -3669,7 +3694,7 @@ bb.screen = {
     
     fadeIn: function (screen) {
         // set default values
-        var duration = 1.0,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 		s['-webkit-animation-name']            = 'bbUI-fade-in';
@@ -4628,11 +4653,12 @@ bb.scrollPanel = {
 			outerElement,
 			childNode,
 			scrollArea,
-			tempHolder = [];
+			tempHolder;
 		
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
-		
+			tempHolder = [];
+			
 			if (bb.device.isBB10 || bb.device.isPlayBook) {				
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
@@ -4660,11 +4686,23 @@ bb.scrollPanel = {
 										}
 									}});
 				
+				// Set refresh
 				outerElement.refresh = function() {
 						this.scroller.refresh();
 					};
 				outerElement.refresh = outerElement.refresh.bind(outerElement);
 				setTimeout(outerElement.refresh,0);
+				// Set ScrollTo
+				outerElement.scrollTo = function(x, y, time, relative) {
+						this.scroller.scrollTo(x, y, time, relative);
+					};
+				outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
+				// Set ScrollToElement
+				outerElement.scrollToElement = function(element, time) {
+						this.scroller.scrollToElement(element, time);
+					};
+				outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
+				
 			} 
 			outerElement.setAttribute('class','bb-scroll-panel');
 		}

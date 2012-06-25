@@ -92,6 +92,7 @@ bb = {
 	},
 
     doLoad: function(element) {
+		
         // Apply our styling
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
@@ -113,6 +114,7 @@ bb = {
 		bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
+		
     },
 	
 	device: {  
@@ -236,7 +238,7 @@ bb = {
 		bb.doLoad(container);
 		// Load in the new content
 		document.body.appendChild(container);
-			
+		
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
 			effect,
 			effectApplied = false,
@@ -266,6 +268,8 @@ bb = {
 							effectApplied = true;
 							bb.screen.slideDown(screen);
 						} 
+						screen.style.display = 'inline'; // This is a wierd hack
+						
 						// Listen for when the animation ends so that we can clear the previous screen
 						if (effectApplied) {
 							// Create our overlay
@@ -277,7 +281,7 @@ bb = {
 							bb.screen.animating = true;
 							screen.addEventListener('webkitAnimationEnd', function() { 
 									var s = this.style;
-									bb.screen.animating = false;									
+									bb.screen.animating = false;	
 									// Remove our overlay
 									document.body.removeChild(this.overlay);
 									this.overlay = null;
@@ -414,7 +418,6 @@ bb = {
 		
         // Add our screen to the stack
         var container = bb.loadScreen(url, id, false);
-		
 		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});    
     },
 

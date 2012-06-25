@@ -21,7 +21,7 @@
 		<link  rel="stylesheet" type="text/css" href="bbui-0.9.3.css"><link />
 		<script type="text/javascript" src="bbui-0.9.3.js"></script>
 		<script type="text/javascript">
-			
+					
 			// For some fun I did some random color scheme generation :o)
 			var bb10HighlightColor,
 				randomNumber;
@@ -47,7 +47,10 @@
 					onscreenready: function(element, id) {
 										if (id == 'dataOnLoad') {
 											dataOnLoad_initialLoad(element);
+										} else if (id == 'masterDetail') {
+											masterDetail_initialLoad(element);
 										}
+										
 										// Remove all titles "except" input and pill buttons screen if running on BB10
 										if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
 											var titles = element.querySelectorAll('[data-bb-type=title]');
@@ -55,6 +58,7 @@
 												titles[0].parentNode.removeChild(titles[0]);
 											}
 										}
+										
 									},
 					// Fires "after" styling is applied and "after" the screen is inserted in the DOM
 					ondomready: function(element, id) {
