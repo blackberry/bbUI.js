@@ -34,14 +34,19 @@ function masterDetail_initialLoad(element) {
 	var height = masterDetail_getHeight()+'px';
 	element.getElementById('master').style.height = height;
 	element.getElementById('details').style.height = height;
+	
 	// Set our resize listener
 	window.addEventListener('resize', masterDetail_onResize,false); 
 }
 
 function masterDetail_onResize() {
-	var height = masterDetail_getHeight()+'px';
-	document.getElementById('master').style.height = height;
-	document.getElementById('details').style.height = height;
+	var height = masterDetail_getHeight()+'px',
+		master = document.getElementById('master'),
+		details = document.getElementById('details');
+	master.style.height = height;
+	details.style.height = height;
+	master.refresh();
+	details.refresh();
 }
 
 function masterDetail_getHeight() {
