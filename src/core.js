@@ -112,6 +112,7 @@ bb = {
 		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
 		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
 		bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
+		bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
 		

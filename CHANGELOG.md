@@ -27,6 +27,7 @@ Below you will find all the different changes that have been added since the fir
 	* setCaption() function added to buttons for all OS versions
 	* PlayBook buttons have now been resized to better suit the screen resolution
 * File Input: BlackBerry 10 button styling applied to input of type "file"
+* Toggle Buttons: BlackBerry 10 styling added for toggle buttons
 * Activity Indicator: Added new BlackBerry 10 Activity Indicator
 * CheckBoxes: 
 	* Added new BlackBerry 10 styling to check boxes
