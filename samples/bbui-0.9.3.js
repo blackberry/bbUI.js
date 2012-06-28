@@ -4004,6 +4004,8 @@ bb.toggle = {
 				outerElement.initialXPos = 0;
 				outerElement.currentXPos = 0;
 				outerElement.transientXPos = 0;
+				outerElement.movedWithSlider = false;
+				outerElement.startValue = false;
 				// Set our styling and create the inner divs
 				outerElement.className = 'bb-bb10-toggle-'+res;
 				outerElement.outer = document.createElement('div');
@@ -4068,6 +4070,8 @@ bb.toggle = {
 				// Setup our touch events
 				outerElement.inner.animateBegin = function(event) {
 										if (this.outerElement.isActivated === false) {
+											this.outerElement.startValue = this.outerElement.checked;
+											this.outerElement.movedWithSlider = false;
 											this.outerElement.isActivated = true;
 											this.outerElement.initialXPos = event.touches[0].pageX;	
 											this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
@@ -4087,30 +4091,44 @@ bb.toggle = {
 											this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
 											this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color);   
 											this.outerElement.indicator.style.background = '';	
+											this.outerElement.positionButton();
+											if (this.outerElement.movedWithSlider) {
+												if (this.outerElement.startValue != this.outerElement.checked) {
+													if (this.outerElement.onchange) {
+														this.outerElement.onchange();
+													}
+												}
+											}
 										}
 									};
 				outerElement.inner.animateEnd = outerElement.inner.animateEnd.bind(outerElement.inner);
 				outerElement.addEventListener('touchend', outerElement.inner.animateEnd, false);
 				
 				// Handle moving the toggle
-				/*outerElement.moveToggle = function (event) {
+				outerElement.moveToggle = function (event) {
 									if (this.isActivated === true) {
+										this.movedWithSlider = true;
 										event.stopPropagation();
 										event.preventDefault();
-										var endPos = parseInt(window.getComputedStyle(this.fill).width) - this.buffer;
+										var endPos = parseInt(window.getComputedStyle(this.fill).width) - this.buffer,
+											percent;
 										this.transientXPos = this.currentXPos + event.touches[0].pageX - this.initialXPos;
 										this.transientXPos = Math.max(0, Math.min(this.transientXPos, endPos));
 										this.inner.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
 										this.container.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
+										
 										// Set our checked state
-										this.checked = (this.transientXPos > (endPos/2));
+										percent = this.transientXPos/endPos;
+										this.checked = (percent > 0.5);
 									}
 								};
-				outerElement.moveToggle = outerElement.moveToggle.bind(outerElement);*/
+				outerElement.moveToggle = outerElement.moveToggle.bind(outerElement);
 				
 				// Handle the click of a toggle
 				outerElement.doClick = function() {
-									this.setChecked(!this.checked);
+									if (!this.movedWithSlider) {
+										this.setChecked(!this.checked);
+									} 
 								};
 				outerElement.doClick = outerElement.doClick.bind(outerElement);
 				outerElement.addEventListener('click', outerElement.doClick, false);
@@ -4139,12 +4157,12 @@ bb.toggle = {
 								this.indicator.style['background-image'] = '';
 							}
 							
+							this.currentXPos = location;
 						};
 				outerElement.positionButton = outerElement.positionButton.bind(outerElement);
 				
 				// Add our setChecked function
 				outerElement.setChecked = function(value) {
-							
 							if (value != this.checked) {
 								this.checked = value;
 								if (this.onchange) {
