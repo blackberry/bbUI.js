@@ -27,9 +27,15 @@ bb.titleBar = {
 				button = document.createElement('div');
 				button.innerHTML = titleBar.getAttribute('data-bb-action-caption');
 				if (titleBar.hasAttribute('onactionclick')) {
+					button.titleBar = titleBar;
 					button.onactionclick = titleBar.getAttribute('onactionclick');
+					titleBar.onactionclick = function() {
+									eval(this.actionButton.onactionclick);
+								};
 					button.onclick = function() {
-									eval(this.onactionclick);
+									if (this.titleBar.onactionclick) {
+										this.titleBar.onactionclick();
+									}
 								};
 				} else if (titleBar.onactionclick) {
 					button.onclick = onactionclick;
@@ -67,9 +73,11 @@ bb.titleBar = {
 			titleBar.getCaption = titleBar.getCaption.bind(titleBar);
 			// Assign the setBackCaption function
 			titleBar.setBackCaption = function(value) {
-					this.backButton.style.width = '';
 					this.backButton.firstChild.innerHTML = value;
-					this.evenButtonWidths();
+					if (this.actionButton) {
+						this.backButton.style.width = '';
+						this.evenButtonWidths();
+					}
 				};
 			titleBar.setBackCaption = titleBar.setBackCaption.bind(titleBar);
 			// Assign the getBackCaption function
@@ -79,9 +87,11 @@ bb.titleBar = {
 			titleBar.getBackCaption = titleBar.getBackCaption.bind(titleBar);
 			// Assign the setActionCaption function
 			titleBar.setActionCaption = function(value) {
-					this.actionButton.style.width = '';
 					this.actionButton.firstChild.innerHTML = value;
-					this.evenButtonWidths();
+					if (this.backButton) {
+						this.actionButton.style.width = '';
+						this.evenButtonWidths();
+					}
 				};
 			titleBar.setActionCaption = titleBar.setActionCaption.bind(titleBar);
 			// Assign the getActionCaption function
