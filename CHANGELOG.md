@@ -10,6 +10,7 @@ Below you will find all the different changes that have been added since the fir
 	* Action Bar Overflow menu must now be configured
 	* Arrow Lists have now been merged into the Image List control
 	* By default screens are white unless you explicitly set their style
+	* BlackBerry 10 Buttons no longer stretch by default
 * Action Bar: 
     * Back buttons now have a colored slash &quot;/&quot;
     * Dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
@@ -29,6 +30,7 @@ Below you will find all the different changes that have been added since the fir
 * File Input: BlackBerry 10 button styling applied to input of type "file"
 * Toggle Buttons: BlackBerry 10 styling added for toggle buttons
 * Activity Indicator: Added new BlackBerry 10 Activity Indicator
+* TitleBar: Added setCaption(value), getCaption(), setBackCaption(value), getBackCaption(), setActionCaption(value), getActionCaption()
 * CheckBoxes: 
 	* Added new BlackBerry 10 styling to check boxes
 	* Added getChecked(), setChecked(value) javascript functions

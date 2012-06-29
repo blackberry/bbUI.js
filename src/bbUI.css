@@ -1351,13 +1351,14 @@ body, html {
 	background-color: #0B0B0B;
 	color: white;
 	border-color: #333333;
+	display:inline-block;
 }
 
 .bb-bb10-button-caption-with-image-hires
 {
 	float:left;
 	text-align:left;
-	margin-right: 14px;
+	margin-left: 14px;
 }
 
 .bb-bb10-button-caption-with-image-lowres
@@ -1463,7 +1464,6 @@ body, html {
 	border-color:#262626;
 	background-color: #262626;
 	color: #666666;
-	
 }
 
 .bb-bb10-button-disabled-light {
@@ -1508,12 +1508,21 @@ body, html {
 	top:0px;
 	left:0px;
 	right:0px;
-	text-align:center;
 	padding-top:8px;
-	line-height:140px;
 	font-size: 26pt;
 	z-index:1000;
 }
+
+
+.bb-bb10-title-bar-caption-hires {
+	text-align:center;
+	line-height:140px;
+	height:100%;
+	padding:0px;
+	margin:0px;
+	width: 100%;
+}
+
 
 .bb-bb10-title-bar-lowres {
 	height:56px;
@@ -1521,11 +1530,18 @@ body, html {
 	top:0px;
 	left:0px;
 	right:0px;
-	text-align:center;
-	line-height:56px;
 	font-size: 14pt;
 	padding-top: 5px;
 	z-index:1000;
+}
+
+.bb-bb10-title-bar-caption-lowres {
+	text-align:center;
+	line-height:56px;
+	height:100%;
+	padding:0px;
+	margin:0px;
+	width: 100%;
 }
 
 .bb-bb10-title-bar-dark

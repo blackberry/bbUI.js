@@ -50,8 +50,7 @@ bb.button = {
                 if (outerElement.hasAttribute('data-bb-style')) {
                     var style = outerElement.getAttribute('data-bb-style');
                     if (style == 'stretch') {
-                        normal = normal + ' bb-bb10-button-stretch';
-                        highlight = highlight + ' bb-bb10-button-stretch';
+					    outerNormal = outerNormal + ' bb-bb10-button-stretch';
                     }
                 }
 				// look for our image
@@ -60,6 +59,7 @@ bb.button = {
 					if (!caption || caption.length == 0) {
 						outerNormal = outerNormal + ' bb-bb10-button-container-image-only-'+res;
 						captionElement.style['background-image'] = 'url("'+imgSrc+'")';
+						outerElement.style['line-height'] = '0px';
 						captionElement.setAttribute('class','bb-bb10-button-caption-with-image-only-'+res);
 						outerElement.isImageOnly = true;
 					} else {

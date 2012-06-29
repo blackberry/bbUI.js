@@ -943,8 +943,7 @@ bb.button = {
                 if (outerElement.hasAttribute('data-bb-style')) {
                     var style = outerElement.getAttribute('data-bb-style');
                     if (style == 'stretch') {
-                        normal = normal + ' bb-bb10-button-stretch';
-                        highlight = highlight + ' bb-bb10-button-stretch';
+					    outerNormal = outerNormal + ' bb-bb10-button-stretch';
                     }
                 }
 				// look for our image
@@ -953,6 +952,7 @@ bb.button = {
 					if (!caption || caption.length == 0) {
 						outerNormal = outerNormal + ' bb-bb10-button-container-image-only-'+res;
 						captionElement.style['background-image'] = 'url("'+imgSrc+'")';
+						outerElement.style['line-height'] = '0px';
 						captionElement.setAttribute('class','bb-bb10-button-caption-with-image-only-'+res);
 						outerElement.isImageOnly = true;
 					} else {
@@ -4319,9 +4319,14 @@ bb.titleBar = {
 		
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-				button;
+				button,
+				caption;
 			titleBar.setAttribute('class', 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-' + bb.actionBar.color);
-			titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
+			caption = document.createElement('div');
+			titleBar.caption = caption;
+			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res);
+			caption.innerHTML = titleBar.getAttribute('data-bb-caption');
+			titleBar.appendChild(caption);
 			// Get our back button if provided
 			if (titleBar.hasAttribute('data-bb-back-caption')) {
 				button = document.createElement('div');
@@ -4344,7 +4349,6 @@ bb.titleBar = {
 				} else if (titleBar.onactionclick) {
 					button.onclick = onactionclick;
 				}
-				//button.onclick = bb.popScreen;
 				bb.titleBar.styleBB10Button(button);
 				button.style.right = '0px';
 				titleBar.appendChild(button);
@@ -4352,10 +4356,10 @@ bb.titleBar = {
 			}
 			// Create an adjustment function for the widths
 			if (titleBar.actionButton && titleBar.backButton) {
-			
 				titleBar.evenButtonWidths = function() {
 										var backWidth = parseInt(window.getComputedStyle(this.backButton).width),
 											actionWidth = parseInt(window.getComputedStyle(this.actionButton).width);
+				
 										if (backWidth > actionWidth) {
 											this.actionButton.style.width = backWidth +'px';
 										} else {
@@ -4365,6 +4369,42 @@ bb.titleBar = {
 				titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
 				window.setTimeout(titleBar.evenButtonWidths,0);
 			}
+			
+			// Assign the setCaption function
+			titleBar.setCaption = function(value) {
+					this.caption.innerHTML = value;
+				};
+			titleBar.setCaption = titleBar.setCaption.bind(titleBar);
+			// Assign the getCaption function
+			titleBar.getCaption = function() {
+					return this.caption.innerHTML;
+				};
+			titleBar.getCaption = titleBar.getCaption.bind(titleBar);
+			// Assign the setBackCaption function
+			titleBar.setBackCaption = function(value) {
+					this.backButton.style.width = '';
+					this.backButton.firstChild.innerHTML = value;
+					this.evenButtonWidths();
+				};
+			titleBar.setBackCaption = titleBar.setBackCaption.bind(titleBar);
+			// Assign the getBackCaption function
+			titleBar.getBackCaption = function() {
+					return this.backButton.firstChild.innerHTML;
+				};
+			titleBar.getBackCaption = titleBar.getBackCaption.bind(titleBar);
+			// Assign the setActionCaption function
+			titleBar.setActionCaption = function(value) {
+					this.actionButton.style.width = '';
+					this.actionButton.firstChild.innerHTML = value;
+					this.evenButtonWidths();
+				};
+			titleBar.setActionCaption = titleBar.setActionCaption.bind(titleBar);
+			// Assign the getActionCaption function
+			titleBar.getActionCaption = function() {
+					return this.actionButton.firstChild.innerHTML;
+				};
+			titleBar.getActionCaption = titleBar.getActionCaption.bind(titleBar);
+			
 		} else if (bb.device.isPlayBook) {
 			titleBar.setAttribute('class', 'pb-title-bar');
 			titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
