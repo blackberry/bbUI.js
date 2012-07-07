@@ -176,7 +176,7 @@ bb = {
         scripts.forEach(function (script) {
             var scriptTag = document.createElement('script');
 
-            if (script.text) {
+            if (script.text && (!('type' in script) || script.type === 'text/javascript')) {
                 //if there is text, just eval it since they probably don't have a src.
                 eval(script.text);
                 return;
