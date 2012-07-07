@@ -209,7 +209,7 @@ bb.screen = {
     
     fadeIn: function (screen) {
         // set default values
-        var duration = 1.0,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 		s['-webkit-animation-name']            = 'bbUI-fade-in';

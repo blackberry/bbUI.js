@@ -17,7 +17,7 @@
 body, html {
 	padding:0;
 	margin:0;
-	font-family: Slate,"Myriad Pro","BBAlpha Sans",Helvetica;
+	font-family: "Slate Pro",Slate,"Myriad Pro","BBAlpha Sans",Helvetica;
 	font-size: 12pt;
 	overflow:visible;
 	user-select: none;
@@ -643,7 +643,7 @@ body, html {
 
 .bb-bb10-toggle-hires .yes {
 	height: 68px;
-	line-height: 80px;
+	line-height: 65px;
 	vertical-align: middle;
 	display:table-cell;
 	float: right;
@@ -655,7 +655,7 @@ body, html {
 
 .bb-bb10-toggle-hires .no {
 	height: 68px;
-	line-height: 80px;
+	line-height: 65px;
 	vertical-align: middle;
 	display:table-cell;
 	float: left;
@@ -1021,7 +1021,7 @@ body, html {
 
 .bb-bb10-panel-header-hires
 {
-	padding-top:10px;
+	padding-top:0px;
 	margin-bottom: 10px; 
 	padding-bottom: 6px; 
 	font-size: 24pt;
@@ -1475,7 +1475,7 @@ body, html {
 .bb-bb10-button-hires {
 	border-width:1px;
 	border-radius:5px;
-	line-height:75px;
+	line-height:60px;
 	height:75px;
 	padding-top:12px;
 	padding-left: 35px;
@@ -1516,7 +1516,7 @@ body, html {
 
 .bb-bb10-title-bar-caption-hires {
 	text-align:center;
-	line-height:140px;
+	line-height:125px;
 	height:100%;
 	padding:0px;
 	margin:0px;
@@ -1633,7 +1633,7 @@ body, html {
 .bb-bb10-titlebar-button-hires {
 	border-width:1px;
 	border-radius:5px;
-	line-height:75px;
+	line-height:60px;
 	height:75px;
 	padding-top:12px;
 	padding-left: 35px;
@@ -1752,7 +1752,7 @@ body, html {
 .bb-bb10-dropdown-item-hires 
 {
 	height: 97px;
-	line-height: 108px;
+	line-height: 100px;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	font-size: 28pt;
@@ -1995,7 +1995,7 @@ body, html {
 .bb-bb10-dropdown-inner-hires {
 	border-width:2px;
 	border-radius:5px;
-	line-height:71px;
+	line-height:62px;
 	height:71px;
 	padding-top:12px;
 	padding-left: 35px;
@@ -2425,7 +2425,6 @@ a.bb5-button-highlight span {
 	height:44px;
 	line-height:47px;
 	font-size: 28pt;
-	padding-top:5px;
 	border-bottom-width: 3px;
 	border-bottom-style: solid;
 	margin-bottom: 1px;
@@ -2445,7 +2444,7 @@ a.bb5-button-highlight span {
 {
 	margin:0px;
 	padding:0px;
-	padding-top:4px;
+	padding-top:0px;
 }
 
 .bb-bb10-image-list-header-left-lowres
@@ -2512,7 +2511,7 @@ a.bb5-button-highlight span {
 	border-color: transparent;
 	background-color: transparent;
 	z-index: 100;
-	margin-top: -118px;
+	margin-top: -108px;
 	margin-left: -5px;
 	height: 109px;
 }
@@ -2583,11 +2582,11 @@ a.bb5-button-highlight span {
 {
 	overflow: hidden;
 	white-space: nowrap;
-	font-size: 40pt;
-	line-height:50px;
+	font-size: 41pt;
+	line-height:59px;
 	text-overflow: ellipsis;
 	padding-top:5px;
-	margin-top: -3px;
+	margin-top: -19px;
 }
 
 .bb-bb10-image-list-item-hover
@@ -2636,9 +2635,9 @@ a.bb5-button-highlight span {
 	color:#606060;
 	overflow: hidden;
 	white-space:nowrap;
-	font-size: 28pt;	
+	font-size: 30pt;	
 	margin-bottom: 0px;
-	margin-top:-9px;
+	margin-top:-7px;
 	text-overflow: ellipsis;
 }
 
@@ -2664,7 +2663,7 @@ a.bb5-button-highlight span {
 	color:#606060;
 	font-size:22pt;
 	margin-right: 10px;
-	margin-top:-83px;
+	margin-top:-79px;
 }
 
 .bb-bb10-image-list-item-hover .accent-text
@@ -3585,7 +3584,7 @@ a.bb5-button-highlight span {
 	border-style: solid;
 	border-radius: 5px;
 	height:76px;
-	line-height:76px;
+	line-height:63px;
 	z-index:10;
 	border-color: transparent;
 	padding-top: 5px;
@@ -3802,7 +3801,6 @@ a.bb5-button-highlight span {
 	line-height:46px;
 	margin:0px;
 	padding:0px;
-	padding-top:4px;
 	margin-left: 10px;
 }
 
@@ -3879,7 +3877,7 @@ a.bb5-button-highlight span {
 	left:0px;
 	padding:0px;
 	margin:0px;
-	padding-top: 10px;
+	padding-top: 4px;
 	line-height:30px;
 	height:37px;
 	opacity:1.0;
@@ -4347,7 +4345,7 @@ a.bb5-button-highlight span {
 	padding-bottom: 3px;	
 	padding-left: 10px;
 	height: 109px;
-	line-height: 109px;
+	line-height: 85px;
 	vertical-align: center;
 	font-size:39pt;
 }
@@ -4418,7 +4416,7 @@ a.bb5-button-highlight span {
 {
 	height: 80px;
 	width: 80px;
-	margin-top: -15px;
+	margin-top: 5px;
 	margin-left:12px;
 }
 
@@ -4489,7 +4487,7 @@ a.bb5-button-highlight span {
 	padding-bottom: 3px;	
 	padding-left: 10px;
 	height: 109px;
-	line-height: 109px;
+	line-height: 95px;
 	vertical-align: center;
 	font-size:30pt;
 }
@@ -4530,11 +4528,11 @@ a.bb5-button-highlight span {
 .bb-bb10-context-menu-header-title-hires
 {
 	font-size:30pt;
-	height:30px;
+	height:36px;
 	line-height:30px;
 	padding-left: 18px;
 	margin:0px;
-	padding-top:20px;
+	padding-top:15px;
 	overflow:hidden;
 	white-space:nowrap;
 	text-overflow: ellipsis;
@@ -4563,7 +4561,7 @@ a.bb5-button-highlight span {
 	padding-left: 18px;
 	margin:0px;
 	margin-top:5px;
-	padding-top:5px;
+	padding-top:0px;
 	overflow:hidden;
 	white-space:nowrap;
 	text-overflow: ellipsis;
@@ -4656,7 +4654,7 @@ a.bb5-button-highlight span {
 	float:left;
 	height: 80px;
 	width: 80px;
-	margin-top:8px;
+	margin-top:10px;
 	margin-left:12px;
 }
 

@@ -106,6 +106,20 @@ bb.tabOverflow = {
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
+		// Initialize any selected items
+		menu.initSelected = function() {
+								var i,
+									action;
+								for (i = 0; i < this.actions.length; i++) {
+									action = this.actions[i];
+									if (action.initialSelected) {
+										action.setOverflowTab(true);
+										break;
+									}
+								}
+							};
+		menu.initSelected = menu.initSelected.bind(menu);
+
 		// Make sure we move when the orientation of the device changes
 		menu.orientationChanged = function(event) {
 								this.centerMenuItems();
@@ -161,6 +175,24 @@ bb.tabOverflow = {
 				td.appendChild(inner);
 				tr.appendChild(td);
 				
+				//Set the overflow tab item
+				action.setOverflowTab = function(hightlight) {
+							var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+							if (hightlight) {
+								bb.actionBar.highlightAction(this.visibleTab, this);
+							}
+							if (this.visibleTab == tabOverflowBtn) {
+								tabOverflowBtn.icon.setAttribute('src',this.img.src);
+								tabOverflowBtn.icon.setAttribute('class',tabOverflowBtn.icon.highlight);
+								tabOverflowBtn.tabHighlight.style.display = 'block';
+								tabOverflowBtn.display.innerHTML = this.caption;
+							}
+						};
+				action.setOverflowTab = action.setOverflowTab.bind(action);
+
+				// See if it was selected
+				action.initialSelected = (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true'));
+				
 				// Trap the old click so that we can call it later
 				action.oldClick = action.onclick;
 				action.onclick = function() {
@@ -169,10 +201,7 @@ bb.tabOverflow = {
 									
 									bb.actionBar.highlightAction(this.visibleTab, this);
 									if (this.visibleTab == tabOverflowBtn) {
-										tabOverflowBtn.icon.setAttribute('src',this.img.src);
-										tabOverflowBtn.icon.setAttribute('class',tabOverflowBtn.icon.highlight);
-										tabOverflowBtn.tabHighlight.style.display = 'block';
-										tabOverflowBtn.display.innerHTML = this.caption;
+										this.setOverflowTab(false);
 										if (this.oldClick) {
 											this.oldClick();
 										}
@@ -183,6 +212,8 @@ bb.tabOverflow = {
 										}
 									}										
 								};
+								
+			
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;

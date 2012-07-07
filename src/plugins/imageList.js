@@ -249,12 +249,12 @@ bb.imageList = {
 								description = '&nbsp;';
 								descriptionDiv.style.visibilty = 'hidden';
 								// Center the title if no description is given
-								title.style['margin-top'] = (bb.device.isPlayBook) ? '17px' : '32px';
+								title.style['margin-top'] = (bb.device.isPlayBook) ? '17px' : '18px';
 								// Adjust highlight overlay
-								overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-73px' : '-136px';
+								overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-73px' : '-128px';
 								// Adjust accent text
 								if (accentText) {
-									accentText.style['margin-top'] = (bb.device.isPlayBook) ? '-52px' : '-90px';
+									accentText.style['margin-top'] = (bb.device.isPlayBook) ? '-52px' : '-82px';
 								}
 							}
 							descriptionDiv.innerHTML = description;
@@ -506,6 +506,7 @@ bb.imageList = {
 							
 							if (!this.hideImages) {
 								img = document.createElement('img');
+								innerChildNode.img = img;
 								if (this.imagePlaceholder) {
 									img.placeholder = this.imagePlaceholder;
 									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
@@ -530,6 +531,7 @@ bb.imageList = {
 							titleDiv = document.createElement('div');
 							titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
 							titleDiv.className = 'title';
+							innerChildNode.titleDiv = titleDiv;
 							details.appendChild(titleDiv);
 							
 							// Add our arrows if needed
@@ -554,6 +556,7 @@ bb.imageList = {
 								accentDiv = document.createElement('div');
 								accentDiv.innerHTML = accentText;
 								accentDiv.className = 'accent-text';
+								innerChildNode.accentDiv = accentDiv;
 								details.appendChild(accentDiv);
 							}
 							
@@ -562,6 +565,7 @@ bb.imageList = {
 							// Add the description
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.className = 'description';
+							innerChildNode.descriptionDiv = descriptionDiv;
 							details.appendChild(descriptionDiv);
 							
 							// Adjust the description description
@@ -603,6 +607,24 @@ bb.imageList = {
 										this.trappedClick();
 									}
 								},false);
+								
+							// Add our getter functions
+							innerChildNode.getTitle = function() {
+									return this.titleDiv.innerHTML;
+								}
+							innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+							innerChildNode.getDescription = function() {
+									return this.descriptionDiv.innerHTML;
+								}
+							innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+							innerChildNode.getAccentText = function() {
+									return (this.accentDiv) ? this.accentDiv.innerHTML : undefined;
+								}
+							innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+							innerChildNode.getImage = function() {
+									return (this.img) ? this.img.getAttribute('src') : undefined;
+								}
+							innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
 						}
 					}
 				}

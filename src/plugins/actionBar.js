@@ -343,34 +343,47 @@ bb.actionBar = {
 				action.style.display = 'none';
 				continue;			
 			}
-			// See if the last action was a tab
-			if (lastStyle == 'tab') {
-				action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
-			} else {
-				action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
-			}
-			action.innerHTML = '';
-			action.setAttribute('class',action.normal);
+			
 			// Add the icon
 			icon = document.createElement('img');
 			if (action.getAttribute('data-bb-img') == 'overflow') {
 				// Set our transparent pixel
 				icon.setAttribute('src',bb.transparentPixel);
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-overflow-button-'+res+'-'+color);
+				// Stretch to the last tab as long as the only tab isn't the tab overflow 
+				var stretchToTab = false;
+				if ((lastStyle == 'tab') && actionBar.tabOverflowMenu && (visibleTabs.length == 1) && (visibleButtons.length == 1)) {
+					stretchToTab = false;
+				} else if (lastStyle == 'tab') {
+					stretchToTab = true;
+				}
 				// If it is next to a tab, stretch it so that the right shading lines up
-				if (lastStyle == 'tab') {
+				if (stretchToTab) {
 					// Stretch the last button if all tabs are before the overflow button  
-					action.style.width = (bb.innerWidth() - (numVisibleTabs * btnWidth)) + 'px';
+					action.style.width = (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px' : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px';
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
 					action.style.width = (actionBar.actionOverflowBtnWidth - 1) + 'px'; 
 					action.style.float = 'right';
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
 			} else {
 				shownActions.push(action);
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
 				action.style.width = btnWidth + 'px'; 
+				// set our shading if needed
+				if (lastStyle == 'tab') {
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
+				} else {
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
+				}
 			}
+			
+			
+			action.innerHTML = '';
+			action.setAttribute('class',action.normal);
+			
 			action.appendChild(icon);
 			lastStyle = 'button';
 			
@@ -384,10 +397,13 @@ bb.actionBar = {
 		if (actionBar.menu) {
 			actionBar.menu.centerMenuItems();
 		}
-		// Center the tab overflow items
+		// Initialize the Tab Overflow
 		if (actionBar.tabOverflowMenu) {
 			actionBar.tabOverflowMenu.centerMenuItems();
+			actionBar.tabOverflowMenu.initSelected();
 		}
+		
+		
 	},
 
 	// Apply the proper highlighting for the action
@@ -403,13 +419,25 @@ bb.actionBar = {
 				bb.actionBar.unhighlightAction(target);
 			}					
 		}
+		// Un-highlight the overflow menu items
+		tabs = action.actionBar.tabOverflowMenu.actions;
+		for (i = 0; i < tabs.length; i++) {
+			target = tabs[i];
+			if (target != overflowAction)  {
+				bb.actionBar.unhighlightAction(target);
+			} 
+		}
+		
 		// Now highlight this action
 		action.style['border-top-color'] = bb.options.bb10HighlightColor;
 		action.setAttribute('class',action.highlight);
 		
+		if (overflowAction) {
+			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+		}
+		
 		// See if there was a tab overflow
-		if (action.actionBar.tabOverflowMenu) {
-			
+		if (action.actionBar.tabOverflowMenu && !overflowAction) {
 			if (action.actionBar.tabOverflowBtn && (action == action.actionBar.tabOverflowBtn)) {
 				overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
 			} else {
