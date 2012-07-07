@@ -176,9 +176,12 @@ bb = {
         scripts.forEach(function (script) {
             var scriptTag = document.createElement('script');
 
-            if (script.text) {
+            if (script.text && (!('type' in script) || script.type === 'text/javascript')) {
                 //if there is text, just eval it since they probably don't have a src.
-                eval(script.text);
+                // However, if it isn't JS, don't eval it
+				if (!('type' in script) || script.type === 'text/javascript') {
+					eval(script.text);
+				}
                 return;
             }
             container.scriptIds.push({'id' : script.getAttribute('id'), 'onunload': script.getAttribute('onunload')});
