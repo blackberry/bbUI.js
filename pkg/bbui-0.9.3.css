@@ -30,10 +30,22 @@ body, html {
 	100% { opacity: 1; } 
 }
 
+@-webkit-keyframes bbUI-fade-out 
+{ 
+	0% { opacity: 1; } 
+	100% { opacity: 0; } 
+}
+
 @-webkit-keyframes bbUI-slide-left 
 { 
 	0% { left: 450px; } 
 	100% { left: 0px; } 
+}
+
+@-webkit-keyframes bbUI-slide-out-left 
+{ 
+	0% { left: 0px; } 
+	100% { left: -720px; } 
 }
 
 @-webkit-keyframes bbUI-slide-right 
@@ -42,10 +54,28 @@ body, html {
 	100% { left: 0px; } 
 }
 
+@-webkit-keyframes bbUI-slide-out-right 
+{ 
+	0% { left: 0px; } 
+	100% { left: 720px; } 
+}
+
+@-webkit-keyframes bbUI-slide-out-up 
+{ 
+	0% { top: 0px; } 
+	100% { top: -1280px; } 
+}
+
 @-webkit-keyframes bbUI-slide-up 
 { 
 	0% { top: 800px; } 
 	100% { top: 0px; } 
+}
+
+@-webkit-keyframes bbUI-slide-out-down 
+{ 
+	0% { top: 0px; } 
+	100% { top: 1280px; } 
 }
 
 @-webkit-keyframes bbUI-slide-down 

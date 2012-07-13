@@ -219,6 +219,18 @@ bb.screen = {
 		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
+	fadeOut: function (screen) {
+        // set default values
+        var duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+		s['-webkit-animation-name']            = 'bbUI-fade-out';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
 	slideLeft: function (screen) {
         // set default values
         var r = 0,
@@ -228,6 +240,21 @@ bb.screen = {
 			
 		s.width = bb.innerWidth()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-left';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutLeft: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-left';
 		s['-webkit-animation-duration']        = duration + 's';
 		s['-webkit-animation-timing-function'] = timing; 
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
@@ -249,6 +276,21 @@ bb.screen = {
 		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
+	slideOutRight: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-right';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
 	slideUp: function (screen) {
         // set default values
         var r = 0,
@@ -264,6 +306,21 @@ bb.screen = {
 		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
+	slideOutUp: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-up';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
 	slideDown: function (screen) {
         // set default values
         var r = 0,
@@ -273,6 +330,21 @@ bb.screen = {
 			
 		s.height = bb.innerHeight()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-down';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutDown: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-down';
 		s['-webkit-animation-duration']        = duration + 's';
 		s['-webkit-animation-timing-function'] = timing; 
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
