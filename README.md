@@ -34,7 +34,7 @@ You can find both the JS and CSS files that you need to add to your page in the 
 ## Philosophy
 
 The bbUI toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
-on BB5/BB6/BB7/PlayBook.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
+on BB5/BB6/BB7/PlayBook and BlackBerry 10.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
 CSS used to generate the user interface is handled by the bbUI toolkit so that you don't have to deal with the idiosyncrasies
 of the different layout engines.
 
