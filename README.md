@@ -60,6 +60,7 @@ We've provided documentation for each of the controls in our wiki and you can ch
 
 ### The Basics
 
+* [READ ME FIRST before doing anything else](https://github.com/blackberry/bbUI.js/wiki/Application-Structure)
 * [Config.xml Requirements](https://github.com/blackberry/bbUI.js/wiki/Config.xml-Requirements)
 * [Toolkit Initialization](https://github.com/blackberry/bbUI.js/wiki/Toolkit-Initialization)
 * [Screens](https://github.com/blackberry/bbUI.js/wiki/Screens)
