@@ -26,6 +26,7 @@ function doTimedEvent() {
 	if (paused) {
 		document.getElementById('reset').enable();
 		document.getElementById('pause').disable();
+		document.getElementById('error').disable();
 		document.getElementById('watch').enable();
 		return;
 	}
@@ -33,6 +34,7 @@ function doTimedEvent() {
 		percent = 4;
 		document.getElementById('reset').enable();
 		document.getElementById('pause').disable();
+		document.getElementById('error').disable();
 		document.getElementById('watch').enable();
 		return;
 	}
@@ -43,11 +45,14 @@ function doTimedEvent() {
 
 function watchProgress() {
 	paused = false;
+	document.getElementById('progress').setState(bb.progress.NORMAL);
 	document.getElementById('watch').disable();
 	document.getElementById('reset').disable();
 	document.getElementById('pause').enable();
+	document.getElementById('error').enable();
 	doTimedEvent();
 }
+
 
 
   

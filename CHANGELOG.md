@@ -2,7 +2,51 @@
 
 Below you will find all the different changes that have been added since the first introduction of versioning for the bbUI toolkit.
 
+## Version 0.9.3
+
+* _**Compatibility Changes:**_ 
+    * Default for control colors changed from dark to light
+    * The progress bar _pause()_ function has been removed and replaced with _setState(state)_
+	* Action Bar Overflow menu must now be configured
+	* Arrow Lists have now been merged into the Image List control
+	* By default screens are white unless you explicitly set their style
+	* BlackBerry 10 Buttons no longer stretch by default
+* Action Bar: 
+    * Back buttons now have a colored slash &quot;/&quot;
+    * Dark gradient area at the top of the overflow menu has been removed. This only appears on the press-and-hold context menu
+    * Overflow and Context Menu items are now centered in the menu
+    * Overflow and Context Menu can now "pin" an action to the bottom of the menu
+    * Now supports Tab Overflow Menus
+* Image List:
+	* Now supports (default | arrowlist | arrowbuttons | addbuttons | removebuttons) styling
+	* Added JavaScript interface to list and items
+	* Onbtnclick events are now availble for image lists that have secondary action buttons
+	* Now re-adjust alignment when no description is given
+* Buttons:
+	* BB10 styling now supports: text only | image only | text + image
+	* BB10 styling now has a setImage() function added to buttons
+	* setCaption() function added to buttons for all OS versions
+	* PlayBook buttons have now been resized to better suit the screen resolution
+* File Input: BlackBerry 10 button styling applied to input of type "file"
+* Toggle Buttons: BlackBerry 10 styling added for toggle buttons
+* Activity Indicator: Added new BlackBerry 10 Activity Indicator
+* TitleBar: Added setCaption(value), getCaption(), setBackCaption(value), getBackCaption(), setActionCaption(value), getActionCaption()
+* CheckBoxes: 
+	* Added new BlackBerry 10 styling to check boxes
+	* Added getChecked(), setChecked(value) javascript functions
+* RadioButtons: Added getChecked(), setChecked(value) javascript functions
+* Grid Layout: Added animation to images on orientation change for grid layouts
+* Scroll Panel: Added panel where all inner contents will scroll
+* Screen Transitions: Slide screen transitions are now supported for BlackBerry 10 and PlayBook 
+* Noteable Bug Fixes: 
+    * Action Bar overflow used to appear briefly when changing orientation
+    * Solid headers on image lists used to have a JavaScript exception
+    * Jake file for building used to paste the wrong license file text causing exceptions in JavaScript
+	* Increased Trackpad navigation speeds on input controls for BB7 devices (had to remove border radius on inputs)
+
+
 ## Version 0.9.2
+
 * Grid list margins corrected
 * Grid list now supports square 1:1 ratio images
 * Grid list now will only show overlay if either a title or sub-title is provided

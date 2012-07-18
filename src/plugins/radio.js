@@ -8,13 +8,7 @@ bb.radio = {
 				dotDiv,
 				centerDotDiv,
 				radio,
-				R,G,B,
-				color = bb.screen.controlColor;
-				
-			// Get our highlight and accent RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+				color = bb.screen.controlColor;			
 				
 			// Apply our transforms to all Radio buttons
 			for (i = 0; i < elements.length; i++) {
@@ -23,6 +17,7 @@ bb.radio = {
 				outerElement = document.createElement('div');
 				outerElement.setAttribute('class','bb-bb10-radio-container-'+res + '-'+color);
 				outerElement.input = input;
+				input.outerElement = outerElement;
 
 				// Make the existing <input[type=radio]> invisible so that we can hide it and create our own display
 				input.style.display = 'none';
@@ -36,8 +31,8 @@ bb.radio = {
 				// Create our colored dot
 				dotDiv = document.createElement('div');
 				dotDiv.setAttribute('class','bb-bb10-radio-dot-'+res);
-				dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +') 0%, rgb('+ R +', '+ G +', '+ B +') 100%)';
-				dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (R - 64) +', '+ (G - 64) +', '+ (B - 64) +',0.25) 0%, rgba('+ R +', '+ G +', '+ B +',0.25) 100%)';
+				dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
 				if (input.checked) {
 					dotDiv.style.background = dotDiv.highlight;
 				}
@@ -226,6 +221,50 @@ bb.radio = {
 									}
 									return top;
 								};	
+								
+				// Add our set Checked function
+				input.setChecked = function() {							
+							if (!this.checked) {
+								// Emulate Touch Start
+								this.slideFromTop = true;
+								this.outerElement.selectedRadio = this.outerElement.getCurrentlyChecked();
+								if (this.outerElement.selectedRadio) {
+									if (this.outerElement.getTop(this.outerElement.selectedRadio.radio) >= this.outerElement.getTop(this.outerElement)) {
+										this.outerElement.slideFromTop = false;
+									}
+								} 
+							
+								// Emulate TouchEnd
+								this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
+								if (bb.device.isPlayBook) {
+									this.outerElement.dotDiv.style.height = '0px';
+									this.outerElement.dotDiv.style.width = '9px';
+									this.outerElement.dotDiv.style.left = '16px';
+								} else {
+									this.outerElement.dotDiv.style.height = '0px';
+									this.outerElement.dotDiv.style.width = '18px';
+									this.outerElement.dotDiv.style.left = '32px';
+								}
+								// Reset top position
+								if (this.outerElement.slideFromTop) {
+									this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '9px' : '18px';
+								} else {
+									this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '30px' : '60px';
+								}
+								
+								// Fire our clicked event
+								var ev = document.createEvent('MouseEvents');
+								ev.initMouseEvent('click', true, true);
+								this.outerElement.dispatchEvent(ev);
+							}
+							
+						};
+				input.setChecked = input.setChecked.bind(input);
+				// Add our get Checked function
+				input.getChecked = function() {
+							return this.checked;
+						};
+				input.setChecked = input.setChecked.bind(input);
 			}
 		}
 	},
