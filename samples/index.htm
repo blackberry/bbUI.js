@@ -18,20 +18,22 @@
 	<head>
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
 		<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-		<link  rel="stylesheet" type="text/css" href="bbui-0.9.2.css"><link />
-		<script type="text/javascript" src="bbui-0.9.2.js"></script>
+		<link  rel="stylesheet" type="text/css" href="bbui-0.9.3.css"><link />
+		<script type="text/javascript" src="bbui-0.9.3.js"></script>
 		<script type="text/javascript">
-			
+					
 			// For some fun I did some random color scheme generation :o)
 			var bb10HighlightColor,
 				randomNumber;
 			randomNumber=Math.floor(Math.random()*100);
-			if (randomNumber > 60) {
+			if (randomNumber > 90) {
 				  bb10HighlightColor = '#BA55D3';
-			} else if (randomNumber > 30) {
+			} else if (randomNumber > 60) {
 				  bb10HighlightColor = '#00BC9F';
-			} else {
+			} else if (randomNumber > 30) {
 				  bb10HighlightColor = '#00A8DF';
+			} else {
+				bb10HighlightColor = '#B2CC00';
 			}
 			
 			// You must call init on bbUI before any other code loads.  
@@ -45,14 +47,18 @@
 					onscreenready: function(element, id) {
 										if (id == 'dataOnLoad') {
 											dataOnLoad_initialLoad(element);
+										} else if (id == 'masterDetail') {
+											masterDetail_initialLoad(element);
 										}
+										
 										// Remove all titles "except" input and pill buttons screen if running on BB10
-										if (bb.device.isBB10 && id != 'input' && id != 'pillButtons') {
+										if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
 											var titles = element.querySelectorAll('[data-bb-type=title]');
 											if (titles.length > 0) {
 												titles[0].parentNode.removeChild(titles[0]);
 											}
 										}
+										
 									},
 					// Fires "after" styling is applied and "after" the screen is inserted in the DOM
 					ondomready: function(element, id) {

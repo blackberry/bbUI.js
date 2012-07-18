@@ -4,12 +4,14 @@ bb.menuBar = {
 	menu: false,
 
 	apply: function(menuBar,screen){
-		if ((window.blackberry && blackberry.app.event) && (bb.device.isPlayBook || bb.device.isBB10)) {
+		if (bb.device.isPlayBook || bb.device.isBB10) {
 			bb.menuBar.createSwipeMenu(menuBar,screen);
 			if (bb.device.isPlayBook && !bb.device.isBB10) {
 				menuBar.parentNode.removeChild(menuBar);
 			}
-			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
+			if (window.blackberry && blackberry.app.event) {
+				blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
+			}
 		}else if(window.blackberry && blackberry.ui.menu){
 			bb.menuBar.createBlackberryMenu(menuBar);
 			menuBar.parentNode.removeChild(menuBar);
@@ -233,8 +235,10 @@ bb.menuBar = {
 
 	clearMenu: function(){
 		if(window.blackberry){
-			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10) && blackberry.app.event){
-				blackberry.app.event.onSwipeDown('');
+			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10)){
+				if (blackberry.app.event) {
+					blackberry.app.event.onSwipeDown('');
+				}
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
 				bb.menuBar.menuOpen = false;
