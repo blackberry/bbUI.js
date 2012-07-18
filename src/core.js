@@ -176,12 +176,9 @@ bb = {
         scripts.forEach(function (script) {
             var scriptTag = document.createElement('script');
 
-            if (script.text && (!('type' in script) || script.type === 'text/javascript')) {
+            if (script.text) {
                 //if there is text, just eval it since they probably don't have a src.
-                // However, if it isn't JS, don't eval it
-				if (!('type' in script) || script.type === 'text/javascript') {
-					eval(script.text);
-				}
+                eval(script.text);
                 return;
             }
             container.scriptIds.push({'id' : script.getAttribute('id'), 'onunload': script.getAttribute('onunload')});
@@ -244,46 +241,86 @@ bb = {
 		document.body.appendChild(container);
 		
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
+			animationScreen,
 			effect,
 			effectApplied = false,
 			overlay;
 				
         if (screen.length > 0 ) {
             screen = screen[0];
-			screen.popping = popping;
-			if (screen.hasAttribute('data-bb-effect')) {
+			// Swap the screen with the animation
+			if (popping) {
+				var previousContainer = bb.screens[bb.screens.length - 1].container,
+					previousEffect;
+				animationScreen = previousContainer.querySelectorAll('[data-bb-type=screen]')[0];
+				previousEffect = animationScreen.hasAttribute('data-bb-effect') ? animationScreen.getAttribute('data-bb-effect') : undefined;
+				// Reverse the animation
+				if (previousEffect) {
+					screen.style['z-index'] = '-100';
+					if (previousEffect.toLowerCase() == 'fade'){
+						animationScreen.setAttribute('data-bb-effect','fade-out');
+					}else if (previousEffect.toLowerCase() == 'slide-left'){
+						animationScreen.setAttribute('data-bb-effect','slide-out-right');
+					} else if (previousEffect.toLowerCase() == 'slide-right')  {
+						animationScreen.setAttribute('data-bb-effect','slide-out-left');
+					} else if (previousEffect.toLowerCase() == 'slide-up')  {
+						animationScreen.setAttribute('data-bb-effect','slide-out-down');
+					}  else if (previousEffect.toLowerCase() == 'slide-down') {
+						animationScreen.setAttribute('data-bb-effect','slide-out-up');
+					} 
+				}				
+			} else {
+				animationScreen = screen;
+			}
+			animationScreen.popping = popping;
+			if (animationScreen.hasAttribute('data-bb-effect')) {
 				// see if there is a display effect
 				if (!bb.device.isBB5 && !bb.device.isBB6) {
-					effect = screen.getAttribute('data-bb-effect');
+					effect = animationScreen.getAttribute('data-bb-effect');
 					if (effect) {
 						if (effect.toLowerCase() == 'fade') {
 							effectApplied = true;
-							bb.screen.fadeIn(screen);
+							bb.screen.fadeIn(animationScreen);
+						} else if (effect.toLowerCase() == 'fade-out') {
+							effectApplied = true;
+							bb.screen.fadeOut(animationScreen);
 						} else if ((effect.toLowerCase() == 'slide-left') && !bb.device.isBB7) {
 							effectApplied = true;
-							bb.screen.slideLeft(screen);
+							bb.screen.slideLeft(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-out-left') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideOutLeft(animationScreen);
 						} else if ((effect.toLowerCase() == 'slide-right') && !bb.device.isBB7) {
 							effectApplied = true;
-							bb.screen.slideRight(screen);
+							bb.screen.slideRight(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-out-right') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideOutRight(animationScreen);
 						} else if ((effect.toLowerCase() == 'slide-up') && !bb.device.isBB7) {
 							effectApplied = true;
-							bb.screen.slideUp(screen);
-						}  else if ((effect.toLowerCase() == 'slide-down') && !bb.device.isBB7) {
+							bb.screen.slideUp(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-out-up') && !bb.device.isBB7) {
 							effectApplied = true;
-							bb.screen.slideDown(screen);
-						} 
-						screen.style.display = 'inline'; // This is a wierd hack
+							bb.screen.slideOutUp(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-down') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideDown(animationScreen);
+						}  else if ((effect.toLowerCase() == 'slide-out-down') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideOutDown(animationScreen);
+						}
+						animationScreen.style.display = 'inline'; // This is a wierd hack
 						
 						// Listen for when the animation ends so that we can clear the previous screen
 						if (effectApplied) {
 							// Create our overlay
 							overlay = document.createElement('div');
-							screen.overlay = overlay;
+							animationScreen.overlay = overlay;
 							overlay.setAttribute('class','bb-transition-overlay');
 							document.body.appendChild(overlay);
 							// Add our listener and animation state
 							bb.screen.animating = true;
-							screen.addEventListener('webkitAnimationEnd', function() { 
+							animationScreen.doEndAnimation = function() {
 									var s = this.style;
 									bb.screen.animating = false;	
 									// Remove our overlay
@@ -293,22 +330,29 @@ bb = {
 									if (bb.screens.length > 1) {
 										if (!this.popping) {
 											bb.removePreviousScreenFromDom();
+											// Clear style changes that may have been made for the animation
+											s.left = '';
+											s.right = '';
+											s.top = '';
+											s.bottom = '';
+											s.width = '';
+											s.height = '';
+											s['-webkit-animation-name'] = '';
+											s['-webkit-animation-duration'] = '';
+											s['-webkit-animation-timing-function'] = ''; 
+											s['-webkit-transform'] = '';
 										} else {
-											bb.removeTopMostScreenFromDom();
+											this.style.display = 'none';
+											this.parentNode.parentNode.removeChild(this.parentNode);
+											// Pop it from the stack
+											bb.screens.pop();	
 										}
 									}
-									// Clear style changes that may have been made for the animation
-									s.left = '';
-									s.right = '';
-									s.top = '';
-									s.bottom = '';
-									s.width = '';
-									s.height = '';
-									s['-webkit-animation-name'] = '';
-									s['-webkit-animation-duration'] = '';
-									s['-webkit-animation-timing-function'] = ''; 
-									s['-webkit-transform'] = '';
-								});
+									
+									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
+								};
+							animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
+							animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
 						}
 					} 
 				}				
@@ -326,7 +370,13 @@ bb = {
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectApplied) {
 			if (!popping && (bb.screens.length > 0)) {
-				bb.removeTopMostScreenFromDom();
+				//bb.removeTopMostScreenFromDom();
+				bb.removePreviousScreenFromDom();
+			} else if (popping) {
+				var currentScreen = bb.screens[bb.screens.length-1].container;
+				currentScreen.parentNode.removeChild(currentScreen);
+				// Pop it from the stack
+				bb.screens.pop();	
 			}
 		}
 	},
@@ -422,27 +472,23 @@ bb = {
 		
         // Add our screen to the stack
         var container = bb.loadScreen(url, id, false);
-		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});    
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container});    
     },
 
     // Pop a screen from the stack
     popScreen: function() {
-
-        var numItems = bb.screens.length;
+		var numItems = bb.screens.length;
         if (numItems > 1) {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
-			bb.removeTopMostScreenFromDom();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                container = bb.loadScreen(display.url, display.id, true);
-				
-			bb.screens.pop();	
-			
+                newScreen = bb.loadScreen(display.url, display.id, true);
+					
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
 				window.scroll(0,0);
