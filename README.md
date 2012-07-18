@@ -22,6 +22,7 @@ This toolkit is currently in an incubation stage and we're working on getting th
 * [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy)
 * [Justin Tokarchuk](https://github.com/jtokarchuk) follow me on Twitter [@jtokarchuk](https://twitter.com/#!/jtokarchuk)
 * [James Blashill](https://github.com/jblashill) 
+* [Jerome Carty](https://github.com/jcarty) follow me on Twitter [@jcarty](https://twitter.com/#!/jcarty)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
@@ -33,7 +34,7 @@ You can find both the JS and CSS files that you need to add to your page in the 
 ## Philosophy
 
 The bbUI toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
-on BB5/BB6/BB7/PlayBook.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
+on BB5/BB6/BB7/PlayBook and BlackBerry 10.  This means that in some cases toolbars are fixed, and in others they scroll with the content.  The 
 CSS used to generate the user interface is handled by the bbUI toolkit so that you don't have to deal with the idiosyncrasies
 of the different layout engines.
 
@@ -59,6 +60,7 @@ We've provided documentation for each of the controls in our wiki and you can ch
 
 ### The Basics
 
+* [READ ME FIRST before doing anything else](https://github.com/blackberry/bbUI.js/wiki/Application-Structure)
 * [Config.xml Requirements](https://github.com/blackberry/bbUI.js/wiki/Config.xml-Requirements)
 * [Toolkit Initialization](https://github.com/blackberry/bbUI.js/wiki/Toolkit-Initialization)
 * [Screens](https://github.com/blackberry/bbUI.js/wiki/Screens)

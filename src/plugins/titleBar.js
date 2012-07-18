@@ -160,7 +160,6 @@ bb.titleBar = {
 		//if (!disabled) {
 			outerElement.ontouchstart = function() {
 									this.innerElement.setAttribute('class', this.innerElement.highlight);
-									
 								};
 			outerElement.ontouchend = function() {
 									this.innerElement.setAttribute('class', this.innerElement.normal);

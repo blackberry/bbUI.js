@@ -44,7 +44,6 @@ bb.activityIndicator = {
 				ctx.fill();
 				
 				swirl = canvas.toDataURL();
-				//alert(swirl);
 			}
 			
 			for (i = 0; i < elements.length; i++)  {
