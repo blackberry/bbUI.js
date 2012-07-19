@@ -17,7 +17,7 @@
 function dataOnTheFly_initialLoad(element) {
 	// I'm just doing a setTimeout to mimic processing some data
 	// in a background worker thread
-	setTimeout(dataOnTheFly_loadAfterTimeout,2000);
+	setTimeout(dataOnTheFly_loadAfterTimeout,1000);
 }
 
 function dataOnTheFly_loadAfterTimeout() {

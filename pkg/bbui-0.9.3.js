@@ -18,6 +18,10 @@ bb = {
 	scroller: null,  
     screens: [],
 	dropdownScrollers: [],
+	transparentPixel: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A'+
+						'/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQXKc14qEQAAAAZdEVYdENv'+
+						'bW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJ'+
+						'RU5ErkJggg==',
 
     	
 	// Initialize the the options of bbUI
@@ -39,16 +43,16 @@ bb = {
 		}
 		
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
-		bb.device.isRipple = (navigator.appVersion.indexOf('Ripple') >= 0);
-		bb.device.isPlayBook = (navigator.appVersion.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
+		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0);
+		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
 			bb.device.isBB10 = (navigator.userAgent.indexOf('Version/10.0') >= 0);
 		}
-		bb.device.isBB7 = (navigator.appVersion.indexOf('7.0.0') >= 0) || (navigator.appVersion.indexOf('7.1.0') >= 0) || bb.device.isRipple;
-		bb.device.isBB6 = navigator.appVersion.indexOf('6.0.0') >= 0;
-		bb.device.isBB5 = navigator.appVersion.indexOf('5.0.0') >= 0;
+		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0) || bb.device.isRipple;
+		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
+		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
 		// Determine HiRes
 		if (bb.device.isRipple) {
 			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
@@ -57,13 +61,15 @@ bb = {
 		}
 		
 		// Create our shades of colors
-		var R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+		var R = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
+			G = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
+			B = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 		bb.options.shades = {
-			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')'
-		
-		
+			R : R,
+			G : G,
+			B : B,
+			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
+			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'		
 		};
 		
 		// Create our coloring
@@ -102,25 +108,30 @@ bb = {
 	},
 
     doLoad: function(element) {
+		
         // Apply our styling
         var root = element || document.body;
-
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
-        bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
-        bb.dropdown.apply(root.querySelectorAll('select'));
+		bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));  
+	    bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
+		bb.dropdown.apply(root.querySelectorAll('select'));
         bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
-        bb.textArrowList.apply(root.querySelectorAll('[data-bb-type=text-arrow-list]'));
         bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
 		bb.grid.apply(root.querySelectorAll('[data-bb-type=grid-layout]'));
         bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
         bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
         bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+		bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		bb.progress.apply(root.querySelectorAll('progress'));
 		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
+		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
+		bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
+		bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
         // perform device specific formatting
         bb.screen.reAdjustHeight();
+		
     },
 	
 	device: {  
@@ -139,13 +150,13 @@ bb = {
 		onscreenready: null,
 		ondomready: null,  	
 		bb10ActionBarDark: true, 	
-		bb10ControlsDark: true, 
+		bb10ControlsDark: false, 
 		bb10ListsDark: false,
 		bb10ForPlayBook: false,
 		bb10HighlightColor: '#00A8DF'
 	},
 	
-    loadScreen: function(url, id) {
+    loadScreen: function(url, id, popping) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
             _reduce = function (nl, func, start) {
@@ -201,7 +212,6 @@ bb = {
                 if (!node) {
                     node = this;
                 }
-
                 if ( node.getAttribute('id') == id )
                     return node;
 
@@ -224,20 +234,20 @@ bb = {
                 newScriptTags[i].onload = function() {
                     bb.screen.scriptCounter++;
                     if(bb.screen.scriptCounter == bb.screen.totalScripts) {
-						bb.initContainer(container, id);
+						bb.initContainer(container, id, popping);
                     }
                 };
         }
 
         // In case there are no scripts at all we simply doLoad() now
         if(bb.screen.totalScripts === 0) {
-            bb.initContainer(container, id);
+            bb.initContainer(container, id, popping);
         }
         return container;
     },
 	
 	// Initialize the container
-	initContainer : function(container, id) {
+	initContainer : function(container, id, popping) {
 		// Fire the onscreenready and then apply our changes in doLoad()
 		if (bb.options.onscreenready) {
 			bb.options.onscreenready(container, id);
@@ -245,15 +255,146 @@ bb = {
 		bb.doLoad(container);
 		// Load in the new content
 		document.body.appendChild(container);
-		// Fire the ondomready after the element is added to the DOM
+		
+		var screen = container.querySelectorAll('[data-bb-type=screen]'),
+			animationScreen,
+			effect,
+			effectApplied = false,
+			overlay;
+				
+        if (screen.length > 0 ) {
+            screen = screen[0];
+			// Swap the screen with the animation
+			if (popping) {
+				var previousContainer = bb.screens[bb.screens.length - 1].container,
+					previousEffect;
+				animationScreen = previousContainer.querySelectorAll('[data-bb-type=screen]')[0];
+				previousEffect = animationScreen.hasAttribute('data-bb-effect') ? animationScreen.getAttribute('data-bb-effect') : undefined;
+				// Reverse the animation
+				if (previousEffect) {
+					screen.style['z-index'] = '-100';
+					if (previousEffect.toLowerCase() == 'fade'){
+						animationScreen.setAttribute('data-bb-effect','fade-out');
+					}else if (previousEffect.toLowerCase() == 'slide-left'){
+						animationScreen.setAttribute('data-bb-effect','slide-out-right');
+					} else if (previousEffect.toLowerCase() == 'slide-right')  {
+						animationScreen.setAttribute('data-bb-effect','slide-out-left');
+					} else if (previousEffect.toLowerCase() == 'slide-up')  {
+						animationScreen.setAttribute('data-bb-effect','slide-out-down');
+					}  else if (previousEffect.toLowerCase() == 'slide-down') {
+						animationScreen.setAttribute('data-bb-effect','slide-out-up');
+					} 
+				}				
+			} else {
+				animationScreen = screen;
+			}
+			animationScreen.popping = popping;
+			if (animationScreen.hasAttribute('data-bb-effect')) {
+				// see if there is a display effect
+				if (!bb.device.isBB5 && !bb.device.isBB6) {
+					effect = animationScreen.getAttribute('data-bb-effect');
+					if (effect) {
+						if (effect.toLowerCase() == 'fade') {
+							effectApplied = true;
+							bb.screen.fadeIn(animationScreen);
+						} else if (effect.toLowerCase() == 'fade-out') {
+							effectApplied = true;
+							bb.screen.fadeOut(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-left') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideLeft(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-out-left') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideOutLeft(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-right') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideRight(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-out-right') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideOutRight(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-up') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideUp(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-out-up') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideOutUp(animationScreen);
+						} else if ((effect.toLowerCase() == 'slide-down') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideDown(animationScreen);
+						}  else if ((effect.toLowerCase() == 'slide-out-down') && !bb.device.isBB7) {
+							effectApplied = true;
+							bb.screen.slideOutDown(animationScreen);
+						}
+						animationScreen.style.display = 'inline'; // This is a wierd hack
+						
+						// Listen for when the animation ends so that we can clear the previous screen
+						if (effectApplied) {
+							// Create our overlay
+							overlay = document.createElement('div');
+							animationScreen.overlay = overlay;
+							overlay.setAttribute('class','bb-transition-overlay');
+							document.body.appendChild(overlay);
+							// Add our listener and animation state
+							bb.screen.animating = true;
+							animationScreen.doEndAnimation = function() {
+									var s = this.style;
+									bb.screen.animating = false;	
+									// Remove our overlay
+									document.body.removeChild(this.overlay);
+									this.overlay = null;
+									// Only remove the screen at the end of animation "IF" it isn't the only screen left
+									if (bb.screens.length > 1) {
+										if (!this.popping) {
+											bb.removePreviousScreenFromDom();
+											// Clear style changes that may have been made for the animation
+											s.left = '';
+											s.right = '';
+											s.top = '';
+											s.bottom = '';
+											s.width = '';
+											s.height = '';
+											s['-webkit-animation-name'] = '';
+											s['-webkit-animation-duration'] = '';
+											s['-webkit-animation-timing-function'] = ''; 
+											s['-webkit-transform'] = '';
+										} else {
+											this.style.display = 'none';
+											this.parentNode.parentNode.removeChild(this.parentNode);
+											// Pop it from the stack
+											bb.screens.pop();	
+										}
+									}
+									
+									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
+								};
+							animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
+							animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
+						}
+					} 
+				}				
+			} 
+			bb.createScreenScroller(screen); 
+		} 
+		
+		// Fire the ondomready after the element is added to the DOM and we've set our animation flags
 		if (bb.options.ondomready) {
 			bb.domready.container = container;
 			bb.domready.id = id;
-			setTimeout(bb.domready.fire(), 1); 
+			setTimeout(bb.domready.fire, 1); 
 		}
-		window.scroll(0,0);
-		bb.screen.applyEffect(id, container);
-		bb.createScreenScroller();  
+		
+		// If an effect was applied then the popping will be handled at the end of the animation
+		if (!effectApplied) {
+			if (!popping && (bb.screens.length > 0)) {
+				//bb.removeTopMostScreenFromDom();
+				bb.removePreviousScreenFromDom();
+			} else if (popping) {
+				var currentScreen = bb.screens[bb.screens.length-1].container;
+				currentScreen.parentNode.removeChild(currentScreen);
+				// Pop it from the stack
+				bb.screens.pop();	
+			}
+		}
 	},
 	
 	// Function pointer to allow us to asynchronously fire ondomready
@@ -263,16 +404,20 @@ bb = {
 		id : null,
 		
 		fire : function() {
+			if (bb.screen.animating) {
+				setTimeout(bb.domready.fire, 250);
+				return;
+			}
 			bb.options.ondomready(bb.domready.container, bb.domready.id);
 			bb.domready.container = null;
-			 bb.domready.id = null;		
+			bb.domready.id = null;		
 		}
 	
 	},
 	
 	// Creates the scroller for the screen
-	createScreenScroller : function() {   
-		var scrollWrapper = document.getElementById('bbUIscrollWrapper');
+	createScreenScroller : function(screen) {  
+		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
 			bb.scroller = new iScroll(scrollWrapper, {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 				var target = e.target;
@@ -301,52 +446,69 @@ bb = {
 			scroller = null;
 			bb.dropdownScrollers.pop();
 		}
-		if (bb.scroller) {
+		/*if (bb.scroller) { // Not sure that we need to do this?
 			bb.scroller.destroy();
 			bb.scroller = null;
+		}*/
+	},
+	
+	// Remove the topmost screen from the dom
+	removeTopMostScreenFromDom: function() {
+		var numItems = bb.screens.length,
+			oldScreen = document.getElementById(bb.screens[numItems -1].id);	
+		document.body.removeChild(oldScreen);
+	},
+	
+	// Remove the previous screen from the dom
+	removePreviousScreenFromDom: function() {
+		var numItems = bb.screens.length,
+			oldScreen;	
+		if (numItems > 1) {
+			oldScreen = document.getElementById(bb.screens[numItems -2].id);
+			document.body.removeChild(oldScreen);
 		}
 	},
 	
     // Add a new screen to the stack
-    pushScreen : function (url, id) {
-
+    pushScreen: function (url, id) {
         // Remove our old screen
         bb.removeLoadedScripts();
 		bb.menuBar.clearMenu();
-        var numItems = bb.screens.length;
+        var numItems = bb.screens.length,
+			currentScreen;
         if (numItems > 0) {
-            var oldScreen = document.getElementById(bb.screens[numItems -1].id);
-            document.body.removeChild(oldScreen);
 			bb.clearScrollers();
+			// Quirk with displaying with animations
+			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
+				currentScreen = document.getElementById(bb.screens[numItems -1].id);
+				currentScreen.style.display = 'none';
+				window.scroll(0,0);
+			}
         }
-
-        // Add our screen to the stack
-        var container = bb.loadScreen(url, id);
 		
-        bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds});
+        // Add our screen to the stack
+        var container = bb.loadScreen(url, id, false);
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container});    
     },
 
     // Pop a screen from the stack
     popScreen: function() {
-
-        var numItems = bb.screens.length;
+		var numItems = bb.screens.length;
         if (numItems > 1) {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
-            var currentStackItem = bb.screens[numItems-1],
-                current = document.getElementById(currentStackItem.id);
-            document.body.removeChild(current);
-            bb.screens.pop();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
+			bb.screen.tabOverlay = null;
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                container = bb.loadScreen(display.url, display.id);
-				
-            window.scroll(0,0);
-            bb.screen.applyEffect(display.id, container);
-
+                newScreen = bb.loadScreen(display.url, display.id, true);
+					
+            // Quirky BrowserField2 bug on BBOS
+			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
+				window.scroll(0,0);
+			}
         } else {
             if (blackberry) {
                 blackberry.app.exit();
@@ -373,7 +535,55 @@ bb = {
                 document.body.removeChild(scriptTag);
             }
         }
-    }
+    },
+	
+	innerHeight: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 600;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1024;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerHeight;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1280;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 768;
+			}
+		}
+	},
+	
+	innerWidth: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 1024;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 600;
+			}
+		} else {
+			if (!window.orientation) {
+				return window.innerWidth;
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 768;
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 1280;
+			}
+		}
+	},
+	
+	cutHex : function(h) {
+		return (h.charAt(0)=="#") ? h.substring(1,7):h
+	}
 };
 
 Function.prototype.bind = function(object){ 
@@ -383,19 +593,20 @@ Function.prototype.bind = function(object){
   }; 
 }; 
 
-
 bb.menuBar = {
 	height: 100,
 	menuOpen: false,
 	menu: false,
 
 	apply: function(menuBar,screen){
-		if ((window.blackberry && blackberry.app.event) && (bb.device.isPlayBook || bb.device.isBB10)) {
+		if (bb.device.isPlayBook || bb.device.isBB10) {
 			bb.menuBar.createSwipeMenu(menuBar,screen);
 			if (bb.device.isPlayBook && !bb.device.isBB10) {
 				menuBar.parentNode.removeChild(menuBar);
 			}
-			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
+			if (window.blackberry && blackberry.app.event) {
+				blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
+			}
 		}else if(window.blackberry && blackberry.ui.menu){
 			bb.menuBar.createBlackberryMenu(menuBar);
 			menuBar.parentNode.removeChild(menuBar);
@@ -619,8 +830,10 @@ bb.menuBar = {
 
 	clearMenu: function(){
 		if(window.blackberry){
-			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10) && blackberry.app.event){
-				blackberry.app.event.onSwipeDown('');
+			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10)){
+				if (blackberry.app.event) {
+					blackberry.app.event.onSwipeDown('');
+				}
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
 				bb.menuBar.menuOpen = false;
@@ -685,6 +898,48 @@ bb.bbmBubble = {
     }
 };
 
+
+bb.fileInput = {
+
+	apply: function(elements) {
+		var i,
+			outerElement,
+			btn,
+			span,
+			res;
+		if (bb.device.isBB10) {
+			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+			for (i = 0; i < elements.length; i++) {
+				outerElement = elements[i];
+				outerElement.setAttribute('class','bb-bb10-file-button-'+res);
+				btn = document.createElement('div');
+				btn.setAttribute('data-bb-type','button');
+				btn.innerHTML = outerElement.hasAttribute('data-bb-caption') ? outerElement.getAttribute('data-bb-caption') : 'Choose File';
+				btn.origCaption = btn.innerHTML;
+				// Apply our styling
+				bb.button.apply([btn]);
+				btn.input = outerElement;
+				// Add the button and insert the file input as an invisible node in the new button element
+				outerElement.parentNode.insertBefore(btn, outerElement);
+				btn.appendChild(outerElement);
+				
+				// Handle the file change
+				btn.handleChange = function() {
+					if ( this.input.value) {
+						this.setCaption(this.input.value.replace(/^.*[\\\/]/, ''));
+					
+					} else {
+						this.setCaption(this.origCaption);
+					}
+				};
+				btn.handleChange = btn.handleChange.bind(btn);
+				outerElement.addEventListener('change',btn.handleChange,false);
+			}
+		}
+	}
+};
+
+
 bb.button = { 
     
     // Apply our transforms to all arrow buttons passed in
@@ -697,17 +952,9 @@ bb.button = {
                     normal = 'bb5-button',
                     highlight = 'bb5-button-highlight';
 
-                /*if (outerElement.hasAttribute('data-bb-style')) {
-                    var style = outerElement.getAttribute('data-bb-style');
-                    if (style == 'stretch') {
-                        normal = normal + ' button-stretch';
-                        highlight = highlight + ' button-stretch';
-                    }
-                }*/
                 outerElement.innerHTML = '';
                 outerElement.setAttribute('class','bb-bb5-button');
                 var button = document.createElement('a');
-                //button.setAttribute('href','#');
                 button.setAttribute('class',normal);
                 button.setAttribute('x-blackberry-focusable','true');
                 button.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
@@ -718,33 +965,58 @@ bb.button = {
                 button.appendChild(span);
             }
         } else if (bb.device.isBB10) {
-			var res;
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}
+			var res = (bb.device.isPlayBook) ? res = 'lowres' : 'hires';
 			for (var i = 0; i < elements.length; i++) {
                 var outerElement = elements[i],
 					disabledStyle,
+					imgSrc,
+					caption,
+					imgElement,
+					captionElement = document.createElement('div'),
 					innerElement = document.createElement('div');
                     disabled = outerElement.hasAttribute('data-bb-disabled'),
                     normal = 'bb-bb10-button bb-bb10-button-'+res,
                     highlight = 'bb-bb10-button bb-bb10-button-'+res+' bb10-button-highlight',
-					outerNormal = 'bb-bb10-button-container-'+res+' bb-bb10-button-container-' + bb.screen.controlColor;
+					outerNormal = 'bb-bb10-button-container-'+res+' bb-bb10-button-container-' + bb.screen.controlColor,
+					outerNormalWithoutImageOnly = outerNormal;
 					
-                outerElement.enabled = !disabled;
-				innerElement.innerHTML = outerElement.innerHTML;
+                outerElement.isImageOnly = false;
+				outerElement.enabled = !disabled;
+				caption = outerElement.innerHTML;
+				captionElement.innerHTML = caption;
 				outerElement.innerHTML = '';
+				outerElement.captionElement = captionElement;
 				outerElement.appendChild(innerElement);
-
+				outerElement.innerElement = innerElement;
+				
                 if (outerElement.hasAttribute('data-bb-style')) {
                     var style = outerElement.getAttribute('data-bb-style');
                     if (style == 'stretch') {
-                        normal = normal + ' bb-bb10-button-stretch';
-                        highlight = highlight + ' bb-bb10-button-stretch';
+					    outerNormal = outerNormal + ' bb-bb10-button-stretch';
                     }
                 }
+				// look for our image
+				imgSrc = outerElement.hasAttribute('data-bb-img') ? outerElement.getAttribute('data-bb-img') : undefined;
+				if (imgSrc) {
+					if (!caption || caption.length == 0) {
+						outerNormal = outerNormal + ' bb-bb10-button-container-image-only-'+res;
+						captionElement.style['background-image'] = 'url("'+imgSrc+'")';
+						outerElement.style['line-height'] = '0px';
+						captionElement.setAttribute('class','bb-bb10-button-caption-with-image-only-'+res);
+						outerElement.isImageOnly = true;
+					} else {
+						// Configure our caption element
+						captionElement.setAttribute('class','bb-bb10-button-caption-with-image-'+res);
+						imgElement = document.createElement('div');
+						outerElement.imgElement = imgElement;
+						imgElement.setAttribute('class','bb-bb10-button-image-'+res);
+						imgElement.style['background-image'] = 'url("'+imgSrc+'")';
+						innerElement.appendChild(imgElement);
+					}
+				}
+				// Insert caption after determining what to do with the image
+				innerElement.appendChild(captionElement);
+			
 				// Set our styles
 				disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
 				normal = normal + ' bb-bb10-button-' + bb.screen.controlColor;
@@ -758,6 +1030,7 @@ bb.button = {
 				// Set our variables on the elements
 				outerElement.setAttribute('class',outerNormal);
 				outerElement.outerNormal = outerNormal;
+				outerElement.outerNormalWithoutImageOnly = outerNormalWithoutImageOnly;
 				outerElement.innerElement = innerElement;
 				innerElement.normal = normal;
 				innerElement.highlight = highlight;
@@ -783,6 +1056,61 @@ bb.button = {
                         },false);
                 }
                 
+				// Assign our set caption function
+				outerElement.setCaption = function(value) {
+						if (this.isImageOnly && (value.length > 0)) {
+							// Configure our caption element
+							this.captionElement.setAttribute('class','bb-bb10-button-caption-with-image-'+res);
+							var imgElement = document.createElement('div');
+							this.imgElement = imgElement;
+							imgElement.setAttribute('class','bb-bb10-button-image-'+res);
+							imgElement.style['background-image'] = this.captionElement.style['background-image'];
+							// Remove and re-order the caption element
+							this.innerElement.removeChild(this.captionElement);
+							this.innerElement.appendChild(imgElement);
+							this.innerElement.appendChild(this.captionElement);
+							// Reset our image only styling
+							this.setAttribute('class',this.outerNormalWithoutImageOnly);
+							this.captionElement.style['background-image'] = '';
+							this.isImageOnly = false;
+						} else if ((value.length == 0) && this.imgElement) {
+							this.captionElement.setAttribute('class','bb-bb10-button-caption-with-image-only-'+res);
+							// Reset our image only styling
+							this.setAttribute('class',this.outerNormalWithoutImageOnly + ' bb-bb10-button-container-image-only-'+res);
+							this.captionElement.style['background-image'] = this.imgElement.style['background-image'];
+							this.isImageOnly = true;
+							// Remove the image div
+							this.innerElement.removeChild(this.imgElement);
+							this.imgElement = null;
+						}
+						this.captionElement.innerHTML = value;
+					};
+					
+				// Assign our set image function
+				outerElement.setImage = function(value) {
+						if (this.isImageOnly) {
+							this.captionElement.style['background-image'] = 'url("'+value+'")';
+						} else if (this.imgElement && (value.length > 0)) {
+							this.imgElement.style['background-image'] = 'url("'+value+'")';
+						} else if (value.length > 0){
+							// Configure our caption element
+							this.captionElement.setAttribute('class','bb-bb10-button-caption-with-image-'+res);
+							var imgElement = document.createElement('div');
+							this.imgElement = imgElement;
+							imgElement.setAttribute('class','bb-bb10-button-image-'+res);
+							imgElement.style['background-image'] = 'url("'+value+'")';
+							// Remove and re-order the caption element
+							this.innerElement.removeChild(this.captionElement);
+							this.innerElement.appendChild(imgElement);
+							this.innerElement.appendChild(this.captionElement);
+						} else if (this.imgElement && (value.length == 0)){
+							// Supplied an empty image value
+							this.innerElement.removeChild(this.imgElement);
+							this.imgElement = null;
+							this.captionElement.setAttribute('class','');
+						}
+					};
+				
                 // Assign our enable function
                 outerElement.enable = function(){ 
                         if (this.enabled) return;
@@ -863,6 +1191,11 @@ bb.button = {
                         },false);
                 }
                 
+				// Assign our set caption function
+				outerElement.setCaption = function(value) {
+						this.innerHTML = value;
+					};
+				
                 // Assign our enable function
                 outerElement.enable = function(){
                         if (this.enabled) return;
@@ -1127,8 +1460,8 @@ bb.dropdown = {
 										}
 										// Set the open height
 										if (bb.device.isPlayBook) {
-											scrollHeight = (this.numItems * 54);
-											this.style.height = 60 + scrollHeight +'px';
+											scrollHeight = (this.numItems * 43);
+											this.style.height = 45 + scrollHeight +'px';
 										} else {
 											scrollHeight = (this.numItems * 99);
 											this.style.height = 95 + scrollHeight +'px';
@@ -1165,7 +1498,7 @@ bb.dropdown = {
 										this.style.height = '59px';
 										
 										if (bb.device.isPlayBook) {
-											this.style.height = '60px';
+											this.style.height = '43px';
 										} else {
 											this.style.height = '95px';
 										}
@@ -1392,6 +1725,107 @@ bb.dropdown = {
     }
 };
 
+bb.checkbox = {
+
+	apply: function(elements) {
+	
+		if (bb.device.isBB10) {
+			var i,
+				input,
+				touchTarget, 
+				outerElement,
+				innerElement,
+				checkElement,
+				res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+				color = bb.options.bb10ControlsDark ? 'dark' : 'light';
+				
+				
+			
+			for (i = 0; i < elements.length; i++) {
+				input = elements[i];
+				// Outside touch target
+				touchTarget = document.createElement('div');
+				touchTarget.setAttribute('class','bb-bb10-checkbox-target-'+res);
+				input.parentNode.insertBefore(touchTarget, input);
+				input.style.display = 'none';
+				touchTarget.appendChild(input);
+				touchTarget.input = input;
+				input.touchTarget = touchTarget;
+				// Main outer border of the control
+				outerElement = document.createElement('div');
+				outerElement.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
+				touchTarget.appendChild(outerElement);
+				// Inner check area
+				innerElement = document.createElement('div');
+				innerElement.normal = 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-'+color;
+				innerElement.setAttribute('class', innerElement.normal);
+				outerElement.appendChild(innerElement);
+				// Create our check element with the image
+				checkElement = document.createElement('div');
+				checkElement.hiddenClass = 'bb-bb10-checkbox-check-hidden-'+res+' bb-bb10-checkbox-check-image';
+				checkElement.displayClass = 'bb-bb10-checkbox-check-display-'+res+' bb-bb10-checkbox-check-image';
+				checkElement.setAttribute('class',checkElement.hiddenClass);
+				checkElement.style['-webkit-transition-property'] = 'all';
+				checkElement.style['-webkit-transition-duration'] = '0.1s';
+				innerElement.appendChild(checkElement);
+				touchTarget.checkElement = checkElement;
+				
+				// Set our coloring for later
+				touchTarget.innerElement = innerElement;
+				touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+				touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+
+				touchTarget.ontouchstart = function() {
+								if (!this.input.checked) {	
+									// Do our touch highlight
+									this.innerElement.style.background = this.touchHighlight;
+								}
+							};
+				touchTarget.ontouchend = function() {
+								if (!this.input.checked) {
+									this.innerElement.style.background = '';
+								}
+							};
+				touchTarget.onclick = function() {
+								var evObj = document.createEvent('HTMLEvents');
+								evObj.initEvent('change', false, true );
+								// Set our checked state
+								this.input.checked = !this.input.checked;
+								this.drawChecked();
+								this.input.dispatchEvent(evObj);
+							};
+							
+				touchTarget.drawChecked = function() {
+								if (this.input.checked) {
+									this.checkElement.setAttribute('class',this.checkElement.displayClass);
+									this.innerElement.style['background-image'] = touchTarget.highlight;
+								} else {
+									this.checkElement.setAttribute('class',this.checkElement.hiddenClass);
+									this.innerElement.style['background-image'] = '';
+								}				
+							};
+				touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
+				
+				// Add our set Checked function
+				input.setChecked = function(value) {
+							if (value == this.checked) return;
+							this.checked = value;
+							this.touchTarget.drawChecked();
+						};
+				input.setChecked = input.setChecked.bind(input);
+				// Add our get Checked function
+				input.getChecked = function() {
+							return this.checked;
+						};
+				input.setChecked = input.setChecked.bind(input);
+				
+				// Set our initial state
+				touchTarget.drawChecked();
+			}
+		}	
+	}
+};
+
 bb.radio = {
 	apply: function(elements) {
 		if (bb.device.isBB10) {
@@ -1402,13 +1836,7 @@ bb.radio = {
 				dotDiv,
 				centerDotDiv,
 				radio,
-				R,G,B,
-				color = bb.screen.controlColor;
-				
-			// Get our highlight and accent RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+				color = bb.screen.controlColor;			
 				
 			// Apply our transforms to all Radio buttons
 			for (i = 0; i < elements.length; i++) {
@@ -1417,6 +1845,7 @@ bb.radio = {
 				outerElement = document.createElement('div');
 				outerElement.setAttribute('class','bb-bb10-radio-container-'+res + '-'+color);
 				outerElement.input = input;
+				input.outerElement = outerElement;
 
 				// Make the existing <input[type=radio]> invisible so that we can hide it and create our own display
 				input.style.display = 'none';
@@ -1430,8 +1859,8 @@ bb.radio = {
 				// Create our colored dot
 				dotDiv = document.createElement('div');
 				dotDiv.setAttribute('class','bb-bb10-radio-dot-'+res);
-				dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +') 0%, rgb('+ R +', '+ G +', '+ B +') 100%)';
-				dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (R - 64) +', '+ (G - 64) +', '+ (B - 64) +',0.25) 0%, rgba('+ R +', '+ G +', '+ B +',0.25) 100%)';
+				dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
 				if (input.checked) {
 					dotDiv.style.background = dotDiv.highlight;
 				}
@@ -1620,6 +2049,50 @@ bb.radio = {
 									}
 									return top;
 								};	
+								
+				// Add our set Checked function
+				input.setChecked = function() {							
+							if (!this.checked) {
+								// Emulate Touch Start
+								this.slideFromTop = true;
+								this.outerElement.selectedRadio = this.outerElement.getCurrentlyChecked();
+								if (this.outerElement.selectedRadio) {
+									if (this.outerElement.getTop(this.outerElement.selectedRadio.radio) >= this.outerElement.getTop(this.outerElement)) {
+										this.outerElement.slideFromTop = false;
+									}
+								} 
+							
+								// Emulate TouchEnd
+								this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
+								if (bb.device.isPlayBook) {
+									this.outerElement.dotDiv.style.height = '0px';
+									this.outerElement.dotDiv.style.width = '9px';
+									this.outerElement.dotDiv.style.left = '16px';
+								} else {
+									this.outerElement.dotDiv.style.height = '0px';
+									this.outerElement.dotDiv.style.width = '18px';
+									this.outerElement.dotDiv.style.left = '32px';
+								}
+								// Reset top position
+								if (this.outerElement.slideFromTop) {
+									this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '9px' : '18px';
+								} else {
+									this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '30px' : '60px';
+								}
+								
+								// Fire our clicked event
+								var ev = document.createEvent('MouseEvents');
+								ev.initMouseEvent('click', true, true);
+								this.outerElement.dispatchEvent(ev);
+							}
+							
+						};
+				input.setChecked = input.setChecked.bind(input);
+				// Add our get Checked function
+				input.getChecked = function() {
+							return this.checked;
+						};
+				input.setChecked = input.setChecked.bind(input);
 			}
 		}
 	},
@@ -1646,46 +2119,34 @@ bb.imageList = {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 				i,j,
 				outerElement,
-				innerChildNode,
-				normal,
-				highlight,
-				R,G,B,
-				contextMenu,
-				items,
-				hideImages,
-				imageEffect,
-				imagePlaceholder,
-				solidHeader = false,
-				headerJustify;
-				
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+				items;
 		
 			// Apply our transforms to all Image Lists
 			for (i = 0; i < elements.length; i++) {
 				outerElement = elements[i];
+				outerElement.items = [];
 				outerElement.setAttribute('class','bb-bb10-image-list');
-				hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
-				if (!hideImages) {
-					imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
-					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
+				if (!outerElement.hideImages) {
+					outerElement.imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
+					outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
 				}
 				
+				// See what kind of style they want for this list
+				outerElement.listStyle = outerElement.hasAttribute('data-bb-style') ? outerElement.getAttribute('data-bb-style').toLowerCase() : 'default';
+				
 				// Get our header style
-				solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
+				outerElement.solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
 				// Get our header justification
-				headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
+				outerElement.headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
 				
 				// Assign our context menu if there is one
 				if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
-					contextMenu = bb.screen.contextMenu;
+					outerElement.contextMenu = bb.screen.contextMenu;
 				}
-				// Gather our inner items
-				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
-				for (j = 0; j < items.length; j++) {
-					innerChildNode = items[j];
+				
+				// Style an item
+				outerElement.styleItem = function(innerChildNode) {
 					if (innerChildNode.hasAttribute('data-bb-type')) {
 						// Figure out the type of item
 						var type = innerChildNode.getAttribute('data-bb-type').toLowerCase(),
@@ -1695,24 +2156,30 @@ bb.imageList = {
 							accentText,
 							img,
 							details,
-							descriptionDiv;
+							detailsClass,
+							descriptionDiv,
+							btn,
+							btnBorder,
+							highlight,
+							normal,
+							btnInner;
 						
 						if (type == 'header') {
 							// Set our normal and highlight styling
 							normal = 'bb-bb10-image-list-header bb-bb10-image-list-header-'+res;
-							if (solidHeader) {
+							if (this.solidHeader) {
 								normal = normal +' bb10Accent';
 								innerChildNode.style.color = 'white';
-								title.style['border-bottom-color'] = 'transparent';
+								innerChildNode.style['border-bottom-color'] = 'transparent';
 							} else {
 								normal = normal + ' bb-bb10-image-list-header-normal-'+bb.screen.listColor;
-								innerChildNode.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+								innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
 							}
 							
 							// Check for alignment
-							if (headerJustify == 'left') {
+							if (this.headerJustify == 'left') {
 								normal = normal + ' bb-bb10-image-list-header-left-'+res;
-							} else if (headerJustify == 'right') {
+							} else if (this.headerJustify == 'right') {
 								normal = normal + ' bb-bb10-image-list-header-right-'+res;
 							} else {
 								normal = normal + ' bb-bb10-image-list-header-center';
@@ -1731,17 +2198,19 @@ bb.imageList = {
 							innerChildNode.setAttribute('class', normal);
 							innerChildNode.innerHTML = '';
 							// Create our image
-							if (!hideImages) {
+							if (!this.hideImages) {
 								img = document.createElement('img');
-								if (imagePlaceholder) {
-									img.placeholder = imagePlaceholder;
-									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+								img.outerElement = this;
+								innerChildNode.img = img;
+								if (this.imagePlaceholder) {
+									img.placeholder = this.imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
 								} else {
 									img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
 								}
 								innerChildNode.appendChild(img);
 								
-								if (imageEffect) {
+								if (this.imageEffect) {
 									img.style.opacity = '0.0';
 									img.even = (j%2 == 0)
 									img.onload = function() {
@@ -1761,11 +2230,11 @@ bb.imageList = {
 									img.show = img.show.bind(img);
 								}
 								// Handle the error scenario
-								if (imagePlaceholder) {
+								if (this.imagePlaceholder) {
 									img.onerror = function() {
 													if (this.src == this.placeholder) return;
 													this.src = this.placeholder;
-													if (imageEffect) {
+													if (this.outerElement.imageEffect) {
 														this.show();
 													}
 												};
@@ -1773,49 +2242,153 @@ bb.imageList = {
 							}
 							// Create the details container
 							details = document.createElement('div');
-							if (hideImages) {
-								details.setAttribute('class','bb-bb10-image-list-item-details-'+res+' bb-bb10-image-list-item-noimage-'+res);
-							} else {
-								details.setAttribute('class','bb-bb10-image-list-item-details-'+res);
-							}
+							details.innerChildNode = innerChildNode;
+							innerChildNode.details = details;
 							innerChildNode.appendChild(details);
+							detailsClass = 'bb-bb10-image-list-item-details-'+res;
+							if (this.hideImages) {
+								detailsClass = detailsClass + ' bb-bb10-image-list-item-noimage-'+res;
+							} 
+							
 							// Create our title
 							title = document.createElement('div');
 							title.setAttribute('class','title');
 							title.innerHTML = innerChildNode.getAttribute('data-bb-title');
-							details.appendChild(title);
-							// Create the accent text
-							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
-								accentText = document.createElement('div');
-								accentText.setAttribute('class','accent-text');
-								accentText.innerHTML = innerChildNode.getAttribute('data-bb-accent-text');
-								details.appendChild(accentText);
+							details.title = title;
+							if (title.innerHTML.length == 0) {
+								title.innerHTML = '&nbsp;';
 							}
+							details.appendChild(title);
+							
 							// Create our description
 							descriptionDiv = document.createElement('div');
 							descriptionDiv.setAttribute('class','description');
-							descriptionDiv.innerHTML = description;
+							details.description = descriptionDiv;
 							details.appendChild(descriptionDiv);
-							// Clean-up
-							innerChildNode.removeAttribute('data-bb-img');
-							innerChildNode.removeAttribute('data-bb-title');
+							
 							// Add our highlight overlay
 							overlay = document.createElement('div');
 							overlay.setAttribute('class','bb-bb10-image-list-item-overlay-'+res);
 							innerChildNode.appendChild(overlay);
+							
+							// See if we need the button area
+							if ((this.listStyle == 'arrowlist') || (this.listStyle == 'arrowbuttons') || (this.listStyle == 'addbuttons') || (this.listStyle == 'removebuttons')) {
+								btn = document.createElement('div');
+								innerChildNode.appendChild(btn);
+								innerChildNode.btn = btn;
+								btn.outerElement = this;
+								btn.innerChildNode = innerChildNode;
 								
+								// Assign our event if one exists
+								if (innerChildNode.onbtnclick) {
+									btn.onbtnclick = innerChildNode.onbtnclick;
+								}
+								else if (innerChildNode.hasAttribute('onbtnclick')) {
+									innerChildNode.onbtnclick = innerChildNode.getAttribute('onbtnclick');
+									btn.onbtnclick = function() {
+													eval(this.innerChildNode.onbtnclick);
+												};
+								} 
+								
+								// Set the margins to show the button area
+								detailsClass = detailsClass + ' details-button-margin';
+								btn.setAttribute('class','button');
+								// Create the button border
+								btnBorder = document.createElement('div');
+								btnBorder.normal = 'bb-bb10-image-list-item-button-border-'+res+' bb-bb10-image-list-item-button-'+ bb.screen.listColor;
+								btnBorder.setAttribute('class',btnBorder.normal);
+								btn.btnBorder = btnBorder;
+								btn.appendChild(btnBorder);
+								// Create the inner button that has the image
+								btnInner = document.createElement('div');
+								btnInner.normal = 'bb-bb10-image-list-item-button-inner-'+res;
+								btnInner.highlight = btnInner.normal;
+								btn.btnInner = btnInner;
+								btnBorder.appendChild(btnInner);
+								
+								if (this.listStyle !== 'arrowlist') {
+									if (this.listStyle == 'arrowbuttons') {
+										btnInner.normal = btnInner.normal + ' bb-image-list-item-chevron-'+bb.screen.listColor;
+										btnInner.highlight = btnInner.highlight + ' bb-image-list-item-chevron-dark';
+									}
+									else if (this.listStyle == 'addbuttons') {
+										btnInner.normal = btnInner.normal + ' bb-image-list-item-add-'+bb.screen.listColor;
+										btnInner.highlight = btnInner.highlight + ' bb-image-list-item-add-dark';
+									}
+									else if (this.listStyle == 'removebuttons') {
+										btnInner.normal = btnInner.normal + ' bb-image-list-item-remove-'+bb.screen.listColor;
+										btnInner.highlight = btnInner.highlight + ' bb-image-list-item-remove-dark';
+									}		
+									
+									// Assign our touch handlers
+									btn.ontouchstart = function() {
+													this.btnInner.setAttribute('class',this.btnInner.highlight);
+													this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.bb10HighlightColor+'))';
+												};
+												
+									btn.ontouchend = function() {
+													this.btnBorder.style.background = '';
+													this.btnInner.setAttribute('class',this.btnInner.normal);
+												};
+									
+									// Assign our click handler if one was available
+									if (btn.onbtnclick) {
+										btn.onclick = function(e) {
+														e.stopPropagation();
+														this.outerElement.selected = this.innerChildNode;
+														this.onbtnclick();
+													}
+									}
+									
+								} else { // Arrow list
+									btnInner.normal = btnInner.normal + ' bb-image-list-item-chevron-'+bb.screen.listColor;
+									btnBorder.style['background'] = 'transparent';
+									btnBorder.style['border-color'] = 'transparent';
+								}	
+								
+								// Set our class
+								btnInner.setAttribute('class',btnInner.normal);								
+							} else {
+								// Create the accent text
+								if (innerChildNode.hasAttribute('data-bb-accent-text')) {
+									accentText = document.createElement('div');
+									accentText.setAttribute('class','accent-text');
+									accentText.innerHTML = innerChildNode.getAttribute('data-bb-accent-text');
+									details.appendChild(accentText);
+									details.accentText = accentText;
+								}
+							}
+							
+							// Adjust the description description
+							if (description.length == 0) {
+								description = '&nbsp;';
+								descriptionDiv.style.visibilty = 'hidden';
+								// Center the title if no description is given
+								title.style['margin-top'] = (bb.device.isPlayBook) ? '17px' : '18px';
+								// Adjust highlight overlay
+								overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-73px' : '-128px';
+								// Adjust accent text
+								if (accentText) {
+									accentText.style['margin-top'] = (bb.device.isPlayBook) ? '-52px' : '-82px';
+								}
+							}
+							descriptionDiv.innerHTML = description;
+							
+							
+							// Apply our details class
+							details.setAttribute('class',detailsClass);
+							
 							// Set up our variables
 							innerChildNode.fingerDown = false;
 							innerChildNode.contextShown = false;
 							innerChildNode.overlay = overlay;
-							innerChildNode.contextMenu = contextMenu;
+							innerChildNode.contextMenu = this.contextMenu;
 							innerChildNode.description = description;
-							innerChildNode.title = title.innerHTML;
-							
+							innerChildNode.title = title.innerHTML;	
 							
 							innerChildNode.ontouchstart = function () {
 															//this.setAttribute('class',this.highlight);
-															this.overlay.style['border-color'] =  'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 															innerChildNode.fingerDown = true;
 															innerChildNode.contextShown = false;
 															if (innerChildNode.contextMenu) {
@@ -1834,6 +2407,8 @@ bb.imageList = {
 							innerChildNode.touchTimer = function() {
 															if (innerChildNode.fingerDown) {
 																innerChildNode.contextShown = true;
+																this.setAttribute('class',this.highlight);
+																innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 																innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
 														};
@@ -1842,8 +2417,10 @@ bb.imageList = {
 							// Add our subscription for click events to change highlighting on click
 							innerChildNode.trappedClick = innerChildNode.onclick;
 							innerChildNode.onclick = undefined;
+							innerChildNode.outerElement = this;
 							innerChildNode.addEventListener('click',function (e) {
 									this.setAttribute('class',this.highlight);
+									this.outerElement.selected = this;
 									if (this.trappedClick) {
 										setTimeout(this.trappedClick, 0);
 									}
@@ -1852,62 +2429,156 @@ bb.imageList = {
 								
 							// Finish the highlight on a delay
 							innerChildNode.finishHighlight = function() {
-														this.setAttribute('class',this.normal);
+														if (bb.screen.animating) {
+															setTimeout(this.finishHighlight,250);
+														} else {
+															this.setAttribute('class',this.normal);
+														}
 													};
-							innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);		
+							innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);	
+
+							// Add the remove function for the item
+							innerChildNode.remove = function() {
+									this.style.height = '0px';
+									this.style.opacity = '0.0';
+									this.style['-webkit-transition-property'] = 'all';
+									this.style['-webkit-transition-duration'] = '0.1s';
+									this.style['-webkit-transition-timing-function'] = 'linear';
+									this.style['-webkit-transform'] = 'translate3d(0,0,0)';
+									if (bb.scroller) {
+										bb.scroller.refresh();
+									}
+									window.setTimeout(this.details.performRemove,100);
+								}
+							innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);	
+							
+							// Perform the final remove after the transition effect
+							details.performRemove = function() {
+									var listControl = this.innerChildNode.parentNode,
+										index = listControl.items.indexOf(this.innerChildNode);
+									listControl.removeChild(this.innerChildNode);
+									listControl.items.splice(index,1);									
+							}
+							details.performRemove = details.performRemove.bind(details);	
+							
+							// Add our getter functions
+							innerChildNode.getTitle = function() {
+									return this.title;
+								}
+							innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+							innerChildNode.getDescription = function() {
+									return this.details.description.innerHTML;
+								}
+							innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+							innerChildNode.getAccentText = function() {
+									return (this.details.accentText) ? this.details.accentText.innerHTML : undefined;
+								}
+							innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+							innerChildNode.getImage = function() {
+									return (this.img) ? this.img.getAttribute('src') : undefined;
+								}
+							innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
 						}
 					}
+				}
+				outerElement.styleItem = outerElement.styleItem.bind(outerElement);
+				
+				// Append an item to the end of the list control
+				outerElement.appendItem = function(item) {
+						this.styleItem(item);
+						this.appendChild(item);
+						this.items.push(item);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.appendItem = outerElement.appendItem.bind(outerElement);
+				
+				// Insert an item before another item in the list
+				outerElement.insertItemBefore = function(newItem, existingItem) {
+						this.styleItem(newItem);
+						this.insertBefore(newItem,existingItem);
+						this.items.splice(this.items.indexOf(existingItem),0,newItem);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
+				
+				// Return the items in the list in a read-only fashion
+				outerElement.getItems = function() {
+						var i,
+							result = [];
+							for (i = 0; i < this.items.length;i++) {
+								result.push(this.items[i]);
+							}	
+						return result;
+					};
+				
+				// Gather our inner items and style them
+				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				var item;
+				for (j = 0; j < items.length; j++) {
+					item = items[j];
+					outerElement.styleItem(item);
+					outerElement.items.push(item);
 				}
 			}		
 		}
 		else {
+		
+			var i,j,
+				outerElement,
+				items;
+					
 			// Apply our transforms to all Image Lists
 			for (var i = 0; i < elements.length; i++) {
-				var inEvent, 
-					outEvent, 
-					outerElement = elements[i],
-					imagePlaceholder,
-					headerJustify,
-					hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
-					
-				if (!hideImages) {
-					imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				outerElement = elements[i];
+				outerElement.items = [];
+				outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false
+				if (!outerElement.hideImages) {
+					outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
 				}
-				// Set our highlight events
-				if (bb.device.isPlayBook) {
-					inEvent = 'ontouchstart';
-					outEvent = 'ontouchend';
-				} else {
-					inEvent = 'onmouseover';
-					outEvent = 'onmouseout';
-				}
+				// Get our header justification
+				outerElement.headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
+				// See what kind of style they want for this list
+				outerElement.listStyle = outerElement.hasAttribute('data-bb-style') ? outerElement.getAttribute('data-bb-style').toLowerCase() : 'default';
+				
 				if (bb.device.isHiRes) {
-					outerElement.setAttribute('class','bb-hires-image-list');
+						outerElement.setAttribute('class','bb-hires-image-list');
 				} else {
 					outerElement.setAttribute('class','bb-lowres-image-list');
 				}
 				
-				// Get our header justification
-				headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
-				
-				// Gather our inner items
-				var items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]'),
-					innerChildNode,
-					type,
-					j,
-					description,
-					accentText,
-					normal,
-					highlight,
-					details,
-					titleDiv,
-					descriptionDiv,
-					accentDiv,
-					img,
-					res = (bb.device.isHiRes) ? 'hires' : 'lowres';
-					
-				for (j = 0; j < items.length; j++) {
-					innerChildNode = items[j];
+				outerElement.styleItem = function (innerChildNode) {
+					// Gather our inner items
+					var innerChildNode,
+						inEvent, 
+						outEvent,
+						type,
+						description,
+						accentText,
+						normal,
+						highlight,
+						details,
+						titleDiv,
+						descriptionDiv,
+						accentDiv,
+						img,
+						btn,
+						btnBorder,
+						btnInner,
+						res = (bb.device.isHiRes) ? 'hires' : 'lowres';
+						
+					// Set our highlight events
+					if (bb.device.isPlayBook) {
+						inEvent = 'ontouchstart';
+						outEvent = 'ontouchend';
+					} else {
+						inEvent = 'onmouseover';
+						outEvent = 'onmouseout';
+					}
+								
 					if (innerChildNode.hasAttribute('data-bb-type')) {
 						type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 						description = innerChildNode.innerHTML;
@@ -1922,10 +2593,10 @@ bb.imageList = {
 							normal = 'bb-'+res+'-image-list-header';
 							highlight = 'bb-'+res+'-image-list-header-hover';
 							// Check for alignment
-							if (headerJustify == 'left') {
+							if (this.headerJustify == 'left') {
 								normal = normal + ' bb-'+res+'-image-list-header-left';
 								highlight = highlight + ' bb-'+res+'-image-list-header-left';
-							} else if (headerJustify == 'right') {
+							} else if (this.headerJustify == 'right') {
 								normal = normal + ' bb-'+ res+'-image-list-header-right';
 								highlight = highlight + ' bb-'+res+'-image-list-header-right';
 							} else {
@@ -1944,15 +2615,16 @@ bb.imageList = {
 						else if (type == 'item') {
 							innerChildNode.innerHTML = '';
 							innerChildNode.setAttribute('class', 'bb-'+res+'-image-list-item');
-							innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-"+res+"-image-list-item-hover')");
+							innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-"+res+"-image-list-item bb-"+res+"-image-list-item-hover')");
 							innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-"+res+"-image-list-item')");
 							innerChildNode.setAttribute('x-blackberry-focusable','true');
 							
-							if (!hideImages) {
+							if (!this.hideImages) {
 								img = document.createElement('img');
-								if (imagePlaceholder) {
-									img.placeholder = imagePlaceholder;
-									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : imagePlaceholder;
+								innerChildNode.img = img;
+								if (this.imagePlaceholder) {
+									img.placeholder = this.imagePlaceholder;
+									img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
 									img.onerror = function() {
 													if (this.src == this.placeholder) return;
 													this.src = this.placeholder;
@@ -1965,47 +2637,251 @@ bb.imageList = {
 							
 							details = document.createElement('div');
 							innerChildNode.appendChild(details);
-							if (hideImages) {
-								details.setAttribute('class','bb-'+res+'-image-list-details bb-'+res+'-image-list-noimage');
+							if (this.hideImages) {
+								details.normal = 'bb-'+res+'-image-list-details bb-'+res+'-image-list-noimage';
 							} else {
-								details.setAttribute('class','bb-'+res+'-image-list-details');
+								details.normal = 'bb-'+res+'-image-list-details';
 							}
 							
 							titleDiv = document.createElement('div');
 							titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
 							titleDiv.className = 'title';
+							innerChildNode.titleDiv = titleDiv;
 							details.appendChild(titleDiv);
-							accentDiv = document.createElement('div');
-							accentDiv.innerHTML = accentText;
-							accentDiv.className = 'accent-text';
-							details.appendChild(accentDiv);
+							
+							// Add our arrows if needed
+							if (this.listStyle == 'arrowlist') {
+								// Add the margin to details
+								details.normal = details.normal + ' details-button-margin';
+								btn = document.createElement('div');
+								innerChildNode.appendChild(btn);
+								innerChildNode.btn = btn;
+								btn.setAttribute('class','button');
+								// Create the button border
+								btnBorder = document.createElement('div');
+								btnBorder.normal = 'bb-'+res+'-image-list-item-button-border';
+								btnBorder.setAttribute('class',btnBorder.normal);
+								btn.appendChild(btnBorder);
+								// Create the inner button that has the image
+								btnInner = document.createElement('div');
+								btnInner.setAttribute('class','bb-'+res+'-image-list-item-button-inner bb-image-list-item-chevron-light');
+								btnBorder.appendChild(btnInner);
+							} else {
+								// Only add accent text if there are no arrows
+								accentDiv = document.createElement('div');
+								accentDiv.innerHTML = accentText;
+								accentDiv.className = 'accent-text';
+								innerChildNode.accentDiv = accentDiv;
+								details.appendChild(accentDiv);
+							}
+							
+							details.setAttribute('class', details.normal);
+							
+							// Add the description
 							descriptionDiv = document.createElement('div');
-							descriptionDiv.innerHTML = description;
 							descriptionDiv.className = 'description';
+							innerChildNode.descriptionDiv = descriptionDiv;
 							details.appendChild(descriptionDiv);
 							
-							innerChildNode.removeAttribute('data-bb-img');
-							innerChildNode.removeAttribute('data-bb-title');
+							// Adjust the description description
+							if (description.length == 0) {
+								description = '&nbsp;';
+								descriptionDiv.style.visibilty = 'hidden';
+								// Center the title if no description is given
+								titleDiv.style['margin-top'] = (bb.device.isHiRes) ? '14px' : '18px';
+								// Adjust accent text
+								if (accentDiv) {
+									accentDiv.style['margin-top'] = (bb.device.isHiRes) ? '-32px' : '-25px';
+								}
+								// Adjust any arrows
+								if (this.listStyle == 'arrowlist') {
+									btn.style['margin-top'] = (bb.device.isHiRes) ? '-73px' : '-70px';
+								}
+							}
+							descriptionDiv.innerHTML = description;
+							
+							// Add the remove function for the item
+							innerChildNode.remove = function() {
+									var listControl = this.parentNode,
+										index = listControl.items.indexOf(this);
+									this.parentNode.removeChild(this);
+									listControl.items.splice(index,1);	
+									if (bb.scroller) {
+										bb.scroller.refresh();
+									}
+								}
+							innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);	
+							
+							// Add our subscription for click events to set selected
+							innerChildNode.trappedClick = innerChildNode.onclick;
+							innerChildNode.onclick = undefined;
+							innerChildNode.outerElement = this;
+							innerChildNode.addEventListener('click',function (e) {
+									this.outerElement.selected = this;
+									if (this.trappedClick) {
+										this.trappedClick();
+									}
+								},false);
+								
+							// Add our getter functions
+							innerChildNode.getTitle = function() {
+									return this.titleDiv.innerHTML;
+								}
+							innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+							innerChildNode.getDescription = function() {
+									return this.descriptionDiv.innerHTML;
+								}
+							innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+							innerChildNode.getAccentText = function() {
+									return (this.accentDiv) ? this.accentDiv.innerHTML : undefined;
+								}
+							innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+							innerChildNode.getImage = function() {
+									return (this.img) ? this.img.getAttribute('src') : undefined;
+								}
+							innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
 						}
 					}
+				}
+				outerElement.styleItem = outerElement.styleItem.bind(outerElement);
+				
+				// Append an item to the end of the list control
+				outerElement.appendItem = function(item) {
+						this.styleItem(item);
+						this.appendChild(item);
+						this.items.push(item);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.appendItem = outerElement.appendItem.bind(outerElement);
+				
+				// Insert an item before another item in the list
+				outerElement.insertItemBefore = function(newItem, existingItem) {
+						this.styleItem(newItem);
+						this.insertBefore(newItem,existingItem);
+						this.items.splice(this.items.indexOf(existingItem),0,newItem);
+						if (bb.scroller) {
+							bb.scroller.refresh();
+						}
+					};
+				outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
+				
+				// Return the items in the list in a read-only fashion
+				outerElement.getItems = function() {
+						var i,
+							result = [];
+							for (i = 0; i < this.items.length;i++) {
+								result.push(this.items[i]);
+							}	
+						return result;
+					};
+				
+				// Gather our inner items and style them
+				items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
+				var item;
+				for (j = 0; j < items.length; j++) {
+					item = items[j];
+					outerElement.styleItem(item);
+					outerElement.items.push(item);
 				}
 			}
 		}
     }
 };
 
+bb.activityIndicator = {
+	
+	apply: function(elements) {
+		var i,
+			outerElement,
+			innerElement,
+			indicator, 
+			color = bb.screen.controlColor,
+			res,
+			size,
+			width,
+			swirl;
+			
+		if (bb.device.isBB10) {
+			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+
+			if (elements.length > 0) {
+				var canvas = document.createElement('canvas'),
+					ctx,
+					lingrad;
+				// Create our color matched swirl
+				canvas.setAttribute('height','184px');
+				canvas.setAttribute('width', '184px');
+				ctx = canvas.getContext('2d');
+				ctx.beginPath();    
+				ctx.moveTo(92,154);
+				ctx.arcTo(154,154,154,92,62);
+				ctx.arcTo(154,30,92,30,62);
+				ctx.arcTo(81,30,81,20,10);
+				ctx.arcTo(81,10,91,10,10);
+				ctx.arcTo(173,10,173,92,82);
+				ctx.arcTo(173,173,92,173,82);
+				ctx.arcTo(81,173,81,164,10);
+				ctx.arcTo(81,154,92,154,10);
+				ctx.closePath();
+				ctx.strokeStyle = 'transparent';
+				ctx.stroke();
+			 
+				// Create our fill color
+				var lingrad = ctx.createLinearGradient(0,50,0,154);
+				lingrad.addColorStop(0, 'transparent');
+				lingrad.addColorStop(1, bb.options.bb10HighlightColor);
+				ctx.fillStyle = lingrad;
+				ctx.fill();
+				
+				swirl = canvas.toDataURL();
+			}
+			
+			for (i = 0; i < elements.length; i++)  {
+				outerElement = elements[i];
+				size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
+				
+				if (size == 'large') {
+					width = (bb.device.isPlayBook) ? '93px' : '184px';
+				} else if (size == 'small') {
+					width = (bb.device.isPlayBook) ? '21px' : '41px';
+				} else {
+					size = 'medium';
+					width = (bb.device.isPlayBook) ? '46px' : '93px';
+				}
+				
+				outerElement.style.width = width;
+				// Add another div so that the developers styling on the original div is left untouched
+				indicator = document.createElement('div');
+				indicator.setAttribute('class',  'bb-bb10-activity-margin-'+res+' bb-bb10-activity-'+size+'-'+res+' bb-bb10-activity-'+color);
+				outerElement.appendChild(indicator);
+				innerElement = document.createElement('div');
+				innerElement.setAttribute('class','bb-bb10-activity-'+size+'-'+res);
+				innerElement.style['background-image'] = 'url("'+ swirl +'")';
+				indicator.appendChild(innerElement);
+				
+				
+				
+				// Set our animation
+				innerElement.style['-webkit-animation-name'] = 'activity-rotate';
+				innerElement.style['-webkit-animation-duration'] = '0.8s';
+				innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
+				innerElement.style['-webkit-animation-timing-function'] = 'linear';
+			}
+		}
+	}
+
+
+}
+
 bb.grid = {  
     apply: function(elements) {
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-				R,G,B,
 				solidHeader = false,
 				headerJustify;
 
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
 			// Apply our transforms to all grids
 			for (var i = 0; i < elements.length; i++) {
 				var j,
@@ -2049,7 +2925,7 @@ bb.grid = {
 								title.style['border-bottom-color'] = 'transparent';
 							} else {
 								title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
-								title.style['border-bottom-color'] = 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')';
+								title.style['border-bottom-color'] = bb.options.shades.darkOutline;
 							}
 							
 							// Style our header for text justification
@@ -2071,9 +2947,11 @@ bb.grid = {
 						}
 						else if (type == 'row') {
 							var k,
+								table,
+								tr,
+								td,
 								numItems,
 								itemNode,
-								columnClass,
 								subtitle,
 								image,
 								overlay,
@@ -2083,11 +2961,14 @@ bb.grid = {
 								hasOverlay,
 								rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
 							
-							innerChildNode.setAttribute('class', 'bb-bb10-grid-row-'+res);
 							numItems = rowItems.length;
-							if (numItems > 0) {
-								columnClass = 'bb-bb10-grid-item-col-' + numItems+'-'+res;
-							}
+							if (numItems == 0) continue;
+							
+							table = document.createElement('table');
+							table.style.width = '100%';
+							innerChildNode.appendChild(table);
+							tr = document.createElement('tr');
+							table.appendChild(tr);
 
 							for (k = 0; k < numItems; k++) {
 								itemNode = rowItems[k];
@@ -2095,24 +2976,28 @@ bb.grid = {
 								title = itemNode.getAttribute('data-bb-title');
 								hasOverlay = (subtitle || title);
 								itemNode.innerHTML = '';
-								if (bb.device.isPlayBook) {
-									width = ((window.innerWidth/numItems) - 5);
-								} else {
-									width = ((window.innerWidth/numItems) - 8);
-								}
+								// Add our cell to the table
+								td = document.createElement('td');
+								tr.appendChild(td);
+								td.appendChild(itemNode);
+								// deal with our margins
+								width = (window.innerWidth/numItems) - 5;
+								// Find out how to size the images
 								if (outerElement.isSquare) {
 									height = width;
 								} else {
 									height = Math.ceil(width*0.5625);
 								}
-								itemNode.setAttribute('class', 'bb-bb10-grid-item ' + columnClass);
+								// Set our dimensions
 								itemNode.style.width = width + 'px';
 								itemNode.style.height = height + 'px';
 
 								// Create our display image
 								image = document.createElement('img');
 								image.setAttribute('src',itemNode.getAttribute('data-bb-img'));
-								image.setAttribute('style','height:100%;width:100%;');
+								image.style.height = height + 'px';
+								image.style.width = width + 'px';
+								itemNode.image = image;
 								itemNode.appendChild(image);
 								// Create our translucent overlay
 								if (hasOverlay) {
@@ -2120,13 +3005,9 @@ bb.grid = {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
 									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
 									itemNode.appendChild(overlay);
-									
 								} else {
 									overlay = null;
 								}
-								
-								itemNode.removeAttribute('data-bb-img');
-								itemNode.removeAttribute('data-bb-title');
 								
 								// Setup our variables
 								itemNode.overlay = overlay;
@@ -2162,9 +3043,7 @@ bb.grid = {
 																}
 															};
 								itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
-								
-							}						
-							
+							}
 						}
 					}
 				}
@@ -2177,46 +3056,37 @@ bb.grid = {
 											numItems,
 											itemNode,
 											width,
-											height,
-											innerWidth;
-										
-										// Orientation is backwards between playbook and BB10 smartphones
-										if (bb.device.isPlayBook) {
-											if (window.orientation == 0 || window.orientation == 180) {
-												innerWidth = 1024;  // Doesn't seem to calculate width to the new width when this even fires
-											} else if (window.orientation == -90 || window.orientation == 90) {
-												innerWidth = 600;
-											}
-										} else {
-											if (window.orientation == 0 || window.orientation == 180) {
-												innerWidth = 768;
-											} else if (window.orientation == -90 || window.orientation == 90) {
-												innerWidth = 1280;
-											}
-										}
+											height;
 					
 										for (i = 0; i < items.length; i++) {
 											rowItems = items[i].querySelectorAll('[data-bb-type=item]');
 											numItems = rowItems.length;
 											for (j = 0; j < numItems; j++ ) {
 												itemNode = rowItems[j];
-												if (bb.device.isPlayBook) {
-													width = ((innerWidth/numItems) - 5);
-												} else {
-													width = ((innerWidth/numItems) - 8);
-												}
+												width = (window.innerWidth/numItems) - 5;
 												if (outerElement.isSquare) {
 													height = width;
 												} else {
 													height = Math.ceil(width*0.5625);
 												}
+												// Animate our image and container
+												itemNode.image.style.height = height+'px';
+												itemNode.image.style.width = width + 'px';
+												itemNode.image.style['-webkit-transition-property'] = 'all';
+												itemNode.image.style['-webkit-transition-duration'] = '0.2s';
+												itemNode.image.style['-webkit-transition-timing-function'] = 'linear';
+												itemNode.image.style['-webkit-transform'] = 'translate3d(0,0,0)';
 												itemNode.style.width = width+'px';
 												itemNode.style.height = height+'px';
+												itemNode.style['-webkit-transition-property'] = 'all';
+												itemNode.style['-webkit-transition-duration'] = '0.2s';
+												itemNode.style['-webkit-transition-timing-function'] = 'linear';
+												itemNode.style['-webkit-transform'] = 'translate3d(0,0,0)';
 											}
 										}
 									};
 				outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
-				window.addEventListener('orientationchange', outerElement.orientationChanged,false); 
+				window.addEventListener('resize', outerElement.orientationChanged,false); 
 			}		
 		} else {
 			// Make the grids invisible if it isn't BB10
@@ -2728,7 +3598,9 @@ bb.screen = {
 	controlColor: 'light',
 	listColor: 'light',
 	overlay : null,
+	tabOverlay : null,
 	contextMenu : null,
+	animating : false,
     
     apply: function(elements) {
 		var screenRes,
@@ -2737,7 +3609,7 @@ bb.screen = {
 		bb.screen.contextMenu = null;
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
-			screenRes = 'bb-hires-screen';
+			screenRes = 'bb-bb10-lowres-screen';
 		} else if (bb.device.isBB10) {
 			screenRes = 'bb-bb10-hires-screen';
 		} else if (bb.device.isHiRes) {
@@ -2758,7 +3630,6 @@ bb.screen = {
 			}
            
             if (bb.device.isBB10) {
-				
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]'),
@@ -2767,7 +3638,8 @@ bb.screen = {
 					tempHolder = [],
 					childNode = null, 
 					j,
-					height = (bb.device.isPlayBook) ? 73 : 140;
+					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
+					titleBarHeight = (bb.device.isPlayBook) ? 61 : 140;
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
@@ -2779,6 +3651,7 @@ bb.screen = {
 				// Assign our action bar
 				if (actionBar.length > 0) {
                     actionBar = actionBar[0]; 
+					outerElement.actionBar = actionBar;
 				} else {
 					actionBar = null;
 				}
@@ -2788,7 +3661,7 @@ bb.screen = {
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
-					outerScrollArea.setAttribute('id','bbUIscrollWrapper'); 
+					outerElement.bbUIscrollWrapper = outerScrollArea;
 				}
 				
 				// Inner Scroll Area
@@ -2809,11 +3682,11 @@ bb.screen = {
 				
 				// Set our outer scroll area dimensions
 				if (titleBar && actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+height+'px;top:'+height+'px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:'+titleBarHeight+'px;left:0px;right:0px;');
 				} else if (titleBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+height+'px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+titleBarHeight+'px;left:0px;right:0px;');
 				} else if (actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+height+'px;top:0px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:0px;left:0px;right:0px;');
 				} else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
 				}
@@ -2864,7 +3737,7 @@ bb.screen = {
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
-					outerScrollArea.setAttribute('id','bbUIscrollWrapper'); 
+					outerElement.bbUIscrollWrapper = outerScrollArea;
 				}
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
@@ -2925,60 +3798,152 @@ bb.screen = {
 		for (i = 0; i < actions.length; i++) {
 			context.menu.add(actions[i]);
 		}
+		context.menu.centerMenuItems();
 	},
     
-    fadeIn: function (params) {
+    fadeIn: function (screen) {
+        // set default values
+        var duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+		s['-webkit-animation-name']            = 'bbUI-fade-in';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	fadeOut: function (screen) {
+        // set default values
+        var duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+		s['-webkit-animation-name']            = 'bbUI-fade-out';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideLeft: function (screen) {
         // set default values
         var r = 0,
-            duration = 1,
-            iteration = 1,
-            timing = 'ease-out';
-
-        if (document.getElementById(params.id)) {
-            var elem = document.getElementById(params.id),
-                s = elem.style;
-
-            if (params.random) {
-                r = Math.random() * (params.random / 50) - params.random / 100;
-            }
-
-            if (params.duration) {
-                duration = parseFloat(params.duration) + parseFloat(params.duration) * r;
-                duration = Math.round(duration * 1000) / 1000;
-            }
-
-            if (params.iteration) {
-                iteration = params.iteration;
-            }
-
-            if (params.timing) {
-                timing = params.timing;
-            }
-
-            s['-webkit-animation-name']            = 'bbUI-fade-in';
-            s['-webkit-animation-duration']        = duration + 's';
-            s['-webkit-animation-timing-function'] = timing;
-        }
-        else {
-            console.warn('Could not access ' + params.id);
-        }
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-left';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
-    
-    applyEffect: function(id, container) {
-        // see if there is a display effect
-        if (!bb.device.isBB5 && !bb.device.isBB6) {
-            var screen = container.querySelectorAll('[data-bb-type=screen]');
-            if (screen.length > 0 ) {
-                screen = screen[0];
-                var effect = screen.getAttribute('data-bb-effect');
-                if (effect && effect.toLowerCase() == 'fade') {
-                    bb.screen.fadeIn({'id': id, 'duration': 1.0});
-                }
-            }
-        }
+	slideOutLeft: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-left';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
+	slideRight: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-right';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutRight: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-right';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideUp: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-up';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutUp: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-up';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideDown: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-down';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutDown: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-down';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
 	
     
     reAdjustHeight: function() {
@@ -3002,20 +3967,9 @@ bb.slider = {
 			var i, 
 				range,
 				res,
-				R,
-				G,
-				B,
-				color = bb.options.bb10ControlsDark ? 'dark' : 'light';
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}	
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
-			
+				color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+				res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+
 			for (i = 0; i < elements.length; i++) {
 				range = elements[i];
 				// Create our container div
@@ -3040,14 +3994,17 @@ bb.slider = {
 				outerElement.appendChild(outerElement.outer);
 				outerElement.fill = document.createElement('div');
 				outerElement.fill.className = 'fill';
-				outerElement.fill.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
+				outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+				outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+				outerElement.fill.style.background = outerElement.fill.dormant;
 				outerElement.outer.appendChild(outerElement.fill);
 				outerElement.inner = document.createElement('div');
 				outerElement.inner.className = 'inner';
+				outerElement.inner.outerElement = outerElement;
 				outerElement.outer.appendChild(outerElement.inner);
 				outerElement.halo = document.createElement('div');
 				outerElement.halo.className = 'halo';
-				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ R +', '+ G +', '+ B +', 0.15)), color-stop(0.8, rgba('+ R +', '+ G +', '+ B +', 0.15)), to(rgba('+ R +', '+ G +', '+ B +', 0.7)))';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
 				outerElement.inner.appendChild(outerElement.halo);
 				outerElement.indicator = document.createElement('div');
 				outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);
@@ -3083,57 +4040,58 @@ bb.slider = {
 				window.setTimeout(range.setValue, 0);
 				// Setup our touch events
 				outerElement.inner.animateBegin = function(event) {
-										if (outerElement.isActivated === false) {
-											outerElement.isActivated = true;
-											outerElement.initialXPos = event.touches[0].pageX;	
-											outerElement.halo.style['-webkit-transform'] = 'scale(1)';
-											outerElement.halo.style['-webkit-animation-name'] = 'explode';
-											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
-											outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
-											
-											
+										if (this.outerElement.isActivated === false) {
+											this.outerElement.isActivated = true;
+											this.outerElement.initialXPos = event.touches[0].pageX;	
+											this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
+											this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
+											this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
+											this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+											this.outerElement.fill.style.background = this.outerElement.fill.active;
 										}
 									};
 				outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
 				outerElement.inner.addEventListener("touchstart", outerElement.inner.animateBegin, false);
 				outerElement.inner.animateEnd = function () {
-										if (outerElement.isActivated === true) {
-											outerElement.isActivated = false;
-											outerElement.currentXPos = outerElement.transientXPos;
-											outerElement.value = parseInt(outerElement.range.value);
-											outerElement.halo.style['-webkit-transform'] = 'scale(0)';
-											outerElement.halo.style['-webkit-animation-name'] = 'implode';
-											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
-											outerElement.indicator.style.background = '';											
+										if (this.outerElement.isActivated === true) {
+											this.outerElement.isActivated = false;
+											this.outerElement.currentXPos = this.outerElement.transientXPos;
+											this.outerElement.value = parseInt(this.outerElement.range.value);
+											this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
+											this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
+											this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
+											this.outerElement.indicator.style.background = '';	
+											this.outerElement.fill.style.background = this.outerElement.fill.dormant;
 										}
 									};
 				outerElement.inner.animateEnd = outerElement.inner.animateEnd.bind(outerElement.inner);
 				outerElement.inner.addEventListener("touchend", outerElement.inner.animateEnd, false);
 				// Handle moving the slider
 				outerElement.moveSlider = function (event) {
-									if (outerElement.isActivated === true) {
+									if (this.isActivated === true) {
 										event.stopPropagation();
 										event.preventDefault();
-										outerElement.transientXPos = outerElement.currentXPos + event.touches[0].pageX - outerElement.initialXPos;
-										outerElement.transientXPos = Math.max(0, Math.min(outerElement.transientXPos, parseInt(window.getComputedStyle(outerElement.outer).width)));
+										this.transientXPos = this.currentXPos + event.touches[0].pageX - this.initialXPos;
+										this.transientXPos = Math.max(0, Math.min(this.transientXPos, parseInt(window.getComputedStyle(this.outer).width)));
 										this.notifyUpdated();
-										this.fill.style.width = outerElement.transientXPos + 'px';
-										this.inner.style['-webkit-transform'] = 'translate3d(' + outerElement.transientXPos + 'px,0px,0px)';
+										this.fill.style.width = this.transientXPos + 'px';
+										this.inner.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
 									}
 								};
 				outerElement.moveSlider = outerElement.moveSlider.bind(outerElement);
 				// Handle sending event to person trapping
 				outerElement.notifyUpdated = function() {
-									var percent = outerElement.transientXPos/parseInt(window.getComputedStyle(outerElement.outer).width),
-										newValue = Math.ceil((parseInt(outerElement.minValue) + parseInt(outerElement.maxValue))*percent);
+									var percent = this.transientXPos/parseInt(window.getComputedStyle(this.outer).width),
+										newValue = Math.ceil((parseInt(this.minValue) + parseInt(this.maxValue))*percent);
 									// Fire our events based on the step provided
-									if (Math.abs(newValue - parseInt(outerElement.range.value)) > outerElement.step) {
-										outerElement.range.value = newValue;
+									if (Math.abs(newValue - parseInt(this.range.value)) > this.step) {
+										this.range.value = newValue;
 										var evObj = document.createEvent('HTMLEvents');
 										evObj.initEvent('change', false, true );
-										outerElement.range.dispatchEvent(evObj);
+										this.range.dispatchEvent(evObj);
 									}
 								};
+				outerElement.notifyUpdated = outerElement.notifyUpdated.bind(outerElement);
 				outerElement.doOrientationChange = function() {
 									window.setTimeout(outerElement.range.setValue, 0);
 								};
@@ -3141,29 +4099,236 @@ bb.slider = {
 				// Assign our document event listeners
 				document.addEventListener('touchmove', outerElement.moveSlider, false);
 				document.addEventListener('touchend', outerElement.inner.animateEnd, false);
-				window.addEventListener('orientationchange', outerElement.doOrientationChange,false); 
+				window.addEventListener('resize', outerElement.doOrientationChange,false); 
 			}
 		}	
-	},
-	
-	cutHex : function(h) {
-		return (h.charAt(0)=="#") ? h.substring(1,7):h
+	}
+};
+
+bb.toggle = {
+
+	apply: function(elements) {
+		if (bb.device.isBB10) {
+			var i, 
+				res,
+				table,
+				tr,
+				td,
+				color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+				res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+
+			for (i = 0; i < elements.length; i++) {
+				outerElement = elements[i];
+				outerElement.checked = false;
+				outerElement.buffer = (bb.device.isPlayBook) ? 35 : 70;
+				outerElement.isActivated = false;
+				outerElement.initialXPos = 0;
+				outerElement.currentXPos = 0;
+				outerElement.transientXPos = 0;
+				outerElement.movedWithSlider = false;
+				outerElement.startValue = false;
+				// Set our styling and create the inner divs
+				outerElement.className = 'bb-bb10-toggle-'+res;
+				outerElement.outer = document.createElement('div');
+				outerElement.outer.setAttribute('class','outer bb-bb10-toggle-outer-' + color);
+				outerElement.appendChild(outerElement.outer);
+				outerElement.fill = document.createElement('div');
+				outerElement.fill.className = 'fill';
+				outerElement.fill.style.background = outerElement.fill.dormant;
+				outerElement.outer.appendChild(outerElement.fill);
+				// Our inner area that will contain the text
+				outerElement.inner = document.createElement('div');
+				outerElement.inner.className = 'inner';
+				outerElement.inner.outerElement = outerElement;
+				outerElement.fill.appendChild(outerElement.inner);
+				// Create our table holder for the captions
+				table = document.createElement('table');
+				table.className = 'table';
+				tr = document.createElement('tr');
+				table.appendChild(tr);
+				outerElement.inner.appendChild(table);
+				// The yes option
+				td = document.createElement('td');
+				td.className = 'left';
+				tr.appendChild(td);
+				outerElement.yes = document.createElement('div');
+				outerElement.yes.className = 'yes';
+				outerElement.yes.innerHTML = outerElement.getAttribute('data-bb-on');
+				td.appendChild(outerElement.yes);
+				// Center section where the indicator will hover over
+				td = document.createElement('td');
+				td.className = 'center';
+				tr.appendChild(td);
+				// The no option
+				td = document.createElement('td');
+				td.className = 'right';
+				tr.appendChild(td);
+				outerElement.no = document.createElement('div');
+				outerElement.no.className = 'no';
+				outerElement.no.innerHTML = outerElement.getAttribute('data-bb-off');
+				td.appendChild(outerElement.no);
+				// Indicator container
+				outerElement.container = document.createElement('div');
+				outerElement.container.className = 'indicator-container';
+				outerElement.appendChild(outerElement.container);
+				// Create the Halo
+				outerElement.halo = document.createElement('div');
+				outerElement.halo.className = 'halo';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+				outerElement.container.appendChild(outerElement.halo);
+				// Create the indicator
+				outerElement.indicator = document.createElement('div');
+				outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color);
+				outerElement.container.appendChild(outerElement.indicator);
+				// Get our onchange event if any
+				if (outerElement.hasAttribute('onchange')) {
+					outerElement.onchangeEval = outerElement.getAttribute('onchange');
+					outerElement.onchange = function() {
+									eval(this.onchangeEval);
+								};
+				}			
+				
+				// Setup our touch events
+				outerElement.inner.animateBegin = function(event) {
+										if (this.outerElement.isActivated === false) {
+											this.outerElement.startValue = this.outerElement.checked;
+											this.outerElement.movedWithSlider = false;
+											this.outerElement.isActivated = true;
+											this.outerElement.initialXPos = event.touches[0].pageX;	
+											this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
+											this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
+											this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color+ ' indicator-hover-'+color);
+											this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+										}
+									};
+				outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
+				outerElement.inner.addEventListener("touchstart", outerElement.inner.animateBegin, false);
+				outerElement.container.addEventListener("touchstart", outerElement.inner.animateBegin, false);
+				outerElement.inner.animateEnd = function () {
+										if (this.outerElement.isActivated === true) {
+											this.outerElement.isActivated = false;
+											this.outerElement.currentXPos = this.outerElement.transientXPos;
+											this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
+											this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
+											this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color);   
+											this.outerElement.indicator.style.background = '';	
+											this.outerElement.positionButton();
+											if (this.outerElement.movedWithSlider) {
+												if (this.outerElement.startValue != this.outerElement.checked) {
+													if (this.outerElement.onchange) {
+														this.outerElement.onchange();
+													}
+												}
+											}
+										}
+									};
+				outerElement.inner.animateEnd = outerElement.inner.animateEnd.bind(outerElement.inner);
+				outerElement.addEventListener('touchend', outerElement.inner.animateEnd, false);
+				
+				// Handle moving the toggle
+				outerElement.moveToggle = function (event) {
+									if (this.isActivated === true) {
+										this.movedWithSlider = true;
+										event.stopPropagation();
+										event.preventDefault();
+										var endPos = parseInt(window.getComputedStyle(this.fill).width) - this.buffer,
+											percent;
+										this.transientXPos = this.currentXPos + event.touches[0].pageX - this.initialXPos;
+										this.transientXPos = Math.max(0, Math.min(this.transientXPos, endPos));
+										this.inner.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
+										this.container.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
+										
+										// Set our checked state
+										percent = this.transientXPos/endPos;
+										this.checked = (percent > 0.5);
+									}
+								};
+				outerElement.moveToggle = outerElement.moveToggle.bind(outerElement);
+				
+				// Handle the click of a toggle
+				outerElement.doClick = function() {
+									if (!this.movedWithSlider) {
+										this.setChecked(!this.checked);
+									} 
+								};
+				outerElement.doClick = outerElement.doClick.bind(outerElement);
+				outerElement.addEventListener('click', outerElement.doClick, false);
+				
+				// Position the button
+				outerElement.positionButton = function() {
+							var location = (this.checked) ? parseInt(window.getComputedStyle(this.fill).width) - this.buffer : 0;
+						
+							// Set our animations
+							this.inner.style['-webkit-transform'] = 'translate3d(' + location + 'px,0px,0px)';
+							this.inner.style['-webkit-transition-duration'] = '0.1s';
+							this.inner.style['-webkit-transition-timing-function'] = 'linear';
+							this.inner.addEventListener('webkitTransitionEnd', function() { 
+										this.style['-webkit-transition'] = '';
+									});
+							this.container.style['-webkit-transform'] = 'translate3d(' + location + 'px,0px,0px)';
+							this.container.style['-webkit-transition-duration'] = '0.1s';
+							this.container.style['-webkit-transition-timing-function'] = 'linear';
+							this.container.addEventListener('webkitTransitionEnd', function() { 
+										this.style['-webkit-transition'] = '';
+									});
+									
+							if (this.checked) {
+								this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+							} else {
+								this.indicator.style['background-image'] = '';
+							}
+							
+							this.currentXPos = location;
+						};
+				outerElement.positionButton = outerElement.positionButton.bind(outerElement);
+				
+				// Add our setChecked function
+				outerElement.setChecked = function(value) {
+							if (value != this.checked) {
+								this.checked = value;
+								if (this.onchange) {
+									this.onchange();
+								}
+							}
+							this.positionButton();
+						};
+				outerElement.setChecked = outerElement.setChecked.bind(outerElement);
+				
+				// Add our getChecked function
+				outerElement.getChecked = function() {
+							return this.checked;
+						};
+				outerElement.getChecked = outerElement.getChecked.bind(outerElement);
+				
+				// set our checked state
+				outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
+				setTimeout(outerElement.positionButton,0);
+				
+				// Assign our document event listeners
+				document.addEventListener('touchmove', outerElement.moveToggle, false);
+				document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+			}
+		} 
 	}
 };
 
 bb.progress = {
 
+	NORMAL : 0,
+	PAUSED : 1,
+	ERROR : 2,
+	
 	apply: function(elements) {
 		
 		var i, 
 			progress,
 			res,
-			R,
-			G,
-			B,
 			color,
 			highlightColor,
-			accentColor;
+			accentColor,
+			NORMAL = 0,
+			PAUSED = 1,
+			ERROR = 2;
 			
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
@@ -3177,16 +4342,12 @@ bb.progress = {
 			accentColor = '#8FB03B';
 		}
 		
-		// Get our highlight RGB colors
-		R = parseInt((bb.progress.cutHex(highlightColor)).substring(0,2),16)
-		G = parseInt((bb.progress.cutHex(highlightColor)).substring(2,4),16);
-		B = parseInt((bb.progress.cutHex(highlightColor)).substring(4,6),16);
-		
 		for (i = 0; i < elements.length; i++) {
 			progress = elements[i];
 			// Create our container div
 			outerElement = document.createElement('div');
 			outerElement.progress = progress;
+			outerElement.state = bb.progress.NORMAL;
 			progress.parentNode.insertBefore(outerElement, progress);
 			progress.style.display = 'none';
 			outerElement.appendChild(progress);
@@ -3209,7 +4370,7 @@ bb.progress = {
 			outerElement.inner = document.createElement('div');
 			outerElement.inner.className = 'inner';
 			outerElement.outer.appendChild(outerElement.inner);
-			
+					
 			// Assign our function to set the value for the control
 			progress.outerElement = outerElement;
 			progress.setValue = function(value) {
@@ -3217,7 +4378,6 @@ bb.progress = {
 								width,
 								xpos;
 							if ((value && (value < 0)) || (value && (value > parseInt(this.outerElement.maxValue)))) {
-								alert('should not be in here');
 								return;
 							} else if (value) {
 								this.outerElement.value = value;
@@ -3228,44 +4388,48 @@ bb.progress = {
 							} else {
 								value = parseInt(this.outerElement.value);
 							}
-							
-							// Calculate our percentage
+
+							// Calculate percentage and styling
 							if (value == this.outerElement.maxValue) {
+								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(' + accentColor+ '), to('+highlightColor+'))';
 								percent = 1;
-								this.outerElement.fill.style.background ='-webkit-linear-gradient(top,  '+accentColor+' 0%, '+highlightColor+' 100%)';
 							} else if (value == 0) {
 								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
 							} else {
-								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
-								this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
-								this.outerElement.fill.style.background ='';
-								percent = (this.outerElement.value/parseInt(this.outerElement.maxValue));								
+								if (this.outerElement.state == bb.progress.PAUSED) {
+									this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(#EDC842), to(#BA991E))';
+								} else if (this.outerElement.state == bb.progress.ERROR) {
+									this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from( #E04242), to(#D91111))';
+								} else {
+									this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+									this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
+									this.outerElement.fill.style.background ='';	
+								} 
+								percent = (this.outerElement.value/parseInt(this.outerElement.maxValue));
 							}	
 							
 							// Determine width by percentage
 							xpos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
 							this.outerElement.fill.style.width = xpos + 'px';
-							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + xpos + 'px,0px,0px)';
 						};
 			progress.setValue = progress.setValue.bind(progress);
-			// Display the control paused
-			progress.pause = function() {
-							this.outerElement.fill.style.background ='-webkit-linear-gradient(top,  '+accentColor+' 0%, '+highlightColor+' 100%)';
+			
+			// Set the state of the control
+			progress.setState = function(state) {
+							this.outerElement.state = state;
+							this.setValue();
 						};
-			progress.pause = progress.pause.bind(progress);
+			progress.setState = progress.setState.bind(progress);
+			
 			// Set our value on a timeout so that it can calculate width once in the DOM
 			window.setTimeout(progress.setValue, 0);
 			outerElement.doOrientationChange = function() {
-								window.setTimeout(outerElement.progress.setValue, 0);
+								window.setTimeout(this.progress.setValue, 0);
 							};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 			// Assign our document event listeners
-			window.addEventListener('orientationchange', outerElement.doOrientationChange,false); 
+			window.addEventListener('resize', outerElement.doOrientationChange,false); 
 		}
-	},
-	
-	cutHex : function(h) {
-		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	}
 };
 
@@ -3276,9 +4440,14 @@ bb.titleBar = {
 		
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-				button;
+				button,
+				caption;
 			titleBar.setAttribute('class', 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-' + bb.actionBar.color);
-			titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
+			caption = document.createElement('div');
+			titleBar.caption = caption;
+			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res);
+			caption.innerHTML = titleBar.getAttribute('data-bb-caption');
+			titleBar.appendChild(caption);
 			// Get our back button if provided
 			if (titleBar.hasAttribute('data-bb-back-caption')) {
 				button = document.createElement('div');
@@ -3294,14 +4463,19 @@ bb.titleBar = {
 				button = document.createElement('div');
 				button.innerHTML = titleBar.getAttribute('data-bb-action-caption');
 				if (titleBar.hasAttribute('onactionclick')) {
+					button.titleBar = titleBar;
 					button.onactionclick = titleBar.getAttribute('onactionclick');
+					titleBar.onactionclick = function() {
+									eval(this.actionButton.onactionclick);
+								};
 					button.onclick = function() {
-									eval(this.onactionclick);
+									if (this.titleBar.onactionclick) {
+										this.titleBar.onactionclick();
+									}
 								};
 				} else if (titleBar.onactionclick) {
 					button.onclick = onactionclick;
 				}
-				//button.onclick = bb.popScreen;
 				bb.titleBar.styleBB10Button(button);
 				button.style.right = '0px';
 				titleBar.appendChild(button);
@@ -3309,10 +4483,10 @@ bb.titleBar = {
 			}
 			// Create an adjustment function for the widths
 			if (titleBar.actionButton && titleBar.backButton) {
-			
 				titleBar.evenButtonWidths = function() {
 										var backWidth = parseInt(window.getComputedStyle(this.backButton).width),
 											actionWidth = parseInt(window.getComputedStyle(this.actionButton).width);
+				
 										if (backWidth > actionWidth) {
 											this.actionButton.style.width = backWidth +'px';
 										} else {
@@ -3322,6 +4496,46 @@ bb.titleBar = {
 				titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
 				window.setTimeout(titleBar.evenButtonWidths,0);
 			}
+			
+			// Assign the setCaption function
+			titleBar.setCaption = function(value) {
+					this.caption.innerHTML = value;
+				};
+			titleBar.setCaption = titleBar.setCaption.bind(titleBar);
+			// Assign the getCaption function
+			titleBar.getCaption = function() {
+					return this.caption.innerHTML;
+				};
+			titleBar.getCaption = titleBar.getCaption.bind(titleBar);
+			// Assign the setBackCaption function
+			titleBar.setBackCaption = function(value) {
+					this.backButton.firstChild.innerHTML = value;
+					if (this.actionButton) {
+						this.backButton.style.width = '';
+						this.evenButtonWidths();
+					}
+				};
+			titleBar.setBackCaption = titleBar.setBackCaption.bind(titleBar);
+			// Assign the getBackCaption function
+			titleBar.getBackCaption = function() {
+					return this.backButton.firstChild.innerHTML;
+				};
+			titleBar.getBackCaption = titleBar.getBackCaption.bind(titleBar);
+			// Assign the setActionCaption function
+			titleBar.setActionCaption = function(value) {
+					this.actionButton.firstChild.innerHTML = value;
+					if (this.backButton) {
+						this.actionButton.style.width = '';
+						this.evenButtonWidths();
+					}
+				};
+			titleBar.setActionCaption = titleBar.setActionCaption.bind(titleBar);
+			// Assign the getActionCaption function
+			titleBar.getActionCaption = function() {
+					return this.actionButton.firstChild.innerHTML;
+				};
+			titleBar.getActionCaption = titleBar.getActionCaption.bind(titleBar);
+			
 		} else if (bb.device.isPlayBook) {
 			titleBar.setAttribute('class', 'pb-title-bar');
 			titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
@@ -3382,7 +4596,6 @@ bb.titleBar = {
 		//if (!disabled) {
 			outerElement.ontouchstart = function() {
 									this.innerElement.setAttribute('class', this.innerElement.highlight);
-									
 								};
 			outerElement.ontouchend = function() {
 									this.innerElement.setAttribute('class', this.innerElement.normal);
@@ -3433,42 +4646,79 @@ bb.actionBar = {
 	
 	apply: function(actionBar, screen) {
 		
-		actionBar.tabs = [];
 		var actions = actionBar.querySelectorAll('[data-bb-type=action]'),
+			visibleButtons = [],
+			overflowButtons = [],
+			visibleTabs = [],
+			overflowTabs = [],
+			shownActions = [],
 			action,
+			target,
 			caption,
 			style,
 			lastStyle,
-			tabStyle,
+			tabRightShading,
 			backBtn,
 			actionContainer = actionBar,
 			btnWidth,
-			limit = actions.length,
-			res,
+			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			icon,
 			color = bb.actionBar.color,
-			j,
-			firstTab = true;
+			j;
 			
-		// Find our resolution
-		if (bb.device.isPlayBook) {
-			res = 'lowres';
-		} else {
-			res = 'hires';
-		}
-		
+		actionBar.backBtnWidth = 0;
+		actionBar.actionOverflowBtnWidth = 0;
+		actionBar.tabOverflowBtnWidth = 0;
 		actionBar.setAttribute('class','bb-bb10-action-bar-'+res+' bb-bb10-action-bar-' + bb.actionBar.color);
+		actionBar.visibleTabs = visibleTabs;
+		actionBar.visibleButtons = visibleButtons;
+		actionBar.overflowButtons = overflowButtons;
+		actionBar.shownActions = shownActions;
+		actionBar.overflowTabs = overflowTabs;
 		
+		// Gather our visible and overflow tabs and buttons
+		for (j = 0; j < actions.length; j++) {
+			action = actions[j];
+			if (action.hasAttribute('data-bb-style')) {
+				style = action.getAttribute('data-bb-style').toLowerCase();
+				if (style == 'button') {
+					if (action.hasAttribute('data-bb-overflow') && (action.getAttribute('data-bb-overflow').toLowerCase() == 'true')) {
+						overflowButtons.push(action);
+					} else {
+						visibleButtons.push(action);
+					}
+				} else {
+					if (action.hasAttribute('data-bb-overflow') && (action.getAttribute('data-bb-overflow').toLowerCase() == 'true')) {
+						overflowTabs.push(action);
+					} else {
+						visibleTabs.push(action);
+					}
+				}
+			}
+		}
+					
 		// Create the back button if it has one and there are no tabs in the action bar
 		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {		
+			var chevron,
+				backCaption,
+				backslash;
 			backBtn = document.createElement('div');
-			backBtn.innerHTML = actionBar.getAttribute('data-bb-back-caption');
 			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color);
 			backBtn.onclick = bb.popScreen;
-			// Set tab coloring
-			backBtn.normal = 'bb-bb10-action-bar-tab-normal-'+color;
-			backBtn.highlight = 'bb-bb10-action-bar-tab-selected-'+color;
 			actionBar.backBtn = backBtn;
+			// Create and add the chevron to the back button
+			chevron = document.createElement('div');
+			chevron.setAttribute('class','bb-bb10-action-bar-back-chevron-'+res+'-'+color);
+			backBtn.appendChild(chevron);
+			// Create and add our back caption to the back button
+			backCaption = document.createElement('div');
+			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res);
+			backCaption.innerHTML = actionBar.getAttribute('data-bb-back-caption');
+			backBtn.appendChild(backCaption);
+			// Create our backslash
+			backslash = document.createElement('div');
+			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color); 
+			
 			// Create a table to hold the back button and our actions
 			var table = document.createElement('table'),
 				tr = document.createElement('tr'),
@@ -3476,14 +4726,23 @@ bb.actionBar = {
 			actionBar.appendChild(table);
 			table.appendChild(tr);
 			table.setAttribute('class','bb-bb10-action-bar-table');
-			// Create the container for the back button
+			// Set Back Button widths
 			if (bb.device.isPlayBook) {
-				td.style.width = '86px';
+				actionBar.backBtnWidth = 93;
+				td.style.width = 77+'px';
 			} else {
-				td.style.width = '178px';
+				actionBar.backBtnWidth = 187;
+				td.style.width = 154+'px';
 			}
 			tr.appendChild(td);
 			td.appendChild(backBtn);
+			// Create the container for our backslash
+			td = document.createElement('td');
+			// Set backslash widths
+			td.style.width = bb.device.isPlayBook ? 16 + 'px' : 33+'px';
+			backslash.style['background-color'] = bb.options.shades.darkOutline;
+			tr.appendChild(td);
+			td.appendChild(backslash);
 			// Create the container for the rest of the actions
 			td = document.createElement('td');
 			td.style.width = '100%';
@@ -3494,200 +4753,651 @@ bb.actionBar = {
 				action = actions[j];
 				td.appendChild(action);
 			}
-			limit++;
+		}
+
+		// If we have "tab" actions marked as overflow we need to show the more tab button
+		if (overflowTabs.length > 0) {
+			actionBar.tabOverflowBtnWidth = (bb.device.isPlayBook) ? 77: 154;
+			actionBar.tabOverflowMenu = bb.tabOverflow.create(screen);
+			actionBar.tabOverflowMenu.actionBar = actionBar;
+			// Create our action bar overflow button
+			action = document.createElement('div');
+			action.actionBar = actionBar;
+			action.tabOverflowMenu = actionBar.tabOverflowMenu;
+			action.setAttribute('data-bb-type','action');
+			action.setAttribute('data-bb-style','tab');
+			action.setAttribute('data-bb-img','overflow');
+			action.onclick = function() {
+							this.tabOverflowMenu.show();
+						}
+			actionBar.tabOverflowBtn = action;
+			// Insert our more button
+			actionContainer.insertBefore(action, actionContainer.firstChild);
+			visibleTabs.push(action);
 		}
 		
-		// If we have more than 5 items in the action bar we need to show the more menu button
-		if (limit > 5) {
+		// If we have "button" actions marked as overflow we need to show the more menu button
+		if (overflowButtons.length > 0) {
+			actionBar.actionOverflowBtnWidth = (bb.device.isPlayBook) ? 77: 154;
 			actionBar.menu = bb.contextMenu.create(screen);
 			actionBar.appendChild(actionBar.menu);
 			// Create our action bar overflow button
 			action = document.createElement('div');
+			action.menu = actionBar.menu;
+			actionBar.moreBtn = action;
 			action.setAttribute('data-bb-type','action');
 			action.setAttribute('data-bb-style','button');
-			
-			if (res == 'lowres') {
-				action.setAttribute('data-bb-img','overflow');
-			} else {
-				action.setAttribute('data-bb-img','overflow');
-			}
-
-			action.onclick = actionBar.menu.show;
-			if (backBtn) {
-				actionContainer.insertBefore(action,actions[3]);
-			} else {
-				actionContainer.insertBefore(action,actions[4]);
-			}
-			// Refresh our list of actions
-			actions = actionBar.querySelectorAll('[data-bb-type=action]');
+			action.setAttribute('data-bb-img','overflow');
+			action.onclick = function() {
+							this.menu.show();
+						}
+			// Insert our action overflow button
+			actionContainer.appendChild(action);
+			visibleButtons.push(action);
 		}
 		
-		// Find out what kind of tab style is desired
-		if (actionBar.hasAttribute('data-bb-tab-style')) {
-			if (actionBar.getAttribute('data-bb-tab-style').toLowerCase() == 'indent') {
-				tabStyle = 'indent';
-			} else {
-				tabStyle = 'highlight';
+		// Determines how much width there is to use not including built in system buttons on the bar
+		actionBar.getUsableWidth = function() {
+				return bb.innerWidth() - this.backBtnWidth - this.actionOverflowBtnWidth - this.tabOverflowBtnWidth;		
 			}
-			actionBar.tabStyle = tabStyle;
-		}			
-
-		// Calculate action widths
-		if (backBtn) {
-			if (actions.length < 5) {
-			btnWidth = Math.floor(100/actions.length);
-			} else {
-				btnWidth = Math.floor(100/4);
-			}
-		} else {
-			if (actions.length < 6) {
-				btnWidth = Math.floor(100/actions.length);
-			} else {
-				btnWidth = Math.floor(100/5);
-			}
-		}
+		actionBar.getUsableWidth = actionBar.getUsableWidth.bind(actionBar);
 		
-		// Grab all the actions that are defined
-		for (j = 0; j < actions.length; j++) {
-			action = actions[j];
-			action.res = res;
-			caption = action.innerHTML;
-			
-			if ((backBtn && j > 3) || j > 4) {
-				actionBar.menu.add(action);
-			} else {
-				// apply our button styling
-				if (action.hasAttribute('data-bb-style')) {
-					// Set our button widths taking into account the last button float
-					if ((backBtn && j > 2) || (j > 3) || (j == actions.length -1)) {
-						action.style.width =  btnWidth - 1 + '%';
-						action.style.float = 'right';
-					} else {
-						action.style.width =  btnWidth + '%';
-					}
-					style = action.getAttribute('data-bb-style').toLowerCase();
-					if (style == 'button') {
-						// See if the last action was a tab
-						if (lastStyle == 'tab') {
-							action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
-						} else {
-							action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
-						}
-						action.innerHTML = '';
-						action.setAttribute('class',action.normal);
-						// Add the icon
-						icon = document.createElement('img');
-						if (action.getAttribute('data-bb-img') == 'overflow') {
-							// Set our transparent pixel
-							icon.setAttribute('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A'+
-													'/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQXKc14qEQAAAAZdEVYdENv'+
-													'bW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJ'+
-													'RU5ErkJggg==');
-							icon.setAttribute('class','bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-overflow-button-'+res+'-'+color);
-						} else {
-							icon.setAttribute('src',action.getAttribute('data-bb-img'));
-							icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
-						}
-						action.appendChild(icon);
-						
-						
-						/*icon = document.createElement('img');
-						icon.setAttribute('src',action.getAttribute('data-bb-img'));
-						icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
-						action.appendChild(icon);*/
-						// Set our caption
-						var display = document.createElement('div');
-						display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
-						display.innerHTML = caption;
-						action.appendChild(display);					
-					}
-					else if (style=='tab') {
-						action.actionBar = actionBar;
-						// Apply our highlight tab styling
-						if (tabStyle == 'highlight') {
-							actionBar.tabs.push(action);
-							action.innerHTML = '';
-							action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-tab-'+color+' bb-bb10-action-bar-tab-normal-'+color;
-							action.highlight = action.normal + ' bb-bb10-action-bar-tab-selected-'+color;
-							action.setAttribute('class',action.normal);
-							if (firstTab && actionBar.backBtn) {
-								actionBar.backBtn.parentNode.setAttribute('class',actionBar.backBtn.normal);
-							}
-							if (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
-								bb.actionBar.highlightAction(action);
-								if (firstTab && actionBar.backBtn) {
-									actionBar.backBtn.parentNode.setAttribute('class',actionBar.backBtn.highlight);
-								}
-							} 
+		// Create our function to calculate the widths of the inner action items 
+		actionBar.calculateActionWidths = function() {
+							var result,
+								numUserActions,
+								numSystemActions = 0,
+								totalWidth = this.getUsableWidth(),
+								visibleActions = this.visibleButtons.length + this.visibleTabs.length;
 							
-							firstTab = false;
-							// Add the icon
-							icon = document.createElement('img');
-							icon.setAttribute('src',action.getAttribute('data-bb-img'));
-							icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
-							action.appendChild(icon);
-							// Set our caption
-							var display = document.createElement('div');
-							display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
-							display.innerHTML = caption;
-							action.appendChild(display);
-
-							// Make the last tab have a smaller border
-							if (j == actions.length-1) {
-								action.style['border-right-width'] = '1px';
-							} 
-						}						
-						// Add our click listener
-						action.addEventListener('click',function (e) {
-							var i,
-								action,
-								tabStyle = this.actionBar.tabStyle;
-								tabs = this.actionBar.tabs,
-								firstTab = false;
-								
-							for (i = 0; i < tabs.length; i++) {
-								action = tabs[i];
-								if (tabStyle == 'highlight') {
-									if (action == this) {
-										bb.actionBar.highlightAction(action);
-										firstTab = (i == 0);
+							// Get our non system actions
+							numUserActions = (this.moreBtn) ? visibleActions - 1 : visibleActions; // Remove the more button from the equation
+							numUserActions = (this.tabOverflowBtn) ? numUserActions - 1 : numUserActions; // Remove the tab overflow button from the equation
+							
+							// Count our visible system actions
+							numSystemActions = (this.moreBtn) ? numSystemActions + 1 : numSystemActions;
+							numSystemActions = (this.tabOverflowBtn) ? numSystemActions + 1 : numSystemActions;
+							numSystemActions = (this.backBtn) ? numSystemActions + 1 : numSystemActions;
+							
+							if ((numSystemActions + numUserActions) < 5) {
+								result = Math.floor(totalWidth/numUserActions);
+							} else {
+								result = Math.floor(totalWidth/(5-numSystemActions));
+							}
+							
+							return result;
+						};
+		actionBar.calculateActionWidths = actionBar.calculateActionWidths.bind(actionBar);
+		// Get our button width
+		btnWidth = actionBar.calculateActionWidths();
+		
+		// Make sure we move when the orientation of the device changes
+		actionBar.orientationChanged = function(event) {
+								var actionWidth = actionBar.calculateActionWidths(),
+									i,
+									action,
+									actionType,
+									length = this.shownActions.length,
+									margins = 2;
+								for (i = 0; length; i++) {
+									action = this.shownActions[i];
+									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
+									// Compute margins
+									margins = (actionType == 'tab') ? 2 : 0;
+									action.style.width = (actionWidth - margins) + 'px'; 
+								}
+								// Adjust our more button
+								if (this.moreBtn && (this.shownActions.length > 0)) {
+									if (actionType == 'tab') {
+										// Stretch the last button if all tabs are before the overflow button  
+										this.moreBtn.style.width = (bb.innerWidth() - (this.shownActions.length * actionWidth)) + 'px';
 									} else {
-										bb.actionBar.unhighlightAction(action);
+										this.moreBtn.style.width = this.actionOverflowBtnWidth + 'px'; 
 									}
 								}
-								// Set our back button highlighting
-								if (firstTab && actionBar.backBtn) {
-									actionBar.backBtn.parentNode.setAttribute('class',actionBar.backBtn.highlight);
-								} else if (actionBar.backBtn){
-									actionBar.backBtn.parentNode.setAttribute('class',actionBar.backBtn.normal);
-								}
-								
-							}
-							
-						},false);
-					}
-					lastStyle = style;
+							};
+		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
+		window.addEventListener('orientationchange', actionBar.orientationChanged,false); 
+		
+		// Add all our overflow tab actions
+		if (overflowTabs.length > 0 ) {
+			var clone;
+			// Add all our visible tabs if any so they are at the top of the list
+			for (j = 0; j < visibleTabs.length; j++) {
+				action = visibleTabs[j];
+				// Don't add the visible overflow tab
+				if (action.getAttribute('data-bb-img') != 'overflow') {
+					clone = action.cloneNode(true);
+					clone.onclick = undefined;
+					clone.visibleTab = action;
+					clone.res = res;
+					clone.actionBar = actionBar;
+					actionBar.tabOverflowMenu.add(clone);
 				}
+			}			
+		
+			// Now add all our tabs marked as overflow
+			for (j = 0; j < overflowTabs.length; j++) {
+				action = overflowTabs[j];
+				action.res = res;
+				action.actionBar = actionBar;
+				actionBar.tabOverflowMenu.add(action);
 			}
 		}
-		// Set the proper header height
-		/*if (actionBar.menu) {
-			actionBar.menu.setHeaderHeight();
-		}*/
+
+		// Add all of our overflow button actions
+		for (j = 0; j < overflowButtons.length; j++) {
+			action = overflowButtons[j];
+			action.res = res;
+			actionBar.menu.add(action);
+		}
+		
+		// Apply all our tab styling
+		var tabMargins = 2,
+			numVisibleTabs = visibleTabs.length,
+			display;
+		for (j = 0; j < numVisibleTabs; j++) {
+			action = visibleTabs[j];
+			// Don't add any more than 5 items on the action bar
+			if (j > 4) {
+				action.style.display = 'none';
+				continue;			
+			}
+			action.res = res;
+			caption = action.innerHTML;
+			// Size our last visible tab differently
+			if ((j == visibleTabs.length -1) && (j == 4)) {
+				// Stretch the last tab if actionbar only has tabs in case of any kind of rounding errors based on division  
+				action.style.width = (actionBar.getUsableWidth() - (4 * btnWidth) - tabMargins) + 'px';
+			} else {
+				action.style.width = (btnWidth - tabMargins) + 'px'; 
+			}
+			action.actionBar = actionBar;
+			action.innerHTML = '';
+			action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-tab-'+color+' bb-bb10-action-bar-tab-normal-'+color;
+			action.highlight = action.normal + ' bb-bb10-action-bar-tab-selected-'+color;
+			action.setAttribute('class',action.normal);
+
+			// Add the icon
+			icon = document.createElement('img');
+			icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
+			action.appendChild(icon);
+			// Set our caption
+			display = document.createElement('div');
+			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
+			display.innerHTML = caption;
+			action.appendChild(display);
+			
+			// See if it is our overflow tab
+			if (action.getAttribute('data-bb-img') == 'overflow') {
+				action.style.width = actionBar.tabOverflowBtnWidth + 'px'; 
+				action.icon = icon;
+				display.innerHTML = '&nbsp;';
+				action.display = display;
+				// Set our transparent pixel
+				icon.setAttribute('src',bb.transparentPixel);
+				icon.normal = 'bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-tab-overflow-'+res+'-'+color;
+				icon.highlight = 'bb-bb10-action-bar-icon-'+res;
+				icon.setAttribute('class',icon.normal);
+				// Crete our tab highlight div
+				action.tabHighlight = document.createElement('div');
+				action.tabHighlight.setAttribute('class','bb-bb10-action-bar-tab-overflow-'+res+'-'+color+' bb-bb10-action-bar-tab-overflow-highlight-'+res);
+				action.appendChild(action.tabHighlight);
+				action.style.width = (actionBar.tabOverflowBtnWidth - 1) + 'px';
+				// Set our reset function
+				action.reset = function() {
+							this.icon.setAttribute('src',bb.transparentPixel);
+							this.icon.setAttribute('class',this.icon.normal);
+							this.tabHighlight.style.display = 'none';
+							this.display.innerHTML = '&nbsp;';
+						};
+				action.reset = action.reset.bind(action);	
+			} // See if it was a selected tab
+			else {
+				shownActions.push(action);
+				// Set our image
+				icon.setAttribute('src',action.getAttribute('data-bb-img'));
+				
+				if (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
+					bb.actionBar.highlightAction(action);
+				}
+				// Add our click listener
+				action.addEventListener('click',function (e) {
+					bb.actionBar.highlightAction(this);
+				},false);
+			}
+			
+			// Make the last tab have a smaller border and insert the shading
+			if ((j == visibleTabs.length-1) && (j < 4)) {
+				action.style['border-right-width'] = '1px';
+			} 	
+		}
+		
+		// Apply all our button styling
+		lastStyle = (visibleTabs.length > 0) ? 'tab' : 'button';
+		for (j = 0; j < visibleButtons.length; j++) {
+			action = visibleButtons[j];
+			action.res = res;
+			caption = action.innerHTML;
+			// Don't add any more than 5 items on the action bar
+			if ((((numVisibleTabs + j) > 4)) || (actionBar.backBtn && (j > 3))) {
+				action.style.display = 'none';
+				continue;			
+			}
+			
+			// Add the icon
+			icon = document.createElement('img');
+			if (action.getAttribute('data-bb-img') == 'overflow') {
+				// Set our transparent pixel
+				icon.setAttribute('src',bb.transparentPixel);
+				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-overflow-button-'+res+'-'+color);
+				// Stretch to the last tab as long as the only tab isn't the tab overflow 
+				var stretchToTab = false;
+				if ((lastStyle == 'tab') && actionBar.tabOverflowMenu && (visibleTabs.length == 1) && (visibleButtons.length == 1)) {
+					stretchToTab = false;
+				} else if (lastStyle == 'tab') {
+					stretchToTab = true;
+				}
+				// If it is next to a tab, stretch it so that the right shading lines up
+				if (stretchToTab) {
+					// Stretch the last button if all tabs are before the overflow button  
+					action.style.width = (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px' : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px';
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
+				} else {
+					action.style.width = (actionBar.actionOverflowBtnWidth - 1) + 'px'; 
+					action.style.float = 'right';
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
+				}
+			} else {
+				shownActions.push(action);
+				icon.setAttribute('src',action.getAttribute('data-bb-img'));
+				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
+				action.style.width = btnWidth + 'px'; 
+				// set our shading if needed
+				if (lastStyle == 'tab') {
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
+				} else {
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
+				}
+			}
+			
+			
+			action.innerHTML = '';
+			action.setAttribute('class',action.normal);
+			
+			action.appendChild(icon);
+			lastStyle = 'button';
+			
+			// Set our caption
+			var display = document.createElement('div');
+			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
+			display.innerHTML = caption;
+			action.appendChild(display);	
+		}
+		// Center the action overflow items
+		if (actionBar.menu) {
+			actionBar.menu.centerMenuItems();
+		}
+		// Initialize the Tab Overflow
+		if (actionBar.tabOverflowMenu) {
+			actionBar.tabOverflowMenu.centerMenuItems();
+			actionBar.tabOverflowMenu.initSelected();
+		}
+		
+		
 	},
 
 	// Apply the proper highlighting for the action
-	highlightAction: function (action) {
+	highlightAction: function (action, overflowAction) {
+		var i,
+			target,
+			tabs = action.actionBar.visibleTabs;
+		
+		// First un-highlight the rest
+		for (i = 0; i < tabs.length; i++) {
+			target = tabs[i];
+			if (target != action) { 
+				bb.actionBar.unhighlightAction(target);
+			}					
+		}
+		// Un-highlight the overflow menu items
+		tabs = action.actionBar.tabOverflowMenu.actions;
+		for (i = 0; i < tabs.length; i++) {
+			target = tabs[i];
+			if (target != overflowAction)  {
+				bb.actionBar.unhighlightAction(target);
+			} 
+		}
+		
+		// Now highlight this action
 		action.style['border-top-color'] = bb.options.bb10HighlightColor;
 		action.setAttribute('class',action.highlight);
+		
+		if (overflowAction) {
+			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+		}
+		
+		// See if there was a tab overflow
+		if (action.actionBar.tabOverflowMenu && !overflowAction) {
+			if (action.actionBar.tabOverflowBtn && (action == action.actionBar.tabOverflowBtn)) {
+				overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+			} else {
+				tabs = action.actionBar.tabOverflowMenu.actions;
+				for (i = 0; i < tabs.length; i++) {
+					target = tabs[i];
+					if (target.visibleTab == action)  {
+						target.setAttribute('class', target.normal + ' bb10Highlight');
+					}
+				}
+			}
+		}
+		
+		// Reset the tab overflow
+		if (action.actionBar.tabOverflowBtn && action.actionBar.tabOverflowBtn.reset) {
+			action.actionBar.tabOverflowBtn.reset();
+		}
 	},
 	
 	// Apply the proper styling for an action that is no longer highlighted
 	unhighlightAction: function(action) {
+		var target;
 		action.style['border-top-color'] = '';
 		action.setAttribute('class',action.normal);
+		// See if there was a tab overflow
+		if (action.actionBar && action.actionBar.tabOverflowMenu) {
+			tabs = action.actionBar.tabOverflowMenu.actions;
+			for (i = 0; i < tabs.length; i++) {
+				target = tabs[i];
+				target.setAttribute('class', target.normal);
+			}
+		}
 	}
 };
+
+bb.scrollPanel = {
+	apply: function(elements) {
+		var i,j,
+			outerElement,
+			childNode,
+			scrollArea,
+			tempHolder;
+		
+		for (i = 0; i < elements.length; i++) {
+			outerElement = elements[i];
+			tempHolder = [];
+			
+			if (bb.device.isBB10 || bb.device.isPlayBook) {				
+				// Inner Scroll Area
+				scrollArea = document.createElement('div');
+				outerElement.appendChild(scrollArea); 
+				
+				// Copy all nodes in the screen that are not the action bar
+				for (j = 0; j < outerElement.childNodes.length - 1; j++) {
+					tempHolder.push(outerElement.childNodes[j]);
+				}
+				// Add them into the scrollable area
+				for (j = 0; j < tempHolder.length -1; j++) {
+					scrollArea.appendChild(tempHolder[j]);
+				}
+
+				outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
+									onBeforeScrollStart: function (e) {
+										if (bb.scroller) {
+											bb.scroller.disable();
+										}
+										e.preventDefault();
+									}, 
+									onBeforeScrollEnd: function(e) {
+										if (bb.scroller) {
+											bb.scroller.enable();
+										}
+									}});
+				
+				// Set refresh
+				outerElement.refresh = function() {
+						this.scroller.refresh();
+					};
+				outerElement.refresh = outerElement.refresh.bind(outerElement);
+				setTimeout(outerElement.refresh,0);
+				// Set ScrollTo
+				outerElement.scrollTo = function(x, y, time, relative) {
+						this.scroller.scrollTo(x, y, time, relative);
+					};
+				outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
+				// Set ScrollToElement
+				outerElement.scrollToElement = function(element, time) {
+						this.scroller.scrollToElement(element, time);
+					};
+				outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
+				
+			} 
+			outerElement.setAttribute('class','bb-scroll-panel');
+		}
+	}
+	
+};
+
+bb.tabOverflow = {
+
+	create : function(screen) {
+		var menu = document.createElement('div'),
+			overlay;
+		menu.screen = screen;
+		menu.itemClicked = false;
+		menu.visible = false;
+		menu.actions = [];
+		menu.tabOverflowState = {
+			display : undefined,
+			img : undefined,
+			style : undefined,
+			caption : undefined
+		};
+		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-'+bb.actionBar.color);
+		screen.parentNode.appendChild(menu);
+		
+		if (!bb.screen.tabOverlay) {
+			overlay = document.createElement('div');
+			overlay.menu = menu;
+			bb.screen.tabOverlay = overlay;
+			overlay.setAttribute('class','bb-bb10-tab-overflow-menu-overlay ');
+			screen.appendChild(overlay);
+			
+			// Hide the menu on touch
+			overlay.ontouchstart = function() {
+						this.menu.hide();
+					};
+			
+		}
+		menu.overlay = bb.screen.tabOverlay;
+		
+		menu.show = function() {
+					this.itemClicked = false;
+					this.visible = true;
+					var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+					this.tabOverflowState.display = tabOverflowBtn.tabHighlight.style.display;
+					this.tabOverflowState.img = tabOverflowBtn.icon.src;
+					this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
+					this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					this.setDimensions();					
+					// Reset our overflow menu button
+					tabOverflowBtn.reset();
+				};
+		menu.show = menu.show.bind(menu);	
+		
+		// Adjust the dimensions of the menu and screen
+		menu.setDimensions = function() {
+					var width = (bb.device.isPlayBook) ? bb.innerWidth() - 77 : bb.innerWidth() - 154;
+					// Set our screen's parent to have no overflow so the browser doesn't think it needs to scroll
+					this.screen.parentNode.style.position = 'absolute';
+					this.screen.parentNode.style.left = '0px';
+					this.screen.parentNode.style.top = '0px';
+					this.screen.parentNode.style.bottom = '0px';
+					this.screen.parentNode.style.right = '0px';
+					this.screen.parentNode.style.width = '100%';
+					this.screen.parentNode.style['overflow'] = 'hidden';
+					// Make our overlay visible
+					this.overlay.style.display = 'block';
+					// Show our menu
+					this.style.width = width + 'px';
+					this.style['-webkit-transition'] = 'all 0.2s ease-out';
+					this.style['-webkit-backface-visibility'] = 'hidden';
+					// Slide our screen
+					this.screen.style.left = width + 'px';
+					this.screen.style.right = '-' + width +'px';
+					this.screen.style['-webkit-transition'] = 'all 0.2s ease-out';
+					this.screen.style['-webkit-backface-visibility'] = 'hidden';
+				};
+		menu.setDimensions = menu.setDimensions.bind(menu);	
+		
+		menu.hide = function() {
+					this.visible = false;
+					// Set our sizes
+					this.style.width = '0px';
+					this.screen.style.left = '0px';
+					this.screen.style.right = '0px';
+					// Make our overlay invisible
+					this.overlay.style.display = 'none';
+					
+					// Re-apply the old button styling if needed
+					if (!this.itemClicked) {
+						var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+						tabOverflowBtn.icon.setAttribute('src',this.tabOverflowState.img);
+						tabOverflowBtn.icon.setAttribute('class',this.tabOverflowState.style);
+						tabOverflowBtn.tabHighlight.style.display = this.tabOverflowState.display;
+						tabOverflowBtn.display.innerHTML = this.tabOverflowState.caption;
+					}
+				};
+		menu.hide = menu.hide.bind(menu);
+		
+		// Hide the menu
+		menu.onclick = function() {
+					this.hide();
+				};
+				
+		// Center the items in the list
+		menu.centerMenuItems = function() {
+								var windowHeight = bb.innerHeight(),
+									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
+									margin;
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
+								this.actions[0].style['margin-top'] = margin + 'px';
+							};
+		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
+		
+		// Initialize any selected items
+		menu.initSelected = function() {
+								var i,
+									action;
+								for (i = 0; i < this.actions.length; i++) {
+									action = this.actions[i];
+									if (action.initialSelected) {
+										action.setOverflowTab(true);
+										break;
+									}
+								}
+							};
+		menu.initSelected = menu.initSelected.bind(menu);
+
+		// Make sure we move when the orientation of the device changes
+		menu.orientationChanged = function(event) {
+								this.centerMenuItems();
+								// Resize the menu if it is currently open
+								if (this.visible) {
+									this.setDimensions();
+								}
+							};
+		menu.orientationChanged = menu.orientationChanged.bind(menu);	
+		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		
+		// Create our add item function
+		menu.add = function(action) {
+				var normal, 
+					caption = action.innerHTML,
+					inner = document.createElement('div'),
+					img = document.createElement('img'),
+					table, tr, td;
+				
+				// set our styling
+				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-' + bb.actionBar.color;
+				this.appendChild(action);
+				this.actions.push(action);
+				// If it is the top item it needs a top border
+				if (this.actions.length == 1) {
+					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+				}
+				// Set our inner information
+				action.normal = normal;
+				action.menu = this;
+				action.caption = caption;
+				action.setAttribute('class',action.normal);
+				action.innerHTML = '';
+				if (!action.visibleTab) {
+						action.visibleTab = action.actionBar.tabOverflowBtn;
+				}
+				// Create our layout
+				table = document.createElement('table');
+				tr = document.createElement('tr');
+				table.appendChild(tr);
+				action.appendChild(table);
+				// Add our image
+				td = document.createElement('td');
+				img.setAttribute('src', action.getAttribute('data-bb-img'));
+				img.setAttribute('class','bb-bb10-tab-overflow-menu-item-image-'+this.res);
+				action.img = img;
+				td.appendChild(img);
+				tr.appendChild(td);
+				// Add our caption
+				td = document.createElement('td');
+				inner.setAttribute('class','bb-bb10-tab-overflow-menu-item-inner-'+this.res);
+				inner.innerHTML = caption;
+				td.appendChild(inner);
+				tr.appendChild(td);
+				
+				//Set the overflow tab item
+				action.setOverflowTab = function(hightlight) {
+							var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+							if (hightlight) {
+								bb.actionBar.highlightAction(this.visibleTab, this);
+							}
+							if (this.visibleTab == tabOverflowBtn) {
+								tabOverflowBtn.icon.setAttribute('src',this.img.src);
+								tabOverflowBtn.icon.setAttribute('class',tabOverflowBtn.icon.highlight);
+								tabOverflowBtn.tabHighlight.style.display = 'block';
+								tabOverflowBtn.display.innerHTML = this.caption;
+							}
+						};
+				action.setOverflowTab = action.setOverflowTab.bind(action);
+
+				// See if it was selected
+				action.initialSelected = (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true'));
+				
+				// Trap the old click so that we can call it later
+				action.oldClick = action.onclick;
+				action.onclick = function() {
+									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+									this.menu.itemClicked = true;
+									
+									bb.actionBar.highlightAction(this.visibleTab, this);
+									if (this.visibleTab == tabOverflowBtn) {
+										this.setOverflowTab(false);
+										if (this.oldClick) {
+											this.oldClick();
+										}
+									} else {
+										tabOverflowBtn.tabHighlight.reset();
+										if (this.visibleTab.onclick) {
+											this.visibleTab.onclick();
+										}
+									}										
+								};
+								
+			
+		};
+		menu.add = menu.add.bind(menu);
+		return menu;
+	}
+},
 
 // BlackBerry 10 Context Menu
 bb.contextMenu = {
@@ -3711,7 +5421,9 @@ bb.contextMenu = {
 			header;
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
 		menu.actions = [];
+		menu.hideEvents = [];
 		menu.res = res;
+		menu.visible = false;
 		// Add the overlay for trapping clicks on items below
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
@@ -3725,7 +5437,7 @@ bb.contextMenu = {
 											if (!this.menu.peeking) return;
 											var touch = event.touches[0];
 											if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
-												this.menu.show();
+												this.menu.show(this.menu.selected);
 												this.closeMenu = false;
 											}
 										};
@@ -3768,6 +5480,7 @@ bb.contextMenu = {
 		// Display the menu
 		menu.show = function(data){
 						if (data) {
+							this.header.style.display = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -3775,6 +5488,9 @@ bb.contextMenu = {
 								this.description.innerHTML = data.description;
 							}
 							this.selected = data;
+						} else {
+							this.header.style.display = 'none';	
+							this.selected = undefined;							
 						}
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
@@ -3782,7 +5498,9 @@ bb.contextMenu = {
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);		
 						// Remove the header click handling while peeking
-						this.header.addEventListener("click", this.hide, false);	
+						this.header.addEventListener("click", this.hide, false);
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
@@ -3796,6 +5514,14 @@ bb.contextMenu = {
 							this.header.removeEventListener("click", this.hide, false);	
 						}
 						this.peeking = false;
+						this.visible = false;
+						
+						// See if there was anyone listenting for hide events and call them
+						// starting from the last one registered and pop them off
+						for (var i = menu.hideEvents.length-1; i >= 0; i--) {
+							menu.hideEvents[i]();
+							menu.hideEvents.pop();
+						}
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -3809,13 +5535,17 @@ bb.contextMenu = {
 							}
 							this.selected = data;
 						}
+						this.header.style.display = '';
+						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);	
 						// Remove the header click handling while peeking
-						this.header.removeEventListener("click", this.hide, false);						
+						this.header.removeEventListener("click", this.hide, false);		
+						this.style.visibility = 'visible';
+						this.visible = true;
 					};
 		menu.peek = menu.peek.bind(menu);
 		
@@ -3837,63 +5567,62 @@ bb.contextMenu = {
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
 		
-		// Calculate the header bottom margin to center the items in the list
-		menu.setHeaderHeight = function() {
-								var windowHeight,
-									itemHeight,
-									margin;
-								if (bb.device.isPlayBook) {
-									itemHeight = 53;
-									if (window.orientation == 0 || window.orientation == 180) {
-										windowHeight = 600;
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										windowHeight = 1024;
-									}
-								} else {
-									itemHeight = 111;
-									if (window.orientation == 0 || window.orientation == 180) {
-										windowHeight = 1280;
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										windowHeight = 768;
-									}
-								}
-								margin = Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2);
-								this.header.style['margin-bottom'] = margin + 'px';
+		// Center the items in the list
+		menu.centerMenuItems = function() {
+								var windowHeight = bb.innerHeight(),
+									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
+									margin,
+									numActions;
+								// See how many actions to use for calculations
+								numActions = (this.pinnedAction) ? this.actions.length - 1 : this.actions.length;
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - itemHeight; //itemHeight is the header
+								this.actions[0].style['margin-top'] = margin + 'px';
 							};
-		menu.setHeaderHeight = menu.setHeaderHeight.bind(menu);
+		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
 		
 		// Make sure we move when the orientation of the device changes
 		menu.orientationChanged = function(event) {
-								// Orientation is backwards between playbook and BB10 smartphones
-								if (bb.device.isPlayBook) {
-									if (window.orientation == 0 || window.orientation == 180) {
-										this.style.left = '1027px';
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										this.style.left = '603px';
-									}
-								} else {
-									if (window.orientation == 0 || window.orientation == 180) {
-										this.style.left = '771px';
-									} else if (window.orientation == -90 || window.orientation == 90) {
-										this.style.left = '1283px';
-									}
-								}
+								this.style['-webkit-transition'] = '';
+								this.style.left = bb.innerWidth() + 'px';
+								this.style.height = bb.innerHeight() + 'px';
+								this.centerMenuItems();
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		
+		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
+		menu.addEventListener('webkitTransitionEnd', function() { 
+						if (!this.visible) {
+							this.style.visibility = 'hidden';
+						}
+					});
 		
 		// Create our add item function
 		menu.add = function(action) {
 				var normal, 
 					highlight,
-					caption = action.innerHTML;
+					caption = action.innerHTML,
+					pin = false;
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
-				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				this.appendChild(action);
 				this.actions.push(action);
+				// See if this item should be pinned to the bottom
+				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
+				if (pin && !this.pinnedAction) {
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+					action.style['bottom'] = '-2px';
+					action.style.position = 'absolute';
+					action.style.width = '100%';
+					this.pinnedAction = action;
+				}				
+				// If it is the top item it needs a top border
+				if (this.actions.length == 1) {
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+				}
+				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				action.normal = normal;
 				action.highlight = highlight;
 				// Set our inner information
@@ -3910,16 +5639,15 @@ bb.contextMenu = {
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										this.setAttribute('class',this.highlight);
-										this.setAttribute('style','border-left-color:'+ bb.options.bb10HighlightColor);
+										this.style['border-left-color'] = bb.options.bb10HighlightColor;
 									}
 				action.ontouchend = function () {
 										this.setAttribute('class',this.normal);
-										this.setAttribute('style','');
+										this.style['border-left-color'] = 'transparent';
 									}
 				action.addEventListener("click", this.hide, false);
 		};
 		menu.add = menu.add.bind(menu);
-		
 		return menu;
 	},
 	
@@ -3945,79 +5673,6 @@ bb.contextMenu = {
 	getLeft : function() {
 		return window.innerWidth + 3 + 'px';	
 	}
-};
-
-
-bb.textArrowList = { 
-    // Apply our transforms to all arrow lists passed in
-    apply: function(elements) {
-        if (bb.device.isBB10) {
-			var i, 
-				outerElement,
-				res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-				borderColor = (bb.screen.listColor == 'dark') ? '#3A3A3A' : 'Silver',
-				borderWidth = (res == 'lowres') ? '1px' : '2px';
-
-			for (i = 0; i < elements.length; i++) {
-				outerElement = elements[i];
-				outerElement.setAttribute('class','bb-bb10-text-arrow-list-'+res);
-				// Gather our inner items
-				var items = outerElement.querySelectorAll('[data-bb-type=item]');
-				for (var j = 0; j < items.length; j++) {
-					var innerChildNode = items[j];
-					innerChildNode.normal = 'bb-bb10-text-arrow-list-item-' + res+' bb-bb10-text-arrow-list-item-'+bb.screen.listColor;
-					innerChildNode.highlight = 'bb-bb10-text-arrow-list-item-' + res + ' bb-bb10-text-arrow-list-item-hover bb10Highlight';
-					innerChildNode.setAttribute('class',innerChildNode.normal);
-					// Handle our touch events
-					innerChildNode.ontouchstart = function() {
-													this.setAttribute('class', this.highlight);
-												};
-					innerChildNode.ontouchend = function() {
-													this.setAttribute('class', this.normal);
-												};					
-					// Create our separator 
-					if (j < items.length - 1) {
-						innerChildNode.style['border-bottom'] = 'solid ' + borderWidth + ' ' + borderColor;
-					}
-				}
-			}
-		}
-		else {
-			for (var i = 0; i < elements.length; i++) {
-				var inEvent, 
-					outEvent,
-					outerElement = elements[i];
-				// Gather our inner items
-				var items = outerElement.querySelectorAll('[data-bb-type=item]');
-				for (var j = 0; j < items.length; j++) {
-					var innerChildNode = items[j];
-					innerChildNode.setAttribute('class','bb-text-arrow-list-item');
-					innerChildNode.setAttribute('x-blackberry-focusable','true');
-					
-					if (bb.device.isPlayBook) {
-						innerChildNode.ontouchstart = function() {
-														this.setAttribute('class','bb-text-arrow-list-item bb-text-arrow-list-item-hover');
-													};
-						innerChildNode.ontouchend = function() {
-														this.setAttribute('class','bb-text-arrow-list-item');
-													};
-					} else {
-						innerChildNode.onmouseover = function() {
-														this.setAttribute('class','bb-text-arrow-list-item bb-text-arrow-list-item-hover');
-													};
-						innerChildNode.onmouseout = function() {
-														this.setAttribute('class','bb-text-arrow-list-item');
-													};
-					}
-					
-					// Create our separator 
-					if (j < items.length - 1) {
-						innerChildNode.style['border-bottom'] = 'solid 1px Silver';
-					}
-				}	
-			}
-		}
-    }
 };
 
 

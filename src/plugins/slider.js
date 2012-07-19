@@ -5,20 +5,9 @@ bb.slider = {
 			var i, 
 				range,
 				res,
-				R,
-				G,
-				B,
-				color = bb.options.bb10ControlsDark ? 'dark' : 'light';
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
-			} else {
-				res = 'hires';
-			}	
-			// Get our highlight RGB colors
-			R = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16)
-			G = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16);
-			B = parseInt((bb.slider.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
-			
+				color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+				res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+
 			for (i = 0; i < elements.length; i++) {
 				range = elements[i];
 				// Create our container div
@@ -43,14 +32,17 @@ bb.slider = {
 				outerElement.appendChild(outerElement.outer);
 				outerElement.fill = document.createElement('div');
 				outerElement.fill.className = 'fill';
-				outerElement.fill.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
+				outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+				outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+				outerElement.fill.style.background = outerElement.fill.dormant;
 				outerElement.outer.appendChild(outerElement.fill);
 				outerElement.inner = document.createElement('div');
 				outerElement.inner.className = 'inner';
+				outerElement.inner.outerElement = outerElement;
 				outerElement.outer.appendChild(outerElement.inner);
 				outerElement.halo = document.createElement('div');
 				outerElement.halo.className = 'halo';
-				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ R +', '+ G +', '+ B +', 0.15)), color-stop(0.8, rgba('+ R +', '+ G +', '+ B +', 0.15)), to(rgba('+ R +', '+ G +', '+ B +', 0.7)))';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
 				outerElement.inner.appendChild(outerElement.halo);
 				outerElement.indicator = document.createElement('div');
 				outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);
@@ -86,57 +78,58 @@ bb.slider = {
 				window.setTimeout(range.setValue, 0);
 				// Setup our touch events
 				outerElement.inner.animateBegin = function(event) {
-										if (outerElement.isActivated === false) {
-											outerElement.isActivated = true;
-											outerElement.initialXPos = event.touches[0].pageX;	
-											outerElement.halo.style['-webkit-transform'] = 'scale(1)';
-											outerElement.halo.style['-webkit-animation-name'] = 'explode';
-											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
-											outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ R +', '+ G +', '+ B +') 0%, rgb('+ (R + 16) +', '+ (G + 16) +', '+ (B + 16) +') 100%)';
-											
-											
+										if (this.outerElement.isActivated === false) {
+											this.outerElement.isActivated = true;
+											this.outerElement.initialXPos = event.touches[0].pageX;	
+											this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
+											this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
+											this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
+											this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+											this.outerElement.fill.style.background = this.outerElement.fill.active;
 										}
 									};
 				outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
 				outerElement.inner.addEventListener("touchstart", outerElement.inner.animateBegin, false);
 				outerElement.inner.animateEnd = function () {
-										if (outerElement.isActivated === true) {
-											outerElement.isActivated = false;
-											outerElement.currentXPos = outerElement.transientXPos;
-											outerElement.value = parseInt(outerElement.range.value);
-											outerElement.halo.style['-webkit-transform'] = 'scale(0)';
-											outerElement.halo.style['-webkit-animation-name'] = 'implode';
-											outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
-											outerElement.indicator.style.background = '';											
+										if (this.outerElement.isActivated === true) {
+											this.outerElement.isActivated = false;
+											this.outerElement.currentXPos = this.outerElement.transientXPos;
+											this.outerElement.value = parseInt(this.outerElement.range.value);
+											this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
+											this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
+											this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
+											this.outerElement.indicator.style.background = '';	
+											this.outerElement.fill.style.background = this.outerElement.fill.dormant;
 										}
 									};
 				outerElement.inner.animateEnd = outerElement.inner.animateEnd.bind(outerElement.inner);
 				outerElement.inner.addEventListener("touchend", outerElement.inner.animateEnd, false);
 				// Handle moving the slider
 				outerElement.moveSlider = function (event) {
-									if (outerElement.isActivated === true) {
+									if (this.isActivated === true) {
 										event.stopPropagation();
 										event.preventDefault();
-										outerElement.transientXPos = outerElement.currentXPos + event.touches[0].pageX - outerElement.initialXPos;
-										outerElement.transientXPos = Math.max(0, Math.min(outerElement.transientXPos, parseInt(window.getComputedStyle(outerElement.outer).width)));
+										this.transientXPos = this.currentXPos + event.touches[0].pageX - this.initialXPos;
+										this.transientXPos = Math.max(0, Math.min(this.transientXPos, parseInt(window.getComputedStyle(this.outer).width)));
 										this.notifyUpdated();
-										this.fill.style.width = outerElement.transientXPos + 'px';
-										this.inner.style['-webkit-transform'] = 'translate3d(' + outerElement.transientXPos + 'px,0px,0px)';
+										this.fill.style.width = this.transientXPos + 'px';
+										this.inner.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
 									}
 								};
 				outerElement.moveSlider = outerElement.moveSlider.bind(outerElement);
 				// Handle sending event to person trapping
 				outerElement.notifyUpdated = function() {
-									var percent = outerElement.transientXPos/parseInt(window.getComputedStyle(outerElement.outer).width),
-										newValue = Math.ceil((parseInt(outerElement.minValue) + parseInt(outerElement.maxValue))*percent);
+									var percent = this.transientXPos/parseInt(window.getComputedStyle(this.outer).width),
+										newValue = Math.ceil((parseInt(this.minValue) + parseInt(this.maxValue))*percent);
 									// Fire our events based on the step provided
-									if (Math.abs(newValue - parseInt(outerElement.range.value)) > outerElement.step) {
-										outerElement.range.value = newValue;
+									if (Math.abs(newValue - parseInt(this.range.value)) > this.step) {
+										this.range.value = newValue;
 										var evObj = document.createEvent('HTMLEvents');
 										evObj.initEvent('change', false, true );
-										outerElement.range.dispatchEvent(evObj);
+										this.range.dispatchEvent(evObj);
 									}
 								};
+				outerElement.notifyUpdated = outerElement.notifyUpdated.bind(outerElement);
 				outerElement.doOrientationChange = function() {
 									window.setTimeout(outerElement.range.setValue, 0);
 								};
@@ -144,12 +137,8 @@ bb.slider = {
 				// Assign our document event listeners
 				document.addEventListener('touchmove', outerElement.moveSlider, false);
 				document.addEventListener('touchend', outerElement.inner.animateEnd, false);
-				window.addEventListener('orientationchange', outerElement.doOrientationChange,false); 
+				window.addEventListener('resize', outerElement.doOrientationChange,false); 
 			}
 		}	
-	},
-	
-	cutHex : function(h) {
-		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	}
 };

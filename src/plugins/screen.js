@@ -4,7 +4,9 @@ bb.screen = {
 	controlColor: 'light',
 	listColor: 'light',
 	overlay : null,
+	tabOverlay : null,
 	contextMenu : null,
+	animating : false,
     
     apply: function(elements) {
 		var screenRes,
@@ -13,7 +15,7 @@ bb.screen = {
 		bb.screen.contextMenu = null;
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
-			screenRes = 'bb-hires-screen';
+			screenRes = 'bb-bb10-lowres-screen';
 		} else if (bb.device.isBB10) {
 			screenRes = 'bb-bb10-hires-screen';
 		} else if (bb.device.isHiRes) {
@@ -34,7 +36,6 @@ bb.screen = {
 			}
            
             if (bb.device.isBB10) {
-				
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]'),
@@ -43,7 +44,8 @@ bb.screen = {
 					tempHolder = [],
 					childNode = null, 
 					j,
-					height = (bb.device.isPlayBook) ? 73 : 140;
+					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
+					titleBarHeight = (bb.device.isPlayBook) ? 61 : 140;
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
@@ -55,6 +57,7 @@ bb.screen = {
 				// Assign our action bar
 				if (actionBar.length > 0) {
                     actionBar = actionBar[0]; 
+					outerElement.actionBar = actionBar;
 				} else {
 					actionBar = null;
 				}
@@ -64,7 +67,7 @@ bb.screen = {
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
-					outerScrollArea.setAttribute('id','bbUIscrollWrapper'); 
+					outerElement.bbUIscrollWrapper = outerScrollArea;
 				}
 				
 				// Inner Scroll Area
@@ -85,11 +88,11 @@ bb.screen = {
 				
 				// Set our outer scroll area dimensions
 				if (titleBar && actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+height+'px;top:'+height+'px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:'+titleBarHeight+'px;left:0px;right:0px;');
 				} else if (titleBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+height+'px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+titleBarHeight+'px;left:0px;right:0px;');
 				} else if (actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+height+'px;top:0px;left:0px;right:0px;');
+					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:0px;left:0px;right:0px;');
 				} else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
 				}
@@ -140,7 +143,7 @@ bb.screen = {
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
-					outerScrollArea.setAttribute('id','bbUIscrollWrapper'); 
+					outerElement.bbUIscrollWrapper = outerScrollArea;
 				}
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
@@ -201,60 +204,152 @@ bb.screen = {
 		for (i = 0; i < actions.length; i++) {
 			context.menu.add(actions[i]);
 		}
+		context.menu.centerMenuItems();
 	},
     
-    fadeIn: function (params) {
+    fadeIn: function (screen) {
+        // set default values
+        var duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+		s['-webkit-animation-name']            = 'bbUI-fade-in';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	fadeOut: function (screen) {
+        // set default values
+        var duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+		s['-webkit-animation-name']            = 'bbUI-fade-out';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideLeft: function (screen) {
         // set default values
         var r = 0,
-            duration = 1,
-            iteration = 1,
-            timing = 'ease-out';
-
-        if (document.getElementById(params.id)) {
-            var elem = document.getElementById(params.id),
-                s = elem.style;
-
-            if (params.random) {
-                r = Math.random() * (params.random / 50) - params.random / 100;
-            }
-
-            if (params.duration) {
-                duration = parseFloat(params.duration) + parseFloat(params.duration) * r;
-                duration = Math.round(duration * 1000) / 1000;
-            }
-
-            if (params.iteration) {
-                iteration = params.iteration;
-            }
-
-            if (params.timing) {
-                timing = params.timing;
-            }
-
-            s['-webkit-animation-name']            = 'bbUI-fade-in';
-            s['-webkit-animation-duration']        = duration + 's';
-            s['-webkit-animation-timing-function'] = timing;
-        }
-        else {
-            console.warn('Could not access ' + params.id);
-        }
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-left';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
-    
-    applyEffect: function(id, container) {
-        // see if there is a display effect
-        if (!bb.device.isBB5 && !bb.device.isBB6) {
-            var screen = container.querySelectorAll('[data-bb-type=screen]');
-            if (screen.length > 0 ) {
-                screen = screen[0];
-                var effect = screen.getAttribute('data-bb-effect');
-                if (effect && effect.toLowerCase() == 'fade') {
-                    bb.screen.fadeIn({'id': id, 'duration': 1.0});
-                }
-            }
-        }
+	slideOutLeft: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-left';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
+	slideRight: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-right';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutRight: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.width = bb.innerWidth()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-right';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideUp: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-up';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutUp: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-up';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideDown: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-down';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
+	
+	slideOutDown: function (screen) {
+        // set default values
+        var r = 0,
+            duration = 0.3,
+            timing = 'ease-out',
+			s = screen.style;
+			
+		s.height = bb.innerHeight()+'px';
+		s['-webkit-animation-name']            = 'bbUI-slide-out-down';
+		s['-webkit-animation-duration']        = duration + 's';
+		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-transform'] = 'translate3d(0,0,0)';
+		s['-webkit-backface-visibility'] = 'hidden';
+    },
 	
     
     reAdjustHeight: function() {
