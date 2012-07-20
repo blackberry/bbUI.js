@@ -420,12 +420,14 @@ bb.actionBar = {
 			}					
 		}
 		// Un-highlight the overflow menu items
-		tabs = action.actionBar.tabOverflowMenu.actions;
-		for (i = 0; i < tabs.length; i++) {
-			target = tabs[i];
-			if (target != overflowAction)  {
-				bb.actionBar.unhighlightAction(target);
-			} 
+		if (action.actionBar.tabOverlowMenu) {
+			tabs = action.actionBar.tabOverflowMenu.actions;
+			for (i = 0; i < tabs.length; i++) {
+				target = tabs[i];
+				if (target != overflowAction)  {
+					bb.actionBar.unhighlightAction(target);
+				} 
+			}
 		}
 		
 		// Now highlight this action
