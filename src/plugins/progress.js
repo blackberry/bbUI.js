@@ -1,4 +1,4 @@
-bb.progress = {
+_bb_progress = {
 
 	NORMAL : 0,
 	PAUSED : 1,

@@ -6,19 +6,34 @@ bb = {
 						'/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQXKc14qEQAAAAZdEVYdENv'+
 						'bW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADUlEQVQI12NgYGBgAAAABQABXvMqOgAAAABJ'+
 						'RU5ErkJggg==',
+						
+	// Core control variables
+	imageList : null,
+	activityIndicator : null,
+	fileInput : null,
+	button : null,
+	scrollPanel : null,
+	bbmBubble : null,
+	dropdown : null,
+	textInput : null,
+	roundPanel : null,
+	grid : null,
+	pillButtons : null,
+	labelControlContainers : null,	
+	slider : null,
+	radio : null,
+	progress : null,
+	checkbox : null,
+	toggle : null,
 
-    	
 	// Initialize the the options of bbUI
 	init : function (options) {
 		if (options) {
-			var i;
-			// User defined options
-			for (i in options) bb.options[i] = options[i];
+			for (var i in options) bb.options[i] = options[i];
 		}
 		
 		// Assign our back handler if provided otherwise assign the default
-		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {
-			
+		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {	
 			if (bb.options.onbackkey) {
 				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.options.onbackkey);
 			} else { // Use the default 
@@ -37,6 +52,7 @@ bb = {
 		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0) || bb.device.isRipple;
 		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
 		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
+		
 		// Determine HiRes
 		if (bb.device.isRipple) {
 			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
@@ -68,54 +84,79 @@ bb = {
 				console.log(ex.message);
 			}
 		}
-		// Set our action bar coloring
-		if (bb.options.bb10ActionBarDark) {
-			bb.actionBar.color = 'dark';
-		} else {
-			bb.actionBar.color = 'light';
-		}
+		// Set our coloring
+		bb.actionBar.color = (bb.options.bb10ActionBarDark) ? 'dark' : 'light';
+		bb.screen.controlColor = (bb.options.bb10ControlsDark) ? 'dark' : 'light';
+		bb.screen.listColor = (bb.options.bb10ListsDark) ? 'dark' : 'light';
 		
-		// Set our control coloring
-		if (bb.options.bb10ControlsDark) {
-			bb.screen.controlColor = 'dark';
+		// Set up our pointers to objects for each OS version
+		if (bb.device.isBB10) {
+			bb.imageList = _bb10_imageList
+			bb.activityIndicator = _bb10_activityIndicator;
+			bb.fileInput = _bb10_fileInput;
+			bb.button = _bb10_button;
+			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
+			bb.bbmBubble = _bb_bbmBubble;
+			bb.dropdown = _bb10_dropdown;
+			bb.textInput = _bb10_textInput;
+			bb.roundPanel = _bb10_roundPanel;
+			bb.grid = _bb10_grid;
+			bb.pillButtons = _bb10_pillButtons;
+			bb.labelControlContainers = _bb10_labelControlContainers;
+			bb.slider = _bb10_slider;
+			bb.radio = _bb10_radio;
+			bb.progress = _bb_5_6_7_PlayBook_10_progress;
+			bb.checkbox = _bb10_checkbox;
+			bb.toggle = _bb10_toggle;
+		} else if (bb.device.isBB5) {
+			bb.imageList = _bb_5_6_7_PlayBook_imageList;
+			bb.button = _bb5_button;
+			bb.bbmBubble = _bb_bbmBubble;
+			bb.roundPanel = _bb_5_6_7_roundPanel;
+			bb.pillButtons = _bb5_pillButtons;
+			bb.labelControlContainers = _bb5_labelControlContainers;
+			bb.progress = _bb_5_6_7_PlayBook_10_progress;
 		} else {
-			bb.screen.controlColor = 'light';
+			bb.imageList = _bb_5_6_7_PlayBook_imageList;
+			bb.button = _bb_6_7_PlayBook_button;
+			bb.bbmBubble = _bb_bbmBubble;
+			bb.dropdown = _bb_6_7_PlayBook_dropdown;
+			bb.textInput = _bb_6_7_PlayBook_textInput;
+			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
+			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
+			bb.progress = _bb_5_6_7_PlayBook_10_progress;
+			if (bb.device.isPlayBook) {
+				bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
+				bb.roundPanel = _bbPlayBook_roundPanel;
+			} else {
+				bb.roundPanel = _bb_5_6_7_roundPanel;
+			}
 		}
-		
-		// Set our list coloring
-		if (bb.options.bb10ListsDark) {
-			bb.screen.listColor = 'dark';
-		} else {
-			bb.screen.listColor = 'light';
-		}
-		
 	},
 
     doLoad: function(element) {
-		
         // Apply our styling
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
-		bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));  
-	    bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
-		bb.dropdown.apply(root.querySelectorAll('select'));
-        bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
-        bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
-		bb.grid.apply(root.querySelectorAll('[data-bb-type=grid-layout]'));
-        bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
-        bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
-        bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
-        bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
-		bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
-		bb.slider.apply(root.querySelectorAll('input[type=range]'));
-		bb.progress.apply(root.querySelectorAll('progress'));
-		bb.radio.apply(root.querySelectorAll('input[type=radio]'));
-		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
-		bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
-		bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
+		if (bb.scrollPanel) 			bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));  
+	    if (bb.textInput) 				bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color]'));
+		if (bb.dropdown)				bb.dropdown.apply(root.querySelectorAll('select'));
+        if (bb.roundPanel) 				bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
+        if (bb.imageList) 				bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
+		if (bb.grid)					bb.grid.apply(root.querySelectorAll('[data-bb-type=grid-layout]'));
+        if (bb.bbmBubble)				bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
+        if (bb.pillButtons)				bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
+        if (bb.labelControlContainers)	bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
+        if(bb.button) 					bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+		if (bb.fileInput) 				bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
+		if (bb.slider)					bb.slider.apply(root.querySelectorAll('input[type=range]'));
+		if (bb.progress)				bb.progress.apply(root.querySelectorAll('progress'));
+		if (bb.radio)					bb.radio.apply(root.querySelectorAll('input[type=radio]'));
+		if (bb.activityIndicator) 		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
+		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
+		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
         // perform device specific formatting
-        bb.screen.reAdjustHeight();
-		
+        bb.screen.reAdjustHeight();	
     },
 	
 	device: {  

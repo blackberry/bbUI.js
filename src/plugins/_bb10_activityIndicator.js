@@ -1,4 +1,4 @@
-bb.activityIndicator = {
+_bb10_activityIndicator = {
 	
 	apply: function(elements) {
 		var i,
@@ -68,8 +68,6 @@ bb.activityIndicator = {
 				innerElement.setAttribute('class','bb-bb10-activity-'+size+'-'+res);
 				innerElement.style['background-image'] = 'url("'+ swirl +'")';
 				indicator.appendChild(innerElement);
-				
-				
 				
 				// Set our animation
 				innerElement.style['-webkit-animation-name'] = 'activity-rotate';
