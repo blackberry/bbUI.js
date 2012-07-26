@@ -6,11 +6,13 @@ bb.menuBar = {
 	apply: function(menuBar,screen){
 		if (bb.device.isPlayBook || bb.device.isBB10) {
 			bb.menuBar.createSwipeMenu(menuBar,screen);
-			if (bb.device.isPlayBook && !bb.device.isBB10) {
-				menuBar.parentNode.removeChild(menuBar);
-			}
-			if (window.blackberry && blackberry.app.event) {
-				blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar); 
+			menuBar.parentNode.removeChild(menuBar);
+			if (window.blackberry){
+				if(bb.device.isPlayBook && blackberry.app.event) {
+					blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
+				}else if(bb.device.isBB10 && blackberry.app){
+					blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
+				}
 			}
 		}else if(window.blackberry && blackberry.ui.menu){
 			bb.menuBar.createBlackberryMenu(menuBar);
@@ -51,7 +53,8 @@ bb.menuBar = {
 	createSwipeMenu: function(menuBar, screen){
 		// Get our resolution text for BB10 styling			
 		if (bb.device.isBB10) {
-			var res,
+			var bb10Menu = document.createElement('div'),
+				res,
 				i,
 				type,
 				item,
@@ -60,7 +63,8 @@ bb.menuBar = {
 				imgPath,
 				caption,
 				div,
-				width;
+				width,
+				bb10MenuItem;
 				
 			if (bb.device.isPlayBook) {
 				res = 'lowres';
@@ -69,37 +73,48 @@ bb.menuBar = {
 				res = 'hires';
 				bb.menuBar.height = 140;
 			}
-			//screen.appendChild(menuBar);
-			menuBar.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-'+bb.actionBar.color);
+
+			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-'+bb.actionBar.color);
 			items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
-			for (i = 0; i < items.length; i++) {
-				item = items[i];
-				type = item.hasAttribute('data-bb-type') ? item.getAttribute('data-bb-type').toLowerCase() : undefined;
-				// Get our menu items
-				if (type == 'menu-item') {
-					caption = item.innerHTML;
-					imgPath = item.getAttribute('data-bb-img');
-					// If the item doesn't have both an image and text then remove it
-					if ((caption && imgPath) && (foundItems.length < 5)) {
-						// BB10 menus only allow 5 items max
-						foundItems.push(item);
-						// Set our item information
-						item.setAttribute('class','bb-bb10-menu-bar-item-'+res);
-						item.innerHTML = '';
-						// Add the image
-						img = document.createElement('img');
-						img.setAttribute('src',imgPath);
-						item.appendChild(img);
-						// Add the caption
-						div = document.createElement('div');
-						div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
-						div.innerHTML = caption;
-						item.appendChild(div);
+			if(items.length > 0){
+				for (i = 0; i < items.length; i++) {
+					item = items[i];
+					type = item.hasAttribute('data-bb-type') ? item.getAttribute('data-bb-type').toLowerCase() : undefined;
+					// Get our menu items
+					if (type == 'menu-item') {
+						caption = item.innerHTML;
+						imgPath = item.getAttribute('data-bb-img');
+						// If the item doesn't have both an image and text then remove it
+						if ((caption && imgPath) && (foundItems.length < 5)) {
+							// BB10 menus only allow 5 items max
+							bb10MenuItem = document.createElement("div");
+							foundItems.push(bb10MenuItem);
+							// Set our item information
+							bb10MenuItem.setAttribute('class','bb-bb10-menu-bar-item-'+res);
+							item.innerHTML = '';
+							// Add the image
+							img = document.createElement('img');
+							img.setAttribute('src',imgPath);
+							bb10MenuItem.appendChild(img);
+							// Add the caption
+							div = document.createElement('div');
+							div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
+							div.innerHTML = caption;
+							bb10MenuItem.appendChild(div);
+
+							// Assign any click handlers
+							bb10MenuItem.onclick	= item.onclick;
+							bb10Menu.appendChild(bb10MenuItem);
+						} else {
+							if(foundItems.length >= 5){
+								console.log('too many menu items.');
+							} else {
+								console.log('missing menu item caption or image.');
+							}
+						}
 					} else {
-						item.style.display = 'none';
+						console.log('invalid menu item type for bb10');
 					}
-				} else {
-					item.style.display = 'none';
 				}
 			}
 			// Now apply the widths since we now know how many there are
@@ -115,21 +130,16 @@ bb.menuBar = {
 					}				
 				}	
 			} else {
-				menuBar.style.display = 'none';
+				bb10Menu.style.display = 'none';
 				bb.menuBar.menu = null;
 			}
-			// Remove any separators
-			if (bb.menuBar.menu) {
-				items = menuBar.querySelectorAll('[data-bb-type=menu-separator]');
-				for (i = 0; i < items.length; i++) {
-					items[i].style.display = 'none';
-				}
-			}
+
 			// Set the size of the menu bar and assign the lstener
-			menuBar.style['-webkit-transform']	= 'translate(0,0)';
-			menuBar.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
+			bb10Menu.style['-webkit-transform']	= 'translate(0,0)';
+			bb10Menu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
+			document.body.appendChild(bb10Menu);
 			// Assign the menu
-			bb.menuBar.menu	= menuBar;	
+			bb.menuBar.menu	= bb10Menu;	
 		} else {
 			var pbMenu = document.createElement('div'), 
 				items, 
@@ -204,7 +214,12 @@ bb.menuBar = {
 	showMenuBar: function(){
 		if(!bb.menuBar.menuOpen){
 			bb.menuBar.menu.overlay.style.display = 'inline';
-			blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
+			if(bb.device.isPlayBook){
+				blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
+			}else if(bb.device.isBB10){
+				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);
+				blackberry.event.addEventListener("swipedown", bb.menuBar.hideMenuBar);
+			}
 			bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 			bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, ' + (bb.menuBar.height + 3) + 'px)';
 			bb.menuBar.menuOpen = true;
@@ -215,7 +230,12 @@ bb.menuBar = {
 	hideMenuBar: function(){
 		if(bb.menuBar.menuOpen){
 			bb.menuBar.menu.overlay.style.display = 'none';
-			blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
+			if(bb.device.isPlayBook){
+				blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
+			}else if(bb.device.isBB10){
+					blackberry.event.removeEventListener("swipedown", bb.menuBar.hideMenuBar);
+					blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
+			}
 			bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 			bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, -' + (bb.menuBar.height + 3) + 'px)';
 			bb.menuBar.menuOpen = false;
@@ -236,8 +256,11 @@ bb.menuBar = {
 	clearMenu: function(){
 		if(window.blackberry){
 			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10)){
-				if (blackberry.app.event) {
+				if (bb.device.isPlayBook && blackberry.app.event) {
 					blackberry.app.event.onSwipeDown('');
+				}else if(bb.device.isBB10 && blackberry.app){
+					blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);
+					blackberry.event.removeEventListener("swipedown", bb.menuBar.hideMenuBar);
 				}
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
