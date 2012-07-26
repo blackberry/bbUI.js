@@ -1425,7 +1425,7 @@ _bb10_dropdown = {
 				option = options[j];
 				item = document.createElement('div');
 				dropdown.items.push(item);
-				item.slectedStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor+' bb-bb10-dropdown-item-selected-'+ bb.screen.controlColor;
+				item.selectedStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor+' bb-bb10-dropdown-item-selected-'+ bb.screen.controlColor;
 				item.normalStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor;
 				item.index = j;
 				item.select = select;
@@ -1444,7 +1444,7 @@ _bb10_dropdown = {
 				// See if it was specified as the selected item
 				if (option.hasAttribute('selected')) {
 					captionElement.innerHTML = option.innerHTML;
-					item.setAttribute('class',item.slectedStyle);
+					item.setAttribute('class',item.selectedStyle);
 					img.style.visibility = 'visible';
 					item.dropdown.selected = item;
 				} else {
@@ -1590,7 +1590,7 @@ _bb10_dropdown = {
 						this.dropdown.selected.img.style.visibility = 'hidden';
 					}
 					// Style this item as selected
-					item.setAttribute('class',item.slectedStyle);
+					item.setAttribute('class',item.selectedStyle);
 					item.img.style.visibility = 'visible';
 					this.dropdown.selected = item;
 					// Set our index and fire the event
