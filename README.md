@@ -4,7 +4,7 @@ _**Current version: 0.9.4 BETA**_
 
 The objective of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
-are found on the BlackBerry operating system so that you can create an application that follows the UI guidelines
+are found on the BlackBerry operating system so that you can create an application that follows system UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
 All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
@@ -12,8 +12,8 @@ All changes can be found in the [Commit History](https://github.com/blackberry/b
 ## Project Goals
 
 The bbUI project is an incubation project where we experiment with application constructs and CSS to create a BlackBerry user experience.  We experiment with different methods
-of building an application UI using HTML5/CSS to squeeze out the most performance possible and adapt to the different idiosyncrasies between the BlackBerry browser from BlackBerry 5 to 
-BlackBerry 10.  This helps us find areas of improvement in the web rendering and animation engine. We then take our learnings from bbUI and apply them outward as contributions into mainstream 
+of building an application UI using HTML5/CSS to squeeze out the most performance possible and adapt to the different idiosyncrasies of the BlackBerry browser following its transformation from BlackBerry 5 to 
+BlackBerry 10.  This helps us find areas of improvement in the web rendering and animation engine. We also take our learnings from bbUI and apply them outward as contributions into mainstream 
 JavaScript frameworks such as jQuery mobile and Sencha. Development focus in bbUI is on BB10 -> PlayBook -> BB7 -> BB6 and then back-port for BB5.  
 
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
@@ -93,7 +93,7 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry Dev Alpha
+* BlackBerry Dev Alpha R6 Beta
 * BlackBerry PlayBook v2.0.1.x
 * BlackBerry PlayBook v2.1.x.x
 * BlackBerry Torch 9860 v7.0.0.x
