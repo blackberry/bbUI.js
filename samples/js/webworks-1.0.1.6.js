@@ -1154,7 +1154,7 @@ module.exports = {
 define('lib/webworks-info', function (require, exports, module) {
 module.exports = {
 	hash: "65955a4a246382930a30c0e570183a73",
-	version: "1.0.1.4"
+	version: "1.0.1.6"
 };
 });
 /*
