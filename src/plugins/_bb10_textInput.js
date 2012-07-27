@@ -20,7 +20,7 @@ _bb10_textInput = {
 			outerElement.clickCount = 0;
 			outerElement.addEventListener('focus', function() {
 														this.setAttribute('class',this.focused);
-														this.style['border-color'] = bb.options.bb10HighlightColor;
+														this.style['border-color'] = bb.options.highlightColor;
 														this.isFocused = true;
 														this.clickCount = 0;
 													}, false);

@@ -25,26 +25,26 @@
 			document.addEventListener('webworksready', function(e) {
 				console.log('WebWorks APIs are now available');
 				// For some fun I did some random color scheme generation :o)
-				var bb10HighlightColor,
+				var highlightColor,
 					randomNumber;
 				randomNumber=Math.floor(Math.random()*100);
 				if (randomNumber > 90) {
-					  bb10HighlightColor = '#BA55D3';
+					  highlightColor = '#BA55D3';
 				} else if (randomNumber > 60) {
-					  bb10HighlightColor = '#00BC9F';
+					  highlightColor = '#00BC9F';
 				} else if (randomNumber > 30) {
-					  bb10HighlightColor = '#00A8DF';
+					  highlightColor = '#00A8DF';
 				} else {
-					bb10HighlightColor = '#B2CC00';
+					highlightColor = '#B2CC00';
 				}
 				
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
 				bb.init({actionBarDark: true,
-						controlsDark: true,
+						controlsDark: false,
 						listsDark: false,
 						bb10ForPlayBook: false,
-						bb10HighlightColor: bb10HighlightColor,
+						highlightColor: highlightColor,
 						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
 						onscreenready: function(element, id) {
 											if (id == 'dataOnLoad') {

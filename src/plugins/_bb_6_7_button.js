@@ -1,31 +1,16 @@
-_bb_6_7_PlayBook_button = { 
-    apply: function(elements) {
-		
-       
+_bb_6_7_button = { 
+    apply: function(elements) {  
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i],
 				disabled = outerElement.hasAttribute('data-bb-disabled'),
 				normal = 'bb-bb7-button',
-				highlight = 'bb-bb7-button-highlight',
-				inEvent,
-				outEvent;
-				
-			// Set our highlight events
-			if (bb.device.isPlayBook) {
-				inEvent = 'ontouchstart';
-				outEvent = 'ontouchend';
-			} else {
-				inEvent = 'onmouseover';
-				outEvent = 'onmouseout';
-			}
-				
+				highlight = 'bb-bb7-button-highlight';
+
 			outerElement.enabled = !disabled;
-			
 			if (disabled) {
 				normal = 'bb-bb7-button-disabled';
 				outerElement.removeAttribute('data-bb-disabled');
-			}
-			
+			}	
 			if (bb.device.isHiRes) {
 				normal = normal + ' bb-bb7-button-hires';
 				highlight = highlight + ' bb-bb7-button-hires';
@@ -33,7 +18,6 @@ _bb_6_7_PlayBook_button = {
 				normal = normal + ' bb-bb7-button-lowres';
 				highlight = highlight + ' bb-bb7-button-lowres';
 			}
-
 			if (outerElement.hasAttribute('data-bb-style')) {
 				var style = outerElement.getAttribute('data-bb-style');
 				if (style == 'stretch') {
@@ -44,8 +28,8 @@ _bb_6_7_PlayBook_button = {
 			outerElement.setAttribute('class',normal);
 			if (!disabled) {
 				outerElement.setAttribute('x-blackberry-focusable','true');
-				outerElement.setAttribute(inEvent,"this.setAttribute('class','" + highlight +"')");
-				outerElement.setAttribute(outEvent,"this.setAttribute('class','" + normal + "')");
+				outerElement.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
+				outerElement.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
 			}
 							
 			// Trap the click and call it only if the button is enabled
@@ -87,8 +71,8 @@ _bb_6_7_PlayBook_button = {
 					}
 					this.setAttribute('class',normal);
 					this.setAttribute('x-blackberry-focusable','true');
-					this.setAttribute(inEvent,"this.setAttribute('class','" + highlight +"')");
-					this.setAttribute(outEvent,"this.setAttribute('class','" + normal + "')");
+					this.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
+					this.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
 					this.enabled = true;
 				};
 			// Assign our disable function
@@ -113,8 +97,6 @@ _bb_6_7_PlayBook_button = {
 					this.removeAttribute('x-blackberry-focusable');
 					this.removeAttribute('onmouseover');
 					this.removeAttribute('onmouseout');
-					this.removeAttribute('ontouchstart');
-					this.removeAttribute('ontouchend');
 					this.enabled = false;
 				};
 		}     

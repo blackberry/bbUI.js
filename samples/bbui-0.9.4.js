@@ -74,9 +74,9 @@ bb = {
 		}
 		
 		// Create our shades of colors
-		var R = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
-			G = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
-			B = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
+			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
+			B = parseInt((bb.cutHex(bb.options.highlightColor)).substring(4,6),16);
 		bb.options.shades = {
 			R : R,
 			G : G,
@@ -88,9 +88,11 @@ bb = {
 		// Create our coloring
 		if (document.styleSheets && document.styleSheets.length) {
 			try {
-				document.styleSheets[0].insertRule('.bb10Highlight {background-color:'+ bb.options.bb10HighlightColor +';background-image:none;}', 0);
+				document.styleSheets[0].insertRule('.bb10Highlight {background-color:'+ bb.options.highlightColor +';background-image:none;}', 0);
 				document.styleSheets[0].insertRule('.bbProgressHighlight {background-color:#92B43B;background-image:none;}', 0);
-				document.styleSheets[0].insertRule('.bb10-button-highlight {color:White;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.shades.darkHighlight+'), to('+bb.options.bb10HighlightColor+'));border-color:#53514F;}', 0);
+				document.styleSheets[0].insertRule('.bb10-button-highlight {color:White;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.shades.darkHighlight+'), to('+bb.options.highlightColor+'));border-color:#53514F;}', 0);
+				document.styleSheets[0].insertRule('.pb-button-light-highlight {color:'+bb.options.shades.darkHighlight+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));border-:color:'+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.pb-button-dark-highlight {color:'+bb.options.highlightColor+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));border-:color:'+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.shades.darkHighlight +';}', 0);
 			}
 			catch (ex) {
@@ -129,22 +131,28 @@ bb = {
 			bb.pillButtons = _bb5_pillButtons;
 			bb.labelControlContainers = _bb5_labelControlContainers;
 			bb.progress = _bb_progress;
-		} else {
+		} else if (bb.device.isPlayBook) {
 			bb.imageList = _bb_5_6_7_PlayBook_imageList;
-			bb.button = _bb_6_7_PlayBook_button;
+			bb.button = _bbPlayBook_button;
 			bb.bbmBubble = _bb_bbmBubble;
 			bb.dropdown = _bb_6_7_PlayBook_dropdown;
 			bb.textInput = _bb_6_7_PlayBook_textInput;
 			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
 			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
 			bb.progress = _bb_progress;
-			if (bb.device.isPlayBook) {
-				bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-				bb.roundPanel = _bbPlayBook_roundPanel;
-				bb.activityIndicator = _bbPlayBook_activityIndicator;
-			} else {
-				bb.roundPanel = _bb_5_6_7_roundPanel;
-			}
+			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
+			bb.roundPanel = _bbPlayBook_roundPanel;
+			bb.activityIndicator = _bbPlayBook_activityIndicator;
+		} else { //BB6 & BB7
+			bb.imageList = _bb_5_6_7_PlayBook_imageList;
+			bb.button = _bb_6_7_button;
+			bb.bbmBubble = _bb_bbmBubble;
+			bb.dropdown = _bb_6_7_PlayBook_dropdown;
+			bb.textInput = _bb_6_7_PlayBook_textInput;
+			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
+			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
+			bb.progress = _bb_progress;
+			bb.roundPanel = _bb_5_6_7_roundPanel;
 		}
 	},
 
@@ -191,8 +199,8 @@ bb = {
 		actionBarDark: true, 	
 		controlsDark: false, 
 		listsDark: false,
-		bb10ForPlayBook: false,
-		bb10HighlightColor: '#00A8DF'
+		highlightColor: '#00A8DF',
+		bb10ForPlayBook: false
 	},
 	
     loadScreen: function(url, id, popping) {
@@ -1198,34 +1206,193 @@ _bb10_button = {
     }
 };
 
-_bb_6_7_PlayBook_button = { 
+_bbPlayBook_button = { 
     apply: function(elements) {
+		for (var i = 0; i < elements.length; i++) {
+			var outerElement = elements[i],
+				disabledStyle,
+				imgSrc,
+				caption,
+				imgElement,
+				captionElement = document.createElement('div'),
+				innerElement = document.createElement('div');
+				disabled = outerElement.hasAttribute('data-bb-disabled'),
+				normal = 'bb-pb-button',
+				highlight = 'bb-pb-button-container pb-button-'+bb.screen.controlColor+'-highlight';
+				outerNormal = 'bb-pb-button-container bb-pb-button-container-' + bb.screen.controlColor,
+				outerNormalWithoutImageOnly = outerNormal;
+				
+			outerElement.isImageOnly = false;
+			outerElement.enabled = !disabled;
+			caption = outerElement.innerHTML;
+			captionElement.innerHTML = caption;
+			outerElement.innerHTML = '';
+			outerElement.captionElement = captionElement;
+			outerElement.appendChild(innerElement);
+			outerElement.innerElement = innerElement;
+			
+			if (outerElement.hasAttribute('data-bb-style')) {
+				var style = outerElement.getAttribute('data-bb-style');
+				if (style == 'stretch') {
+					outerNormal = outerNormal + ' bb-pb-button-stretch';
+					highlight = highlight + ' bb-pb-button-stretch';
+				}
+			}
+			// look for our image
+			imgSrc = outerElement.hasAttribute('data-bb-img') ? outerElement.getAttribute('data-bb-img') : undefined;
+			if (imgSrc) {
+				if (!caption || caption.length == 0) {
+					outerNormal = outerNormal + ' bb-pb-button-container-image-only';
+					highlight = highlight + ' bb-pb-button-container-image-only';
+					captionElement.style['background-image'] = 'url("'+imgSrc+'")';
+					outerElement.style['line-height'] = '0px';
+					captionElement.setAttribute('class','bb-pb-button-caption-with-image-only');
+					outerElement.isImageOnly = true;
+				} else {
+					// Configure our caption element
+					captionElement.setAttribute('class','bb-pb-button-caption-with-image');
+					imgElement = document.createElement('div');
+					outerElement.imgElement = imgElement;
+					imgElement.setAttribute('class','bb-pb-button-image');
+					imgElement.style['background-image'] = 'url("'+imgSrc+'")';
+					innerElement.appendChild(imgElement);
+				}
+			}
+			// Insert caption after determining what to do with the image
+			innerElement.appendChild(captionElement);
 		
-       
+			// Set our styles
+			disabledStyle = normal + ' bb-pb-button-disabled-'+bb.screen.controlColor;
+			normal = normal + ' bb-pb-button-' + bb.screen.controlColor;
+			
+			if (disabled) {
+				outerElement.removeAttribute('data-bb-disabled');
+				innerElement.setAttribute('class',disabledStyle);
+			} else {
+				innerElement.setAttribute('class',normal);
+			}
+			// Set our variables on the elements
+			outerElement.setAttribute('class',outerNormal);
+			outerElement.outerNormal = outerNormal;
+			outerElement.highlight = highlight;
+			outerElement.outerNormalWithoutImageOnly = outerNormalWithoutImageOnly;
+			outerElement.innerElement = innerElement;
+			innerElement.normal = normal;
+			innerElement.disabledStyle = disabledStyle;
+			if (!disabled) {
+				outerElement.ontouchstart = function() {
+										this.setAttribute('class', /*this.outerNormal +*/ this.highlight);
+									};
+				outerElement.ontouchend = function() {
+										this.setAttribute('class', this.outerNormal);
+										this.style.color = '';
+									};
+			}
+							
+			// Trap the click and call it only if the button is enabled
+			outerElement.trappedClick = outerElement.onclick;
+			outerElement.onclick = undefined;
+			if (outerElement.trappedClick !== null) {
+				outerElement.addEventListener('click',function (e) {
+						if (this.enabled) {
+							this.trappedClick();
+						}
+					},false);
+			}
+			
+			// Assign our set caption function
+			outerElement.setCaption = function(value) {
+					if (this.isImageOnly && (value.length > 0)) {
+						// Configure our caption element
+						this.captionElement.setAttribute('class','bb-pb-button-caption-with-image');
+						var imgElement = document.createElement('div');
+						this.imgElement = imgElement;
+						imgElement.setAttribute('class','bb-pb-button-image');
+						imgElement.style['background-image'] = this.captionElement.style['background-image'];
+						// Remove and re-order the caption element
+						this.innerElement.removeChild(this.captionElement);
+						this.innerElement.appendChild(imgElement);
+						this.innerElement.appendChild(this.captionElement);
+						// Reset our image only styling
+						this.setAttribute('class',this.outerNormalWithoutImageOnly);
+						this.captionElement.style['background-image'] = '';
+						this.isImageOnly = false;
+					} else if ((value.length == 0) && this.imgElement) {
+						this.captionElement.setAttribute('class','bb-pb-button-caption-with-image-only');
+						// Reset our image only styling
+						this.setAttribute('class',this.outerNormalWithoutImageOnly + ' bb-pb-button-container-image-only');
+						this.captionElement.style['background-image'] = this.imgElement.style['background-image'];
+						this.isImageOnly = true;
+						// Remove the image div
+						this.innerElement.removeChild(this.imgElement);
+						this.imgElement = null;
+					}
+					this.captionElement.innerHTML = value;
+				};
+				
+			// Assign our set image function
+			outerElement.setImage = function(value) {
+					if (this.isImageOnly) {
+						this.captionElement.style['background-image'] = 'url("'+value+'")';
+					} else if (this.imgElement && (value.length > 0)) {
+						this.imgElement.style['background-image'] = 'url("'+value+'")';
+					} else if (value.length > 0){
+						// Configure our caption element
+						this.captionElement.setAttribute('class','bb-pb-button-caption-with-image');
+						var imgElement = document.createElement('div');
+						this.imgElement = imgElement;
+						imgElement.setAttribute('class','bb-pb-button-image');
+						imgElement.style['background-image'] = 'url("'+value+'")';
+						// Remove and re-order the caption element
+						this.innerElement.removeChild(this.captionElement);
+						this.innerElement.appendChild(imgElement);
+						this.innerElement.appendChild(this.captionElement);
+					} else if (this.imgElement && (value.length == 0)){
+						// Supplied an empty image value
+						this.innerElement.removeChild(this.imgElement);
+						this.imgElement = null;
+						this.captionElement.setAttribute('class','');
+					}
+				};
+			
+			// Assign our enable function
+			outerElement.enable = function(){ 
+					if (this.enabled) return;
+					this.innerElement.setAttribute('class', this.innerElement.normal);
+					this.ontouchstart = function() {
+										this.innerElement.setAttribute('class', this.innerElement.highlight);
+										
+									};
+					this.ontouchend = function() {
+										this.innerElement.setAttribute('class', this.innerElement.normal);
+									};
+					this.enabled = true;
+				};
+			// Assign our disable function
+			outerElement.disable = function(){ 
+					if (!this.enabled) return;
+					this.innerElement.setAttribute('class', this.innerElement.disabledStyle);
+					this.ontouchstart = null;
+					this.ontouchend = null;
+					this.enabled = false;
+				};
+		}
+    }
+};
+
+_bb_6_7_button = { 
+    apply: function(elements) {  
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i],
 				disabled = outerElement.hasAttribute('data-bb-disabled'),
 				normal = 'bb-bb7-button',
-				highlight = 'bb-bb7-button-highlight',
-				inEvent,
-				outEvent;
-				
-			// Set our highlight events
-			if (bb.device.isPlayBook) {
-				inEvent = 'ontouchstart';
-				outEvent = 'ontouchend';
-			} else {
-				inEvent = 'onmouseover';
-				outEvent = 'onmouseout';
-			}
-				
+				highlight = 'bb-bb7-button-highlight';
+
 			outerElement.enabled = !disabled;
-			
 			if (disabled) {
 				normal = 'bb-bb7-button-disabled';
 				outerElement.removeAttribute('data-bb-disabled');
-			}
-			
+			}	
 			if (bb.device.isHiRes) {
 				normal = normal + ' bb-bb7-button-hires';
 				highlight = highlight + ' bb-bb7-button-hires';
@@ -1233,7 +1400,6 @@ _bb_6_7_PlayBook_button = {
 				normal = normal + ' bb-bb7-button-lowres';
 				highlight = highlight + ' bb-bb7-button-lowres';
 			}
-
 			if (outerElement.hasAttribute('data-bb-style')) {
 				var style = outerElement.getAttribute('data-bb-style');
 				if (style == 'stretch') {
@@ -1244,8 +1410,8 @@ _bb_6_7_PlayBook_button = {
 			outerElement.setAttribute('class',normal);
 			if (!disabled) {
 				outerElement.setAttribute('x-blackberry-focusable','true');
-				outerElement.setAttribute(inEvent,"this.setAttribute('class','" + highlight +"')");
-				outerElement.setAttribute(outEvent,"this.setAttribute('class','" + normal + "')");
+				outerElement.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
+				outerElement.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
 			}
 							
 			// Trap the click and call it only if the button is enabled
@@ -1287,8 +1453,8 @@ _bb_6_7_PlayBook_button = {
 					}
 					this.setAttribute('class',normal);
 					this.setAttribute('x-blackberry-focusable','true');
-					this.setAttribute(inEvent,"this.setAttribute('class','" + highlight +"')");
-					this.setAttribute(outEvent,"this.setAttribute('class','" + normal + "')");
+					this.setAttribute('onmouseover',"this.setAttribute('class','" + highlight +"')");
+					this.setAttribute('onmouseout',"this.setAttribute('class','" + normal + "')");
 					this.enabled = true;
 				};
 			// Assign our disable function
@@ -1313,8 +1479,6 @@ _bb_6_7_PlayBook_button = {
 					this.removeAttribute('x-blackberry-focusable');
 					this.removeAttribute('onmouseover');
 					this.removeAttribute('onmouseout');
-					this.removeAttribute('ontouchstart');
-					this.removeAttribute('ontouchend');
 					this.enabled = false;
 				};
 		}     
@@ -1453,7 +1617,7 @@ _bb10_dropdown = {
 				}
 				// Assign our item handlers
 				item.ontouchstart = function(event) {
-										this.style['background-color'] = bb.options.bb10HighlightColor;
+										this.style['background-color'] = bb.options.highlightColor;
 										this.style['color'] = 'white';
 									};
 				
@@ -2645,7 +2809,7 @@ _bb10_imageList = {
 								// Assign our touch handlers
 								btn.ontouchstart = function() {
 												this.btnInner.setAttribute('class',this.btnInner.highlight);
-												this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.bb10HighlightColor+'))';
+												this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.highlightColor+'))';
 											};
 											
 								btn.ontouchend = function() {
@@ -2886,7 +3050,7 @@ _bb10_activityIndicator = {
 			// Create our fill color
 			var lingrad = ctx.createLinearGradient(0,50,0,154);
 			lingrad.addColorStop(0, 'transparent');
-			lingrad.addColorStop(1, bb.options.bb10HighlightColor);
+			lingrad.addColorStop(1, bb.options.highlightColor);
 			ctx.fillStyle = lingrad;
 			ctx.fill();
 			
@@ -2961,7 +3125,7 @@ _bbPlayBook_activityIndicator = {
 			// Create our fill color
 			var lingrad = ctx.createLinearGradient(0,50,0,154);
 			lingrad.addColorStop(0, 'transparent');
-			lingrad.addColorStop(1, '#92B43B');
+			lingrad.addColorStop(1, bb.options.highlightColor);
 			ctx.fillStyle = lingrad;
 			ctx.fill();
 			
@@ -3143,7 +3307,7 @@ _bb10_grid = {
 							itemNode.contextMenu = contextMenu;
 							itemNode.ontouchstart = function() {
 														if (this.overlay) {
-															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.bb10HighlightColor +';');
+															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.highlightColor +';');
 														}
 														itemNode.fingerDown = true;
 														itemNode.contextShown = false;
@@ -4091,7 +4255,7 @@ _bb10_slider = {
 			outerElement.fill = document.createElement('div');
 			outerElement.fill.className = 'fill';
 			outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
-			outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
 			outerElement.fill.style.background = outerElement.fill.dormant;
 			outerElement.outer.appendChild(outerElement.fill);
 			outerElement.inner = document.createElement('div');
@@ -4367,7 +4531,7 @@ _bb10_toggle = {
 								});
 								
 						if (this.checked) {
-							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
 						} else {
 							this.indicator.style['background-image'] = '';
 						}
@@ -4426,12 +4590,12 @@ _bb_progress = {
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			color = bb.screen.controlColor;
-			highlightColor = bb.options.bb10HighlightColor;
+			highlightColor = bb.options.highlightColor;
 			accentColor = bb.options.shades.darkHighlight;
 		} else {
 			res = 'lowres';
 			color = 'light';
-			highlightColor = '#92B43B';
+			highlightColor = (bb.device.isPlayBook) ? bb.options.highlightColor : '#92B43B';
 			accentColor = '#8FB03B';
 		}
 		
@@ -5165,7 +5329,7 @@ bb.actionBar = {
 		}
 		
 		// Now highlight this action
-		action.style['border-top-color'] = bb.options.bb10HighlightColor;
+		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
 		
 		if (overflowAction) {
@@ -5730,7 +5894,7 @@ bb.contextMenu = {
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										this.setAttribute('class',this.highlight);
-										this.style['border-left-color'] = bb.options.bb10HighlightColor;
+										this.style['border-left-color'] = bb.options.highlightColor;
 									}
 				action.ontouchend = function () {
 										this.setAttribute('class',this.normal);
@@ -5789,7 +5953,7 @@ _bb10_textInput = {
 			outerElement.clickCount = 0;
 			outerElement.addEventListener('focus', function() {
 														this.setAttribute('class',this.focused);
-														this.style['border-color'] = bb.options.bb10HighlightColor;
+														this.style['border-color'] = bb.options.highlightColor;
 														this.isFocused = true;
 														this.clickCount = 0;
 													}, false);

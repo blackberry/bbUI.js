@@ -140,7 +140,7 @@ _bb10_grid = {
 							itemNode.contextMenu = contextMenu;
 							itemNode.ontouchstart = function() {
 														if (this.overlay) {
-															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.bb10HighlightColor +';');
+															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.highlightColor +';');
 														}
 														itemNode.fingerDown = true;
 														itemNode.contextShown = false;

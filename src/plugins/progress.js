@@ -19,12 +19,12 @@ _bb_progress = {
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			color = bb.screen.controlColor;
-			highlightColor = bb.options.bb10HighlightColor;
+			highlightColor = bb.options.highlightColor;
 			accentColor = bb.options.shades.darkHighlight;
 		} else {
 			res = 'lowres';
 			color = 'light';
-			highlightColor = '#92B43B';
+			highlightColor = (bb.device.isPlayBook) ? bb.options.highlightColor : '#92B43B';
 			accentColor = '#8FB03B';
 		}
 		

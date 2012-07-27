@@ -129,7 +129,7 @@ _bb10_dropdown = {
 				}
 				// Assign our item handlers
 				item.ontouchstart = function(event) {
-										this.style['background-color'] = bb.options.bb10HighlightColor;
+										this.style['background-color'] = bb.options.highlightColor;
 										this.style['color'] = 'white';
 									};
 				

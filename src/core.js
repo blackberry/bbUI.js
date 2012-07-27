@@ -58,9 +58,9 @@ bb = {
 		}
 		
 		// Create our shades of colors
-		var R = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(0,2),16),
-			G = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(2,4),16),
-			B = parseInt((bb.cutHex(bb.options.bb10HighlightColor)).substring(4,6),16);
+		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
+			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
+			B = parseInt((bb.cutHex(bb.options.highlightColor)).substring(4,6),16);
 		bb.options.shades = {
 			R : R,
 			G : G,
@@ -72,9 +72,11 @@ bb = {
 		// Create our coloring
 		if (document.styleSheets && document.styleSheets.length) {
 			try {
-				document.styleSheets[0].insertRule('.bb10Highlight {background-color:'+ bb.options.bb10HighlightColor +';background-image:none;}', 0);
+				document.styleSheets[0].insertRule('.bb10Highlight {background-color:'+ bb.options.highlightColor +';background-image:none;}', 0);
 				document.styleSheets[0].insertRule('.bbProgressHighlight {background-color:#92B43B;background-image:none;}', 0);
-				document.styleSheets[0].insertRule('.bb10-button-highlight {color:White;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.shades.darkHighlight+'), to('+bb.options.bb10HighlightColor+'));border-color:#53514F;}', 0);
+				document.styleSheets[0].insertRule('.bb10-button-highlight {color:White;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.shades.darkHighlight+'), to('+bb.options.highlightColor+'));border-color:#53514F;}', 0);
+				document.styleSheets[0].insertRule('.pb-button-light-highlight {color:'+bb.options.shades.darkHighlight+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));border-:color:'+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.pb-button-dark-highlight {color:'+bb.options.highlightColor+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));border-:color:'+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.shades.darkHighlight +';}', 0);
 			}
 			catch (ex) {
@@ -113,22 +115,28 @@ bb = {
 			bb.pillButtons = _bb5_pillButtons;
 			bb.labelControlContainers = _bb5_labelControlContainers;
 			bb.progress = _bb_progress;
-		} else {
+		} else if (bb.device.isPlayBook) {
 			bb.imageList = _bb_5_6_7_PlayBook_imageList;
-			bb.button = _bb_6_7_PlayBook_button;
+			bb.button = _bbPlayBook_button;
 			bb.bbmBubble = _bb_bbmBubble;
 			bb.dropdown = _bb_6_7_PlayBook_dropdown;
 			bb.textInput = _bb_6_7_PlayBook_textInput;
 			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
 			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
 			bb.progress = _bb_progress;
-			if (bb.device.isPlayBook) {
-				bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-				bb.roundPanel = _bbPlayBook_roundPanel;
-				bb.activityIndicator = _bbPlayBook_activityIndicator;
-			} else {
-				bb.roundPanel = _bb_5_6_7_roundPanel;
-			}
+			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
+			bb.roundPanel = _bbPlayBook_roundPanel;
+			bb.activityIndicator = _bbPlayBook_activityIndicator;
+		} else { //BB6 & BB7
+			bb.imageList = _bb_5_6_7_PlayBook_imageList;
+			bb.button = _bb_6_7_button;
+			bb.bbmBubble = _bb_bbmBubble;
+			bb.dropdown = _bb_6_7_PlayBook_dropdown;
+			bb.textInput = _bb_6_7_PlayBook_textInput;
+			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
+			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
+			bb.progress = _bb_progress;
+			bb.roundPanel = _bb_5_6_7_roundPanel;
 		}
 	},
 
@@ -175,8 +183,8 @@ bb = {
 		actionBarDark: true, 	
 		controlsDark: false, 
 		listsDark: false,
-		bb10ForPlayBook: false,
-		bb10HighlightColor: '#00A8DF'
+		highlightColor: '#00A8DF',
+		bb10ForPlayBook: false
 	},
 	
     loadScreen: function(url, id, popping) {

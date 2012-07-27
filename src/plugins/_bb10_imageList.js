@@ -207,7 +207,7 @@ _bb10_imageList = {
 								// Assign our touch handlers
 								btn.ontouchstart = function() {
 												this.btnInner.setAttribute('class',this.btnInner.highlight);
-												this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.bb10HighlightColor+'))';
+												this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.highlightColor+'))';
 											};
 											
 								btn.ontouchend = function() {

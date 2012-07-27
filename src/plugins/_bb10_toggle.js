@@ -165,7 +165,7 @@ _bb10_toggle = {
 								});
 								
 						if (this.checked) {
-							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
 						} else {
 							this.indicator.style['background-image'] = '';
 						}

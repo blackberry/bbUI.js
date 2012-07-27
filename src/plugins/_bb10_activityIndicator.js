@@ -35,7 +35,7 @@ _bb10_activityIndicator = {
 			// Create our fill color
 			var lingrad = ctx.createLinearGradient(0,50,0,154);
 			lingrad.addColorStop(0, 'transparent');
-			lingrad.addColorStop(1, bb.options.bb10HighlightColor);
+			lingrad.addColorStop(1, bb.options.highlightColor);
 			ctx.fillStyle = lingrad;
 			ctx.fill();
 			

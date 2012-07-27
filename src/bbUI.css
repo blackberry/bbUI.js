@@ -1565,6 +1565,116 @@ body, html {
 }
 
 /* ================================================= 
+   PlayBook Buttons
+   =================================================*/
+
+.bb-pb-button-container-light
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#E2E2E2), to(#D1D1D1));
+	color: black;
+	border-top-color: #A5A5A5;
+	border-bottom-color: #BABABA;
+	border-left-color: #B4B4B4;
+	border-right-color: #B4B4B4;
+}
+
+.bb-pb-button-container-dark
+{
+	background-color: #0B0B0B;
+	color: white;
+	border-color: #333333;
+	display:inline-block;
+}
+
+.bb-pb-button-caption-with-image
+{
+	float:left;
+	text-align:left;
+	margin-left: 7px;
+}
+
+.bb-pb-button-image
+{
+	height: 29px;
+	width: 29px;
+	float: left;
+	margin-left: -14px;
+	margin-top: -4px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-pb-button-caption-with-image-only
+{
+	height:29px;
+	width:29px;
+	background-position: center center;
+	background-size: cover;
+	margin-top: -4px;
+	margin-left: -14px;
+}
+
+.bb-pb-button-container-image-only
+{
+	width: 33px;
+}
+
+.bb-pb-button-container
+{
+	border-width:1px;
+	border-style: solid;
+	border-radius:3px;
+	padding: 2px;
+	margin: 10px;
+}    
+   
+.bb-pb-button {
+	border-style: solid;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align: middle;
+	display: block;
+	background-clip: padding-box;	
+	border-width:1px;
+	border-radius:2px;
+	line-height:26px;
+	height:26px;
+	padding-top:5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size:14pt;
+}
+
+.bb-pb-button-light {
+	border-top-color: #BCBCBC;
+	border-left-color: #A7A7A7;
+	border-bottom-color: #878787;
+	border-right-color: #A7A7A7;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#DCDCDC), to(#FFFFFF));
+}
+
+.bb-pb-button-dark {
+	border-color:#5C5C5C;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
+}
+
+.bb-pb-button-disabled-dark {
+	border-color:#262626;
+	background-color: #262626;
+	color: #666666;
+}
+
+.bb-pb-button-disabled-light {
+	border-color: #D4D4D4;
+	background-color: #C1C1C1;
+	color: #838383;
+}
+
+.bb-pb-button-stretch{
+	display:block;
+}
+
+/* ================================================= 
    BB10 Title Bar
    =================================================*/
 .bb-bb10-title-bar-hires {

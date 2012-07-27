@@ -32,7 +32,7 @@ _bb10_slider = {
 			outerElement.fill = document.createElement('div');
 			outerElement.fill.className = 'fill';
 			outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
-			outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.bb10HighlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
 			outerElement.fill.style.background = outerElement.fill.dormant;
 			outerElement.outer.appendChild(outerElement.fill);
 			outerElement.inner = document.createElement('div');
