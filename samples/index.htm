@@ -22,7 +22,7 @@
 		<script type="text/javascript" src="bbui-0.9.4.js"></script>
 		<script type="text/javascript" src="js/webworks-1.0.1.6.js"></script>
 		<script type="text/javascript">
-			document.addEventListener('webworksready', function(e) {
+			//document.addEventListener('webworksready', function(e) {
 				// For some fun I did some random color scheme generation :o)
 				var highlightColor,
 					randomNumber;
@@ -40,7 +40,7 @@
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
 				bb.init({actionBarDark: true,
-						controlsDark: false,
+						controlsDark: true,
 						listsDark: false,
 						bb10ForPlayBook: false,
 						highlightColor: highlightColor,
@@ -68,7 +68,7 @@
 											}
 										}
 						});
-			}, false);
+		//	}, false);
 		</script>
 	</head>
 	<body onload="bb.pushScreen('menu.htm', 'menu');">	
