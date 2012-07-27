@@ -934,7 +934,7 @@ body, html {
 }
 
 /* ================================================= 
-   BB7 Input Box
+   BB10 Input Box
    =================================================*/
 
 .bb-bb10-input {
@@ -962,6 +962,7 @@ body, html {
 	width: 100%;
 	background-repeat: no-repeat;
 	background-position: center right;
+	outline-width: 0;
 }
 
 .bb-bb10-input-focused-hires 
@@ -990,6 +991,44 @@ body, html {
 	font-size: 14pt;
 }
 
+/* ================================================= 
+   PlayBook Input Box
+   =================================================*/
+
+.bb-pb-input {
+	color: black;
+	border-style: solid;
+	background-color:white;
+	width: 100%;
+	border-top-color: #A7A7A7;
+	border-left-color: #BBBBBB;
+	border-right-color: #BBBBBB;
+	border-bottom-color:#CACACA;	
+	height:35px;
+	border-radius:4px;
+	border-width: 1px;
+	font-size: 14pt;
+}
+
+.bb-pb-input::-webkit-input-placeholder 
+{ 
+	color:#4A4A4A; 
+	font-style:italic;
+}
+
+.bb-pb-input-focused
+{
+	color: black;
+	width: 100%;
+	background-repeat: no-repeat;
+	border-top-color: #A7A7A7;
+	border-left-color: #BBBBBB;
+	border-right-color: #BBBBBB;
+	border-bottom-color:#CACACA;
+	outline-width: 0;
+	background-position: center right;
+	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAALCAYAAAB7/H1+AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AcbEyYOphbJcAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAABT0lEQVQoz83Sv07CUBSA8e+W3FYChMSFhUScGPQlMJHoSAhB6iwBX4FURvxDV/FVWABfQFjZLEMTFtNEB9qSHBcdTBwsk990codfTk4ufOX7vvBLnuf9+v6nbLsl1eqpuO7wB+I4jlSrp9JuXyXGjdVqJUEQkM1mmU6n3N/fCUCv15P5/IVMJoPv+4mXVQBPTyMZj8eYpslmsyGXy/H+/oFlWcRxRKPRwLYvVWIYYDR6lMlkgtYaEUEpRRRF1Ot1Wi1bJT7F99DtXqt8Po9hGGitUUpxcFDaCf0B9/s3EgQBhmEgIqRSKTzvFdd1ZWfYcRxZLBZorQnDkGKxSBiGmKbJ8/OM4fAh+a9YLpcyn79gWXvEcUytVmMwuFWVyglRFJFOp5nNZqzX67dEcLlcVqXSIUpBs9nk4qKlADqdjjo7O2e73XJ0dEyhUNjnP/QJYeeDH2Kpt8wAAAAASUVORK5CYII="); 
+}
 
 
 /* ================================================= 

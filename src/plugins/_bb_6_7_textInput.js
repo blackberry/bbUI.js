@@ -1,4 +1,4 @@
-_bb_6_7_PlayBook_textInput = { 
+_bb_6_7_textInput = { 
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i];
