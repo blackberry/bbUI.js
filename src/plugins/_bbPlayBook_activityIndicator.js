@@ -1,11 +1,10 @@
-_bb10_activityIndicator = {
+_bbPlayBook_activityIndicator = {
 	apply: function(elements) {
 		var i,
 			outerElement,
 			innerElement,
 			indicator, 
 			color = bb.screen.controlColor,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			size,
 			width,
 			swirl;
@@ -35,7 +34,7 @@ _bb10_activityIndicator = {
 			// Create our fill color
 			var lingrad = ctx.createLinearGradient(0,50,0,154);
 			lingrad.addColorStop(0, 'transparent');
-			lingrad.addColorStop(1, bb.options.bb10HighlightColor);
+			lingrad.addColorStop(1, '#92B43B');
 			ctx.fillStyle = lingrad;
 			ctx.fill();
 			
@@ -47,21 +46,21 @@ _bb10_activityIndicator = {
 			size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
 			
 			if (size == 'large') {
-				width = (bb.device.isPlayBook) ? '93px' : '184px';
+				width = '93px';
 			} else if (size == 'small') {
-				width = (bb.device.isPlayBook) ? '21px' : '41px';
+				width = '21px';
 			} else {
 				size = 'medium';
-				width = (bb.device.isPlayBook) ? '46px' : '93px';
+				width = '46px';
 			}
 			
 			outerElement.style.width = width;
 			// Add another div so that the developers styling on the original div is left untouched
 			indicator = document.createElement('div');
-			indicator.setAttribute('class',  'bb-bb10-activity-margin-'+res+' bb-bb10-activity-'+size+'-'+res+' bb-activity-'+color);
+			indicator.setAttribute('class',  'bb-pb-activity-margin bb-pb-activity-'+size+' bb-activity-'+color);
 			outerElement.appendChild(indicator);
 			innerElement = document.createElement('div');
-			innerElement.setAttribute('class','bb-bb10-activity-'+size+'-'+res);
+			innerElement.setAttribute('class','bb-pb-activity-'+size);
 			innerElement.style['background-image'] = 'url("'+ swirl +'")';
 			indicator.appendChild(innerElement);
 			

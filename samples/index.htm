@@ -40,11 +40,11 @@
 				
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
-				bb.init({bb10HighlightColor: bb10HighlightColor,
-						bb10ActionBarDark: true,
-						bb10ControlsDark: true,
-						bb10ListsDark: false,
-						bb10ForPlayBook: true,
+				bb.init({actionBarDark: true,
+						controlsDark: true,
+						listsDark: false,
+						bb10ForPlayBook: false,
+						bb10HighlightColor: bb10HighlightColor,
 						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
 						onscreenready: function(element, id) {
 											if (id == 'dataOnLoad') {

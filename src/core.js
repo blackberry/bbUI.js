@@ -82,9 +82,9 @@ bb = {
 			}
 		}
 		// Set our coloring
-		bb.actionBar.color = (bb.options.bb10ActionBarDark) ? 'dark' : 'light';
-		bb.screen.controlColor = (bb.options.bb10ControlsDark) ? 'dark' : 'light';
-		bb.screen.listColor = (bb.options.bb10ListsDark) ? 'dark' : 'light';
+		bb.actionBar.color = (bb.options.actionBarDark) ? 'dark' : 'light';
+		bb.screen.controlColor = (bb.options.controlsDark) ? 'dark' : 'light';
+		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
 		
 		// Set up our pointers to objects for each OS version
 		if (bb.device.isBB10) {
@@ -102,7 +102,7 @@ bb = {
 			bb.labelControlContainers = _bb10_labelControlContainers;
 			bb.slider = _bb10_slider;
 			bb.radio = _bb10_radio;
-			bb.progress = _bb_5_6_7_PlayBook_10_progress;
+			bb.progress = _bb_progress;
 			bb.checkbox = _bb10_checkbox;
 			bb.toggle = _bb10_toggle;
 		} else if (bb.device.isBB5) {
@@ -112,7 +112,7 @@ bb = {
 			bb.roundPanel = _bb_5_6_7_roundPanel;
 			bb.pillButtons = _bb5_pillButtons;
 			bb.labelControlContainers = _bb5_labelControlContainers;
-			bb.progress = _bb_5_6_7_PlayBook_10_progress;
+			bb.progress = _bb_progress;
 		} else {
 			bb.imageList = _bb_5_6_7_PlayBook_imageList;
 			bb.button = _bb_6_7_PlayBook_button;
@@ -121,10 +121,11 @@ bb = {
 			bb.textInput = _bb_6_7_PlayBook_textInput;
 			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
 			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
-			bb.progress = _bb_5_6_7_PlayBook_10_progress;
+			bb.progress = _bb_progress;
 			if (bb.device.isPlayBook) {
 				bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
 				bb.roundPanel = _bbPlayBook_roundPanel;
+				bb.activityIndicator = _bbPlayBook_activityIndicator;
 			} else {
 				bb.roundPanel = _bb_5_6_7_roundPanel;
 			}
@@ -171,9 +172,9 @@ bb = {
 		onbackkey: null,
 		onscreenready: null,
 		ondomready: null,  	
-		bb10ActionBarDark: true, 	
-		bb10ControlsDark: false, 
-		bb10ListsDark: false,
+		actionBarDark: true, 	
+		controlsDark: false, 
+		listsDark: false,
 		bb10ForPlayBook: false,
 		bb10HighlightColor: '#00A8DF'
 	},

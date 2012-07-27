@@ -98,9 +98,9 @@ bb = {
 			}
 		}
 		// Set our coloring
-		bb.actionBar.color = (bb.options.bb10ActionBarDark) ? 'dark' : 'light';
-		bb.screen.controlColor = (bb.options.bb10ControlsDark) ? 'dark' : 'light';
-		bb.screen.listColor = (bb.options.bb10ListsDark) ? 'dark' : 'light';
+		bb.actionBar.color = (bb.options.actionBarDark) ? 'dark' : 'light';
+		bb.screen.controlColor = (bb.options.controlsDark) ? 'dark' : 'light';
+		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
 		
 		// Set up our pointers to objects for each OS version
 		if (bb.device.isBB10) {
@@ -141,6 +141,7 @@ bb = {
 			if (bb.device.isPlayBook) {
 				bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
 				bb.roundPanel = _bbPlayBook_roundPanel;
+				bb.activityIndicator = _bbPlayBook_activityIndicator;
 			} else {
 				bb.roundPanel = _bb_5_6_7_roundPanel;
 			}
@@ -187,9 +188,9 @@ bb = {
 		onbackkey: null,
 		onscreenready: null,
 		ondomready: null,  	
-		bb10ActionBarDark: true, 	
-		bb10ControlsDark: false, 
-		bb10ListsDark: false,
+		actionBarDark: true, 	
+		controlsDark: false, 
+		listsDark: false,
 		bb10ForPlayBook: false,
 		bb10HighlightColor: '#00A8DF'
 	},
@@ -2851,86 +2852,154 @@ _bb10_imageList = {
 };
 
 _bb10_activityIndicator = {
-	
 	apply: function(elements) {
 		var i,
 			outerElement,
 			innerElement,
 			indicator, 
 			color = bb.screen.controlColor,
-			res,
+			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			size,
 			width,
 			swirl;
-			
-		if (bb.device.isBB10) {
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 
-			if (elements.length > 0) {
-				var canvas = document.createElement('canvas'),
-					ctx,
-					lingrad;
-				// Create our color matched swirl
-				canvas.setAttribute('height','184px');
-				canvas.setAttribute('width', '184px');
-				ctx = canvas.getContext('2d');
-				ctx.beginPath();    
-				ctx.moveTo(92,154);
-				ctx.arcTo(154,154,154,92,62);
-				ctx.arcTo(154,30,92,30,62);
-				ctx.arcTo(81,30,81,20,10);
-				ctx.arcTo(81,10,91,10,10);
-				ctx.arcTo(173,10,173,92,82);
-				ctx.arcTo(173,173,92,173,82);
-				ctx.arcTo(81,173,81,164,10);
-				ctx.arcTo(81,154,92,154,10);
-				ctx.closePath();
-				ctx.strokeStyle = 'transparent';
-				ctx.stroke();
-			 
-				// Create our fill color
-				var lingrad = ctx.createLinearGradient(0,50,0,154);
-				lingrad.addColorStop(0, 'transparent');
-				lingrad.addColorStop(1, bb.options.bb10HighlightColor);
-				ctx.fillStyle = lingrad;
-				ctx.fill();
-				
-				swirl = canvas.toDataURL();
+		if (elements.length > 0) {
+			var canvas = document.createElement('canvas'),
+				ctx,
+				lingrad;
+			// Create our color matched swirl
+			canvas.setAttribute('height','184px');
+			canvas.setAttribute('width', '184px');
+			ctx = canvas.getContext('2d');
+			ctx.beginPath();    
+			ctx.moveTo(92,154);
+			ctx.arcTo(154,154,154,92,62);
+			ctx.arcTo(154,30,92,30,62);
+			ctx.arcTo(81,30,81,20,10);
+			ctx.arcTo(81,10,91,10,10);
+			ctx.arcTo(173,10,173,92,82);
+			ctx.arcTo(173,173,92,173,82);
+			ctx.arcTo(81,173,81,164,10);
+			ctx.arcTo(81,154,92,154,10);
+			ctx.closePath();
+			ctx.strokeStyle = 'transparent';
+			ctx.stroke();
+		 
+			// Create our fill color
+			var lingrad = ctx.createLinearGradient(0,50,0,154);
+			lingrad.addColorStop(0, 'transparent');
+			lingrad.addColorStop(1, bb.options.bb10HighlightColor);
+			ctx.fillStyle = lingrad;
+			ctx.fill();
+			
+			swirl = canvas.toDataURL();
+		}
+		
+		for (i = 0; i < elements.length; i++)  {
+			outerElement = elements[i];
+			size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
+			
+			if (size == 'large') {
+				width = (bb.device.isPlayBook) ? '93px' : '184px';
+			} else if (size == 'small') {
+				width = (bb.device.isPlayBook) ? '21px' : '41px';
+			} else {
+				size = 'medium';
+				width = (bb.device.isPlayBook) ? '46px' : '93px';
 			}
 			
-			for (i = 0; i < elements.length; i++)  {
-				outerElement = elements[i];
-				size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
-				
-				if (size == 'large') {
-					width = (bb.device.isPlayBook) ? '93px' : '184px';
-				} else if (size == 'small') {
-					width = (bb.device.isPlayBook) ? '21px' : '41px';
-				} else {
-					size = 'medium';
-					width = (bb.device.isPlayBook) ? '46px' : '93px';
-				}
-				
-				outerElement.style.width = width;
-				// Add another div so that the developers styling on the original div is left untouched
-				indicator = document.createElement('div');
-				indicator.setAttribute('class',  'bb-bb10-activity-margin-'+res+' bb-bb10-activity-'+size+'-'+res+' bb-bb10-activity-'+color);
-				outerElement.appendChild(indicator);
-				innerElement = document.createElement('div');
-				innerElement.setAttribute('class','bb-bb10-activity-'+size+'-'+res);
-				innerElement.style['background-image'] = 'url("'+ swirl +'")';
-				indicator.appendChild(innerElement);
-				
-				// Set our animation
-				innerElement.style['-webkit-animation-name'] = 'activity-rotate';
-				innerElement.style['-webkit-animation-duration'] = '0.8s';
-				innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
-				innerElement.style['-webkit-animation-timing-function'] = 'linear';
-			}
+			outerElement.style.width = width;
+			// Add another div so that the developers styling on the original div is left untouched
+			indicator = document.createElement('div');
+			indicator.setAttribute('class',  'bb-bb10-activity-margin-'+res+' bb-bb10-activity-'+size+'-'+res+' bb-activity-'+color);
+			outerElement.appendChild(indicator);
+			innerElement = document.createElement('div');
+			innerElement.setAttribute('class','bb-bb10-activity-'+size+'-'+res);
+			innerElement.style['background-image'] = 'url("'+ swirl +'")';
+			indicator.appendChild(innerElement);
+			
+			// Set our animation
+			innerElement.style['-webkit-animation-name'] = 'activity-rotate';
+			innerElement.style['-webkit-animation-duration'] = '0.8s';
+			innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
+			innerElement.style['-webkit-animation-timing-function'] = 'linear';
 		}
 	}
+}
 
+_bbPlayBook_activityIndicator = {
+	apply: function(elements) {
+		var i,
+			outerElement,
+			innerElement,
+			indicator, 
+			color = bb.screen.controlColor,
+			size,
+			width,
+			swirl;
 
+		if (elements.length > 0) {
+			var canvas = document.createElement('canvas'),
+				ctx,
+				lingrad;
+			// Create our color matched swirl
+			canvas.setAttribute('height','184px');
+			canvas.setAttribute('width', '184px');
+			ctx = canvas.getContext('2d');
+			ctx.beginPath();    
+			ctx.moveTo(92,154);
+			ctx.arcTo(154,154,154,92,62);
+			ctx.arcTo(154,30,92,30,62);
+			ctx.arcTo(81,30,81,20,10);
+			ctx.arcTo(81,10,91,10,10);
+			ctx.arcTo(173,10,173,92,82);
+			ctx.arcTo(173,173,92,173,82);
+			ctx.arcTo(81,173,81,164,10);
+			ctx.arcTo(81,154,92,154,10);
+			ctx.closePath();
+			ctx.strokeStyle = 'transparent';
+			ctx.stroke();
+		 
+			// Create our fill color
+			var lingrad = ctx.createLinearGradient(0,50,0,154);
+			lingrad.addColorStop(0, 'transparent');
+			lingrad.addColorStop(1, '#92B43B');
+			ctx.fillStyle = lingrad;
+			ctx.fill();
+			
+			swirl = canvas.toDataURL();
+		}
+		
+		for (i = 0; i < elements.length; i++)  {
+			outerElement = elements[i];
+			size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
+			
+			if (size == 'large') {
+				width = '93px';
+			} else if (size == 'small') {
+				width = '21px';
+			} else {
+				size = 'medium';
+				width = '46px';
+			}
+			
+			outerElement.style.width = width;
+			// Add another div so that the developers styling on the original div is left untouched
+			indicator = document.createElement('div');
+			indicator.setAttribute('class',  'bb-pb-activity-margin bb-pb-activity-'+size+' bb-activity-'+color);
+			outerElement.appendChild(indicator);
+			innerElement = document.createElement('div');
+			innerElement.setAttribute('class','bb-pb-activity-'+size);
+			innerElement.style['background-image'] = 'url("'+ swirl +'")';
+			indicator.appendChild(innerElement);
+			
+			// Set our animation
+			innerElement.style['-webkit-animation-name'] = 'activity-rotate';
+			innerElement.style['-webkit-animation-duration'] = '0.8s';
+			innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
+			innerElement.style['-webkit-animation-timing-function'] = 'linear';
+		}
+	}
 }
 
 
