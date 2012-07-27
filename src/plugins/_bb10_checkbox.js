@@ -7,8 +7,8 @@ _bb10_checkbox = {
 			innerElement,
 			checkElement,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light';
-
+			color = bb.screen.controlColor;
+			
 		for (i = 0; i < elements.length; i++) {
 			input = elements[i];
 			// Outside touch target

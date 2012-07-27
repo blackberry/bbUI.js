@@ -18,7 +18,7 @@ _bb_progress = {
 			
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light';
+			color = bb.screen.controlColor;
 			highlightColor = bb.options.bb10HighlightColor;
 			accentColor = bb.options.shades.darkHighlight;
 		} else {

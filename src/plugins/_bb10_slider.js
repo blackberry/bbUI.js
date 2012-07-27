@@ -4,7 +4,7 @@ _bb10_slider = {
 		var i, 
 			range,
 			res,
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+			color = bb.screen.controlColor,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 
 		for (i = 0; i < elements.length; i++) {

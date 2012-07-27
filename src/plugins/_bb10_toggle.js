@@ -6,7 +6,7 @@ _bb10_toggle = {
 			table,
 			tr,
 			td,
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+			color = bb.screen.controlColor,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 
 		for (i = 0; i < elements.length; i++) {

@@ -1797,10 +1797,8 @@ _bb10_checkbox = {
 			innerElement,
 			checkElement,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light';
+			color = bb.screen.controlColor;
 			
-			
-		
 		for (i = 0; i < elements.length; i++) {
 			input = elements[i];
 			// Outside touch target
@@ -4065,7 +4063,7 @@ _bb10_slider = {
 		var i, 
 			range,
 			res,
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+			color = bb.screen.controlColor,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 
 		for (i = 0; i < elements.length; i++) {
@@ -4210,7 +4208,7 @@ _bb10_toggle = {
 			table,
 			tr,
 			td,
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light',
+			color = bb.screen.controlColor,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 
 		for (i = 0; i < elements.length; i++) {
@@ -4427,7 +4425,7 @@ _bb_progress = {
 			
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light';
+			color = bb.screen.controlColor;
 			highlightColor = bb.options.bb10HighlightColor;
 			accentColor = bb.options.shades.darkHighlight;
 		} else {
