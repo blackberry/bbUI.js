@@ -14,7 +14,7 @@ All changes can be found in the [Commit History](https://github.com/blackberry/b
 The bbUI project is an incubation project where we experiment with application constructs and CSS to create a BlackBerry user experience.  We experiment with different methods
 of building an application UI using HTML5/CSS to squeeze out the most performance possible and adapt to the different idiosyncrasies of the BlackBerry browser following its transformation from BlackBerry 5 to 
 BlackBerry 10.  This helps us find areas of improvement in the web rendering and animation engine. We also take our learnings from bbUI and apply them outward as contributions into mainstream 
-JavaScript frameworks such as jQuery mobile and Sencha. Development focus in bbUI is on BB10 -> PlayBook -> BB7 -> BB6 and then back-port for BB5.  
+JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus in bbUI is on BB10 -> PlayBook -> BB7 -> BB6 and then back-port for BB5.  
 
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
 
