@@ -306,7 +306,7 @@ bb = {
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
 			animationScreen,
 			effect,
-			effectApplied = false,
+			effectToApply = null,
 			overlay;
 				
         if (screen.length > 0 ) {
@@ -341,41 +341,45 @@ bb = {
 				if (!bb.device.isBB5 && !bb.device.isBB6) {
 					effect = animationScreen.getAttribute('data-bb-effect');
 					if (effect) {
-						if (effect.toLowerCase() == 'fade') {
-							effectApplied = true;
-							bb.screen.fadeIn(animationScreen);
-						} else if (effect.toLowerCase() == 'fade-out') {
-							effectApplied = true;
-							bb.screen.fadeOut(animationScreen);
-						} else if ((effect.toLowerCase() == 'slide-left') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideLeft(animationScreen);
-						} else if ((effect.toLowerCase() == 'slide-out-left') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideOutLeft(animationScreen);
-						} else if ((effect.toLowerCase() == 'slide-right') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideRight(animationScreen);
-						} else if ((effect.toLowerCase() == 'slide-out-right') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideOutRight(animationScreen);
-						} else if ((effect.toLowerCase() == 'slide-up') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideUp(animationScreen);
-						} else if ((effect.toLowerCase() == 'slide-out-up') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideOutUp(animationScreen);
-						} else if ((effect.toLowerCase() == 'slide-down') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideDown(animationScreen);
-						}  else if ((effect.toLowerCase() == 'slide-out-down') && !bb.device.isBB7) {
-							effectApplied = true;
-							bb.screen.slideOutDown(animationScreen);
+						effect = effect.toLowerCase();
+					
+						if (effect == 'fade') {
+							effectToApply = bb.screen.fadeIn;
+						} else if (effect == 'fade-out') {
+							effectToApply = bb.screen.fadeOut;
+						} else if (!bb.device.isBB7) {
+							switch (effect) {
+							case 'slide-left':
+								effectToApply = bb.screen.slideLeft;
+								break;
+							case 'slide-out-left':
+								effectToApply = bb.screen.slideOutLeft;
+								break;
+							case 'slide-right':
+								effectToApply = bb.screen.slideRight;
+								break;
+							case 'slide-out-right':
+								effectToApply = bb.screen.slideOutRight;
+								break;
+							case 'slide-up':
+								effectToApply = bb.screen.slideUp;
+								break;
+							case 'slide-out-up':
+								effectToApply = bb.screen.slideOutUp;
+								break;
+							case 'slide-down':
+								effectToApply = bb.screen.slideDown;
+								break;
+							case 'slide-out-down':
+								effectToApply = bb.screen.slideOutDown;
+								break;
+							}
 						}
+	
 						animationScreen.style.display = 'inline'; // This is a wierd hack
 						
 						// Listen for when the animation ends so that we can clear the previous screen
-						if (effectApplied) {
+						if (effectToApply) {
 							// Create our overlay
 							overlay = document.createElement('div');
 							animationScreen.overlay = overlay;
@@ -413,14 +417,16 @@ bb = {
 									}
 									
 									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
+									bb.createScreenScroller(screen); 
 								};
 							animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
 							animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
+							
+							effectToApply.call(this, animationScreen);
 						}
 					} 
 				}				
 			} 
-			bb.createScreenScroller(screen); 
 		} 
 		
 		// Fire the ondomready after the element is added to the DOM and we've set our animation flags
@@ -431,7 +437,7 @@ bb = {
 		}
 		
 		// If an effect was applied then the popping will be handled at the end of the animation
-		if (!effectApplied) {
+		if (!effectToApply) {
 			if (!popping && (bb.screens.length > 0)) {
 				//bb.removeTopMostScreenFromDom();
 				bb.removePreviousScreenFromDom();
@@ -441,6 +447,7 @@ bb = {
 				// Pop it from the stack
 				bb.screens.pop();	
 			}
+			bb.createScreenScroller(screen); 
 		}
 	},
 	
