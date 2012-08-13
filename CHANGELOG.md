@@ -11,8 +11,9 @@ Below you will find all the different changes that have been added since the fir
 	* bb10ListsDark changed to listsDark for bb.init()
 	* bb10HighlightColor changed to highlightColor for bb.init()
 * PlayBook 2.0 Styling
-    * Activity Indicator styling
-	* Text Input styling
+    * Added Activity Indicator 
+	* Text Input updates
+	* Image List updates
 
 ## Version 0.9.3
 

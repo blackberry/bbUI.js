@@ -2995,6 +2995,213 @@ a.bb5-button-highlight span {
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AYIESop0+E2uAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAB4klEQVRo3u1ZvYrCQBCe2Rj/iOU+gJ21jb6BvoNvpSAEO1FEsBEbC5VFG1PYaWGpYBUbG0NAmGv0kMOL510SM55fGYbZ75u/nSUAb7wwiAiJSAvyDPSTLCLS9TelFJ5OJ5RSQjabhUwmgwCgAUASAI6IeGKZmUajoY9GI+0lyqzVamHodT0YDESQ/oNyrDmOEw8rSH47FKvVSoSV5dlsphGR8I38M3pjOBz+fQQHVo9hBdB13acLuPTfey14JrrdLrIXcTweb4oQXAT0er1IDBXfp6LgJGA8HnsLICLR6XQim6bNZnM/RbVajX/HvxEi0OtJ+BXtdpsKhQJIKQMhY9s2WJYFlUoFfyXAsiwoFovkcQClUqlAI+o4Dkgp0WtLLZfLnxxj12IQEQDgWwFCCNB1PVABrus+ZH8tAAzD8DRWSkGpVIJ0Oh3UugBKKU+bRCIRBwD35gjd7XaRv9gWi4UR6QfMPRwOh4SnANM0IyuiWq0mPYPMcdtjtcxNp1PjR4b1eh1ZZyCXy0WOaL/ff6xaTNPUWPdAPp/n/3xrNpvsRQjgDtu2+b/QlsuleFYZ++Zsv99rbMm/HObzeZy9CCLCyWSS+bdls16vxflHuGBBfLvd4pnwhbRORLGXuGve4IwP5s31HMYdhqYAAAAASUVORK5CYII=");
 }
    
+/* ================================================= 
+   PlayBook Image List
+   =================================================*/
+
+.bb-pb-image-list
+{
+	margin:0px;
+	padding:0px;	
+}
+
+.bb-pb-image-list-item
+{
+	border-bottom: solid 1px #D9DCDE;
+	padding-top: 3px;	
+	padding-left: 5px;
+	padding-bottom: 0px;
+	overflow:hidden;
+	height: 60px;
+}
+
+.bb-pb-image-list-item-hover
+{
+	border-bottom: solid 1px #D9DCDE;
+	padding-top: 3px;	
+	padding-left: 5px;
+	padding-bottom: 0px;
+	overflow:hidden;
+	height: 60px;
+	color: white;
+}
+
+.bb-pb-image-list-details
+{
+	position:relative;
+	margin-left:74px;
+	margin-bottom: 0px;
+}
+
+.bb-pb-image-list-noimage
+{
+	margin-left: 10px;
+}
+
+
+.bb-pb-image-list-item .title
+{
+	color:Black;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	font-size:18pt;
+	line-height:26px;
+	margin-top:8px;
+}
+
+.bb-pb-image-list-item-hover .title
+{
+	color:White;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	font-size:18pt;
+	line-height:26px;
+	margin-top:8px;
+}
+
+.bb-pb-image-list img
+{
+	position:relative;
+	left: -5px;	
+	float:left;
+	height:70px;
+	width:70px;
+	top:-10px;
+}
+
+.bb-pb-image-list-item .description
+{
+	color:#737173;
+	overflow: hidden;
+	white-space:nowrap;
+	font-size: 14pt;	
+	margin-bottom: 0px;
+	text-overflow: ellipsis;
+	margin-left:0px;
+	padding-top:0px;
+	margin-top: -3px;
+}
+
+.bb-pb-image-list-item-hover .description
+{
+	color:white;
+	overflow: hidden;
+	white-space:nowrap;
+	font-size: 14pt;	
+	margin-bottom: 0px;
+	text-overflow: ellipsis;
+	margin-left:0px;
+	padding-top:0px;
+	margin-top: -3px;
+}
+
+.bb-pb-image-list-item .accent-text
+{
+	position:relative;
+	float:right;	
+	font-size:12pt;
+	margin-right: 5px;
+	margin-top: -20px;
+	color: Black;
+}
+
+.bb-pb-image-list-item-hover .accent-text
+{
+	position:relative;
+	float:right;	
+	font-size:12pt;
+	margin-right: 5px;
+	margin-top: -20px;
+	color: White;
+}
+
+
+.bb-pb-image-list-header
+{
+	height:30px;
+	vertical-align:middle;
+}
+
+.bb-pb-image-list-header-default
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#D5D6D7), to(#9E9F9F));
+	color: black;
+}
+
+.bb-pb-image-list-header-solid
+{
+	color: white;
+}
+
+.bb-pb-image-list-header-right
+{
+	text-align:right;
+	padding-right: 10px;
+}
+
+.bb-pb-image-list-header-left
+{
+	text-align:left;
+	padding-left: 10px;
+}
+
+.bb-pb-image-list-header-center
+{
+	text-align:center;
+}
+
+.bb-pb-image-list-header-hover
+{
+	height:30px;
+	vertical-align:middle;
+}
+
+.bb-pb-image-list-header-hover p
+{
+	color:White;	
+	line-height:36px;
+	margin:0px;
+	padding:0px;
+}
+
+.bb-pb-image-list-header p
+{
+	line-height:36px;
+	margin:0px;
+	padding:0px;
+}
+
+.bb-pb-image-list-item .button
+{
+	position:relative;
+	float:right;
+	width:34px;
+	height:59px;
+	margin-top: -59px;
+	padding-left: 10px;
+}
+
+.bb-pb-image-list-item-button-border
+{
+	width: 23px;
+	height: 23px;
+	margin-top: 17px;
+}
+
+.bb-pb-image-list-item-button-inner
+{
+	width: 23px;
+	height: 23px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-pb-image-list-item .details-button-margin
+{
+	margin-right: 44px;
+}
 
 
 /* ================================================= 

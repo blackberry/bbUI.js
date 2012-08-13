@@ -1,4 +1,4 @@
-_bb_5_6_7_PlayBook_imageList = {  
+_bbPlayBook_imageList = {  
     apply: function(elements) {
 		var i,j,
 			outerElement,
@@ -16,18 +16,13 @@ _bb_5_6_7_PlayBook_imageList = {
 			outerElement.headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
 			// See what kind of style they want for this list
 			outerElement.listStyle = outerElement.hasAttribute('data-bb-style') ? outerElement.getAttribute('data-bb-style').toLowerCase() : 'default';
-			
-			if (bb.device.isHiRes) {
-					outerElement.setAttribute('class','bb-hires-image-list');
-			} else {
-				outerElement.setAttribute('class','bb-lowres-image-list');
-			}
-			
+			// Get our header style
+			outerElement.headerStyle = outerElement.hasAttribute('data-bb-header-style') ? outerElement.getAttribute('data-bb-header-style').toLowerCase() : 'default';
+
+			outerElement.setAttribute('class','bb-pb-image-list');	
 			outerElement.styleItem = function (innerChildNode) {
 				// Gather our inner items
 				var innerChildNode,
-					inEvent, 
-					outEvent,
 					type,
 					description,
 					accentText,
@@ -40,17 +35,7 @@ _bb_5_6_7_PlayBook_imageList = {
 					img,
 					btn,
 					btnBorder,
-					btnInner,
-					res = (bb.device.isHiRes) ? 'hires' : 'lowres';
-					
-				// Set our highlight events
-				if (bb.device.isPlayBook) {
-					inEvent = 'ontouchstart';
-					outEvent = 'ontouchend';
-				} else {
-					inEvent = 'onmouseover';
-					outEvent = 'onmouseout';
-				}
+					btnInner;
 							
 				if (innerChildNode.hasAttribute('data-bb-type')) {
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
@@ -63,34 +48,49 @@ _bb_5_6_7_PlayBook_imageList = {
 					}
 					
 					if (type == 'header') {
-						normal = 'bb-'+res+'-image-list-header';
-						highlight = 'bb-'+res+'-image-list-header-hover';
+						// Initialize our styling
+						normal = 'bb-pb-image-list-header';
+						highlight = 'bb-pb-image-list-header-hover bb10Highlight';
+						
+						if (outerElement.headerStyle == 'solid') {
+							normal = normal + ' bb-pb-image-list-header-solid bb10Accent';
+						} else {
+							normal = normal + ' bb-pb-image-list-header-default';
+						}
 						// Check for alignment
 						if (this.headerJustify == 'left') {
-							normal = normal + ' bb-'+res+'-image-list-header-left';
-							highlight = highlight + ' bb-'+res+'-image-list-header-left';
+							normal = normal + ' bb-pb-image-list-header-left';
+							highlight = highlight + ' bb-pb-image-list-header-left';
 						} else if (this.headerJustify == 'right') {
-							normal = normal + ' bb-'+ res+'-image-list-header-right';
-							highlight = highlight + ' bb-'+res+'-image-list-header-right';
+							normal = normal + ' bb-pb-image-list-header-right';
+							highlight = highlight + ' bb-pb-image-list-header-right';
 						} else {
 							normal = normal + ' bb-'+res+'-image-list-header-center';
-							highlight = highlight + ' bb-'+res+'-image-list-header-center';
+							highlight = highlight + ' bb-pb-image-list-header-center';
 						}
 						// Set our styling
 						innerChildNode.normal = normal;
 						innerChildNode.highlight = highlight;
 						innerChildNode.innerHTML = '<p>'+ description +'</p>';
-						innerChildNode.setAttribute('x-blackberry-focusable','true');
 						innerChildNode.setAttribute('class', normal);
-						innerChildNode.setAttribute(inEvent, "this.setAttribute('class',this.highlight)");
-						innerChildNode.setAttribute(outEvent, "this.setAttribute('class',this.normal)");
+						innerChildNode.ontouchstart = function() {
+														this.setAttribute('class',this.highlight);
+													}
+						innerChildNode.ontouchend = function() {
+														this.setAttribute('class',this.normal);
+													}
 					} 
 					else if (type == 'item') {
+						innerChildNode.normal = 'bb-pb-image-list-item';
+						innerChildNode.highlight = 'bb-pb-image-list-item bb-pb-image-list-item-hover bb10Highlight';
 						innerChildNode.innerHTML = '';
-						innerChildNode.setAttribute('class', 'bb-'+res+'-image-list-item');
-						innerChildNode.setAttribute(inEvent, "this.setAttribute('class','bb-"+res+"-image-list-item bb-"+res+"-image-list-item-hover')");
-						innerChildNode.setAttribute(outEvent, "this.setAttribute('class','bb-"+res+"-image-list-item')");
-						innerChildNode.setAttribute('x-blackberry-focusable','true');
+						innerChildNode.setAttribute('class', 'bb-pb-image-list-item');
+						innerChildNode.ontouchstart = function() {
+														this.setAttribute('class',this.highlight);
+													}
+						innerChildNode.ontouchend = function() {
+														this.setAttribute('class',this.normal);
+													}
 						
 						if (!this.hideImages) {
 							img = document.createElement('img');
@@ -111,9 +111,9 @@ _bb_5_6_7_PlayBook_imageList = {
 						details = document.createElement('div');
 						innerChildNode.appendChild(details);
 						if (this.hideImages) {
-							details.normal = 'bb-'+res+'-image-list-details bb-'+res+'-image-list-noimage';
+							details.normal = 'bb-pb-image-list-details bb-pb-image-list-noimage';
 						} else {
-							details.normal = 'bb-'+res+'-image-list-details';
+							details.normal = 'bb-pb-image-list-details';
 						}
 						
 						titleDiv = document.createElement('div');
@@ -132,12 +132,12 @@ _bb_5_6_7_PlayBook_imageList = {
 							btn.setAttribute('class','button');
 							// Create the button border
 							btnBorder = document.createElement('div');
-							btnBorder.normal = 'bb-'+res+'-image-list-item-button-border';
+							btnBorder.normal = 'bb-pb-image-list-item-button-border';
 							btnBorder.setAttribute('class',btnBorder.normal);
 							btn.appendChild(btnBorder);
 							// Create the inner button that has the image
 							btnInner = document.createElement('div');
-							btnInner.setAttribute('class','bb-'+res+'-image-list-item-button-inner bb-image-list-item-chevron-light');
+							btnInner.setAttribute('class','bb-pb-image-list-item-button-inner bb-image-list-item-chevron-light');
 							btnBorder.appendChild(btnInner);
 						} else {
 							// Only add accent text if there are no arrows
@@ -161,14 +161,14 @@ _bb_5_6_7_PlayBook_imageList = {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
 							// Center the title if no description is given
-							titleDiv.style['margin-top'] = (bb.device.isHiRes) ? '14px' : '18px';
+							titleDiv.style['margin-top'] =  '19px';
 							// Adjust accent text
 							if (accentDiv) {
-								accentDiv.style['margin-top'] = (bb.device.isHiRes) ? '-32px' : '-25px';
+								accentDiv.style['margin-top'] = '-23px';
 							}
 							// Adjust any arrows
 							if (this.listStyle == 'arrowlist') {
-								btn.style['margin-top'] = (bb.device.isHiRes) ? '-73px' : '-70px';
+								btn.style['margin-top'] =  '-69px';
 							}
 						}
 						descriptionDiv.innerHTML = description;

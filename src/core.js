@@ -108,7 +108,7 @@ bb = {
 			bb.checkbox = _bb10_checkbox;
 			bb.toggle = _bb10_toggle;
 		} else if (bb.device.isBB5) {
-			bb.imageList = _bb_5_6_7_PlayBook_imageList;
+			bb.imageList = _bb_5_6_7_imageList;
 			bb.button = _bb5_button;
 			bb.bbmBubble = _bb_bbmBubble;
 			bb.roundPanel = _bb_5_6_7_roundPanel;
@@ -116,7 +116,7 @@ bb = {
 			bb.labelControlContainers = _bb5_labelControlContainers;
 			bb.progress = _bb_progress;
 		} else if (bb.device.isPlayBook) {
-			bb.imageList = _bb_5_6_7_PlayBook_imageList;
+			bb.imageList = _bbPlayBook_imageList;
 			bb.button = _bbPlayBook_button;
 			bb.bbmBubble = _bb_bbmBubble;
 			bb.dropdown = _bb_6_7_PlayBook_dropdown;
@@ -128,7 +128,7 @@ bb = {
 			bb.roundPanel = _bbPlayBook_roundPanel;
 			bb.activityIndicator = _bbPlayBook_activityIndicator;
 		} else { //BB6 & BB7
-			bb.imageList = _bb_5_6_7_PlayBook_imageList;
+			bb.imageList = _bb_5_6_7_imageList;
 			bb.button = _bb_6_7_button;
 			bb.bbmBubble = _bb_bbmBubble;
 			bb.dropdown = _bb_6_7_PlayBook_dropdown;
