@@ -359,7 +359,7 @@ bb = {
 								break;
 							}
 						}
-						
+	
 						animationScreen.style.display = 'inline'; // This is a wierd hack
 						
 						// Listen for when the animation ends so that we can clear the previous screen
@@ -397,6 +397,8 @@ bb = {
 											this.parentNode.parentNode.removeChild(this.parentNode);
 											// Pop it from the stack
 											bb.screens.pop();	
+											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
+											bb.screens[bb.screens.length-1].container = container;  
 										}
 									}
 									
@@ -411,7 +413,6 @@ bb = {
 					} 
 				}				
 			} 
-			bb.createScreenScroller(screen); 
 		} 
 		
 		// Fire the ondomready after the element is added to the DOM and we've set our animation flags
@@ -431,6 +432,8 @@ bb = {
 				currentScreen.parentNode.removeChild(currentScreen);
 				// Pop it from the stack
 				bb.screens.pop();	
+				// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
+				bb.screens[bb.screens.length-1].container = container; 
 			}
 			bb.createScreenScroller(screen); 
 		}

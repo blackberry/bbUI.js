@@ -413,6 +413,8 @@ bb = {
 											this.parentNode.parentNode.removeChild(this.parentNode);
 											// Pop it from the stack
 											bb.screens.pop();	
+											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
+											bb.screens[bb.screens.length-1].container = container;  
 										}
 									}
 									
@@ -446,6 +448,8 @@ bb = {
 				currentScreen.parentNode.removeChild(currentScreen);
 				// Pop it from the stack
 				bb.screens.pop();	
+				// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
+				bb.screens[bb.screens.length-1].container = container; 
 			}
 			bb.createScreenScroller(screen); 
 		}
