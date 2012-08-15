@@ -187,7 +187,7 @@ bb = {
 		bb10ForPlayBook: false
 	},
 	
-    loadScreen: function(url, id, popping) {
+    loadScreen: function(url, id, popping, guid) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
             _reduce = function (nl, func, start) {
@@ -213,7 +213,7 @@ bb = {
         xhr.open("GET", url, false);
         xhr.send();
 
-        container.setAttribute('id', id);
+        container.setAttribute('id', guid);
         container.innerHTML = xhr.responseText;
 
         // Add any Java Script files that need to be included
@@ -512,8 +512,7 @@ bb = {
 	},
 	
     // Add a new screen to the stack
-    pushScreen: function (url) {
-		var id = bb.guidGenerator();
+    pushScreen: function (url, id) {
 		// Remove our old screen
         bb.removeLoadedScripts();
 		bb.menuBar.clearMenu();
@@ -530,8 +529,9 @@ bb = {
         }
 		
         // Add our screen to the stack
-        var container = bb.loadScreen(url, id, false);
-		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container});    
+        var guid = bb.guidGenerator(),
+			container = bb.loadScreen(url, id, false, guid);
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container, 'guid': guid});    
     },
 
     // Pop a screen from the stack
@@ -546,7 +546,7 @@ bb = {
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                newScreen = bb.loadScreen(display.url, display.id, true);
+                newScreen = bb.loadScreen(display.url, display.id, true, display.guid);
 					
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
