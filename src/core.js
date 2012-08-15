@@ -461,7 +461,7 @@ bb = {
 	createScreenScroller : function(screen) {  
 		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
-			bb.scroller = new iScroll(scrollWrapper, {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
+			var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 				var target = e.target;
 				
 				// Don't scroll the screen when touching in our drop downs for BB10
@@ -474,7 +474,21 @@ bb = {
 				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
 					e.preventDefault();
 				} 
-			}}); 
+				
+				if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
+					bb.options.screen.onBeforeScrollStart(e);
+				}
+			}};
+			
+			if (bb.options.screen) {
+				var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
+				for (var i in bb.options.screen) {
+					if (excluded.indexOf(i) === -1) {
+						scrollerOptions[i] = bb.options.screen[i];
+					}
+				}
+			}
+			bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
 		}
 	},  
 
