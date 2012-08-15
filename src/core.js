@@ -497,7 +497,7 @@ bb = {
 	// Remove the topmost screen from the dom
 	removeTopMostScreenFromDom: function() {
 		var numItems = bb.screens.length,
-			oldScreen = document.getElementById(bb.screens[numItems -1].id);	
+			oldScreen = document.getElementById(bb.screens[numItems -1].guid);	
 		document.body.removeChild(oldScreen);
 	},
 	
@@ -506,7 +506,7 @@ bb = {
 		var numItems = bb.screens.length,
 			oldScreen;	
 		if (numItems > 1) {
-			oldScreen = document.getElementById(bb.screens[numItems -2].id);
+			oldScreen = document.getElementById(bb.screens[numItems -2].guid);
 			document.body.removeChild(oldScreen);
 		}
 	},
