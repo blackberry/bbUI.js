@@ -528,8 +528,9 @@ bb = {
 	},
 	
     // Add a new screen to the stack
-    pushScreen: function (url, id) {
-        // Remove our old screen
+    pushScreen: function (url) {
+		var id = bb.guidGenerator();
+		// Remove our old screen
         bb.removeLoadedScripts();
 		bb.menuBar.clearMenu();
         var numItems = bb.screens.length,
@@ -641,6 +642,13 @@ bb = {
 	
 	cutHex : function(h) {
 		return (h.charAt(0)=="#") ? h.substring(1,7):h
+	},
+	
+	guidGenerator : function() {
+		var S4 = function() {
+		   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+		};
+		return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
 	}
 };
 
