@@ -3848,7 +3848,7 @@ _bb10_pillButtons = {
 			// Gather our inner items
 			var items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
 				percentWidth = Math.floor(100 / items.length),
-				sidePadding = 102-(percentWidth * items.length),
+				sidePadding = 101-(percentWidth * items.length),
 				sidePadding,
 				innerChildNode,
 				j;
@@ -3865,10 +3865,10 @@ _bb10_pillButtons = {
 				innerChildNode.highlight = buttonStyle + ' bb-bb10-pill-button-highlight-'+res+'-'+ bb.screen.controlColor +' bb10Highlight';
 				if (j == items.length - 1) {
 					innerChildNode.style.float = 'right';
-					if (!bb.device.isPlayBook && j > 2) {
+					if (j == 1) {
 						innerChildNode.style.width = percentWidth-2 + '%';
 					} else {
-						innerChildNode.style.width = percentWidth-1 + '%';
+						innerChildNode.style.width = (100-j) - (j * percentWidth) + '%';
 					}						
 				} else {
 					innerChildNode.style.width = percentWidth + '%';
