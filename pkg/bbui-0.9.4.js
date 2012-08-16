@@ -489,6 +489,13 @@ bb = {
 
 				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
 					e.preventDefault();
+					// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
+					var activeElement = document.activeElement;
+					if (activeElement) {
+						if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
+							activeElement.blur();
+						}
+					}
 				} 
 				
 				if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
