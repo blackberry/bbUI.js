@@ -14,6 +14,9 @@ Below you will find all the different changes that have been added since the fir
     * Added Activity Indicator 
 	* Text Input updates
 	* Image List updates
+* Noteable Bug Fixes: 
+    * Back button used to have problems when you were more than 2 screens deep
+	* Back button used to have issues when screens did not have unique id's
 
 ## Version 0.9.3
 
