@@ -238,7 +238,7 @@ bb.contextMenu = {
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										this.setAttribute('class',this.highlight);
-										this.style['border-left-color'] = bb.options.bb10HighlightColor;
+										this.style['border-left-color'] = bb.options.highlightColor;
 									}
 				action.ontouchend = function () {
 										this.setAttribute('class',this.normal);

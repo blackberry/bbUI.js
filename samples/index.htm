@@ -18,55 +18,57 @@
 	<head>
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
 		<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-		<link  rel="stylesheet" type="text/css" href="bbui-0.9.3.css"><link />
-		<script type="text/javascript" src="bbui-0.9.3.js"></script>
+		<link  rel="stylesheet" type="text/css" href="bbui-0.9.4.css"><link />
+		<script type="text/javascript" src="bbui-0.9.4.js"></script>
+		<script type="text/javascript" src="js/webworks-1.0.1.6.js"></script>
 		<script type="text/javascript">
-					
-			// For some fun I did some random color scheme generation :o)
-			var bb10HighlightColor,
-				randomNumber;
-			randomNumber=Math.floor(Math.random()*100);
-			if (randomNumber > 90) {
-				  bb10HighlightColor = '#BA55D3';
-			} else if (randomNumber > 60) {
-				  bb10HighlightColor = '#00BC9F';
-			} else if (randomNumber > 30) {
-				  bb10HighlightColor = '#00A8DF';
-			} else {
-				bb10HighlightColor = '#B2CC00';
-			}
-			
-			// You must call init on bbUI before any other code loads.  
-			// If you want default functionality simply don't pass any parameters.. bb.init();
-			bb.init({bb10HighlightColor: bb10HighlightColor,
-					bb10ActionBarDark: true,
-					bb10ControlsDark: true,
-					bb10ListsDark: false,
-					bb10ForPlayBook: true,
-					// Fires "before" styling is applied and "before" the screen is inserted in the DOM
-					onscreenready: function(element, id) {
-										if (id == 'dataOnLoad') {
-											dataOnLoad_initialLoad(element);
-										} else if (id == 'masterDetail') {
-											masterDetail_initialLoad(element);
-										}
-										
-										// Remove all titles "except" input and pill buttons screen if running on BB10
-										if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
-											var titles = element.querySelectorAll('[data-bb-type=title]');
-											if (titles.length > 0) {
-												titles[0].parentNode.removeChild(titles[0]);
+			//document.addEventListener('webworksready', function(e) {
+				// For some fun I did some random color scheme generation :o)
+				var highlightColor,
+					randomNumber;
+				randomNumber=Math.floor(Math.random()*100);
+				if (randomNumber > 90) {
+					  highlightColor = '#BA55D3';
+				} else if (randomNumber > 60) {
+					  highlightColor = '#00BC9F';
+				} else if (randomNumber > 30) {
+					  highlightColor = '#00A8DF';
+				} else {
+					highlightColor = '#B2CC00';
+				}
+				
+				// You must call init on bbUI before any other code loads.  
+				// If you want default functionality simply don't pass any parameters.. bb.init();
+				bb.init({actionBarDark: true,
+						controlsDark: true,
+						listsDark: false,
+						bb10ForPlayBook: false,
+						highlightColor: highlightColor,
+						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
+						onscreenready: function(element, id) {
+											if (id == 'dataOnLoad') {
+												dataOnLoad_initialLoad(element);
+											} else if (id == 'masterDetail') {
+												masterDetail_initialLoad(element);
+											}
+											
+											// Remove all titles "except" input and pill buttons screen if running on BB10
+											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
+												var titles = element.querySelectorAll('[data-bb-type=title]');
+												if (titles.length > 0) {
+													titles[0].parentNode.removeChild(titles[0]);
+												}
+											}
+											
+										},
+						// Fires "after" styling is applied and "after" the screen is inserted in the DOM
+						ondomready: function(element, id) {
+											if (id == 'dataOnTheFly') {
+												dataOnTheFly_initialLoad(element);
 											}
 										}
-										
-									},
-					// Fires "after" styling is applied and "after" the screen is inserted in the DOM
-					ondomready: function(element, id) {
-										if (id == 'dataOnTheFly') {
-											dataOnTheFly_initialLoad(element);
-										}
-									}
-					});
+						});
+		//	}, false);
 		</script>
 	</head>
 	<body onload="bb.pushScreen('menu.htm', 'menu');">	

@@ -431,7 +431,7 @@ bb.actionBar = {
 		}
 		
 		// Now highlight this action
-		action.style['border-top-color'] = bb.options.bb10HighlightColor;
+		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
 		
 		if (overflowAction) {
