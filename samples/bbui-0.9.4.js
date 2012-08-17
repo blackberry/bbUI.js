@@ -477,7 +477,7 @@ bb = {
 	createScreenScroller : function(screen) {  
 		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
-			var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
+			bb.scroller = new iScroll(scrollWrapper, {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 				var target = e.target;
 				
 				// Don't scroll the screen when touching in our drop downs for BB10
@@ -487,31 +487,10 @@ bb = {
 				
 				while (target.nodeType != 1) target = target.parentNode;
 
-				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
+				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
 					e.preventDefault();
-					// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
-					var activeElement = document.activeElement;
-					if (activeElement) {
-						if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
-							activeElement.blur();
-						}
-					}
 				} 
-				
-				if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
-					bb.options.screen.onBeforeScrollStart(e);
-				}
-			}};
-			
-			if (bb.options.screen) {
-				var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
-				for (var i in bb.options.screen) {
-					if (excluded.indexOf(i) === -1) {
-						scrollerOptions[i] = bb.options.screen[i];
-					}
-				}
-			}
-			bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
+			}}); 
 		}
 	},  
 
@@ -3848,7 +3827,7 @@ _bb10_pillButtons = {
 			// Gather our inner items
 			var items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
 				percentWidth = Math.floor(100 / items.length),
-				sidePadding = 101-(percentWidth * items.length),
+				sidePadding = 102-(percentWidth * items.length),
 				sidePadding,
 				innerChildNode,
 				j;
@@ -3865,10 +3844,10 @@ _bb10_pillButtons = {
 				innerChildNode.highlight = buttonStyle + ' bb-bb10-pill-button-highlight-'+res+'-'+ bb.screen.controlColor +' bb10Highlight';
 				if (j == items.length - 1) {
 					innerChildNode.style.float = 'right';
-					if (j == 1) {
+					if (!bb.device.isPlayBook && j > 2) {
 						innerChildNode.style.width = percentWidth-2 + '%';
 					} else {
-						innerChildNode.style.width = (100-j) - (j * percentWidth) + '%';
+						innerChildNode.style.width = percentWidth-1 + '%';
 					}						
 				} else {
 					innerChildNode.style.width = percentWidth + '%';
