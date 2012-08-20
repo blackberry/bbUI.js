@@ -559,7 +559,7 @@ bb = {
 			bb.clearScrollers();
 			// Quirk with displaying with animations
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
-				currentScreen = document.getElementById(bb.screens[numItems -1].id);
+				currentScreen = document.getElementById(bb.screens[numItems -1].guid);
 				currentScreen.style.display = 'none';
 				window.scroll(0,0);
 			}
@@ -601,7 +601,7 @@ bb = {
         var numItems = bb.screens.length;
         if (numItems > 0) {
             var currentStackItem = bb.screens[numItems-1],
-                current = document.getElementById(currentStackItem.id);
+                current = document.getElementById(currentStackItem.guid);
 
             // Remove any JavaScript files
             for (var i = 0; i < currentStackItem.scripts.length; i++) {
