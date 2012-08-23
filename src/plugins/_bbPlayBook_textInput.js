@@ -18,9 +18,11 @@ _bbPlayBook_textInput = {
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
 			outerElement.addEventListener('focus', function() {
-														this.setAttribute('class',this.focused);
-														this.isFocused = true;
-														this.clickCount = 0;
+														if(this.readOnly == false) {
+															this.setAttribute('class',this.focused);
+															this.isFocused = true;
+															this.clickCount = 0;
+														}
 													}, false);
 													
 			outerElement.addEventListener('blur', function() {
@@ -31,13 +33,14 @@ _bbPlayBook_textInput = {
 													
 			outerElement.addEventListener('click',function (event) {
 												// Don't handle the first click which is the focus
+											
 												if (this.clickCount == 0) {
 													this.clickCount++;
 													return;
 												}
 												if (event.target == this && this.isFocused) {
 													var deleteClicked = false;
-													if (event.clientX > (this.clientWidth - 40)) {
+													if (event.clientX > (this.clientWidth - 40) && this.readOnly == false) {
 														deleteClicked = true;
 													} 
 													if (deleteClicked) {
