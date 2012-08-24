@@ -226,15 +226,13 @@ bb.actionBar = {
 				action = visibleTabs[j];
 				// Don't add the visible overflow tab
 				if (action.getAttribute('data-bb-img') != 'overflow') {
-					clone = action.cloneNode(true);
-					clone.onclick = undefined;
+					clone = action.cloneNode(true);					
 					clone.visibleTab = action;
 					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
-			}			
-		
+			}		
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
