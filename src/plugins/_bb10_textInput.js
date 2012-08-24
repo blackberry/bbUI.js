@@ -19,10 +19,12 @@ _bb10_textInput = {
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
 			outerElement.addEventListener('focus', function() {
-														this.setAttribute('class',this.focused);
-														this.style['border-color'] = bb.options.highlightColor;
-														this.isFocused = true;
-														this.clickCount = 0;
+														if(this.readOnly == false) {
+															this.setAttribute('class',this.focused);
+															this.style['border-color'] = bb.options.highlightColor;
+															this.isFocused = true;
+															this.clickCount = 0;
+															}
 													}, false);
 													
 			outerElement.addEventListener('blur', function() {
@@ -40,9 +42,9 @@ _bb10_textInput = {
 												}
 												if (event.target == this && this.isFocused) {
 													var deleteClicked = false;
-													if (bb.device.isPlayBook && event.clientX > (this.clientWidth - 40)) {
+													if (bb.device.isPlayBook && event.clientX > (this.clientWidth - 40) && this.readOnly == false) {
 														deleteClicked = true;
-													} else if(event.clientX > (this.clientWidth - 45)){
+													} else if(event.clientX > (this.clientWidth - 45) && this.readOnly == false){
 														deleteClicked = true;
 													}
 													if (deleteClicked) {
