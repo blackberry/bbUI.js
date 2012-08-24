@@ -5417,15 +5417,13 @@ bb.actionBar = {
 				action = visibleTabs[j];
 				// Don't add the visible overflow tab
 				if (action.getAttribute('data-bb-img') != 'overflow') {
-					clone = action.cloneNode(true);
-					clone.onclick = undefined;
+					clone = action.cloneNode(true);					
 					clone.visibleTab = action;
 					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
-			}			
-		
+			}		
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
@@ -5925,22 +5923,14 @@ bb.tabOverflow = {
 				action.onclick = function() {
 									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 									this.menu.itemClicked = true;
-									
 									bb.actionBar.highlightAction(this.visibleTab, this);
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
-										if (this.oldClick) {
-											this.oldClick();
-										}
-									} else {
-										tabOverflowBtn.tabHighlight.reset();
-										if (this.visibleTab.onclick) {
-											this.visibleTab.onclick();
-										}
-									}										
+									} 
+									if (this.oldClick) {
+										this.oldClick();
+									}
 								};
-								
-			
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
