@@ -38,17 +38,6 @@ bb = {
 			}
 		}
 		
-		// Set our meta tags for content scaling
-		var meta = document.createElement('meta');
-		meta.setAttribute('name','viewport');
-		if (navigator.userAgent.indexOf('Version/10.0.0.1337') >= 0) {
-			meta.setAttribute('content','initial-scale=0.445,user-scalable=no');
-		} else {
-			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
-		}
-		document.head.appendChild(meta);
-		
-		
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0);
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
@@ -67,6 +56,16 @@ bb = {
 		} else {
 			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
 		}
+		
+		// Set our meta tags for content scaling
+		var meta = document.createElement('meta');
+		meta.setAttribute('name','viewport');
+		if (navigator.userAgent.indexOf('Version/10.0.0.1337') >= 0) {// this should eventually be changed to if(bb.device.isBB10  && !bb.device.isPlayBook) 
+			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
+		} else {
+			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
+		}
+		document.head.appendChild(meta);
 		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
