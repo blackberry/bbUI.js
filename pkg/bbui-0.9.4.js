@@ -54,6 +54,17 @@ bb = {
 			}
 		}
 		
+		// Set our meta tags for content scaling
+		var meta = document.createElement('meta');
+		meta.setAttribute('name','viewport');
+		if (navigator.userAgent.indexOf('Version/10.0.0.1337') >= 0) {
+			meta.setAttribute('content','initial-scale=0.445,user-scalable=no');
+		} else {
+			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
+		}
+		document.head.appendChild(meta);
+		
+		
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0);
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
@@ -5417,15 +5428,13 @@ bb.actionBar = {
 				action = visibleTabs[j];
 				// Don't add the visible overflow tab
 				if (action.getAttribute('data-bb-img') != 'overflow') {
-					clone = action.cloneNode(true);
-					clone.onclick = undefined;
+					clone = action.cloneNode(true);					
 					clone.visibleTab = action;
 					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
-			}			
-		
+			}		
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
@@ -5925,22 +5934,14 @@ bb.tabOverflow = {
 				action.onclick = function() {
 									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 									this.menu.itemClicked = true;
-									
 									bb.actionBar.highlightAction(this.visibleTab, this);
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
-										if (this.oldClick) {
-											this.oldClick();
-										}
-									} else {
-										tabOverflowBtn.tabHighlight.reset();
-										if (this.visibleTab.onclick) {
-											this.visibleTab.onclick();
-										}
-									}										
+									} 
+									if (this.oldClick) {
+										this.oldClick();
+									}
 								};
-								
-			
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
