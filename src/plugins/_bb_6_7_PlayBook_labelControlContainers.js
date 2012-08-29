@@ -31,6 +31,8 @@ _bb_6_7_PlayBook_labelControlContainers = {
 					var bbType = control.getAttribute('data-bb-type');
 					if (bbType == 'button' || bbType == 'dropdown') {
 						control.style.float = 'right';
+					} else if (control.tagName == 'INPUT') {
+						control.style.width = '100%';
 					}
 				}
 			}
