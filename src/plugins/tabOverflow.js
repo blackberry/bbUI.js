@@ -198,22 +198,14 @@ bb.tabOverflow = {
 				action.onclick = function() {
 									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 									this.menu.itemClicked = true;
-									
 									bb.actionBar.highlightAction(this.visibleTab, this);
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
-										if (this.oldClick) {
-											this.oldClick();
-										}
-									} else {
-										tabOverflowBtn.tabHighlight.reset();
-										if (this.visibleTab.onclick) {
-											this.visibleTab.onclick();
-										}
-									}										
+									} 
+									if (this.oldClick) {
+										this.oldClick();
+									}
 								};
-								
-			
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;

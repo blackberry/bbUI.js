@@ -73,6 +73,16 @@ bb = {
 			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
 		}
 		
+		// Set our meta tags for content scaling
+		var meta = document.createElement('meta');
+		meta.setAttribute('name','viewport');
+		if (navigator.userAgent.indexOf('Version/10.0.0.1337') >= 0) {// this should eventually be changed to if(bb.device.isBB10  && !bb.device.isPlayBook) 
+			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
+		} else {
+			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
+		}
+		document.head.appendChild(meta);
+		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
 			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
@@ -5417,15 +5427,13 @@ bb.actionBar = {
 				action = visibleTabs[j];
 				// Don't add the visible overflow tab
 				if (action.getAttribute('data-bb-img') != 'overflow') {
-					clone = action.cloneNode(true);
-					clone.onclick = undefined;
+					clone = action.cloneNode(true);					
 					clone.visibleTab = action;
 					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
-			}			
-		
+			}		
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
@@ -5925,22 +5933,14 @@ bb.tabOverflow = {
 				action.onclick = function() {
 									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 									this.menu.itemClicked = true;
-									
 									bb.actionBar.highlightAction(this.visibleTab, this);
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
-										if (this.oldClick) {
-											this.oldClick();
-										}
-									} else {
-										tabOverflowBtn.tabHighlight.reset();
-										if (this.visibleTab.onclick) {
-											this.visibleTab.onclick();
-										}
-									}										
+									} 
+									if (this.oldClick) {
+										this.oldClick();
+									}
 								};
-								
-			
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
@@ -6245,10 +6245,12 @@ _bb10_textInput = {
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
 			outerElement.addEventListener('focus', function() {
-														this.setAttribute('class',this.focused);
-														this.style['border-color'] = bb.options.highlightColor;
-														this.isFocused = true;
-														this.clickCount = 0;
+														if(this.readOnly == false) {
+															this.setAttribute('class',this.focused);
+															this.style['border-color'] = bb.options.highlightColor;
+															this.isFocused = true;
+															this.clickCount = 0;
+															}
 													}, false);
 													
 			outerElement.addEventListener('blur', function() {
@@ -6266,9 +6268,9 @@ _bb10_textInput = {
 												}
 												if (event.target == this && this.isFocused) {
 													var deleteClicked = false;
-													if (bb.device.isPlayBook && event.clientX > (this.clientWidth - 40)) {
+													if (bb.device.isPlayBook && event.clientX > (this.clientWidth - 40) && this.readOnly == false) {
 														deleteClicked = true;
-													} else if(event.clientX > (this.clientWidth - 45)){
+													} else if(event.clientX > (this.clientWidth - 45) && this.readOnly == false){
 														deleteClicked = true;
 													}
 													if (deleteClicked) {
@@ -6300,9 +6302,11 @@ _bbPlayBook_textInput = {
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
 			outerElement.addEventListener('focus', function() {
-														this.setAttribute('class',this.focused);
-														this.isFocused = true;
-														this.clickCount = 0;
+														if(this.readOnly == false) {
+															this.setAttribute('class',this.focused);
+															this.isFocused = true;
+															this.clickCount = 0;
+														}
 													}, false);
 													
 			outerElement.addEventListener('blur', function() {
@@ -6313,13 +6317,14 @@ _bbPlayBook_textInput = {
 													
 			outerElement.addEventListener('click',function (event) {
 												// Don't handle the first click which is the focus
+											
 												if (this.clickCount == 0) {
 													this.clickCount++;
 													return;
 												}
 												if (event.target == this && this.isFocused) {
 													var deleteClicked = false;
-													if (event.clientX > (this.clientWidth - 40)) {
+													if (event.clientX > (this.clientWidth - 40) && this.readOnly == false) {
 														deleteClicked = true;
 													} 
 													if (deleteClicked) {
