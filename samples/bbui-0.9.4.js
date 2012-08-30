@@ -2632,6 +2632,17 @@ _bb_5_6_7_imageList = {
 						}	
 					return result;
 				};
+			outerElement.getItems = outerElement.getItems.bind(outerElement);
+			
+			// Clear items from the list
+			outerElement.clear = function() {
+					this.items = [];
+					outerElement.innerHTML = '';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.clear = outerElement.clear.bind(outerElement);
 			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
@@ -2896,6 +2907,17 @@ _bbPlayBook_imageList = {
 						}	
 					return result;
 				};
+			outerElement.getItems = outerElement.getItems.bind(outerElement);
+			
+			// Clear items from the list
+			outerElement.clear = function() {
+					this.items = [];
+					outerElement.innerHTML = '';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.clear = outerElement.clear.bind(outerElement);
 			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
@@ -3309,6 +3331,18 @@ _bb10_imageList = {
 						}	
 					return result;
 				};
+			outerElement.getItems = outerElement.getItems.bind(outerElement);
+			
+			// Clear items from the list
+			outerElement.clear = function() {
+					this.items = [];
+					outerElement.innerHTML = '';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.clear = outerElement.clear.bind(outerElement);
+			
 			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');

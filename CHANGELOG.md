@@ -16,6 +16,8 @@ Below you will find all the different changes that have been added since the fir
 	* Text Input updates
 	* Image List updates
 	* Button updates
+* JavaScript Interfaces
+	* Added clear() function to image lists
 * Noteable Bug Fixes: 
     * Back button used to have problems when you were more than 2 screens deep
 	* Back button used to have issues when screens did not have unique id's
