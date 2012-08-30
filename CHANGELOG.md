@@ -17,7 +17,9 @@ Below you will find all the different changes that have been added since the fir
 	* Image List updates
 	* Button updates
 * JavaScript Interfaces
-	* Added clear() function to image lists
+	* Image List: Added clear() function
+	* Buttons: Added show(), hide(), remove() functions
+	* Added bb.refresh() to refresh scrolling for the current screen
 * Noteable Bug Fixes: 
     * Back button used to have problems when you were more than 2 screens deep
 	* Back button used to have issues when screens did not have unique id's
