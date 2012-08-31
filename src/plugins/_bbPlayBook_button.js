@@ -182,12 +182,14 @@ _bbPlayBook_button = {
 		// Assign our show function
 		outerElement.show = function(){ 
 				this.style.display = this.stretched ? 'block' : 'inline-block';
+				bb.refresh();
 			};
 		outerElement.show = outerElement.show.bind(outerElement);
 		
 		// Assign our hide function
 		outerElement.hide = function(){ 
 				this.style.display = 'none';
+				bb.refresh();
 			};
 		outerElement.hide = outerElement.hide.bind(outerElement);	
 		
@@ -198,5 +200,6 @@ _bbPlayBook_button = {
 			};
 		outerElement.remove = outerElement.remove.bind(outerElement);	
 		
+		return outerElement;
     }
 };

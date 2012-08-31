@@ -24,7 +24,7 @@ function addButton() {
 			this.remove();
 		};
 	// Apply our styling
-	bb.button.style(button);
+	button = bb.button.style(button);
 	// Insert it into the screen and update the scroller
 	document.getElementById('buttonContainer').appendChild(button);
 	bb.refresh();

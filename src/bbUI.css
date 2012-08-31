@@ -1946,6 +1946,19 @@ body, html {
 	border-color: #CECECE;
 }
 
+
+.bb-bb10-dropdown-disabled-dark {
+	border-color:#262626;
+	background-color: #262626;
+	color: #666666;
+}
+
+.bb-bb10-dropdown-disabled-light {
+	border-color: #D4D4D4;
+	background-color: #C1C1C1;
+	color: #838383;
+}
+
 .bb-bb10-dropdown-items 
 {
 	margin-top: 5px;

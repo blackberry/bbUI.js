@@ -181,12 +181,14 @@ _bb10_button = {
 		// Assign our show function
 		outerElement.show = function(){ 
 				this.style.display = this.stretched ? 'block' : 'inline-block';
+				bb.refresh();
 			};
 		outerElement.show = outerElement.show.bind(outerElement);
 		
 		// Assign our hide function
 		outerElement.hide = function(){ 
 				this.style.display = 'none';
+				bb.refresh();
 			};
 		outerElement.hide = outerElement.hide.bind(outerElement);	
 		
@@ -195,6 +197,8 @@ _bb10_button = {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 			};
-		outerElement.remove = outerElement.remove.bind(outerElement);			
+		outerElement.remove = outerElement.remove.bind(outerElement);
+
+		return outerElement;
     }
 };

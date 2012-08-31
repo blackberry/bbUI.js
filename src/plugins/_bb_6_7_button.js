@@ -147,6 +147,8 @@ _bb_6_7_button = {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 			};
-		outerElement.remove = outerElement.remove.bind(outerElement);		   
+		outerElement.remove = outerElement.remove.bind(outerElement);		
+
+		return outerElement;
     }
 };
