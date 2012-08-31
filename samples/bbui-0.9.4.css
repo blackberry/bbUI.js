@@ -2275,6 +2275,13 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#D0D2D4));
 }
 
+.bb-bb7-dropdown-disabled {
+	border-color:#BDBEBD;
+	color: #636563;
+	background-color: #BDBEBD;
+	background-image: none;
+}
+
 .bb-bb7-dropdown.dropdown-stretch div[data-bb-type="caption"] span {
 	overflow: hidden;
 	padding-right:40px;
