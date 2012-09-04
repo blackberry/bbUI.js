@@ -15,8 +15,8 @@ _bbPlayBook_button = {
 			innerElement = document.createElement('div');
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-pb-button',
-			highlight = 'bb-pb-button-container pb-button-'+bb.screen.controlColor+'-highlight';
-			outerNormal = 'bb-pb-button-container bb-pb-button-container-' + bb.screen.controlColor,
+			highlight = 'bb-pb-button-container bb-pb-button-container-' + bb.screen.controlColor + ' pb-button-'+bb.screen.controlColor+'-highlight'; 
+			outerNormal = 'bb-pb-button-container bb-pb-button-container-' + bb.screen.controlColor +' bb-pb-button-font-'+ bb.screen.controlColor,
 			outerNormalWithoutImageOnly = outerNormal;
 			
 		outerElement.isImageOnly = false;

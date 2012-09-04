@@ -1610,19 +1610,25 @@ body, html {
 .bb-pb-button-container-light
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#E2E2E2), to(#D1D1D1));
-	color: black;
 	border-top-color: #A5A5A5;
 	border-bottom-color: #BABABA;
 	border-left-color: #B4B4B4;
 	border-right-color: #B4B4B4;
 }
 
+.bb-pb-button-font-light {
+	color: black;
+}
+
 .bb-pb-button-container-dark
 {
 	background-color: #0B0B0B;
-	color: white;
 	border-color: #333333;
 	display:inline-block;
+}
+
+.bb-pb-button-font-dark {
+	color: white;
 }
 
 .bb-pb-button-caption-with-image
