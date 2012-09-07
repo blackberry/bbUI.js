@@ -17,6 +17,7 @@ Below you will find all the different changes that have been added since the fir
 	* Image List updates
 	* Button updates
 * JavaScript Interfaces
+	* Added the ability to pass custom parameters to pushScreen() and read them in ondomready and onscreenready
 	* Image List: Added clear() function
 	* Buttons: Added show(), hide(), remove() functions as well as a dynamic way to create/style buttons
 	* DropDowns: Added enable(), disable(), show(), hide(), remove(), refresh(), setCaption(), setSelectedText() functions as well as a dynamic way to create/style dropdowns

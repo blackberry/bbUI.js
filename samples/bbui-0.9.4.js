@@ -213,7 +213,7 @@ bb = {
 		bb10ForPlayBook: false
 	},
 	
-    loadScreen: function(url, id, popping, guid) {
+    loadScreen: function(url, id, popping, guid, params) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
             _reduce = function (nl, func, start) {
@@ -291,23 +291,23 @@ bb = {
                 newScriptTags[i].onload = function() {
                     bb.screen.scriptCounter++;
                     if(bb.screen.scriptCounter == bb.screen.totalScripts) {
-						bb.initContainer(container, id, popping);
+						bb.initContainer(container, id, popping, params);
                     }
                 };
         }
 
         // In case there are no scripts at all we simply doLoad() now
         if(bb.screen.totalScripts === 0) {
-            bb.initContainer(container, id, popping);
+            bb.initContainer(container, id, popping, params);
         }
         return container;
     },
 	
 	// Initialize the container
-	initContainer : function(container, id, popping) {
+	initContainer : function(container, id, popping, params) {
 		// Fire the onscreenready and then apply our changes in doLoad()
 		if (bb.options.onscreenready) {
-			bb.options.onscreenready(container, id);
+			bb.options.onscreenready(container, id, params);
 		}
 		bb.doLoad(container);
 		// Load in the new content
@@ -445,6 +445,7 @@ bb = {
 		if (bb.options.ondomready) {
 			bb.domready.container = container;
 			bb.domready.id = id;
+			bb.domready.params = params;
 			setTimeout(bb.domready.fire, 1); 
 		}
 		
@@ -470,15 +471,17 @@ bb = {
 	
 		container : null,
 		id : null,
+		params : null,
 		
 		fire : function() {
 			if (bb.screen.animating) {
 				setTimeout(bb.domready.fire, 250);
 				return;
 			}
-			bb.options.ondomready(bb.domready.container, bb.domready.id);
+			bb.options.ondomready(bb.domready.container, bb.domready.id, bb.domready.params);
 			bb.domready.container = null;
-			bb.domready.id = null;		
+			bb.domready.id = null;	
+		    bb.domready.params = null;
 		}
 	
 	},
@@ -565,7 +568,7 @@ bb = {
 	},
 	
     // Add a new screen to the stack
-    pushScreen: function (url, id) {
+    pushScreen: function (url, id, params) {
 		// Remove our old screen
         bb.removeLoadedScripts();
 		bb.menuBar.clearMenu();
@@ -583,8 +586,8 @@ bb = {
 		
         // Add our screen to the stack
         var guid = bb.guidGenerator(),
-			container = bb.loadScreen(url, id, false, guid);
-		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container, 'guid': guid});    
+			container = bb.loadScreen(url, id, false, guid, params);
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container, 'guid': guid, 'params' : params});    
     },
 
     // Pop a screen from the stack
@@ -599,7 +602,7 @@ bb = {
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                newScreen = bb.loadScreen(display.url, display.id, true, display.guid);
+                newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params);
 					
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
