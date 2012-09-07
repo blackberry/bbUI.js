@@ -76,7 +76,7 @@ bb = {
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (navigator.userAgent.indexOf('Version/10.0.0.1337') >= 0) {// this should eventually be changed to if(bb.device.isBB10  && !bb.device.isPlayBook) 
+		if (navigator.userAgent.indexOf('Version/10.0.9') >= 0) {// this should eventually be changed to if(bb.device.isBB10  && !bb.device.isPlayBook) 
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
