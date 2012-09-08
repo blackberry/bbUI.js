@@ -5884,6 +5884,7 @@ bb.actionBar = {
 			display = document.createElement('div');
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
+			action.display = display;
 			action.appendChild(display);
 			
 			// See if it is our overflow tab
@@ -5915,6 +5916,7 @@ bb.actionBar = {
 				shownActions.push(action);
 				// Set our image
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
+				action.icon = icon;
 				
 				if (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
 					bb.actionBar.highlightAction(action);
@@ -5923,6 +5925,43 @@ bb.actionBar = {
 				action.addEventListener('click',function (e) {
 					bb.actionBar.highlightAction(this);
 				},false);
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+									// Change the associated overflow item if one exists
+									if (this.actionBar.tabOverflowMenu) {
+										var tabs = this.actionBar.tabOverflowMenu.actions,
+											i,
+											target;
+										for (i = 0; i < tabs.length; i++) {
+											target = tabs[i];
+											if (target.visibleTab == this)  {
+												target.setCaption(value);
+											} 
+										}
+									}
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.icon.setAttribute('src', value);
+									
+									// Change the associated overflow item if one exists
+									if (this.actionBar.tabOverflowMenu) {
+										var tabs = this.actionBar.tabOverflowMenu.actions,
+											i,
+											target;
+										for (i = 0; i < tabs.length; i++) {
+											target = tabs[i];
+											if (target.visibleTab == this)  {
+												target.setImage(value);
+											} 
+										}
+									}
+								};
+				action.setImage = action.setImage.bind(action);
 			}
 			
 			// Make the last tab have a smaller border and insert the shading
@@ -5970,13 +6009,27 @@ bb.actionBar = {
 				shownActions.push(action);
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
+				action.icon = icon;
 				action.style.width = btnWidth + 'px'; 
+				
 				// set our shading if needed
 				if (lastStyle == 'tab') {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.icon.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
 			}
 			
 			
@@ -5990,6 +6043,7 @@ bb.actionBar = {
 			var display = document.createElement('div');
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
+			action.display = display;
 			action.appendChild(display);	
 		}
 		// Center the action overflow items
@@ -6001,8 +6055,6 @@ bb.actionBar = {
 			actionBar.tabOverflowMenu.centerMenuItems();
 			actionBar.tabOverflowMenu.initSelected();
 		}
-		
-		
 	},
 
 	// Apply the proper highlighting for the action
@@ -6307,6 +6359,7 @@ bb.tabOverflow = {
 				td = document.createElement('td');
 				inner.setAttribute('class','bb-bb10-tab-overflow-menu-item-inner-'+this.res);
 				inner.innerHTML = caption;
+				action.display = inner;
 				td.appendChild(inner);
 				tr.appendChild(td);
 				
@@ -6341,6 +6394,18 @@ bb.tabOverflow = {
 										this.oldClick();
 									}
 								};
+								
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.img.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
@@ -6579,11 +6644,13 @@ bb.contextMenu = {
 					img = document.createElement('img');
 				img.setAttribute('src', action.getAttribute('data-bb-img'));
 				img.setAttribute('class','bb-bb10-context-menu-item-image-'+this.res);
+				action.img = img;
 				action.appendChild(img);
 				inner.setAttribute('class','bb-bb10-context-menu-item-inner-'+this.res);
 				action.appendChild(inner);
 				inner.innerHTML = caption;
-
+				action.display = inner;
+				
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										this.setAttribute('class',this.highlight);
@@ -6594,6 +6661,18 @@ bb.contextMenu = {
 										this.style['border-left-color'] = 'transparent';
 									}
 				action.addEventListener("click", this.hide, false);
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.img.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;

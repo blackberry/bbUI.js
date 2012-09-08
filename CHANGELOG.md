@@ -17,11 +17,13 @@ Below you will find all the different changes that have been added since the fir
 	* Image List updates
 	* Button updates
 * JavaScript Interfaces
-	* Added the ability to pass custom parameters to pushScreen() and read them in ondomready and onscreenready
-	* Image List: Added clear() function
-	* Buttons: Added show(), hide(), remove() functions as well as a dynamic way to create/style buttons
-	* DropDowns: Added enable(), disable(), show(), hide(), remove(), refresh(), setCaption(), setSelectedText() functions as well as a dynamic way to create/style dropdowns
+	* **Image List:** Added clear() function
+	* **Buttons:** Added show(), hide(), remove() functions as well as a dynamic way to create/style buttons
+	* **DropDowns:** Added enable(), disable(), show(), hide(), remove(), refresh(), setCaption(), setSelectedText() functions as well as a dynamic way to create/style dropdowns
+	* **Action Bar:** Added setCaption(), setImage() to actions
+	* **Context Menu:** Added setCaption(), setImage() to actions
 	* Added bb.refresh() to refresh scrolling for the current screen
+	* Added the ability to pass custom parameters to pushScreen() and read them in ondomready and onscreenready
 * Samples
 	* Added sample screen for dynamic button manipulation
 	* Added sample screen for dynamic dropdown manipulation

@@ -172,6 +172,7 @@ bb.tabOverflow = {
 				td = document.createElement('td');
 				inner.setAttribute('class','bb-bb10-tab-overflow-menu-item-inner-'+this.res);
 				inner.innerHTML = caption;
+				action.display = inner;
 				td.appendChild(inner);
 				tr.appendChild(td);
 				
@@ -206,6 +207,18 @@ bb.tabOverflow = {
 										this.oldClick();
 									}
 								};
+								
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.img.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;

@@ -230,11 +230,13 @@ bb.contextMenu = {
 					img = document.createElement('img');
 				img.setAttribute('src', action.getAttribute('data-bb-img'));
 				img.setAttribute('class','bb-bb10-context-menu-item-image-'+this.res);
+				action.img = img;
 				action.appendChild(img);
 				inner.setAttribute('class','bb-bb10-context-menu-item-inner-'+this.res);
 				action.appendChild(inner);
 				inner.innerHTML = caption;
-
+				action.display = inner;
+				
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										this.setAttribute('class',this.highlight);
@@ -245,6 +247,18 @@ bb.contextMenu = {
 										this.style['border-left-color'] = 'transparent';
 									}
 				action.addEventListener("click", this.hide, false);
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.img.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
@@ -273,3 +287,4 @@ bb.contextMenu = {
 		return window.innerWidth + 3 + 'px';	
 	}
 };
+
