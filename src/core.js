@@ -435,7 +435,7 @@ bb = {
 		
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
-			if (!popping && (bb.screens.length > 0)) {
+			if (!popping && (bb.screens.length > 1)) {
 				//bb.removeTopMostScreenFromDom();
 				bb.removePreviousScreenFromDom();
 			} else if (popping) {
