@@ -45,7 +45,7 @@ bb.screen = {
 					childNode = null, 
 					j,
 					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
-					titleBarHeight = (bb.device.isPlayBook) ? 61 : 140;
+					titleBarHeight = (bb.device.isPlayBook) ? 65 : 120;
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {

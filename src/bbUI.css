@@ -1723,46 +1723,108 @@ body, html {
    BB10 Title Bar
    =================================================*/
 .bb-bb10-title-bar-hires {
-	height:132px;
+	height:119px;
 	position:absolute;
 	top:0px;
 	left:0px;
 	right:0px;
-	padding-top:8px;
-	font-size: 26pt;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	font-size: 41pt;
 	z-index:1000;
 }
 
-
 .bb-bb10-title-bar-caption-hires {
 	text-align:center;
-	line-height:125px;
+	line-height:119px;
 	height:100%;
 	padding:0px;
 	margin:0px;
 	width: 100%;
 }
 
+.bb-bb10-title-bar-caption-details-img-hires {
+	margin-left: 140px;
+}
+
+.bb-bb10-title-bar-caption-left-hires {
+	text-align:left;
+	line-height:119px;
+	height:100%;
+	padding:0px;
+	padding-left: 10px;
+	margin:0px;
+	width: 100%;
+}
+.bb-bb10-title-bar-accent-text-hires {
+	color:#606060;
+	text-align:left;
+	padding-top:2px;
+	padding-left: 10px;
+	margin:0px;
+	font-size: 29pt;
+	width: 100%;
+}
+
+.bb-bb10-title-bar-hires img
+{
+	position:relative;
+	float:left;
+	height:119px;
+	width:119px;
+}
 
 .bb-bb10-title-bar-lowres {
-	height:56px;
+	height:64px;
 	position:absolute;
 	top:0px;
 	left:0px;
 	right:0px;
-	font-size: 14pt;
-	padding-top: 5px;
+	font-size: 20pt;
 	z-index:1000;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
 }
 
 .bb-bb10-title-bar-caption-lowres {
 	text-align:center;
-	line-height:56px;
+	line-height:76px;
 	height:100%;
 	padding:0px;
 	margin:0px;
 	width: 100%;
 }
+
+.bb-bb10-title-bar-caption-details-img-lowres {
+	margin-left: 75px;
+}
+
+.bb-bb10-title-bar-caption-left-lowres {
+	text-align:left;
+	line-height:76px;
+	height:100%;
+	padding:0px;
+	padding-left: 5px;
+	margin:0px;
+	width: 100%;
+}
+.bb-bb10-title-bar-accent-text-lowres {
+	color:#606060;
+	text-align:left;
+	margin:0px;
+	padding-left: 5px;
+	font-size: 16pt;
+	width: 100%;
+}
+
+.bb-bb10-title-bar-lowres img
+{
+	position:relative;
+	float:left;
+	height:64px;
+	width:64px;
+}
+
 
 .bb-bb10-title-bar-dark
 {
@@ -1772,7 +1834,8 @@ body, html {
 
 .bb-bb10-title-bar-light
 {
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#F1F1F1), to(#D4D4D4));;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#F1F1F1), to(#D5D5D5));
+	border-bottom-color: #BBBBBB;
 	color:black;
 }
 
@@ -1801,7 +1864,7 @@ body, html {
 	border-style: solid;
 	border-radius:10px;
 	padding: 2px;
-	margin: 20px;
+	margin: 12px;
 }  
 
 .bb-bb10-titlebar-button-container-lowres
@@ -1812,7 +1875,7 @@ body, html {
 	border-style: solid;
 	border-radius:4px;
 	padding: 1px;
-	margin: 7px;
+	margin: 9px;
 }    
    
 .bb-bb10-titlebar-button {
@@ -2663,7 +2726,7 @@ a.bb5-button-highlight span {
 .bb-bb10-image-list-header-hires
 {
 	height:44px;
-	line-height:47px;
+	line-height:44px;
 	font-size: 28pt;
 	border-bottom-width: 3px;
 	border-bottom-style: solid;
@@ -4211,8 +4274,7 @@ a.bb5-button-highlight span {
 .bb-bb10-grid-header-hires
 {
 	height:44px;
-	line-height:46px;
-	padding-top:5px;
+	line-height:44px;
 	vertical-align:middle;
 	padding-left: 10px;
 	border-bottom-width: 3px;
@@ -4245,7 +4307,7 @@ a.bb5-button-highlight span {
 .bb-bb10-grid-header-hires p
 {
 	font-size: 28pt;
-	line-height:46px;
+	line-height:44px;
 	margin:0px;
 	padding:0px;
 	margin-left: 10px;
