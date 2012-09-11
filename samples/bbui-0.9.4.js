@@ -254,10 +254,11 @@ bb = {
                 eval(script.text);
                 return;
             }
-            container.scriptIds.push({'id' : script.getAttribute('id'), 'onunload': script.getAttribute('onunload')});
+            var guid = bb.guidGenerator();
+            container.scriptIds.push({'id' : guid, 'onunload': script.getAttribute('onunload')});
             scriptTag.setAttribute('type','text/javascript');
             scriptTag.setAttribute('src', script.getAttribute('src'));
-            scriptTag.setAttribute('id', script.getAttribute('id'));
+            scriptTag.setAttribute('id', guid);
             newScriptTags.push(scriptTag);
             // Remove script tag from container because we are going to add it to <head>
             script.parentNode.removeChild(script);
@@ -451,7 +452,7 @@ bb = {
 		
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
-			if (!popping && (bb.screens.length > 0)) {
+			if (!popping && (bb.screens.length > 1)) {
 				//bb.removeTopMostScreenFromDom();
 				bb.removePreviousScreenFromDom();
 			} else if (popping) {
