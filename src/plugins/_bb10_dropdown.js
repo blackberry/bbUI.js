@@ -19,7 +19,7 @@ _bb10_dropdown = {
 			itemsElement,
 			enabled = !select.hasAttribute('disabled'),
 			normal = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb-bb10-dropdown-' + bb.screen.controlColor + ' bb-bb10-dropdown-'+res,
-			highlight = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb10-button-highlight bb-bb10-dropdown-'+res,  //********************************* TODO: currently using Button highlight ********************
+			highlight = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb-bb10-dropdown-highlight-'+ bb.screen.controlColor+ ' bb10Highlight bb-bb10-dropdown-'+res,  
 			outerContainerStyle = 'bb-bb10-dropdown-container-'+res+' bb-bb10-dropdown-container-' + bb.screen.controlColor + ' bb-bb10-dropdown-container-'+res,
 			innerContainerStyle = 'bb-bb10-dropdown-container-inner-'+res+' bb-bb10-dropdown-container-inner-'+bb.screen.controlColor,
 			innerButtonStyle = 'bb-bb10-dropdown-inner-'+res+' bb-bb10-dropdown-inner-'+bb.screen.controlColor;
@@ -70,7 +70,7 @@ _bb10_dropdown = {
 		// Create the optinal label for the dropdown
 		labelElement = document.createElement('div');
 		dropdown.labelElement = labelElement;
-		labelElement.setAttribute('class','bb-bb10-dropdown-label');
+		labelElement.setAttribute('class','bb-bb10-dropdown-label-'+res);
 		if (select.hasAttribute('data-bb-label')) {
 			labelElement.innerHTML = select.getAttribute('data-bb-label');
 		}
@@ -256,7 +256,7 @@ _bb10_dropdown = {
 								// Animate our arrow
 								this.img.style.opacity = '1.0';
 								this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-								this.img.style['-webkit-transform'] = 'rotate(-720deg)';
+								this.img.style['-webkit-transform'] = 'rotate(-360deg)';
 								
 								// Refresh our screen srolling height
 								if (bb.scroller) {
@@ -338,9 +338,9 @@ _bb10_dropdown = {
 		// Assign our enable function
 		select.enable = function(){ 
 				if (this.enabled) return;
-				this.dropdown.buttonOuter.ontouchstart = buttonOuter.dotouchstart;
-				this.dropdown.buttonOuter.ontouchend = buttonOuter.dotouchend;
-				this.dropdown.buttonOuter.onclick = buttonOuter.doclick;
+				this.dropdown.buttonOuter.ontouchstart = this.dropdown.buttonOuter.dotouchstart;
+				this.dropdown.buttonOuter.ontouchend = this.dropdown.buttonOuter.dotouchend;
+				this.dropdown.buttonOuter.onclick = this.dropdown.buttonOuter.doclick;
 				this.dropdown.buttonOuter.setAttribute('class',normal);
 				this.removeAttribute('disabled');
 				this.enabled = true;
