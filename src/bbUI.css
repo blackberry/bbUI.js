@@ -1740,7 +1740,6 @@ body, html {
 	height:100%;
 	padding:0px;
 	margin:0px;
-	width: 100%;
 }
 
 .bb-bb10-title-bar-caption-details-img-hires {
@@ -1754,7 +1753,6 @@ body, html {
 	padding:0px;
 	padding-left: 10px;
 	margin:0px;
-	width: 100%;
 }
 .bb-bb10-title-bar-accent-text-hires {
 	color:#606060;
@@ -1763,7 +1761,6 @@ body, html {
 	padding-left: 10px;
 	margin:0px;
 	font-size: 29pt;
-	width: 100%;
 }
 
 .bb-bb10-title-bar-hires img
@@ -1806,7 +1803,6 @@ body, html {
 	padding:0px;
 	padding-left: 5px;
 	margin:0px;
-	width: 100%;
 }
 .bb-bb10-title-bar-accent-text-lowres {
 	color:#606060;
@@ -1814,7 +1810,6 @@ body, html {
 	margin:0px;
 	padding-left: 5px;
 	font-size: 16pt;
-	width: 100%;
 }
 
 .bb-bb10-title-bar-lowres img
