@@ -4748,6 +4748,25 @@ bb.screen = {
                     bb.titleBar.apply(titleBar);
                 }
             }
+			
+			// Set refresh
+			outerElement.refresh = function() {
+					if (!bb.scroller) return;
+					bb.scroller.refresh();
+				};
+			outerElement.refresh = outerElement.refresh.bind(outerElement);
+			// Set ScrollTo
+			outerElement.scrollTo = function(x, y, time, relative) {
+					if (!bb.scroller) return;
+					bb.scroller.scrollTo(x, y, time, relative);
+				};
+			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
+			// Set ScrollToElement
+			outerElement.scrollToElement = function(element, time) {
+					if (!bb.scroller) return;
+					bb.scroller.scrollToElement(element, time);
+				};
+			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
         }
     },
 	
@@ -4923,6 +4942,7 @@ bb.screen = {
             document.body.style.height = screen.height + 'px';
         }
     }
+		
 };
 
 _bb10_slider = {
