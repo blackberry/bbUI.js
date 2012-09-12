@@ -1,5 +1,5 @@
 bb = {
-	scroller: null,
+	scroller: null,  
     screens: [],
 	dropdownScrollers: [],
 	transparentPixel: 'data:image/png;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
@@ -16,7 +16,7 @@ bb = {
 	roundPanel : null,
 	grid : null,
 	pillButtons : null,
-	labelControlContainers : null,
+	labelControlContainers : null,	
 	slider : null,
 	radio : null,
 	progress : null,
@@ -52,7 +52,7 @@ bb = {
 		
 		// Determine HiRes
 		if (bb.device.isRipple) {
-			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480;
+			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
 		} else {
 			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
 		}
@@ -60,7 +60,7 @@ bb = {
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (navigator.userAgent.indexOf('Version/10.0.9') >= 0) {// this should eventually be changed to if(bb.device.isBB10  && !bb.device.isPlayBook)
+		if (navigator.userAgent.indexOf('Version/10.0.9') >= 0) {// this should eventually be changed to if(bb.device.isBB10  && !bb.device.isPlayBook) 
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
@@ -76,7 +76,7 @@ bb = {
 			G : G,
 			B : B,
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
-			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'
+			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'		
 		};
 		
 		// Create our coloring
@@ -100,7 +100,7 @@ bb = {
 		
 		// Set up our pointers to objects for each OS version
 		if (bb.device.isBB10) {
-			bb.imageList = _bb10_imageList;
+			bb.imageList = _bb10_imageList
 			bb.activityIndicator = _bb10_activityIndicator;
 			bb.fileInput = _bb10_fileInput;
 			bb.button = _bb10_button;
@@ -163,7 +163,7 @@ bb = {
         if (bb.bbmBubble)				bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
         if (bb.pillButtons)				bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         if (bb.labelControlContainers)	bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
-        if (bb.button) 					bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+        if(bb.button) 					bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
 		if (bb.fileInput) 				bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		if (bb.slider)					bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		if (bb.progress)				bb.progress.apply(root.querySelectorAll('progress'));
@@ -197,7 +197,7 @@ bb = {
 		bb10ForPlayBook: false
 	},
 	
-    loadScreen: function(url, id, popping, guid, params) {
+    loadScreen: function(url, id, popping, guid, params, screenRecord) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
             _reduce = function (nl, func, start) {
@@ -230,6 +230,11 @@ bb = {
         scripts = _reduce(container.childNodes, whereScript, []),
         container.scriptIds = [];
 
+		// Clear out old script id references if we are reloading a screen that was in the stack
+		if (screenRecord) {
+			screenRecord.scripts = [];
+		}
+		
         scripts.forEach(function (script) {
             var scriptTag = document.createElement('script');
 
@@ -238,11 +243,16 @@ bb = {
                 eval(script.text);
                 return;
             }
-            var guid = bb.guidGenerator();
-            container.scriptIds.push({'id' : guid, 'onunload': script.getAttribute('onunload')});
+            var scriptGuid = bb.guidGenerator();
+			// Either update the old screen in the stack record or add to the new one
+			if (screenRecord) {
+				screenRecord.scripts.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
+			} else {
+				container.scriptIds.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
+			}
             scriptTag.setAttribute('type','text/javascript');
             scriptTag.setAttribute('src', script.getAttribute('src'));
-            scriptTag.setAttribute('id', guid);
+            scriptTag.setAttribute('id', scriptGuid);
             newScriptTags.push(scriptTag);
             // Remove script tag from container because we are going to add it to <head>
             script.parentNode.removeChild(script);
@@ -436,9 +446,12 @@ bb = {
 		
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
-			if (!popping && (bb.screens.length > 1)) {
-				//bb.removeTopMostScreenFromDom();
-				bb.removePreviousScreenFromDom();
+			if (!popping) {
+				if ((bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) && (bb.screens.length > 0)) {
+					bb.removePreviousScreenFromDom();
+				} else if (bb.screens.length > 1) {
+					bb.removePreviousScreenFromDom();
+				}
 			} else if (popping) {
 				var currentScreen = bb.screens[bb.screens.length-1].container;
 				currentScreen.parentNode.removeChild(currentScreen);
@@ -587,7 +600,7 @@ bb = {
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params);
+                newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
 					
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
@@ -611,12 +624,14 @@ bb = {
             for (var i = 0; i < currentStackItem.scripts.length; i++) {
                 var bbScript = currentStackItem.scripts[i],
                     scriptTag = document.getElementById(bbScript.id);
-                // Call the unload function if any is defined
+
+				// Call the unload function if any is defined
                 if (bbScript.onunload) {
                     eval(bbScript.onunload);
                 }
-                
-                document.body.removeChild(scriptTag);
+                if (scriptTag) {
+					document.body.removeChild(scriptTag);
+				}
             }
         }
     },

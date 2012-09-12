@@ -213,7 +213,7 @@ bb = {
 		bb10ForPlayBook: false
 	},
 	
-    loadScreen: function(url, id, popping, guid, params) {
+    loadScreen: function(url, id, popping, guid, params, screenRecord) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
             _reduce = function (nl, func, start) {
@@ -246,6 +246,11 @@ bb = {
         scripts = _reduce(container.childNodes, whereScript, []),
         container.scriptIds = [];
 
+		// Clear out old script id references if we are reloading a screen that was in the stack
+		if (screenRecord) {
+			screenRecord.scripts = [];
+		}
+		
         scripts.forEach(function (script) {
             var scriptTag = document.createElement('script');
 
@@ -254,11 +259,16 @@ bb = {
                 eval(script.text);
                 return;
             }
-            var guid = bb.guidGenerator();
-            container.scriptIds.push({'id' : guid, 'onunload': script.getAttribute('onunload')});
+            var scriptGuid = bb.guidGenerator();
+			// Either update the old screen in the stack record or add to the new one
+			if (screenRecord) {
+				screenRecord.scripts.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
+			} else {
+				container.scriptIds.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
+			}
             scriptTag.setAttribute('type','text/javascript');
             scriptTag.setAttribute('src', script.getAttribute('src'));
-            scriptTag.setAttribute('id', guid);
+            scriptTag.setAttribute('id', scriptGuid);
             newScriptTags.push(scriptTag);
             // Remove script tag from container because we are going to add it to <head>
             script.parentNode.removeChild(script);
@@ -452,9 +462,12 @@ bb = {
 		
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
-			if (!popping && (bb.screens.length > 1)) {
-				//bb.removeTopMostScreenFromDom();
-				bb.removePreviousScreenFromDom();
+			if (!popping) {
+				if ((bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) && (bb.screens.length > 0)) {
+					bb.removePreviousScreenFromDom();
+				} else if (bb.screens.length > 1) {
+					bb.removePreviousScreenFromDom();
+				}
 			} else if (popping) {
 				var currentScreen = bb.screens[bb.screens.length-1].container;
 				currentScreen.parentNode.removeChild(currentScreen);
@@ -603,7 +616,7 @@ bb = {
 
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
-                newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params);
+                newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
 					
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
@@ -627,12 +640,14 @@ bb = {
             for (var i = 0; i < currentStackItem.scripts.length; i++) {
                 var bbScript = currentStackItem.scripts[i],
                     scriptTag = document.getElementById(bbScript.id);
-                // Call the unload function if any is defined
+
+				// Call the unload function if any is defined
                 if (bbScript.onunload) {
                     eval(bbScript.onunload);
                 }
-                
-                document.body.removeChild(scriptTag);
+                if (scriptTag) {
+					document.body.removeChild(scriptTag);
+				}
             }
         }
     },

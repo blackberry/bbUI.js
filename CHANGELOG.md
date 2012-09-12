@@ -12,6 +12,9 @@ Below you will find all the different changes that have been added since the fir
 	* bb10HighlightColor changed to highlightColor for bb.init()
 	* You no longer specify a viewport meta tag in your main index.htm.  This is now supplied by the toolkit at runtime based on the OS version
 	* BlackBerry 10 title bars now take on the control coloring
+* BlackBerry 10 Styling
+	* Updated DropDown look to match Cascades
+	* Added new Title Bar styling for screens
 * PlayBook 2.0 Styling
     * Added Activity Indicator 
 	* Text Input updates
@@ -23,6 +26,7 @@ Below you will find all the different changes that have been added since the fir
 	* **DropDowns:** Added enable(), disable(), show(), hide(), remove(), refresh(), setCaption(), setSelectedText() functions as well as a dynamic way to create/style dropdowns
 	* **Action Bar:** Added setCaption(), setImage() to actions
 	* **Context Menu:** Added setCaption(), setImage() to actions
+	* **Screens:** Added refresh(), scrollTo(), scrollToElement()
 	* Added bb.refresh() to refresh scrolling for the current screen
 	* Added the ability to pass custom parameters to pushScreen() and read them in ondomready and onscreenready
 * Samples
