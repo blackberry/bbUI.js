@@ -124,8 +124,16 @@ _bb10_grid = {
 							// Create our translucent overlay
 							if (hasOverlay) {
 								overlay = document.createElement('div');
-								overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
-								overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
+								if (title && subtitle) {
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
+									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';	
+								} else if (title){
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
+									overlay.innerHTML = '<div><p class="title">' + title + '</p></div>';
+								} else if (subtitle) {
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
+									overlay.innerHTML = '<div><p class="title">' + subtitle + '</p></div>';
+								}
 								itemNode.appendChild(overlay);
 							} else {
 								overlay = null;

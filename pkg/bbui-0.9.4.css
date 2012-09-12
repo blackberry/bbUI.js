@@ -1824,6 +1824,7 @@ body, html {
 .bb-bb10-title-bar-dark
 {
 	background-color:#333333;
+	border-bottom-color:#333333;
 	color:white;
 }
 
@@ -4375,23 +4376,43 @@ a.bb5-button-highlight span {
 .bb-bb10-grid-item-overlay-lowres
 {
 	position:relative;
-	height: 40px;
-	top:-40px;
 	right:0px;
 	left: 0px;
 	background-color: black;
 	opacity: 0.7;	
 }
 
+.bb-bb10-grid-item-overlay-two-rows-lowres
+{
+	height: 40px;
+	top:-40px;
+}
+
+.bb-bb10-grid-item-overlay-one-row-lowres
+{
+	height: 24px;
+	top:-24px;
+}
+
 .bb-bb10-grid-item-overlay-hires
 {
 	position:relative;
-	height: 70px;
-	top:-70px;
 	right:0px;
 	left: 0px;
 	background-color: black;
 	opacity: 0.7;	
+}
+
+.bb-bb10-grid-item-overlay-two-rows-hires
+{
+	height: 70px;
+	top:-70px;
+}
+
+.bb-bb10-grid-item-overlay-one-row-hires
+{
+	height: 40px;
+	top:-40px;
 }
 
 .bb-bb10-grid-item-overlay-lowres .title

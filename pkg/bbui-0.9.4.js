@@ -307,15 +307,18 @@ bb = {
                 };
         }
 
-        // In case there are no scripts at all we simply doLoad() now
+        // In case there are no scripts at all we simply doLoad().  We do this in
+		// a setTimeout() so that it is asynchronous just like if you were loading referenced
+		// script tags.  If we don't call this asynchronous, then the screen stack is in different
+		// states depending on if you have scripts or not
         if(bb.screen.totalScripts === 0) {
-            bb.initContainer(container, id, popping, params);
+            setTimeout(function() { bb.initContainer(container, id, popping, params) }, 0);
         }
         return container;
     },
 	
 	// Initialize the container
-	initContainer : function(container, id, popping, params) {
+	initContainer : function(container, id, popping, params) {	
 		// Fire the onscreenready and then apply our changes in doLoad()
 		if (bb.options.onscreenready) {
 			bb.options.onscreenready(container, id, params);
@@ -570,6 +573,7 @@ bb = {
 		var numItems = bb.screens.length,
 			oldScreen,
 			stepBack;	
+		if (numItems == 1) return; // There is only one screen on the stack
 		stepBack = (numItems > 1) ? 2 : 1;
 		oldScreen = document.getElementById(bb.screens[numItems - stepBack].guid);
 		document.body.removeChild(oldScreen);
@@ -4008,8 +4012,16 @@ _bb10_grid = {
 							// Create our translucent overlay
 							if (hasOverlay) {
 								overlay = document.createElement('div');
-								overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res);
-								overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';								
+								if (title && subtitle) {
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
+									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';	
+								} else if (title){
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
+									overlay.innerHTML = '<div><p class="title">' + title + '</p></div>';
+								} else if (subtitle) {
+									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
+									overlay.innerHTML = '<div><p class="title">' + subtitle + '</p></div>';
+								}
 								itemNode.appendChild(overlay);
 							} else {
 								overlay = null;
