@@ -135,7 +135,9 @@ bb.tabOverflow = {
 		menu.add = function(action) {
 				var normal, 
 					caption = action.innerHTML,
+					accentTextValue = action.getAttribute('data-bb-accent-text'),
 					inner = document.createElement('div'),
+					innerClass = 'bb-bb10-tab-overflow-menu-item-inner-'+this.res,
 					img = document.createElement('img'),
 					table, tr, td;
 				
@@ -149,6 +151,7 @@ bb.tabOverflow = {
 				}
 				// Set our inner information
 				action.normal = normal;
+				action.accentText = null;
 				action.menu = this;
 				action.caption = caption;
 				action.setAttribute('class',action.normal);
@@ -170,10 +173,21 @@ bb.tabOverflow = {
 				tr.appendChild(td);
 				// Add our caption
 				td = document.createElement('td');
-				inner.setAttribute('class','bb-bb10-tab-overflow-menu-item-inner-'+this.res);
 				inner.innerHTML = caption;
 				action.display = inner;
 				td.appendChild(inner);
+				// See if there is accent text
+				if (accentTextValue) {
+					action.accentText = document.createElement('div');
+					action.accentText.innerHTML = accentTextValue;
+					action.accentText.setAttribute('class','tab-accent-text');
+					td.appendChild(action.accentText);	
+					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-double-' + this.res;
+				} else {
+					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-single-' + this.res;
+				}
+				// Set our styling
+				inner.setAttribute('class',innerClass);
 				tr.appendChild(td);
 				
 				//Set the overflow tab item

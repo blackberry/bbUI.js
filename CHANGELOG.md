@@ -17,6 +17,7 @@ Below you will find all the different changes that have been added since the fir
 	* Updated DropDown look to match Cascades
 	* Added new Title Bar styling for screens
 	* Grid view items display either one or two level of titles depending on what is provided in markup
+	* Added accent text to tab overflow items now allowing for a title and optional accent text for an action
 * PlayBook 2.0 Styling
     * Added Activity Indicator 
 	* Text Input updates

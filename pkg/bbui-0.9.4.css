@@ -4890,24 +4890,30 @@ a.bb5-button-highlight span {
 
 .bb-bb10-tab-overflow-menu-item-lowres
 {
-	padding-top: 7px;
-	padding-bottom: 3px;	
 	padding-left: 5px;
-	height: 52px;
-	line-height: 52px;
 	vertical-align: center;
 	font-size:20pt;
 }
 
+.bb-bb10-tab-overflow-menu-item-single-lowres {
+	padding-top: 7px;
+	padding-bottom: 3px;		
+	height: 52px;
+	line-height: 52px;
+}
+
+.bb-bb10-tab-overflow-menu-item-double-lowres {
+	padding-top: 5px;
+	padding-bottom: 0px;		
+	height: 27px;
+	line-height: 27px;
+}
+
 .bb-bb10-tab-overflow-menu-item-hires
 {
-	padding-top: 14px;
-	padding-bottom: 3px;	
-	padding-left: 10px;
-	height: 109px;
-	line-height: 85px;
 	vertical-align: center;
 	font-size:39pt;
+	padding-left: 10px;
 }
 
 .bb-bb10-tab-overflow-menu-item-inner-lowres
@@ -4915,11 +4921,44 @@ a.bb5-button-highlight span {
 	padding-left: 5px;
 }
 
+.bb-bb10-tab-overflow-menu-item-lowres .tab-accent-text
+{
+	padding-left: 5px;
+	font-size: 16pt;
+	height: 25px;
+	color:#606060;
+}
+
+.bb-bb10-tab-overflow-menu-item-single-hires {
+	padding-top: 14px;
+	padding-bottom: 3px;		
+	height: 109px;
+	line-height: 85px;
+}
+
+.bb-bb10-tab-overflow-menu-item-double-hires {
+	padding-top: 5px;
+	padding-bottom: 3px;		
+	height: 60px;
+	line-height: 60px;
+}
+
 .bb-bb10-tab-overflow-menu-item-inner-hires
 {
 	padding-left: 15px;
 }
 
+.bb-bb10-tab-overflow-menu-item-hires .tab-accent-text
+{
+	padding-left: 15px;
+	font-size: 30pt;
+	height: 49px;
+	color:#606060;
+}
+
+.bb10Highlight .tab-accent-text {
+	color: white;
+}
 
 .bb-bb10-tab-overflow-menu-item-lowres-light
 {
@@ -4969,14 +5008,14 @@ a.bb5-button-highlight span {
 {
 	height: 42px;
 	width: 42px;
-	margin-top:-9px;
+	margin-top:-2px;
 }
 
 .bb-bb10-tab-overflow-menu-item-image-hires
 {
 	height: 80px;
 	width: 80px;
-	margin-top: 5px;
+	margin-top: 0px;
 	margin-left:12px;
 }
 
