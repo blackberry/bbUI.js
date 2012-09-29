@@ -24,13 +24,6 @@
 			vertical-align: middle;
 			width:50%;
 		}
-		#ed-button{
-			width: 200px;
-			height: 100px;
-			background-color: aqua;
-			color: black;
-			font-size: 40px;
-		}
 	</style>
 	<div style="margin:15px;">
 		<table>
@@ -52,7 +45,7 @@
 			<h2>You clicked:&nbsp;<span id="value">one</span></h2>
 		</div>
 		
-		<button id="ed-button" onclick="enableDisableGroup(this, 'group1')">Click to disable</button>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="enableDisableGroup('group1')">Enable/Disable</div>
 		
 		<div >
 			<h2>Group status:&nbsp;<span id="group-status">Enabled</span></h2>

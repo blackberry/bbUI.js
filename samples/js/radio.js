@@ -16,12 +16,11 @@
 
 radioStatus = "enabled";
 
-function enableDisableGroup(obj, groupName){
+function enableDisableGroup(groupName){
 		
 		radios = document.getElementsByName( groupName );
     	
 		if (radioStatus == "enabled"){
-			obj.innerHTML = "Click to enable";
 			document.getElementById('group-status').innerHTML = "Disabled";
 			radioStatus = "disabled";
 			for( i = 0; i < radios.length; i++ ) {
@@ -30,7 +29,6 @@ function enableDisableGroup(obj, groupName){
 		    }
 		}
 		else{
-			obj.innerHTML = "Click to disable";
 			document.getElementById('group-status').innerHTML = "Enabled";
 			radioStatus = "enabled";
 			for( i = 0; i < radios.length; i++ ) {
