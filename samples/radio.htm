@@ -16,12 +16,20 @@
 -->
 <div style="background-color: #252525;color:white;" data-bb-type="screen" data-bb-effect="slide-up">
 	<div data-bb-type="title" data-bb-caption="Radio buttons" data-bb-back-caption="Back" ></div>
+	<script id="radioJS" src="js/radio.js"></script>
 	<style>
 		.cell {
 			line-height: 100px;
 			height: 100px;
 			vertical-align: middle;
 			width:50%;
+		}
+		#ed-button{
+			width: 200px;
+			height: 100px;
+			background-color: aqua;
+			color: black;
+			font-size: 40px;
 		}
 	</style>
 	<div style="margin:15px;">
@@ -43,8 +51,14 @@
 		<div >
 			<h2>You clicked:&nbsp;<span id="value">one</span></h2>
 		</div>
+		
+		<button id="ed-button" onclick="enableDisableGroup(this, 'group1')">Click to disable</button>
+		
+		<div >
+			<h2>Group status:&nbsp;<span id="group-status">Enabled</span></h2>
+		</div>
+		
 	</div>
-	
+
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
-	
