@@ -21,13 +21,11 @@
   <author href="https://github.com/tneil">Tim Neil</author>
   <icon src="images\icon.png" />
   <icon src="images\icon.png" rim:hover="true" />
-  <rim:splash src="images\bb10-splash-landscape.png"/>
-  <rim:splash src="images\bb10-splash-portrait.png"/>
-  <!-- *Uncomment me for PlayBook Splashscreen*
+  <rim:splash src="images\bb10-splash-landscape.png" />
+  <rim:splash src="images\bb10-splash-portrait.png" />
   <rim:loadingScreen backgroundImage="images\background.png" foregroundImage="images\hippo.png" onFirstLaunch="true">
     <rim:transitionEffect type="fadeIn" />
   </rim:loadingScreen>
-  -->
   <content src="index.htm" />
   <access uri="http://chart.apis.google.com" subdomains="true" />
   <feature id="blackberry.push" />
