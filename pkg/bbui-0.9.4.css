@@ -4428,6 +4428,7 @@ a.bb5-button-highlight span {
 	opacity:1.0;
 	color:white;
 	font-size: 13pt;
+	overflow: hidden;
 }
 
 .bb-bb10-grid-item-overlay-hires .title
@@ -4443,6 +4444,7 @@ a.bb5-button-highlight span {
 	opacity:1.0;
 	color:white;
 	font-size: 22pt;
+	overflow: hidden;
 }
 
 /* ================================================= 
