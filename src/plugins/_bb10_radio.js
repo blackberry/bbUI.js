@@ -182,7 +182,7 @@ _bb10_radio = {
 											}
 										};
 			outerElement.onclick = function() {
-											if (!this.input.checked) {
+											if ((!this.input.checked) && (!this.input.disabled)) {
 												var evObj = document.createEvent('HTMLEvents');
 												evObj.initEvent('change', false, true );
 												this.dotDiv.style.background = this.dotDiv.highlight;
