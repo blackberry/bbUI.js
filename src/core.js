@@ -421,6 +421,7 @@ bb = {
 											this.parentNode.parentNode.removeChild(this.parentNode);
 											// Pop it from the stack
 											bb.screens.pop();	
+											screen.style['z-index'] = '';
 											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
 											bb.screens[bb.screens.length-1].container = container;  
 										}
@@ -577,6 +578,8 @@ bb = {
         var numItems = bb.screens.length,
 			currentScreen;
         if (numItems > 0) {
+			bb.screen.overlay = null;
+			bb.screen.tabOverlay = null;
 			bb.clearScrollers();
 			// Quirk with displaying with animations
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
