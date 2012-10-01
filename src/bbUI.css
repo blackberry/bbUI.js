@@ -2910,6 +2910,7 @@ a.bb5-button-highlight span {
 	font-size: 20pt;
 	line-height:20px;	
 	padding-top:5px;
+	overflow: hidden;
 }
 
 .bb-bb10-image-list-item-hires .title
@@ -2921,6 +2922,7 @@ a.bb5-button-highlight span {
 	text-overflow: ellipsis;
 	padding-top:5px;
 	margin-top: -19px;
+	overflow: hidden;
 }
 
 .bb-bb10-image-list-item-hover
