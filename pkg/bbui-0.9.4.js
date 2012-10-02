@@ -556,10 +556,6 @@ bb = {
 			scroller = null;
 			bb.dropdownScrollers.pop();
 		}
-		/*if (bb.scroller) { // Not sure that we need to do this?
-			bb.scroller.destroy();
-			bb.scroller = null;
-		}*/
 	},
 	
 	// Remove the topmost screen from the dom
@@ -577,13 +573,9 @@ bb = {
 		if (numItems == 1) return; // There is only one screen on the stack
 		stepBack = (numItems > 1) ? 2 : 1;
 		oldScreen = document.getElementById(bb.screens[numItems - stepBack].guid);
-		document.body.removeChild(oldScreen);
-		
-		/*if (numItems > 1) {  // LEAVING THIS HERE FOR NOW... THIS HAS BEEN SOME TRICKY CODE
-			alert('numItems > 1');
-			oldScreen = document.getElementById(bb.screens[numItems -2].guid);
+		if (oldScreen) {
 			document.body.removeChild(oldScreen);
-		}*/
+		}
 	},
 	
     // Add a new screen to the stack
@@ -1825,7 +1817,7 @@ _bb10_dropdown = {
 						item.appendChild(img);
 						
 						// See if it was specified as the selected item
-						if (option.hasAttribute('selected')) {
+						if (option.hasAttribute('selected') || option.selected) {
 							caption = option.innerHTML;
 							item.setAttribute('class',item.selectedStyle);
 							img.style.visibility = 'visible';
@@ -2074,6 +2066,7 @@ _bb10_dropdown = {
 		// Assign our refresh function
 		select.refresh = function(){ 
 				this.dropdown.internalHide();
+				this.dropdown.isRefreshed = false;
 				this.dropdown.refreshOptions();
 			};
 		select.refresh = select.refresh.bind(select);

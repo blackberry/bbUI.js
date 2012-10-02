@@ -136,7 +136,7 @@ _bb10_dropdown = {
 						item.appendChild(img);
 						
 						// See if it was specified as the selected item
-						if (option.hasAttribute('selected')) {
+						if (option.hasAttribute('selected') || option.selected) {
 							caption = option.innerHTML;
 							item.setAttribute('class',item.selectedStyle);
 							img.style.visibility = 'visible';
@@ -385,6 +385,7 @@ _bb10_dropdown = {
 		// Assign our refresh function
 		select.refresh = function(){ 
 				this.dropdown.internalHide();
+				this.dropdown.isRefreshed = false;
 				this.dropdown.refreshOptions();
 			};
 		select.refresh = select.refresh.bind(select);
