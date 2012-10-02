@@ -197,15 +197,22 @@ bb.screen = {
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			// Set ScrollTo
-			outerElement.scrollTo = function(x, y, time, relative) {
-					if (!bb.scroller) return;
-					bb.scroller.scrollTo(x, y, time, relative);
+			outerElement.scrollTo = function(x, y) {
+					if (bb.scroller) {
+						bb.scroller.scrollTo(x, y);
+					} else if (bb.device.isBB10) {
+						this.bbUIscrollWrapper.scrollTop = x;
+					}
 				};
 			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
 			// Set ScrollToElement
-			outerElement.scrollToElement = function(element, time) {
-					if (!bb.scroller) return;
-					bb.scroller.scrollToElement(element, time);
+			outerElement.scrollToElement = function(element) {
+					if (bb.scroller) {
+						bb.scroller.scrollToElement(element);
+					} else if (bb.device.isBB10) {
+						if (!element) return;
+						this.scrollTo(element.offsetTop);
+					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
         }

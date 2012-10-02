@@ -18,6 +18,7 @@ Below you will find all the different changes that have been added since the fir
 	* Added new Title Bar styling for screens
 	* Grid view items display either one or two level of titles depending on what is provided in markup
 	* Added accent text to tab overflow items now allowing for a title and optional accent text for an action
+	* Truncated text on image lists now use a "fade" instead of an "ellipsis" on BB10 phones. Other devices still use "ellipsis"
 * PlayBook 2.0 Styling
     * Added Activity Indicator 
 	* Text Input updates

@@ -2918,7 +2918,7 @@ a.bb5-button-highlight span {
 	white-space: nowrap;
 	font-size: 41pt;
 	line-height:59px;
-	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
 	padding-top:5px;
 	margin-top: -19px;
 }
@@ -2972,7 +2972,7 @@ a.bb5-button-highlight span {
 	font-size: 30pt;	
 	margin-bottom: 0px;
 	margin-top:-7px;
-	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-image-list-item-hover .description
@@ -5136,7 +5136,7 @@ a.bb5-button-highlight span {
 	padding-top:15px;
 	overflow:hidden;
 	white-space:nowrap;
-	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-context-menu-header-description-lowres
@@ -5165,7 +5165,7 @@ a.bb5-button-highlight span {
 	padding-top:0px;
 	overflow:hidden;
 	white-space:nowrap;
-	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-context-menu-header-title-dark

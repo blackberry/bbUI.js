@@ -508,41 +508,58 @@ bb = {
 	createScreenScroller : function(screen) {  
 		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
-			var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
-				var target = e.target;
-				
-				// Don't scroll the screen when touching in our drop downs for BB10
-				if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
-					return;
-				}
-				
-				while (target.nodeType != 1) target = target.parentNode;
+			// Only apply iScroll if it is the PlayBook
+			if (bb.device.isPlayBook) {
+				var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
+					var target = e.target;
+					
+					// Don't scroll the screen when touching in our drop downs for BB10
+					if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
+						return;
+					}
+					
+					while (target.nodeType != 1) target = target.parentNode;
 
-				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
-					e.preventDefault();
-					// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
-					var activeElement = document.activeElement;
-					if (activeElement) {
-						if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
-							activeElement.blur();
+					if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
+						e.preventDefault();
+						// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
+						var activeElement = document.activeElement;
+						if (activeElement) {
+							if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
+								activeElement.blur();
+							}
+						}
+					} 
+					// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
+					/*if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
+						bb.options.screen.onBeforeScrollStart(e);
+					}*/
+				},
+				onScrollMove: function(e) {
+					if (screen.onscroll) {
+						screen.onscroll(e);
+					}
+				}};
+				// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
+				/*if (bb.options.screen) {
+					var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
+					for (var i in bb.options.screen) {
+						if (excluded.indexOf(i) === -1) {
+							scrollerOptions[i] = bb.options.screen[i];
 						}
 					}
-				} 
-				
-				if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
-					bb.options.screen.onBeforeScrollStart(e);
-				}
-			}};
-			
-			if (bb.options.screen) {
-				var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
-				for (var i in bb.options.screen) {
-					if (excluded.indexOf(i) === -1) {
-						scrollerOptions[i] = bb.options.screen[i];
-					}
-				}
+				}*/
+				bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
+			} else if (bb.device.isBB10) {
+				// Use the built in inertial scrolling with elastic ends
+				bb.scroller = null;
+				scrollWrapper.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+				scrollWrapper.onscroll = function(e) {
+						if (screen.onscroll) {
+							screen.onscroll(e);
+						}
+					};
 			}
-			bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
 		}
 	},  
 
@@ -1878,6 +1895,7 @@ _bb10_dropdown = {
 								}
 							}});
 		bb.dropdownScrollers.push(dropdown.scroller);
+		
 		dropdown.scrollArea = scrollArea;
 		
 		// Assign our touch handlers to out-most div
@@ -4802,15 +4820,22 @@ bb.screen = {
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			// Set ScrollTo
-			outerElement.scrollTo = function(x, y, time, relative) {
-					if (!bb.scroller) return;
-					bb.scroller.scrollTo(x, y, time, relative);
+			outerElement.scrollTo = function(x, y) {
+					if (bb.scroller) {
+						bb.scroller.scrollTo(x, y);
+					} else if (bb.device.isBB10) {
+						this.bbUIscrollWrapper.scrollTop = x;
+					}
 				};
 			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
 			// Set ScrollToElement
-			outerElement.scrollToElement = function(element, time) {
-					if (!bb.scroller) return;
-					bb.scroller.scrollToElement(element, time);
+			outerElement.scrollToElement = function(element) {
+					if (bb.scroller) {
+						bb.scroller.scrollToElement(element);
+					} else if (bb.device.isBB10) {
+						if (!element) return;
+						this.scrollTo(element.offsetTop);
+					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
         }
@@ -6259,34 +6284,56 @@ _bb_PlayBook_10_scrollPanel = {
 			for (j = 0; j < tempHolder.length -1; j++) {
 				scrollArea.appendChild(tempHolder[j]);
 			}
-
-			outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
-								onBeforeScrollStart: function (e) {
-									if (bb.scroller) {
-										bb.scroller.disable();
+			
+			if (bb.device.isPlayBook) {
+				outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
+									onBeforeScrollStart: function (e) {
+										if (bb.scroller) {
+											bb.scroller.disable();
+										}
+										e.preventDefault();
+									}, 
+									onBeforeScrollEnd: function(e) {
+										if (bb.scroller) {
+											bb.scroller.enable();
+										}
+									},
+									onScrollMove: function(e) {
+										if (outerElement.onscroll) {
+											outerElement.onscroll(e);
+										}
 									}
-									e.preventDefault();
-								}, 
-								onBeforeScrollEnd: function(e) {
-									if (bb.scroller) {
-										bb.scroller.enable();
-									}
-								}});
+									});
+			} else {
+				outerElement.scroller = null;
+				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+			}
 			
 			// Set refresh
 			outerElement.refresh = function() {
-					this.scroller.refresh();
+					if (this.scroller) {
+						this.scroller.refresh();
+					}
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			setTimeout(outerElement.refresh,0);
 			// Set ScrollTo
-			outerElement.scrollTo = function(x, y, time, relative) {
-					this.scroller.scrollTo(x, y, time, relative);
+			outerElement.scrollTo = function(x, y) {
+					if (this.scroller) {
+						this.scroller.scrollTo(x, y);
+					} else {
+						this.scrollTop = x;
+					}
 				};
 			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
 			// Set ScrollToElement
-			outerElement.scrollToElement = function(element, time) {
-					this.scroller.scrollToElement(element, time);
+			outerElement.scrollToElement = function(element) {
+					if (this.scroller) {
+						this.scroller.scrollToElement(element);
+					} else {
+						if (!element) return;
+						this.scrollTo(element.offsetTop,0);
+					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
 			outerElement.setAttribute('class','bb-scroll-panel');

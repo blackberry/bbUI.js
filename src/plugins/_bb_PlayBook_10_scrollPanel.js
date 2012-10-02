@@ -21,34 +21,56 @@ _bb_PlayBook_10_scrollPanel = {
 			for (j = 0; j < tempHolder.length -1; j++) {
 				scrollArea.appendChild(tempHolder[j]);
 			}
-
-			outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
-								onBeforeScrollStart: function (e) {
-									if (bb.scroller) {
-										bb.scroller.disable();
+			
+			if (bb.device.isPlayBook) {
+				outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
+									onBeforeScrollStart: function (e) {
+										if (bb.scroller) {
+											bb.scroller.disable();
+										}
+										e.preventDefault();
+									}, 
+									onBeforeScrollEnd: function(e) {
+										if (bb.scroller) {
+											bb.scroller.enable();
+										}
+									},
+									onScrollMove: function(e) {
+										if (outerElement.onscroll) {
+											outerElement.onscroll(e);
+										}
 									}
-									e.preventDefault();
-								}, 
-								onBeforeScrollEnd: function(e) {
-									if (bb.scroller) {
-										bb.scroller.enable();
-									}
-								}});
+									});
+			} else {
+				outerElement.scroller = null;
+				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+			}
 			
 			// Set refresh
 			outerElement.refresh = function() {
-					this.scroller.refresh();
+					if (this.scroller) {
+						this.scroller.refresh();
+					}
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			setTimeout(outerElement.refresh,0);
 			// Set ScrollTo
-			outerElement.scrollTo = function(x, y, time, relative) {
-					this.scroller.scrollTo(x, y, time, relative);
+			outerElement.scrollTo = function(x, y) {
+					if (this.scroller) {
+						this.scroller.scrollTo(x, y);
+					} else {
+						this.scrollTop = x;
+					}
 				};
 			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
 			// Set ScrollToElement
-			outerElement.scrollToElement = function(element, time) {
-					this.scroller.scrollToElement(element, time);
+			outerElement.scrollToElement = function(element) {
+					if (this.scroller) {
+						this.scroller.scrollToElement(element);
+					} else {
+						if (!element) return;
+						this.scrollTo(element.offsetTop,0);
+					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
 			outerElement.setAttribute('class','bb-scroll-panel');
