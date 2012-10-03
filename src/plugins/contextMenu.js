@@ -134,7 +134,7 @@ bb.contextMenu = {
 							}
 							this.selected = data;
 						}
-						this.header.style.display = '';
+						this.header.style.display = 'none';	
 						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
@@ -152,7 +152,7 @@ bb.contextMenu = {
 		menu.touchHandler = function(event) {
 								if (this.peeking) {
 									if (event.target == this) {
-										event.preventDefault();
+										//event.preventDefault();
 										event.stopPropagation();
 									} else if (event.target.parentNode == this && event.target != this.header)  {
 										event.preventDefault();
@@ -165,6 +165,14 @@ bb.contextMenu = {
 								}
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
+		
+		// Handle the case of clicking the context menu while peeking
+		menu.onclick = function(event) {
+			if (this.peeking) {
+				this.show(this.selected);
+				event.stopPropagation();
+			}
+		}
 		
 		// Center the items in the list
 		menu.centerMenuItems = function() {
