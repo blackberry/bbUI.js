@@ -6608,38 +6608,37 @@ bb.contextMenu = {
 		menu.hideEvents = [];
 		menu.res = res;
 		menu.visible = false;
-		// Add the overlay for trapping clicks on items below
-		if (!bb.screen.overlay) {
-			bb.screen.overlay = document.createElement('div');
-			bb.screen.overlay.threshold = swipeThreshold;
-			bb.screen.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
-			bb.screen.overlay.menu = menu;
-			screen.appendChild(bb.screen.overlay);
-			
-			bb.screen.overlay.ontouchmove = function(event) {
-											// Only care about moves if peeking
+		
+		// Create our overlay for touch events
+		menu.overlay = document.createElement('div');
+		menu.overlay.threshold = swipeThreshold;
+		menu.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
+		menu.overlay.menu = menu;
+		screen.appendChild(menu.overlay);
+		
+		menu.overlay.ontouchmove = function(event) {
+										// Only care about moves if peeking
+										if (!this.menu.peeking) return;
+										var touch = event.touches[0];
+										if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
+											this.menu.show(this.menu.selected);
+											this.closeMenu = false;
+										}
+									};
+		menu.overlay.ontouchend = function() {
+										if (this.closeMenu) {
+											this.menu.hide();
+										}
+									};
+		menu.overlay.ontouchstart = function(event) {
+											this.closeMenu = true;
 											if (!this.menu.peeking) return;
+											
 											var touch = event.touches[0];
-											if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
-												this.menu.show(this.menu.selected);
-												this.closeMenu = false;
-											}
+											this.startPos = touch.pageX;
+											event.preventDefault();
 										};
-			bb.screen.overlay.ontouchend = function() {
-											if (this.closeMenu) {
-												this.menu.hide();
-											}
-										};
-			bb.screen.overlay.ontouchstart = function(event) {
-												this.closeMenu = true;
-												if (!this.menu.peeking) return;
-												
-												var touch = event.touches[0];
-												this.startPos = touch.pageX;
-												event.preventDefault();
-											};
-		}
-		menu.overlay = bb.screen.overlay;
+		
 		// Create the menu header
 		header = document.createElement('div');
 		header.setAttribute('class','bb-bb10-context-menu-item-'+res+' bb-bb10-context-menu-header-'+bb.actionBar.color);
@@ -6689,6 +6688,7 @@ bb.contextMenu = {
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
 		menu.hide = function(){
+						
 						this.overlay.style.display = 'none';
 						this.removeEventListener("touchstart", this.touchHandler, false);
 						this.style['-webkit-transition'] = 'all 0.5s ease-in-out';
