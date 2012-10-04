@@ -80,6 +80,7 @@ bb.contextMenu = {
 		menu.show = function(data){
 						if (data) {
 							this.header.style.display = '';
+							this.header.style.visibility = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -128,6 +129,7 @@ bb.contextMenu = {
 		// Peek the menu
 		menu.peek = function(data){
 						if (data) {
+							this.header.style.display = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -136,7 +138,7 @@ bb.contextMenu = {
 							}
 							this.selected = data;
 						}
-						this.header.style.display = 'none';	
+						this.header.style.visibility = 'hidden';	
 						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
