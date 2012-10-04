@@ -5083,12 +5083,12 @@ _bb10_slider = {
 							if (this.outerElement.value == this.outerElement.maxValue) {
 								percent = 1;
 							} else {
-								percent = this.outerElement.value/(parseInt(this.outerElement.maxValue) + parseInt(this.outerElement.minValue));								
+								percent = this.outerElement.value/(parseInt(this.outerElement.maxValue) + parseInt(this.outerElement.minValue));
 							}	
 							// Determine width by percentage
-							range.outerElement.currentXPos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
-							this.outerElement.fill.style.width = range.outerElement.currentXPos + 'px';
-							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + range.outerElement.currentXPos + 'px,0px,0px)';
+							this.outerElement.currentXPos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
+							this.outerElement.fill.style.width = this.outerElement.currentXPos + 'px';
+							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + this.outerElement.currentXPos + 'px,0px,0px)';
 						};
 			range.setValue = range.setValue.bind(range);
 			// Set our value on a timeout so that it can calculate width once in the DOM
