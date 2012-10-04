@@ -4424,11 +4424,20 @@ a.bb5-button-highlight span {
 	margin:0px;
 	padding-top: 3px;
 	line-height:20px;
-	height:37px;
 	opacity:1.0;
 	color:white;
 	font-size: 13pt;
 	overflow: hidden;
+}
+
+.bb-bb10-grid-item-overlay-lowres .title-two-rows
+{
+	height: 37px;
+}
+
+.bb-bb10-grid-item-overlay-lowres .title-one-row
+{
+	height: 21px;
 }
 
 .bb-bb10-grid-item-overlay-hires .title
@@ -4440,11 +4449,20 @@ a.bb5-button-highlight span {
 	margin:0px;
 	padding-top: 4px;
 	line-height:30px;
-	height:37px;
 	opacity:1.0;
 	color:white;
 	font-size: 22pt;
 	overflow: hidden;
+}
+
+.bb-bb10-grid-item-overlay-hires .title-two-rows
+{
+	height: 66px;
+}
+
+.bb-bb10-grid-item-overlay-hires .title-one-row
+{
+	height: 36px;
 }
 
 /* ================================================= 

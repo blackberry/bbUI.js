@@ -4028,7 +4028,7 @@ _bb10_grid = {
 							tr.appendChild(td);
 							td.appendChild(itemNode);
 							// deal with our margins
-							width = (window.innerWidth/numItems) - 5;
+							width = (window.innerWidth/numItems) - 6;
 							// Find out how to size the images
 							if (outerElement.isSquare) {
 								height = width;
@@ -4051,13 +4051,13 @@ _bb10_grid = {
 								overlay = document.createElement('div');
 								if (title && subtitle) {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
-									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';	
+									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';	
 								} else if (title){
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
-									overlay.innerHTML = '<div><p class="title">' + title + '</p></div>';
+									overlay.innerHTML = '<div><p class="title title-one-row">' + title + '</p></div>';
 								} else if (subtitle) {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
-									overlay.innerHTML = '<div><p class="title">' + subtitle + '</p></div>';
+									overlay.innerHTML = '<div><p class="title title-one-row">' + subtitle + '</p></div>';
 								}
 								itemNode.appendChild(overlay);
 							} else {
@@ -4118,7 +4118,7 @@ _bb10_grid = {
 										numItems = rowItems.length;
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];
-											width = (window.innerWidth/numItems) - 5;
+											width = (window.innerWidth/numItems) - 6;
 											if (outerElement.isSquare) {
 												height = width;
 											} else {
@@ -6730,7 +6730,8 @@ bb.contextMenu = {
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);	
-						this.addEventListener("touchmove", this.touchMoveHandler, false);						
+						this.addEventListener("touchmove", this.touchMoveHandler, false);		
+
 						// Remove the header click handling while peeking
 						this.header.removeEventListener("click", this.hide, false);		
 						this.style.visibility = 'visible';

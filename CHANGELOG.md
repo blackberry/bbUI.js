@@ -14,6 +14,7 @@ Below you will find all the different changes that have been added since the fir
 	* BlackBerry 10 title bars now take on the control coloring
 	* You no longer need to specify a unique **id** for your script tags used with screens.
 	* Scroll Panel JavaScript interfaces have been modified
+	* If you were calling bb.scroller.refresh() you will want to change your code to "if (bb.scroller) bb.scroller.refresh();"
 * BlackBerry 10 Styling
 	* Updated DropDown look to match Cascades
 	* Added new Title Bar styling for screens
