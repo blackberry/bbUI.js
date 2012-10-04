@@ -5087,7 +5087,7 @@ _bb10_slider = {
 							}	
 							// Determine width by percentage
 							range.outerElement.currentXPos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
-							this.outerElement.fill.style.width = outerElement.currentXPos + 'px';
+							this.outerElement.fill.style.width = range.outerElement.currentXPos + 'px';
 							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + range.outerElement.currentXPos + 'px,0px,0px)';
 						};
 			range.setValue = range.setValue.bind(range);
