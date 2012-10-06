@@ -4068,7 +4068,7 @@ bb.slider = {
 				outerElement.inner.addEventListener("touchend", outerElement.inner.animateEnd, false);
 				// Handle moving the slider
 				outerElement.moveSlider = function (event) {
-									if (this.isActivated === true) {
+									if (this.isActivated === true && dislider==false) {
 										event.stopPropagation();
 										event.preventDefault();
 										this.transientXPos = this.currentXPos + event.touches[0].pageX - this.initialXPos;
