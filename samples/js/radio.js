@@ -14,33 +14,35 @@
 * limitations under the License.
 */
 
-radioStatus = "enabled";
-
-function enableDisableGroup(groupName){
+function enableGroup(groupName){
 		
 		radios = document.getElementsByName( groupName );
     	
-		if (radioStatus == "enabled"){
-			document.getElementById('group-status').innerHTML = "Disabled";
-			radioStatus = "disabled";
-			for( i = 0; i < radios.length; i++ ) {
-		    	radios[i].disabled = true;
-		    	radios[i].nextSibling.style.background = 'rgba(89,89,89,0.5)';
-		    }
+		document.getElementById('group-status').innerHTML = "Enabled";
+		radioStatus = "enabled";
+		for( i = 0; i < radios.length; i++ ) {
+		   	radios[i].disabled = false;
+		   	if (radios[i].checked){
+		   		radios[i].nextSibling.style.background = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+		   	}
+		   	else{
+		   		radios[i].nextSibling.style.background = '';
+		   	}
 		}
-		else{
-			document.getElementById('group-status').innerHTML = "Enabled";
-			radioStatus = "enabled";
-			for( i = 0; i < radios.length; i++ ) {
-		    	radios[i].disabled = false;
-		    	if (radios[i].checked){
-		    		radios[i].nextSibling.style.background = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
-		    	}
-		    	else{
-		    		radios[i].nextSibling.style.background = '';
-		    	}
-		    }
+
+}
+
+function disableGroup(groupName){
+		
+		radios = document.getElementsByName( groupName );
+    	
+		document.getElementById('group-status').innerHTML = "Disabled";
+		radioStatus = "disabled";
+		for( i = 0; i < radios.length; i++ ) {
+		   	radios[i].disabled = true;
+		   	radios[i].nextSibling.style.background = 'rgba(89,89,89,0.5)';
 		}
+
 }
 
 function getGroupStatus(groupName){
