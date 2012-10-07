@@ -19,7 +19,7 @@ function enableGroup(groupName){
 		radios = document.getElementsByName( groupName );
     	
 		document.getElementById('group-status').innerHTML = "Enabled";
-		radioStatus = "enabled";
+
 		for( i = 0; i < radios.length; i++ ) {
 		   	radios[i].disabled = false;
 		   	if (radios[i].checked){
@@ -37,12 +37,34 @@ function disableGroup(groupName){
 		radios = document.getElementsByName( groupName );
     	
 		document.getElementById('group-status').innerHTML = "Disabled";
-		radioStatus = "disabled";
+
 		for( i = 0; i < radios.length; i++ ) {
 		   	radios[i].disabled = true;
 		   	radios[i].nextSibling.style.background = 'rgba(89,89,89,0.5)';
 		}
 
+}
+
+function enableRadio(radioId){
+	
+	radio = document.getElementById( radioId );
+	
+	radio.disabled = false;
+	
+	if (radio.checked){
+		radio.nextSibling.style.background = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+	}
+	else{
+		radio.nextSibling.style.background = '';
+	}
+}
+
+function disableRadio(radioId){
+	
+	radio = document.getElementById( radioId );
+	
+	radio.disabled = true;
+	radio.nextSibling.style.background = 'rgba(89,89,89,0.5)';
 }
 
 function getGroupStatus(groupName){

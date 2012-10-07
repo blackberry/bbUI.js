@@ -29,7 +29,7 @@
 		<table>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice One</td>
-				<td class="cell" ><input type="radio" name="group1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" ><input type="radio" name="group1" id="control1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
@@ -48,6 +48,10 @@
 		<div data-bb-type="button" data-bb-style="stretch" onclick="enableGroup('group1')">Enable Radio Group</div>
 		
 		<div data-bb-type="button" data-bb-style="stretch" onclick="disableGroup('group1')">Disable Radio Group</div>
+		
+		<div data-bb-type="button" data-bb-style="stretch" onclick="enableRadio('control1')">Enable Choice One</div>
+		
+		<div data-bb-type="button" data-bb-style="stretch" onclick="disableRadio('control1')">Disable Choice One</div>
 		
 		<div >
 			<h2>Group status:&nbsp;<span id="group-status">Enabled</span></h2>
