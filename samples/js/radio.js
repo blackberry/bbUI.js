@@ -16,29 +16,29 @@
 
 function enableGroup(groupName){
 		
-		radios = document.getElementsByName( groupName );
-		document.getElementById('group-status').innerHTML = "Enabled";
-		for( i = 0; i < radios.length; i++ ) {
-		   	radios[i].disabled = false;
-		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
-		}
+	var radios = document.getElementsByName( groupName );
+	document.getElementById('group-status').innerHTML = "Enabled";
+	for( i = 0; i < radios.length; i++ ) {
+	   	radios[i].disabled = false;
+	   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
+	}
 
 }
 
 function disableGroup(groupName){
 		
-		radios = document.getElementsByName( groupName );
-		document.getElementById('group-status').innerHTML = "Disabled";
-		for( i = 0; i < radios.length; i++ ) {
-		   	radios[i].disabled = true;
-		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
-		}
+	var radios = document.getElementsByName( groupName );
+	document.getElementById('group-status').innerHTML = "Disabled";
+	for( i = 0; i < radios.length; i++ ) {
+	   	radios[i].disabled = true;
+	   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
+	}
 
 }
 
 function enableRadio(radioId){
 	
-	radio = document.getElementById( radioId );
+	var radio = document.getElementById( radioId );
 	radio.disabled = false;
 	radio.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
 	
@@ -46,7 +46,7 @@ function enableRadio(radioId){
 
 function disableRadio(radioId){
 	
-	radio = document.getElementById( radioId );
+	var radio = document.getElementById( radioId );
 	radio.disabled = true;
 	radio.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 	
