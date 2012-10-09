@@ -182,7 +182,7 @@ _bb10_radio = {
 											}
 										};
 			outerElement.onclick = function() {
-											if (!this.input.checked) {
+											if ((!this.input.checked) && (!this.input.disabled)) {
 												var evObj = document.createEvent('HTMLEvents');
 												evObj.initEvent('change', false, true );
 												this.dotDiv.style.background = this.dotDiv.highlight;
@@ -281,5 +281,54 @@ _bb10_radio = {
 			dot.style.top = '20px';
 			dot.style.left = '20px';
 		}
+	},
+	
+	enableGroup : function(groupName) {
+		var radios = document.getElementsByName( groupName );
+		for( i = 0; i < radios.length; i++ ) {
+		   	radios[i].disabled = false;
+		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
+		}
+	},
+	
+	disableGroup : function(groupName) {
+		var radios = document.getElementsByName( groupName );
+		for( i = 0; i < radios.length; i++ ) {
+		   	radios[i].disabled = true;
+		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
+		}
+	},
+	
+	enableRadio : function(radioId) {
+		var radio = document.getElementById( radioId );
+		radio.disabled = false;
+		radio.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
+	},
+	
+	disableRadio : function(radioId) {
+		var radio = document.getElementById( radioId );
+		radio.disabled = true;
+		radio.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
+	},
+	
+	getGroupStatus : function(groupName) {
+		var radios = document.getElementsByName( groupName );
+		var status = "";
+		for (i = 0; i < radios.length; i++){
+			if (status == ""){
+				status = radios[i].disabled;
+			}
+			else{
+				if (status != radios[i].disabled){
+					return null;
+				}
+			}
+		}
+		return status;
+	},
+	
+	getRadioStatus : function(radioId) {
+		return document.getElementById(radioId).disabled;
 	}
+	
 };
