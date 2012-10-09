@@ -69,6 +69,30 @@ _bbPlayBook_activityIndicator = {
 			innerElement.style['-webkit-animation-duration'] = '0.8s';
 			innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
 			innerElement.style['-webkit-animation-timing-function'] = 'linear';
+			
+						
+			// Assign our show function
+				outerElement.show = function(){ 
+				this.style.display = '';
+				bb.refresh();
+			};
+			outerElement.show = outerElement.show.bind(outerElement);
+		
+			// Assign our hide function
+			outerElement.hide = function(){ 
+				this.style.display = 'none';
+				bb.refresh();
+			};
+			outerElement.hide = outerElement.hide.bind(outerElement);	
+		
+			// Assign our remove function
+			outerElement.remove = function(){ 
+				this.parentNode.removeChild(this);
+				bb.refresh();
+			};
+			outerElement.remove = outerElement.remove.bind(outerElement);
+
+		return outerElement;
 		}
 	}
 }

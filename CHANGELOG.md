@@ -13,11 +13,14 @@ Below you will find all the different changes that have been added since the fir
 	* You no longer specify a viewport meta tag in your main index.htm.  This is now supplied by the toolkit at runtime based on the OS version
 	* BlackBerry 10 title bars now take on the control coloring
 	* You no longer need to specify a unique **id** for your script tags used with screens.
+	* Scroll Panel JavaScript interfaces have been modified
+	* If you were calling bb.scroller.refresh() you will want to change your code to "if (bb.scroller) bb.scroller.refresh();"
 * BlackBerry 10 Styling
 	* Updated DropDown look to match Cascades
 	* Added new Title Bar styling for screens
 	* Grid view items display either one or two level of titles depending on what is provided in markup
 	* Added accent text to tab overflow items now allowing for a title and optional accent text for an action
+	* Truncated text on image lists now use a "fade" instead of an "ellipsis" on BB10 phones. Other devices still use "ellipsis"
 * PlayBook 2.0 Styling
     * Added Activity Indicator 
 	* Text Input updates
@@ -30,14 +33,17 @@ Below you will find all the different changes that have been added since the fir
 	* **Action Bar:** Added setCaption(), setImage() to actions
 	* **Context Menu:** Added setCaption(), setImage() to actions
 	* **Screens:** Added refresh(), scrollTo(), scrollToElement()
+	* **Activity Indicator:** Added show(), hide(), remove()
 	* Added bb.refresh() to refresh scrolling for the current screen
 	* Added the ability to pass custom parameters to pushScreen() and read them in ondomready and onscreenready
 * Samples
 	* Added sample screen for dynamic button manipulation
 	* Added sample screen for dynamic dropdown manipulation
+	* Added sample screen for dynamic action bar manipulation
 * Noteable Bug Fixes: 
     * Back button used to have problems when you were more than 2 screens deep
 	* Back button used to have issues when screens did not have unique id's
+	* Context menu was not showing when doing a right-to-left swipe if it was on the same screen with an Action Bar that had action overflow items
 
 ## Version 0.9.3
 

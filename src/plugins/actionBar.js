@@ -198,7 +198,7 @@ bb.actionBar = {
 									actionType,
 									length = this.shownActions.length,
 									margins = 2;
-								for (i = 0; length; i++) {
+								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
 									// Compute margins
