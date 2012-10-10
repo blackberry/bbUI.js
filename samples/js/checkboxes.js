@@ -29,3 +29,21 @@ function displayCheckedItems() {
 	}
 	document.getElementById('value').innerHTML = text;
 }
+
+function showCheckboxes() {
+	document.getElementById('checkOne').show();
+	document.getElementById('checkTwo').show();
+	document.getElementById('checkThree').show();
+}
+
+function hideCheckboxes() {
+	document.getElementById('checkOne').hide();
+	document.getElementById('checkTwo').hide();
+	document.getElementById('checkThree').hide();
+}
+
+function removeCheckboxes() {
+	document.getElementById('checkOne').remove();
+	document.getElementById('checkTwo').remove();
+	document.getElementById('checkThree').remove();
+}

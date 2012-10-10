@@ -73,6 +73,28 @@ _bb10_slider = {
 							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + this.outerElement.currentXPos + 'px,0px,0px)';
 						};
 			range.setValue = range.setValue.bind(range);
+			
+			//Add our show function
+			range.show = function () {
+				this.outerElement.style.display = 'block';
+				bb.refresh();
+							};
+			range.show = range.show.bind(range);
+			
+			//Add our hide function
+			range.hide = function () {
+				this.outerElement.style.display = 'none';
+				bb.refresh();
+							};
+			range.hide = range.hide.bind(range);
+			
+			//Add our remove function
+			range.remove = function () {
+				this.outerElement.parentNode.removeChild(this.outerElement);
+				bb.refresh();
+							};
+			range.remove = range.remove.bind(range);
+			
 			// Set our value on a timeout so that it can calculate width once in the DOM
 			window.setTimeout(range.setValue, 0);
 			// Setup our touch events

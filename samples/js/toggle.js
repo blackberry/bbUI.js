@@ -13,29 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
-function moveSlider() {
-	var value,
-		step = 5,
-		max,
-		slider;
-	slider = document.getElementById('myslider');
-	value = parseInt(slider.value);
-	//step = parseInt(slider.step);
-	max = parseInt(slider.max);
-	if (value + step > max) return;
-	slider.setValue(value + step);	
-	setTimeout('moveSlider()', 100);    
+function hideToggle(){
+	document.getElementById('choiceOne').hide();
+	document.getElementById('choiceTwo').hide();
+	document.getElementById('choiceThree').hide();
 }
 
-function showSlider() {
-	document.getElementById('myslider').show();
+function showToggle(){
+	document.getElementById('choiceOne').show();
+	document.getElementById('choiceTwo').show();
+	document.getElementById('choiceThree').show();
 }
 
-function hideSlider() {
-	document.getElementById('myslider').hide();
-}
-
-function removeSlider() {
-	document.getElementById('myslider').remove();
+function removeToggle(){
+	document.getElementById('choiceOne').remove();
+	document.getElementById('choiceTwo').remove();
+	document.getElementById('choiceThree').remove();
 }

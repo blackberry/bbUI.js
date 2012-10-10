@@ -192,6 +192,27 @@ _bb10_toggle = {
 					};
 			outerElement.getChecked = outerElement.getChecked.bind(outerElement);
 			
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove hide function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
+			
 			// set our checked state
 			outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
 			setTimeout(outerElement.positionButton,0);
