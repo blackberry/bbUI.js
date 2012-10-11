@@ -437,6 +437,7 @@ bb = {
 											this.parentNode.parentNode.removeChild(this.parentNode);
 											// Pop it from the stack
 											bb.screens.pop();	
+											screen.style['z-index'] = '';
 											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
 											bb.screens[bb.screens.length-1].container = container;  
 										}
@@ -507,41 +508,58 @@ bb = {
 	createScreenScroller : function(screen) {  
 		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
-			var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
-				var target = e.target;
-				
-				// Don't scroll the screen when touching in our drop downs for BB10
-				if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
-					return;
-				}
-				
-				while (target.nodeType != 1) target = target.parentNode;
+			// Only apply iScroll if it is the PlayBook
+			if (bb.device.isPlayBook) {
+				var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
+					var target = e.target;
+					
+					// Don't scroll the screen when touching in our drop downs for BB10
+					if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
+						return;
+					}
+					
+					while (target.nodeType != 1) target = target.parentNode;
 
-				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
-					e.preventDefault();
-					// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
-					var activeElement = document.activeElement;
-					if (activeElement) {
-						if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
-							activeElement.blur();
+					if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
+						e.preventDefault();
+						// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
+						var activeElement = document.activeElement;
+						if (activeElement) {
+							if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
+								activeElement.blur();
+							}
+						}
+					} 
+					// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
+					/*if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
+						bb.options.screen.onBeforeScrollStart(e);
+					}*/
+				},
+				onScrollMove: function(e) {
+					if (screen.onscroll) {
+						screen.onscroll(e);
+					}
+				}};
+				// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
+				/*if (bb.options.screen) {
+					var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
+					for (var i in bb.options.screen) {
+						if (excluded.indexOf(i) === -1) {
+							scrollerOptions[i] = bb.options.screen[i];
 						}
 					}
-				} 
-				
-				if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
-					bb.options.screen.onBeforeScrollStart(e);
-				}
-			}};
-			
-			if (bb.options.screen) {
-				var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
-				for (var i in bb.options.screen) {
-					if (excluded.indexOf(i) === -1) {
-						scrollerOptions[i] = bb.options.screen[i];
-					}
-				}
+				}*/
+				bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
+			} else if (bb.device.isBB10) {
+				// Use the built in inertial scrolling with elastic ends
+				bb.scroller = null;
+				scrollWrapper.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+				scrollWrapper.onscroll = function(e) {
+						if (screen.onscroll) {
+							screen.onscroll(e);
+						}
+					};
 			}
-			bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
 		}
 	},  
 
@@ -555,10 +573,6 @@ bb = {
 			scroller = null;
 			bb.dropdownScrollers.pop();
 		}
-		/*if (bb.scroller) { // Not sure that we need to do this?
-			bb.scroller.destroy();
-			bb.scroller = null;
-		}*/
 	},
 	
 	// Remove the topmost screen from the dom
@@ -576,13 +590,9 @@ bb = {
 		if (numItems == 1) return; // There is only one screen on the stack
 		stepBack = (numItems > 1) ? 2 : 1;
 		oldScreen = document.getElementById(bb.screens[numItems - stepBack].guid);
-		document.body.removeChild(oldScreen);
-		
-		/*if (numItems > 1) {  // LEAVING THIS HERE FOR NOW... THIS HAS BEEN SOME TRICKY CODE
-			alert('numItems > 1');
-			oldScreen = document.getElementById(bb.screens[numItems -2].guid);
+		if (oldScreen) {
 			document.body.removeChild(oldScreen);
-		}*/
+		}
 	},
 	
     // Add a new screen to the stack
@@ -593,6 +603,8 @@ bb = {
         var numItems = bb.screens.length,
 			currentScreen;
         if (numItems > 0) {
+			bb.screen.overlay = null;
+			bb.screen.tabOverlay = null;
 			bb.clearScrollers();
 			// Quirk with displaying with animations
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
@@ -1822,7 +1834,7 @@ _bb10_dropdown = {
 						item.appendChild(img);
 						
 						// See if it was specified as the selected item
-						if (option.hasAttribute('selected')) {
+						if (option.hasAttribute('selected') || option.selected) {
 							caption = option.innerHTML;
 							item.setAttribute('class',item.selectedStyle);
 							img.style.visibility = 'visible';
@@ -1883,6 +1895,7 @@ _bb10_dropdown = {
 								}
 							}});
 		bb.dropdownScrollers.push(dropdown.scroller);
+		
 		dropdown.scrollArea = scrollArea;
 		
 		// Assign our touch handlers to out-most div
@@ -2071,6 +2084,7 @@ _bb10_dropdown = {
 		// Assign our refresh function
 		select.refresh = function(){ 
 				this.dropdown.internalHide();
+				this.dropdown.isRefreshed = false;
 				this.dropdown.refreshOptions();
 			};
 		select.refresh = select.refresh.bind(select);
@@ -3806,6 +3820,29 @@ _bb10_activityIndicator = {
 			innerElement.style['-webkit-animation-duration'] = '0.8s';
 			innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
 			innerElement.style['-webkit-animation-timing-function'] = 'linear';
+			
+			// Assign our show function
+				outerElement.show = function(){ 
+				this.style.display = '';
+				bb.refresh();
+			};
+			outerElement.show = outerElement.show.bind(outerElement);
+		
+			// Assign our hide function
+			outerElement.hide = function(){ 
+				this.style.display = 'none';
+				bb.refresh();
+			};
+			outerElement.hide = outerElement.hide.bind(outerElement);	
+		
+			// Assign our remove function
+			outerElement.remove = function(){ 
+				this.parentNode.removeChild(this);
+				bb.refresh();
+			};
+			outerElement.remove = outerElement.remove.bind(outerElement);
+
+		return outerElement;
 		}
 	}
 }
@@ -3991,7 +4028,7 @@ _bb10_grid = {
 							tr.appendChild(td);
 							td.appendChild(itemNode);
 							// deal with our margins
-							width = (window.innerWidth/numItems) - 5;
+							width = (window.innerWidth/numItems) - 6;
 							// Find out how to size the images
 							if (outerElement.isSquare) {
 								height = width;
@@ -4014,13 +4051,13 @@ _bb10_grid = {
 								overlay = document.createElement('div');
 								if (title && subtitle) {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
-									overlay.innerHTML = '<div><p class="title">' + title + '<br/>' + subtitle +'</p></div>';	
+									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';	
 								} else if (title){
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
-									overlay.innerHTML = '<div><p class="title">' + title + '</p></div>';
+									overlay.innerHTML = '<div><p class="title title-one-row">' + title + '</p></div>';
 								} else if (subtitle) {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
-									overlay.innerHTML = '<div><p class="title">' + subtitle + '</p></div>';
+									overlay.innerHTML = '<div><p class="title title-one-row">' + subtitle + '</p></div>';
 								}
 								itemNode.appendChild(overlay);
 							} else {
@@ -4081,7 +4118,7 @@ _bb10_grid = {
 										numItems = rowItems.length;
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];
-											width = (window.innerWidth/numItems) - 5;
+											width = (window.innerWidth/numItems) - 6;
 											if (outerElement.isSquare) {
 												height = width;
 											} else {
@@ -4783,15 +4820,22 @@ bb.screen = {
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			// Set ScrollTo
-			outerElement.scrollTo = function(x, y, time, relative) {
-					if (!bb.scroller) return;
-					bb.scroller.scrollTo(x, y, time, relative);
+			outerElement.scrollTo = function(x, y) {
+					if (bb.scroller) {
+						bb.scroller.scrollTo(x, y);
+					} else if (bb.device.isBB10) {
+						this.bbUIscrollWrapper.scrollTop = x;
+					}
 				};
 			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
 			// Set ScrollToElement
-			outerElement.scrollToElement = function(element, time) {
-					if (!bb.scroller) return;
-					bb.scroller.scrollToElement(element, time);
+			outerElement.scrollToElement = function(element) {
+					if (bb.scroller) {
+						bb.scroller.scrollToElement(element);
+					} else if (bb.device.isBB10) {
+						if (!element) return;
+						this.scrollTo(element.offsetTop);
+					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
         }
@@ -5039,12 +5083,12 @@ _bb10_slider = {
 							if (this.outerElement.value == this.outerElement.maxValue) {
 								percent = 1;
 							} else {
-								percent = this.outerElement.value/(parseInt(this.outerElement.maxValue) + parseInt(this.outerElement.minValue));								
+								percent = this.outerElement.value/(parseInt(this.outerElement.maxValue) + parseInt(this.outerElement.minValue));
 							}	
 							// Determine width by percentage
-							range.outerElement.currentXPos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
-							this.outerElement.fill.style.width = outerElement.currentXPos + 'px';
-							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + range.outerElement.currentXPos + 'px,0px,0px)';
+							this.outerElement.currentXPos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
+							this.outerElement.fill.style.width = this.outerElement.currentXPos + 'px';
+							this.outerElement.inner.style['-webkit-transform'] = 'translate3d(' + this.outerElement.currentXPos + 'px,0px,0px)';
 						};
 			range.setValue = range.setValue.bind(range);
 			// Set our value on a timeout so that it can calculate width once in the DOM
@@ -5079,7 +5123,7 @@ _bb10_slider = {
 			outerElement.inner.addEventListener("touchend", outerElement.inner.animateEnd, false);
 			// Handle moving the slider
 			outerElement.moveSlider = function (event) {
-								if (this.isActivated === true) {
+								if (this.isActivated === true  && dislider==false) {
 									event.stopPropagation();
 									event.preventDefault();
 									this.transientXPos = this.currentXPos + event.touches[0].pageX - this.initialXPos;
@@ -5890,7 +5934,7 @@ bb.actionBar = {
 									actionType,
 									length = this.shownActions.length,
 									margins = 2;
-								for (i = 0; length; i++) {
+								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
 									// Compute margins
@@ -6240,34 +6284,56 @@ _bb_PlayBook_10_scrollPanel = {
 			for (j = 0; j < tempHolder.length -1; j++) {
 				scrollArea.appendChild(tempHolder[j]);
 			}
-
-			outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
-								onBeforeScrollStart: function (e) {
-									if (bb.scroller) {
-										bb.scroller.disable();
+			
+			if (bb.device.isPlayBook) {
+				outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
+									onBeforeScrollStart: function (e) {
+										if (bb.scroller) {
+											bb.scroller.disable();
+										}
+										e.preventDefault();
+									}, 
+									onBeforeScrollEnd: function(e) {
+										if (bb.scroller) {
+											bb.scroller.enable();
+										}
+									},
+									onScrollMove: function(e) {
+										if (outerElement.onscroll) {
+											outerElement.onscroll(e);
+										}
 									}
-									e.preventDefault();
-								}, 
-								onBeforeScrollEnd: function(e) {
-									if (bb.scroller) {
-										bb.scroller.enable();
-									}
-								}});
+									});
+			} else {
+				outerElement.scroller = null;
+				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+			}
 			
 			// Set refresh
 			outerElement.refresh = function() {
-					this.scroller.refresh();
+					if (this.scroller) {
+						this.scroller.refresh();
+					}
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			setTimeout(outerElement.refresh,0);
 			// Set ScrollTo
-			outerElement.scrollTo = function(x, y, time, relative) {
-					this.scroller.scrollTo(x, y, time, relative);
+			outerElement.scrollTo = function(x, y) {
+					if (this.scroller) {
+						this.scroller.scrollTo(x, y);
+					} else {
+						this.scrollTop = x;
+					}
 				};
 			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
 			// Set ScrollToElement
-			outerElement.scrollToElement = function(element, time) {
-					this.scroller.scrollToElement(element, time);
+			outerElement.scrollToElement = function(element) {
+					if (this.scroller) {
+						this.scroller.scrollToElement(element);
+					} else {
+						if (!element) return;
+						this.scrollTo(element.offsetTop,0);
+					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
 			outerElement.setAttribute('class','bb-scroll-panel');
@@ -6541,39 +6607,39 @@ bb.contextMenu = {
 		menu.actions = [];
 		menu.hideEvents = [];
 		menu.res = res;
+		menu.threshold = swipeThreshold;
 		menu.visible = false;
-		// Add the overlay for trapping clicks on items below
-		if (!bb.screen.overlay) {
-			bb.screen.overlay = document.createElement('div');
-			bb.screen.overlay.threshold = swipeThreshold;
-			bb.screen.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
-			bb.screen.overlay.menu = menu;
-			screen.appendChild(bb.screen.overlay);
-			
-			bb.screen.overlay.ontouchmove = function(event) {
-											// Only care about moves if peeking
+		
+		// Create our overlay for touch events
+		menu.overlay = document.createElement('div');
+		menu.overlay.threshold = swipeThreshold;
+		menu.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
+		menu.overlay.menu = menu;
+		screen.appendChild(menu.overlay);
+		
+		menu.overlay.ontouchmove = function(event) {
+										// Only care about moves if peeking
+										if (!this.menu.peeking) return;
+										var touch = event.touches[0];
+										if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
+											this.menu.show(this.menu.selected);
+											this.closeMenu = false;
+										}
+									};
+		menu.overlay.ontouchend = function() {
+										if (this.closeMenu) {
+											this.menu.hide();
+										}
+									};
+		menu.overlay.ontouchstart = function(event) {
+											this.closeMenu = true;
 											if (!this.menu.peeking) return;
+											
 											var touch = event.touches[0];
-											if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
-												this.menu.show(this.menu.selected);
-												this.closeMenu = false;
-											}
+											this.startPos = touch.pageX;
+											event.preventDefault();
 										};
-			bb.screen.overlay.ontouchend = function() {
-											if (this.closeMenu) {
-												this.menu.hide();
-											}
-										};
-			bb.screen.overlay.ontouchstart = function(event) {
-												this.closeMenu = true;
-												if (!this.menu.peeking) return;
-												
-												var touch = event.touches[0];
-												this.startPos = touch.pageX;
-												event.preventDefault();
-											};
-		}
-		menu.overlay = bb.screen.overlay;
+		
 		// Create the menu header
 		header = document.createElement('div');
 		header.setAttribute('class','bb-bb10-context-menu-item-'+res+' bb-bb10-context-menu-header-'+bb.actionBar.color);
@@ -6599,6 +6665,7 @@ bb.contextMenu = {
 		menu.show = function(data){
 						if (data) {
 							this.header.style.display = '';
+							this.header.style.visibility = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -6623,8 +6690,10 @@ bb.contextMenu = {
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
 		menu.hide = function(){
+						
 						this.overlay.style.display = 'none';
 						this.removeEventListener("touchstart", this.touchHandler, false);
+						this.removeEventListener("touchmove", this.touchMoveHandler, false);
 						this.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(' + bb.contextMenu.getWidth() + 'px, 0px)';
 						if (!this.peeking) {
@@ -6645,6 +6714,7 @@ bb.contextMenu = {
 		// Peek the menu
 		menu.peek = function(data){
 						if (data) {
+							this.header.style.display = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -6653,13 +6723,15 @@ bb.contextMenu = {
 							}
 							this.selected = data;
 						}
-						this.header.style.display = '';
+						this.header.style.visibility = 'hidden';	
 						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
 						this.addEventListener("touchstart", this.touchHandler, false);	
+						this.addEventListener("touchmove", this.touchMoveHandler, false);		
+
 						// Remove the header click handling while peeking
 						this.header.removeEventListener("click", this.hide, false);		
 						this.style.visibility = 'visible';
@@ -6667,12 +6739,13 @@ bb.contextMenu = {
 					};
 		menu.peek = menu.peek.bind(menu);
 		
-		// Trap the events
+		// Trap touch start events in a way that we can add and remove the handler
 		menu.touchHandler = function(event) {
 								if (this.peeking) {
+									var touch = event.touches[0];
+									this.startPos = touch.pageX;
 									if (event.target == this) {
-										event.preventDefault();
-										event.stopPropagation();
+										//event.stopPropagation();
 									} else if (event.target.parentNode == this && event.target != this.header)  {
 										event.preventDefault();
 										event.stopPropagation();
@@ -6684,6 +6757,25 @@ bb.contextMenu = {
 								}
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
+		
+		// Trap touch move events in a way that we can add and remove the handler
+		menu.touchMoveHandler = function(event) {
+								// Only care about moves if peeking
+								if (!this.peeking) return;
+								var touch = event.touches[0];
+								if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
+									this.show(this.selected);
+								}
+							};
+		menu.touchMoveHandler = menu.touchMoveHandler.bind(menu);
+		
+		// Handle the case of clicking the context menu while peeking
+		menu.onclick = function(event) {
+			if (this.peeking) {
+				this.show(this.selected);
+				event.stopPropagation();
+			}
+		}
 		
 		// Center the items in the list
 		menu.centerMenuItems = function() {
