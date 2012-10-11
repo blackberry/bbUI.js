@@ -87,6 +87,27 @@ _bb10_checkbox = {
 					};
 			input.setChecked = input.setChecked.bind(input);
 			
+			// Add our show function
+			input.show = function(){ 
+				this.touchTarget.style.display = 'block';
+				bb.refresh();
+			};
+			input.show = input.show.bind(input);
+			
+			// Add our hide function
+			input.hide = function(){ 
+				this.touchTarget.style.display = 'none';
+				bb.refresh();
+			};
+			input.hide = input.hide.bind(input);
+			
+			// Add our remove function
+			input.remove = function(){ 
+				this.touchTarget.parentNode.removeChild(this.touchTarget);
+				bb.refresh();
+			};
+			input.remove = input.remove.bind(input);
+			
 			// Set our initial state
 			touchTarget.drawChecked();
 		}
