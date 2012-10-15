@@ -44,6 +44,7 @@ Below you will find all the different changes that have been added since the fir
     * Back button used to have problems when you were more than 2 screens deep
 	* Back button used to have issues when screens did not have unique id's
 	* Context menu was not showing when doing a right-to-left swipe if it was on the same screen with an Action Bar that had action overflow items
+	* Sliders would sometimes would not color correctly and/or jump back to zero after you set their initial value in the DOM
 
 ## Version 0.9.3
 

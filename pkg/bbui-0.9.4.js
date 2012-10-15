@@ -55,14 +55,14 @@ bb = {
 		}
 		
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
-		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0);
+		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
 			bb.device.isBB10 = (navigator.userAgent.indexOf('Version/10.0') >= 0);
 		}
-		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0) || bb.device.isRipple;
+		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
 		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
 		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
 		
@@ -76,7 +76,7 @@ bb = {
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (navigator.userAgent.indexOf('Version/10.0.9') >= 0) {// this should eventually be changed to if(bb.device.isBB10  && !bb.device.isPlayBook) 
+		if (bb.device.isBB10 && !bb.device.isPlayBook) { 
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
