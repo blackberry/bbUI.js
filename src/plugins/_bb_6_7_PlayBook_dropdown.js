@@ -84,7 +84,12 @@ _bb_6_7_PlayBook_dropdown = {
 					// Create the overlay to trap clicks on the screen
 					var overlay = document.createElement('div');
 					overlay.setAttribute('id', 'ripple-dropdown-overlay');
-					overlay.setAttribute('style', 'position: absolute;left: 0px;top: ' + document.body.scrollTop + 'px;width:100%;height:100%;z-index: 1000000;');
+					overlay.style['position'] = 'absolute';
+					overlay.style['left'] = '0px';
+					overlay.style['top'] = document.body.scrollTop + 'px';
+					overlay.style['width'] = '100%';
+					overlay.style['height'] = '100%';
+					overlay.style['z-index'] = '1000000';
 					// Close the overlay if they click outside of the select box
 					overlay.onclick = function () {
 						if (this.parentNode !== null) {
