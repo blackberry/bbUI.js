@@ -2186,7 +2186,12 @@ _bb_6_7_PlayBook_dropdown = {
 					// Create the overlay to trap clicks on the screen
 					var overlay = document.createElement('div');
 					overlay.setAttribute('id', 'ripple-dropdown-overlay');
-					overlay.setAttribute('style', 'position: absolute;left: 0px;top: ' + document.body.scrollTop + 'px;width:100%;height:100%;z-index: 1000000;');
+					overlay.style['position'] = 'absolute';
+			        overlay.style['left'] = '0px';	
+          			overlay.style['top'] = document.body.scrollTop + 'px';	
+          			overlay.style['width'] = '100%';	
+          			overlay.style['height'] = '100%';	
+          			overlay.style['z-index'] =  '1000000';
 					// Close the overlay if they click outside of the select box
 					overlay.onclick = function () {
 						if (this.parentNode !== null) {
@@ -4073,7 +4078,8 @@ _bb10_grid = {
 							itemNode.contextMenu = contextMenu;
 							itemNode.ontouchstart = function() {
 														if (this.overlay) {
-															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.highlightColor +';');
+															this.overlay.style['opacity'] = '1.0';
+								                            this.overlay.style['background-color'] = bb.options.highlightColor;
 														}
 														itemNode.fingerDown = true;
 														itemNode.contextShown = false;
@@ -4083,7 +4089,7 @@ _bb10_grid = {
 													};
 							itemNode.ontouchend = function() {
 														if (this.overlay) {
-															this.overlay.setAttribute('style','');
+															this.overlay.style = '';
 														}
 														itemNode.fingerDown = false;
 														if (itemNode.contextShown) {
@@ -4711,13 +4717,33 @@ bb.screen = {
 				
 				// Set our outer scroll area dimensions
 				if (titleBar && actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:'+titleBarHeight+'px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto';
+          			outerScrollArea.style['position'] = 'absolute';
+          			outerScrollArea.style['bottom'] = actionBarHeight + 'px';
+          			outerScrollArea.style['top'] = titleBarHeight + 'px';	
+          			outerScrollArea.style['left'] = '0px';	
+          			outerScrollArea.style['right'] = '0px';
 				} else if (titleBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+titleBarHeight+'px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto';
+          			outerScrollArea.style['position'] = 'absolute';
+          			outerScrollArea.style['bottom'] = '0px';
+          			outerScrollArea.style['top'] = titleBarHeight + 'px';	
+          			outerScrollArea.style['left'] = '0px';	
+          			outerScrollArea.style['right'] = '0px';
 				} else if (actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:0px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto';
+          			outerScrollArea.style['position'] = 'absolute';
+          			outerScrollArea.style['bottom'] = actionBarHeight + 'px';
+          			outerScrollArea.style['top'] = '0px';	
+          			outerScrollArea.style['left'] = '0px';	
+          			outerScrollArea.style['right'] = '0px';
 				} else {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto';
+          			outerScrollArea.style['position'] = 'absolute';
+          			outerScrollArea.style['bottom'] = '0px';
+          			outerScrollArea.style['top'] = '0px';	
+          			outerScrollArea.style['left'] = '0px';	
+          			outerScrollArea.style['right'] = '0px';
 				}
 				
 				// Apply any title bar styling
@@ -4785,11 +4811,21 @@ bb.screen = {
 				}
                    
 				if (titleBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:55px;left:0px;right:0px;');					
+					outerScrollArea.style['overflow'] = 'auto';	
+          			outerScrollArea.style['bottom'] = '0px';
+          			outerScrollArea.style['position'] = 'absolute'; 	
+          			outerScrollArea.style['top'] = '55px';	
+          			outerScrollArea.style['left'] = '0px';	
+			        outerScrollArea.style['right'] = '0px';					
                     bb.titleBar.apply(titleBar);
                 }
 				else {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto';
+          			outerScrollArea.style['bottom'] = '0px';
+          			outerScrollArea.style['position'] = 'absolute'; 
+          			outerScrollArea.style['top'] = '0px';
+          			outerScrollArea.style['left'] = '0px';
+          			outerScrollArea.style['right'] = '0px';
 				}
             }
             else {
