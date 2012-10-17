@@ -88,13 +88,34 @@ bb.screen = {
 				
 				// Set our outer scroll area dimensions
 				if (titleBar && actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:'+titleBarHeight+'px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto'; 
+          			outerScrollArea.style['position'] = 'absolute';
+		          	outerScrollArea.style['bottom'] = actionBarHeight+ 'px';
+		          	outerScrollArea.style['top'] = titleBarHeight + 'px';
+		          	outerScrollArea.style['left'] = '0px';
+		          	outerScrollArea.style['right'] = '0px';
 				} else if (titleBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:'+titleBarHeight+'px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto'; 
+          			outerScrollArea.style['position'] = 'absolute';
+		          	outerScrollArea.style['bottom'] = '0px';
+		          	outerScrollArea.style['top'] = titleBarHeight + 'px';
+		          	outerScrollArea.style['left'] = '0px';
+		          	outerScrollArea.style['right'] = '0px';
 				} else if (actionBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;position:absolute;bottom:'+actionBarHeight+'px;top:0px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto'; 
+          			outerScrollArea.style['position'] = 'absolute';
+		          	outerScrollArea.style['bottom'] = actionBarHeight+ 'px';
+		          	outerScrollArea.style['top'] = '0px';
+		          	outerScrollArea.style['left'] = '0px';
+		          	outerScrollArea.style['right'] = '0px';
 				} else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto'; 
+          			outerScrollArea.style['position'] = 'absolute';
+		          	outerScrollArea.style['bottom'] = '0px';
+		          	outerScrollArea.style['top'] = '0px';
+		          	outerScrollArea.style['left'] = '0px';
+		          	outerScrollArea.style['right'] = '0px';
 				}
 				
 				// Apply any title bar styling
@@ -162,11 +183,22 @@ bb.screen = {
 				}
                    
 				if (titleBar) {
-					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:55px;left:0px;right:0px;');					
+					outerScrollArea.style['overflow'] = 'auto';
+			        outerScrollArea.style['bottom'] = '0px';	
+			        outerScrollArea.style['position'] = 'absolute';	
+			        outerScrollArea.style['top'] = '55px';	
+			        outerScrollArea.style['left'] = '0px';	
+			        outerScrollArea.style['right'] = '0px'; 					
                     bb.titleBar.apply(titleBar);
                 }
 				else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
+					outerScrollArea.style['overflow'] = 'auto';
+			        outerScrollArea.style['bottom'] = '0px';	
+			        outerScrollArea.style['position'] = 'absolute';	
+			        outerScrollArea.style['top'] = '0px';	
+			        outerScrollArea.style['left'] = '0px';	
+			        outerScrollArea.style['right'] = '0px';
 				}
             }
             else {
