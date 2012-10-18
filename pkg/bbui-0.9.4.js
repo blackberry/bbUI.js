@@ -441,6 +441,18 @@ bb = {
 											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
 											bb.screens[bb.screens.length-1].container = container;  
 										}
+									} else if (bb.screens.length <= 1) {
+										// Clear style changes that may have been made for the animation
+										s.left = '';
+										s.right = '';
+										s.top = '';
+										s.bottom = '';
+										s.width = '';
+										s.height = '';
+										s['-webkit-animation-name'] = '';
+										s['-webkit-animation-duration'] = '';
+										s['-webkit-animation-timing-function'] = ''; 
+										s['-webkit-transform'] = '';
 									}
 									
 									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
