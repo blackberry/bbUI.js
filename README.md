@@ -93,7 +93,7 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry Dev Alpha R6 Beta
+* BlackBerry Dev Alpha 10.0.x Beta
 * BlackBerry PlayBook v2.0.1.x
 * BlackBerry PlayBook v2.1.x.x
 * BlackBerry Torch 9860 v7.0.0.x
