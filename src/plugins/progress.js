@@ -1,4 +1,4 @@
-bb.progress = {
+_bb_progress = {
 
 	NORMAL : 0,
 	PAUSED : 1,
@@ -18,13 +18,13 @@ bb.progress = {
 			
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			color = bb.options.bb10ControlsDark ? 'dark' : 'light';
-			highlightColor = bb.options.bb10HighlightColor;
+			color = bb.screen.controlColor;
+			highlightColor = bb.options.highlightColor;
 			accentColor = bb.options.shades.darkHighlight;
 		} else {
 			res = 'lowres';
 			color = 'light';
-			highlightColor = '#92B43B';
+			highlightColor = (bb.device.isPlayBook) ? bb.options.highlightColor : '#92B43B';
 			accentColor = '#8FB03B';
 		}
 		

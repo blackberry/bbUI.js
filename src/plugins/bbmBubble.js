@@ -1,4 +1,4 @@
-bb.bbmBubble = {
+_bb_bbmBubble = {
     // Apply our transforms to all BBM Bubbles
     apply: function(elements) {
         for (var i = 0; i < elements.length; i++) {

@@ -35,17 +35,8 @@ function dataOnTheFly_addListItem() {
 	listItem.setAttribute('data-bb-img', 'images/icons/icon11.png');
 	listItem.setAttribute('data-bb-title', 'Title ');
 	listItem.innerHTML = 'My description';
-	// Create a dummy container
-	container = document.createElement('div');
-	container.appendChild(listItem);
-	// Apply the styling
-	bb.imageList.apply([container]);
 	// Append the item
-	dataList.appendChild(container.firstChild);
-	// re-compute the scrolling area
-	if (bb.scroller) {
-		bb.scroller.refresh();
-	}
+	dataList.appendItem(listItem);
 }
 
 function dataOnTheFly_addDropDown() {
@@ -66,13 +57,10 @@ function dataOnTheFly_addDropDown() {
 	option.setAttribute('value','andalemono');
 	option.innerHTML = 'Andale Mono';
 	dropdown.appendChild(option);	
-	// Create a dummy container
-	container = document.createElement('div');
-	container.appendChild(dropdown);
 	// Apply the styling
-	bb.dropdown.apply([dropdown]);
+	dropdown = bb.dropdown.style(dropdown);
 	// Append the item
-	buttonPanel.appendChild(container);
+	buttonPanel.appendChild(dropdown);
 	// re-compute the scrolling area
 	if (bb.scroller) {
 		bb.scroller.refresh();
