@@ -198,7 +198,7 @@ bb.actionBar = {
 									actionType,
 									length = this.shownActions.length,
 									margins = 2;
-								for (i = 0; length; i++) {
+								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
 									// Compute margins
@@ -226,15 +226,13 @@ bb.actionBar = {
 				action = visibleTabs[j];
 				// Don't add the visible overflow tab
 				if (action.getAttribute('data-bb-img') != 'overflow') {
-					clone = action.cloneNode(true);
-					clone.onclick = undefined;
+					clone = action.cloneNode(true);					
 					clone.visibleTab = action;
 					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
-			}			
-		
+			}		
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
@@ -285,6 +283,7 @@ bb.actionBar = {
 			display = document.createElement('div');
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
+			action.display = display;
 			action.appendChild(display);
 			
 			// See if it is our overflow tab
@@ -316,6 +315,7 @@ bb.actionBar = {
 				shownActions.push(action);
 				// Set our image
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
+				action.icon = icon;
 				
 				if (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
 					bb.actionBar.highlightAction(action);
@@ -324,6 +324,43 @@ bb.actionBar = {
 				action.addEventListener('click',function (e) {
 					bb.actionBar.highlightAction(this);
 				},false);
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+									// Change the associated overflow item if one exists
+									if (this.actionBar.tabOverflowMenu) {
+										var tabs = this.actionBar.tabOverflowMenu.actions,
+											i,
+											target;
+										for (i = 0; i < tabs.length; i++) {
+											target = tabs[i];
+											if (target.visibleTab == this)  {
+												target.setCaption(value);
+											} 
+										}
+									}
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.icon.setAttribute('src', value);
+									
+									// Change the associated overflow item if one exists
+									if (this.actionBar.tabOverflowMenu) {
+										var tabs = this.actionBar.tabOverflowMenu.actions,
+											i,
+											target;
+										for (i = 0; i < tabs.length; i++) {
+											target = tabs[i];
+											if (target.visibleTab == this)  {
+												target.setImage(value);
+											} 
+										}
+									}
+								};
+				action.setImage = action.setImage.bind(action);
 			}
 			
 			// Make the last tab have a smaller border and insert the shading
@@ -371,13 +408,27 @@ bb.actionBar = {
 				shownActions.push(action);
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
+				action.icon = icon;
 				action.style.width = btnWidth + 'px'; 
+				
 				// set our shading if needed
 				if (lastStyle == 'tab') {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.icon.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
 			}
 			
 			
@@ -391,6 +442,7 @@ bb.actionBar = {
 			var display = document.createElement('div');
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
+			action.display = display;
 			action.appendChild(display);	
 		}
 		// Center the action overflow items
@@ -402,8 +454,6 @@ bb.actionBar = {
 			actionBar.tabOverflowMenu.centerMenuItems();
 			actionBar.tabOverflowMenu.initSelected();
 		}
-		
-		
 	},
 
 	// Apply the proper highlighting for the action
@@ -431,7 +481,7 @@ bb.actionBar = {
 		}
 		
 		// Now highlight this action
-		action.style['border-top-color'] = bb.options.bb10HighlightColor;
+		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
 		
 		if (overflowAction) {

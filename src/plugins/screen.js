@@ -45,7 +45,7 @@ bb.screen = {
 					childNode = null, 
 					j,
 					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
-					titleBarHeight = (bb.device.isPlayBook) ? 61 : 140;
+					titleBarHeight = (bb.device.isPlayBook) ? 65 : 120;
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
@@ -189,6 +189,32 @@ bb.screen = {
                     bb.titleBar.apply(titleBar);
                 }
             }
+			
+			// Set refresh
+			outerElement.refresh = function() {
+					if (!bb.scroller) return;
+					bb.scroller.refresh();
+				};
+			outerElement.refresh = outerElement.refresh.bind(outerElement);
+			// Set ScrollTo
+			outerElement.scrollTo = function(x, y) {
+					if (bb.scroller) {
+						bb.scroller.scrollTo(x, y);
+					} else if (bb.device.isBB10) {
+						this.bbUIscrollWrapper.scrollTop = x;
+					}
+				};
+			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
+			// Set ScrollToElement
+			outerElement.scrollToElement = function(element) {
+					if (bb.scroller) {
+						bb.scroller.scrollToElement(element);
+					} else if (bb.device.isBB10) {
+						if (!element) return;
+						this.scrollTo(element.offsetTop);
+					}
+				};
+			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
         }
     },
 	
@@ -364,4 +390,5 @@ bb.screen = {
             document.body.style.height = screen.height + 'px';
         }
     }
+		
 };
