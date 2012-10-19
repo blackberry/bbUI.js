@@ -6728,7 +6728,9 @@ bb.contextMenu = {
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
+						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
 						this.addEventListener("touchstart", this.touchHandler, false);		
 						// Remove the header click handling while peeking
 						this.header.addEventListener("click", this.hide, false);
@@ -6744,6 +6746,8 @@ bb.contextMenu = {
 						this.removeEventListener("touchmove", this.touchMoveHandler, false);
 						this.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(' + bb.contextMenu.getWidth() + 'px, 0px)';
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
 						if (!this.peeking) {
 							// Remove the header click handling 
 							this.header.removeEventListener("click", this.hide, false);	
@@ -6777,6 +6781,8 @@ bb.contextMenu = {
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
 						this.addEventListener("touchstart", this.touchHandler, false);	
 						this.addEventListener("touchmove", this.touchMoveHandler, false);		
 
