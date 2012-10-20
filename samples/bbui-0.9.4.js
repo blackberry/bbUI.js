@@ -2774,6 +2774,11 @@ _bb10_radio = {
 					this.disabled = true;
 					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 				};
+			
+			//Add our function to check if an individual radio buttons in enabled
+			input.isEnabled = function() {
+					return (!this.disabled);
+				}
 		}
 		
 	},
@@ -2826,10 +2831,6 @@ _bb10_radio = {
 		}
 		return status;
 	},
-	
-	getRadioStatus : function(radioId) {
-		return document.getElementById(radioId).disabled;
-	}
 	
 };
 
