@@ -1285,7 +1285,7 @@ _bb10_button = {
 			};
 		
 		// Assign our enable function
-		outerElement.enable = function(){ 
+		outerElement.enable = function(){
 				if (this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.normal);
 				this.ontouchstart = function() {
@@ -2762,6 +2762,18 @@ _bb10_radio = {
 						return this.checked;
 					};
 			input.setChecked = input.setChecked.bind(input);
+			
+			// Add our function to enable a radio button
+			input.enable = function() {
+					this.disabled = false;
+					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
+				};
+				
+			// Add our function to disable a radio button
+			input.disable = function() {
+					this.disabled = true;
+					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
+				};
 		}
 		
 	},
@@ -2781,6 +2793,7 @@ _bb10_radio = {
 		}
 	},
 	
+	//Function to enable a group of radio buttons
 	enableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
 		for( i = 0; i < radios.length; i++ ) {
@@ -2789,24 +2802,13 @@ _bb10_radio = {
 		}
 	},
 	
+	//Function to disable a group of radio buttons
 	disableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
 		for( i = 0; i < radios.length; i++ ) {
 		   	radios[i].disabled = true;
 		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 		}
-	},
-	
-	enableRadio : function(radioId) {
-		var radio = document.getElementById( radioId );
-		radio.disabled = false;
-		radio.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
-	},
-	
-	disableRadio : function(radioId) {
-		var radio = document.getElementById( radioId );
-		radio.disabled = true;
-		radio.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 	},
 	
 	getGroupStatus : function(groupName) {

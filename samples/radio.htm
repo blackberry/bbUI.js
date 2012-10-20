@@ -16,7 +16,7 @@
 -->
 <div style="background-color: #252525;color:white;" data-bb-type="screen" data-bb-effect="slide-up">
 	<div data-bb-type="title" data-bb-caption="Radio buttons" data-bb-back-caption="Back" ></div>
-	<script id="radioJS" src="js/radio.js"></script>
+	<!-- <script id="radioJS" src="js/radio.js"></script> -->
 	<style>
 		.cell {
 			line-height: 100px;
@@ -29,15 +29,18 @@
 		<table>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice One</td>
-				<td class="cell" ><input type="radio" name="group1" id="control1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" ><input type="radio" name="group1" id="control1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
+				<td class="cell">Enabled</td>
+				<td class="cell"><input type="checkbox" checked="true" onchange="if (this.checked){ document.getElementById('control1').enable();} else { document.getElementById('control1').disable();}" /></td>
+				</td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
-				<td class="cell"><input type="radio" name="group1" value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3"><input type="radio" name="group1"  value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Three</td>
-				<td class="cell"><input type="radio" name="group1" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3"><input type="radio" name="group1" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
 			</tr>
 		</table>
 		
@@ -45,17 +48,12 @@
 			<h2>You clicked:&nbsp;<span id="value">one</span></h2>
 		</div>
 		
-		<div data-bb-type="button" data-bb-style="stretch" onclick="enableGroup('group1')">Enable Radio Group</div>
-		
-		<div data-bb-type="button" data-bb-style="stretch" onclick="disableGroup('group1')">Disable Radio Group</div>
-		
-		<div data-bb-type="button" data-bb-style="stretch" onclick="enableRadio('control1')">Enable Choice One</div>
-		
-		<div data-bb-type="button" data-bb-style="stretch" onclick="disableRadio('control1')">Disable Choice One</div>
-		
-		<div >
-			<h2>Group status:&nbsp;<span id="group-status">Enabled</span></h2>
-		</div>
+		<table>
+			<tr>
+				<td>Group enabled</td>
+				<td><input type="checkbox" checked="true" onchange="if (this.checked){ _bb10_radio.enableGroup('group1');} else { _bb10_radio.disableGroup('group1');}" /></td>
+			</tr>
+		</table>
 		
 	</div>
 
