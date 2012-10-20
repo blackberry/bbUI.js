@@ -2814,23 +2814,7 @@ _bb10_radio = {
 		   	radios[i].disabled = true;
 		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 		}
-	},
-	
-	getGroupStatus : function(groupName) {
-		var radios = document.getElementsByName( groupName );
-		var status = "";
-		for (i = 0; i < radios.length; i++){
-			if (status == ""){
-				status = radios[i].disabled;
-			}
-			else{
-				if (status != radios[i].disabled){
-					return null;
-				}
-			}
-		}
-		return status;
-	},
+	}
 	
 };
 
