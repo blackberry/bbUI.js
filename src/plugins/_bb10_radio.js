@@ -267,12 +267,14 @@ _bb10_radio = {
 			
 			// Add our function to enable a radio button
 			input.enable = function() {
+					if (!this.disabled) return;
 					this.disabled = false;
 					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
 				};
 				
 			// Add our function to disable a radio button
 			input.disable = function() {
+					if (this.disabled) return;
 					this.disabled = true;
 					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 				};
