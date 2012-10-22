@@ -30,7 +30,7 @@
 		<table>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice One</td>
-				<td class="cell" ><input id="checkOne" type="checkbox" checked="true" value="one" onchange="displayCheckedItems()"/></td>
+				<td class="cell" ><input id="checkOne" disabled="true" type="checkbox" checked="true" value="one" onchange="displayCheckedItems()"/></td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
@@ -46,16 +46,13 @@
 			<h2>You checked:&nbsp;<span id="value">one</span></h2>
 		</div>
 	</div>
-    
-	<div data-bb-type="round-panel"> 
-		<div data-bb-type="panel-header">Checkbox Functions</div>
-        <center>
-        <div data-bb-type="button" onclick="enableCheckboxes()" id="enable">Enable Checkboxes</div>
-        <div data-bb-type="button" onclick="disableCheckboxes()" id="disable">Disable Checkboxes</div>
-		<div data-bb-type="button" onclick="hideCheckboxes()" id="hide">Hide Checkboxes</div>
-        <div data-bb-type="button" onclick="showCheckboxes()" id="show">Show Checkboxes</div>
-        <div data-bb-type="button" onclick="removeCheckboxes()" id="remove">Remove Checkboxes</div>
-        </center>
+	<div data-bb-type="round-panel" style="background-color: #252525"> 
+		<div data-bb-type="panel-header">BB10 Checkbox Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="enableCheckboxes()" id="enable">Enable Checkboxes</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="disableCheckboxes()" id="disable">Disable Checkboxes</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="hideCheckboxes()" id="hide">Hide Checkboxes</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="showCheckboxes()" id="show">Show Checkboxes</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="removeCheckboxes()" id="remove">Remove Checkboxes</div>
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
