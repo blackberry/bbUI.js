@@ -29,6 +29,7 @@ JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus i
 * [James Blashill](https://github.com/jblashill) 
 * [Jerome Carty](https://github.com/jcarty) follow me on Twitter [@jcarty](https://twitter.com/#!/jcarty)
 * [Karan Khiani](https://github.com/karancan) 
+* [Justin DaSilva](https://github.com/lyricidal) follow me on Twitter [@theiexplorers](https://twitter.com/theiexplorers)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
