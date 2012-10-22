@@ -1410,6 +1410,30 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 }
 
+.bb-bb10-checkbox-outer-disabled-dark
+{
+	border-color: #333333;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#E3E3E3), to(#E3E3E3));
+}
+
+.bb-bb10-checkbox-outer-disabled-light
+{
+	border-color: #a1a1a1;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#E3E3E3), to(#E3E3E3));
+}
+
+.bb-bb10-checkbox-inner-disabled-dark
+{
+	border-color: #d3d3d3;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#262626), to(#262626));
+}
+
+.bb-bb10-checkbox-inner-disabled-light
+{
+	border-color: #d3d3d3;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#c0c0c0), to(#c0c0c0));
+}
+
 
 /* ================================================= 
    File Input buttons
@@ -5292,6 +5316,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 

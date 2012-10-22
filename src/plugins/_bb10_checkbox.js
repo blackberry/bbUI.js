@@ -44,27 +44,30 @@ _bb10_checkbox = {
 			touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
 
 			touchTarget.ontouchstart = function() {
-							if (!this.input.checked) {	
+							if (!this.input.checked && !this.input.disabled) {	
 								// Do our touch highlight
 								this.innerElement.style.background = this.touchHighlight;
 							}
 						};
 			touchTarget.ontouchend = function() {
-							if (!this.input.checked) {
+							if (!this.input.checked && !this.input.disabled) {
 								this.innerElement.style.background = '';
 							}
 						};
 			touchTarget.onclick = function() {
+							if (!this.input.disabled) {
 							var evObj = document.createEvent('HTMLEvents');
 							evObj.initEvent('change', false, true );
 							// Set our checked state
 							this.input.checked = !this.input.checked;
 							this.drawChecked();
 							this.input.dispatchEvent(evObj);
-						};
-						
+							} else {
+
+							}				
+						};						
 			touchTarget.drawChecked = function() {
-							if (this.input.checked) {
+							if (this.input.checked && !this.input.disabled) {
 								this.checkElement.setAttribute('class',this.checkElement.displayClass);
 								this.innerElement.style['background-image'] = touchTarget.highlight;
 							} else {
@@ -86,6 +89,51 @@ _bb10_checkbox = {
 						return this.checked;
 					};
 			input.setChecked = input.setChecked.bind(input);
+			
+			// Add our enable function
+			input.enable = function(){ 
+				this.touchTarget.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
+				this.touchTarget.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-'+color);
+				if (this.checked){
+								this.touchTarget.innerElement.style['background-image'] = touchTarget.highlight;
+							} else {
+								this.touchTarget.innerElement.style['background-image'] = '';
+							}		
+				this.removeAttribute('disabled');
+				this.enabled = true;
+			};
+			input.enable = input.enable.bind(input);
+			
+			// Add our disable function
+			input.disable = function(){ 
+				this.touchTarget.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-disabled-'+color);
+				this.touchTarget.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-disabled-'+color);
+				this.touchTarget.innerElement.style.background = '#c0c0c0';
+				this.enabled = false;
+				this.setAttribute('disabled','disabled');
+			};
+			input.disable = input.disable.bind(input);
+			
+			// Add our show function
+			input.show = function(){ 
+				this.touchTarget.style.display = 'block';
+				bb.refresh();
+			};
+			input.show = input.show.bind(input);
+			
+			// Add our hide function
+			input.hide = function(){ 
+				this.touchTarget.style.display = 'none';
+				bb.refresh();
+			};
+			input.hide = input.hide.bind(input);
+			
+			// Add our remove function
+			input.remove = function(){ 
+				this.touchTarget.parentNode.removeChild(this.touchTarget);
+				bb.refresh();
+			};
+			input.remove = input.remove.bind(input);
 			
 			// Set our initial state
 			touchTarget.drawChecked();
