@@ -62,17 +62,23 @@ _bb10_checkbox = {
 							this.input.checked = !this.input.checked;
 							this.drawChecked();
 							this.input.dispatchEvent(evObj);
-							} else {
-
 							}				
 						};						
 			touchTarget.drawChecked = function() {
-							if (this.input.checked && !this.input.disabled) {
+							if (this.input.checked) {
 								this.checkElement.setAttribute('class',this.checkElement.displayClass);
 								this.innerElement.style['background-image'] = touchTarget.highlight;
 							} else {
 								this.checkElement.setAttribute('class',this.checkElement.hiddenClass);
 								this.innerElement.style['background-image'] = '';
+							}
+							if (this.input.disabled){
+								this.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-disabled-'+color);
+								this.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-disabled-'+color);
+								this.innerElement.style.background = '#c0c0c0';
+							} else{
+								this.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
+								this.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-'+color);
 							}				
 						};
 			touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
@@ -92,25 +98,17 @@ _bb10_checkbox = {
 			
 			// Add our enable function
 			input.enable = function(){ 
-				this.touchTarget.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
-				this.touchTarget.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-'+color);
-				if (this.checked){
-								this.touchTarget.innerElement.style['background-image'] = touchTarget.highlight;
-							} else {
-								this.touchTarget.innerElement.style['background-image'] = '';
-							}		
 				this.removeAttribute('disabled');
 				this.enabled = true;
+				this.touchTarget.drawChecked();
 			};
 			input.enable = input.enable.bind(input);
 			
 			// Add our disable function
 			input.disable = function(){ 
-				this.touchTarget.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-disabled-'+color);
-				this.touchTarget.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-disabled-'+color);
-				this.touchTarget.innerElement.style.background = '#c0c0c0';
 				this.enabled = false;
-				this.setAttribute('disabled','disabled');
+				this.setAttribute('disabled','disabled');	
+				this.touchTarget.drawChecked();			
 			};
 			input.disable = input.disable.bind(input);
 			
