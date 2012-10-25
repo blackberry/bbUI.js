@@ -2812,7 +2812,7 @@ bb.titleBar = {
 									}
 								};
 				} else if (titleBar.onactionclick) {
-					button.onclick = onactionclick;
+					button.onclick = titleBar.onactionclick;
 				}
 				bb.titleBar.styleBB10Button(button);
 				button.style.right = '0px';
