@@ -5135,7 +5135,7 @@ _bb10_slider = {
 			outerElement.inner.addEventListener("touchend", outerElement.inner.animateEnd, false);
 			// Handle moving the slider
 			outerElement.moveSlider = function (event) {
-								if (this.isActivated === true  && dislider==false) { 
+								 if (this.isActivated === true  && dislider == false) { 
 									event.stopPropagation();
 									event.preventDefault();
 									this.transientXPos = this.currentXPos + event.touches[0].pageX - this.initialXPos;
@@ -5143,7 +5143,7 @@ _bb10_slider = {
 									this.notifyUpdated();
 									this.fill.style.width = this.transientXPos + 'px';
 									this.inner.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
-								}
+								 }
 							};
 			outerElement.moveSlider = outerElement.moveSlider.bind(outerElement);
 			// Handle sending event to person trapping

@@ -23,7 +23,7 @@
 			<img id="lightning" src="images/slider/lightning.png" style="width:552px;margin-top:-312px;"/>
 		</div>
 	</div>
-	<table style="margin:2px;">
+	<table style="margin:5px;">
 		<tr>
 			<td style="width:100px;"><img src="images/slider/moon.png"/></td>
 			<td style="width:100%"><input id="myslider" type="range" min="0" max="100" value="0" step="10" style="width:100%" onchange="document.getElementById('lightning').style.opacity = 1 - (parseInt(this.value)/100);"/></td>
@@ -31,14 +31,14 @@
 		</tr>
 	</table>
     
-	<div style="padding-top:20px">
+	<div style="padding-top:15px">
     
-		<div data-bb-type="button" data-bb-style="stretch"  onclick="moveSlider(myslider)" value="move"> Slide with a Timer </div>
-        <div data-bb-type="button" data-bb-style="stretch"  onclick="disableSlider(myslider)" value="disable">Disable Slider</div>
-        <div data-bb-type="button" data-bb-style="stretch"  onclick="enableSlider(myslider)" value="enable">Enable Slider</div>
-        <div data-bb-type="button" data-bb-style="stretch"  onclick="removeSlider(myslider)" value="remove">Remove Slider</div>
-        <div data-bb-type="button" data-bb-style="stretch"  onclick="hideSlider(myslider)" value="hide"> Hide Slider </div> 
-        <div data-bb-type="button" data-bb-style="stretch"  onclick="showSlider(myslider)" value="show"> Show Slider </div> 
+		 <div data-bb-type="button" data-bb-style="stretch" onclick="moveSlider(myslider)" value="move"> Slide with a Timer </div>
+         <div data-bb-type="button" data-bb-style="stretch" onclick="disableSlider(myslider)" value="disable">Disable Slider</div>
+         <div data-bb-type="button" data-bb-style="stretch" onclick="enableSlider(myslider)" value="enable">Enable Slider</div>
+         <div data-bb-type="button" data-bb-style="stretch" onclick="removeSlider(myslider)" value="remove">Remove Slider</div>
+         <div data-bb-type="button" data-bb-style="stretch" onclick="hideSlider(myslider)" value="hide"> Hide Slider </div> 
+         <div data-bb-type="button" data-bb-style="stretch" onclick="showSlider(myslider)" value="show"> Show Slider </div> 
 	
     </div>
 	
