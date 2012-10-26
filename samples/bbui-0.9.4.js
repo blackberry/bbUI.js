@@ -5000,7 +5000,7 @@ _bb10_radio = {
 	enableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
 		for( i = 0; i < radios.length; i++ ) {
-			radios[i].enable();
+			if (radios[i].type === 'radio') radios[i].enable();
 		}
 	},
 	
@@ -5008,7 +5008,7 @@ _bb10_radio = {
 	disableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
 		for( i = 0; i < radios.length; i++ ) {
-			radios[i].disable();
+			if (radios[i].type === 'radio') radios[i].disable();
 		}
 	}
 	
