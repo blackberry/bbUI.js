@@ -5000,8 +5000,7 @@ _bb10_radio = {
 	enableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
 		for( i = 0; i < radios.length; i++ ) {
-		   	radios[i].disabled = false;
-		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
+			radios[i].enable();
 		}
 	},
 	
@@ -5009,8 +5008,7 @@ _bb10_radio = {
 	disableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
 		for( i = 0; i < radios.length; i++ ) {
-		   	radios[i].disabled = true;
-		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
+			radios[i].disable();
 		}
 	}
 	
