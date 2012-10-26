@@ -7,7 +7,7 @@ Below you will find all the different changes that have been added since the fir
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions 
 	* **Toggle Buttons:** Added show(), hide(), remove() functions 
-	* **Radio Buttons:** Added enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
+	* **Radio Buttons:** Added show(), hide(), remove(), enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
 * Samples
 	* Updated samples for dynamic checkbox manipulation
 	* Updated samples for dynamic toggle button manipulation
