@@ -271,6 +271,7 @@ _bb10_radio = {
 					this.disabled = false;
 					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
 				};
+			input.enable = input.enable.bind(input);
 				
 			// Add our function to disable a radio button
 			input.disable = function() {
@@ -278,11 +279,13 @@ _bb10_radio = {
 					this.disabled = true;
 					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 				};
+			input.disable = input.disable.bind(input);
 			
 			//Add our function to check if an individual radio buttons in enabled
 			input.isEnabled = function() {
 					return (!this.disabled);
 				}
+			input.isEnabled = input.isEnabled.bind(input);
 		}
 		
 	},
