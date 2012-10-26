@@ -2812,7 +2812,7 @@ bb.titleBar = {
 									}
 								};
 				} else if (titleBar.onactionclick) {
-					button.onclick = onactionclick;
+					button.onclick = titleBar.onactionclick;
 				}
 				bb.titleBar.styleBB10Button(button);
 				button.style.right = '0px';
@@ -4873,7 +4873,7 @@ _bb10_radio = {
 											}
 										};
 			outerElement.onclick = function() {
-											if ((!this.input.checked) && (!this.input.disabled)) {
+											if (!this.input.checked) {
 												var evObj = document.createEvent('HTMLEvents');
 												evObj.initEvent('change', false, true );
 												this.dotDiv.style.background = this.dotDiv.highlight;
@@ -4955,25 +4955,6 @@ _bb10_radio = {
 						return this.checked;
 					};
 			input.setChecked = input.setChecked.bind(input);
-			
-			// Add our function to enable a radio button
-			input.enable = function() {
-					if (!this.disabled) return;
-					this.disabled = false;
-					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
-				};
-				
-			// Add our function to disable a radio button
-			input.disable = function() {
-					if (this.disabled) return;
-					this.disabled = true;
-					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
-				};
-			
-			//Add our function to check if an individual radio buttons in enabled
-			input.isEnabled = function() {
-					return (!this.disabled);
-				}
 		}
 		
 	},
@@ -4991,26 +4972,7 @@ _bb10_radio = {
 			dot.style.top = '20px';
 			dot.style.left = '20px';
 		}
-	},
-	
-	//Function to enable a group of radio buttons
-	enableGroup : function(groupName) {
-		var radios = document.getElementsByName( groupName );
-		for( i = 0; i < radios.length; i++ ) {
-		   	radios[i].disabled = false;
-		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
-		}
-	},
-	
-	//Function to disable a group of radio buttons
-	disableGroup : function(groupName) {
-		var radios = document.getElementsByName( groupName );
-		for( i = 0; i < radios.length; i++ ) {
-		   	radios[i].disabled = true;
-		   	radios[i].nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
-		}
 	}
-	
 };
 _bb10_roundPanel = {  
     apply: function(elements) {
