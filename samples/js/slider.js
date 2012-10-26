@@ -7,19 +7,23 @@
 *
 * http://www.apache.org/licenses/LICENSE-2.0
 *
+*
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+
+
 var dislider= false;
 var rmvSlider = false;
 
 
 function moveSlider(myslider){
 
-	if(dislider==false && rmvSlider==false){
+	if(dislider==false && rmvSlider==false){ 
 		var value,
 			step = 5,
 			max,
@@ -27,7 +31,7 @@ function moveSlider(myslider){
 			myslider = myslider;
 		slider = document.getElementById("myslider");
 		value = parseInt(slider.value);
-		step = parseInt(slider.step);
+		//step = parseInt(slider.step);
 		max = parseInt(slider.max);
 		if (value + step > max) return;
 		slider.setValue(value + step);	
@@ -48,6 +52,7 @@ function showSlider(myslider) {
 	
 	myslider = myslider;
 	document.getElementById('myslider').parentNode.style.display = 'block';
+	//document.getElementById('myslider').parentNode.style.style.position = 'absolute';  
 }
 
 
@@ -57,6 +62,13 @@ function disableSlider(myslider) {
 	myslider = myslider;
 	myslider.isActivated = false;
 	dislider = true; 
+
+	//This will disable all the children of the div
+	/*var nodes = document.getElementById('myslider').getElementsByTagName('bb-bb10-slider-hires');
+	for(var i = 0; i < nodes.length; i++)
+	{
+		 nodes[i].disabled = true;
+	}*/
 
 }
 

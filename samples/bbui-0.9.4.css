@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 
+
 body, html {
 	padding:0;
 	margin:0;
@@ -2386,7 +2387,7 @@ body, html {
 	overflow: hidden;
 	padding-right:40px;
 	display: block;
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 .bb-bb7-dropdown div {
@@ -2394,7 +2395,6 @@ body, html {
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAHCAYAAAA8sqwkAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sLDg41JLeOCwMAAACLSURBVBjTjY1NCsIwFITn1d27QigEs60niI10pW4UvKf0CMWgJ2i3kdxkXFloQOk3u/lh5Hg6cxonrKHZNahUFWtRVQhBHELHlNLfsnMOjziIEAQAhNDx/WO0dQ4xDgIA8wAA9j4w57woW2vxfEWZDRbyvqUxNY2p6X3LMl88fLlebqw2gr6/S5l9AEmQPAvlqOifAAAAAElFTkSuQmCC");
 	background-repeat: no-repeat;
 	background-position: center right;
-	padding-top: 20px;
 }
 
 .bb-bb7-dropdown-hires {
@@ -2435,6 +2435,7 @@ body, html {
 		overflow: hidden;
 		padding-right:40px;
 		display: block;
+		padding-top: 10px;
 	}
 
 .dropdown-stretch{
