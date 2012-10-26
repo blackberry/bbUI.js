@@ -28,23 +28,32 @@
 		<table>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice One</td>
-				<td class="cell" ><input type="radio" name="group1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" ><input type="radio" name="group1" id="control1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
+				<td class="cell">Enabled</td>
+				<td class="cell"><input type="checkbox" checked="true" onchange="if (this.checked){ document.getElementById('control1').enable();} else { document.getElementById('control1').disable();}" /></td>
+				</td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
-				<td class="cell"><input type="radio" name="group1" value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3"><input type="radio" name="group1"  value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Three</td>
-				<td class="cell"><input type="radio" name="group1" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3"><input type="radio" name="group1" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
 			</tr>
 		</table>
 		
 		<div >
 			<h2>You clicked:&nbsp;<span id="value">one</span></h2>
 		</div>
+		
+		<table>
+			<tr>
+				<td>Radio group enabled</td>
+				<td><input type="checkbox" checked="true" onchange="if (this.checked){bb.radio.enableGroup('group1');} else { bb.radio.disableGroup('group1');}" /></td>
+			</tr>
+		</table>
 	</div>
-	
+
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
-	

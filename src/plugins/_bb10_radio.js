@@ -182,7 +182,7 @@ _bb10_radio = {
 											}
 										};
 			outerElement.onclick = function() {
-											if (!this.input.checked) {
+											if ((!this.input.checked) && (!this.input.disabled)) {
 												var evObj = document.createEvent('HTMLEvents');
 												evObj.initEvent('change', false, true );
 												this.dotDiv.style.background = this.dotDiv.highlight;
@@ -264,6 +264,28 @@ _bb10_radio = {
 						return this.checked;
 					};
 			input.setChecked = input.setChecked.bind(input);
+			
+			// Add our function to enable a radio button
+			input.enable = function() {
+					if (!this.disabled) return;
+					this.disabled = false;
+					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
+				};
+			input.enable = input.enable.bind(input);
+				
+			// Add our function to disable a radio button
+			input.disable = function() {
+					if (this.disabled) return;
+					this.disabled = true;
+					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
+				};
+			input.disable = input.disable.bind(input);
+			
+			//Add our function to check if an individual radio buttons in enabled
+			input.isEnabled = function() {
+					return (!this.disabled);
+				}
+			input.isEnabled = input.isEnabled.bind(input);
 		}
 		
 	},
@@ -281,5 +303,22 @@ _bb10_radio = {
 			dot.style.top = '20px';
 			dot.style.left = '20px';
 		}
+	},
+	
+	//Function to enable a group of radio buttons
+	enableGroup : function(groupName) {
+		var radios = document.getElementsByName( groupName );
+		for( i = 0; i < radios.length; i++ ) {
+			if (radios[i].type === 'radio') radios[i].enable();
+		}
+	},
+	
+	//Function to disable a group of radio buttons
+	disableGroup : function(groupName) {
+		var radios = document.getElementsByName( groupName );
+		for( i = 0; i < radios.length; i++ ) {
+			if (radios[i].type === 'radio') radios[i].disable();
+		}
 	}
+	
 };
