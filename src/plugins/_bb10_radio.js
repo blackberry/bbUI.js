@@ -286,8 +286,28 @@ _bb10_radio = {
 					return (!this.disabled);
 				}
 			input.isEnabled = input.isEnabled.bind(input);
-		}
-		
+			
+			// Add our show function
+			input.show = function() {
+				this.outerElement.style.display = 'block';
+				bb.refresh();
+				};
+			input.show = input.show.bind(input);
+			
+			// Add our hide function
+			input.hide = function() {
+				this.outerElement.style.display = 'none';
+				bb.refresh();
+				};
+			input.hide = input.hide.bind(input);
+			
+			// Add our remove function
+			input.remove = function() {
+				this.outerElement.parentNode.removeChild(this.outerElement);
+				bb.refresh();
+				};
+			input.remove = input.remove.bind(input);
+		}		
 	},
 	
 	resetDot : function(dot) {

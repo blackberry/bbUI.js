@@ -16,6 +16,7 @@
 -->
 <div style="background-color: #252525;color:white;" data-bb-type="screen" data-bb-effect="slide-up">
 	<div data-bb-type="title" data-bb-caption="Radio buttons" data-bb-back-caption="Back" ></div>
+    <script id="checkboxesJS" src="js/radio.js"></script>
 	<style>
 		.cell {
 			line-height: 100px;
@@ -35,11 +36,11 @@
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
-				<td class="cell" colspan="3"><input type="radio" name="group1"  value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3"><input type="radio" name="group1" id="control2" value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Three</td>
-				<td class="cell" colspan="3"><input type="radio" name="group1" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3"><input type="radio" name="group1" id="control3" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
 			</tr>
 		</table>
 		
@@ -55,5 +56,11 @@
 		</table>
 	</div>
 
+	<div data-bb-type="round-panel" style="background-color: #252525"> 
+		<div data-bb-type="panel-header">BB10 Radio Functions</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="hideRadios()" id="hide">Hide Radios</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="showRadios()" id="show">Show Radios</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="removeRadios()" id="remove">Remove Radios</div>
+	</div>
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
