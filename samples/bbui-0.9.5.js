@@ -5235,22 +5235,25 @@ _bb10_textInput = {
 			outerElement.setAttribute('class', outerElement.normal);
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
-			outerElement.addEventListener('keyup', function() {
-														if (this.tagName === "TEXTAREA"){
-															this.style.height = 'auto';
-													   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
-													   		this.style.height = newHeight.toString() + 'px';
-													   		this.style.overflowY='hidden';
-														}
-													}, false);
-			outerElement.addEventListener('keypress', function() {
-														if (this.tagName === "TEXTAREA"){
-															this.style.height = 'auto';
-													   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
-													   		this.style.height = newHeight.toString() + 'px';
-													   		this.style.overflowY='hidden';
-														}
-													}, false);
+			
+			if (outerElement.tagName === "TEXTAREA"){
+				outerElement.addEventListener('keyup', function() {														
+																this.style.height = 'auto';
+														   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
+														   		this.style.height = newHeight.toString() + 'px';
+														   		this.style.overflowY='hidden';														
+														}, false);
+			}
+			
+			if (outerElement.tagName === "TEXTAREA"){
+				outerElement.addEventListener('keypress', function() {														
+																this.style.height = 'auto';
+														   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
+														   		this.style.height = newHeight.toString() + 'px';
+														   		this.style.overflowY='hidden';														
+														}, false);
+			}
+													
 			outerElement.addEventListener('focus', function() {
 														if(this.readOnly == false) {
 															this.setAttribute('class',this.focused);
