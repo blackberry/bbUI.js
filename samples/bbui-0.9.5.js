@@ -5241,7 +5241,8 @@ _bb10_textInput = {
 																this.style.height = 'auto';
 														   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
 														   		this.style.height = newHeight.toString() + 'px';
-														   		this.style.overflowY='hidden';														
+														   		this.style.overflowY='hidden';
+														   		bb.refresh();														
 														}, false);
 			}
 			
@@ -5250,7 +5251,8 @@ _bb10_textInput = {
 																this.style.height = 'auto';
 														   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
 														   		this.style.height = newHeight.toString() + 'px';
-														   		this.style.overflowY='hidden';														
+														   		this.style.overflowY='hidden';
+														   		bb.refresh();														
 														}, false);
 			}
 													
