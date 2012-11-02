@@ -973,6 +973,10 @@ bb.actionBar = {
 									// Compute margins
 									margins = (actionType == 'tab') ? 2 : 0;
 									action.style.width = (actionWidth - margins) + 'px'; 
+									if (action.highlight) {
+										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
+										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
+									}
 								}
 								// Adjust our more button
 								if (this.moreBtn && (this.shownActions.length > 0)) {
