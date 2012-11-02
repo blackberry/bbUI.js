@@ -811,7 +811,8 @@ bb.actionBar = {
 		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {		
 			var chevron,
 				backCaption,
-				backslash;
+				backslash,
+				backHighlight;
 			backBtn = document.createElement('div');
 			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color);
 			backBtn.onclick = bb.popScreen;
@@ -825,6 +826,23 @@ bb.actionBar = {
 			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res);
 			backCaption.innerHTML = actionBar.getAttribute('data-bb-back-caption');
 			backBtn.appendChild(backCaption);
+			// Create our highlight for touch
+			backHighlight = document.createElement('div');
+			backHighlight.setAttribute('class','bb-bb10-action-bar-back-button-highlight');
+			backHighlight.style['position'] = 'absolute';
+			backHighlight.style['height'] = bb.device.isPlayBook ? '57px' : '110px';
+			backHighlight.style['width'] = bb.device.isPlayBook ? '4px' : '8px';
+			backHighlight.style['background-color'] = 'transparent';
+			backHighlight.style['top'] = bb.device.isPlayBook ? '8px' : '15px';
+			backBtn.backHighlight = backHighlight;
+			backBtn.appendChild(backHighlight);
+			backBtn.ontouchstart = function() {
+					this.backHighlight.style['background-color'] = bb.options.highlightColor;				
+			}
+			backBtn.ontouchend = function() {
+					this.backHighlight.style['background-color'] = 'transparent';				
+			}
+			
 			// Create our backslash
 			backslash = document.createElement('div');
 			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color); 
@@ -1169,6 +1187,15 @@ bb.actionBar = {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
 				
+				// Highlight on touch
+				action.ontouchstart = function() {
+						this.highlight.style['background-color'] = bb.options.highlightColor;				
+				}
+				// Remove highlight when touch ends
+				action.ontouchend = function() {
+						this.highlight.style['background-color'] = 'transparent';				
+				}
+				
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
@@ -1181,11 +1208,9 @@ bb.actionBar = {
 								};
 				action.setImage = action.setImage.bind(action);
 			}
-			
-			
+			// Default settings
 			action.innerHTML = '';
 			action.setAttribute('class',action.normal);
-			
 			action.appendChild(icon);
 			lastStyle = 'button';
 			
@@ -1194,7 +1219,18 @@ bb.actionBar = {
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
 			action.display = display;
-			action.appendChild(display);	
+			action.appendChild(display);
+
+			// Set our highlight
+			if (action.getAttribute('data-bb-img') != 'overflow') {
+				action.highlight = document.createElement('div');
+				action.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
+				action.highlight.style['height'] = bb.device.isPlayBook ? '4px' : '8px';
+				action.highlight.style['width'] = (btnWidth * 0.6) + 'px';
+				action.highlight.style['margin-left'] = (btnWidth * 0.2) + 'px';
+				action.highlight.style['background-color'] = 'transparent';
+				action.appendChild(action.highlight);
+			}
 		}
 		// Center the action overflow items
 		if (actionBar.menu) {
@@ -2120,7 +2156,7 @@ bb.screen = {
 				
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
-				outerScrollArea.appendChild(scrollArea); 			
+				outerScrollArea.appendChild(scrollArea); 				
 				
 				// Copy all nodes in the screen that are not the action bar
 				for (j = 0; j < outerElement.childNodes.length - 1; j++) {
@@ -5235,6 +5271,7 @@ _bb10_textInput = {
 			outerElement.setAttribute('class', outerElement.normal);
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
+			
 			outerElement.addEventListener('focus', function() {
 														if(this.readOnly == false) {
 															this.setAttribute('class',this.focused);

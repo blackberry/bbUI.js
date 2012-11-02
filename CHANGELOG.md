@@ -4,6 +4,8 @@ Below you will find all the different changes that have been added since the fir
 
 ## Version 0.9.5
 
+* BlackBerry 10 Styling
+	* Updated Action Bar back button and "button actions" to have a highlight when touched
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions 
 	* **Toggle Buttons:** Added show(), hide(), remove() functions 

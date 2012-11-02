@@ -4627,6 +4627,12 @@ a.bb5-button-highlight span {
 	margin-top: 3px;
 }
 
+.bb-bb10-action-bar-action-highlight
+{
+	position:absolute;
+	top: 0px;
+}
+
 .bb-bb10-action-bar-action-display-hires
 {
 	font-size:20pt;
@@ -4681,6 +4687,7 @@ a.bb5-button-highlight span {
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#FBFBFB), to(#E6E6E6));
 }
+
 
 .bb-bb10-action-bar-back-button-lowres
 {
