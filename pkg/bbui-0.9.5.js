@@ -4000,6 +4000,7 @@ _bb10_grid = {
 					else if (type == 'row') {
 						var k,
 							table,
+							columnCount = 0,
 							tr,
 							td,
 							numItems,
@@ -4011,10 +4012,16 @@ _bb10_grid = {
 							height,
 							width,
 							hasOverlay,
+							hardCodedColumnNum = -1, // none specified
 							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
 						
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
+						
+						// See if they specified the number of items per column
+						if (innerChildNode.hasAttribute('data-bb-columns')) {
+							hardCodedColumnNum = innerChildNode.getAttribute('data-bb-columns');
+						}
 						
 						table = document.createElement('table');
 						table.style.width = '100%';
@@ -4022,8 +4029,22 @@ _bb10_grid = {
 						tr = document.createElement('tr');
 						table.appendChild(tr);
 
+						// Calculate the width
+						if (hardCodedColumnNum > 0) {
+							width = (window.innerWidth/hardCodedColumnNum) - 6;
+						} else {
+							width = (window.innerWidth/numItems) - 6;
+						}
+							
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
+							
+							// Do not show more than the hardcoded number of items
+							if ((hardCodedColumnNum > 0) && ((k-1) > hardCodedColumnNum)) {
+								itemNode.style.display = 'none';
+								continue;
+							}
+							
 							subtitle = itemNode.innerHTML;
 							title = itemNode.getAttribute('data-bb-title');
 							hasOverlay = (subtitle || title);
@@ -4032,8 +4053,8 @@ _bb10_grid = {
 							td = document.createElement('td');
 							tr.appendChild(td);
 							td.appendChild(itemNode);
-							// deal with our margins
-							width = (window.innerWidth/numItems) - 6;
+							columnCount++;
+							
 							// Find out how to size the images
 							if (outerElement.isSquare) {
 								height = width;
@@ -4089,7 +4110,8 @@ _bb10_grid = {
 													};
 							itemNode.ontouchend = function() {
 														if (this.overlay) {
-															this.overlay.style = '';
+															this.overlay.style['opacity'] = '';
+							                                this.overlay.style['background-color'] = '';
 														}
 														itemNode.fingerDown = false;
 														if (itemNode.contextShown) {
@@ -4105,6 +4127,18 @@ _bb10_grid = {
 														};
 							itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
 						}
+						
+						// if there were hardcoded columns and not enough items to fit those columns, add the extra columns
+						if ((hardCodedColumnNum > 0) && (columnCount < hardCodedColumnNum)) {
+							var diff = hardCodedColumnNum - columnCount;
+							innerChildNode.extraColumns = [];
+							for (k = 0; k < diff; k++) {
+								td = document.createElement('td');
+								tr.appendChild(td);
+								td.style.width = width + 'px';
+								innerChildNode.extraColumns.push(td);
+							}
+						}
 					}
 				}
 			}
@@ -4114,17 +4148,33 @@ _bb10_grid = {
 									var items = this.querySelectorAll('[data-bb-type=row]'),
 										i,j,
 										rowItems,
+										row,
 										numItems,
 										itemNode,
 										width,
 										height;
 				
 									for (i = 0; i < items.length; i++) {
-										rowItems = items[i].querySelectorAll('[data-bb-type=item]');
+										var hardCodedColumnNum = -1;
+										row = items[i];
+										rowItems = row.querySelectorAll('[data-bb-type=item]');
 										numItems = rowItems.length;
+										
+										// See if they specified the number of items per column
+										if (row.hasAttribute('data-bb-columns')) {
+											hardCodedColumnNum = row.getAttribute('data-bb-columns');
+										}
+										
+										// Calculate the width
+										if (hardCodedColumnNum > 0) {
+											width = (window.innerWidth/hardCodedColumnNum) - 6;
+										} else {
+											width = (window.innerWidth/numItems) - 6;
+										}										
+										
+										// Adjust all the items
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];
-											width = (window.innerWidth/numItems) - 6;
 											if (outerElement.isSquare) {
 												height = width;
 											} else {
@@ -4143,6 +4193,13 @@ _bb10_grid = {
 											itemNode.style['-webkit-transition-duration'] = '0.2s';
 											itemNode.style['-webkit-transition-timing-function'] = 'linear';
 											itemNode.style['-webkit-transform'] = 'translate3d(0,0,0)';
+										}
+										
+										// Adjust the extra columns if there was hard coded columns that were not filled
+										if (row.extraColumns) {
+											for (j = 0; j < row.extraColumns.length;j++) {
+												row.extraColumns[j].style.width = width + 'px';
+											}
 										}
 									}
 								};
