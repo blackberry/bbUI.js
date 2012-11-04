@@ -158,11 +158,33 @@ bb.titleBar = {
 			}
 		} else {
 			if (titleBar.hasAttribute('data-bb-caption')) {
-				if (bb.device.isHiRes) {
-					titleBar.setAttribute('class', 'bb-hires-screen-title');
-				} else {
-					titleBar.setAttribute('class', 'bb-lowres-screen-title');
-				}
+
+				// Assign the set and get Caption functions
+				titleBar.setCaption = function(value) {
+
+					if(!value){
+
+						value = this.getAttribute('data-bb-caption');
+						this.innerHTML = value;
+						return;
+					}
+					this.setAttribute('data-bb-caption', value);
+					this.innerHTML = value;
+				};
+
+				titleBar.setCaption = titleBar.setCaption.bind(titleBar);
+
+				// Assign the setCaption function
+				titleBar.getCaption = function(value) {
+						return this.innerHTML = value;
+					};
+				titleBar.getCaption = titleBar.getCaption.bind(titleBar);
+				
+			if (bb.device.isHiRes) {
+				titleBar.setAttribute('class', 'bb-hires-screen-title');
+			} else {
+				titleBar.setAttribute('class', 'bb-lowres-screen-title');
+			}
 				titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
 			}
 		}
