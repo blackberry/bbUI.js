@@ -161,6 +161,13 @@ bb.titleBar = {
 
 				// Assign the set and get Caption functions
 				titleBar.setCaption = function(value) {
+					
+					if(!value){
+
+						value = this.getAttribute('data-bb-caption');
+						this.innerHTML = value;
+						return;
+					}
 						this.setAttribute('data-bb-caption', value);
 						this.innerHTML = value;
 					};
