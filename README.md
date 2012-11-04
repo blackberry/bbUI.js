@@ -1,6 +1,6 @@
 ![logo](https://raw.github.com/wiki/blackberry/bbUI.js/images/bbUI_100x403.png)
 
-_**Current version: 0.9.4 BETA**_ 
+_**Current version: 0.9.5 BETA**_ 
 
 The objective of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
@@ -28,6 +28,9 @@ JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus i
 * [Justin Tokarchuk](https://github.com/jtokarchuk) follow me on Twitter [@jtokarchuk](https://twitter.com/#!/jtokarchuk)
 * [James Blashill](https://github.com/jblashill) 
 * [Jerome Carty](https://github.com/jcarty) follow me on Twitter [@jcarty](https://twitter.com/#!/jcarty)
+* [Karan Khiani](https://github.com/karancan) 
+* [Justin DaSilva](https://github.com/lyricidal) follow me on Twitter [@theiexplorers](https://twitter.com/theiexplorers)
+* [Arturo Linares](https://github.com/arturolinares) follow me on Twitter [@arturo_linares](https://twitter.com/arturo_linares)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).

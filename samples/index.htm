@@ -18,8 +18,8 @@
 <html> 
 	<head>
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
-		<link  rel="stylesheet" type="text/css" href="bbui-0.9.4.css"><link />
-		<script type="text/javascript" src="bbui-0.9.4.js"></script>
+		<link  rel="stylesheet" type="text/css" href="bbui-0.9.5.css"><link />
+		<script type="text/javascript" src="bbui-0.9.5.js"></script>
 		<script type="text/javascript" src="js/webworks-1.0.2.9.js"></script>
 		<script type="text/javascript">
 			document.addEventListener('webworksready', function(e) {
@@ -53,18 +53,20 @@
 											}
 											
 											// Remove all titles "except" input and pill buttons screen if running on BB10
-											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
+											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons') && (id != 'titlePillButtons')) {
 												var titles = element.querySelectorAll('[data-bb-type=title]');
 												if (titles.length > 0) {
 													titles[0].parentNode.removeChild(titles[0]);
 												}
-											}
+											} 
 											
 										},
 						// Fires "after" styling is applied and "after" the screen is inserted in the DOM
 						ondomready: function(element, id) {
 											if (id == 'dataOnTheFly') {
 												dataOnTheFly_initialLoad(element);
+											} else if (bb.device.isBB10 && (id == 'titlePillButtons')) {
+												titlePillButtons_Init();
 											}
 										}
 						});

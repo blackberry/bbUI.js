@@ -1410,6 +1410,30 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 }
 
+.bb-bb10-checkbox-outer-disabled-dark
+{
+	border-color: #333333;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#E3E3E3), to(#E3E3E3));
+}
+
+.bb-bb10-checkbox-outer-disabled-light
+{
+	border-color: #a1a1a1;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#E3E3E3), to(#E3E3E3));
+}
+
+.bb-bb10-checkbox-inner-disabled-dark
+{
+	border-color: #d3d3d3;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#262626), to(#262626));
+}
+
+.bb-bb10-checkbox-inner-disabled-light
+{
+	border-color: #d3d3d3;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#c0c0c0), to(#c0c0c0));
+}
+
 
 /* ================================================= 
    File Input buttons
@@ -2655,6 +2679,20 @@ a.bb5-button-highlight span {
 
 .bb-bb10-radio-dot-hires
 {
+	height: 40px;
+	width: 40px;
+	border-radius: 20px;	
+	z-index:0;
+	top: 19px;
+	left: 19px;
+	position:relative;
+	display:block;
+}
+
+.bb-bb10-radio-dot-hires-disabled
+{
+	background-image: -webkit-linear-gradient(top, rgba(89,89,89,0.5) 0%, rgba(89,89,89,0.5) 100%) !important;
+	background: rgba(89,89,89,0.5);
 	height: 40px;
 	width: 40px;
 	border-radius: 20px;	
@@ -4589,6 +4627,12 @@ a.bb5-button-highlight span {
 	margin-top: 3px;
 }
 
+.bb-bb10-action-bar-action-highlight
+{
+	position:absolute;
+	top: 0px;
+}
+
 .bb-bb10-action-bar-action-display-hires
 {
 	font-size:20pt;
@@ -4643,6 +4687,7 @@ a.bb5-button-highlight span {
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#FBFBFB), to(#E6E6E6));
 }
+
 
 .bb-bb10-action-bar-back-button-lowres
 {
@@ -5292,6 +5337,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 
