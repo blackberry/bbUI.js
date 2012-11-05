@@ -215,15 +215,13 @@ _bb10_toggle = {
 			
 			// Add setOnCaption function
 			outerElement.setOnCaption = function(value) {
-				this.yes.innerHTML = value;
-				bb.refresh();
+				this.yes.innerHTML = value;				
 					};
 			outerElement.setOnCaption = outerElement.setOnCaption.bind(outerElement);
 			
 			// Add setOffCaption function
 			outerElement.setOffCaption = function(value) {
-				this.no.innerHTML = value;
-				bb.refresh();
+				this.no.innerHTML = value;				
 					};
 			outerElement.setOffCaption = outerElement.setOffCaption.bind(outerElement);
 			

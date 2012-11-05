@@ -243,8 +243,7 @@ bb.actionBar = {
 		// Add setBackCaption function
 		actionBar.setBackCaption = function(value) {
 				this.setAttribute('data-bb-back-caption',value);
-				backCaption.innerHTML = value;
-				bb.refresh();
+				backCaption.innerHTML = value;		
 							};
 		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
 		
