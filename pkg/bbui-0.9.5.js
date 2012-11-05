@@ -2081,6 +2081,27 @@ _bb_progress = {
 						};
 			progress.setState = progress.setState.bind(progress);
 			
+			// Add our show function
+			progress.show = function() {
+				this.outerElement.style.display = 'block';
+				bb.refresh();
+					};
+			progress.show = progress.show.bind(progress);
+			
+			// Add our hide function
+			progress.hide = function() {
+				this.outerElement.style.display = 'none';
+				bb.refresh();
+					};
+			progress.hide = progress.hide.bind(progress);
+			
+			// Add remove function
+			progress.remove = function() {
+				this.outerElement.parentNode.removeChild(this.outerElement);
+				bb.refresh();
+					};
+			progress.remove = progress.remove.bind(progress);
+						
 			// Set our value on a timeout so that it can calculate width once in the DOM
 			window.setTimeout(progress.setValue, 0);
 			outerElement.doOrientationChange = function() {
@@ -4216,6 +4237,27 @@ _bb10_grid = {
 								};
 			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
 			window.addEventListener('resize', outerElement.orientationChanged,false); 
+			
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}		
     }
 };
