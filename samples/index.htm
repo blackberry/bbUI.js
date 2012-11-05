@@ -1,7 +1,7 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <!--
-* Copyright 2010-2011 Research In Motion Limited.
+* Copyright 2010-2012 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,7 +22,12 @@
 		<script type="text/javascript" src="bbui-0.9.5.js"></script>
 		<script type="text/javascript" src="js/webworks-1.0.2.9.js"></script>
 		<script type="text/javascript">
+			var rippleLoaded = false;
 			document.addEventListener('webworksready', function(e) {
+				// This is a hack for Ripple calling webworksready multiple times
+				if (rippleLoaded) return;
+				rippleLoaded = true;
+				
 				// For some fun I did some random color scheme generation :o)
 				var highlightColor,
 					randomNumber;
@@ -42,7 +47,7 @@
 				bb.init({actionBarDark: true,
 						controlsDark: true,
 						listsDark: false,
-						bb10ForPlayBook: false,
+						bb10ForPlayBook: true,
 						highlightColor: highlightColor,
 						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
 						onscreenready: function(element, id) {
@@ -60,14 +65,17 @@
 												}
 											} 
 											
+											// Initialize our title pill buttons screen
+											if (bb.device.isBB10 && (id == 'titlePillButtons')) {
+												titlePillButtons_Init(element);
+											}
+											
 										},
 						// Fires "after" styling is applied and "after" the screen is inserted in the DOM
 						ondomready: function(element, id) {
 											if (id == 'dataOnTheFly') {
 												dataOnTheFly_initialLoad(element);
-											} else if (bb.device.isBB10 && (id == 'titlePillButtons')) {
-												titlePillButtons_Init();
-											}
+											} 
 										}
 						});
 				bb.pushScreen('menu.htm', 'menu');
