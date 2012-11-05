@@ -213,6 +213,20 @@ _bb10_toggle = {
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
 			
+			// Add setOnCaption function
+			outerElement.setOnCaption = function(value) {
+				this.yes.innerHTML = value;
+				bb.refresh();
+					};
+			outerElement.setOnCaption = outerElement.setOnCaption.bind(outerElement);
+			
+			// Add setOffCaption function
+			outerElement.setOffCaption = function(value) {
+				this.no.innerHTML = value;
+				bb.refresh();
+					};
+			outerElement.setOffCaption = outerElement.setOffCaption.bind(outerElement);
+			
 			// set our checked state
 			outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
 			setTimeout(outerElement.positionButton,0);

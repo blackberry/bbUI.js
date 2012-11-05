@@ -989,7 +989,15 @@ bb.actionBar = {
 								}
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
-		window.addEventListener('orientationchange', actionBar.orientationChanged,false); 
+		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
+		
+		// Add setBackCaption function
+		actionBar.setBackCaption = function(value) {
+				this.setAttribute('data-bb-back-caption',value);
+				backCaption.innerHTML = value;
+				bb.refresh();
+							};
+		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {
@@ -2160,7 +2168,7 @@ bb.screen = {
 				
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
-				outerScrollArea.appendChild(scrollArea); 				
+				outerScrollArea.appendChild(scrollArea); 			
 				
 				// Copy all nodes in the screen that are not the action bar
 				for (j = 0; j < outerElement.childNodes.length - 1; j++) {
@@ -5332,7 +5340,6 @@ _bb10_textInput = {
 			outerElement.setAttribute('class', outerElement.normal);
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
-			
 			outerElement.addEventListener('focus', function() {
 														if(this.readOnly == false) {
 															this.setAttribute('class',this.focused);
@@ -5585,6 +5592,20 @@ _bb10_toggle = {
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
+			
+			// Add setOnCaption function
+			outerElement.setOnCaption = function(value) {
+				this.yes.innerHTML = value;
+				bb.refresh();
+					};
+			outerElement.setOnCaption = outerElement.setOnCaption.bind(outerElement);
+			
+			// Add setOffCaption function
+			outerElement.setOffCaption = function(value) {
+				this.no.innerHTML = value;
+				bb.refresh();
+					};
+			outerElement.setOffCaption = outerElement.setOffCaption.bind(outerElement);
 			
 			// set our checked state
 			outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
@@ -7315,6 +7336,27 @@ _bb_PlayBook_10_scrollPanel = {
 				outerElement.scroller = null;
 				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
 			}
+			
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 			
 			// Set refresh
 			outerElement.refresh = function() {
