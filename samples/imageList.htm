@@ -17,7 +17,7 @@
 <div data-bb-type="screen" data-bb-effect="fade">
 	<div data-bb-type="title" data-bb-caption="Image List" data-bb-back-caption="Back" ></div>
 	
-	<div data-bb-type="image-list" data-bb-image-effect="fade" data-bb-image-placeholder="images/imageList/placeholder.jpg">
+	<div data-bb-type="image-list" data-bb-image-effect="fade" data-bb-image-placeholder="images/imageList/placeholder.jpg" id="myImageList">
 		<div data-bb-type="item" data-bb-img="images/imageList/1.jpg" data-bb-title="The Works" data-bb-accent-text="999 years ago">Item with all the options</div>
 		<div data-bb-type="item" data-bb-img="images/imageList/fibbidyfoo.jpg" data-bb-title="Broken Image URL">A placeholder image example</div> 		
 		<div data-bb-type="item" data-bb-img="images/imageList/2.jpg" data-bb-title="No Accent Text">Item with no accent text</div>		
@@ -30,6 +30,13 @@
 		<div data-bb-type="item" data-bb-img="images/imageList/7.jpg" data-bb-title="Fisheye">Cool camera lense</div> 
 		<div data-bb-type="item" data-bb-img="images/imageList/8.jpg" data-bb-title="Shiny Engine">Like a jewel in a case</div> 
 		<div data-bb-type="item" data-bb-img="images/imageList/9.jpg" data-bb-title="Custom Touch">Did I mention I like orange?</div> 
+	</div>
+    
+    <div data-bb-type="round-panel" style="background-color: #252525"> 
+		<div data-bb-type="panel-header">Image List Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').hide();" id="hide">Hide Image List</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').show();" id="show">Show Image List</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').remove();" id="remove">Remove Image List</div>        
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
