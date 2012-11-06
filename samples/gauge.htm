@@ -27,6 +27,9 @@
 		<div id="pause" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').setState(bb.progress.PAUSED);">Pause</div>
 		<div id="error" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').setState(bb.progress.ERROR);">Simulate Error</div>
 		<div id="reset" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="percent=4;document.getElementById('progress').setValue(0);">Reset</div>
+        <div id="show" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="document.getElementById('progress').show();">Show</div>
+		<div id="hide" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="document.getElementById('progress').hide();">Hide</div>
+		<div id="remove" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="document.getElementById('progress').remove();">Remove</div>
 	</div>
 	
 	<div style="margin:20px;">

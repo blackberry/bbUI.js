@@ -30,3 +30,12 @@ function removeToggle(){
 	document.getElementById('choiceTwo').remove();
 	document.getElementById('choiceThree').remove();
 }
+
+function changeCaptions(){
+	document.getElementById('choiceOne').setOffCaption('Non');
+	document.getElementById('choiceOne').setOnCaption('Oui');
+	document.getElementById('choiceTwo').setOffCaption('No');
+	document.getElementById('choiceTwo').setOnCaption('Yes');
+	document.getElementById('choiceThree').setOffCaption('Off');
+	document.getElementById('choiceThree').setOnCaption('On');
+}

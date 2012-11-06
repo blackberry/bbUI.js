@@ -20,7 +20,7 @@
 		<p style="text-align:center">Scroll the list below in a fixed area</p>
 	</div>
 	<div data-bb-type="round-panel">
-		<div data-bb-type="scroll-panel" style="height:400px;">
+		<div data-bb-type="scroll-panel" style="height:400px;" id="myPanel">
 			<div data-bb-type="image-list" data-bb-image-effect="fade" data-bb-image-placeholder="images/imageList/placeholder.jpg">
 				<div data-bb-type="item" data-bb-img="images/imageList/1.jpg" data-bb-title="The Works" data-bb-accent-text="999 years ago">Item with all the options</div>		
 				<div data-bb-type="item" data-bb-img="images/imageList/2.jpg" data-bb-title="No Accent Text">Item with no accent text</div>		
@@ -34,6 +34,13 @@
 				<div data-bb-type="item" data-bb-img="images/imageList/9.jpg" data-bb-title="Custom Touch">Did I mention I like orange?</div> 
 			</div>
 		</div>
+	</div>
+    
+    <div data-bb-type="round-panel" style="background-color: #252525"> 
+	<div data-bb-type="panel-header">Scroll Panel Functions</div>
+	<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPanel').hide();" id="hide">Hide Scroll Panel</div>
+    <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPanel').show();" id="show">Show Scroll Panel</div>
+    <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPanel').remove();" id="remove">Remove Scroll Panel</div>        
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
