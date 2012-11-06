@@ -9,11 +9,18 @@ Below you will find all the different changes that have been added since the fir
 	* Updated grids to allow for a specified number of columns in a row
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions 
-	* **Toggle Buttons:** Added show(), hide(), remove() functions 
+	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption() functions 
 	* **Radio Buttons:** Added show(), hide(), remove(), enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
+	* **Action Bars:** Added setBackCaption()
+	* **Scroll Panels:** Added show(), hide(), remove() functions
+	* **Grid Lists:** Added show(), hide(), remove() functions
+	* **Progress Indicator:** Added show(), hide(), remove() functions
+	* **Pill Buttons:** Added show(), hide(), remove() functions
+	* **Control Groups/Round Panels:** Added show(), hide(), remove() functions
+	* **Image Lists:** Added show(), hide(), remove() functions
 * Samples
-	* Updated samples for dynamic checkbox manipulation
-	* Updated samples for dynamic toggle button manipulation
+	* Updated samples for dynamic control manipulation
+	* Added sample to show how to make static pill buttons in your title area
 
 
 ## Version 0.9.4
