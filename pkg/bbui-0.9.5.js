@@ -989,7 +989,14 @@ bb.actionBar = {
 								}
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
-		window.addEventListener('orientationchange', actionBar.orientationChanged,false); 
+		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
+		
+		// Add setBackCaption function
+		actionBar.setBackCaption = function(value) {
+				this.setAttribute('data-bb-back-caption',value);
+				backCaption.innerHTML = value;		
+							};
+		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {
@@ -2074,6 +2081,27 @@ _bb_progress = {
 						};
 			progress.setState = progress.setState.bind(progress);
 			
+			// Add our show function
+			progress.show = function() {
+				this.outerElement.style.display = 'block';
+				bb.refresh();
+					};
+			progress.show = progress.show.bind(progress);
+			
+			// Add our hide function
+			progress.hide = function() {
+				this.outerElement.style.display = 'none';
+				bb.refresh();
+					};
+			progress.hide = progress.hide.bind(progress);
+			
+			// Add remove function
+			progress.remove = function() {
+				this.outerElement.parentNode.removeChild(this.outerElement);
+				bb.refresh();
+					};
+			progress.remove = progress.remove.bind(progress);
+						
 			// Set our value on a timeout so that it can calculate width once in the DOM
 			window.setTimeout(progress.setValue, 0);
 			outerElement.doOrientationChange = function() {
@@ -2160,7 +2188,7 @@ bb.screen = {
 				
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
-				outerScrollArea.appendChild(scrollArea); 				
+				outerScrollArea.appendChild(scrollArea); 			
 				
 				// Copy all nodes in the screen that are not the action bar
 				for (j = 0; j < outerElement.childNodes.length - 1; j++) {
@@ -4209,6 +4237,27 @@ _bb10_grid = {
 								};
 			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
 			window.addEventListener('resize', outerElement.orientationChanged,false); 
+			
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}		
     }
 };
@@ -4624,6 +4673,26 @@ _bb10_imageList = {
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
 			
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);			
 			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
@@ -4783,6 +4852,26 @@ _bb10_pillButtons = {
 						}
 					},false);
 			}
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}
     } 
 };
@@ -5152,6 +5241,26 @@ _bb10_roundPanel = {
                 for (j = 0; j < items.length; j++) {
                      items[j].setAttribute('class','bb-bb10-panel-header-'+res+' bb-bb10-panel-header-'+res+'-light');
                 }
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
             }
 		}
         else {
@@ -5166,6 +5275,26 @@ _bb10_roundPanel = {
                         items[j].setAttribute('class','bb-lowres-panel-header');
                     }
                 }
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
             }
         }
     }
@@ -5332,7 +5461,6 @@ _bb10_textInput = {
 			outerElement.setAttribute('class', outerElement.normal);
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
-			
 			outerElement.addEventListener('focus', function() {
 														if(this.readOnly == false) {
 															this.setAttribute('class',this.focused);
@@ -5585,6 +5713,18 @@ _bb10_toggle = {
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
+			
+			// Add setOnCaption function
+			outerElement.setOnCaption = function(value) {
+				this.yes.innerHTML = value;				
+					};
+			outerElement.setOnCaption = outerElement.setOnCaption.bind(outerElement);
+			
+			// Add setOffCaption function
+			outerElement.setOffCaption = function(value) {
+				this.no.innerHTML = value;				
+					};
+			outerElement.setOffCaption = outerElement.setOffCaption.bind(outerElement);
 			
 			// set our checked state
 			outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
@@ -6244,6 +6384,33 @@ _bbPlayBook_imageList = {
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
 			
+			// Add our show function
+			outerElement.show = function() {
+					this.style.display = 'block';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);	
+			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
 			var item;
@@ -6268,6 +6435,26 @@ _bbPlayBook_roundPanel = {
 					items[j].setAttribute('class','bb-lowres-panel-header');
 				}
 			}
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}    
     }
 };
@@ -6576,6 +6763,33 @@ _bb_5_6_7_imageList = {
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
 			
+			// Add our show function
+			outerElement.show = function() {
+					this.style.display = 'block';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);	
+			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
 			var item;
@@ -6631,6 +6845,26 @@ _bb_5_6_7_roundPanel = {
 			for (var j = 0; j < items.length; j++) {
 				items[j].setAttribute('class','bb-lowres-panel-header');
 			}
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}  
     }
 };
@@ -7247,6 +7481,27 @@ _bb_6_7_PlayBook_pillButtons = {
 						
 					},false);
 			}
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
+
 		}
     } 
 };
@@ -7315,6 +7570,27 @@ _bb_PlayBook_10_scrollPanel = {
 				outerElement.scroller = null;
 				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
 			}
+			
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 			
 			// Set refresh
 			outerElement.refresh = function() {

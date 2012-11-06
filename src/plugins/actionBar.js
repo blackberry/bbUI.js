@@ -238,7 +238,14 @@ bb.actionBar = {
 								}
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
-		window.addEventListener('orientationchange', actionBar.orientationChanged,false); 
+		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
+		
+		// Add setBackCaption function
+		actionBar.setBackCaption = function(value) {
+				this.setAttribute('data-bb-back-caption',value);
+				backCaption.innerHTML = value;		
+							};
+		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {

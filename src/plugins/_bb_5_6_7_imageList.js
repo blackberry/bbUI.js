@@ -250,6 +250,33 @@ _bb_5_6_7_imageList = {
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
 			
+			// Add our show function
+			outerElement.show = function() {
+					this.style.display = 'block';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);	
+			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
 			var item;

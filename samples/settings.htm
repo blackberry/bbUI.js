@@ -16,7 +16,7 @@
 -->
 <div data-bb-type="screen" data-bb-title="Screen Display" data-bb-effect="fade" >
 	<div data-bb-type="title" data-bb-caption="Screen Display" data-bb-back-caption="Back"></div>
-	<div data-bb-type="round-panel" id="mainList"> 
+	<div data-bb-type="round-panel" id="fontPanel"> 
 		<div data-bb-type="panel-header">Font</div>
 		<div style="margin:3px;">
 		   <div data-bb-type="label">Font Family:</div>
@@ -61,7 +61,7 @@
 	   </div>
 	</div>
 
-	<div data-bb-type="round-panel" id="mainList"> 
+	<div data-bb-type="round-panel" id="backlightPanel"> 
 		<div data-bb-type="panel-header">Backlight</div>
 		<div data-bb-type="label-control-container">
 			<div data-bb-type="row">
@@ -82,6 +82,12 @@
 		   </div> 	   
 		</div>
 	</div>
+            <div data-bb-type="round-panel" style="background-color: #252525"> 
+		<div data-bb-type="panel-header">Round Panel Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').hide();document.getElementById('backlightPanel').hide();" id="hide">Hide Round Panels</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').show();document.getElementById('backlightPanel').show();" id="show">Show Round Panels</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').remove();document.getElementById('backlightPanel').remove();" id="remove">Remove Round Panels</div>        
+		</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
