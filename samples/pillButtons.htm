@@ -18,7 +18,7 @@
 	<div data-bb-type="title" data-bb-caption="Pill Buttons" data-bb-back-caption="Back" data-bb-action-caption="Save"></div>
 	<script id="pillButtonsJS" src="js/pillButtons.js" ></script>
 	
-	 <div data-bb-type="pill-buttons">
+	 <div data-bb-type="pill-buttons" id="myPillButtons">
 		<div data-bb-type="pill-button" data-bb-selected="true" onclick="selectContact()">Contact</div>
 		<div data-bb-type="pill-button" onclick="selectAddress()">Address</div>
 		<div data-bb-type="pill-button" onclick="selectPhone()">Phone</div>
@@ -93,6 +93,13 @@
 			</div>
 		</div>
 	</div>
+    
+        <div data-bb-type="round-panel" style="background-color: #252525"> 
+		<div data-bb-type="panel-header">Pill Button Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPillButtons').hide();" id="hide">Hide Pill Buttons</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPillButtons').show();" id="show">Show Pill Buttons</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPillButtons').remove();" id="remove">Remove Pill Buttons</div>        
+		</div>
 
 </div>
 
