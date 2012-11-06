@@ -15,9 +15,9 @@
 */
 
 // Assign our document event listeners
-function titlePillButtons_Init() {
+function titlePillButtons_Init(element) {
 	window.addEventListener('resize', titlePillButtons_HandleResize,false);
-	titlePillButtons_HandleResize();
+	titlePillButtons_HandleResize(element);
 }
 
 // Remove our document event listeners
@@ -26,18 +26,18 @@ function titlePillButtons_UnInit() {
 }
 
 // Adjust the height of the scroller based on orientation
-function titlePillButtons_HandleResize() {
+function titlePillButtons_HandleResize(element) {
 	var headerHeight = bb.device.isPlayBook ? 65 : 120,
 		actionBarHeight = bb.device.isPlayBook ? 73 : 140,
+		headerHeight = bb.device.isPlayBook ? 64 : 120,
 		scrollerHeight = 0,
-		scroller = document.getElementById('myScroller');
+		scroller = element ? element.getElementById('myScroller') : document.getElementById('myScroller');
 	// Calculate the height of the scroller
-	scrollerHeight = window.innerHeight - headerHeight - actionBarHeight - document.getElementById('header').offsetHeight;
+	scrollerHeight = window.innerHeight - headerHeight - actionBarHeight - headerHeight;
 	scroller.style.height = scrollerHeight + 'px';
-	scroller.refresh();
-	scroller.style['-webkit-transition'] = 'all 0.2s ease-in-out';
-	scroller.style['-webkit-backface-visibility'] = 'hidden';
-	scroller.style['-webkit-perspective'] = '1000';
+	if (!element) {
+		scroller.refresh();
+	}
 }
 
 // Show the proper display based on the pill button

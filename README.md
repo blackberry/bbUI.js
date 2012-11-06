@@ -39,6 +39,11 @@ Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://icon
 
 You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository.  You can also [download the current release as a zip](https://github.com/blackberry/bbUI.js/tags)
 
+## Showcase Your Application
+
+Have a bbUI application that you would like to showcase to other potential bbUI developers. Feel free to promote your appliation or check out what others
+have accomplished in the [bbUI Showcase](https://github.com/blackberry/bbUI.js/issues/442)!
+
 ## Philosophy
 
 The bbUI toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
