@@ -5110,6 +5110,13 @@ a.bb5-button-highlight span {
 	display:none;
 }
 
+.bb-bb10-context-menu-scroller {
+	position: absolute;
+	left : 0px;
+	bottom : 0px;
+	right : 0px;
+}
+
 .bb-bb10-context-menu-lowres-dark
 {
 	background-color: #121212;
@@ -5138,18 +5145,23 @@ a.bb5-button-highlight span {
 {
 	padding-top: 7px;
 	padding-bottom: 3px;	
-	padding-left: 5px;
+	padding-left: 0px;
+	border-left: solid 5px;
+	border-left-color: transparent;
 	height: 52px;
 	line-height: 52px;
 	vertical-align: center;
 	font-size:16pt;
 }
 
+
 .bb-bb10-context-menu-item-hires
 {
 	padding-top: 14px;
 	padding-bottom: 3px;	
-	padding-left: 10px;
+	padding-left: 0px;
+	border-left: solid 10px;
+	border-left-color: transparent;
 	height: 109px;
 	line-height: 95px;
 	vertical-align: center;
@@ -5291,18 +5303,6 @@ a.bb5-button-highlight span {
 	border-top: solid 2px #404040	
 }
 
-.bb-bb10-context-menu-item-hover-lowres
-{
-	border-left: solid 5px;
-	padding-left: 0px;
-}
-
-.bb-bb10-context-menu-item-hover-hires
-{
-	border-left: solid 10px;
-	padding-left: 0px;
-}
-
 .bb-bb10-context-menu-item-image-lowres
 {
 	position:relative;
@@ -5337,6 +5337,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 
