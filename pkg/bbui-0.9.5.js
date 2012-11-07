@@ -74,6 +74,17 @@ bb = {
 			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
 		}
 		
+		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
+		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
+			i;
+		for (i = 0; i < viewports.length; i++) {
+			try {
+				document.head.removeChild(viewports[i]);
+			} catch (ex) {
+				// Throw away the error
+			}
+		}			
+		
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
@@ -5461,6 +5472,7 @@ _bb10_textInput = {
 			outerElement.setAttribute('class', outerElement.normal);
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
+			
 			outerElement.addEventListener('focus', function() {
 														if(this.readOnly == false) {
 															this.setAttribute('class',this.focused);
@@ -7624,3 +7636,4 @@ _bb_PlayBook_10_scrollPanel = {
 	}
 	
 };
+
