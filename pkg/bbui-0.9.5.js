@@ -1688,11 +1688,9 @@ bb.contextMenu = {
 				
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
-										//this.setAttribute('class',this.highlight);
 										this.style['border-left-color'] = bb.options.highlightColor;
 									}
 				action.ontouchend = function () {
-										//this.setAttribute('class',this.normal);
 										this.style['border-left-color'] = 'transparent';
 									}
 				action.addEventListener("click", this.hide, false);
@@ -2684,6 +2682,7 @@ bb.tabOverflow = {
 									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
 									margin;
 								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
+								if (margin < 0) margin = 0;
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);

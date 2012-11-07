@@ -4938,9 +4938,11 @@ a.bb5-button-highlight span {
 	bottom: 0px;
 	width: 0px;
 	left: 0px;
-	overflow: hidden;
 	z-index:1001;
 	white-space:nowrap;
+	overflow-y : scroll;
+	overflow-x : hidden;
+	-webkit-overflow-scrolling : -blackberry-touch;
 }
 
 .bb-bb10-tab-overflow-menu-dark
