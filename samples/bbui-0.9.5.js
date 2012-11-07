@@ -7625,4 +7625,3 @@ _bb_PlayBook_10_scrollPanel = {
 	
 };
 
-bb.assignBackHandler(bb.popScreen);
