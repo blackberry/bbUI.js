@@ -4,6 +4,8 @@ Below you will find all the different changes that have been added since the fir
 
 ## Version 0.9.5
 
+* _**Compatibility Changes:**_ 
+	* Image List items now only highlight if they have an associated onclick for the item or context menu assigned to the list
 * BlackBerry 10 Styling
 	* Updated Action Bar back button and "button actions" to have a highlight when touched
 	* Updated grids to allow for a specified number of columns in a row
