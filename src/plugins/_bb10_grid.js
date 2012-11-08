@@ -104,7 +104,7 @@ _bb10_grid = {
 							// If there are more items than the number of hardcoded columns then
 							// we need to shrink the item size a bit to show that there are available
 							// items to the left to scroll to
-							if (rowItems.length > hardCodedColumnNum) {
+							if ((rowItems.length > hardCodedColumnNum) && !bb.device.isPlayBook) {
 								innerChildNode.style['overflow-y'] = 'hidden';
 								innerChildNode.style['overflow-x'] = 'scroll';
 								width = (window.innerWidth/(parseInt(hardCodedColumnNum) + 0.5));
@@ -117,6 +117,13 @@ _bb10_grid = {
 							
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
+							
+							// If it is PlayBook, Don't do the carousel, it doesn't work well
+							if (bb.device.isPlayBook && (hardCodedColumnNum >0) && (k > hardCodedColumnNum - 1)) {
+								itemNode.style.display = 'none';
+								continue;
+							}
+														
 							subtitle = itemNode.innerHTML;
 							title = itemNode.getAttribute('data-bb-title');
 							hasOverlay = (subtitle || title);
@@ -242,7 +249,7 @@ _bb10_grid = {
 											// If there are more items than the number of hardcoded columns then
 											// we need to shrink the item size a bit to show that there are available
 											// items to the left to scroll to
-											if (rowItems.length > hardCodedColumnNum) {
+											if ((rowItems.length > hardCodedColumnNum) && !bb.device.isPlayBook) {
 												width = (window.innerWidth/(parseInt(hardCodedColumnNum) + 0.5));
 											} else {
 												width = (window.innerWidth/hardCodedColumnNum) - 6;
