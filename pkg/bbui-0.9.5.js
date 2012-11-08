@@ -1687,13 +1687,22 @@ bb.contextMenu = {
 				action.appendChild(inner);
 				inner.innerHTML = caption;
 				action.display = inner;
+				action.menu = this;
 				
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
-										this.style['border-left-color'] = bb.options.highlightColor;
+										if (this.menu.peeking) {
+											this.style['border-left-color'] = bb.options.highlightColor;
+										} else {
+											this.style['background-color'] = bb.options.highlightColor;
+										}
 									}
 				action.ontouchend = function () {
-										this.style['border-left-color'] = 'transparent';
+										if (this.menu.peeking) {
+											this.style['border-left-color'] = 'transparent';
+										} else {
+											this.style['background-color'] = '';
+										}
 									}
 				action.addEventListener("click", this.hide, false);
 				
