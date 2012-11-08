@@ -149,6 +149,13 @@ bb.contextMenu = {
 							menu.hideEvents[i]();
 							menu.hideEvents.pop();
 						}
+						
+						// Hack because PlayBook doesn't seem to get all the touch end events
+						if (bb.device.isPlayBook) {
+							for (var i = 0; i < this.actions.length; i++) {
+								this.actions[i].ontouchend();
+							}
+						}						
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -305,6 +312,18 @@ bb.contextMenu = {
 											this.style['border-left-color'] = bb.options.highlightColor;
 										} else {
 											this.style['background-color'] = bb.options.highlightColor;
+										}
+										
+										// Hack because PlayBook doesn't seem to get all the touch end events
+										if (bb.device.isPlayBook) {
+											var existingAction, 
+												i;
+											for (i = 0; i < this.menu.actions.length; i++) {
+												existingAction = this.menu.actions[i];
+												if (existingAction != this) {
+													existingAction.ontouchend();
+												}
+											}
 										}
 									}
 				action.ontouchend = function () {
