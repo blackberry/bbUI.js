@@ -216,17 +216,19 @@ bb.actionBar = {
 									actionType,
 									length = this.shownActions.length,
 									margins = 2;
+									
 								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
 									// Compute margins
 									margins = (actionType == 'tab') ? 2 : 0;
 									action.style.width = (actionWidth - margins) + 'px'; 
-									if (action.highlight) {
+									if (action.highlight && (actionType != 'tab')) {
 										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
 										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 									}
 								}
+								
 								// Adjust our more button
 								if (this.moreBtn && (this.shownActions.length > 0)) {
 									if (actionType == 'tab') {
