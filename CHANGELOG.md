@@ -25,7 +25,8 @@ Below you will find all the different changes that have been added since the fir
 * Samples
 	* Updated samples for dynamic control manipulation
 	* Added sample to show how to make static pill buttons in your title area
-
+* Noteable Bug Fixes: 
+    * Hack added to sample index.htm to show how to deal with Ripple known issue of firing "webworksready" multiple times causing problems with bbUI in Ripple
 
 ## Version 0.9.4
 
