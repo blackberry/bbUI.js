@@ -10,6 +10,7 @@ Below you will find all the different changes that have been added since the fir
 	* Updated Action Bar back button and "button actions" to have a highlight when touched
 	* Updated grids to allow for a specified number of columns in a row
 	* Context menus, action overflow and tab overflow menus now scroll content when there are more actions than what will fit on the screen
+	* Action overflow and context menu highlighting has been updated to match BB10 UX
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions 
 	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption() functions 
