@@ -101,20 +101,22 @@ _bb10_grid = {
 
 						// Calculate the width
 						if (hardCodedColumnNum > 0) {
-							width = (window.innerWidth/hardCodedColumnNum) - 6;
+							// If there are more items than the number of hardcoded columns then
+							// we need to shrink the item size a bit to show that there are available
+							// items to the left to scroll to
+							if (rowItems.length > hardCodedColumnNum) {
+								innerChildNode.style['overflow-y'] = 'hidden';
+								innerChildNode.style['overflow-x'] = 'scroll';
+								width = (window.innerWidth/(parseInt(hardCodedColumnNum) + 0.5));
+							} else {
+								width = (window.innerWidth/hardCodedColumnNum) - 6;
+							}
 						} else {
 							width = (window.innerWidth/numItems) - 6;
 						}
 							
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
-							
-							// Do not show more than the hardcoded number of items
-							if ((hardCodedColumnNum > 0) && ((k-1) > hardCodedColumnNum)) {
-								itemNode.style.display = 'none';
-								continue;
-							}
-							
 							subtitle = itemNode.innerHTML;
 							title = itemNode.getAttribute('data-bb-title');
 							hasOverlay = (subtitle || title);
@@ -234,13 +236,20 @@ _bb10_grid = {
 										if (row.hasAttribute('data-bb-columns')) {
 											hardCodedColumnNum = row.getAttribute('data-bb-columns');
 										}
-										
+
 										// Calculate the width
 										if (hardCodedColumnNum > 0) {
-											width = (window.innerWidth/hardCodedColumnNum) - 6;
+											// If there are more items than the number of hardcoded columns then
+											// we need to shrink the item size a bit to show that there are available
+											// items to the left to scroll to
+											if (rowItems.length > hardCodedColumnNum) {
+												width = (window.innerWidth/(parseInt(hardCodedColumnNum) + 0.5));
+											} else {
+												width = (window.innerWidth/hardCodedColumnNum) - 6;
+											}
 										} else {
 											width = (window.innerWidth/numItems) - 6;
-										}										
+										}
 										
 										// Adjust all the items
 										for (j = 0; j < numItems; j++ ) {
