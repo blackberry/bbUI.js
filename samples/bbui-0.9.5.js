@@ -183,7 +183,7 @@ bb = {
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
 		if (bb.scrollPanel) 			bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));  
-	    if (bb.textInput) 				bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color], [type=search]'));
+	    if (bb.textInput) 				bb.textInput.apply(root.querySelectorAll('textarea, input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color], [type=search]'));
 		if (bb.dropdown)				bb.dropdown.apply(root.querySelectorAll('select'));
         if (bb.roundPanel) 				bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         if (bb.imageList) 				bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
@@ -5459,6 +5459,26 @@ _bb10_textInput = {
 			outerElement.setAttribute('class', outerElement.normal);
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
+			
+			if (outerElement.tagName === "TEXTAREA"){
+				outerElement.addEventListener('keyup', function() {														
+																this.style.height = 'auto';
+														   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
+														   		this.style.height = newHeight.toString() + 'px';
+														   		this.style.overflowY='hidden';
+														   		bb.refresh();														
+														}, false);
+			}
+			
+			if (outerElement.tagName === "TEXTAREA"){
+				outerElement.addEventListener('keypress', function() {														
+																this.style.height = 'auto';
+														   		var newHeight = (this.scrollHeight > 32 ? this.scrollHeight : 32);
+														   		this.style.height = newHeight.toString() + 'px';
+														   		this.style.overflowY='hidden';
+														   		bb.refresh();														
+														}, false);
+			}
 			
 			outerElement.addEventListener('focus', function() {
 														if(this.readOnly == false) {
