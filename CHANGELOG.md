@@ -8,7 +8,9 @@ Below you will find all the different changes that have been added since the fir
 	* Image List items now only highlight if they have an associated onclick for the item or context menu assigned to the list
 * BlackBerry 10 Styling
 	* Updated Action Bar back button and "button actions" to have a highlight when touched
-	* Updated grids to allow for a specified number of columns in a row
+	* Updated grids:
+        * Now allow for a specified number of columns in a row
+		* Provide horizontal carousel scrolling
 	* Context menus, action overflow and tab overflow menus now scroll content when there are more actions than what will fit on the screen
 	* Action overflow and context menu highlighting has been updated to match BB10 UX
 * JavaScript Interfaces
