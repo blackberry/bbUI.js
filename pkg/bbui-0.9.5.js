@@ -1385,6 +1385,41 @@ _bb_bbmBubble = {
                 }
                 
             }
+			
+			// Add setStyle function (left or right)
+			outerElement.setStyle = function(value) {
+				if (value == 'left'){
+					this.setAttribute('data-bb-style', value);
+                    this.setAttribute('class','bb-bbm-bubble-left');
+				}
+                else if (value == 'right'){
+					this.setAttribute('data-bb-style', value);
+                    this.setAttribute('class','bb-bbm-bubble-right');
+				}
+				bb.refresh();
+				};
+			outerElement.setStyle = outerElement.setStyle.bind(outerElement);
+			
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
         }   
     }
 };
@@ -2849,8 +2884,6 @@ bb.tabOverflow = {
 		return menu;
 	}
 },
-
-
 bb.titleBar = {
 
 	apply: function(titleBar) {
@@ -4749,7 +4782,6 @@ _bb10_imageList = {
 		}	
 	}
 };
-
 _bb10_labelControlContainers = {
     apply: function(elements) {
 		var i,
@@ -5505,7 +5537,6 @@ _bb10_textInput = {
 			outerElement.setAttribute('class', outerElement.normal);
 			outerElement.isFocused = false;
 			outerElement.clickCount = 0;
-			
 			outerElement.addEventListener('focus', function() {
 														if(this.readOnly == false) {
 															this.setAttribute('class',this.focused);
@@ -7670,3 +7701,4 @@ _bb_PlayBook_10_scrollPanel = {
 	
 };
 
+bb.assignBackHandler(bb.popScreen);
