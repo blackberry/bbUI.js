@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <!--
-* Copyright 2010-2011 Research In Motion Limited.
+* Copyright 2010-2012 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 	<div data-bb-type="title" data-bb-caption="Checkboxes" data-bb-back-caption="Back" ></div>
 	<script id="checkboxesJS" src="js/checkboxes.js"></script>
 	<style>
-		
 		.cell {
 			line-height: 100px;
 			height: 100px;
@@ -30,7 +29,7 @@
 		<table>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice One</td>
-				<td class="cell" ><input id="checkOne" disabled="true" type="checkbox" checked="true" value="one" onchange="displayCheckedItems()"/></td>
+				<td class="cell" ><input id="checkOne" type="checkbox" checked="true" value="one" onchange="displayCheckedItems()"/></td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
@@ -45,14 +44,6 @@
 		<div >
 			<h2>You checked:&nbsp;<span id="value">one</span></h2>
 		</div>
-	</div>
-	<div data-bb-type="round-panel" style="background-color: #252525"> 
-		<div data-bb-type="panel-header">BB10 Checkbox Functions</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="enableCheckboxes()" id="enable">Enable Checkboxes</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="disableCheckboxes()" id="disable">Disable Checkboxes</div>
-		<div data-bb-type="button" data-bb-style="stretch" onclick="hideCheckboxes()" id="hide">Hide Checkboxes</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="showCheckboxes()" id="show">Show Checkboxes</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="removeCheckboxes()" id="remove">Remove Checkboxes</div>
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
