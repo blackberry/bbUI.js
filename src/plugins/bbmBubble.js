@@ -49,7 +49,7 @@ _bb_bbmBubble = {
                 
             }
 			
-			// Add our get Checked function
+			// Add our get Style function
 			outerElement.getStyle = function() {
 						return this.getAttribute('data-bb-style');
 					};
