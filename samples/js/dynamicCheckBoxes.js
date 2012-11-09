@@ -13,20 +13,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-function enableCheckboxes() {
+function enableCheckbox() {
 	document.getElementById('checkOne').enable();
 }
 
-function disableCheckboxes() {
+function disableCheckbox() {
 	document.getElementById('checkOne').disable();
 }
 
-function showCheckboxes() {
+function showCheckbox() {
 	document.getElementById('checkOne').show();
 }
 
-function hideCheckboxes() {
+function hideCheckbox() {
 	document.getElementById('checkOne').hide();
+}
+
+function checkCheckbox(value) {
+	document.getElementById('checkOne').setChecked(value);
 }
 
 function addRemoveCheckBox() {
