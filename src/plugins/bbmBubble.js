@@ -49,8 +49,8 @@ _bb_bbmBubble = {
                 
             }
 			
-			// Add setDirection function (left or right)
-			outerElement.setDirection = function(value) {
+			// Add setStyle function (left or right)
+			outerElement.setStyle = function(value) {
 				if (value == 'left'){
 					this.setAttribute('data-bb-style', value);
                     this.setAttribute('class','bb-bbm-bubble-left');
@@ -61,7 +61,7 @@ _bb_bbmBubble = {
 				}
 				bb.refresh();
 				};
-			outerElement.setDirection = outerElement.setDirection.bind(outerElement);
+			outerElement.setStyle = outerElement.setStyle.bind(outerElement);
 			
 			// Add show function
 			outerElement.show = function() {

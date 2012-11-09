@@ -77,9 +77,9 @@ function removeBubbles() {
 }
 
 function swapBubbles() {
-	document.getElementById('myBBMBubble').setDirection("left");
-	document.getElementById('myBBMBubble1').setDirection("right");
-	document.getElementById('myBBMBubble2').setDirection("left");
-	document.getElementById('myBBMBubble3').setDirection("right");
-	document.getElementById('myBBMBubble4').setDirection("left");
+	document.getElementById('myBBMBubble').setStyle("left");
+	document.getElementById('myBBMBubble1').setStyle("right");
+	document.getElementById('myBBMBubble2').setStyle("left");
+	document.getElementById('myBBMBubble3').setStyle("right");
+	document.getElementById('myBBMBubble4').setStyle("left");
 }
