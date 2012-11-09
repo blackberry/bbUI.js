@@ -30,7 +30,7 @@ function doTimedEvent() {
 		document.getElementById('watch').enable();
 		return;
 	}
-	if (percent > 100) {
+	if (percent > document.getElementById('progress1').max) {
 		percent = 4;
 		document.getElementById('reset').enable();
 		document.getElementById('pause').disable();
@@ -64,21 +64,26 @@ function hideProgress() {
 function addRemoveIndicator() {
 	var container = document.getElementById('progressContainer'),
 		button = document.getElementById('addRemove'),
-		indicator,
+		progress,
 		id = 'newIndicator';
 		
 	// Add indicator
 	if (!button.flag) {
 		button.setCaption('Remove Progress Bar');
 		button.flag = true;
-		
-		// TODO: Add logic to add indicator
-		
+		// Create our progress bar
+		progress = document.createElement('progress');
+		progress.setAttribute('max','100');
+		progress.setAttribute('value','10');
+		progress.setAttribute('id',id);
+		progress = bb.progress.style(progress);
+		container.appendChild(progress);
+		bb.refresh();
 	} else {// Remove indicator
 		button.setCaption('Add Progress Bar');
 		button.flag = false;
-		/*indicator = document.getElementById(id);
-		indicator.remove();*/
+		progress = document.getElementById(id);
+		progress.remove();
 	}	
 }
 

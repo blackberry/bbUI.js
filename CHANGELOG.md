@@ -25,6 +25,7 @@ Below you will find all the different changes that have been added since the fir
 	* **Control Groups/Round Panels:** Added show(), hide(), remove() functions
 	* **Image Lists:** Added show(), hide(), remove() functions
 	* **BBM Bubbles:** Added show(), hide(), remove() functions
+	* **Progress Bars:** Added show(), hide(), remove(), setMax() functions and ability to style dynamically using bb.progress.style()
 * Samples
 	* Updated samples for dynamic control manipulation
 	* Added sample to show how to make static pill buttons in your title area
