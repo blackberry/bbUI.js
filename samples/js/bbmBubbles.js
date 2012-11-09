@@ -51,3 +51,27 @@ function insertText(data, direction) {
 }
 
 loadPushListeners();
+
+function showBubbles() {
+	document.getElementById('myBBMBubble').show();
+	document.getElementById('myBBMBubble1').show();
+	document.getElementById('myBBMBubble2').show();
+	document.getElementById('myBBMBubble3').show();
+	document.getElementById('myBBMBubble4').show();	
+}
+
+function hideBubbles() {
+	document.getElementById('myBBMBubble').hide();
+	document.getElementById('myBBMBubble1').hide();
+	document.getElementById('myBBMBubble2').hide();
+	document.getElementById('myBBMBubble3').hide();
+	document.getElementById('myBBMBubble4').hide();
+}
+
+function removeBubbles() {
+	document.getElementById('myBBMBubble').remove();
+	document.getElementById('myBBMBubble1').remove();
+	document.getElementById('myBBMBubble2').remove();
+	document.getElementById('myBBMBubble3').remove();
+	document.getElementById('myBBMBubble4').remove();
+}
