@@ -90,11 +90,12 @@ _bb10_checkbox = {
 						this.touchTarget.drawChecked();
 					};
 			input.setChecked = input.setChecked.bind(input);
+			
 			// Add our get Checked function
 			input.getChecked = function() {
 						return this.checked;
 					};
-			input.setChecked = input.setChecked.bind(input);
+			input.getChecked = input.getChecked.bind(input);
 			
 			// Add our enable function
 			input.enable = function(){ 

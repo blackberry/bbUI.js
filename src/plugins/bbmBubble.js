@@ -49,6 +49,12 @@ _bb_bbmBubble = {
                 
             }
 			
+			// Add our get Checked function
+			outerElement.getStyle = function() {
+						return this.getAttribute('data-bb-style');
+					};
+			outerElement.getStyle = outerElement.getStyle.bind(outerElement);
+			
 			// Add setStyle function (left or right)
 			outerElement.setStyle = function(value) {
 				if (value == 'left'){

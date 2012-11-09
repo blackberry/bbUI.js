@@ -54,3 +54,7 @@ function addRemoveBubble() {
 		bubble.remove();*/
 	}	
 }
+
+function getBubbles() {
+	alert("BBM Bubble 1 direction: " + document.getElementById('myBBMBubble').getStyle() + "\nBBM Bubble 2 direction: " + document.getElementById('myBBMBubble1').getStyle());	
+}

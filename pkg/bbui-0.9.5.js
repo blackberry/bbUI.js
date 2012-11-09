@@ -1386,6 +1386,12 @@ _bb_bbmBubble = {
                 
             }
 			
+			// Add our get Checked function
+			outerElement.getStyle = function() {
+						return this.getAttribute('data-bb-style');
+					};
+			outerElement.getStyle = outerElement.getStyle.bind(outerElement);
+			
 			// Add setStyle function (left or right)
 			outerElement.setStyle = function(value) {
 				if (value == 'left'){
@@ -2229,7 +2235,6 @@ _bb_progress = {
 		return outerElement;
 	}
 };
-
 bb.screen = {  
     scriptCounter:  0,
     totalScripts: 0,
@@ -3541,11 +3546,12 @@ _bb10_checkbox = {
 						this.touchTarget.drawChecked();
 					};
 			input.setChecked = input.setChecked.bind(input);
+			
 			// Add our get Checked function
 			input.getChecked = function() {
 						return this.checked;
 					};
-			input.setChecked = input.setChecked.bind(input);
+			input.getChecked = input.getChecked.bind(input);
 			
 			// Add our enable function
 			input.enable = function(){ 
@@ -7713,3 +7719,5 @@ _bb_PlayBook_10_scrollPanel = {
 	}
 	
 };
+
+bb.assignBackHandler(bb.popScreen);
