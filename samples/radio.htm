@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <!--
-* Copyright 2010-2011 Research In Motion Limited.
+* Copyright 2010-2012 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 -->
 <div style="background-color: #252525;color:white;" data-bb-type="screen" data-bb-effect="slide-up">
 	<div data-bb-type="title" data-bb-caption="Radio buttons" data-bb-back-caption="Back" ></div>
-    <script id="checkboxesJS" src="js/radio.js"></script>
 	<style>
 		.cell {
 			line-height: 100px;
@@ -29,18 +28,21 @@
 		<table>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice One</td>
-				<td class="cell" ><input type="radio" name="group1" id="control1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
-				<td class="cell">Enabled</td>
-				<td class="cell"><input type="checkbox" checked="true" onchange="if (this.checked){ document.getElementById('control1').enable();} else { document.getElementById('control1').disable();}" /></td>
+				<td class="cell" >
+					<input type="radio" name="group1" id="control1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
 				</td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
-				<td class="cell" colspan="3"><input type="radio" name="group1" id="control2" value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3">
+					<input type="radio" name="group1" id="control2" value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
+				</td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Three</td>
-				<td class="cell" colspan="3"><input type="radio" name="group1" id="control3" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3">
+					<input type="radio" name="group1" id="control3" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
+				</td>
 			</tr>
 		</table>
 		
@@ -48,19 +50,7 @@
 			<h2>You clicked:&nbsp;<span id="value">one</span></h2>
 		</div>
 		
-		<table>
-			<tr>
-				<td>Radio group enabled</td>
-				<td><input type="checkbox" checked="true" onchange="if (this.checked){bb.radio.enableGroup('group1');} else { bb.radio.disableGroup('group1');}" /></td>
-			</tr>
-		</table>
 	</div>
 
-	<div data-bb-type="round-panel" style="background-color: #252525"> 
-		<div data-bb-type="panel-header">BB10 Radio Functions</div>
-		<div data-bb-type="button" data-bb-style="stretch" onclick="hideRadios()" id="hide">Hide Radios</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="showRadios()" id="show">Show Radios</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="removeRadios()" id="remove">Remove Radios</div>
-	</div>
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
