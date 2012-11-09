@@ -1386,6 +1386,20 @@ _bb_bbmBubble = {
                 
             }
 			
+			// Add setDirection function (left or right)
+			outerElement.setDirection = function(value) {
+				if (value == 'left'){
+					this.setAttribute('data-bb-style', value);
+                    this.setAttribute('class','bb-bbm-bubble-left');
+				}
+                else if (value == 'right'){
+					this.setAttribute('data-bb-style', value);
+                    this.setAttribute('class','bb-bbm-bubble-right');
+				}
+				bb.refresh();
+				};
+			outerElement.setDirection = outerElement.setDirection.bind(outerElement);
+			
 			// Add show function
 			outerElement.show = function() {
 				this.style.display = 'block';
