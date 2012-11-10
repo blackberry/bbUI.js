@@ -1386,6 +1386,12 @@ _bb_bbmBubble = {
                 
             }
 			
+			// Add our get Style function
+			outerElement.getStyle = function() {
+						return this.getAttribute('data-bb-style');
+					};
+			outerElement.getStyle = outerElement.getStyle.bind(outerElement);
+			
 			// Add setStyle function (left or right)
 			outerElement.setStyle = function(value) {
 				if (value == 'left'){
@@ -2229,7 +2235,6 @@ _bb_progress = {
 		return outerElement;
 	}
 };
-
 bb.screen = {  
     scriptCounter:  0,
     totalScripts: 0,
@@ -3541,11 +3546,12 @@ _bb10_checkbox = {
 						this.touchTarget.drawChecked();
 					};
 			input.setChecked = input.setChecked.bind(input);
+			
 			// Add our get Checked function
 			input.getChecked = function() {
 						return this.checked;
 					};
-			input.setChecked = input.setChecked.bind(input);
+			input.getChecked = input.getChecked.bind(input);
 			
 			// Add our enable function
 			input.enable = function(){ 
@@ -4845,6 +4851,26 @@ _bb10_labelControlContainers = {
 					outerElement.removeChild(row);
 				}
 			}
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}	
     }
 };
@@ -5858,6 +5884,26 @@ _bb5_labelControlContainers = {
 				var label = items[j];
 				label.setAttribute('class', 'bb-label');
 			}
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}
     }
 };
@@ -5903,6 +5949,26 @@ _bb5_pillButtons = {
 					}
 				};
 			}
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}
     } 
 };
@@ -7455,6 +7521,26 @@ _bb_6_7_PlayBook_labelControlContainers = {
 					}
 				}
 			}
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}
     }
 };
