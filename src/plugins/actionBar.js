@@ -60,7 +60,8 @@ bb.actionBar = {
 		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {		
 			var chevron,
 				backCaption,
-				backslash;
+				backslash,
+				backHighlight;
 			backBtn = document.createElement('div');
 			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color);
 			backBtn.onclick = bb.popScreen;
@@ -74,6 +75,23 @@ bb.actionBar = {
 			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res);
 			backCaption.innerHTML = actionBar.getAttribute('data-bb-back-caption');
 			backBtn.appendChild(backCaption);
+			// Create our highlight for touch
+			backHighlight = document.createElement('div');
+			backHighlight.setAttribute('class','bb-bb10-action-bar-back-button-highlight');
+			backHighlight.style['position'] = 'absolute';
+			backHighlight.style['height'] = bb.device.isPlayBook ? '57px' : '110px';
+			backHighlight.style['width'] = bb.device.isPlayBook ? '4px' : '8px';
+			backHighlight.style['background-color'] = 'transparent';
+			backHighlight.style['top'] = bb.device.isPlayBook ? '8px' : '15px';
+			backBtn.backHighlight = backHighlight;
+			backBtn.appendChild(backHighlight);
+			backBtn.ontouchstart = function() {
+					this.backHighlight.style['background-color'] = bb.options.highlightColor;				
+			}
+			backBtn.ontouchend = function() {
+					this.backHighlight.style['background-color'] = 'transparent';				
+			}
+			
 			// Create our backslash
 			backslash = document.createElement('div');
 			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color); 
@@ -198,12 +216,16 @@ bb.actionBar = {
 									actionType,
 									length = this.shownActions.length,
 									margins = 2;
-								for (i = 0; length; i++) {
+								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
 									// Compute margins
 									margins = (actionType == 'tab') ? 2 : 0;
 									action.style.width = (actionWidth - margins) + 'px'; 
+									if (action.highlight) {
+										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
+										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
+									}
 								}
 								// Adjust our more button
 								if (this.moreBtn && (this.shownActions.length > 0)) {
@@ -216,7 +238,14 @@ bb.actionBar = {
 								}
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
-		window.addEventListener('orientationchange', actionBar.orientationChanged,false); 
+		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
+		
+		// Add setBackCaption function
+		actionBar.setBackCaption = function(value) {
+				this.setAttribute('data-bb-back-caption',value);
+				backCaption.innerHTML = value;		
+							};
+		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {
@@ -418,6 +447,15 @@ bb.actionBar = {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
 				
+				// Highlight on touch
+				action.ontouchstart = function() {
+						this.highlight.style['background-color'] = bb.options.highlightColor;				
+				}
+				// Remove highlight when touch ends
+				action.ontouchend = function() {
+						this.highlight.style['background-color'] = 'transparent';				
+				}
+				
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
@@ -430,11 +468,9 @@ bb.actionBar = {
 								};
 				action.setImage = action.setImage.bind(action);
 			}
-			
-			
+			// Default settings
 			action.innerHTML = '';
 			action.setAttribute('class',action.normal);
-			
 			action.appendChild(icon);
 			lastStyle = 'button';
 			
@@ -443,7 +479,18 @@ bb.actionBar = {
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
 			action.display = display;
-			action.appendChild(display);	
+			action.appendChild(display);
+
+			// Set our highlight
+			if (action.getAttribute('data-bb-img') != 'overflow') {
+				action.highlight = document.createElement('div');
+				action.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
+				action.highlight.style['height'] = bb.device.isPlayBook ? '4px' : '8px';
+				action.highlight.style['width'] = (btnWidth * 0.6) + 'px';
+				action.highlight.style['margin-left'] = (btnWidth * 0.2) + 'px';
+				action.highlight.style['background-color'] = 'transparent';
+				action.appendChild(action.highlight);
+			}
 		}
 		// Center the action overflow items
 		if (actionBar.menu) {

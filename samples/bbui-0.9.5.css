@@ -308,7 +308,7 @@ body, html {
 }
 
 .bb-bb10-slider-lowres .inner {
-    top: -1.9em;
+    top: -1.9em; 
     left: -1.9em;
     position: absolute;
     width: 4em;
@@ -5295,6 +5295,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 

@@ -1,6 +1,6 @@
 ![logo](https://raw.github.com/wiki/blackberry/bbUI.js/images/bbUI_100x403.png)
 
-_**Current version: 0.9.4 BETA**_ 
+_**Current version: 0.9.5 BETA**_ 
 
 The objective of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
@@ -28,6 +28,9 @@ JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus i
 * [Justin Tokarchuk](https://github.com/jtokarchuk) follow me on Twitter [@jtokarchuk](https://twitter.com/#!/jtokarchuk)
 * [James Blashill](https://github.com/jblashill) 
 * [Jerome Carty](https://github.com/jcarty) follow me on Twitter [@jcarty](https://twitter.com/#!/jcarty)
+* [Karan Khiani](https://github.com/karancan) 
+* [Justin DaSilva](https://github.com/lyricidal) follow me on Twitter [@theiexplorers](https://twitter.com/theiexplorers)
+* [Arturo Linares](https://github.com/arturolinares) follow me on Twitter [@arturo_linares](https://twitter.com/arturo_linares)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
@@ -35,6 +38,11 @@ Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://icon
 ## Source files to include
 
 You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository.  You can also [download the current release as a zip](https://github.com/blackberry/bbUI.js/tags)
+
+## Showcase Your Application
+
+Have a bbUI application that you would like to showcase to other potential bbUI developers. Feel free to promote your appliation or check out what others
+have accomplished in the [bbUI Showcase](https://github.com/blackberry/bbUI.js/issues/442)!
 
 ## Philosophy
 
@@ -93,7 +101,7 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry Dev Alpha R6 Beta
+* BlackBerry Dev Alpha 10.0.x Beta
 * BlackBerry PlayBook v2.0.1.x
 * BlackBerry PlayBook v2.1.x.x
 * BlackBerry Torch 9860 v7.0.0.x

@@ -27,5 +27,38 @@ function displayCheckedItems() {
 		text = (text.length > 0) ? text + ' &amp; ' : text;
 		text = text + document.getElementById('checkThree').value;
 	}
+	if (!document.getElementById('checkOne').checked && !document.getElementById('checkTwo').checked && !document.getElementById('checkThree').checked) {
+		text = 'none';
+	}
 	document.getElementById('value').innerHTML = text;
+}
+
+function enableCheckboxes() {
+	document.getElementById('checkOne').enable();
+	document.getElementById('checkTwo').enable();
+	document.getElementById('checkThree').enable();
+}
+
+function disableCheckboxes() {
+	document.getElementById('checkOne').disable();
+	document.getElementById('checkTwo').disable();
+	document.getElementById('checkThree').disable();
+}
+
+function showCheckboxes() {
+	document.getElementById('checkOne').show();
+	document.getElementById('checkTwo').show();
+	document.getElementById('checkThree').show();
+}
+
+function hideCheckboxes() {
+	document.getElementById('checkOne').hide();
+	document.getElementById('checkTwo').hide();
+	document.getElementById('checkThree').hide();
+}
+
+function removeCheckboxes() {
+	document.getElementById('checkOne').remove();
+	document.getElementById('checkTwo').remove();
+	document.getElementById('checkThree').remove();
 }

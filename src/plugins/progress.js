@@ -107,6 +107,27 @@ _bb_progress = {
 						};
 			progress.setState = progress.setState.bind(progress);
 			
+			// Add our show function
+			progress.show = function() {
+				this.outerElement.style.display = 'block';
+				bb.refresh();
+					};
+			progress.show = progress.show.bind(progress);
+			
+			// Add our hide function
+			progress.hide = function() {
+				this.outerElement.style.display = 'none';
+				bb.refresh();
+					};
+			progress.hide = progress.hide.bind(progress);
+			
+			// Add remove function
+			progress.remove = function() {
+				this.outerElement.parentNode.removeChild(this.outerElement);
+				bb.refresh();
+					};
+			progress.remove = progress.remove.bind(progress);
+						
 			// Set our value on a timeout so that it can calculate width once in the DOM
 			window.setTimeout(progress.setValue, 0);
 			outerElement.doOrientationChange = function() {

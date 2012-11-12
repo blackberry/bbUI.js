@@ -19,42 +19,43 @@ bb.contextMenu = {
 			description = document.createElement('div'),
 			header;
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
+	
 		menu.actions = [];
 		menu.hideEvents = [];
 		menu.res = res;
+		menu.threshold = swipeThreshold;
 		menu.visible = false;
-		// Add the overlay for trapping clicks on items below
-		if (!bb.screen.overlay) {
-			bb.screen.overlay = document.createElement('div');
-			bb.screen.overlay.threshold = swipeThreshold;
-			bb.screen.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
-			bb.screen.overlay.menu = menu;
-			screen.appendChild(bb.screen.overlay);
-			
-			bb.screen.overlay.ontouchmove = function(event) {
-											// Only care about moves if peeking
+		
+		// Create our overlay for touch events
+		menu.overlay = document.createElement('div');
+		menu.overlay.threshold = swipeThreshold;
+		menu.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
+		menu.overlay.menu = menu;
+		screen.appendChild(menu.overlay);
+		
+		menu.overlay.ontouchmove = function(event) {
+										// Only care about moves if peeking
+										if (!this.menu.peeking) return;
+										var touch = event.touches[0];
+										if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
+											this.menu.show(this.menu.selected);
+											this.closeMenu = false;
+										}
+									};
+		menu.overlay.ontouchend = function() {
+										if (this.closeMenu) {
+											this.menu.hide();
+										}
+									};
+		menu.overlay.ontouchstart = function(event) {
+											this.closeMenu = true;
 											if (!this.menu.peeking) return;
+											
 											var touch = event.touches[0];
-											if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
-												this.menu.show(this.menu.selected);
-												this.closeMenu = false;
-											}
+											this.startPos = touch.pageX;
+											event.preventDefault();
 										};
-			bb.screen.overlay.ontouchend = function() {
-											if (this.closeMenu) {
-												this.menu.hide();
-											}
-										};
-			bb.screen.overlay.ontouchstart = function(event) {
-												this.closeMenu = true;
-												if (!this.menu.peeking) return;
-												
-												var touch = event.touches[0];
-												this.startPos = touch.pageX;
-												event.preventDefault();
-											};
-		}
-		menu.overlay = bb.screen.overlay;
+		
 		// Create the menu header
 		header = document.createElement('div');
 		header.setAttribute('class','bb-bb10-context-menu-item-'+res+' bb-bb10-context-menu-header-'+bb.actionBar.color);
@@ -72,6 +73,11 @@ bb.contextMenu = {
 		description.style.width = bb.contextMenu.getWidth() - 20 + 'px';
 		menu.description = description;
 		header.appendChild(description);
+		
+		// Create our scrolling container
+		menu.scrollContainer = document.createElement('div');
+		menu.scrollContainer.setAttribute('class', 'bb-bb10-context-menu-scroller');
+		menu.appendChild(menu.scrollContainer);
 
 		// Set our first left position
 		menu.style.left = bb.contextMenu.getLeft();
@@ -80,6 +86,7 @@ bb.contextMenu = {
 		menu.show = function(data){
 						if (data) {
 							this.header.style.display = '';
+							this.header.style.visibility = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -87,15 +94,27 @@ bb.contextMenu = {
 								this.description.innerHTML = data.description;
 							}
 							this.selected = data;
+							// Adjust our scroll container top
+							menu.scrollContainer.style.top = (bb.device.isPlayBook) ? '64px' : '130px';
 						} else {
 							this.header.style.display = 'none';	
-							this.selected = undefined;							
+							this.selected = undefined;
+							// Adjust our scroll container top
+							menu.scrollContainer.style.top = '0px';							
 						}
+						// Set our scroller
+						menu.scrollContainer.style['overflow-y'] = 'scroll';
+						menu.scrollContainer.style['overflow-x'] = 'hidden'
+						menu.scrollContainer.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+						
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
-						this.addEventListener("touchstart", this.touchHandler, false);		
+						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
+						this.addEventListener("touchstart", this.touchHandler, false);	
+						this.onclick = function() {	this.hide();}
 						// Remove the header click handling while peeking
 						this.header.addEventListener("click", this.hide, false);
 						this.style.visibility = 'visible';
@@ -104,16 +123,25 @@ bb.contextMenu = {
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
 		menu.hide = function(){
+						
 						this.overlay.style.display = 'none';
 						this.removeEventListener("touchstart", this.touchHandler, false);
+						this.removeEventListener("touchmove", this.touchMoveHandler, false);
 						this.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(' + bb.contextMenu.getWidth() + 'px, 0px)';
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
 						if (!this.peeking) {
 							// Remove the header click handling 
 							this.header.removeEventListener("click", this.hide, false);	
 						}
 						this.peeking = false;
 						this.visible = false;
+						
+						// Remove our scroller
+						menu.scrollContainer.style['overflow-y'] = '';
+						menu.scrollContainer.style['overflow-x'] = ''
+						menu.scrollContainer.style['-webkit-overflow-scrolling'] = '';
 						
 						// See if there was anyone listenting for hide events and call them
 						// starting from the last one registered and pop them off
@@ -126,6 +154,7 @@ bb.contextMenu = {
 		// Peek the menu
 		menu.peek = function(data){
 						if (data) {
+							this.header.style.display = '';
 							if (data.title) {
 								this.topTitle.innerHTML = data.title;
 							}
@@ -133,14 +162,24 @@ bb.contextMenu = {
 								this.description.innerHTML = data.description;
 							}
 							this.selected = data;
+							// Adjust our scroller top
+							menu.scrollContainer.style.top = (bb.device.isPlayBook) ? '64px' : '130px';
+						} else {
+							// Adjust our scroller top
+							menu.scrollContainer.style.top = '0px';
 						}
-						this.header.style.display = '';
+						
+						this.header.style.visibility = 'hidden';	
 						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
 						this.addEventListener("touchstart", this.touchHandler, false);	
+						this.addEventListener("touchmove", this.touchMoveHandler, false);		
+						this.onclick = function() {this.show()};
 						// Remove the header click handling while peeking
 						this.header.removeEventListener("click", this.hide, false);		
 						this.style.visibility = 'visible';
@@ -148,23 +187,39 @@ bb.contextMenu = {
 					};
 		menu.peek = menu.peek.bind(menu);
 		
-		// Trap the events
+		// Trap touch start events in a way that we can add and remove the handler
 		menu.touchHandler = function(event) {
 								if (this.peeking) {
-									if (event.target == this) {
-										event.preventDefault();
-										event.stopPropagation();
-									} else if (event.target.parentNode == this && event.target != this.header)  {
+									var touch = event.touches[0];
+									this.startPos = touch.pageX;
+									if (event.target == this.scrollContainer) {
+										//event.stopPropagation();
+									} else if (event.target.parentNode == this.scrollContainer && event.target != this.header)  {
 										event.preventDefault();
 										event.stopPropagation();
 									} 						
-								} else {
-									if (event.target == this) {
-										this.hide();
-									} 
-								}
+								} 
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
+		
+		// Trap touch move events in a way that we can add and remove the handler
+		menu.touchMoveHandler = function(event) {
+								// Only care about moves if peeking
+								if (!this.peeking) return;
+								var touch = event.touches[0];
+								if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
+									this.show(this.selected);
+								}
+							};
+		menu.touchMoveHandler = menu.touchMoveHandler.bind(menu);
+		
+		// Handle the case of clicking the context menu while peeking
+		menu.onclick = function(event) {
+			if (this.peeking) {
+				this.show(this.selected);
+				event.stopPropagation();
+			}
+		}
 		
 		// Center the items in the list
 		menu.centerMenuItems = function() {
@@ -175,6 +230,7 @@ bb.contextMenu = {
 								// See how many actions to use for calculations
 								numActions = (this.pinnedAction) ? this.actions.length - 1 : this.actions.length;
 								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - itemHeight; //itemHeight is the header
+								if (margin < 0) margin = 0;
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
@@ -206,7 +262,8 @@ bb.contextMenu = {
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
-				this.appendChild(action);
+				//this.appendChild(action);
+				
 				this.actions.push(action);
 				// See if this item should be pinned to the bottom
 				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
@@ -216,7 +273,11 @@ bb.contextMenu = {
 					action.style.position = 'absolute';
 					action.style.width = '100%';
 					this.pinnedAction = action;
-				}				
+					this.appendChild(action);
+					this.scrollContainer.style.bottom = (bb.device.isPlayBook) ? '64px' : '130px';
+				} else {
+					this.scrollContainer.appendChild(action);
+				}
 				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
 					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
@@ -239,11 +300,9 @@ bb.contextMenu = {
 				
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
-										this.setAttribute('class',this.highlight);
 										this.style['border-left-color'] = bb.options.highlightColor;
 									}
 				action.ontouchend = function () {
-										this.setAttribute('class',this.normal);
 										this.style['border-left-color'] = 'transparent';
 									}
 				action.addEventListener("click", this.hide, false);
@@ -287,4 +346,3 @@ bb.contextMenu = {
 		return window.innerWidth + 3 + 'px';	
 	}
 };
-

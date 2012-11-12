@@ -18,7 +18,7 @@
   var dislider =false;
   var rmvSlider =false;
 
- function moveSlider( myslider ){
+ function moveSlider( myslider ){ 
 	 if( dislider==false && rmvSlider==false ){ 
 		 var value,
 			 step = 5,

@@ -206,23 +206,26 @@ _bb10_imageList = {
 								
 								// Assign our touch handlers
 								btn.ontouchstart = function() {
+												if (!this.onbtnclick) return;
 												this.btnInner.setAttribute('class',this.btnInner.highlight);
 												this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.highlightColor+'))';
 											};
 											
 								btn.ontouchend = function() {
+												if (!this.onbtnclick) return;
 												this.btnBorder.style.background = '';
 												this.btnInner.setAttribute('class',this.btnInner.normal);
 											};
 								
 								// Assign our click handler if one was available
-								if (btn.onbtnclick) {
-									btn.onclick = function(e) {
-													e.stopPropagation();
+								btn.onclick = function(e) {
+												e.stopPropagation();
+												if (this.onbtnclick) {
 													this.outerElement.selected = this.innerChildNode;
 													this.onbtnclick();
 												}
-								}
+											}
+								
 								
 							} else { // Arrow list
 								btnInner.normal = btnInner.normal + ' bb-image-list-item-chevron-'+bb.screen.listColor;
@@ -271,7 +274,7 @@ _bb10_imageList = {
 						innerChildNode.title = title.innerHTML;	
 						
 						innerChildNode.ontouchstart = function () {
-														//this.setAttribute('class',this.highlight);
+														if (!innerChildNode.trappedClick && !this.contextMenu) return;
 														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 														innerChildNode.fingerDown = true;
 														innerChildNode.contextShown = false;
@@ -280,7 +283,7 @@ _bb10_imageList = {
 														}
 													};
 						innerChildNode.ontouchend = function (event) {
-														//this.setAttribute('class',this.normal);
+														if (!innerChildNode.trappedClick && !this.contextMenu) return;
 														this.overlay.style['border-color'] = 'transparent';
 														innerChildNode.fingerDown = false;
 														if (innerChildNode.contextShown) {
@@ -303,6 +306,7 @@ _bb10_imageList = {
 						innerChildNode.onclick = undefined;
 						innerChildNode.outerElement = this;
 						innerChildNode.addEventListener('click',function (e) {
+								if (!innerChildNode.trappedClick) return;
 								this.setAttribute('class',this.highlight);
 								this.outerElement.selected = this;
 								if (this.trappedClick) {
@@ -410,6 +414,26 @@ _bb10_imageList = {
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
 			
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);			
 			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
