@@ -51,7 +51,6 @@ task('build', ['clean'], function () {
         output += include(plugin);
     });
 
-    output += "bb.assignBackHandler(bb.popScreen);";
     fs.writeFileSync(__dirname + "/pkg/bbui-0.9.5.js", output);
     fs.writeFileSync(__dirname + "/samples/bbui-0.9.5.js", output);
 

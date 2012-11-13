@@ -18,7 +18,7 @@
 	<div data-bb-type="title" data-bb-caption="Image List" data-bb-back-caption="Back" ></div>
 	
 	<div data-bb-type="image-list" data-bb-image-effect="fade" data-bb-image-placeholder="images/imageList/placeholder.jpg" id="myImageList">
-		<div data-bb-type="item" data-bb-img="images/imageList/1.jpg" data-bb-title="The Works" data-bb-accent-text="999 years ago">Item with all the options</div>
+		<div data-bb-type="item" data-bb-img="images/imageList/1.jpg" data-bb-title="The Works" data-bb-accent-text="999 years ago" id="myItem">Item with all the options</div>
 		<div data-bb-type="item" data-bb-img="images/imageList/fibbidyfoo.jpg" data-bb-title="Broken Image URL">A placeholder image example</div> 		
 		<div data-bb-type="item" data-bb-img="images/imageList/2.jpg" data-bb-title="No Accent Text">Item with no accent text</div>		
 		<div data-bb-type="item" data-bb-title="Oh Oh, no image" data-bb-accent-text="Nadda">A placeholder image example</div>	
@@ -36,7 +36,9 @@
 		<div data-bb-type="panel-header">Image List Functions</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').hide();" id="hide">Hide Image List</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').show();" id="show">Show Image List</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').remove();" id="remove">Remove Image List</div>        
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').remove();" id="remove">Remove Image List</div>  
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myItem').setTitle('New Title');" id="settitle">Set Title [BB10 Styling]</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myItem').setImage('images/imageList/9.jpg');" id="setimage">Set Image [BB10 Styling]</div>      
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
