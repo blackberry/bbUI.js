@@ -366,6 +366,28 @@ _bb10_imageList = {
 								return (this.img) ? this.img.getAttribute('src') : undefined;
 							}
 						innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
+						
+						// Add our setter functions
+						innerChildNode.setTitle = function(value) {
+								this.setAttribute('data-bb-title',value);	
+								this.getElementsByClassName('title')[0].innerHTML = value;							
+							}
+						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);	
+						innerChildNode.setDescription = function(value) {
+								// To do	
+							}
+						innerChildNode.setDescription = innerChildNode.setDescription.bind(innerChildNode);	
+						innerChildNode.setAccentText = function(value) {
+								// To do							
+							}
+						innerChildNode.setAccentText = innerChildNode.setAccentText.bind(innerChildNode);	
+						innerChildNode.setImage = function(value) {
+							if (this.img.getAttribute('data-bb-images') !== 'none'){
+								this.setAttribute('data-bb-img',value);
+								this.img.setAttribute('src',this.getAttribute('data-bb-img'));
+								}
+							}
+						innerChildNode.setImage = innerChildNode.setImage.bind(innerChildNode);
 					}
 				}
 			}
