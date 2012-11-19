@@ -1,6 +1,7 @@
 _bbPlayBook_imageList = {  
     apply: function(elements) {
-		var i,j,
+		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+			i,j,
 			outerElement,
 			items;
 				
