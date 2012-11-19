@@ -223,7 +223,7 @@ bb.actionBar = {
 									// Compute margins
 									margins = (actionType == 'tab') ? 2 : 0;
 									action.style.width = (actionWidth - margins) + 'px'; 
-									if (action.highlight && (actionType != 'tab')) {
+									if (action.highlight && (actionType != 'tab') && (action.getAttribute('data-bb-img') != 'overflow')) {
 										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
 										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 									}
@@ -402,7 +402,9 @@ bb.actionBar = {
 		
 		// Apply all our button styling
 		lastStyle = (visibleTabs.length > 0) ? 'tab' : 'button';
+		var actionWidth;
 		for (j = 0; j < visibleButtons.length; j++) {
+			actionWidth = btnWidth;
 			action = visibleButtons[j];
 			action.res = res;
 			caption = action.innerHTML;
@@ -427,11 +429,13 @@ bb.actionBar = {
 				}
 				// If it is next to a tab, stretch it so that the right shading lines up
 				if (stretchToTab) {
-					// Stretch the last button if all tabs are before the overflow button  
-					action.style.width = (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px' : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px';
+					// Stretch the last button if all tabs are before the overflow button 
+					actionWidth	= (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth);			
+					action.style.width = actionWidth + 'px';
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
-					action.style.width = (actionBar.actionOverflowBtnWidth - 1) + 'px'; 
+					actionWidth = (actionBar.actionOverflowBtnWidth - 1);
+					action.style.width = actionWidth + 'px'; 
 					action.style.float = 'right';
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
@@ -479,8 +483,8 @@ bb.actionBar = {
 			action.highlight = document.createElement('div');
 			action.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
 			action.highlight.style['height'] = bb.device.isPlayBook ? '4px' : '8px';
-			action.highlight.style['width'] = (btnWidth * 0.6) + 'px';
-			action.highlight.style['margin-left'] = (btnWidth * 0.2) + 'px';
+			action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
+			action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 			action.highlight.style['background-color'] = 'transparent';
 			action.appendChild(action.highlight);
 			
