@@ -2858,10 +2858,9 @@ a.bb5-button-highlight span {
 {
 	padding-top: 3px;	
 	padding-left: 5px;
-	height: 56px;
+	height: 54px;
+	border-top-width: 0px;
 	border-bottom-width: 1px;
-	border-top-width: 1px;
-	border-top-style: solid;
 	border-bottom-style: solid;
 }
 
@@ -2869,10 +2868,9 @@ a.bb5-button-highlight span {
 {
 	padding-top: 6px;	
 	padding-left: 5px;
-	height: 111px;
-	border-top-width: 2px;
+	height: 103px;
+	border-top-width: 0px;
 	border-bottom-width: 2px;
-	border-top-style: solid;
 	border-bottom-style: solid;
 }
 
@@ -2883,9 +2881,9 @@ a.bb5-button-highlight span {
 	border-color: transparent;
 	background-color: transparent;
 	z-index: 100;
-	margin-top: -108px;
+	margin-top: -98px;
 	margin-left: -5px;
-	height: 109px;
+	height: 101px;
 }
 
 .bb-bb10-image-list-item-overlay-lowres {
@@ -2897,7 +2895,7 @@ a.bb5-button-highlight span {
 	z-index: 100;
 	margin-top: -61px;
 	margin-left: -5px;
-	height: 55px;	
+	height: 53px;	
 }
 
 .bb-bb10-image-list-item-details-lowres 
@@ -2930,14 +2928,12 @@ a.bb5-button-highlight span {
 {
 	color:White;
 	border-bottom-color: #3A3A3A;
-	border-bottom-color: #3A3A3A;
 }
 
 .bb-bb10-image-list-item-light
 {
 	color:Black;
 	border-bottom-color: #D9DCDE;
-	border-top-color: #D9DCDE;
 }
 
 .bb-bb10-image-list-item-lowres .title
@@ -2954,11 +2950,11 @@ a.bb5-button-highlight span {
 {
 	overflow: hidden;
 	white-space: nowrap;
-	font-size: 41pt;
+	font-size: 35pt;
 	line-height:59px;
 	text-overflow: -blackberry-fade;
 	padding-top:5px;
-	margin-top: -19px;
+	margin-top: -30px;
 }
 
 .bb-bb10-image-list-item-hover
@@ -2987,8 +2983,8 @@ a.bb5-button-highlight span {
 	left: -5px;	
 	top: -6px;
 	float:left;
-	height:119px;
-	width:119px;
+	height:109px;
+	width:109px;
 }
 
 .bb-bb10-image-list-item-lowres .description
@@ -3007,9 +3003,9 @@ a.bb5-button-highlight span {
 	color:#606060;
 	overflow: hidden;
 	white-space:nowrap;
-	font-size: 30pt;	
+	font-size: 26pt;	
 	margin-bottom: 0px;
-	margin-top:-7px;
+	margin-top:-1px;
 	text-overflow: -blackberry-fade;
 }
 
@@ -3048,8 +3044,8 @@ a.bb5-button-highlight span {
 	position:relative;
 	float:right;
 	width:68px;
-	height:118px;
-	margin-top: -110px;
+	height:108px;
+	margin-top: -105px;
 	padding-left: 20px;
 	z-index: 100;
 }

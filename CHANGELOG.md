@@ -6,6 +6,7 @@ Below you will find all the different changes that have been added since the fir
 
 * _**Compatibility Changes:**_ 
 	* Image List items now only highlight if they have an associated onclick for the item or context menu assigned to the list
+	* Image List images are now 109x109 pixels instead of the 119x119 for BlackBerry 10 devices in bbUI 0.9.4
 * BlackBerry 10 Styling
 	* Updated Action Bar back button and "button actions" to have a highlight when touched
 	* Updated grids:

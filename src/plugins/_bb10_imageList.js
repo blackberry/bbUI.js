@@ -251,9 +251,9 @@ _bb10_imageList = {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
 							// Center the title if no description is given
-							title.style['margin-top'] = (bb.device.isPlayBook) ? '17px' : '18px';
+							title.style['margin-top'] = (bb.device.isPlayBook) ? '16px' : '-7px';
 							// Adjust highlight overlay
-							overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-73px' : '-128px';
+							overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-72px' : '-121px';
 							// Adjust accent text
 							if (accentText) {
 								accentText.style['margin-top'] = (bb.device.isPlayBook) ? '-52px' : '-82px';
