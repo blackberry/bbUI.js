@@ -449,15 +449,6 @@ bb.actionBar = {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
 				
-				// Highlight on touch
-				action.ontouchstart = function() {
-						this.highlight.style['background-color'] = bb.options.highlightColor;				
-				}
-				// Remove highlight when touch ends
-				action.ontouchend = function() {
-						this.highlight.style['background-color'] = 'transparent';				
-				}
-				
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
@@ -470,6 +461,7 @@ bb.actionBar = {
 								};
 				action.setImage = action.setImage.bind(action);
 			}
+			
 			// Default settings
 			action.innerHTML = '';
 			action.setAttribute('class',action.normal);
@@ -484,14 +476,21 @@ bb.actionBar = {
 			action.appendChild(display);
 
 			// Set our highlight
-			if (action.getAttribute('data-bb-img') != 'overflow') {
-				action.highlight = document.createElement('div');
-				action.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
-				action.highlight.style['height'] = bb.device.isPlayBook ? '4px' : '8px';
-				action.highlight.style['width'] = (btnWidth * 0.6) + 'px';
-				action.highlight.style['margin-left'] = (btnWidth * 0.2) + 'px';
-				action.highlight.style['background-color'] = 'transparent';
-				action.appendChild(action.highlight);
+			action.highlight = document.createElement('div');
+			action.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
+			action.highlight.style['height'] = bb.device.isPlayBook ? '4px' : '8px';
+			action.highlight.style['width'] = (btnWidth * 0.6) + 'px';
+			action.highlight.style['margin-left'] = (btnWidth * 0.2) + 'px';
+			action.highlight.style['background-color'] = 'transparent';
+			action.appendChild(action.highlight);
+			
+			// Highlight on touch
+			action.ontouchstart = function() {
+					this.highlight.style['background-color'] = bb.options.highlightColor;				
+			}
+			// Remove highlight when touch ends
+			action.ontouchend = function() {
+					this.highlight.style['background-color'] = 'transparent';				
 			}
 		}
 		// Center the action overflow items
