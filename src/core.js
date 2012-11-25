@@ -480,6 +480,8 @@ bb = {
 					bb.removePreviousScreenFromDom();
 				}
 			} else if (popping) {
+				screen.style['z-index'] = '';
+				
 				var currentScreen = bb.screens[bb.screens.length-1].container;
 				currentScreen.parentNode.removeChild(currentScreen);
 				// Pop it from the stack
