@@ -5164,6 +5164,8 @@ a.bb5-button-highlight span {
 	line-height: 95px;
 	vertical-align: center;
 	font-size:30pt;
+	position: relative;
+	left:0;	
 }
 
 .bb-bb10-context-menu-item-inner-lowres
@@ -5293,7 +5295,8 @@ a.bb5-button-highlight span {
 .bb-bb10-context-menu-item-hires-dark
 {
 	color:White;
-	border-bottom: solid 2px #404040	
+	border-bottom: solid 2px #404040;
+	background: #181818;
 }
 
 .bb-bb10-context-menu-item-first-hires-dark
