@@ -1638,8 +1638,9 @@ bb.contextMenu = {
 									if (event.target == this.scrollContainer) {
 										//event.stopPropagation();
 									} else if (event.target.parentNode == this.scrollContainer && event.target != this.header)  {
-										event.preventDefault();
-										event.stopPropagation();
+										// The below two lines prevent the "fly out" menu from working
+										//event.preventDefault();
+										//event.stopPropagation();
 									} 						
 								} 
 							};
@@ -1761,6 +1762,11 @@ bb.contextMenu = {
 												}
 											}
 										}
+										// "fly out" effect when touching a peeking icon
+										if (!menu.peeking) return;
+										this.style['width'] = '614px';
+										this.style['-webkit-transition'] = 'left 0.3s ease-in-out';
+										this.style['left'] = '-' + 444 + 'px';										
 									}
 				action.ontouchend = function () {
 										if (this.menu.peeking) {
@@ -1768,6 +1774,10 @@ bb.contextMenu = {
 										} else {
 											this.style['background-color'] = '';
 										}
+										// return "fly out" item to original position
+										if (!menu.peeking) return;
+										this.style['-webkit-transition'] = 'left 0.3s ease-in-out';
+										this.style['left'] = '0';
 									}
 				action.addEventListener("click", this.hide, false);
 				
