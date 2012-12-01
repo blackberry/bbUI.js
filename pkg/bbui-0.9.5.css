@@ -1770,6 +1770,10 @@ body, html {
 	height:100%;
 	padding:0px;
 	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-title-bar-caption-portrait-hires {
@@ -1791,6 +1795,10 @@ body, html {
 	padding:0px;
 	padding-left: 10px;
 	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
 }
 .bb-bb10-title-bar-accent-text-hires {
 	color:#606060;
@@ -1799,6 +1807,10 @@ body, html {
 	padding-left: 10px;
 	margin-top:-12px;
 	font-size: 29pt;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-title-bar-hires img
@@ -1835,6 +1847,9 @@ body, html {
 	padding:0px;
 	margin:0px;
 	width: 100%;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-title-bar-caption-portrait-lowres {
@@ -1856,6 +1871,9 @@ body, html {
 	padding:0px;
 	padding-left: 5px;
 	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 .bb-bb10-title-bar-accent-text-lowres {
 	color:#606060;
@@ -1863,6 +1881,9 @@ body, html {
 	margin:0px;
 	padding-left: 5px;
 	font-size: 16pt;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-title-bar-lowres img

@@ -4080,15 +4080,24 @@ bb.titleBar = {
 				titleBar.actionButton = button;
 			}
 			// Create an adjustment function for the widths
-			if (titleBar.actionButton && titleBar.backButton) {
+			if (titleBar.actionButton || titleBar.backButton) {
 				titleBar.evenButtonWidths = function() {
-										var backWidth = parseInt(window.getComputedStyle(this.backButton).width),
-											actionWidth = parseInt(window.getComputedStyle(this.actionButton).width);
-				
-										if (backWidth > actionWidth) {
-											this.actionButton.style.width = backWidth +'px';
-										} else {
-											this.backButton.style.width = actionWidth +'px';
+										var backWidth = this.backButton ? parseInt(window.getComputedStyle(this.backButton).width) : 0,
+											actionWidth = this.actionButton ? parseInt(window.getComputedStyle(this.actionButton).width) : 0,
+											commonWidth;
+										
+										if (this.actionButton && this.backButton) {
+											commonWidth = (backWidth > actionWidth) ? backWidth : actionWidth;
+											this.backButton.style.width = commonWidth +'px';
+											this.actionButton.style.width = commonWidth +'px';
+											this.caption.style['margin-left'] = (commonWidth + 24) +'px';
+											this.caption.style['margin-right'] = (commonWidth + 24) +'px';
+										} else if (this.actionButton) {
+											this.caption.style['margin-left'] = '0px';
+											this.caption.style['margin-right'] = (actionWidth + 24) +'px';
+										} else if (this.backButton) {
+											this.caption.style['margin-right'] = '0px';
+											this.caption.style['margin-left'] = (backWidth + 24) +'px';
 										}
 									};
 				titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
