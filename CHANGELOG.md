@@ -35,6 +35,7 @@ Below you will find all the different changes that have been added since the fir
 * Samples
 	* Updated samples for dynamic control manipulation
 	* Added sample to show how to make static pill buttons in your title area
+	* Main index.htm updated to show how to include webworks.js for BB10 and also fire the "webworksready" for non BB10 devices
 * Noteable Bug Fixes: 
     * Hack added to sample index.htm to show how to deal with Ripple known issue of firing "webworksready" multiple times causing problems with bbUI in Ripple
 	* Fixed wrapping of text in long title bar caption and title bar accent text

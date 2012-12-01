@@ -1037,10 +1037,20 @@ bb.actionBar = {
 		
 		// Add setBackCaption function
 		actionBar.setBackCaption = function(value) {
-				this.setAttribute('data-bb-back-caption',value);
-				backCaption.innerHTML = value;		
-							};
+					this.setAttribute('data-bb-back-caption',value);
+					backCaption.innerHTML = value;		
+				};
 		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
+		
+		// Add setSelectedTab function
+		actionBar.setSelectedTab = function(tab) {
+					if (tab.getAttribute('data-bb-style') != 'tab') return;
+					bb.actionBar.highlightAction(tab);
+					if (tab.onclick) {
+						tab.onclick();
+					}
+				};
+		actionBar.setSelectedTab = actionBar.setSelectedTab.bind(actionBar);  
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {
@@ -1167,6 +1177,12 @@ bb.actionBar = {
 								};
 				action.setCaption = action.setCaption.bind(action);
 				
+				// Assign the getCaption function
+				action.getCaption = function() {
+									return this.display.innerHTML;
+								};
+				action.getCaption = action.getCaption.bind(action);				
+				
 				// Assign the setImage function
 				action.setImage = function(value) {
 									this.icon.setAttribute('src', value);
@@ -1185,6 +1201,12 @@ bb.actionBar = {
 									}
 								};
 				action.setImage = action.setImage.bind(action);
+				
+				// Assign the getImage function
+				action.getImage = function() {
+									return this.icon.getAttribute('src');
+								};
+				action.getImage = action.getImage.bind(action);	
 			}
 			
 			// Make the last tab have a smaller border and insert the shading
@@ -1252,11 +1274,23 @@ bb.actionBar = {
 								};
 				action.setCaption = action.setCaption.bind(action);
 				
+				// Assign the getCaption function
+				action.getCaption = function() {
+									return this.display.innerHTML;
+								};
+				action.getCaption = action.getCaption.bind(action);	
+				
 				// Assign the setImage function
 				action.setImage = function(value) {
 									this.icon.setAttribute('src',value);
 								};
 				action.setImage = action.setImage.bind(action);
+				
+				// Assign the setImage function
+				action.getImage = function() {
+									return this.icon.getAttribute('src');
+								};
+				action.getImage = action.getImage.bind(action);
 			}
 			
 			// Default settings
