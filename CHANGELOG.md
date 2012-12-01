@@ -14,6 +14,10 @@ Below you will find all the different changes that have been added since the fir
 		* Provide horizontal carousel scrolling
 	* Context menus, action overflow and tab overflow menus now scroll content when there are more actions than what will fit on the screen
 	* Action overflow and context menu highlighting has been updated to match BB10 UX
+	* Image list item height changed to match UX specs
+	* Updated title bars:
+		* Height of the bar and buttons changed to match UX specs
+		* Allows for a colored option using titleBarColor in the bb.init() function
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions 
 	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption() functions 

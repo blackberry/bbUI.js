@@ -20,7 +20,7 @@
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
 		<link  rel="stylesheet" type="text/css" href="bbui-0.9.5.css"><link />
 		<script type="text/javascript" src="bbui-0.9.5.js"></script>
-		<script type="text/javascript" src="js/webworks-1.0.2.9.js"></script>
+		<script type="text/javascript" src="local:///chrome/webworks.js"></script>
 		<script type="text/javascript">
 			var rippleLoaded = false;
 			document.addEventListener('webworksready', function(e) {
@@ -28,27 +28,12 @@
 				if (rippleLoaded) return;
 				rippleLoaded = true;
 				
-				// For some fun I did some random color scheme generation :o)
-				var highlightColor,
-					randomNumber;
-				randomNumber=Math.floor(Math.random()*100);
-				if (randomNumber > 90) {
-					  highlightColor = '#BA55D3';
-				} else if (randomNumber > 60) {
-					  highlightColor = '#00BC9F';
-				} else if (randomNumber > 30) {
-					  highlightColor = '#00A8DF';
-				} else {
-					highlightColor = '#B2CC00';
-				}
-				
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
 				bb.init({actionBarDark: true,
 						controlsDark: true,
 						listsDark: false,
 						bb10ForPlayBook: true,
-						highlightColor: highlightColor,
 						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
 						onscreenready: function(element, id) {
 											if (id == 'dataOnLoad') {

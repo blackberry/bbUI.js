@@ -4,8 +4,10 @@ bb.titleBar = {
 		
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+				orientation = bb.getOrientation(),
 				button,
 				caption,
+				titleBarClass,
 				details,
 				topTitleArea = document.createElement('div'),
 				img,
@@ -16,12 +18,18 @@ bb.titleBar = {
 			titleBar.appendChild(topTitleArea);
 			
 			// Style our title bar
-			topTitleArea.setAttribute('class', 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-' + bb.screen.controlColor);
+			
+			if (bb.options.coloredTitleBar) {
+				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb10-title-colored';
+			} else {
+				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb-bb10-title-bar-' + bb.screen.controlColor;
+			}
+			topTitleArea.setAttribute('class', titleBarClass);
 			
 			// Set our caption
 			caption = document.createElement('div');
 			titleBar.caption = caption;
-			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res);
+			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res+ ' bb-bb10-title-bar-caption-'+ orientation+ '-'+res);
 			caption.innerHTML = titleBar.getAttribute('data-bb-caption');
 			topTitleArea.appendChild(caption);
 			
@@ -95,15 +103,16 @@ bb.titleBar = {
 					caption.style['line-height'] = bb.device.isPlayBook ? '40px' : '70px';
 					accentText = document.createElement('div');
 					accentText.setAttribute('class','bb-bb10-title-bar-accent-text-'+ res);
+					if (bb.options.coloredTitleBar) {
+						accentText.style.color = 'silver';
+					}
 					titleBar.accentText = accentText;
 					accentText.innerHTML = titleBar.getAttribute('data-bb-accent-text');
 					details.appendChild(accentText);
 				} 
 			
 			}
-			
-			
-			
+
 			// Assign the setCaption function
 			titleBar.setCaption = function(value) {
 					this.caption.innerHTML = value;
@@ -171,21 +180,31 @@ bb.titleBar = {
 	styleBB10Button: function(outerElement) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			//disabledStyle,
-			innerElement = document.createElement('div');
+			innerElement = document.createElement('div'),
 			//disabled = outerElement.hasAttribute('data-bb-disabled'),
-			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res,
-			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-highlight-'+ bb.screen.controlColor + ' bb10Highlight',
+			normal,
+			highlight, 
+			outerNormal;
+		
+		if (bb.options.coloredTitleBar) {
+			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored';
+			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored-highlight';
+			outerNormal = 'bb-bb10-titlebar-button-container-'+res+' bb10-title-button-container-colored';
+			// Set our styles
+			//disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
+		} else {
+			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-' + bb.screen.controlColor;
+			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-highlight-'+ bb.screen.controlColor;
 			outerNormal = 'bb-bb10-titlebar-button-container-'+res+' bb-bb10-titlebar-button-container-' + bb.screen.controlColor;
-			
+			// Set our styles
+			//disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
+		}
+
 		//outerElement.enabled = !disabled;
 		outerElement.enabled = true;
 		innerElement.innerHTML = outerElement.innerHTML;
 		outerElement.innerHTML = '';
 		outerElement.appendChild(innerElement);
-
-		// Set our styles
-		//disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
-		normal = normal + ' bb-bb10-titlebar-button-' + bb.screen.controlColor;
 		
 		/*if (disabled) {
 			outerElement.removeAttribute('data-bb-disabled');

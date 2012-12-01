@@ -104,7 +104,9 @@ bb = {
 			G : G,
 			B : B,
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
-			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')'		
+			mediumHighlight: 'rgb('+ (R - 60) +', '+ (G - 60) +', '+ (B - 60) +')',
+			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
+			darkDarkHighlight: 'rgb('+ (R - 140) +', '+ (G - 140) +', '+ (B - 140) +')'
 		};
 		
 		// Create our coloring
@@ -116,6 +118,10 @@ bb = {
 				document.styleSheets[0].insertRule('.pb-button-light-highlight {color:'+bb.options.shades.darkHighlight+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.pb-button-dark-highlight {color:'+bb.options.highlightColor+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.shades.darkHighlight +';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-colored {color:white;text-shadow: 0px 2px black;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 			}
 			catch (ex) {
 				console.log(ex.message);
@@ -220,6 +226,7 @@ bb = {
 		ondomready: null,  	
 		actionBarDark: true, 	
 		controlsDark: false, 
+		coloredTitleBar: false,
 		listsDark: false,
 		highlightColor: '#00A8DF',
 		bb10ForPlayBook: false
@@ -734,6 +741,28 @@ bb = {
 				return 768;
 			} else if (window.orientation == -90 || window.orientation == 90) {
 				return 1280;
+			}
+		}
+	},
+	
+	getOrientation: function() {
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return (window.innerWidth == 1024) ? 'landscape' : 'portrait';
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 'landscape';
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 'portrait';
+			}
+		} else {
+			if (!window.orientation) {
+				return (window.innerWidth == 1280) ? 'landscape' : 'portrait';
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 'portrait';
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 'landscape';
 			}
 		}
 	},
@@ -3362,7 +3391,7 @@ bb.screen = {
 					childNode = null, 
 					j,
 					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
-					titleBarHeight = (bb.device.isPlayBook) ? 65 : 120;
+					titleBarHeight = (bb.device.isPlayBook) ? 65 : 111;
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
@@ -3988,8 +4017,10 @@ bb.titleBar = {
 		
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+				orientation = bb.getOrientation(),
 				button,
 				caption,
+				titleBarClass,
 				details,
 				topTitleArea = document.createElement('div'),
 				img,
@@ -4000,12 +4031,18 @@ bb.titleBar = {
 			titleBar.appendChild(topTitleArea);
 			
 			// Style our title bar
-			topTitleArea.setAttribute('class', 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-' + bb.screen.controlColor);
+			
+			if (bb.options.coloredTitleBar) {
+				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb10-title-colored';
+			} else {
+				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb-bb10-title-bar-' + bb.screen.controlColor;
+			}
+			topTitleArea.setAttribute('class', titleBarClass);
 			
 			// Set our caption
 			caption = document.createElement('div');
 			titleBar.caption = caption;
-			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res);
+			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res+ ' bb-bb10-title-bar-caption-'+ orientation+ '-'+res);
 			caption.innerHTML = titleBar.getAttribute('data-bb-caption');
 			topTitleArea.appendChild(caption);
 			
@@ -4079,15 +4116,16 @@ bb.titleBar = {
 					caption.style['line-height'] = bb.device.isPlayBook ? '40px' : '70px';
 					accentText = document.createElement('div');
 					accentText.setAttribute('class','bb-bb10-title-bar-accent-text-'+ res);
+					if (bb.options.coloredTitleBar) {
+						accentText.style.color = 'silver';
+					}
 					titleBar.accentText = accentText;
 					accentText.innerHTML = titleBar.getAttribute('data-bb-accent-text');
 					details.appendChild(accentText);
 				} 
 			
 			}
-			
-			
-			
+
 			// Assign the setCaption function
 			titleBar.setCaption = function(value) {
 					this.caption.innerHTML = value;
@@ -4155,21 +4193,31 @@ bb.titleBar = {
 	styleBB10Button: function(outerElement) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			//disabledStyle,
-			innerElement = document.createElement('div');
+			innerElement = document.createElement('div'),
 			//disabled = outerElement.hasAttribute('data-bb-disabled'),
-			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res,
-			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-highlight-'+ bb.screen.controlColor + ' bb10Highlight',
+			normal,
+			highlight, 
+			outerNormal;
+		
+		if (bb.options.coloredTitleBar) {
+			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored';
+			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored-highlight';
+			outerNormal = 'bb-bb10-titlebar-button-container-'+res+' bb10-title-button-container-colored';
+			// Set our styles
+			//disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
+		} else {
+			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-' + bb.screen.controlColor;
+			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-highlight-'+ bb.screen.controlColor;
 			outerNormal = 'bb-bb10-titlebar-button-container-'+res+' bb-bb10-titlebar-button-container-' + bb.screen.controlColor;
-			
+			// Set our styles
+			//disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
+		}
+
 		//outerElement.enabled = !disabled;
 		outerElement.enabled = true;
 		innerElement.innerHTML = outerElement.innerHTML;
 		outerElement.innerHTML = '';
 		outerElement.appendChild(innerElement);
-
-		// Set our styles
-		//disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
-		normal = normal + ' bb-bb10-titlebar-button-' + bb.screen.controlColor;
 		
 		/*if (disabled) {
 			outerElement.removeAttribute('data-bb-disabled');
