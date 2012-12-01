@@ -22,11 +22,11 @@
 		<script type="text/javascript" src="bbui-0.9.5.js"></script>
 		<script type="text/javascript" src="local:///chrome/webworks.js"></script>
 		<script type="text/javascript">
-			var rippleLoaded = false;
+			var webworksreadyFired = false;
 			document.addEventListener('webworksready', function(e) {
-				// This is a hack for Ripple calling webworksready multiple times
-				if (rippleLoaded) return;
-				rippleLoaded = true;
+				// This is code to ensure that if webworksready is fired multiple times we still only init() one time
+				if (webworksreadyFired) return;
+				webworksreadyFired = true;
 				
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
@@ -65,6 +65,15 @@
 						});
 				bb.pushScreen('menu.htm', 'menu');
 			}, false);
+			
+			// Fire the webworksready event for PlayBook and BBOS
+			window.addEventListener('load',function() {
+					if (navigator.userAgent.indexOf('Version/10.0') < 0) {
+						var evt = document.createEvent('Events');
+						evt.initEvent('webworksready', true, true);
+						document.dispatchEvent(evt);
+					}
+				});
 		</script>
 	</head>
 	<body>
