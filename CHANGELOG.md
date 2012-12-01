@@ -22,7 +22,8 @@ Below you will find all the different changes that have been added since the fir
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions 
 	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption() functions 
 	* **Radio Buttons:** Added show(), hide(), remove(), enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
-	* **Action Bars:** Added setBackCaption()
+	* **Action Bars:** Added setBackCaption(), setSelectedTab() functions
+		* **Buttons/Tabs:** Added getCaption(), getImage() functions
 	* **Scroll Panels:** Added show(), hide(), remove() functions
 	* **Grid Lists:** Added show(), hide(), remove() functions
 	* **Progress Indicator:** Added show(), hide(), remove() functions
