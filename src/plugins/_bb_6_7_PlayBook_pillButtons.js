@@ -130,6 +130,17 @@ _bb_6_7_PlayBook_pillButtons = {
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
+			
+			// Add getButtons function
+			outerElement.getButtons = function() {
+				var items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
+				var buttonArray = new Array();
+				for (var j = 0; j < items.length; j++) {
+					buttonArray[j] = items[j].firstChild.innerHTML;					
+				}				
+				return buttonArray;
+					};
+			outerElement.getButtons = outerElement.getButtons.bind(outerElement);
 
 		}
     } 
