@@ -5953,6 +5953,18 @@ _bb10_toggle = {
 					};
 			outerElement.setOffCaption = outerElement.setOffCaption.bind(outerElement);
 			
+			// Add getOnCaption function
+			outerElement.getOnCaption = function() {
+				return this.yes.innerHTML;				
+					};
+			outerElement.getOnCaption = outerElement.getOnCaption.bind(outerElement);
+			
+			// Add getOffCaption function
+			outerElement.getOffCaption = function() {
+				return this.no.innerHTML;				
+					};
+			outerElement.getOffCaption = outerElement.getOffCaption.bind(outerElement);
+			
 			// set our checked state
 			outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
 			setTimeout(outerElement.positionButton,0);
