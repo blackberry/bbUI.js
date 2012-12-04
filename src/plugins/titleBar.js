@@ -1,7 +1,7 @@
 bb.titleBar = {
 
 	apply: function(titleBar) {
-		
+
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 				orientation = bb.getOrientation(),
@@ -12,27 +12,27 @@ bb.titleBar = {
 				topTitleArea = document.createElement('div'),
 				img,
 				accentText;
-			
+
 			// Insert our title area
 			titleBar.topTitleArea = topTitleArea;
 			titleBar.appendChild(topTitleArea);
-			
+
 			// Style our title bar
-			
+
 			if (bb.options.coloredTitleBar) {
 				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb10-title-colored';
 			} else {
 				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb-bb10-title-bar-' + bb.screen.controlColor;
 			}
 			topTitleArea.setAttribute('class', titleBarClass);
-			
+
 			// Set our caption
 			caption = document.createElement('div');
 			titleBar.caption = caption;
 			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res+ ' bb-bb10-title-bar-caption-'+ orientation+ '-'+res);
 			caption.innerHTML = titleBar.getAttribute('data-bb-caption');
 			topTitleArea.appendChild(caption);
-			
+
 			// Get our back button if provided
 			if (titleBar.hasAttribute('data-bb-back-caption')) {
 				button = document.createElement('div');
@@ -72,7 +72,7 @@ bb.titleBar = {
 										var backWidth = this.backButton ? parseInt(window.getComputedStyle(this.backButton).width) : 0,
 											actionWidth = this.actionButton ? parseInt(window.getComputedStyle(this.actionButton).width) : 0,
 											commonWidth;
-										
+
 										if (this.actionButton && this.backButton) {
 											commonWidth = (backWidth > actionWidth) ? backWidth : actionWidth;
 											this.backButton.style.width = commonWidth +'px';
@@ -90,7 +90,7 @@ bb.titleBar = {
 				titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
 				window.setTimeout(titleBar.evenButtonWidths,0);
 			}
-			
+
 			// Display our image ONLY if there are no title bar images
 			if ((!titleBar.actionButton && !titleBar.backButton) && (titleBar.hasAttribute('data-bb-img') || titleBar.hasAttribute('data-bb-accent-text'))){
 				caption.setAttribute('class','bb-bb10-title-bar-caption-left-'+res);
@@ -98,7 +98,7 @@ bb.titleBar = {
 				titleBar.details = details;
 				topTitleArea.appendChild(details);
 				details.appendChild(caption);
-				
+
 				// First check for the image
 				if (titleBar.hasAttribute('data-bb-img')) {
 					img = document.createElement('img');
@@ -106,7 +106,7 @@ bb.titleBar = {
 					titleBar.img = img;
 					topTitleArea.insertBefore(img, details);
 					details.setAttribute('class', 'bb-bb10-title-bar-caption-details-img-'+res);
-				} 
+				}
 				// Next check for the accent text
 				if (titleBar.hasAttribute('data-bb-accent-text')) {
 					caption.style['line-height'] = bb.device.isPlayBook ? '40px' : '70px';
@@ -118,8 +118,8 @@ bb.titleBar = {
 					titleBar.accentText = accentText;
 					accentText.innerHTML = titleBar.getAttribute('data-bb-accent-text');
 					details.appendChild(accentText);
-				} 
-			
+				}
+
 			}
 
 			// Assign the setCaption function
@@ -160,21 +160,47 @@ bb.titleBar = {
 					return this.actionButton.firstChild.innerHTML;
 				};
 			titleBar.getActionCaption = titleBar.getActionCaption.bind(titleBar);
-			
+
 		} else if (bb.device.isPlayBook) {
 			titleBar.setAttribute('class', 'pb-title-bar');
 			titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
 			if (titleBar.hasAttribute('data-bb-back-caption')) {
-				var button = document.createElement('div'), 
+				var button = document.createElement('div'),
 					buttonInner = document.createElement('div');
 				button.setAttribute('class', 'pb-title-bar-back');
 				button.onclick = bb.popScreen;
 				buttonInner.setAttribute('class','pb-title-bar-back-inner');
-				buttonInner.innerHTML = titleBar.getAttribute('data-bb-back-caption'); 
+				buttonInner.innerHTML = titleBar.getAttribute('data-bb-back-caption');
 				button.appendChild(buttonInner);
 				titleBar.appendChild(button);
 			}
 		} else {
+		    //device is legacy
+
+		    // assign a setCaption function
+			titleBar.setCaption = function(value) {
+
+				if(!value) {
+                    // if no value specified, pull from attribute
+					value = this.getAttribute('data-bb-caption');
+					this.innerHTML = value;
+					return;
+
+				}
+
+				this.setAttribute('data-bb-caption', value);
+				this.innerHTML = value;
+			};
+
+			titleBar.setCaption = titleBar.setCaption.bind(titleBar);
+
+			// Assign the getCaption function
+			titleBar.getCaption = function(value) {
+					return this.innerHTML = value;
+			};
+
+			titleBar.getCaption = titleBar.getCaption.bind(titleBar);
+
 			if (titleBar.hasAttribute('data-bb-caption')) {
 				if (bb.device.isHiRes) {
 					titleBar.setAttribute('class', 'bb-hires-screen-title');
@@ -185,16 +211,16 @@ bb.titleBar = {
 			}
 		}
 	},
-	
+
 	styleBB10Button: function(outerElement) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			//disabledStyle,
 			innerElement = document.createElement('div'),
 			//disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal,
-			highlight, 
+			highlight,
 			outerNormal;
-		
+
 		if (bb.options.coloredTitleBar) {
 			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored';
 			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored-highlight';
@@ -214,7 +240,7 @@ bb.titleBar = {
 		innerElement.innerHTML = outerElement.innerHTML;
 		outerElement.innerHTML = '';
 		outerElement.appendChild(innerElement);
-		
+
 		/*if (disabled) {
 			outerElement.removeAttribute('data-bb-disabled');
 			innerElement.setAttribute('class',disabledStyle);
@@ -236,7 +262,7 @@ bb.titleBar = {
 									this.innerElement.setAttribute('class', this.innerElement.normal);
 								};
 		//}
-						
+
 		// Trap the click and call it only if the button is enabled
 		outerElement.trappedClick = outerElement.onclick;
 		outerElement.onclick = undefined;
@@ -247,14 +273,14 @@ bb.titleBar = {
 					}
 				},false);
 		}
-		
+
 		// Assign our enable function
-	  /*  outerElement.enable = function(){ 
+	  /*  outerElement.enable = function(){
 				if (this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.normal);
 				this.ontouchstart = function() {
 									this.innerElement.setAttribute('class', this.innerElement.highlight);
-									
+
 								};
 				this.ontouchend = function() {
 									this.innerElement.setAttribute('class', this.innerElement.normal);
@@ -262,14 +288,14 @@ bb.titleBar = {
 				this.enabled = true;
 			};
 		// Assign our disable function
-		outerElement.disable = function(){ 
+		outerElement.disable = function(){
 				if (!this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.disabledStyle);
 				this.ontouchstart = null;
 				this.ontouchend = null;
 				this.enabled = false;
 			};*/
-        
-	
+
+
 	}
 };
