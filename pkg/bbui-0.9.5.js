@@ -16,11 +16,11 @@
 
 
 bb = {
-	scroller: null,  
+	scroller: null,
     screens: [],
 	dropdownScrollers: [],
 	transparentPixel: 'data:image/png;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
-						
+
 	// Core control variables
 	imageList : null,
 	activityIndicator : null,
@@ -33,7 +33,7 @@ bb = {
 	roundPanel : null,
 	grid : null,
 	pillButtons : null,
-	labelControlContainers : null,	
+	labelControlContainers : null,
 	slider : null,
 	radio : null,
 	progress : null,
@@ -45,16 +45,16 @@ bb = {
 		if (options) {
 			for (var i in options) bb.options[i] = options[i];
 		}
-		
+
 		// Assign our back handler if provided otherwise assign the default
-		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {	
+		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {
 			if (bb.options.onbackkey) {
 				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.options.onbackkey);
-			} else { // Use the default 
+			} else { // Use the default
 				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.popScreen);
 			}
 		}
-		
+
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
@@ -66,15 +66,15 @@ bb = {
 		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
 		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
 		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
-		
+
 		// Determine HiRes
 		if (bb.device.isRipple) {
-			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
+			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480;
 		} else {
 			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
 		}
-		
-		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
+
+		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
 			i;
 		for (i = 0; i < viewports.length; i++) {
@@ -83,18 +83,18 @@ bb = {
 			} catch (ex) {
 				// Throw away the error
 			}
-		}			
-		
+		}
+
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (bb.device.isBB10 && !bb.device.isPlayBook) { 
+		if (bb.device.isBB10 && !bb.device.isPlayBook) {
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
 		}
 		document.head.appendChild(meta);
-		
+
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
 			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
@@ -108,7 +108,7 @@ bb = {
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
 			darkDarkHighlight: 'rgb('+ (R - 140) +', '+ (G - 140) +', '+ (B - 140) +')'
 		};
-		
+
 		// Create our coloring
 		if (document.styleSheets && document.styleSheets.length) {
 			try {
@@ -131,7 +131,7 @@ bb = {
 		bb.actionBar.color = (bb.options.actionBarDark) ? 'dark' : 'light';
 		bb.screen.controlColor = (bb.options.controlsDark) ? 'dark' : 'light';
 		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
-		
+
 		// Set up our pointers to objects for each OS version
 		if (bb.device.isBB10) {
 			bb.imageList = _bb10_imageList
@@ -188,7 +188,7 @@ bb = {
         // Apply our styling
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
-		if (bb.scrollPanel) 			bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));  
+		if (bb.scrollPanel) 			bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));
 	    if (bb.textInput) 				bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color], [type=search]'));
 		if (bb.dropdown)				bb.dropdown.apply(root.querySelectorAll('select'));
         if (bb.roundPanel) 				bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
@@ -206,11 +206,11 @@ bb = {
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
 		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
         // perform device specific formatting
-        bb.screen.reAdjustHeight();	
+        bb.screen.reAdjustHeight();
     },
-	
-	device: {  
-        isHiRes: false, 
+
+	device: {
+        isHiRes: false,
         isBB5: false,
 		isBB6: false,
 		isBB7: false,
@@ -218,20 +218,20 @@ bb = {
         isPlayBook: false,
         isRipple: false
     },
-	
+
 	// Options for rendering
 	options: {
 		onbackkey: null,
 		onscreenready: null,
-		ondomready: null,  	
-		actionBarDark: true, 	
-		controlsDark: false, 
+		ondomready: null,
+		actionBarDark: true,
+		controlsDark: false,
 		coloredTitleBar: false,
 		listsDark: false,
 		highlightColor: '#00A8DF',
 		bb10ForPlayBook: false
 	},
-	
+
     loadScreen: function(url, id, popping, guid, params, screenRecord) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
@@ -269,7 +269,7 @@ bb = {
 		if (screenRecord) {
 			screenRecord.scripts = [];
 		}
-		
+
         scripts.forEach(function (script) {
             var scriptTag = document.createElement('script');
 
@@ -335,9 +335,9 @@ bb = {
         }
         return container;
     },
-	
+
 	// Initialize the container
-	initContainer : function(container, id, popping, params) {	
+	initContainer : function(container, id, popping, params) {
 		// Fire the onscreenready and then apply our changes in doLoad()
 		if (bb.options.onscreenready) {
 			bb.options.onscreenready(container, id, params);
@@ -345,13 +345,13 @@ bb = {
 		bb.doLoad(container);
 		// Load in the new content
 		document.body.appendChild(container);
-		
+
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
 			animationScreen,
 			effect,
 			effectToApply = null,
 			overlay;
-				
+
         if (screen.length > 0 ) {
             screen = screen[0];
 			// Swap the screen with the animation
@@ -373,8 +373,8 @@ bb = {
 						animationScreen.setAttribute('data-bb-effect','slide-out-down');
 					}  else if (previousEffect.toLowerCase() == 'slide-down') {
 						animationScreen.setAttribute('data-bb-effect','slide-out-up');
-					} 
-				}				
+					}
+				}
 			} else {
 				animationScreen = screen;
 			}
@@ -385,7 +385,7 @@ bb = {
 					effect = animationScreen.getAttribute('data-bb-effect');
 					if (effect) {
 						effect = effect.toLowerCase();
-					
+
 						if (effect == 'fade') {
 							effectToApply = bb.screen.fadeIn;
 						} else if (effect == 'fade-out') {
@@ -418,9 +418,9 @@ bb = {
 								break;
 							}
 						}
-	
+
 						animationScreen.style.display = 'inline'; // This is a wierd hack
-						
+
 						// Listen for when the animation ends so that we can clear the previous screen
 						if (effectToApply) {
 							// Create our overlay
@@ -432,7 +432,7 @@ bb = {
 							bb.screen.animating = true;
 							animationScreen.doEndAnimation = function() {
 									var s = this.style;
-									bb.screen.animating = false;	
+									bb.screen.animating = false;
 									// Remove our overlay
 									document.body.removeChild(this.overlay);
 									this.overlay = null;
@@ -449,16 +449,16 @@ bb = {
 											s.height = '';
 											s['-webkit-animation-name'] = '';
 											s['-webkit-animation-duration'] = '';
-											s['-webkit-animation-timing-function'] = ''; 
+											s['-webkit-animation-timing-function'] = '';
 											s['-webkit-transform'] = '';
 										} else {
 											this.style.display = 'none';
 											this.parentNode.parentNode.removeChild(this.parentNode);
 											// Pop it from the stack
-											bb.screens.pop();	
+											bb.screens.pop();
 											screen.style['z-index'] = '';
 											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
-											bb.screens[bb.screens.length-1].container = container;  
+											bb.screens[bb.screens.length-1].container = container;
 										}
 									} else if (bb.screens.length <= 1) {
 										// Clear style changes that may have been made for the animation
@@ -470,31 +470,31 @@ bb = {
 										s.height = '';
 										s['-webkit-animation-name'] = '';
 										s['-webkit-animation-duration'] = '';
-										s['-webkit-animation-timing-function'] = ''; 
+										s['-webkit-animation-timing-function'] = '';
 										s['-webkit-transform'] = '';
 									}
-									
+
 									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
-									bb.createScreenScroller(screen); 
+									bb.createScreenScroller(screen);
 								};
 							animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
 							animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
-							
+
 							effectToApply.call(this, animationScreen);
 						}
-					} 
-				}				
-			} 
-		} 
-		
+					}
+				}
+			}
+		}
+
 		// Fire the ondomready after the element is added to the DOM and we've set our animation flags
 		if (bb.options.ondomready) {
 			bb.domready.container = container;
 			bb.domready.id = id;
 			bb.domready.params = params;
-			setTimeout(bb.domready.fire, 1); 
+			setTimeout(bb.domready.fire, 1);
 		}
-		
+
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
 			if (!popping) {
@@ -505,25 +505,25 @@ bb = {
 				}
 			} else if (popping) {
 				screen.style['z-index'] = '';
-				
+
 				var currentScreen = bb.screens[bb.screens.length-1].container;
 				currentScreen.parentNode.removeChild(currentScreen);
 				// Pop it from the stack
-				bb.screens.pop();	
+				bb.screens.pop();
 				// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
-				bb.screens[bb.screens.length-1].container = container; 
+				bb.screens[bb.screens.length-1].container = container;
 			}
-			bb.createScreenScroller(screen); 
+			bb.createScreenScroller(screen);
 		}
 	},
-	
+
 	// Function pointer to allow us to asynchronously fire ondomready
 	domready : {
-	
+
 		container : null,
 		id : null,
 		params : null,
-		
+
 		fire : function() {
 			if (bb.screen.animating) {
 				setTimeout(bb.domready.fire, 250);
@@ -531,26 +531,26 @@ bb = {
 			}
 			bb.options.ondomready(bb.domready.container, bb.domready.id, bb.domready.params);
 			bb.domready.container = null;
-			bb.domready.id = null;	
+			bb.domready.id = null;
 		    bb.domready.params = null;
 		}
-	
+
 	},
-	
+
 	// Creates the scroller for the screen
-	createScreenScroller : function(screen) {  
+	createScreenScroller : function(screen) {
 		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
 			// Only apply iScroll if it is the PlayBook
 			if (bb.device.isPlayBook) {
 				var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 					var target = e.target;
-					
+
 					// Don't scroll the screen when touching in our drop downs for BB10
 					if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
 						return;
 					}
-					
+
 					while (target.nodeType != 1) target = target.parentNode;
 
 					if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
@@ -562,7 +562,7 @@ bb = {
 								activeElement.blur();
 							}
 						}
-					} 
+					}
 					// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
 					/*if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
 						bb.options.screen.onBeforeScrollStart(e);
@@ -582,7 +582,7 @@ bb = {
 						}
 					}
 				}*/
-				bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
+				bb.scroller = new iScroll(scrollWrapper, scrollerOptions);
 			} else if (bb.device.isBB10) {
 				// Use the built in inertial scrolling with elastic ends
 				bb.scroller = null;
@@ -594,7 +594,7 @@ bb = {
 					};
 			}
 		}
-	},  
+	},
 
 	// Clear the scroller objects
 	clearScrollers: function() {
@@ -607,19 +607,19 @@ bb = {
 			bb.dropdownScrollers.pop();
 		}
 	},
-	
+
 	// Remove the topmost screen from the dom
 	removeTopMostScreenFromDom: function() {
 		var numItems = bb.screens.length,
-			oldScreen = document.getElementById(bb.screens[numItems -1].guid);	
+			oldScreen = document.getElementById(bb.screens[numItems -1].guid);
 		document.body.removeChild(oldScreen);
 	},
-	
+
 	// Remove the previous screen from the dom
 	removePreviousScreenFromDom: function() {
 		var numItems = bb.screens.length,
 			oldScreen,
-			stepBack;	
+			stepBack;
 		if (numItems == 1) return; // There is only one screen on the stack
 		stepBack = (numItems > 1) ? 2 : 1;
 		oldScreen = document.getElementById(bb.screens[numItems - stepBack].guid);
@@ -627,7 +627,7 @@ bb = {
 			document.body.removeChild(oldScreen);
 		}
 	},
-	
+
     // Add a new screen to the stack
     pushScreen: function (url, id, params) {
 		// Remove our old screen
@@ -646,11 +646,11 @@ bb = {
 				window.scroll(0,0);
 			}
         }
-		
+
         // Add our screen to the stack
         var guid = bb.guidGenerator(),
 			container = bb.loadScreen(url, id, false, guid, params);
-		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container, 'guid': guid, 'params' : params});    
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container, 'guid': guid, 'params' : params});
     },
 
     // Pop a screen from the stack
@@ -666,7 +666,7 @@ bb = {
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
-					
+
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
 				window.scroll(0,0);
@@ -700,7 +700,7 @@ bb = {
             }
         }
     },
-	
+
 	innerHeight: function() {
 		// Orientation is backwards between playbook and BB10 smartphones
 		if (bb.device.isPlayBook) {
@@ -722,7 +722,7 @@ bb = {
 			}
 		}
 	},
-	
+
 	innerWidth: function() {
 		// Orientation is backwards between playbook and BB10 smartphones
 		if (bb.device.isPlayBook) {
@@ -744,7 +744,7 @@ bb = {
 			}
 		}
 	},
-	
+
 	getOrientation: function() {
 		// Orientation is backwards between playbook and BB10 smartphones
 		if (bb.device.isPlayBook) {
@@ -766,18 +766,18 @@ bb = {
 			}
 		}
 	},
-	
+
 	cutHex : function(h) {
 		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	},
-	
+
 	guidGenerator : function() {
 		var S4 = function() {
 		   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		};
 		return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
 	},
-	
+
 	refresh : function() {
 		if (bb.scroller) {
 			bb.scroller.refresh();
@@ -785,19 +785,19 @@ bb = {
 	}
 };
 
-Function.prototype.bind = function(object){ 
-  var fn = this; 
-  return function(){ 
-    return fn.apply(object, arguments); 
-  }; 
-}; 
+Function.prototype.bind = function(object){
+  var fn = this;
+  return function(){
+    return fn.apply(object, arguments);
+  };
+};
 // Apply styling to an action bar
 bb.actionBar = {
 
 	color: '',
-	
+
 	apply: function(actionBar, screen) {
-		
+
 		var actions = actionBar.querySelectorAll('[data-bb-type=action]'),
 			visibleButtons = [],
 			overflowButtons = [],
@@ -817,7 +817,7 @@ bb.actionBar = {
 			icon,
 			color = bb.actionBar.color,
 			j;
-			
+
 		actionBar.backBtnWidth = 0;
 		actionBar.actionOverflowBtnWidth = 0;
 		actionBar.tabOverflowBtnWidth = 0;
@@ -827,7 +827,7 @@ bb.actionBar = {
 		actionBar.overflowButtons = overflowButtons;
 		actionBar.shownActions = shownActions;
 		actionBar.overflowTabs = overflowTabs;
-		
+
 		// Gather our visible and overflow tabs and buttons
 		for (j = 0; j < actions.length; j++) {
 			action = actions[j];
@@ -848,9 +848,9 @@ bb.actionBar = {
 				}
 			}
 		}
-					
+
 		// Create the back button if it has one and there are no tabs in the action bar
-		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {		
+		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {
 			var chevron,
 				backCaption,
 				backslash,
@@ -879,16 +879,16 @@ bb.actionBar = {
 			backBtn.backHighlight = backHighlight;
 			backBtn.appendChild(backHighlight);
 			backBtn.ontouchstart = function() {
-					this.backHighlight.style['background-color'] = bb.options.highlightColor;				
+					this.backHighlight.style['background-color'] = bb.options.highlightColor;
 			}
 			backBtn.ontouchend = function() {
-					this.backHighlight.style['background-color'] = 'transparent';				
+					this.backHighlight.style['background-color'] = 'transparent';
 			}
-			
+
 			// Create our backslash
 			backslash = document.createElement('div');
-			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color); 
-			
+			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color);
+
 			// Create a table to hold the back button and our actions
 			var table = document.createElement('table'),
 				tr = document.createElement('tr'),
@@ -945,7 +945,7 @@ bb.actionBar = {
 			actionContainer.insertBefore(action, actionContainer.firstChild);
 			visibleTabs.push(action);
 		}
-		
+
 		// If we have "button" actions marked as overflow we need to show the more menu button
 		if (overflowButtons.length > 0) {
 			actionBar.actionOverflowBtnWidth = (bb.device.isPlayBook) ? 77: 154;
@@ -965,42 +965,42 @@ bb.actionBar = {
 			actionContainer.appendChild(action);
 			visibleButtons.push(action);
 		}
-		
+
 		// Determines how much width there is to use not including built in system buttons on the bar
 		actionBar.getUsableWidth = function() {
-				return bb.innerWidth() - this.backBtnWidth - this.actionOverflowBtnWidth - this.tabOverflowBtnWidth;		
+				return bb.innerWidth() - this.backBtnWidth - this.actionOverflowBtnWidth - this.tabOverflowBtnWidth;
 			}
 		actionBar.getUsableWidth = actionBar.getUsableWidth.bind(actionBar);
-		
-		// Create our function to calculate the widths of the inner action items 
+
+		// Create our function to calculate the widths of the inner action items
 		actionBar.calculateActionWidths = function() {
 							var result,
 								numUserActions,
 								numSystemActions = 0,
 								totalWidth = this.getUsableWidth(),
 								visibleActions = this.visibleButtons.length + this.visibleTabs.length;
-							
+
 							// Get our non system actions
 							numUserActions = (this.moreBtn) ? visibleActions - 1 : visibleActions; // Remove the more button from the equation
 							numUserActions = (this.tabOverflowBtn) ? numUserActions - 1 : numUserActions; // Remove the tab overflow button from the equation
-							
+
 							// Count our visible system actions
 							numSystemActions = (this.moreBtn) ? numSystemActions + 1 : numSystemActions;
 							numSystemActions = (this.tabOverflowBtn) ? numSystemActions + 1 : numSystemActions;
 							numSystemActions = (this.backBtn) ? numSystemActions + 1 : numSystemActions;
-							
+
 							if ((numSystemActions + numUserActions) < 5) {
 								result = Math.floor(totalWidth/numUserActions);
 							} else {
 								result = Math.floor(totalWidth/(5-numSystemActions));
 							}
-							
+
 							return result;
 						};
 		actionBar.calculateActionWidths = actionBar.calculateActionWidths.bind(actionBar);
 		// Get our button width
 		btnWidth = actionBar.calculateActionWidths();
-		
+
 		// Make sure we move when the orientation of the device changes
 		actionBar.orientationChanged = function(event) {
 								var actionWidth = actionBar.calculateActionWidths(),
@@ -1009,39 +1009,39 @@ bb.actionBar = {
 									actionType,
 									length = this.shownActions.length,
 									margins = 2;
-									
+
 								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
 									// Compute margins
 									margins = (actionType == 'tab') ? 2 : 0;
-									action.style.width = (actionWidth - margins) + 'px'; 
+									action.style.width = (actionWidth - margins) + 'px';
 									if (action.highlight && (actionType != 'tab') && (action.getAttribute('data-bb-img') != 'overflow')) {
 										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
 										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 									}
 								}
-								
+
 								// Adjust our more button
 								if (this.moreBtn && (this.shownActions.length > 0)) {
 									if (actionType == 'tab') {
-										// Stretch the last button if all tabs are before the overflow button  
+										// Stretch the last button if all tabs are before the overflow button
 										this.moreBtn.style.width = (bb.innerWidth() - (this.shownActions.length * actionWidth)) + 'px';
 									} else {
-										this.moreBtn.style.width = this.actionOverflowBtnWidth + 'px'; 
+										this.moreBtn.style.width = this.actionOverflowBtnWidth + 'px';
 									}
 								}
 							};
-		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
+		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);
 		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
-		
+
 		// Add setBackCaption function
 		actionBar.setBackCaption = function(value) {
 					this.setAttribute('data-bb-back-caption',value);
-					backCaption.innerHTML = value;		
+					backCaption.innerHTML = value;
 				};
-		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
-		
+		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);
+
 		// Add setSelectedTab function
 		actionBar.setSelectedTab = function(tab) {
 					if (tab.getAttribute('data-bb-style') != 'tab') return;
@@ -1050,8 +1050,8 @@ bb.actionBar = {
 						tab.onclick();
 					}
 				};
-		actionBar.setSelectedTab = actionBar.setSelectedTab.bind(actionBar);  
-		
+		actionBar.setSelectedTab = actionBar.setSelectedTab.bind(actionBar);
+
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {
 			var clone;
@@ -1060,13 +1060,13 @@ bb.actionBar = {
 				action = visibleTabs[j];
 				// Don't add the visible overflow tab
 				if (action.getAttribute('data-bb-img') != 'overflow') {
-					clone = action.cloneNode(true);					
+					clone = action.cloneNode(true);
 					clone.visibleTab = action;
 					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
-			}		
+			}
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
@@ -1082,7 +1082,7 @@ bb.actionBar = {
 			action.res = res;
 			actionBar.menu.add(action);
 		}
-		
+
 		// Apply all our tab styling
 		var tabMargins = 2,
 			numVisibleTabs = visibleTabs.length,
@@ -1092,16 +1092,16 @@ bb.actionBar = {
 			// Don't add any more than 5 items on the action bar
 			if (j > 4) {
 				action.style.display = 'none';
-				continue;			
+				continue;
 			}
 			action.res = res;
 			caption = action.innerHTML;
 			// Size our last visible tab differently
 			if ((j == visibleTabs.length -1) && (j == 4)) {
-				// Stretch the last tab if actionbar only has tabs in case of any kind of rounding errors based on division  
+				// Stretch the last tab if actionbar only has tabs in case of any kind of rounding errors based on division
 				action.style.width = (actionBar.getUsableWidth() - (4 * btnWidth) - tabMargins) + 'px';
 			} else {
-				action.style.width = (btnWidth - tabMargins) + 'px'; 
+				action.style.width = (btnWidth - tabMargins) + 'px';
 			}
 			action.actionBar = actionBar;
 			action.innerHTML = '';
@@ -1119,10 +1119,10 @@ bb.actionBar = {
 			display.innerHTML = caption;
 			action.display = display;
 			action.appendChild(display);
-			
+
 			// See if it is our overflow tab
 			if (action.getAttribute('data-bb-img') == 'overflow') {
-				action.style.width = actionBar.tabOverflowBtnWidth + 'px'; 
+				action.style.width = actionBar.tabOverflowBtnWidth + 'px';
 				action.icon = icon;
 				display.innerHTML = '&nbsp;';
 				action.display = display;
@@ -1143,14 +1143,14 @@ bb.actionBar = {
 							this.tabHighlight.style.display = 'none';
 							this.display.innerHTML = '&nbsp;';
 						};
-				action.reset = action.reset.bind(action);	
+				action.reset = action.reset.bind(action);
 			} // See if it was a selected tab
 			else {
 				shownActions.push(action);
 				// Set our image
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				action.icon = icon;
-				
+
 				if (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
 					bb.actionBar.highlightAction(action);
 				}
@@ -1158,7 +1158,7 @@ bb.actionBar = {
 				action.addEventListener('click',function (e) {
 					bb.actionBar.highlightAction(this);
 				},false);
-				
+
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
@@ -1171,22 +1171,22 @@ bb.actionBar = {
 											target = tabs[i];
 											if (target.visibleTab == this)  {
 												target.setCaption(value);
-											} 
+											}
 										}
 									}
 								};
 				action.setCaption = action.setCaption.bind(action);
-				
+
 				// Assign the getCaption function
 				action.getCaption = function() {
 									return this.display.innerHTML;
 								};
-				action.getCaption = action.getCaption.bind(action);				
-				
+				action.getCaption = action.getCaption.bind(action);
+
 				// Assign the setImage function
 				action.setImage = function(value) {
 									this.icon.setAttribute('src', value);
-									
+
 									// Change the associated overflow item if one exists
 									if (this.actionBar.tabOverflowMenu) {
 										var tabs = this.actionBar.tabOverflowMenu.actions,
@@ -1196,25 +1196,25 @@ bb.actionBar = {
 											target = tabs[i];
 											if (target.visibleTab == this)  {
 												target.setImage(value);
-											} 
+											}
 										}
 									}
 								};
 				action.setImage = action.setImage.bind(action);
-				
+
 				// Assign the getImage function
 				action.getImage = function() {
 									return this.icon.getAttribute('src');
 								};
-				action.getImage = action.getImage.bind(action);	
+				action.getImage = action.getImage.bind(action);
 			}
-			
+
 			// Make the last tab have a smaller border and insert the shading
 			if ((j == visibleTabs.length-1) && (j < 4)) {
 				action.style['border-right-width'] = '1px';
-			} 	
+			}
 		}
-		
+
 		// Apply all our button styling
 		lastStyle = (visibleTabs.length > 0) ? 'tab' : 'button';
 		var actionWidth;
@@ -1226,16 +1226,16 @@ bb.actionBar = {
 			// Don't add any more than 5 items on the action bar
 			if ((((numVisibleTabs + j) > 4)) || (actionBar.backBtn && (j > 3))) {
 				action.style.display = 'none';
-				continue;			
+				continue;
 			}
-			
+
 			// Add the icon
 			icon = document.createElement('img');
 			if (action.getAttribute('data-bb-img') == 'overflow') {
 				// Set our transparent pixel
 				icon.setAttribute('src',bb.transparentPixel);
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-overflow-button-'+res+'-'+color);
-				// Stretch to the last tab as long as the only tab isn't the tab overflow 
+				// Stretch to the last tab as long as the only tab isn't the tab overflow
 				var stretchToTab = false;
 				if ((lastStyle == 'tab') && actionBar.tabOverflowMenu && (visibleTabs.length == 1) && (visibleButtons.length == 1)) {
 					stretchToTab = false;
@@ -1244,13 +1244,13 @@ bb.actionBar = {
 				}
 				// If it is next to a tab, stretch it so that the right shading lines up
 				if (stretchToTab) {
-					// Stretch the last button if all tabs are before the overflow button 
-					actionWidth	= (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth);			
+					// Stretch the last button if all tabs are before the overflow button
+					actionWidth	= (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth);
 					action.style.width = actionWidth + 'px';
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
 					actionWidth = (actionBar.actionOverflowBtnWidth - 1);
-					action.style.width = actionWidth + 'px'; 
+					action.style.width = actionWidth + 'px';
 					action.style.float = 'right';
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
@@ -1259,46 +1259,46 @@ bb.actionBar = {
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
 				action.icon = icon;
-				action.style.width = btnWidth + 'px'; 
-				
+				action.style.width = btnWidth + 'px';
+
 				// set our shading if needed
 				if (lastStyle == 'tab') {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
-				
+
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
 								};
 				action.setCaption = action.setCaption.bind(action);
-				
+
 				// Assign the getCaption function
 				action.getCaption = function() {
 									return this.display.innerHTML;
 								};
-				action.getCaption = action.getCaption.bind(action);	
-				
+				action.getCaption = action.getCaption.bind(action);
+
 				// Assign the setImage function
 				action.setImage = function(value) {
 									this.icon.setAttribute('src',value);
 								};
 				action.setImage = action.setImage.bind(action);
-				
+
 				// Assign the setImage function
 				action.getImage = function() {
 									return this.icon.getAttribute('src');
 								};
 				action.getImage = action.getImage.bind(action);
 			}
-			
+
 			// Default settings
 			action.innerHTML = '';
 			action.setAttribute('class',action.normal);
 			action.appendChild(icon);
 			lastStyle = 'button';
-			
+
 			// Set our caption
 			var display = document.createElement('div');
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
@@ -1314,14 +1314,14 @@ bb.actionBar = {
 			action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 			action.highlight.style['background-color'] = 'transparent';
 			action.appendChild(action.highlight);
-			
+
 			// Highlight on touch
 			action.ontouchstart = function() {
-					this.highlight.style['background-color'] = bb.options.highlightColor;				
+					this.highlight.style['background-color'] = bb.options.highlightColor;
 			}
 			// Remove highlight when touch ends
 			action.ontouchend = function() {
-					this.highlight.style['background-color'] = 'transparent';				
+					this.highlight.style['background-color'] = 'transparent';
 			}
 		}
 		// Center the action overflow items
@@ -1340,13 +1340,13 @@ bb.actionBar = {
 		var i,
 			target,
 			tabs = action.actionBar.visibleTabs;
-		
+
 		// First un-highlight the rest
 		for (i = 0; i < tabs.length; i++) {
 			target = tabs[i];
-			if (target != action) { 
+			if (target != action) {
 				bb.actionBar.unhighlightAction(target);
-			}					
+			}
 		}
 		// Un-highlight the overflow menu items
 		if (action.actionBar.tabOverlowMenu) {
@@ -1355,18 +1355,18 @@ bb.actionBar = {
 				target = tabs[i];
 				if (target != overflowAction)  {
 					bb.actionBar.unhighlightAction(target);
-				} 
+				}
 			}
 		}
-		
+
 		// Now highlight this action
 		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
-		
+
 		if (overflowAction) {
 			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
 		}
-		
+
 		// See if there was a tab overflow
 		if (action.actionBar.tabOverflowMenu && !overflowAction) {
 			if (action.actionBar.tabOverflowBtn && (action == action.actionBar.tabOverflowBtn)) {
@@ -1381,13 +1381,13 @@ bb.actionBar = {
 				}
 			}
 		}
-		
+
 		// Reset the tab overflow
 		if (action.actionBar.tabOverflowBtn && action.actionBar.tabOverflowBtn.reset) {
 			action.actionBar.tabOverflowBtn.reset();
 		}
 	},
-	
+
 	// Apply the proper styling for an action that is no longer highlighted
 	unhighlightAction: function(action) {
 		var target;
@@ -1408,19 +1408,19 @@ _bb_bbmBubble = {
     apply: function(elements) {
         for (var i = 0; i < elements.length; i++) {
             var outerElement = elements[i];
-                
+
             if (outerElement.hasAttribute('data-bb-style')) {
                 var style = outerElement.getAttribute('data-bb-style').toLowerCase();
                 if (style == 'left')
                     outerElement.setAttribute('class','bb-bbm-bubble-left');
                 else
                     outerElement.setAttribute('class','bb-bbm-bubble-right');
-                    
+
                 var innerElements = outerElement.querySelectorAll('[data-bb-type=item]');
                 for (var j = 0; j > innerElements.length; j++) {
                     outerElement.removeChild(innerElements[j]);
                 }
-                
+
                 // Create our new <div>'s
                 var placeholder = document.createElement('div');
                 placeholder.setAttribute('class','top-left image');
@@ -1428,15 +1428,15 @@ _bb_bbmBubble = {
                 placeholder = document.createElement('div');
                 placeholder.setAttribute('class','top-right image');
                 outerElement.appendChild(placeholder);
-                
+
                 placeholder = document.createElement('div');
                 placeholder.setAttribute('class','inside');
                 outerElement.appendChild(placeholder);
-                
+
                 var insidePanel = document.createElement('div');
                 insidePanel.setAttribute('class','nogap');
                 placeholder.appendChild(insidePanel);
-                
+
                 placeholder = document.createElement('div');
                 placeholder.setAttribute('class','bottom-left image');
                 outerElement.appendChild(placeholder);
@@ -1449,17 +1449,17 @@ _bb_bbmBubble = {
                         description = innerChildNode.innerHTML;
                     innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n' +
                             '<div class="details">'+ description +'</div>\n';
-                    insidePanel.appendChild(innerChildNode); 
+                    insidePanel.appendChild(innerChildNode);
                 }
-                
+
             }
-			
+
 			// Add our get Style function
 			outerElement.getStyle = function() {
 						return this.getAttribute('data-bb-style');
 					};
 			outerElement.getStyle = outerElement.getStyle.bind(outerElement);
-			
+
 			// Add setStyle function (left or right)
 			outerElement.setStyle = function(value) {
 				if (value == 'left'){
@@ -1473,7 +1473,7 @@ _bb_bbmBubble = {
 				bb.refresh();
 				};
 			outerElement.setStyle = outerElement.setStyle.bind(outerElement);
-			
+
 			// Add show function
 			outerElement.show = function() {
 				this.style.display = 'block';
@@ -1487,19 +1487,19 @@ _bb_bbmBubble = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 				};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-        }   
+        }
     }
 };
 // BlackBerry 10 Context Menu
 bb.contextMenu = {
-	
+
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
 		var res,
@@ -1511,27 +1511,27 @@ bb.contextMenu = {
 			res = 'hires';
 			swipeThreshold = 300;
 		}
-		
+
 		// Create the oveflow menu container
-		var menu = document.createElement('div'), 
+		var menu = document.createElement('div'),
 			title = document.createElement('div'),
 			description = document.createElement('div'),
 			header;
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
-	
+
 		menu.actions = [];
 		menu.hideEvents = [];
 		menu.res = res;
 		menu.threshold = swipeThreshold;
 		menu.visible = false;
-		
+
 		// Create our overlay for touch events
 		menu.overlay = document.createElement('div');
 		menu.overlay.threshold = swipeThreshold;
 		menu.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
 		menu.overlay.menu = menu;
 		screen.appendChild(menu.overlay);
-		
+
 		menu.overlay.ontouchmove = function(event) {
 										// Only care about moves if peeking
 										if (!this.menu.peeking) return;
@@ -1549,30 +1549,30 @@ bb.contextMenu = {
 		menu.overlay.ontouchstart = function(event) {
 											this.closeMenu = true;
 											if (!this.menu.peeking) return;
-											
+
 											var touch = event.touches[0];
 											this.startPos = touch.pageX;
 											event.preventDefault();
 										};
-		
+
 		// Create the menu header
 		header = document.createElement('div');
 		header.setAttribute('class','bb-bb10-context-menu-item-'+res+' bb-bb10-context-menu-header-'+bb.actionBar.color);
 		menu.header = header;
 		menu.appendChild(header);
-		
+
 		// Create our title container
 		title.setAttribute('class','bb-bb10-context-menu-header-title-'+res+' bb-bb10-context-menu-header-title-'+bb.actionBar.color);
 		title.style.width = bb.contextMenu.getWidth() - 20 + 'px';
 		menu.topTitle = title;
 		header.appendChild(title);
-		
+
 		// Create our description container
 		description.setAttribute('class','bb-bb10-context-menu-header-description-'+res);
 		description.style.width = bb.contextMenu.getWidth() - 20 + 'px';
 		menu.description = description;
 		header.appendChild(description);
-		
+
 		// Create our scrolling container
 		menu.scrollContainer = document.createElement('div');
 		menu.scrollContainer.setAttribute('class', 'bb-bb10-context-menu-scroller');
@@ -1580,7 +1580,7 @@ bb.contextMenu = {
 
 		// Set our first left position
 		menu.style.left = bb.contextMenu.getLeft();
-		
+
 		// Display the menu
 		menu.show = function(data){
 						if (data) {
@@ -1596,23 +1596,23 @@ bb.contextMenu = {
 							// Adjust our scroll container top
 							menu.scrollContainer.style.top = (bb.device.isPlayBook) ? '64px' : '130px';
 						} else {
-							this.header.style.display = 'none';	
+							this.header.style.display = 'none';
 							this.selected = undefined;
 							// Adjust our scroll container top
-							menu.scrollContainer.style.top = '0px';							
+							menu.scrollContainer.style.top = '0px';
 						}
 						// Set our scroller
 						menu.scrollContainer.style['overflow-y'] = 'scroll';
 						menu.scrollContainer.style['overflow-x'] = 'hidden'
 						menu.scrollContainer.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
-						
+
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';
 						this.style['-webkit-backface-visibility'] = 'hidden';
 						this.style['-webkit-perspective'] = '1000';
-						this.addEventListener("touchstart", this.touchHandler, false);	
+						this.addEventListener("touchstart", this.touchHandler, false);
 						this.onclick = function() {	this.hide();}
 						// Remove the header click handling while peeking
 						this.header.addEventListener("click", this.hide, false);
@@ -1622,7 +1622,7 @@ bb.contextMenu = {
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
 		menu.hide = function(){
-						
+
 						this.overlay.style.display = 'none';
 						this.removeEventListener("touchstart", this.touchHandler, false);
 						this.removeEventListener("touchmove", this.touchMoveHandler, false);
@@ -1631,30 +1631,30 @@ bb.contextMenu = {
 						this.style['-webkit-backface-visibility'] = 'hidden';
 						this.style['-webkit-perspective'] = '1000';
 						if (!this.peeking) {
-							// Remove the header click handling 
-							this.header.removeEventListener("click", this.hide, false);	
+							// Remove the header click handling
+							this.header.removeEventListener("click", this.hide, false);
 						}
 						this.peeking = false;
 						this.visible = false;
-						
+
 						// Remove our scroller
 						menu.scrollContainer.style['overflow-y'] = '';
 						menu.scrollContainer.style['overflow-x'] = ''
 						menu.scrollContainer.style['-webkit-overflow-scrolling'] = '';
-						
+
 						// See if there was anyone listenting for hide events and call them
 						// starting from the last one registered and pop them off
 						for (var i = menu.hideEvents.length-1; i >= 0; i--) {
 							menu.hideEvents[i]();
 							menu.hideEvents.pop();
 						}
-						
+
 						// Hack because PlayBook doesn't seem to get all the touch end events
 						if (bb.device.isPlayBook) {
 							for (var i = 0; i < this.actions.length; i++) {
 								this.actions[i].ontouchend();
 							}
-						}						
+						}
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -1674,25 +1674,25 @@ bb.contextMenu = {
 							// Adjust our scroller top
 							menu.scrollContainer.style.top = '0px';
 						}
-						
-						this.header.style.visibility = 'hidden';	
+
+						this.header.style.visibility = 'hidden';
 						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
+						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';
 						this.style['-webkit-backface-visibility'] = 'hidden';
 						this.style['-webkit-perspective'] = '1000';
-						this.addEventListener("touchstart", this.touchHandler, false);	
-						this.addEventListener("touchmove", this.touchMoveHandler, false);		
+						this.addEventListener("touchstart", this.touchHandler, false);
+						this.addEventListener("touchmove", this.touchMoveHandler, false);
 						this.onclick = function() {this.show()};
 						// Remove the header click handling while peeking
-						this.header.removeEventListener("click", this.hide, false);		
+						this.header.removeEventListener("click", this.hide, false);
 						this.style.visibility = 'visible';
 						this.visible = true;
 					};
 		menu.peek = menu.peek.bind(menu);
-		
+
 		// Trap touch start events in a way that we can add and remove the handler
 		menu.touchHandler = function(event) {
 								if (this.peeking) {
@@ -1703,11 +1703,11 @@ bb.contextMenu = {
 									} else if (event.target.parentNode == this.scrollContainer && event.target != this.header)  {
 										event.preventDefault();
 										event.stopPropagation();
-									} 						
-								} 
+									}
+								}
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
-		
+
 		// Trap touch move events in a way that we can add and remove the handler
 		menu.touchMoveHandler = function(event) {
 								// Only care about moves if peeking
@@ -1718,7 +1718,7 @@ bb.contextMenu = {
 								}
 							};
 		menu.touchMoveHandler = menu.touchMoveHandler.bind(menu);
-		
+
 		// Handle the case of clicking the context menu while peeking
 		menu.onclick = function(event) {
 			if (this.peeking) {
@@ -1726,7 +1726,7 @@ bb.contextMenu = {
 				event.stopPropagation();
 			}
 		}
-		
+
 		// Center the items in the list
 		menu.centerMenuItems = function() {
 								var windowHeight = bb.innerHeight(),
@@ -1740,8 +1740,8 @@ bb.contextMenu = {
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
-		
-		
+
+
 		// Make sure we move when the orientation of the device changes
 		menu.orientationChanged = function(event) {
 								this.style['-webkit-transition'] = '';
@@ -1749,27 +1749,27 @@ bb.contextMenu = {
 								this.style.height = bb.innerHeight() + 'px';
 								this.centerMenuItems();
 							};
-		menu.orientationChanged = menu.orientationChanged.bind(menu);	
-		window.addEventListener('orientationchange', menu.orientationChanged,false); 
-		
+		menu.orientationChanged = menu.orientationChanged.bind(menu);
+		window.addEventListener('orientationchange', menu.orientationChanged,false);
+
 		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
-		menu.addEventListener('webkitTransitionEnd', function() { 
+		menu.addEventListener('webkitTransitionEnd', function() {
 						if (!this.visible) {
 							this.style.visibility = 'hidden';
 						}
 					});
-		
+
 		// Create our add item function
 		menu.add = function(action) {
-				var normal, 
+				var normal,
 					highlight,
 					caption = action.innerHTML,
 					pin = false;
-				
+
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
 				//this.appendChild(action);
-				
+
 				this.actions.push(action);
 				// See if this item should be pinned to the bottom
 				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
@@ -1804,7 +1804,7 @@ bb.contextMenu = {
 				inner.innerHTML = caption;
 				action.display = inner;
 				action.menu = this;
-				
+
 				action.setAttribute('class',normal);
 				action.ontouchstart = function () {
 										if (this.menu.peeking) {
@@ -1812,10 +1812,10 @@ bb.contextMenu = {
 										} else {
 											this.style['background-color'] = bb.options.highlightColor;
 										}
-										
+
 										// Hack because PlayBook doesn't seem to get all the touch end events
 										if (bb.device.isPlayBook) {
-											var existingAction, 
+											var existingAction,
 												i;
 											for (i = 0; i < this.menu.actions.length; i++) {
 												existingAction = this.menu.actions[i];
@@ -1833,13 +1833,13 @@ bb.contextMenu = {
 										}
 									}
 				action.addEventListener("click", this.hide, false);
-				
+
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
 								};
 				action.setCaption = action.setCaption.bind(action);
-				
+
 				// Assign the setImage function
 				action.setImage = function(value) {
 									this.img.setAttribute('src',value);
@@ -1849,28 +1849,28 @@ bb.contextMenu = {
 		menu.add = menu.add.bind(menu);
 		return menu;
 	},
-	
+
 	// Calculate the proper width of the context menu
 	getWidth : function() {
 		if (bb.device.isPlayBook) {
 			return '300';
 		} else {
-			return '563';		
+			return '563';
 		}
 	},
-	
+
 	// Calculate the proper width of the context menu when peeking
 	getPeekWidth : function() {
 		if (bb.device.isPlayBook) {
 			return '55px';
 		} else {
-			return '121px';		
+			return '121px';
 		}
 	},
-	
+
 	// Calculate the proper left of the context menu
 	getLeft : function() {
-		return window.innerWidth + 3 + 'px';	
+		return window.innerWidth + 3 + 'px';
 	}
 };
 
@@ -1988,7 +1988,7 @@ var m = Math,
 
 		// User defined options
 		for (i in options) that.options[i] = options[i];
-		
+
 		// Set starting position
 		that.x = that.options.x;
 		that.y = that.options.y;
@@ -2001,19 +2001,19 @@ var m = Math,
 		that.options.useTransition = hasTransitionEnd && that.options.useTransition;
 
 		// Helpers FIX ANDROID BUG!
-		// translate3d and scale doesn't work together! 
+		// translate3d and scale doesn't work together!
 		// Ignoring 3d ONLY WHEN YOU SET that.options.zoom
 		if ( that.options.zoom && isAndroid ){
 			trnOpen = 'translate(';
 			trnClose = ')';
 		}
-		
+
 		// Set some default styles
 		that.scroller.style[vendor + 'TransitionProperty'] = that.options.useTransform ? '-' + vendor.toLowerCase() + '-transform' : 'top left';
 		that.scroller.style[vendor + 'TransitionDuration'] = '0';
 		that.scroller.style[vendor + 'TransformOrigin'] = '0 0';
 		if (that.options.useTransition) that.scroller.style[vendor + 'TransitionTimingFunction'] = 'cubic-bezier(0.33,0.66,0.66,1)';
-		
+
 		if (that.options.useTransform) that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose;
 		else that.scroller.style.cssText += ';position:absolute;top:' + that.y + 'px;left:' + that.x + 'px';
 
@@ -2045,7 +2045,7 @@ iScroll.prototype = {
 	pagesX: [], pagesY: [],
 	aniTime: null,
 	wheelZoomCount: 0,
-	
+
 	handleEvent: function (e) {
 		var that = this;
 		switch(e.type) {
@@ -2062,14 +2062,14 @@ iScroll.prototype = {
 			case 'webkitTransitionEnd': that._transitionEnd(e); break;
 		}
 	},
-	
+
 	_checkDOMChanges: function () {
 		if (this.moved || this.zoomed || this.animating ||
 			(this.scrollerW == this.scroller.offsetWidth * this.scale && this.scrollerH == this.scroller.offsetHeight * this.scale)) return;
 
 		this.refresh();
 	},
-	
+
 	_scrollbar: function (dir) {
 		var that = this,
 			doc = document,
@@ -2127,12 +2127,12 @@ iScroll.prototype = {
 		// Reset position
 		that._scrollbarPos(dir, true);
 	},
-	
+
 	_resize: function () {
 		var that = this;
 		setTimeout(function () { that.refresh(); }, isAndroid ? 200 : 0);
 	},
-	
+
 	_pos: function (x, y) {
 		x = this.hScroll ? x : 0;
 		y = this.vScroll ? y : 0;
@@ -2184,7 +2184,7 @@ iScroll.prototype = {
 		that[dir + 'ScrollbarWrapper'].style.opacity = hidden && that.options.hideScrollbar ? '0' : '1';
 		that[dir + 'ScrollbarIndicator'].style[vendor + 'Transform'] = trnOpen + (dir == 'h' ? pos + 'px,0' : '0,' + pos + 'px') + trnClose;
 	},
-	
+
 	_start: function (e) {
 		var that = this,
 			point = hasTouch ? e.touches[0] : e,
@@ -2229,7 +2229,7 @@ iScroll.prototype = {
 				x = getComputedStyle(that.scroller, null).left.replace(/[^0-9-]/g, '') * 1;
 				y = getComputedStyle(that.scroller, null).top.replace(/[^0-9-]/g, '') * 1;
 			}
-			
+
 			if (x != that.x || y != that.y) {
 				if (that.options.useTransition) that._unbind('webkitTransitionEnd');
 				else cancelFrame(that.aniTime);
@@ -2254,7 +2254,7 @@ iScroll.prototype = {
 		that._bind(END_EV);
 		that._bind(CANCEL_EV);
 	},
-	
+
 	_move: function (e) {
 		var that = this,
 			point = hasTouch ? e.touches[0] : e,
@@ -2298,7 +2298,7 @@ iScroll.prototype = {
 		if (newX > 0 || newX < that.maxScrollX) {
 			newX = that.options.bounce ? that.x + (deltaX / 2) : newX >= 0 || that.maxScrollX >= 0 ? 0 : that.maxScrollX;
 		}
-		if (newY > that.minScrollY || newY < that.maxScrollY) { 
+		if (newY > that.minScrollY || newY < that.maxScrollY) {
 			newY = that.options.bounce ? that.y + (deltaY / 2) : newY >= that.minScrollY || that.maxScrollY >= 0 ? that.minScrollY : that.maxScrollY;
 		}
 
@@ -2332,10 +2332,10 @@ iScroll.prototype = {
 			that.startX = that.x;
 			that.startY = that.y;
 		}
-		
+
 		if (that.options.onScrollMove) that.options.onScrollMove.call(that, e);
 	},
-	
+
 	_end: function (e) {
 		if (hasTouch && e.touches.length != 0) return;
 
@@ -2367,10 +2367,10 @@ iScroll.prototype = {
 
 			that.x = that.originX - that.originX * that.lastScale + that.x;
 			that.y = that.originY - that.originY * that.lastScale + that.y;
-			
+
 			that.scroller.style[vendor + 'TransitionDuration'] = '200ms';
 			that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose + ' scale(' + that.scale + ')';
-			
+
 			that.zoomed = false;
 			that.refresh();
 
@@ -2468,7 +2468,7 @@ iScroll.prototype = {
 		that._resetPos(200);
 		if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);
 	},
-	
+
 	_resetPos: function (time) {
 		var that = this,
 			resetX = that.x >= 0 ? 0 : that.x < that.maxScrollX ? that.maxScrollX : that.x,
@@ -2511,27 +2511,27 @@ iScroll.prototype = {
 		} else {
 			return;
 		}
-		
+
 		if (that.options.wheelAction == 'zoom') {
 			deltaScale = that.scale * Math.pow(2, 1/3 * (wheelDeltaY ? wheelDeltaY / Math.abs(wheelDeltaY) : 0));
 			if (deltaScale < that.options.zoomMin) deltaScale = that.options.zoomMin;
 			if (deltaScale > that.options.zoomMax) deltaScale = that.options.zoomMax;
-			
+
 			if (deltaScale != that.scale) {
 				if (!that.wheelZoomCount && that.options.onZoomStart) that.options.onZoomStart.call(that, e);
 				that.wheelZoomCount++;
-				
+
 				that.zoom(e.pageX, e.pageY, deltaScale, 400);
-				
+
 				setTimeout(function() {
 					that.wheelZoomCount--;
 					if (!that.wheelZoomCount && that.options.onZoomEnd) that.options.onZoomEnd.call(that, e);
 				}, 400);
 			}
-			
+
 			return;
 		}
-		
+
 		deltaX = that.x + wheelDeltaX;
 		deltaY = that.y + wheelDeltaY;
 
@@ -2543,7 +2543,7 @@ iScroll.prototype = {
 
 		that.scrollTo(deltaX, deltaY, 0);
 	},
-	
+
 	_mouseout: function (e) {
 		var t = e.relatedTarget;
 
@@ -2553,7 +2553,7 @@ iScroll.prototype = {
 		}
 
 		while (t = t.parentNode) if (t == this.wrapper) return;
-		
+
 		this._end(e);
 	},
 
@@ -2563,7 +2563,7 @@ iScroll.prototype = {
 		if (e.target != that.scroller) return;
 
 		that._unbind('webkitTransitionEnd');
-		
+
 		that._startAni();
 	},
 
@@ -2581,19 +2581,19 @@ iScroll.prototype = {
 			animate;
 
 		if (that.animating) return;
-		
+
 		if (!that.steps.length) {
 			that._resetPos(400);
 			return;
 		}
-		
+
 		step = that.steps.shift();
-		
+
 		if (step.x == startX && step.y == startY) step.time = 0;
 
 		that.animating = true;
 		that.moved = true;
-		
+
 		if (that.options.useTransition) {
 			that._transitionTime(step.time);
 			that._pos(step.x, step.y);
@@ -2639,7 +2639,7 @@ iScroll.prototype = {
 			newDist = (speed * speed) / (2 * deceleration),
 			newTime = 0, outsideDist = 0;
 
-		// Proportinally reduce speed if we are outside of the boundaries 
+		// Proportinally reduce speed if we are outside of the boundaries
 		if (dist > 0 && newDist > maxDistUpper) {
 			outsideDist = size / (6 / (newDist / speed * deceleration));
 			maxDistUpper = maxDistUpper + outsideDist;
@@ -2661,12 +2661,12 @@ iScroll.prototype = {
 	_offset: function (el) {
 		var left = -el.offsetLeft,
 			top = -el.offsetTop;
-			
+
 		while (el = el.offsetParent) {
 			left -= el.offsetLeft;
 			top -= el.offsetTop;
 		}
-		
+
 		if (el != this.wrapper) {
 			left *= this.scale;
 			top *= this.scale;
@@ -2746,16 +2746,16 @@ iScroll.prototype = {
 		that._unbind(MOVE_EV);
 		that._unbind(END_EV);
 		that._unbind(CANCEL_EV);
-		
+
 		if (!that.options.hasTouch) {
 			that._unbind('mouseout', that.wrapper);
 			that._unbind(WHEEL_EV);
 		}
-		
+
 		if (that.options.useTransition) that._unbind('webkitTransitionEnd');
-		
+
 		if (that.options.checkDOMChanges) clearInterval(that.checkDOMTime);
-		
+
 		if (that.options.onDestroy) that.options.onDestroy.call(that);
 	},
 
@@ -2841,7 +2841,7 @@ iScroll.prototype = {
 		that.stop();
 
 		if (!step.length) step = [{ x: x, y: y, time: time, relative: relative }];
-		
+
 		for (i=0, l=step.length; i<l; i++) {
 			if (step[i].relative) { step[i].x = that.x - step[i].x; step[i].y = that.y - step[i].y; }
 			that.steps.push({ x: step[i].x, y: step[i].y, time: step[i].time || 0 });
@@ -2868,7 +2868,7 @@ iScroll.prototype = {
 
 	scrollToPage: function (pageX, pageY, time) {
 		var that = this, x, y;
-		
+
 		time = time === undefined ? 400 : time;
 
 		if (that.options.onScrollStart) that.options.onScrollStart.call(that);
@@ -2904,11 +2904,11 @@ iScroll.prototype = {
 		this._unbind(END_EV);
 		this._unbind(CANCEL_EV);
 	},
-	
+
 	enable: function () {
 		this.enabled = true;
 	},
-	
+
 	stop: function () {
 		if (this.options.useTransition) this._unbind('webkitTransitionEnd');
 		else cancelFrame(this.aniTime);
@@ -2916,7 +2916,7 @@ iScroll.prototype = {
 		this.moved = false;
 		this.animating = false;
 	},
-	
+
 	zoom: function (x, y, scale, time) {
 		var that = this,
 			relScale = scale / that.scale;
@@ -2940,7 +2940,7 @@ iScroll.prototype = {
 		that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose + ' scale(' + scale + ')';
 		that.zoomed = false;
 	},
-	
+
 	isReady: function () {
 		return !this.moved && !this.zoomed && !this.animating;
 	}
@@ -2975,8 +2975,8 @@ bb.menuBar = {
 	},
 
 	createBlackberryMenu: function(menuBar){
-		var items, 
-			item, 
+		var items,
+			item,
 			title,
 			div;
 		items = menuBar.getElementsByTagName('div');
@@ -2999,11 +2999,11 @@ bb.menuBar = {
 			}else{
 				console.log('invalid menu item type');
 			}
-		}		
+		}
 	},
-	
+
 	createSwipeMenu: function(menuBar, screen){
-		// Get our resolution text for BB10 styling			
+		// Get our resolution text for BB10 styling
 		if (bb.device.isBB10) {
 			var bb10Menu = document.createElement('div'),
 				res,
@@ -3017,7 +3017,7 @@ bb.menuBar = {
 				div,
 				width,
 				bb10MenuItem;
-				
+
 			if (bb.device.isPlayBook) {
 				res = 'lowres';
 				bb.menuBar.height = 100;
@@ -3079,8 +3079,8 @@ bb.menuBar = {
 						item.style.float = 'right';
 					} else {
 						item.style.width = width +'%';
-					}				
-				}	
+					}
+				}
 			} else {
 				bb10Menu.style.display = 'none';
 				bb.menuBar.menu = null;
@@ -3091,24 +3091,24 @@ bb.menuBar = {
 			bb10Menu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
 			document.body.appendChild(bb10Menu);
 			// Assign the menu
-			bb.menuBar.menu	= bb10Menu;	
+			bb.menuBar.menu	= bb10Menu;
 		} else {
-			var pbMenu = document.createElement('div'), 
-				items, 
-				pbMenuInner, 
+			var pbMenu = document.createElement('div'),
+				items,
+				pbMenuInner,
 				j,
 				item,
-				img, 
-				title, 
-				div, 
-				br, 
+				img,
+				title,
+				div,
+				br,
 				pbMenuItem;
 			pbMenu.setAttribute('class','pb-menu-bar');
 			// See if there are any items declared
 			items = menuBar.getElementsByTagName('div');
 			if(items.length > 0){
 				pbMenuInner	= document.createElement("ul");
-				pbMenu.appendChild(pbMenuInner);				
+				pbMenu.appendChild(pbMenuInner);
 				// Loop through our menu items
 				for (j = 0; j < items.length; j++) {
 					item = items[j];
@@ -3122,18 +3122,18 @@ bb.menuBar = {
 							// Create our item
 							pbMenuItem = document.createElement("li");
 							item.innerHTML = '';
-							
+
 							// Get our image
 							img	= new Image();
 							img.src	= iconPath;
 							pbMenuItem.appendChild(img);
-								
+
 							// Add our caption
 							div = document.createElement('div');
 							div.setAttribute('class','pb-menu-bar-caption');
 							div.innerText = title;
 							pbMenuItem.appendChild(div);
-							
+
 							// Assign any click handlers
 							pbMenuItem.onclick	= item.onclick;
 							pbMenuInner.appendChild(pbMenuItem);
@@ -3151,16 +3151,16 @@ bb.menuBar = {
 			pbMenu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
 			document.body.appendChild(pbMenu);
 			// Assign the menu
-			bb.menuBar.menu	= pbMenu;	
+			bb.menuBar.menu	= pbMenu;
 		}
-		
+
 		// Add the overlay for trapping clicks on items below
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
 			bb.screen.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
 		}
 		screen.appendChild(bb.screen.overlay);
-		bb.menuBar.menu.overlay = bb.screen.overlay;	
+		bb.menuBar.menu.overlay = bb.screen.overlay;
 	},
 
 	showMenuBar: function(){
@@ -3229,13 +3229,13 @@ _bb_progress = {
 	NORMAL : 0,
 	PAUSED : 1,
 	ERROR : 2,
-	
+
 	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			bb.progress.style(elements[i]);
 		}
 	},
-	
+
 	// Style individual item
 	style: function(progress) {
 		var res,
@@ -3245,7 +3245,7 @@ _bb_progress = {
 			NORMAL = 0,
 			PAUSED = 1,
 			ERROR = 2;
-			
+
 		if (bb.device.isBB10) {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			color = bb.screen.controlColor;
@@ -3257,7 +3257,7 @@ _bb_progress = {
 			highlightColor = (bb.device.isPlayBook) ? bb.options.highlightColor : '#92B43B';
 			accentColor = '#8FB03B';
 		}
-		
+
 		// Create our container div
 		outerElement = document.createElement('div');
 		outerElement.progress = progress;
@@ -3286,7 +3286,7 @@ _bb_progress = {
 		outerElement.inner = document.createElement('div');
 		outerElement.inner.className = 'inner';
 		outerElement.outer.appendChild(outerElement.inner);
-				
+
 		// Assign our function to set the value for the control
 		progress.outerElement = outerElement;
 		progress.setValue = function(value) {
@@ -3319,45 +3319,45 @@ _bb_progress = {
 							} else {
 								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
 								this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
-								this.outerElement.fill.style.background ='';	
-							} 
+								this.outerElement.fill.style.background ='';
+							}
 							percent = (this.outerElement.value/parseInt(this.outerElement.maxValue));
-						}	
-						
+						}
+
 						// Determine width by percentage
 						xpos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
 						this.outerElement.fill.style.width = xpos + 'px';
 					};
 		progress.setValue = progress.setValue.bind(progress);
-		
+
 		// Set the state of the control
 		progress.setState = function(state) {
 						this.outerElement.state = state;
 						this.setValue();
 					};
 		progress.setState = progress.setState.bind(progress);
-		
+
 		// Add our show function
 		progress.show = function() {
 			this.outerElement.style.display = 'block';
 			bb.refresh();
 				};
 		progress.show = progress.show.bind(progress);
-		
+
 		// Add our hide function
 		progress.hide = function() {
 			this.outerElement.style.display = 'none';
 			bb.refresh();
 				};
 		progress.hide = progress.hide.bind(progress);
-		
+
 		// Add remove function
 		progress.remove = function() {
 			this.outerElement.parentNode.removeChild(this.outerElement);
 			bb.refresh();
 				};
 		progress.remove = progress.remove.bind(progress);
-		
+
 		// Add setMax function
 		progress.setMax = function(value) {
 					if (!value || (value < 0) || (value == this.max)) return;
@@ -3365,7 +3365,7 @@ _bb_progress = {
 					this.outerElement.maxValue = value;
 				};
 		progress.setMax = progress.setMax.bind(progress);
-	
+
 		// Set our value on a timeout so that it can calculate width once in the DOM
 		window.setTimeout(progress.setValue, 0);
 		outerElement.doOrientationChange = function() {
@@ -3373,12 +3373,12 @@ _bb_progress = {
 						};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 		// Assign our document event listeners
-		window.addEventListener('resize', outerElement.doOrientationChange,false); 
-		
+		window.addEventListener('resize', outerElement.doOrientationChange,false);
+
 		return outerElement;
 	}
 };
-bb.screen = {  
+bb.screen = {
     scriptCounter:  0,
     totalScripts: 0,
 	controlColor: 'light',
@@ -3387,13 +3387,13 @@ bb.screen = {
 	tabOverlay : null,
 	contextMenu : null,
 	animating : false,
-    
+
     apply: function(elements) {
 		var screenRes,
 			outerElement;
 		// Reset our context Menu
 		bb.screen.contextMenu = null;
-		
+
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
 			screenRes = 'bb-bb10-lowres-screen';
 		} else if (bb.device.isBB10) {
@@ -3401,20 +3401,20 @@ bb.screen = {
 		} else if (bb.device.isHiRes) {
 			screenRes = 'bb-hires-screen';
 		}
-		
+
         for (var i = 0; i < elements.length; i++) {
             outerElement = elements[i];
-            
+
 			// Set our screen resolution
 			outerElement.setAttribute('class', screenRes);
-            		
+
 			//check to see if a menu/menuBar needs to be created
 			var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
 			if (menuBar.length > 0) {
 				menuBar = menuBar[0];
 				bb.menuBar.apply(menuBar,outerElement);
 			}
-           
+
             if (bb.device.isBB10) {
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
@@ -3422,38 +3422,38 @@ bb.screen = {
 					outerScrollArea,
 					scrollArea,
 					tempHolder = [],
-					childNode = null, 
+					childNode = null,
 					j,
 					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
 					titleBarHeight = (bb.device.isPlayBook) ? 65 : 111;
-				
+
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
 					titleBar = titleBar[0];
 				} else {
 					titleBar = null;
 				}
-				
+
 				// Assign our action bar
 				if (actionBar.length > 0) {
-                    actionBar = actionBar[0]; 
+                    actionBar = actionBar[0];
 					outerElement.actionBar = actionBar;
 				} else {
 					actionBar = null;
 				}
-                
+
 				// Create our scrollable <div>
-				outerScrollArea = document.createElement('div'); 
+				outerScrollArea = document.createElement('div');
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
 					outerElement.bbUIscrollWrapper = outerScrollArea;
 				}
-				
+
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
-				outerScrollArea.appendChild(scrollArea); 			
-				
+				outerScrollArea.appendChild(scrollArea);
+
 				// Copy all nodes in the screen that are not the action bar
 				for (j = 0; j < outerElement.childNodes.length - 1; j++) {
 					childNode = outerElement.childNodes[j];
@@ -3465,24 +3465,24 @@ bb.screen = {
 				for (j = 0; j < tempHolder.length -1; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
-				
+
 				// Set our outer scroll area dimensions
 				if (titleBar && actionBar) {
-					outerScrollArea.style['overflow'] = 'auto'; 
+					outerScrollArea.style['overflow'] = 'auto';
           			outerScrollArea.style['position'] = 'absolute';
 		          	outerScrollArea.style['bottom'] = actionBarHeight+ 'px';
 		          	outerScrollArea.style['top'] = titleBarHeight + 'px';
 		          	outerScrollArea.style['left'] = '0px';
 		          	outerScrollArea.style['right'] = '0px';
 				} else if (titleBar) {
-					outerScrollArea.style['overflow'] = 'auto'; 
+					outerScrollArea.style['overflow'] = 'auto';
           			outerScrollArea.style['position'] = 'absolute';
 		          	outerScrollArea.style['bottom'] = '0px';
 		          	outerScrollArea.style['top'] = titleBarHeight + 'px';
 		          	outerScrollArea.style['left'] = '0px';
 		          	outerScrollArea.style['right'] = '0px';
 				} else if (actionBar) {
-					outerScrollArea.style['overflow'] = 'auto'; 
+					outerScrollArea.style['overflow'] = 'auto';
           			outerScrollArea.style['position'] = 'absolute';
 		          	outerScrollArea.style['bottom'] = actionBarHeight+ 'px';
 		          	outerScrollArea.style['top'] = '0px';
@@ -3490,41 +3490,41 @@ bb.screen = {
 		          	outerScrollArea.style['right'] = '0px';
 				} else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
-					outerScrollArea.style['overflow'] = 'auto'; 
+					outerScrollArea.style['overflow'] = 'auto';
           			outerScrollArea.style['position'] = 'absolute';
 		          	outerScrollArea.style['bottom'] = '0px';
 		          	outerScrollArea.style['top'] = '0px';
 		          	outerScrollArea.style['left'] = '0px';
 		          	outerScrollArea.style['right'] = '0px';
 				}
-				
+
 				// Apply any title bar styling
-				if (titleBar) {		
+				if (titleBar) {
 					bb.titleBar.apply(titleBar);
                 }
-				
+
 				// Apply any action Bar styling
 				if (actionBar) {
 					bb.actionBar.apply(actionBar,outerElement);
                 }
-				
+
 				// Assign our context
 				if (context.length > 0) {
                     bb.screen.processContext(context[0], outerElement);
 				} else {
 					context = null;
 				}
-			} 
+			}
 			else if (bb.device.isPlayBook) {
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					outerScrollArea,
 					scrollArea,
 					tempHolder = [],
-					childNode = null, 
+					childNode = null,
 					j,
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
-					context = outerElement.querySelectorAll('[data-bb-type=context-menu]');				
-				
+					context = outerElement.querySelectorAll('[data-bb-type=context-menu]');
+
 				// Remove any BB10 context menus or action bars from sight
 				for (j = 0; j < actionBar.length; j++) {
 					actionBar[j].style.display = 'none';
@@ -3532,15 +3532,15 @@ bb.screen = {
 				for (j = 0; j < context.length; j++) {
 					context[j].style.display = 'none';
 				}
-				
+
                 if (titleBar.length > 0) {
                     titleBar = titleBar[0]; }
 				else {
 					titleBar = null;
 				}
-				
+
 				// Create our scrollable <div>
-				outerScrollArea = document.createElement('div'); 
+				outerScrollArea = document.createElement('div');
 				outerElement.appendChild(outerScrollArea);
 				// Turn off scrolling effects if they don't want them
 				if (!outerElement.hasAttribute('data-bb-scroll-effect') || outerElement.getAttribute('data-bb-scroll-effect').toLowerCase() != 'off') {
@@ -3548,8 +3548,8 @@ bb.screen = {
 				}
 				// Inner Scroll Area
 				scrollArea = document.createElement('div');
-				outerScrollArea.appendChild(scrollArea); 
-				
+				outerScrollArea.appendChild(scrollArea);
+
 				// Copy all nodes that are not the title bar
 				for (j = 0; j < outerElement.childNodes.length - 1; j++) {
 					childNode = outerElement.childNodes[j];
@@ -3561,23 +3561,23 @@ bb.screen = {
 				for (j = 0; j < tempHolder.length -1; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
-                   
+
 				if (titleBar) {
 					outerScrollArea.style['overflow'] = 'auto';
-			        outerScrollArea.style['bottom'] = '0px';	
-			        outerScrollArea.style['position'] = 'absolute';	
-			        outerScrollArea.style['top'] = '55px';	
-			        outerScrollArea.style['left'] = '0px';	
-			        outerScrollArea.style['right'] = '0px'; 					
+			        outerScrollArea.style['bottom'] = '0px';
+			        outerScrollArea.style['position'] = 'absolute';
+			        outerScrollArea.style['top'] = '55px';
+			        outerScrollArea.style['left'] = '0px';
+			        outerScrollArea.style['right'] = '0px';
                     bb.titleBar.apply(titleBar);
                 }
 				else {
 					outerScrollArea.setAttribute('style','overflow:auto;bottom:0px;position:absolute;top:0px;left:0px;right:0px;');
 					outerScrollArea.style['overflow'] = 'auto';
-			        outerScrollArea.style['bottom'] = '0px';	
-			        outerScrollArea.style['position'] = 'absolute';	
-			        outerScrollArea.style['top'] = '0px';	
-			        outerScrollArea.style['left'] = '0px';	
+			        outerScrollArea.style['bottom'] = '0px';
+			        outerScrollArea.style['position'] = 'absolute';
+			        outerScrollArea.style['top'] = '0px';
+			        outerScrollArea.style['left'] = '0px';
 			        outerScrollArea.style['right'] = '0px';
 				}
             }
@@ -3585,9 +3585,9 @@ bb.screen = {
                 // See if there is a title bar
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
-					context = outerElement.querySelectorAll('[data-bb-type=context-menu]');		
-									
-				
+					context = outerElement.querySelectorAll('[data-bb-type=context-menu]');
+
+
 				// Remove any BB10 context menus or action bars from sight
 				for (j = 0; j < actionBar.length; j++) {
 					actionBar[j].style.display = 'none';
@@ -3595,13 +3595,13 @@ bb.screen = {
 				for (j = 0; j < context.length; j++) {
 					context[j].style.display = 'none';
 				}
-				
+
                 if (titleBar.length > 0) {
                     titleBar = titleBar[0];
                     bb.titleBar.apply(titleBar);
                 }
             }
-			
+
 			// Set refresh
 			outerElement.refresh = function() {
 					if (!bb.scroller) return;
@@ -3629,7 +3629,7 @@ bb.screen = {
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
         }
     },
-	
+
 	// Process all of the context menu code
 	processContext : function (context, screen) {
 		screen.appendChild(context);
@@ -3644,7 +3644,7 @@ bb.screen = {
 		}
 		context.menu.centerMenuItems();
 	},
-    
+
     fadeIn: function (screen) {
         // set default values
         var duration = 0.3,
@@ -3652,11 +3652,11 @@ bb.screen = {
 			s = screen.style;
 		s['-webkit-animation-name']            = 'bbUI-fade-in';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	fadeOut: function (screen) {
         // set default values
         var duration = 0.3,
@@ -3664,132 +3664,132 @@ bb.screen = {
 			s = screen.style;
 		s['-webkit-animation-name']            = 'bbUI-fade-out';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideLeft: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.width = bb.innerWidth()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-left';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideOutLeft: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.width = bb.innerWidth()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-out-left';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideRight: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.width = bb.innerWidth()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-right';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideOutRight: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.width = bb.innerWidth()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-out-right';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideUp: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.height = bb.innerHeight()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-up';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideOutUp: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.height = bb.innerHeight()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-out-up';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideDown: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.height = bb.innerHeight()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-down';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
+
 	slideOutDown: function (screen) {
         // set default values
         var r = 0,
             duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
-			
+
 		s.height = bb.innerHeight()+'px';
 		s['-webkit-animation-name']            = 'bbUI-slide-out-down';
 		s['-webkit-animation-duration']        = duration + 's';
-		s['-webkit-animation-timing-function'] = timing; 
+		s['-webkit-animation-timing-function'] = timing;
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
     },
-	
-    
+
+
     reAdjustHeight: function() {
         // perform device specific formatting
         if (bb.device.isBB5) {
@@ -3802,7 +3802,7 @@ bb.screen = {
             document.body.style.height = screen.height + 'px';
         }
     }
-		
+
 };
 bb.tabOverflow = {
 
@@ -3822,22 +3822,22 @@ bb.tabOverflow = {
 		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-'+bb.actionBar.color);
 		screen.parentNode.appendChild(menu);
-		
+
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');
 			overlay.menu = menu;
 			bb.screen.tabOverlay = overlay;
 			overlay.setAttribute('class','bb-bb10-tab-overflow-menu-overlay ');
 			screen.appendChild(overlay);
-			
+
 			// Hide the menu on touch
 			overlay.ontouchstart = function() {
 						this.menu.hide();
 					};
-			
+
 		}
 		menu.overlay = bb.screen.tabOverlay;
-		
+
 		menu.show = function() {
 					this.itemClicked = false;
 					this.visible = true;
@@ -3846,12 +3846,12 @@ bb.tabOverflow = {
 					this.tabOverflowState.img = tabOverflowBtn.icon.src;
 					this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
 					this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
-					this.setDimensions();					
+					this.setDimensions();
 					// Reset our overflow menu button
 					tabOverflowBtn.reset();
 				};
-		menu.show = menu.show.bind(menu);	
-		
+		menu.show = menu.show.bind(menu);
+
 		// Adjust the dimensions of the menu and screen
 		menu.setDimensions = function() {
 					var width = (bb.device.isPlayBook) ? bb.innerWidth() - 77 : bb.innerWidth() - 154;
@@ -3875,8 +3875,8 @@ bb.tabOverflow = {
 					this.screen.style['-webkit-transition'] = 'all 0.2s ease-out';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
-		menu.setDimensions = menu.setDimensions.bind(menu);	
-		
+		menu.setDimensions = menu.setDimensions.bind(menu);
+
 		menu.hide = function() {
 					this.visible = false;
 					// Set our sizes
@@ -3885,7 +3885,7 @@ bb.tabOverflow = {
 					this.screen.style.right = '0px';
 					// Make our overlay invisible
 					this.overlay.style.display = 'none';
-					
+
 					// Re-apply the old button styling if needed
 					if (!this.itemClicked) {
 						var tabOverflowBtn = this.actionBar.tabOverflowBtn;
@@ -3896,12 +3896,12 @@ bb.tabOverflow = {
 					}
 				};
 		menu.hide = menu.hide.bind(menu);
-		
+
 		// Hide the menu
 		menu.onclick = function() {
 					this.hide();
 				};
-				
+
 		// Center the items in the list
 		menu.centerMenuItems = function() {
 								var windowHeight = bb.innerHeight(),
@@ -3912,7 +3912,7 @@ bb.tabOverflow = {
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
-		
+
 		// Initialize any selected items
 		menu.initSelected = function() {
 								var i,
@@ -3935,19 +3935,19 @@ bb.tabOverflow = {
 									this.setDimensions();
 								}
 							};
-		menu.orientationChanged = menu.orientationChanged.bind(menu);	
-		window.addEventListener('orientationchange', menu.orientationChanged,false); 
-		
+		menu.orientationChanged = menu.orientationChanged.bind(menu);
+		window.addEventListener('orientationchange', menu.orientationChanged,false);
+
 		// Create our add item function
 		menu.add = function(action) {
-				var normal, 
+				var normal,
 					caption = action.innerHTML,
 					accentTextValue = action.getAttribute('data-bb-accent-text'),
 					inner = document.createElement('div'),
 					innerClass = 'bb-bb10-tab-overflow-menu-item-inner-'+this.res,
 					img = document.createElement('img'),
 					table, tr, td;
-				
+
 				// set our styling
 				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-' + bb.actionBar.color;
 				this.appendChild(action);
@@ -3988,7 +3988,7 @@ bb.tabOverflow = {
 					action.accentText = document.createElement('div');
 					action.accentText.innerHTML = accentTextValue;
 					action.accentText.setAttribute('class','tab-accent-text');
-					td.appendChild(action.accentText);	
+					td.appendChild(action.accentText);
 					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-double-' + this.res;
 				} else {
 					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-single-' + this.res;
@@ -3996,7 +3996,7 @@ bb.tabOverflow = {
 				// Set our styling
 				inner.setAttribute('class',innerClass);
 				tr.appendChild(td);
-				
+
 				//Set the overflow tab item
 				action.setOverflowTab = function(hightlight) {
 							var tabOverflowBtn = this.actionBar.tabOverflowBtn;
@@ -4014,7 +4014,7 @@ bb.tabOverflow = {
 
 				// See if it was selected
 				action.initialSelected = (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true'));
-				
+
 				// Trap the old click so that we can call it later
 				action.oldClick = action.onclick;
 				action.onclick = function() {
@@ -4023,18 +4023,18 @@ bb.tabOverflow = {
 									bb.actionBar.highlightAction(this.visibleTab, this);
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
-									} 
+									}
 									if (this.oldClick) {
 										this.oldClick();
 									}
 								};
-								
+
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
 								};
 				action.setCaption = action.setCaption.bind(action);
-				
+
 				// Assign the setImage function
 				action.setImage = function(value) {
 									this.img.setAttribute('src',value);
@@ -4048,7 +4048,7 @@ bb.tabOverflow = {
 bb.titleBar = {
 
 	apply: function(titleBar) {
-		
+
 		if (bb.device.isBB10) {
 			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 				orientation = bb.getOrientation(),
@@ -4059,27 +4059,27 @@ bb.titleBar = {
 				topTitleArea = document.createElement('div'),
 				img,
 				accentText;
-			
+
 			// Insert our title area
 			titleBar.topTitleArea = topTitleArea;
 			titleBar.appendChild(topTitleArea);
-			
+
 			// Style our title bar
-			
+
 			if (bb.options.coloredTitleBar) {
 				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb10-title-colored';
 			} else {
 				titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb-bb10-title-bar-' + bb.screen.controlColor;
 			}
 			topTitleArea.setAttribute('class', titleBarClass);
-			
+
 			// Set our caption
 			caption = document.createElement('div');
 			titleBar.caption = caption;
 			caption.setAttribute('class','bb-bb10-title-bar-caption-'+res+ ' bb-bb10-title-bar-caption-'+ orientation+ '-'+res);
 			caption.innerHTML = titleBar.getAttribute('data-bb-caption');
 			topTitleArea.appendChild(caption);
-			
+
 			// Get our back button if provided
 			if (titleBar.hasAttribute('data-bb-back-caption')) {
 				button = document.createElement('div');
@@ -4119,7 +4119,7 @@ bb.titleBar = {
 										var backWidth = this.backButton ? parseInt(window.getComputedStyle(this.backButton).width) : 0,
 											actionWidth = this.actionButton ? parseInt(window.getComputedStyle(this.actionButton).width) : 0,
 											commonWidth;
-										
+
 										if (this.actionButton && this.backButton) {
 											commonWidth = (backWidth > actionWidth) ? backWidth : actionWidth;
 											this.backButton.style.width = commonWidth +'px';
@@ -4137,7 +4137,7 @@ bb.titleBar = {
 				titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
 				window.setTimeout(titleBar.evenButtonWidths,0);
 			}
-			
+
 			// Display our image ONLY if there are no title bar images
 			if ((!titleBar.actionButton && !titleBar.backButton) && (titleBar.hasAttribute('data-bb-img') || titleBar.hasAttribute('data-bb-accent-text'))){
 				caption.setAttribute('class','bb-bb10-title-bar-caption-left-'+res);
@@ -4145,7 +4145,7 @@ bb.titleBar = {
 				titleBar.details = details;
 				topTitleArea.appendChild(details);
 				details.appendChild(caption);
-				
+
 				// First check for the image
 				if (titleBar.hasAttribute('data-bb-img')) {
 					img = document.createElement('img');
@@ -4153,7 +4153,7 @@ bb.titleBar = {
 					titleBar.img = img;
 					topTitleArea.insertBefore(img, details);
 					details.setAttribute('class', 'bb-bb10-title-bar-caption-details-img-'+res);
-				} 
+				}
 				// Next check for the accent text
 				if (titleBar.hasAttribute('data-bb-accent-text')) {
 					caption.style['line-height'] = bb.device.isPlayBook ? '40px' : '70px';
@@ -4165,8 +4165,8 @@ bb.titleBar = {
 					titleBar.accentText = accentText;
 					accentText.innerHTML = titleBar.getAttribute('data-bb-accent-text');
 					details.appendChild(accentText);
-				} 
-			
+				}
+
 			}
 
 			// Assign the setCaption function
@@ -4207,21 +4207,40 @@ bb.titleBar = {
 					return this.actionButton.firstChild.innerHTML;
 				};
 			titleBar.getActionCaption = titleBar.getActionCaption.bind(titleBar);
-			
+
 		} else if (bb.device.isPlayBook) {
 			titleBar.setAttribute('class', 'pb-title-bar');
 			titleBar.innerHTML = titleBar.getAttribute('data-bb-caption');
 			if (titleBar.hasAttribute('data-bb-back-caption')) {
-				var button = document.createElement('div'), 
+				var button = document.createElement('div'),
 					buttonInner = document.createElement('div');
 				button.setAttribute('class', 'pb-title-bar-back');
 				button.onclick = bb.popScreen;
 				buttonInner.setAttribute('class','pb-title-bar-back-inner');
-				buttonInner.innerHTML = titleBar.getAttribute('data-bb-back-caption'); 
+				buttonInner.innerHTML = titleBar.getAttribute('data-bb-back-caption');
 				button.appendChild(buttonInner);
 				titleBar.appendChild(button);
 			}
 		} else {
+			titleBar.setCaption = function(value) {
+
+				if(!value) {
+                    value = this.getAttribute('data-bb-caption');
+					this.innerHTML = value;
+					return;
+				}
+				this.setAttribute('data-bb-caption', value);
+				this.innerHTML = value;
+			};
+
+			titleBar.setCaption = titleBar.setCaption.bind(titleBar);
+
+			titleBar.getCaption = function(value) {
+					return this.innerHTML = value;
+			};
+
+			titleBar.getCaption = titleBar.getCaption.bind(titleBar);
+
 			if (titleBar.hasAttribute('data-bb-caption')) {
 				if (bb.device.isHiRes) {
 					titleBar.setAttribute('class', 'bb-hires-screen-title');
@@ -4232,16 +4251,16 @@ bb.titleBar = {
 			}
 		}
 	},
-	
+
 	styleBB10Button: function(outerElement) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			//disabledStyle,
 			innerElement = document.createElement('div'),
 			//disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal,
-			highlight, 
+			highlight,
 			outerNormal;
-		
+
 		if (bb.options.coloredTitleBar) {
 			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored';
 			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored-highlight';
@@ -4261,7 +4280,7 @@ bb.titleBar = {
 		innerElement.innerHTML = outerElement.innerHTML;
 		outerElement.innerHTML = '';
 		outerElement.appendChild(innerElement);
-		
+
 		/*if (disabled) {
 			outerElement.removeAttribute('data-bb-disabled');
 			innerElement.setAttribute('class',disabledStyle);
@@ -4283,7 +4302,7 @@ bb.titleBar = {
 									this.innerElement.setAttribute('class', this.innerElement.normal);
 								};
 		//}
-						
+
 		// Trap the click and call it only if the button is enabled
 		outerElement.trappedClick = outerElement.onclick;
 		outerElement.onclick = undefined;
@@ -4294,14 +4313,14 @@ bb.titleBar = {
 					}
 				},false);
 		}
-		
+
 		// Assign our enable function
-	  /*  outerElement.enable = function(){ 
+	  /*  outerElement.enable = function(){
 				if (this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.normal);
 				this.ontouchstart = function() {
 									this.innerElement.setAttribute('class', this.innerElement.highlight);
-									
+
 								};
 				this.ontouchend = function() {
 									this.innerElement.setAttribute('class', this.innerElement.normal);
@@ -4309,15 +4328,15 @@ bb.titleBar = {
 				this.enabled = true;
 			};
 		// Assign our disable function
-		outerElement.disable = function(){ 
+		outerElement.disable = function(){
 				if (!this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.disabledStyle);
 				this.ontouchstart = null;
 				this.ontouchend = null;
 				this.enabled = false;
 			};*/
-        
-	
+
+
 	}
 };
 
@@ -4326,7 +4345,7 @@ _bb10_activityIndicator = {
 		var i,
 			outerElement,
 			innerElement,
-			indicator, 
+			indicator,
 			color = bb.screen.controlColor,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			size,
@@ -4341,7 +4360,7 @@ _bb10_activityIndicator = {
 			canvas.setAttribute('height','184px');
 			canvas.setAttribute('width', '184px');
 			ctx = canvas.getContext('2d');
-			ctx.beginPath();    
+			ctx.beginPath();
 			ctx.moveTo(92,154);
 			ctx.arcTo(154,154,154,92,62);
 			ctx.arcTo(154,30,92,30,62);
@@ -4354,21 +4373,21 @@ _bb10_activityIndicator = {
 			ctx.closePath();
 			ctx.strokeStyle = 'transparent';
 			ctx.stroke();
-		 
+
 			// Create our fill color
 			var lingrad = ctx.createLinearGradient(0,50,0,154);
 			lingrad.addColorStop(0, 'transparent');
 			lingrad.addColorStop(1, bb.options.highlightColor);
 			ctx.fillStyle = lingrad;
 			ctx.fill();
-			
+
 			swirl = canvas.toDataURL();
 		}
-		
+
 		for (i = 0; i < elements.length; i++)  {
 			outerElement = elements[i];
 			size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
-			
+
 			if (size == 'large') {
 				width = (bb.device.isPlayBook) ? '93px' : '184px';
 			} else if (size == 'small') {
@@ -4377,7 +4396,7 @@ _bb10_activityIndicator = {
 				size = 'medium';
 				width = (bb.device.isPlayBook) ? '46px' : '93px';
 			}
-			
+
 			outerElement.style.width = width;
 			// Add another div so that the developers styling on the original div is left untouched
 			indicator = document.createElement('div');
@@ -4387,30 +4406,30 @@ _bb10_activityIndicator = {
 			innerElement.setAttribute('class','bb-bb10-activity-'+size+'-'+res);
 			innerElement.style['background-image'] = 'url("'+ swirl +'")';
 			indicator.appendChild(innerElement);
-			
+
 			// Set our animation
 			innerElement.style['-webkit-animation-name'] = 'activity-rotate';
 			innerElement.style['-webkit-animation-duration'] = '0.8s';
 			innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
 			innerElement.style['-webkit-animation-timing-function'] = 'linear';
-			
-						
+
+
 			// Assign our show function
-				outerElement.show = function(){ 
+				outerElement.show = function(){
 				this.style.display = '';
 				bb.refresh();
 			};
 			outerElement.show = outerElement.show.bind(outerElement);
-		
+
 			// Assign our hide function
-			outerElement.hide = function(){ 
+			outerElement.hide = function(){
 				this.style.display = 'none';
 				bb.refresh();
 			};
-			outerElement.hide = outerElement.hide.bind(outerElement);	
-		
+			outerElement.hide = outerElement.hide.bind(outerElement);
+
 			// Assign our remove function
-			outerElement.remove = function(){ 
+			outerElement.remove = function(){
 				this.parentNode.removeChild(this);
 				bb.refresh();
 			};
@@ -4420,9 +4439,9 @@ _bb10_activityIndicator = {
 		}
 	}
 }
-_bb10_button = { 
+_bb10_button = {
     // Apply styling for a list of buttons
-	apply: function(elements) {	
+	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			bb.button.style(elements[i]);
 		}
@@ -4441,7 +4460,7 @@ _bb10_button = {
 			highlight = 'bb-bb10-button bb-bb10-button-'+res+' bb10-button-highlight',
 			outerNormal = 'bb-bb10-button-container-'+res+' bb-bb10-button-container-' + bb.screen.controlColor,
 			outerNormalWithoutImageOnly = outerNormal;
-			
+
 		outerElement.isImageOnly = false;
 		outerElement.enabled = !disabled;
 		caption = outerElement.innerHTML;
@@ -4451,7 +4470,7 @@ _bb10_button = {
 		outerElement.captionElement = captionElement;
 		outerElement.appendChild(innerElement);
 		outerElement.innerElement = innerElement;
-		
+
 		if (outerElement.hasAttribute('data-bb-style')) {
 			var style = outerElement.getAttribute('data-bb-style');
 			if (style == 'stretch') {
@@ -4480,11 +4499,11 @@ _bb10_button = {
 		}
 		// Insert caption after determining what to do with the image
 		innerElement.appendChild(captionElement);
-	
+
 		// Set our styles
 		disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
 		normal = normal + ' bb-bb10-button-' + bb.screen.controlColor;
-		
+
 		if (disabled) {
 			outerElement.removeAttribute('data-bb-disabled');
 			innerElement.setAttribute('class',disabledStyle);
@@ -4502,13 +4521,13 @@ _bb10_button = {
 		if (!disabled) {
 			outerElement.ontouchstart = function() {
 									this.innerElement.setAttribute('class', this.innerElement.highlight);
-									
+
 								};
 			outerElement.ontouchend = function() {
 									this.innerElement.setAttribute('class', this.innerElement.normal);
 								};
 		}
-						
+
 		// Trap the click and call it only if the button is enabled
 		outerElement.trappedClick = outerElement.onclick;
 		outerElement.onclick = undefined;
@@ -4519,7 +4538,7 @@ _bb10_button = {
 					}
 				},false);
 		}
-		
+
 		// Assign our set caption function
 		outerElement.setCaption = function(value) {
 				if (this.isImageOnly && (value.length > 0)) {
@@ -4549,7 +4568,7 @@ _bb10_button = {
 				}
 				this.captionElement.innerHTML = value;
 			};
-			
+
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				if (this.isImageOnly) {
@@ -4574,14 +4593,14 @@ _bb10_button = {
 					this.captionElement.setAttribute('class','');
 				}
 			};
-		
+
 		// Assign our enable function
-		outerElement.enable = function(){ 
+		outerElement.enable = function(){
 				if (this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.normal);
 				this.ontouchstart = function() {
 									this.innerElement.setAttribute('class', this.innerElement.highlight);
-									
+
 								};
 				this.ontouchend = function() {
 									this.innerElement.setAttribute('class', this.innerElement.normal);
@@ -4589,9 +4608,9 @@ _bb10_button = {
 				this.enabled = true;
 			};
 		outerElement.enable = outerElement.enable.bind(outerElement);
-		
+
 		// Assign our disable function
-		outerElement.disable = function(){ 
+		outerElement.disable = function(){
 				if (!this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.disabledStyle);
 				this.ontouchstart = null;
@@ -4599,23 +4618,23 @@ _bb10_button = {
 				this.enabled = false;
 			};
 		outerElement.disable = outerElement.disable.bind(outerElement);
-		
+
 		// Assign our show function
-		outerElement.show = function(){ 
+		outerElement.show = function(){
 				this.style.display = this.stretched ? 'block' : 'inline-block';
 				bb.refresh();
 			};
 		outerElement.show = outerElement.show.bind(outerElement);
-		
+
 		// Assign our hide function
-		outerElement.hide = function(){ 
+		outerElement.hide = function(){
 				this.style.display = 'none';
 				bb.refresh();
 			};
-		outerElement.hide = outerElement.hide.bind(outerElement);	
-		
+		outerElement.hide = outerElement.hide.bind(outerElement);
+
 		// Assign our remove function
-		outerElement.remove = function(){ 
+		outerElement.remove = function(){
 				this.parentNode.removeChild(this);
 				bb.refresh();
 			};
@@ -4629,13 +4648,13 @@ _bb10_checkbox = {
 	apply: function(elements) {
 		var i,
 			input,
-			touchTarget, 
+			touchTarget,
 			outerElement,
 			innerElement,
 			checkElement,
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			color = bb.screen.controlColor;
-			
+
 		for (i = 0; i < elements.length; i++) {
 			input = elements[i];
 			// Outside touch target
@@ -4664,14 +4683,14 @@ _bb10_checkbox = {
 			checkElement.style['-webkit-transition-duration'] = '0.1s';
 			innerElement.appendChild(checkElement);
 			touchTarget.checkElement = checkElement;
-			
+
 			// Set our coloring for later
 			touchTarget.innerElement = innerElement;
 			touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
 			touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
 
 			touchTarget.ontouchstart = function() {
-							if (!this.input.checked && !this.input.disabled) {	
+							if (!this.input.checked && !this.input.disabled) {
 								// Do our touch highlight
 								this.innerElement.style.background = this.touchHighlight;
 							}
@@ -4689,8 +4708,8 @@ _bb10_checkbox = {
 							this.input.checked = !this.input.checked;
 							this.drawChecked();
 							this.input.dispatchEvent(evObj);
-							}				
-						};						
+							}
+						};
 			touchTarget.drawChecked = function() {
 							if (this.input.checked) {
 								this.checkElement.setAttribute('class',this.checkElement.displayClass);
@@ -4706,10 +4725,10 @@ _bb10_checkbox = {
 							} else{
 								this.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
 								this.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-'+color);
-							}				
+							}
 						};
 			touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
-			
+
 			// Add our set Checked function
 			input.setChecked = function(value) {
 						if (value == this.checked) return;
@@ -4717,57 +4736,57 @@ _bb10_checkbox = {
 						this.touchTarget.drawChecked();
 					};
 			input.setChecked = input.setChecked.bind(input);
-			
+
 			// Add our get Checked function
 			input.getChecked = function() {
 						return this.checked;
 					};
 			input.getChecked = input.getChecked.bind(input);
-			
+
 			// Add our enable function
-			input.enable = function(){ 
+			input.enable = function(){
 				this.removeAttribute('disabled');
 				this.enabled = true;
 				this.touchTarget.drawChecked();
 			};
 			input.enable = input.enable.bind(input);
-			
+
 			// Add our disable function
-			input.disable = function(){ 
+			input.disable = function(){
 				this.enabled = false;
-				this.setAttribute('disabled','disabled');	
-				this.touchTarget.drawChecked();			
+				this.setAttribute('disabled','disabled');
+				this.touchTarget.drawChecked();
 			};
 			input.disable = input.disable.bind(input);
-			
+
 			// Add our show function
-			input.show = function(){ 
+			input.show = function(){
 				this.touchTarget.style.display = 'block';
 				bb.refresh();
 			};
 			input.show = input.show.bind(input);
-			
+
 			// Add our hide function
-			input.hide = function(){ 
+			input.hide = function(){
 				this.touchTarget.style.display = 'none';
 				bb.refresh();
 			};
 			input.hide = input.hide.bind(input);
-			
+
 			// Add our remove function
-			input.remove = function(){ 
+			input.remove = function(){
 				this.touchTarget.parentNode.removeChild(this.touchTarget);
 				bb.refresh();
 			};
 			input.remove = input.remove.bind(input);
-			
+
 			// Set our initial state
 			touchTarget.drawChecked();
 		}
-			
+
 	}
 };
-_bb10_dropdown = { 
+_bb10_dropdown = {
     // Apply our transforms to all dropdowns passed in
     apply: function(elements) {
 		for (i = 0; i < elements.length; i++) {
@@ -4788,7 +4807,7 @@ _bb10_dropdown = {
 			itemsElement,
 			enabled = !select.hasAttribute('disabled'),
 			normal = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb-bb10-dropdown-' + bb.screen.controlColor + ' bb-bb10-dropdown-'+res,
-			highlight = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb-bb10-dropdown-highlight-'+ bb.screen.controlColor+ ' bb10Highlight bb-bb10-dropdown-'+res,  
+			highlight = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb-bb10-dropdown-highlight-'+ bb.screen.controlColor+ ' bb10Highlight bb-bb10-dropdown-'+res,
 			outerContainerStyle = 'bb-bb10-dropdown-container-'+res+' bb-bb10-dropdown-container-' + bb.screen.controlColor + ' bb-bb10-dropdown-container-'+res,
 			innerContainerStyle = 'bb-bb10-dropdown-container-inner-'+res+' bb-bb10-dropdown-container-inner-'+bb.screen.controlColor,
 			innerButtonStyle = 'bb-bb10-dropdown-inner-'+res+' bb-bb10-dropdown-inner-'+bb.screen.controlColor;
@@ -4808,12 +4827,12 @@ _bb10_dropdown = {
 		}
 		// Insert the select as an invisible node in the new dropdown element
 		dropdown.appendChild(select);
-		
+
 		// Create the innerContainer for the dual border
 		innerContainer = document.createElement('div');
 		innerContainer.setAttribute('class',innerContainerStyle);
 		dropdown.appendChild(innerContainer);
-		
+
 		if (select.hasAttribute('data-bb-style')) {
 			var style = select.getAttribute('data-bb-style');
 			if (style == 'stretch') {
@@ -4821,7 +4840,7 @@ _bb10_dropdown = {
 				highlight = highlight + ' bb-bb10-dropdown-stretch';
 			}
 		}
-		
+
 		// Create our button container for the outer part of the dual border
 		buttonOuter = document.createElement('div');
 		if (select.enabled) {
@@ -4830,7 +4849,7 @@ _bb10_dropdown = {
 			buttonOuter.setAttribute('class',normal + ' bb-bb10-dropdown-disabled-'+bb.screen.controlColor);
 		}
 		innerContainer.appendChild(buttonOuter);
-		
+
 		// Create the inner button element
 		innerElement = document.createElement('div');
 		innerElement.setAttribute('class',innerButtonStyle);
@@ -4844,19 +4863,19 @@ _bb10_dropdown = {
 			labelElement.innerHTML = select.getAttribute('data-bb-label');
 		}
 		innerElement.appendChild(labelElement);
-		
+
 		// Create our dropdown arrow
 		img = document.createElement('div');
 		img.setAttribute('class','bb-bb10-dropdown-arrow-'+res+'-'+bb.screen.controlColor);
 		innerElement.appendChild(img);
 		dropdown.img = img;
-		
+
 		// Create the caption for the dropdown
 		captionElement = document.createElement('div');
 		dropdown.captionElement = captionElement;
 		captionElement.setAttribute('class','bb-bb10-dropdown-caption-'+res);
 		innerElement.appendChild(captionElement);
-		
+
 		// Create the scrolling area
 		var scrollArea = document.createElement('div');
 		scrollArea.style.position = 'relative';
@@ -4865,24 +4884,24 @@ _bb10_dropdown = {
 		innerContainer.appendChild(scrollArea);
 		var innerScroller = document.createElement('div');
 		scrollArea.appendChild(innerScroller);
-		
+
 		// Create our drop down items
 		itemsElement = document.createElement('div');
 		dropdown.itemsElement = itemsElement;
 		itemsElement.setAttribute('class','bb-bb10-dropdown-items');
 		innerScroller.appendChild(itemsElement);
-		
+
 		dropdown.refreshOptions = function() {
 					var options = select.getElementsByTagName('option'),
 						caption = '',
 						option,
 						item;
-						
+
 					// First clear any existing items
 					this.itemsElement.innerHTML = '';
 					this.items = [];
 					this.options = options;
-					
+
 					// Grab all the select options
 					for (j = 0; j < options.length; j++) {
 						option = options[j];
@@ -4903,7 +4922,7 @@ _bb10_dropdown = {
 						img.setAttribute('class','bb-bb10-dropdown-selected-image-'+res+'-'+bb.screen.controlColor);
 						item.img = img;
 						item.appendChild(img);
-						
+
 						// See if it was specified as the selected item
 						if (option.hasAttribute('selected') || option.selected) {
 							caption = option.innerHTML;
@@ -4918,30 +4937,30 @@ _bb10_dropdown = {
 												this.style['background-color'] = bb.options.highlightColor;
 												this.style['color'] = 'white';
 											};
-						
+
 						item.ontouchend = function(event) {
 												this.style['background-color'] = 'transparent';
 												this.style['color'] = '';
-											};			
+											};
 						item.onclick = function() {
 											this.select.setSelectedItem(this.index);
 									   };
 					}
-					
+
 					// Get our selected item in case they haven't specified "selected";
 					if ((caption == '') && (options.length > 0)) {
 						caption = options[0].innerHTML;
 					}
-					
+
 					if (caption != '') {
 						captionElement.innerHTML = caption;
 					}
 				};
 		dropdown.refreshOptions = dropdown.refreshOptions.bind(dropdown);
-			
+
 		// Load the options
 		dropdown.refreshOptions();
-			
+
 		// set our outward styling
 		dropdown.setAttribute('class',outerContainerStyle);
 		dropdown.buttonOuter = buttonOuter;
@@ -4959,7 +4978,7 @@ _bb10_dropdown = {
 									bb.scroller.disable();
 								}
 								e.preventDefault();
-							}, 
+							},
 							onBeforeScrollEnd: function(e) {
 								if (bb.scroller) {
 									bb.scroller.enable();
@@ -4967,7 +4986,7 @@ _bb10_dropdown = {
 							}});
 		bb.dropdownScrollers.push(dropdown.scroller);
 		dropdown.scrollArea = scrollArea;
-		
+
 		// Assign our touch handlers to out-most div
 		buttonOuter.dotouchstart = function(event) {
 								this.setAttribute('class', this.highlight);
@@ -4982,14 +5001,14 @@ _bb10_dropdown = {
 									this.dropdown.internalHide();
 								}
 							};
-		// Assign our touch handlers if it is enabled					
+		// Assign our touch handlers if it is enabled
 		if (select.enabled) {
 			buttonOuter.ontouchstart = buttonOuter.dotouchstart;
 			buttonOuter.ontouchend = buttonOuter.dotouchend;
 			buttonOuter.onclick = buttonOuter.doclick;
 		}
-		
-		// Show the combo-box			
+
+		// Show the combo-box
 		dropdown.internalShow = function() {
 								var scrollHeight;
 								this.open = true;
@@ -5014,19 +5033,19 @@ _bb10_dropdown = {
 									this.isRefreshed = true;
 								}
 								this.scroller.scrollToElement(this.selected,0);
-								
+
 								// Animate our caption change
 								this.caption.style.opacity = '0.0';
 								this.caption.style['-webkit-transition'] = 'opacity 0.5s linear';
 								this.caption.style['-webkit-backface-visibility'] = 'hidden';
 								this.caption.style['-webkit-perspective'] = 1000;
 								this.caption.style['-webkit-transform'] = 'translate3d(0,0,0)';
-								  
+
 								// Animate our arrow
 								this.img.style.opacity = '1.0';
 								this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 								this.img.style['-webkit-transform'] = 'rotate(-360deg)';
-								
+
 								// Refresh our screen srolling height
 								if (bb.scroller) {
 									bb.scroller.refresh();
@@ -5037,19 +5056,19 @@ _bb10_dropdown = {
 		dropdown.internalHide = function() {
 								this.open = false;
 								this.style.height = '59px';
-								
+
 								if (bb.device.isPlayBook) {
 									this.style.height = '43px';
 								} else {
 									this.style.height = '95px';
 								}
-									
+
 								// Animate our caption change
 								this.caption.style.opacity = '1.0';
 								this.caption.style['-webkit-transition'] = 'opacity 0.5s linear';
 								this.caption.style['-webkit-backface-visibility'] = 'hidden';
 								this.caption.style['-webkit-perspective'] = 1000;
-								
+
 								// Animate our arrow
 								this.img.style.opacity = '0.0';
 								this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
@@ -5083,7 +5102,7 @@ _bb10_dropdown = {
 			}
 		};
 		select.setSelectedItem = select.setSelectedItem.bind(select);
-		
+
 		// Assign our setSelectedText function
 		select.setSelectedText = function(text) {
 			for (var i = 0; i < this.options.length; i++) {
@@ -5094,7 +5113,7 @@ _bb10_dropdown = {
 			}
 		};
 		select.setSelectedText = select.setSelectedText.bind(select);
-		
+
 		// Have this function so we can asynchronously fire the change event
 		select.fireEvent = function() {
 							// Raise the DOM event
@@ -5103,9 +5122,9 @@ _bb10_dropdown = {
 							this.dispatchEvent(evObj);
 						};
 		select.fireEvent = select.fireEvent.bind(select);
-		
+
 		// Assign our enable function
-		select.enable = function(){ 
+		select.enable = function(){
 				if (this.enabled) return;
 				this.dropdown.buttonOuter.ontouchstart = this.dropdown.buttonOuter.dotouchstart;
 				this.dropdown.buttonOuter.ontouchend = this.dropdown.buttonOuter.dotouchend;
@@ -5115,9 +5134,9 @@ _bb10_dropdown = {
 				this.enabled = true;
 			};
 		select.enable = select.enable.bind(select);
-		
+
 		// Assign our disable function
-		select.disable = function(){ 
+		select.disable = function(){
 				if (!select.enabled) return;
 				this.dropdown.internalHide();
 				this.dropdown.buttonOuter.ontouchstart = null;
@@ -5128,43 +5147,43 @@ _bb10_dropdown = {
 				this.setAttribute('disabled','disabled');
 			};
 		select.disable = select.disable.bind(select);
-		
-			
+
+
 		// Assign our show function
-		select.show = function(){ 
+		select.show = function(){
 				this.dropdown.style.display = 'block';
 				bb.refresh();
 			};
 		select.show = select.show.bind(select);
-		
+
 		// Assign our hide function
-		select.hide = function(){ 
+		select.hide = function(){
 				this.dropdown.style.display = 'none';
 				bb.refresh();
 			};
-		select.hide = select.hide.bind(select);	
-		
+		select.hide = select.hide.bind(select);
+
 		// Assign our remove function
-		select.remove = function(){ 
+		select.remove = function(){
 				this.dropdown.parentNode.removeChild(this.dropdown);
 				bb.refresh();
 			};
 		select.remove = select.remove.bind(select);
-		
+
 		// Assign our refresh function
-		select.refresh = function(){ 
+		select.refresh = function(){
 				this.dropdown.internalHide();
 				this.dropdown.isRefreshed = false;
 				this.dropdown.refreshOptions();
 			};
 		select.refresh = select.refresh.bind(select);
-	  
+
 		// Assign our setCaption function
-		select.setCaption = function(value){ 
+		select.setCaption = function(value){
 				this.dropdown.labelElement.innerHTML = value;
 			};
 		select.setCaption = select.setCaption.bind(select);
-		
+
 		// Need to return the dropdown instead of the select for dynamic styling
 		return dropdown;
     }
@@ -5177,7 +5196,7 @@ _bb10_fileInput = {
 			btn,
 			span,
 			res;
-		
+
 		res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -5192,12 +5211,12 @@ _bb10_fileInput = {
 			// Add the button and insert the file input as an invisible node in the new button element
 			outerElement.parentNode.insertBefore(btn, outerElement);
 			btn.appendChild(outerElement);
-			
+
 			// Handle the file change
 			btn.handleChange = function() {
 				if ( this.input.value) {
 					this.setCaption(this.input.value.replace(/^.*[\\\/]/, ''));
-				
+
 				} else {
 					this.setCaption(this.origCaption);
 				}
@@ -5207,7 +5226,7 @@ _bb10_fileInput = {
 		}
 	}
 };
-_bb10_grid = {  
+_bb10_grid = {
     apply: function(elements) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			solidHeader = false,
@@ -5222,33 +5241,33 @@ _bb10_grid = {
 				innerChildNode,
 				contextMenu,
 				outerElement = elements[i];
-				
-			outerElement.setAttribute('class','bb-bb10-grid-'+res);	
+
+			outerElement.setAttribute('class','bb-bb10-grid-'+res);
 			// See if it is square or landscape layout
 			outerElement.isSquare = (outerElement.hasAttribute('data-bb-style') && outerElement.getAttribute('data-bb-style').toLowerCase() == 'square');
-			
+
 			// Get our header style
 			solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
 			// Get our header justification
 			headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
-			
+
 			// Assign our context menu if there is one
 			if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
 				contextMenu = bb.screen.contextMenu;
 			}
-			
+
 			// Gather our inner items
 			items = outerElement.querySelectorAll('[data-bb-type=group], [data-bb-type=row]');
 			for (j = 0; j < items.length; j++) {
 				innerChildNode = items[j];
 				if (innerChildNode.hasAttribute('data-bb-type')) {
-				
+
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
 						title.normal = 'bb-bb10-grid-header-'+res;
 						title.innerHTML = '<p>'+ innerChildNode.getAttribute('data-bb-title') +'</p>';
-						
+
 						// Style our header for appearance
 						if (solidHeader) {
 							title.normal = title.normal +' bb10Accent';
@@ -5258,7 +5277,7 @@ _bb10_grid = {
 							title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
 							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
 						}
-						
+
 						// Style our header for text justification
 						if (headerJustify == 'left') {
 							title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
@@ -5267,9 +5286,9 @@ _bb10_grid = {
 						} else {
 							title.normal = title.normal + ' bb-bb10-grid-header-center';
 						}
-						
+
 						title.setAttribute('class', title.normal);
-						
+
 						if (innerChildNode.firstChild) {
 							innerChildNode.insertBefore(title, innerChildNode.firstChild);
 						} else {
@@ -5293,15 +5312,15 @@ _bb10_grid = {
 							hasOverlay,
 							hardCodedColumnNum = -1, // none specified
 							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
-						
+
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
-						
+
 						// See if they specified the number of items per column
 						if (innerChildNode.hasAttribute('data-bb-columns')) {
 							hardCodedColumnNum = innerChildNode.getAttribute('data-bb-columns');
 						}
-						
+
 						table = document.createElement('table');
 						table.style.width = '100%';
 						innerChildNode.appendChild(table);
@@ -5323,16 +5342,16 @@ _bb10_grid = {
 						} else {
 							width = (window.innerWidth/numItems) - 6;
 						}
-							
+
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
-							
+
 							// If it is PlayBook, Don't do the carousel, it doesn't work well
 							if (bb.device.isPlayBook && (hardCodedColumnNum >0) && (k > hardCodedColumnNum - 1)) {
 								itemNode.style.display = 'none';
 								continue;
 							}
-														
+
 							subtitle = itemNode.innerHTML;
 							title = itemNode.getAttribute('data-bb-title');
 							hasOverlay = (subtitle || title);
@@ -5342,7 +5361,7 @@ _bb10_grid = {
 							tr.appendChild(td);
 							td.appendChild(itemNode);
 							columnCount++;
-							
+
 							// Find out how to size the images
 							if (outerElement.isSquare) {
 								height = width;
@@ -5365,7 +5384,7 @@ _bb10_grid = {
 								overlay = document.createElement('div');
 								if (title && subtitle) {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
-									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';	
+									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';
 								} else if (title){
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
 									overlay.innerHTML = '<div><p class="title title-one-row">' + title + '</p></div>';
@@ -5377,7 +5396,7 @@ _bb10_grid = {
 							} else {
 								overlay = null;
 							}
-							
+
 							// Setup our variables
 							itemNode.overlay = overlay;
 							itemNode.title = title;
@@ -5415,7 +5434,7 @@ _bb10_grid = {
 														};
 							itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
 						}
-						
+
 						// if there were hardcoded columns and not enough items to fit those columns, add the extra columns
 						if ((hardCodedColumnNum > 0) && (columnCount < hardCodedColumnNum)) {
 							var diff = hardCodedColumnNum - columnCount;
@@ -5430,7 +5449,7 @@ _bb10_grid = {
 					}
 				}
 			}
-			
+
 			// Make sure we move when the orientation of the device changes
 			outerElement.orientationChanged = function(event) {
 									var items = this.querySelectorAll('[data-bb-type=row]'),
@@ -5441,13 +5460,13 @@ _bb10_grid = {
 										itemNode,
 										width,
 										height;
-				
+
 									for (i = 0; i < items.length; i++) {
 										var hardCodedColumnNum = -1;
 										row = items[i];
 										rowItems = row.querySelectorAll('[data-bb-type=item]');
 										numItems = rowItems.length;
-										
+
 										// See if they specified the number of items per column
 										if (row.hasAttribute('data-bb-columns')) {
 											hardCodedColumnNum = row.getAttribute('data-bb-columns');
@@ -5466,7 +5485,7 @@ _bb10_grid = {
 										} else {
 											width = (window.innerWidth/numItems) - 6;
 										}
-										
+
 										// Adjust all the items
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];
@@ -5489,7 +5508,7 @@ _bb10_grid = {
 											itemNode.style['-webkit-transition-timing-function'] = 'linear';
 											itemNode.style['-webkit-transform'] = 'translate3d(0,0,0)';
 										}
-										
+
 										// Adjust the extra columns if there was hard coded columns that were not filled
 										if (row.extraColumns) {
 											for (j = 0; j < row.extraColumns.length;j++) {
@@ -5498,9 +5517,9 @@ _bb10_grid = {
 										}
 									}
 								};
-			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
-			window.addEventListener('resize', outerElement.orientationChanged,false); 
-			
+			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);
+			window.addEventListener('resize', outerElement.orientationChanged,false);
+
 			// Add show function
 			outerElement.show = function() {
 				this.style.display = 'block';
@@ -5514,23 +5533,23 @@ _bb10_grid = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 				};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-		}		
+		}
     }
 };
-_bb10_imageList = {  
+_bb10_imageList = {
     apply: function(elements) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			i,j,
 			outerElement,
 			items;
-	
+
 		// Apply our transforms to all Image Lists
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -5541,20 +5560,20 @@ _bb10_imageList = {
 				outerElement.imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
 				outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
 			}
-			
+
 			// See what kind of style they want for this list
 			outerElement.listStyle = outerElement.hasAttribute('data-bb-style') ? outerElement.getAttribute('data-bb-style').toLowerCase() : 'default';
-			
+
 			// Get our header style
 			outerElement.solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
 			// Get our header justification
 			outerElement.headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
-			
+
 			// Assign our context menu if there is one
 			if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
 				outerElement.contextMenu = bb.screen.contextMenu;
 			}
-			
+
 			// Style an item
 			outerElement.styleItem = function(innerChildNode) {
 				if (innerChildNode.hasAttribute('data-bb-type')) {
@@ -5573,7 +5592,7 @@ _bb10_imageList = {
 						highlight,
 						normal,
 						btnInner;
-					
+
 					if (type == 'header') {
 						// Set our normal and highlight styling
 						normal = 'bb-bb10-image-list-header bb-bb10-image-list-header-'+res;
@@ -5585,7 +5604,7 @@ _bb10_imageList = {
 							normal = normal + ' bb-bb10-image-list-header-normal-'+bb.screen.listColor;
 							innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
 						}
-						
+
 						// Check for alignment
 						if (this.headerJustify == 'left') {
 							normal = normal + ' bb-bb10-image-list-header-left-'+res;
@@ -5594,7 +5613,7 @@ _bb10_imageList = {
 						} else {
 							normal = normal + ' bb-bb10-image-list-header-center';
 						}
-						
+
 						// Set our styling
 						innerChildNode.normal = normal;
 						innerChildNode.innerHTML = '<p>'+ description +'</p>';
@@ -5619,7 +5638,7 @@ _bb10_imageList = {
 								img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
 							}
 							innerChildNode.appendChild(img);
-							
+
 							if (this.imageEffect) {
 								img.style.opacity = '0.0';
 								img.even = (j%2 == 0)
@@ -5658,8 +5677,8 @@ _bb10_imageList = {
 						detailsClass = 'bb-bb10-image-list-item-details-'+res;
 						if (this.hideImages) {
 							detailsClass = detailsClass + ' bb-bb10-image-list-item-noimage-'+res;
-						} 
-						
+						}
+
 						// Create our title
 						title = document.createElement('div');
 						title.setAttribute('class','title');
@@ -5669,18 +5688,18 @@ _bb10_imageList = {
 							title.innerHTML = '&nbsp;';
 						}
 						details.appendChild(title);
-						
+
 						// Create our description
 						descriptionDiv = document.createElement('div');
 						descriptionDiv.setAttribute('class','description');
 						details.description = descriptionDiv;
 						details.appendChild(descriptionDiv);
-						
+
 						// Add our highlight overlay
 						overlay = document.createElement('div');
 						overlay.setAttribute('class','bb-bb10-image-list-item-overlay-'+res);
 						innerChildNode.appendChild(overlay);
-						
+
 						// See if we need the button area
 						if ((this.listStyle == 'arrowlist') || (this.listStyle == 'arrowbuttons') || (this.listStyle == 'addbuttons') || (this.listStyle == 'removebuttons')) {
 							btn = document.createElement('div');
@@ -5688,7 +5707,7 @@ _bb10_imageList = {
 							innerChildNode.btn = btn;
 							btn.outerElement = this;
 							btn.innerChildNode = innerChildNode;
-							
+
 							// Assign our event if one exists
 							if (innerChildNode.onbtnclick) {
 								btn.onbtnclick = innerChildNode.onbtnclick;
@@ -5698,8 +5717,8 @@ _bb10_imageList = {
 								btn.onbtnclick = function() {
 												eval(this.innerChildNode.onbtnclick);
 											};
-							} 
-							
+							}
+
 							// Set the margins to show the button area
 							detailsClass = detailsClass + ' details-button-margin';
 							btn.setAttribute('class','button');
@@ -5715,7 +5734,7 @@ _bb10_imageList = {
 							btnInner.highlight = btnInner.normal;
 							btn.btnInner = btnInner;
 							btnBorder.appendChild(btnInner);
-							
+
 							if (this.listStyle !== 'arrowlist') {
 								if (this.listStyle == 'arrowbuttons') {
 									btnInner.normal = btnInner.normal + ' bb-image-list-item-chevron-'+bb.screen.listColor;
@@ -5728,21 +5747,21 @@ _bb10_imageList = {
 								else if (this.listStyle == 'removebuttons') {
 									btnInner.normal = btnInner.normal + ' bb-image-list-item-remove-'+bb.screen.listColor;
 									btnInner.highlight = btnInner.highlight + ' bb-image-list-item-remove-dark';
-								}		
-								
+								}
+
 								// Assign our touch handlers
 								btn.ontouchstart = function() {
 												if (!this.onbtnclick) return;
 												this.btnInner.setAttribute('class',this.btnInner.highlight);
 												this.btnBorder.style.background = '-webkit-gradient(linear, center top, center bottom, from(rgb(' + (bb.options.shades.R + 32) +',' + (bb.options.shades.G + 32) + ','+ (bb.options.shades.B + 32) +')), to('+bb.options.highlightColor+'))';
 											};
-											
+
 								btn.ontouchend = function() {
 												if (!this.onbtnclick) return;
 												this.btnBorder.style.background = '';
 												this.btnInner.setAttribute('class',this.btnInner.normal);
 											};
-								
+
 								// Assign our click handler if one was available
 								btn.onclick = function(e) {
 												e.stopPropagation();
@@ -5751,16 +5770,16 @@ _bb10_imageList = {
 													this.onbtnclick();
 												}
 											}
-								
-								
+
+
 							} else { // Arrow list
 								btnInner.normal = btnInner.normal + ' bb-image-list-item-chevron-'+bb.screen.listColor;
 								btnBorder.style['background'] = 'transparent';
 								btnBorder.style['border-color'] = 'transparent';
-							}	
-							
+							}
+
 							// Set our class
-							btnInner.setAttribute('class',btnInner.normal);								
+							btnInner.setAttribute('class',btnInner.normal);
 						} else {
 							// Create the accent text
 							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
@@ -5771,7 +5790,7 @@ _bb10_imageList = {
 								details.accentText = accentText;
 							}
 						}
-						
+
 						// Adjust the description description
 						if (description.length == 0) {
 							description = '&nbsp;';
@@ -5786,19 +5805,19 @@ _bb10_imageList = {
 							}
 						}
 						descriptionDiv.innerHTML = description;
-						
-						
+
+
 						// Apply our details class
 						details.setAttribute('class',detailsClass);
-						
+
 						// Set up our variables
 						innerChildNode.fingerDown = false;
 						innerChildNode.contextShown = false;
 						innerChildNode.overlay = overlay;
 						innerChildNode.contextMenu = this.contextMenu;
 						innerChildNode.description = description;
-						innerChildNode.title = title.innerHTML;	
-						
+						innerChildNode.title = title.innerHTML;
+
 						innerChildNode.ontouchstart = function () {
 														if (!innerChildNode.trappedClick && !this.contextMenu) return;
 														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
@@ -5826,7 +5845,7 @@ _bb10_imageList = {
 														}
 													};
 						innerChildNode.touchTimer = innerChildNode.touchTimer.bind(innerChildNode);
-						
+
 						// Add our subscription for click events to change highlighting on click
 						innerChildNode.trappedClick = innerChildNode.onclick;
 						innerChildNode.onclick = undefined;
@@ -5840,7 +5859,7 @@ _bb10_imageList = {
 								}
 								setTimeout(this.finishHighlight, 250);
 							},false);
-							
+
 						// Finish the highlight on a delay
 						innerChildNode.finishHighlight = function() {
 													if (bb.screen.animating) {
@@ -5849,7 +5868,7 @@ _bb10_imageList = {
 														this.setAttribute('class',this.normal);
 													}
 												};
-						innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);	
+						innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);
 
 						// Add the remove function for the item
 						innerChildNode.remove = function() {
@@ -5864,30 +5883,30 @@ _bb10_imageList = {
 								}
 								window.setTimeout(this.details.performRemove,100);
 							}
-						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);	
-						
+						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);
+
 						// Perform the final remove after the transition effect
 						details.performRemove = function() {
 								var listControl = this.innerChildNode.parentNode,
 									index = listControl.items.indexOf(this.innerChildNode);
 								listControl.removeChild(this.innerChildNode);
-								listControl.items.splice(index,1);									
+								listControl.items.splice(index,1);
 						}
-						details.performRemove = details.performRemove.bind(details);	
-						
+						details.performRemove = details.performRemove.bind(details);
+
 						// Add our getter functions
 						innerChildNode.getTitle = function() {
 								return this.title;
 							}
-						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
 						innerChildNode.getDescription = function() {
 								return this.details.description.innerHTML;
 							}
-						innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+						innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);
 						innerChildNode.getAccentText = function() {
 								return (this.details.accentText) ? this.details.accentText.innerHTML : undefined;
 							}
-						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);
 						innerChildNode.getImage = function() {
 								return (this.img) ? this.img.getAttribute('src') : undefined;
 							}
@@ -5896,7 +5915,7 @@ _bb10_imageList = {
 				}
 			}
 			outerElement.styleItem = outerElement.styleItem.bind(outerElement);
-			
+
 			// Append an item to the end of the list control
 			outerElement.appendItem = function(item) {
 					this.styleItem(item);
@@ -5907,7 +5926,7 @@ _bb10_imageList = {
 					}
 				};
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
-			
+
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
@@ -5918,18 +5937,18 @@ _bb10_imageList = {
 					}
 				};
 			outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
-			
+
 			// Return the items in the list in a read-only fashion
 			outerElement.getItems = function() {
 					var i,
 						result = [];
 						for (i = 0; i < this.items.length;i++) {
 							result.push(this.items[i]);
-						}	
+						}
 					return result;
 				};
 			outerElement.getItems = outerElement.getItems.bind(outerElement);
-			
+
 			// Clear items from the list
 			outerElement.clear = function() {
 					this.items = [];
@@ -5939,28 +5958,28 @@ _bb10_imageList = {
 					}
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
-			
+
 			// Add our show function
 			outerElement.show = function() {
 				this.style.display = 'block';
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 					};
-			outerElement.remove = outerElement.remove.bind(outerElement);			
-			
+			outerElement.remove = outerElement.remove.bind(outerElement);
+
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
 			var item;
@@ -5969,7 +5988,7 @@ _bb10_imageList = {
 				outerElement.styleItem(item);
 				outerElement.items.push(item);
 			}
-		}	
+		}
 	}
 };
 _bb10_labelControlContainers = {
@@ -5996,13 +6015,13 @@ _bb10_labelControlContainers = {
 				table = document.createElement('table');
 				table.setAttribute('class','bb-bb10-label-control-rows');
 				outerElement.insertBefore(table,items[0]);
-				
+
 				for (j = 0; j < items.length; j++) {
 					row = items[j];
 					tr = document.createElement('tr');
 					tr.setAttribute('class','bb-bb10-label-control-label-row-'+res);
 					table.appendChild(tr);
-					
+
 					// Get the label
 					tdLabel = document.createElement('td');
 					tr.appendChild(tdLabel);
@@ -6010,7 +6029,7 @@ _bb10_labelControlContainers = {
 					label.setAttribute('class','bb-bb10-label-control-label-'+res);
 					row.removeChild(label);
 					tdLabel.appendChild(label);
-					
+
 					// Get the control
 					tr = document.createElement('tr');
 					table.appendChild(tr);
@@ -6035,17 +6054,17 @@ _bb10_labelControlContainers = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 				};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-		}	
+		}
     }
 };
-_bb10_pillButtons = {  
+_bb10_pillButtons = {
     apply: function(elements) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			i,
@@ -6061,7 +6080,7 @@ _bb10_pillButtons = {
 			containerDiv = document.createElement('div');
 			outerElement.appendChild(containerDiv);
 			containerDiv.setAttribute('class',containerStyle);
-			
+
 			// Gather our inner items
 			var items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
 				percentWidth = Math.floor(100 / items.length),
@@ -6069,13 +6088,13 @@ _bb10_pillButtons = {
 				sidePadding,
 				innerChildNode,
 				j;
-			
+
 			outerElement.style['padding-left'] = sidePadding + '%';
 			outerElement.style['padding-right'] = sidePadding + '%';
 			for (j = 0; j < items.length; j++) {
 				innerChildNode = items[j];
 				containerDiv.appendChild(innerChildNode);
-				
+
 				// Set our styling
 				innerChildNode.selected = buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor;
 				innerChildNode.normal = buttonStyle;
@@ -6086,20 +6105,20 @@ _bb10_pillButtons = {
 						innerChildNode.style.width = percentWidth-2 + '%';
 					} else {
 						innerChildNode.style.width = (100-j) - (j * percentWidth) + '%';
-					}						
+					}
 				} else {
 					innerChildNode.style.width = percentWidth + '%';
 				}
-				
+
 				// Create our inner container to have double borders
 				innerBorder = document.createElement('div');
 				innerBorder.normal = 'bb-bb10-pill-button-inner-'+res;
 				innerBorder.selected = innerBorder.normal +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor;
-				
+
 				innerBorder.innerHTML = innerChildNode.innerHTML;
 				innerChildNode.innerHTML = '';
 				innerChildNode.appendChild(innerBorder);
-				
+
 				if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
 					innerChildNode.setAttribute('class',innerChildNode.selected);
 					innerBorder.setAttribute('class',innerBorder.selected);
@@ -6113,7 +6132,7 @@ _bb10_pillButtons = {
 												this.setAttribute('class',this.normal);
 											};
 				}
-				
+
 				// Add our subscription for click events to change highlighting
 				innerChildNode.addEventListener('click',function (e) {
 						var innerChildNode,
@@ -6144,14 +6163,14 @@ _bb10_pillButtons = {
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -6159,7 +6178,7 @@ _bb10_pillButtons = {
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
 		}
-    } 
+    }
 };
 _bb10_radio = {
 	apply: function(elements) {
@@ -6170,8 +6189,8 @@ _bb10_radio = {
 			dotDiv,
 			centerDotDiv,
 			radio,
-			color = bb.screen.controlColor;			
-			
+			color = bb.screen.controlColor;
+
 		// Apply our transforms to all Radio buttons
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -6183,13 +6202,13 @@ _bb10_radio = {
 
 			// Make the existing <input[type=radio]> invisible so that we can hide it and create our own display
 			input.style.display = 'none';
-			
+
 			// Create the dropdown container and insert it where the select was
 			input.radio = outerElement;
 			input.parentNode.insertBefore(outerElement, input);
 			// Insert the select as an invisible node in the new dropdown element
 			outerElement.appendChild(input);
-			
+
 			// Create our colored dot
 			dotDiv = document.createElement('div');
 			dotDiv.setAttribute('class','bb-bb10-radio-dot-'+res);
@@ -6200,7 +6219,7 @@ _bb10_radio = {
 			}
 			outerElement.dotDiv = dotDiv;
 			outerElement.appendChild(dotDiv);
-			
+
 			// Set up our center dot
 			centerDotDiv = document.createElement('div');
 			centerDotDiv.setAttribute('class','bb-bb10-radio-dot-center-'+res);
@@ -6209,7 +6228,7 @@ _bb10_radio = {
 			}
 			dotDiv.appendChild(centerDotDiv);
 			dotDiv.centerDotDiv = centerDotDiv;
-			
+
 			dotDiv.slideOutUp = function() {
 								if (bb.device.isPlayBook) {
 									this.style.height = '0px';
@@ -6231,7 +6250,7 @@ _bb10_radio = {
 								this.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							};
 			dotDiv.slideOutUp = dotDiv.slideOutUp.bind(dotDiv);
-			
+
 			dotDiv.slideOutDown = function() {
 								if (bb.device.isPlayBook) {
 									this.style.height = '0px';
@@ -6253,7 +6272,7 @@ _bb10_radio = {
 								this.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							};
 			dotDiv.slideOutDown = dotDiv.slideOutDown.bind(dotDiv);
-			
+
 			dotDiv.slideIn = function() {
 								if (bb.device.isPlayBook) {
 									this.style.height = '20px';
@@ -6288,15 +6307,15 @@ _bb10_radio = {
 								this.centerDotDiv.style['-webkit-backface-visibility'] = 'hidden';
 								this.centerDotDiv.style['-webkit-perspective'] = 1000;
 								this.centerDotDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
-								
+
 							};
 			dotDiv.slideIn = dotDiv.slideIn.bind(dotDiv);
-			
+
 			// Set up properties
-			outerElement.selectedRadio = undefined;		
+			outerElement.selectedRadio = undefined;
 			outerElement.slideFromTop = true;
 			outerElement.ontouchstart = function() {
-											if (!this.input.checked) {	
+											if (!this.input.checked) {
 												this.slideFromTop = true;
 												// See if it should slide from top or bottom
 												this.selectedRadio = this.getCurrentlyChecked();
@@ -6304,7 +6323,7 @@ _bb10_radio = {
 													if (this.getTop(this.selectedRadio.radio) >= this.getTop(this)) {
 														this.slideFromTop = false;
 													}
-												} 
+												}
 												// Reset for our highlights
 												this.dotDiv.style['-webkit-transition'] = 'none';
 												if (bb.device.isPlayBook) {
@@ -6364,7 +6383,7 @@ _bb10_radio = {
 												this.input.dispatchEvent(evObj);
 											}
 										};
-			
+
 			outerElement.getCurrentlyChecked = function() {
 											var inputs = document.querySelectorAll('input[type=radio][name='+ this.input.name +'][checked=true]');
 											if (inputs.length > 0) {
@@ -6374,7 +6393,7 @@ _bb10_radio = {
 											}
 										};
 			outerElement.getCurrentlyChecked = outerElement.getCurrentlyChecked.bind(outerElement);
-			
+
 			outerElement.getTop = function(element) {
 								var top = 0;
 								while (element) {
@@ -6382,10 +6401,10 @@ _bb10_radio = {
 									element = element.offsetParent;
 								}
 								return top;
-							};	
-							
+							};
+
 			// Add our set Checked function
-			input.setChecked = function() {							
+			input.setChecked = function() {
 						if (!this.checked) {
 							// Emulate Touch Start
 							this.slideFromTop = true;
@@ -6394,8 +6413,8 @@ _bb10_radio = {
 								if (this.outerElement.getTop(this.outerElement.selectedRadio.radio) >= this.outerElement.getTop(this.outerElement)) {
 									this.outerElement.slideFromTop = false;
 								}
-							} 
-						
+							}
+
 							// Emulate TouchEnd
 							this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
 							if (bb.device.isPlayBook) {
@@ -6413,13 +6432,13 @@ _bb10_radio = {
 							} else {
 								this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '30px' : '60px';
 							}
-							
+
 							// Fire our clicked event
 							var ev = document.createEvent('MouseEvents');
 							ev.initMouseEvent('click', true, true);
 							this.outerElement.dispatchEvent(ev);
 						}
-						
+
 					};
 			input.setChecked = input.setChecked.bind(input);
 			// Add our get Checked function
@@ -6427,7 +6446,7 @@ _bb10_radio = {
 						return this.checked;
 					};
 			input.setChecked = input.setChecked.bind(input);
-			
+
 			// Add our function to enable a radio button
 			input.enable = function() {
 					if (!this.disabled) return;
@@ -6435,7 +6454,7 @@ _bb10_radio = {
 					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
 				};
 			input.enable = input.enable.bind(input);
-				
+
 			// Add our function to disable a radio button
 			input.disable = function() {
 					if (this.disabled) return;
@@ -6443,36 +6462,36 @@ _bb10_radio = {
 					this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
 				};
 			input.disable = input.disable.bind(input);
-			
+
 			//Add our function to check if an individual radio buttons in enabled
 			input.isEnabled = function() {
 					return (!this.disabled);
 				}
 			input.isEnabled = input.isEnabled.bind(input);
-			
+
 			// Add our show function
 			input.show = function() {
 				this.outerElement.style.display = 'block';
 				bb.refresh();
 				};
 			input.show = input.show.bind(input);
-			
+
 			// Add our hide function
 			input.hide = function() {
 				this.outerElement.style.display = 'none';
 				bb.refresh();
 				};
 			input.hide = input.hide.bind(input);
-			
+
 			// Add our remove function
 			input.remove = function() {
 				this.outerElement.parentNode.removeChild(this.outerElement);
 				bb.refresh();
 				};
 			input.remove = input.remove.bind(input);
-		}		
+		}
 	},
-	
+
 	resetDot : function(dot) {
 		dot.style['-webkit-transition'] = 'none';
 		if (bb.device.isPlayBook) {
@@ -6487,7 +6506,7 @@ _bb10_radio = {
 			dot.style.left = '20px';
 		}
 	},
-	
+
 	//Function to enable a group of radio buttons
 	enableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
@@ -6495,7 +6514,7 @@ _bb10_radio = {
 			if (radios[i].type === 'radio') radios[i].enable();
 		}
 	},
-	
+
 	//Function to disable a group of radio buttons
 	disableGroup : function(groupName) {
 		var radios = document.getElementsByName( groupName );
@@ -6503,23 +6522,23 @@ _bb10_radio = {
 			if (radios[i].type === 'radio') radios[i].disable();
 		}
 	}
-	
+
 };
-_bb10_roundPanel = {  
+_bb10_roundPanel = {
     apply: function(elements) {
 		if (bb.device.isBB10) {
 			var i,
 				j,
 				outerElement,
 				items,
-				res;	
+				res;
 
 			if (bb.device.isPlayBook) {
 				res = 'lowres';
 			} else {
 				res = 'hires';
 			}
-				
+
 			for (i = 0; i < elements.length; i++) {
                 outerElement = elements[i];
                 outerElement.setAttribute('class','bb-bb10-round-panel-'+res+' bb-bb10-round-panel-light');
@@ -6533,14 +6552,14 @@ _bb10_roundPanel = {
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -6567,14 +6586,14 @@ _bb10_roundPanel = {
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -6588,7 +6607,7 @@ _bb10_roundPanel = {
 _bb10_slider = {
 
 	apply: function(elements) {
-		var i, 
+		var i,
 			range,
 			res,
 			color = bb.screen.controlColor,
@@ -6653,7 +6672,7 @@ _bb10_slider = {
 								percent = 1;
 							} else {
 								percent = this.outerElement.value/(parseInt(this.outerElement.maxValue) + parseInt(this.outerElement.minValue));
-							}	
+							}
 							// Determine width by percentage
 							this.outerElement.currentXPos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
 							this.outerElement.fill.style.width = this.outerElement.currentXPos + 'px';
@@ -6666,7 +6685,7 @@ _bb10_slider = {
 			outerElement.inner.animateBegin = function(event) {
 									if (this.outerElement.isActivated === false) {
 										this.outerElement.isActivated = true;
-										this.outerElement.initialXPos = event.touches[0].pageX;	
+										this.outerElement.initialXPos = event.touches[0].pageX;
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
 										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
@@ -6683,8 +6702,8 @@ _bb10_slider = {
 										this.outerElement.value = parseInt(this.outerElement.range.value);
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
-										this.outerElement.indicator.style.background = '';	
+										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);
+										this.outerElement.indicator.style.background = '';
 										this.outerElement.fill.style.background = this.outerElement.fill.dormant;
 									}
 								};
@@ -6723,17 +6742,17 @@ _bb10_slider = {
 			// Assign our document event listeners
 			document.addEventListener('touchmove', outerElement.moveSlider, false);
 			document.addEventListener('touchend', outerElement.inner.animateEnd, false);
-			window.addEventListener('resize', outerElement.doOrientationChange,false); 
+			window.addEventListener('resize', outerElement.doOrientationChange,false);
 		}
 	}
 };
-_bb10_textInput = { 
+_bb10_textInput = {
     apply: function(elements) {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			i,
 			outerElement,
 			css;
-			
+
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
 			css = '';
@@ -6741,7 +6760,7 @@ _bb10_textInput = {
 			if (outerElement.hasAttribute('class')) {
 				css = outerElement.getAttribute('class');
 			}
-		  
+
 			outerElement.normal = css + ' bb-bb10-input bb-bb10-input-'+res;
 			outerElement.focused = css + ' bb-bb10-input-focused bb-bb10-input-focused-'+res+' bb-bb10-input-'+res;
 			outerElement.setAttribute('class', outerElement.normal);
@@ -6755,14 +6774,14 @@ _bb10_textInput = {
 															this.clickCount = 0;
 															}
 													}, false);
-													
+
 			outerElement.addEventListener('blur', function() {
-														this.setAttribute('class',this.normal);	
+														this.setAttribute('class',this.normal);
 														this.style['border-color'] = '';
 														this.isFocused = false;
 														this.removeEventListener('click',outerElement.handleDeleteClick , false);
 													}, false);
-													
+
 			outerElement.addEventListener('click',function (event) {
 												// Don't handle the first click which is the focus
 												if (this.clickCount == 0) {
@@ -6788,7 +6807,7 @@ _bb10_textInput = {
 _bb10_toggle = {
 
 	apply: function(elements) {
-		var i, 
+		var i,
 			res,
 			table,
 			tr,
@@ -6865,15 +6884,15 @@ _bb10_toggle = {
 				outerElement.onchange = function() {
 								eval(this.onchangeEval);
 							};
-			}			
-			
+			}
+
 			// Setup our touch events
 			outerElement.inner.animateBegin = function(event) {
 									if (this.outerElement.isActivated === false) {
 										this.outerElement.startValue = this.outerElement.checked;
 										this.outerElement.movedWithSlider = false;
 										this.outerElement.isActivated = true;
-										this.outerElement.initialXPos = event.touches[0].pageX;	
+										this.outerElement.initialXPos = event.touches[0].pageX;
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
 										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color+ ' indicator-hover-'+color);
@@ -6889,8 +6908,8 @@ _bb10_toggle = {
 										this.outerElement.currentXPos = this.outerElement.transientXPos;
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color);   
-										this.outerElement.indicator.style.background = '';	
+										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color);
+										this.outerElement.indicator.style.background = '';
 										this.outerElement.positionButton();
 										if (this.outerElement.movedWithSlider) {
 											if (this.outerElement.startValue != this.outerElement.checked) {
@@ -6903,7 +6922,7 @@ _bb10_toggle = {
 								};
 			outerElement.inner.animateEnd = outerElement.inner.animateEnd.bind(outerElement.inner);
 			outerElement.addEventListener('touchend', outerElement.inner.animateEnd, false);
-			
+
 			// Handle moving the toggle
 			outerElement.moveToggle = function (event) {
 								if (this.isActivated === true) {
@@ -6916,51 +6935,51 @@ _bb10_toggle = {
 									this.transientXPos = Math.max(0, Math.min(this.transientXPos, endPos));
 									this.inner.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
 									this.container.style['-webkit-transform'] = 'translate3d(' + this.transientXPos + 'px,0px,0px)';
-									
+
 									// Set our checked state
 									percent = this.transientXPos/endPos;
 									this.checked = (percent > 0.5);
 								}
 							};
 			outerElement.moveToggle = outerElement.moveToggle.bind(outerElement);
-			
+
 			// Handle the click of a toggle
 			outerElement.doClick = function() {
 								if (!this.movedWithSlider) {
 									this.setChecked(!this.checked);
-								} 
+								}
 							};
 			outerElement.doClick = outerElement.doClick.bind(outerElement);
 			outerElement.addEventListener('click', outerElement.doClick, false);
-			
+
 			// Position the button
 			outerElement.positionButton = function() {
 						var location = (this.checked) ? parseInt(window.getComputedStyle(this.fill).width) - this.buffer : 0;
-					
+
 						// Set our animations
 						this.inner.style['-webkit-transform'] = 'translate3d(' + location + 'px,0px,0px)';
 						this.inner.style['-webkit-transition-duration'] = '0.1s';
 						this.inner.style['-webkit-transition-timing-function'] = 'linear';
-						this.inner.addEventListener('webkitTransitionEnd', function() { 
+						this.inner.addEventListener('webkitTransitionEnd', function() {
 									this.style['-webkit-transition'] = '';
 								});
 						this.container.style['-webkit-transform'] = 'translate3d(' + location + 'px,0px,0px)';
 						this.container.style['-webkit-transition-duration'] = '0.1s';
 						this.container.style['-webkit-transition-timing-function'] = 'linear';
-						this.container.addEventListener('webkitTransitionEnd', function() { 
+						this.container.addEventListener('webkitTransitionEnd', function() {
 									this.style['-webkit-transition'] = '';
 								});
-								
+
 						if (this.checked) {
 							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
 						} else {
 							this.indicator.style['background-image'] = '';
 						}
-						
+
 						this.currentXPos = location;
 					};
 			outerElement.positionButton = outerElement.positionButton.bind(outerElement);
-			
+
 			// Add our setChecked function
 			outerElement.setChecked = function(value) {
 						if (value != this.checked) {
@@ -6972,50 +6991,50 @@ _bb10_toggle = {
 						this.positionButton();
 					};
 			outerElement.setChecked = outerElement.setChecked.bind(outerElement);
-			
+
 			// Add our getChecked function
 			outerElement.getChecked = function() {
 						return this.checked;
 					};
 			outerElement.getChecked = outerElement.getChecked.bind(outerElement);
-			
+
 			// Add our show function
 			outerElement.show = function() {
 				this.style.display = 'block';
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-			
+
 			// Add setOnCaption function
 			outerElement.setOnCaption = function(value) {
-				this.yes.innerHTML = value;				
+				this.yes.innerHTML = value;
 					};
 			outerElement.setOnCaption = outerElement.setOnCaption.bind(outerElement);
-			
+
 			// Add setOffCaption function
 			outerElement.setOffCaption = function(value) {
-				this.no.innerHTML = value;				
+				this.no.innerHTML = value;
 					};
 			outerElement.setOffCaption = outerElement.setOffCaption.bind(outerElement);
-			
+
 			// set our checked state
 			outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
 			setTimeout(outerElement.positionButton,0);
-			
+
 			// Assign our document event listeners
 			document.addEventListener('touchmove', outerElement.moveToggle, false);
 			document.addEventListener('touchend', outerElement.inner.animateEnd, false);
@@ -7068,7 +7087,7 @@ _bb5_labelControlContainers = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -7078,7 +7097,7 @@ _bb5_labelControlContainers = {
 		}
     }
 };
-_bb5_pillButtons = {  
+_bb5_pillButtons = {
     // Apply our transforms to all pill buttons passed in
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
@@ -7092,7 +7111,7 @@ _bb5_pillButtons = {
 				innerChildNode.setAttribute('x-blackberry-focusable','true');
 				var text = innerChildNode.innerHTML;
 				innerChildNode.innerHTML = '<span>' + text + '</span>';
-				
+
 				if (j === 0) {
 					innerChildNode.setAttribute('class','buttonLeft');
 				}
@@ -7102,12 +7121,12 @@ _bb5_pillButtons = {
 				else {
 					innerChildNode.setAttribute('class','buttonMiddle');
 				}
-				
+
 				// See if the item is marked as selected
 				if (innerChildNode.hasAttribute('data-bb-selected') && innerChildNode.getAttribute('data-bb-selected').toLowerCase() == 'true') {
 					bb.pillButtons.selectButton(innerChildNode);
 				}
-				
+
 				// Change the selected state when a user presses the button
 				innerChildNode.onmousedown = function() {
 					bb.pillButtons.selectButton(this);
@@ -7126,14 +7145,14 @@ _bb5_pillButtons = {
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -7141,14 +7160,14 @@ _bb5_pillButtons = {
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
 		}
-    } 
+    }
 };
 _bbPlayBook_activityIndicator = {
 	apply: function(elements) {
 		var i,
 			outerElement,
 			innerElement,
-			indicator, 
+			indicator,
 			color = bb.screen.controlColor,
 			size,
 			width,
@@ -7162,7 +7181,7 @@ _bbPlayBook_activityIndicator = {
 			canvas.setAttribute('height','184px');
 			canvas.setAttribute('width', '184px');
 			ctx = canvas.getContext('2d');
-			ctx.beginPath();    
+			ctx.beginPath();
 			ctx.moveTo(92,154);
 			ctx.arcTo(154,154,154,92,62);
 			ctx.arcTo(154,30,92,30,62);
@@ -7175,21 +7194,21 @@ _bbPlayBook_activityIndicator = {
 			ctx.closePath();
 			ctx.strokeStyle = 'transparent';
 			ctx.stroke();
-		 
+
 			// Create our fill color
 			var lingrad = ctx.createLinearGradient(0,50,0,154);
 			lingrad.addColorStop(0, 'transparent');
 			lingrad.addColorStop(1, bb.options.highlightColor);
 			ctx.fillStyle = lingrad;
 			ctx.fill();
-			
+
 			swirl = canvas.toDataURL();
 		}
-		
+
 		for (i = 0; i < elements.length; i++)  {
 			outerElement = elements[i];
 			size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
-			
+
 			if (size == 'large') {
 				width = '93px';
 			} else if (size == 'small') {
@@ -7198,7 +7217,7 @@ _bbPlayBook_activityIndicator = {
 				size = 'medium';
 				width = '46px';
 			}
-			
+
 			outerElement.style.width = width;
 			// Add another div so that the developers styling on the original div is left untouched
 			indicator = document.createElement('div');
@@ -7208,30 +7227,30 @@ _bbPlayBook_activityIndicator = {
 			innerElement.setAttribute('class','bb-pb-activity-'+size);
 			innerElement.style['background-image'] = 'url("'+ swirl +'")';
 			indicator.appendChild(innerElement);
-			
+
 			// Set our animation
 			innerElement.style['-webkit-animation-name'] = 'activity-rotate';
 			innerElement.style['-webkit-animation-duration'] = '0.8s';
 			innerElement.style['-webkit-animation-iteration-count'] = 'infinite';
 			innerElement.style['-webkit-animation-timing-function'] = 'linear';
-			
-						
+
+
 			// Assign our show function
-				outerElement.show = function(){ 
+				outerElement.show = function(){
 				this.style.display = '';
 				bb.refresh();
 			};
 			outerElement.show = outerElement.show.bind(outerElement);
-		
+
 			// Assign our hide function
-			outerElement.hide = function(){ 
+			outerElement.hide = function(){
 				this.style.display = 'none';
 				bb.refresh();
 			};
-			outerElement.hide = outerElement.hide.bind(outerElement);	
-		
+			outerElement.hide = outerElement.hide.bind(outerElement);
+
 			// Assign our remove function
-			outerElement.remove = function(){ 
+			outerElement.remove = function(){
 				this.parentNode.removeChild(this);
 				bb.refresh();
 			};
@@ -7242,7 +7261,7 @@ _bbPlayBook_activityIndicator = {
 	}
 }
 
-_bbPlayBook_button = { 
+_bbPlayBook_button = {
     // Style a list of buttons
 	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
@@ -7259,10 +7278,10 @@ _bbPlayBook_button = {
 			innerElement = document.createElement('div');
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-pb-button',
-			highlight = 'bb-pb-button-container bb-pb-button-container-' + bb.screen.controlColor + ' pb-button-'+bb.screen.controlColor+'-highlight'; 
+			highlight = 'bb-pb-button-container bb-pb-button-container-' + bb.screen.controlColor + ' pb-button-'+bb.screen.controlColor+'-highlight';
 			outerNormal = 'bb-pb-button-container bb-pb-button-container-' + bb.screen.controlColor +' bb-pb-button-font-'+ bb.screen.controlColor,
 			outerNormalWithoutImageOnly = outerNormal;
-			
+
 		outerElement.isImageOnly = false;
 		outerElement.enabled = !disabled;
 		caption = outerElement.innerHTML;
@@ -7272,7 +7291,7 @@ _bbPlayBook_button = {
 		outerElement.captionElement = captionElement;
 		outerElement.appendChild(innerElement);
 		outerElement.innerElement = innerElement;
-		
+
 		if (outerElement.hasAttribute('data-bb-style')) {
 			var style = outerElement.getAttribute('data-bb-style');
 			if (style == 'stretch') {
@@ -7303,11 +7322,11 @@ _bbPlayBook_button = {
 		}
 		// Insert caption after determining what to do with the image
 		innerElement.appendChild(captionElement);
-	
+
 		// Set our styles
 		disabledStyle = normal + ' bb-pb-button-disabled-'+bb.screen.controlColor;
 		normal = normal + ' bb-pb-button-' + bb.screen.controlColor;
-		
+
 		if (disabled) {
 			outerElement.removeAttribute('data-bb-disabled');
 			innerElement.setAttribute('class',disabledStyle);
@@ -7331,7 +7350,7 @@ _bbPlayBook_button = {
 									this.style.color = '';
 								};
 		}
-						
+
 		// Trap the click and call it only if the button is enabled
 		outerElement.trappedClick = outerElement.onclick;
 		outerElement.onclick = undefined;
@@ -7342,7 +7361,7 @@ _bbPlayBook_button = {
 					}
 				},false);
 		}
-		
+
 		// Assign our set caption function
 		outerElement.setCaption = function(value) {
 				if (this.isImageOnly && (value.length > 0)) {
@@ -7372,7 +7391,7 @@ _bbPlayBook_button = {
 				}
 				this.captionElement.innerHTML = value;
 			};
-			
+
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				if (this.isImageOnly) {
@@ -7397,14 +7416,14 @@ _bbPlayBook_button = {
 					this.captionElement.setAttribute('class','');
 				}
 			};
-		
+
 		// Assign our enable function
-		outerElement.enable = function(){ 
+		outerElement.enable = function(){
 				if (this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.normal);
 				this.ontouchstart = function() {
 									this.setAttribute('class', this.highlight);
-									
+
 								};
 				this.ontouchend = function() {
 									this.setAttribute('class', this.outerNormal);
@@ -7412,9 +7431,9 @@ _bbPlayBook_button = {
 				this.enabled = true;
 			};
 		outerElement.enable = outerElement.enable.bind(outerElement);
-		
+
 		// Assign our disable function
-		outerElement.disable = function(){ 
+		outerElement.disable = function(){
 				if (!this.enabled) return;
 				this.innerElement.setAttribute('class', this.innerElement.disabledStyle);
 				this.ontouchstart = null;
@@ -7422,37 +7441,37 @@ _bbPlayBook_button = {
 				this.enabled = false;
 			};
 		outerElement.disable = outerElement.disable.bind(outerElement);
-	
+
 		// Assign our show function
-		outerElement.show = function(){ 
+		outerElement.show = function(){
 				this.style.display = this.stretched ? 'block' : 'inline-block';
 				bb.refresh();
 			};
 		outerElement.show = outerElement.show.bind(outerElement);
-		
+
 		// Assign our hide function
-		outerElement.hide = function(){ 
+		outerElement.hide = function(){
 				this.style.display = 'none';
 				bb.refresh();
 			};
-		outerElement.hide = outerElement.hide.bind(outerElement);	
-		
+		outerElement.hide = outerElement.hide.bind(outerElement);
+
 		// Assign our remove function
-		outerElement.remove = function(){ 
+		outerElement.remove = function(){
 				this.parentNode.removeChild(this);
 				bb.refresh();
 			};
-		outerElement.remove = outerElement.remove.bind(outerElement);	
-		
+		outerElement.remove = outerElement.remove.bind(outerElement);
+
 		return outerElement;
     }
 };
-_bbPlayBook_imageList = {  
+_bbPlayBook_imageList = {
     apply: function(elements) {
 		var i,j,
 			outerElement,
 			items;
-				
+
 		// Apply our transforms to all Image Lists
 		for (var i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -7468,7 +7487,7 @@ _bbPlayBook_imageList = {
 			// Get our header style
 			outerElement.headerStyle = outerElement.hasAttribute('data-bb-header-style') ? outerElement.getAttribute('data-bb-header-style').toLowerCase() : 'default';
 
-			outerElement.setAttribute('class','bb-pb-image-list');	
+			outerElement.setAttribute('class','bb-pb-image-list');
 			outerElement.styleItem = function (innerChildNode) {
 				// Gather our inner items
 				var innerChildNode,
@@ -7485,22 +7504,22 @@ _bbPlayBook_imageList = {
 					btn,
 					btnBorder,
 					btnInner;
-							
+
 				if (innerChildNode.hasAttribute('data-bb-type')) {
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 					description = innerChildNode.innerHTML;
 					accentText = '';
-					
+
 					// Grab the accent-text if it is there
 					if (innerChildNode.hasAttribute('data-bb-accent-text')) {
 						accentText = innerChildNode.getAttribute('data-bb-accent-text');
 					}
-					
+
 					if (type == 'header') {
 						// Initialize our styling
 						normal = 'bb-pb-image-list-header';
 						highlight = 'bb-pb-image-list-header-hover bb10Highlight';
-						
+
 						if (outerElement.headerStyle == 'solid') {
 							normal = normal + ' bb-pb-image-list-header-solid bb10Accent';
 						} else {
@@ -7528,7 +7547,7 @@ _bbPlayBook_imageList = {
 						innerChildNode.ontouchend = function() {
 														this.setAttribute('class',this.normal);
 													}
-					} 
+					}
 					else if (type == 'item') {
 						innerChildNode.normal = 'bb-pb-image-list-item';
 						innerChildNode.highlight = 'bb-pb-image-list-item bb-pb-image-list-item-hover bb10Highlight';
@@ -7540,7 +7559,7 @@ _bbPlayBook_imageList = {
 						innerChildNode.ontouchend = function() {
 														this.setAttribute('class',this.normal);
 													}
-						
+
 						if (!this.hideImages) {
 							img = document.createElement('img');
 							innerChildNode.img = img;
@@ -7556,7 +7575,7 @@ _bbPlayBook_imageList = {
 							}
 							innerChildNode.appendChild(img);
 						}
-						
+
 						details = document.createElement('div');
 						innerChildNode.appendChild(details);
 						if (this.hideImages) {
@@ -7564,13 +7583,13 @@ _bbPlayBook_imageList = {
 						} else {
 							details.normal = 'bb-pb-image-list-details';
 						}
-						
+
 						titleDiv = document.createElement('div');
 						titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
 						titleDiv.className = 'title';
 						innerChildNode.titleDiv = titleDiv;
 						details.appendChild(titleDiv);
-						
+
 						// Add our arrows if needed
 						if (this.listStyle == 'arrowlist') {
 							// Add the margin to details
@@ -7596,15 +7615,15 @@ _bbPlayBook_imageList = {
 							innerChildNode.accentDiv = accentDiv;
 							details.appendChild(accentDiv);
 						}
-						
+
 						details.setAttribute('class', details.normal);
-						
+
 						// Add the description
 						descriptionDiv = document.createElement('div');
 						descriptionDiv.className = 'description';
 						innerChildNode.descriptionDiv = descriptionDiv;
 						details.appendChild(descriptionDiv);
-						
+
 						// Adjust the description description
 						if (description.length == 0) {
 							description = '&nbsp;';
@@ -7621,19 +7640,19 @@ _bbPlayBook_imageList = {
 							}
 						}
 						descriptionDiv.innerHTML = description;
-						
+
 						// Add the remove function for the item
 						innerChildNode.remove = function() {
 								var listControl = this.parentNode,
 									index = listControl.items.indexOf(this);
 								this.parentNode.removeChild(this);
-								listControl.items.splice(index,1);	
+								listControl.items.splice(index,1);
 								if (bb.scroller) {
 									bb.scroller.refresh();
 								}
 							}
-						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);	
-						
+						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);
+
 						// Add our subscription for click events to set selected
 						innerChildNode.trappedClick = innerChildNode.onclick;
 						innerChildNode.onclick = undefined;
@@ -7644,20 +7663,20 @@ _bbPlayBook_imageList = {
 									this.trappedClick();
 								}
 							},false);
-							
+
 						// Add our getter functions
 						innerChildNode.getTitle = function() {
 								return this.titleDiv.innerHTML;
 							}
-						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
 						innerChildNode.getDescription = function() {
 								return this.descriptionDiv.innerHTML;
 							}
-						innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+						innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);
 						innerChildNode.getAccentText = function() {
 								return (this.accentDiv) ? this.accentDiv.innerHTML : undefined;
 							}
-						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);
 						innerChildNode.getImage = function() {
 								return (this.img) ? this.img.getAttribute('src') : undefined;
 							}
@@ -7666,7 +7685,7 @@ _bbPlayBook_imageList = {
 				}
 			}
 			outerElement.styleItem = outerElement.styleItem.bind(outerElement);
-			
+
 			// Append an item to the end of the list control
 			outerElement.appendItem = function(item) {
 					this.styleItem(item);
@@ -7677,7 +7696,7 @@ _bbPlayBook_imageList = {
 					}
 				};
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
-			
+
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
@@ -7688,18 +7707,18 @@ _bbPlayBook_imageList = {
 					}
 				};
 			outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
-			
+
 			// Return the items in the list in a read-only fashion
 			outerElement.getItems = function() {
 					var i,
 						result = [];
 						for (i = 0; i < this.items.length;i++) {
 							result.push(this.items[i]);
-						}	
+						}
 					return result;
 				};
 			outerElement.getItems = outerElement.getItems.bind(outerElement);
-			
+
 			// Clear items from the list
 			outerElement.clear = function() {
 					this.items = [];
@@ -7709,7 +7728,7 @@ _bbPlayBook_imageList = {
 					}
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
-			
+
 			// Add our show function
 			outerElement.show = function() {
 					this.style.display = 'block';
@@ -7718,7 +7737,7 @@ _bbPlayBook_imageList = {
 					}
 				};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
@@ -7727,7 +7746,7 @@ _bbPlayBook_imageList = {
 					}
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -7735,8 +7754,8 @@ _bbPlayBook_imageList = {
 						bb.scroller.refresh();
 					}
 				};
-			outerElement.remove = outerElement.remove.bind(outerElement);	
-			
+			outerElement.remove = outerElement.remove.bind(outerElement);
+
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
 			var item;
@@ -7748,7 +7767,7 @@ _bbPlayBook_imageList = {
 		}
 	}
 };
-_bbPlayBook_roundPanel = {  
+_bbPlayBook_roundPanel = {
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i];
@@ -7767,29 +7786,29 @@ _bbPlayBook_roundPanel = {
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-		}    
+		}
     }
 };
-_bbPlayBook_textInput = { 
+_bbPlayBook_textInput = {
     apply: function(elements) {
 		var i,
 			outerElement,
 			css;
-			
+
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
 			css = '';
@@ -7797,7 +7816,7 @@ _bbPlayBook_textInput = {
 			if (outerElement.hasAttribute('class')) {
 				css = outerElement.getAttribute('class');
 			}
-		  
+
 			outerElement.normal = css + ' bb-pb-input';
 			outerElement.focused = css + ' bb-pb-input-focused bb-pb-input';
 			outerElement.setAttribute('class', outerElement.normal);
@@ -7810,16 +7829,16 @@ _bbPlayBook_textInput = {
 															this.clickCount = 0;
 														}
 													}, false);
-													
+
 			outerElement.addEventListener('blur', function() {
-														this.setAttribute('class',this.normal);	
+														this.setAttribute('class',this.normal);
 														this.isFocused = false;
 														this.removeEventListener('click',outerElement.handleDeleteClick , false);
 													}, false);
-													
+
 			outerElement.addEventListener('click',function (event) {
 												// Don't handle the first click which is the focus
-											
+
 												if (this.clickCount == 0) {
 													this.clickCount++;
 													return;
@@ -7828,7 +7847,7 @@ _bbPlayBook_textInput = {
 													var deleteClicked = false;
 													if (event.clientX > (this.clientWidth - 40) && this.readOnly == false) {
 														deleteClicked = true;
-													} 
+													}
 													if (deleteClicked) {
 														this.value = '';
 													}
@@ -7837,12 +7856,12 @@ _bbPlayBook_textInput = {
 		}
     }
 };
-_bb_5_6_7_imageList = {  
+_bb_5_6_7_imageList = {
     apply: function(elements) {
 		var i,j,
 			outerElement,
 			items;
-				
+
 		// Apply our transforms to all Image Lists
 		for (var i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -7855,13 +7874,13 @@ _bb_5_6_7_imageList = {
 			outerElement.headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
 			// See what kind of style they want for this list
 			outerElement.listStyle = outerElement.hasAttribute('data-bb-style') ? outerElement.getAttribute('data-bb-style').toLowerCase() : 'default';
-			
+
 			if (bb.device.isHiRes) {
 					outerElement.setAttribute('class','bb-hires-image-list');
 			} else {
 				outerElement.setAttribute('class','bb-lowres-image-list');
 			}
-			
+
 			outerElement.styleItem = function (innerChildNode) {
 				// Gather our inner items
 				var innerChildNode,
@@ -7879,17 +7898,17 @@ _bb_5_6_7_imageList = {
 					btnBorder,
 					btnInner,
 					res = (bb.device.isHiRes) ? 'hires' : 'lowres';
-							
+
 				if (innerChildNode.hasAttribute('data-bb-type')) {
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 					description = innerChildNode.innerHTML;
 					accentText = '';
-					
+
 					// Grab the accent-text if it is there
 					if (innerChildNode.hasAttribute('data-bb-accent-text')) {
 						accentText = innerChildNode.getAttribute('data-bb-accent-text');
 					}
-					
+
 					if (type == 'header') {
 						normal = 'bb-'+res+'-image-list-header';
 						highlight = 'bb-'+res+'-image-list-header-hover';
@@ -7912,14 +7931,14 @@ _bb_5_6_7_imageList = {
 						innerChildNode.setAttribute('class', normal);
 						innerChildNode.setAttribute('onmouseover', "this.setAttribute('class',this.highlight)");
 						innerChildNode.setAttribute('onmouseout', "this.setAttribute('class',this.normal)");
-					} 
+					}
 					else if (type == 'item') {
 						innerChildNode.innerHTML = '';
 						innerChildNode.setAttribute('class', 'bb-'+res+'-image-list-item');
 						innerChildNode.setAttribute('onmouseover', "this.setAttribute('class','bb-"+res+"-image-list-item bb-"+res+"-image-list-item-hover')");
 						innerChildNode.setAttribute('onmouseout', "this.setAttribute('class','bb-"+res+"-image-list-item')");
 						innerChildNode.setAttribute('x-blackberry-focusable','true');
-						
+
 						if (!this.hideImages) {
 							img = document.createElement('img');
 							innerChildNode.img = img;
@@ -7935,7 +7954,7 @@ _bb_5_6_7_imageList = {
 							}
 							innerChildNode.appendChild(img);
 						}
-						
+
 						details = document.createElement('div');
 						innerChildNode.appendChild(details);
 						if (this.hideImages) {
@@ -7943,13 +7962,13 @@ _bb_5_6_7_imageList = {
 						} else {
 							details.normal = 'bb-'+res+'-image-list-details';
 						}
-						
+
 						titleDiv = document.createElement('div');
 						titleDiv.innerHTML = innerChildNode.getAttribute('data-bb-title');
 						titleDiv.className = 'title';
 						innerChildNode.titleDiv = titleDiv;
 						details.appendChild(titleDiv);
-						
+
 						// Add our arrows if needed
 						if (this.listStyle == 'arrowlist') {
 							// Add the margin to details
@@ -7975,15 +7994,15 @@ _bb_5_6_7_imageList = {
 							innerChildNode.accentDiv = accentDiv;
 							details.appendChild(accentDiv);
 						}
-						
+
 						details.setAttribute('class', details.normal);
-						
+
 						// Add the description
 						descriptionDiv = document.createElement('div');
 						descriptionDiv.className = 'description';
 						innerChildNode.descriptionDiv = descriptionDiv;
 						details.appendChild(descriptionDiv);
-						
+
 						// Adjust the description description
 						if (description.length == 0) {
 							description = '&nbsp;';
@@ -8000,19 +8019,19 @@ _bb_5_6_7_imageList = {
 							}
 						}
 						descriptionDiv.innerHTML = description;
-						
+
 						// Add the remove function for the item
 						innerChildNode.remove = function() {
 								var listControl = this.parentNode,
 									index = listControl.items.indexOf(this);
 								this.parentNode.removeChild(this);
-								listControl.items.splice(index,1);	
+								listControl.items.splice(index,1);
 								if (bb.scroller) {
 									bb.scroller.refresh();
 								}
 							}
-						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);	
-						
+						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);
+
 						// Add our subscription for click events to set selected
 						innerChildNode.trappedClick = innerChildNode.onclick;
 						innerChildNode.onclick = undefined;
@@ -8023,20 +8042,20 @@ _bb_5_6_7_imageList = {
 									this.trappedClick();
 								}
 							},false);
-							
+
 						// Add our getter functions
 						innerChildNode.getTitle = function() {
 								return this.titleDiv.innerHTML;
 							}
-						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);	
+						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
 						innerChildNode.getDescription = function() {
 								return this.descriptionDiv.innerHTML;
 							}
-						innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);	
+						innerChildNode.getDescription = innerChildNode.getDescription.bind(innerChildNode);
 						innerChildNode.getAccentText = function() {
 								return (this.accentDiv) ? this.accentDiv.innerHTML : undefined;
 							}
-						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
+						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);
 						innerChildNode.getImage = function() {
 								return (this.img) ? this.img.getAttribute('src') : undefined;
 							}
@@ -8045,7 +8064,7 @@ _bb_5_6_7_imageList = {
 				}
 			}
 			outerElement.styleItem = outerElement.styleItem.bind(outerElement);
-			
+
 			// Append an item to the end of the list control
 			outerElement.appendItem = function(item) {
 					this.styleItem(item);
@@ -8056,7 +8075,7 @@ _bb_5_6_7_imageList = {
 					}
 				};
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
-			
+
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
@@ -8067,18 +8086,18 @@ _bb_5_6_7_imageList = {
 					}
 				};
 			outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
-			
+
 			// Return the items in the list in a read-only fashion
 			outerElement.getItems = function() {
 					var i,
 						result = [];
 						for (i = 0; i < this.items.length;i++) {
 							result.push(this.items[i]);
-						}	
+						}
 					return result;
 				};
 			outerElement.getItems = outerElement.getItems.bind(outerElement);
-			
+
 			// Clear items from the list
 			outerElement.clear = function() {
 					this.items = [];
@@ -8088,7 +8107,7 @@ _bb_5_6_7_imageList = {
 					}
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
-			
+
 			// Add our show function
 			outerElement.show = function() {
 					this.style.display = 'block';
@@ -8097,7 +8116,7 @@ _bb_5_6_7_imageList = {
 					}
 				};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
@@ -8106,7 +8125,7 @@ _bb_5_6_7_imageList = {
 					}
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -8114,8 +8133,8 @@ _bb_5_6_7_imageList = {
 						bb.scroller.refresh();
 					}
 				};
-			outerElement.remove = outerElement.remove.bind(outerElement);	
-			
+			outerElement.remove = outerElement.remove.bind(outerElement);
+
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');
 			var item;
@@ -8128,7 +8147,7 @@ _bb_5_6_7_imageList = {
 	}
 };
 
-_bb_5_6_7_roundPanel = {  
+_bb_5_6_7_roundPanel = {
     apply: function(elements) {
 		// Apply our transforms to all the panels
 		for (var i = 0; i < elements.length; i++) {
@@ -8163,7 +8182,7 @@ _bb_5_6_7_roundPanel = {
 				outerElement.appendChild(placeholder);
 				// Add our previous children back to the insidePanel
 				for (var j = 0; j < innerElements.length; j++) {
-					insidePanel.appendChild(innerElements[j]); 
+					insidePanel.appendChild(innerElements[j]);
 				}
 			}
 			// Handle the headers
@@ -8177,30 +8196,30 @@ _bb_5_6_7_roundPanel = {
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-		}  
+		}
     }
 };
-_bb_6_7_button = { 
-    apply: function(elements) {  
+_bb_6_7_button = {
+    apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			bb.button.style(elements[i]);
 		}
 	},
-	
+
 	style: function(outerElement) {
 		var disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-bb7-button',
@@ -8211,7 +8230,7 @@ _bb_6_7_button = {
 		if (disabled) {
 			normal = 'bb-bb7-button-disabled';
 			outerElement.removeAttribute('data-bb-disabled');
-		}	
+		}
 		if (bb.device.isHiRes) {
 			normal = normal + ' bb-bb7-button-hires';
 			highlight = highlight + ' bb-bb7-button-hires';
@@ -8239,7 +8258,7 @@ _bb_6_7_button = {
 								this.setAttribute('class',this.normal);
 							}
 		}
-						
+
 		// Trap the click and call it only if the button is enabled
 		outerElement.trappedClick = outerElement.onclick;
 		outerElement.onclick = undefined;
@@ -8250,25 +8269,25 @@ _bb_6_7_button = {
 					}
 				},false);
 		}
-		
+
 		// Assign our set caption function
 		outerElement.setCaption = function(value) {
 				this.innerHTML = value;
 			};
 		outerElement.setCaption = outerElement.setCaption.bind(outerElement);
-		
+
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				// Not yet implemented
 			};
 		outerElement.setImage = outerElement.setImage.bind(outerElement);
-		
+
 		// Assign our enable function
 		outerElement.enable = function(){
 				if (this.enabled) return;
 			/*	var normal = 'bb-bb7-button',
 					highlight = 'bb-bb7-button-highlight';
-				
+
 				if (bb.device.isHiRes) {
 					normal = normal + ' bb-bb7-button-hires';
 					highlight = highlight + ' bb-bb7-button-hires';
@@ -8299,12 +8318,12 @@ _bb_6_7_button = {
 				this.enabled = true;
 			};
 		outerElement.enable = outerElement.enable.bind(outerElement);
-		
+
 		// Assign our disable function
 		outerElement.disable = function(){
 				if (!this.enabled) return;
 				var normal = 'bb-bb7-button-disabled';
-				
+
 				if (bb.device.isHiRes) {
 					normal = normal + ' bb-bb7-button-hires';
 				} else {
@@ -8327,29 +8346,29 @@ _bb_6_7_button = {
 		outerElement.disable = outerElement.disable.bind(outerElement);
 
 		// Assign our show function
-		outerElement.show = function(){ 
+		outerElement.show = function(){
 				this.style.display = this.stretched ? 'block' : 'inline-block';
 			};
 		outerElement.show = outerElement.show.bind(outerElement);
-		
+
 		// Assign our hide function
-		outerElement.hide = function(){ 
+		outerElement.hide = function(){
 				this.style.display = 'none';
 			};
-		outerElement.hide = outerElement.hide.bind(outerElement);	
-		
+		outerElement.hide = outerElement.hide.bind(outerElement);
+
 		// Assign our remove function
-		outerElement.remove = function(){ 
+		outerElement.remove = function(){
 				this.parentNode.removeChild(this);
 				bb.refresh();
 			};
-		outerElement.remove = outerElement.remove.bind(outerElement);		
+		outerElement.remove = outerElement.remove.bind(outerElement);
 
 		return outerElement;
     }
 };
 
-_bb_6_7_PlayBook_dropdown = { 
+_bb_6_7_PlayBook_dropdown = {
     // Style a list of items
 	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
@@ -8363,7 +8382,7 @@ _bb_6_7_PlayBook_dropdown = {
 			inEvent,
 			outEvent,
 			enabled = !select.hasAttribute('disabled');
-			
+
 		// Set our highlight events
 		if (bb.device.isPlayBook) {
 			inEvent = 'ontouchstart';
@@ -8376,7 +8395,7 @@ _bb_6_7_PlayBook_dropdown = {
 		select.style.display = 'none';
 		select.stretch = false;
 		select.enabled = enabled;
-		
+
 		// Get our selected item
 		if (options.length > 0) {
 			caption = options[0].innerHTML;
@@ -8421,7 +8440,7 @@ _bb_6_7_PlayBook_dropdown = {
 		dropdown.setAttribute('x-blackberry-focusable','true');
 		dropdown.inEvent = "this.setAttribute('class','" + highlight +"')";
 		dropdown.outEvent = "this.setAttribute('class','" + normal + "')"
-		
+
 		if (select.parentNode) {
 			select.parentNode.insertBefore(dropdown, select);
 		}
@@ -8436,7 +8455,7 @@ _bb_6_7_PlayBook_dropdown = {
 					var overlay = document.createElement('div');
 					overlay.setAttribute('id', 'ripple-dropdown-overlay');
 					overlay.style['position'] = 'absolute';
-			        overlay.style['left'] = '0px';	
+			        overlay.style['left'] = '0px';
 			        overlay.style['top'] = document.body.scrollTop + 'px';
 			        overlay.style['width'] = '100%';
 			        overlay.style['height'] = '100%';
@@ -8523,14 +8542,14 @@ _bb_6_7_PlayBook_dropdown = {
 					}
 				}
 			};
-			
+
 		// Enable the clicking of the control if it is enabled
 		if (select.enabled) {
 			dropdown.onclick = dropdown.doclick;
 			dropdown.setAttribute(inEvent, dropdown.inEvent);
 			dropdown.setAttribute(outEvent,dropdown.outEvent);
 		}
-		
+
 		// Assign our setSelectedItem function
 		select.setSelectedItem = function(index) {
 			var select = this.dropdown.getElementsByTagName('select')[0];
@@ -8547,7 +8566,7 @@ _bb_6_7_PlayBook_dropdown = {
 				select.dispatchEvent(evObj);
 			}
 		};
-		
+
 		// Assign our setSelectedText function
 		select.setSelectedText = function(text) {
 			for (var i = 0; i < this.options.length; i++) {
@@ -8558,7 +8577,7 @@ _bb_6_7_PlayBook_dropdown = {
 			}
 		};
 		select.setSelectedText = select.setSelectedText.bind(select);
-		
+
 		// Have this function so we can asynchronously fire the change event
 		select.fireEvent = function() {
 							// Raise the DOM event
@@ -8567,9 +8586,9 @@ _bb_6_7_PlayBook_dropdown = {
 							this.dispatchEvent(evObj);
 						};
 		select.fireEvent = select.fireEvent.bind(select);
-		
+
 		// Assign our enable function
-		select.enable = function(){ 
+		select.enable = function(){
 				if (this.enabled) return;
 				this.dropdown.onclick = this.dropdown.doclick;
 				this.dropdown.setAttribute(inEvent, dropdown.inEvent);
@@ -8579,9 +8598,9 @@ _bb_6_7_PlayBook_dropdown = {
 				this.enabled = true;
 			};
 		select.enable = select.enable.bind(select);
-		
+
 		// Assign our disable function
-		select.disable = function(){ 
+		select.disable = function(){
 				if (!select.enabled) return;
 				//this.dropdown.internalHide();
 				this.dropdown.onclick = null;
@@ -8592,37 +8611,37 @@ _bb_6_7_PlayBook_dropdown = {
 				this.setAttribute('disabled','disabled');
 			};
 		select.disable = select.disable.bind(select);
-		
-			
+
+
 		// Assign our show function
-		select.show = function(){ 
+		select.show = function(){
 				this.dropdown.style.display = this.stretch ? 'block' : 'table-cell';
 				bb.refresh();
 			};
 		select.show = select.show.bind(select);
-		
+
 		// Assign our hide function
-		select.hide = function(){ 
+		select.hide = function(){
 				this.dropdown.style.display = 'none';
 				bb.refresh();
 			};
-		select.hide = select.hide.bind(select);	
-		
+		select.hide = select.hide.bind(select);
+
 		// Assign our remove function
-		select.remove = function(){ 
+		select.remove = function(){
 				this.dropdown.parentNode.removeChild(this.dropdown);
 				bb.refresh();
 			};
 		select.remove = select.remove.bind(select);
-		
+
 		// Assign our refresh function
-		select.refresh = function(){ 
+		select.refresh = function(){
 				//this.dropdown.internalHide();
 				//this.dropdown.refreshOptions();
 				var options = this.getElementsByTagName('option'),
 					captionElement,
 					caption = '';
-					
+
 				if (options.length > 0) {
 					caption = options[0].innerHTML;
 				}
@@ -8632,7 +8651,7 @@ _bb_6_7_PlayBook_dropdown = {
 						break;
 					}
 				}
-				
+
 				// Change our button caption
 				 captionElement = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
 				if (captionElement) {
@@ -8640,9 +8659,9 @@ _bb_6_7_PlayBook_dropdown = {
 				}
 			};
 		select.refresh = select.refresh.bind(select);
-	  
+
 		// Assign our setCaption function
-		select.setCaption = function(value){ 
+		select.setCaption = function(value){
 				if (console) {
 					console.log('WARNING: setCaption is not supported on BlackBerry 5/6/7/PlayBook');
 				}
@@ -8658,7 +8677,7 @@ _bb_6_7_PlayBook_labelControlContainers = {
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i];
-			
+
 			// Fetch all our rows
 			var items = outerElement.querySelectorAll('[data-bb-type=row]');
 			if (items.length > 0 ) {
@@ -8666,7 +8685,7 @@ _bb_6_7_PlayBook_labelControlContainers = {
 				var table = document.createElement('table');
 				table.setAttribute('class','bb-bb7-label-control-rows');
 				outerElement.insertBefore(table,items[0]);
-				
+
 				for (var j = 0; j < items.length; j++) {
 					var row = items[j],
 						tr = document.createElement('tr');
@@ -8705,7 +8724,7 @@ _bb_6_7_PlayBook_labelControlContainers = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -8715,12 +8734,12 @@ _bb_6_7_PlayBook_labelControlContainers = {
 		}
     }
 };
-_bb_6_7_PlayBook_pillButtons = {  
+_bb_6_7_PlayBook_pillButtons = {
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i],
 				containerStyle = 'bb-bb7-pill-buttons',
-				buttonStyle = '';	
+				buttonStyle = '';
 			// Set our container style
 			if (bb.device.isHiRes) {
 				containerStyle = containerStyle + ' bb-bb7-pill-buttons-hires';
@@ -8729,14 +8748,14 @@ _bb_6_7_PlayBook_pillButtons = {
 				containerStyle = containerStyle + ' bb-bb7-pill-buttons-lowres';
 				buttonStyle = 'bb-bb7-pill-button-lowres';
 			}
-			outerElement.setAttribute('class',containerStyle);	
+			outerElement.setAttribute('class',containerStyle);
 			// Gather our inner items
-			var inEvent, 
-				outEvent, 
+			var inEvent,
+				outEvent,
 				items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
 				percentWidth = Math.floor(98 / items.length),
 				sidePadding = 102-(percentWidth * items.length);
-				
+
 			if (bb.device.isPlayBook) {
 				inEvent = 'ontouchstart';
 				outEvent = 'ontouchend';
@@ -8744,7 +8763,7 @@ _bb_6_7_PlayBook_pillButtons = {
 				inEvent = 'onmouseover';
 				outEvent = 'onmouseout';
 			}
-				
+
 			outerElement.style['padding-left'] = sidePadding + '%';
 			outerElement.style['padding-right'] = sidePadding + '%';
 			for (var j = 0; j < items.length; j++) {
@@ -8780,7 +8799,7 @@ _bb_6_7_PlayBook_pillButtons = {
 				// Add our subscription for click events to change highlighting
 				innerChildNode.addEventListener('click',function (e) {
 						var inEvent, outEvent, items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
-						
+
 						if (bb.device.isPlayBook) {
 							inEvent = 'ontouchstart';
 							outEvent = 'ontouchend';
@@ -8788,10 +8807,10 @@ _bb_6_7_PlayBook_pillButtons = {
 							inEvent = 'onmouseover';
 							outEvent = 'onmouseout';
 						}
-						
+
 						for (var j = 0; j < items.length; j++) {
 							var innerChildNode = items[j];
-							
+
 							if (j === 0) {  // First button
 								if (innerChildNode == this) {
 									innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
@@ -8824,7 +8843,7 @@ _bb_6_7_PlayBook_pillButtons = {
 								}
 							}
 						}
-						
+
 					},false);
 			}
 			// Add our show function
@@ -8833,14 +8852,14 @@ _bb_6_7_PlayBook_pillButtons = {
 				bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
-			
+
 			// Add our hide function
 			outerElement.hide = function() {
 				this.style.display = 'none';
 				bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-			
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
@@ -8849,16 +8868,16 @@ _bb_6_7_PlayBook_pillButtons = {
 			outerElement.remove = outerElement.remove.bind(outerElement);
 
 		}
-    } 
+    }
 };
 
-_bb_6_7_textInput = { 
+_bb_6_7_textInput = {
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i];
 			var style = outerElement.getAttribute('class');
 			style = style + ' bb-bb7-input';
-			
+
 			if (bb.device.isHiRes) {
 				style = style + ' bb-bb7-input-hires';
 			} else {
@@ -8876,14 +8895,14 @@ _bb_PlayBook_10_scrollPanel = {
 			childNode,
 			scrollArea,
 			tempHolder;
-		
+
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
-			tempHolder = [];			
+			tempHolder = [];
 			// Inner Scroll Area
 			scrollArea = document.createElement('div');
-			outerElement.appendChild(scrollArea); 
-			
+			outerElement.appendChild(scrollArea);
+
 			// Copy all nodes in the screen that are not the action bar
 			for (j = 0; j < outerElement.childNodes.length - 1; j++) {
 				tempHolder.push(outerElement.childNodes[j]);
@@ -8892,7 +8911,7 @@ _bb_PlayBook_10_scrollPanel = {
 			for (j = 0; j < tempHolder.length -1; j++) {
 				scrollArea.appendChild(tempHolder[j]);
 			}
-			
+
 			if (bb.device.isPlayBook) {
 				outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
 									onBeforeScrollStart: function (e) {
@@ -8900,7 +8919,7 @@ _bb_PlayBook_10_scrollPanel = {
 											bb.scroller.disable();
 										}
 										e.preventDefault();
-									}, 
+									},
 									onBeforeScrollEnd: function(e) {
 										if (bb.scroller) {
 											bb.scroller.enable();
@@ -8916,7 +8935,7 @@ _bb_PlayBook_10_scrollPanel = {
 				outerElement.scroller = null;
 				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
 			}
-			
+
 			// Add show function
 			outerElement.show = function() {
 				this.style.display = 'block';
@@ -8930,14 +8949,14 @@ _bb_PlayBook_10_scrollPanel = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 				};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-			
+
 			// Set refresh
 			outerElement.refresh = function() {
 					if (this.scroller) {
@@ -8968,5 +8987,5 @@ _bb_PlayBook_10_scrollPanel = {
 			outerElement.setAttribute('class','bb-scroll-panel');
 		}
 	}
-	
+
 };
