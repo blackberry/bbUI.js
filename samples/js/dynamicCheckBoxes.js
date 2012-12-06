@@ -45,6 +45,8 @@ function addRemoveCheckBox() {
 		button.flag = true;
 		checkbox = document.createElement('input');
 		checkbox.setAttribute('type','checkbox');
+		checkbox.setAttribute('checked', 'true');
+		checkbox = bb.checkbox.style(checkbox);
 		checkbox.setAttribute('id',id);
 		container.appendChild(checkbox);
 	} else {// Remove Checkbox
