@@ -160,6 +160,12 @@ bb.titleBar = {
 					return this.actionButton.firstChild.innerHTML;
 				};
 			titleBar.getActionCaption = titleBar.getActionCaption.bind(titleBar);
+			// Assign the getAccentText function
+			titleBar.getAccentText = function() {
+					return this.accentText.innerHTML;
+				};
+			titleBar.getAccentText = titleBar.getAccentText.bind(titleBar);
+			
 			
 		} else if (bb.device.isPlayBook) {
 			titleBar.setAttribute('class', 'pb-title-bar');
