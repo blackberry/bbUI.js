@@ -38,7 +38,7 @@
 		<div data-bb-type="panel-header">Manipulate Toggle States </div>
 		<table>
 			<tr>
-				<td class="cell first" style="padding-top:7px;">Toggle Value: <span id="one">true</span></td>
+				<td class="cell first" style="padding-top:7px;">Toggle Value: <span id="one">false</span></td>
 				<td  class="cell">
 					<div data-bb-type="toggle" data-bb-checked="true" data-bb-on="Yes" data-bb-off="No" onchange="document.getElementById('one').innerHTML = this.checked" id="choiceOne"/></div>
 				</td>
@@ -47,6 +47,8 @@
 		<div data-bb-type="button" data-bb-style="stretch" onclick="checkToggle(true)">"Check" Toggle</div>
 		<div data-bb-type="button" data-bb-style="stretch" onclick="checkToggle(false)">"Uncheck" Toggle</div>
 		<div data-bb-type="button" data-bb-style="stretch" onclick="changeCaptions()">Set On/Off Caption</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="disableToggle()">Disable Toggle</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="enableToggle()">Enable Toggle</div>
 		<div data-bb-type="button" data-bb-style="stretch" onclick="hideToggle()">Hide Toggle</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="showToggle()">Show Toggle</div>
 	</div>

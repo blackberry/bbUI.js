@@ -18,9 +18,10 @@ Below you will find all the different changes that have been added since the fir
 	* Updated title bars:
 		* Height of the bar and buttons changed to match UX specs
 		* Allows for a colored option using titleBarColor in the bb.init() function
+	* Toggle Buttons now can be disabled using the data-bb-disabled="true" attribute
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.checkbox.style()
-	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption(), getOnCaption(), getOffCaption() functions  and ability to style dynamically using bb.toggle.style()
+	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption(), getOnCaption(), getOffCaption(), enable(), disable() functions  and ability to style dynamically using bb.toggle.style()
 	* **Radio Buttons:** Added show(), hide(), remove(), enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
 	* **Action Bars:** Added setBackCaption(), setSelectedTab() functions
 		* **Buttons/Tabs:** Added getCaption(), getImage() functions

@@ -22,6 +22,14 @@ function hideToggle() {
 	document.getElementById('choiceOne').hide();
 }
 
+function enableToggle() {
+	document.getElementById('choiceOne').enable();
+}
+
+function disableToggle() {
+	document.getElementById('choiceOne').disable();
+}
+
 function checkToggle(value) {
 	document.getElementById('choiceOne').setChecked(value);
 }
@@ -49,6 +57,7 @@ function addRemoveToggle() {
 		// Style the toggle
 		toggle = bb.toggle.style(toggle);
 		container.appendChild(toggle);
+		bb.refresh();
 	} else {// Remove Toggle
 		button.setCaption('Add Toggle Button');
 		button.flag = false;

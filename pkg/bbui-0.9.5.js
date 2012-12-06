@@ -5749,6 +5749,7 @@ _bb10_toggle = {
 			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 			
 		outerElement.checked = false;
+		outerElement.enabled = true;
 		outerElement.buffer = (bb.device.isPlayBook) ? 35 : 70;
 		outerElement.isActivated = false;
 		outerElement.initialXPos = 0;
@@ -5756,10 +5757,21 @@ _bb10_toggle = {
 		outerElement.transientXPos = 0;
 		outerElement.movedWithSlider = false;
 		outerElement.startValue = false;
+		
+		// See if the toggle button is disabled
+		if (outerElement.hasAttribute('data-bb-disabled')) {
+			outerElement.enabled = !(outerElement.getAttribute('data-bb-disabled').toLowerCase() == 'true');
+		}
+		
 		// Set our styling and create the inner divs
 		outerElement.className = 'bb-bb10-toggle-'+res;
 		outerElement.outer = document.createElement('div');
-		outerElement.outer.setAttribute('class','outer bb-bb10-toggle-outer-' + color);
+		if (outerElement.enabled) {
+			outerElement.normal = 'outer bb-bb10-toggle-outer-'+color + ' bb-bb10-toggle-outer-enabled-'+color;
+		} else {
+			outerElement.normal = 'outer bb-bb10-toggle-outer-'+color + ' bb-bb10-toggle-outer-disabled';
+		}
+		outerElement.outer.setAttribute('class',outerElement.normal);
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
 		outerElement.fill.className = 'fill';
@@ -5807,7 +5819,12 @@ _bb10_toggle = {
 		outerElement.container.appendChild(outerElement.halo);
 		// Create the indicator
 		outerElement.indicator = document.createElement('div');
-		outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color);
+		if (outerElement.enabled) {
+			outerElement.indicator.normal = 'indicator bb-bb10-toggle-indicator-enabled-' + color;
+		} else {
+			outerElement.indicator.normal = 'indicator bb-bb10-toggle-indicator-disabled-' + color;
+		}
+		outerElement.indicator.setAttribute('class',outerElement.indicator.normal);
 		outerElement.container.appendChild(outerElement.indicator);
 		// Get our onchange event if any
 		if (outerElement.hasAttribute('onchange')) {
@@ -5819,6 +5836,7 @@ _bb10_toggle = {
 		
 		// Setup our touch events
 		outerElement.inner.animateBegin = function(event) {
+								if (!this.outerElement.enabled) return;
 								if (this.outerElement.isActivated === false) {
 									this.outerElement.startValue = this.outerElement.checked;
 									this.outerElement.movedWithSlider = false;
@@ -5826,7 +5844,7 @@ _bb10_toggle = {
 									this.outerElement.initialXPos = event.touches[0].pageX;	
 									this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 									this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-									this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color+ ' indicator-hover-'+color);
+									this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
 									this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
 								}
 							};
@@ -5834,12 +5852,13 @@ _bb10_toggle = {
 		outerElement.inner.addEventListener("touchstart", outerElement.inner.animateBegin, false);
 		outerElement.container.addEventListener("touchstart", outerElement.inner.animateBegin, false);
 		outerElement.inner.animateEnd = function () {
+								if (!this.outerElement.enabled) return;
 								if (this.outerElement.isActivated === true) {
 									this.outerElement.isActivated = false;
 									this.outerElement.currentXPos = this.outerElement.transientXPos;
 									this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 									this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
-									this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-' + color);   
+									this.outerElement.indicator.setAttribute('class','indicator bb-bb10-toggle-indicator-enabled-' + color);   
 									this.outerElement.indicator.style.background = '';	
 									this.outerElement.positionButton();
 									if (this.outerElement.movedWithSlider) {
@@ -5856,6 +5875,7 @@ _bb10_toggle = {
 		
 		// Handle moving the toggle
 		outerElement.moveToggle = function (event) {
+							if (!this.enabled) return;
 							if (this.isActivated === true) {
 								this.movedWithSlider = true;
 								event.stopPropagation();
@@ -5876,6 +5896,7 @@ _bb10_toggle = {
 		
 		// Handle the click of a toggle
 		outerElement.doClick = function() {
+							if (!this.enabled) return;
 							if (!this.movedWithSlider) {
 								this.setChecked(!this.checked);
 							} 
@@ -5901,7 +5922,7 @@ _bb10_toggle = {
 								this.style['-webkit-transition'] = '';
 							});
 							
-					if (this.checked) {
+					if (this.checked && this.enabled) {
 						this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
 					} else {
 						this.indicator.style['background-image'] = '';
@@ -5973,6 +5994,34 @@ _bb10_toggle = {
 			return this.no.innerHTML;				
 				};
 		outerElement.getOffCaption = outerElement.getOffCaption.bind(outerElement);
+		
+		// Add enable function
+		outerElement.enable = function() {
+				if (this.enabled) return;
+				this.enabled = true;
+				// change our styles
+				this.indicator.normal = 'indicator bb-bb10-toggle-indicator-enabled-' + color;
+				this.indicator.setAttribute('class',this.indicator.normal);
+				this.normal = 'outer bb-bb10-toggle-outer-'+color + ' bb-bb10-toggle-outer-enabled-'+color;
+				this.outer.setAttribute('class',this.normal);
+				// update the button
+				this.positionButton();
+			};
+		outerElement.enable = outerElement.enable.bind(outerElement);
+		
+		// Add disable function
+		outerElement.disable = function() {
+				if (!this.enabled) return;
+				this.enabled = false;
+				// change our styles
+				this.indicator.normal = 'indicator bb-bb10-toggle-indicator-disabled-' + color;
+				this.indicator.setAttribute('class',this.indicator.normal);
+				this.normal = 'outer bb-bb10-toggle-outer-'+color + ' bb-bb10-toggle-outer-disabled';
+				this.outer.setAttribute('class',this.normal);
+				// Update the button
+				this.positionButton();
+			};
+		outerElement.disable = outerElement.disable.bind(outerElement);
 		
 		// set our checked state
 		outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;

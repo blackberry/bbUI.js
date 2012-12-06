@@ -422,7 +422,19 @@ body, html {
 
 /* ================================================= 
    BB10 Toggle
-   =================================================*/
+   =================================================*/ 
+.bb-bb10-toggle-outer-disabled {
+	color: #606060;
+}
+
+.bb-bb10-toggle-outer-enabled-dark{
+	color: white;
+}
+
+.bb-bb10-toggle-outer-enabled-light{
+	color: #262626;
+}
+   
 .bb-bb10-toggle-lowres
 {
 	padding:10px;
@@ -441,14 +453,12 @@ body, html {
 {
 	background: #070707;
 	border: 1px solid #404040;
-	color:white;
 }
 
 .bb-bb10-toggle-lowres .bb-bb10-toggle-outer-light
 {
 	background: -webkit-linear-gradient(top, #D7D7D7 0%, #D2D2D2 100%);
 	border: 1px solid #9B9B9B;
-	color: #262626;
 }
 
 .bb-bb10-toggle-lowres .halo {
@@ -479,18 +489,30 @@ body, html {
     border: 0px;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-dark
+.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-enabled-dark
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
     box-shadow: 0px 0px 0.2em #030303;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-light
+.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-disabled-dark
+{
+	background-color: #3F3F3F;
+	border: 1px solid #030303;
+}
+
+.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-enabled-light
 {
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DFDFDF 100%);
 	border: 1px solid #BFBFBF;
     box-shadow: 0px 0px 0.2em #030303;
+}
+
+.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-disabled-light
+{
+	background-color: #C1C1C1;
+	border: 1px solid #B8B8B8;
 }
 
 .bb-bb10-toggle-lowres .indicator-hover-dark   {
@@ -592,14 +614,12 @@ body, html {
 {
 	background: #070707;
 	border: 2px solid #404040;
-	color:white;
 }
 
 .bb-bb10-toggle-hires .bb-bb10-toggle-outer-light
 {
 	background: -webkit-linear-gradient(top, #D7D7D7 0%, #D2D2D2 100%);
 	border: 2px solid #9B9B9B;
-	color: #262626;
 }
 
 .bb-bb10-toggle-hires .halo {
@@ -630,18 +650,30 @@ body, html {
     border: 0px;
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-dark
+.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-enabled-dark
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
     box-shadow: 0px 0px 0.2em #030303;
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-light
+.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-disabled-dark
+{
+	background-color: #3F3F3F;
+	border: 1px solid #030303;
+}
+
+.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-enabled-light
 {
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DFDFDF 100%);
 	border: 1px solid #BFBFBF;
     box-shadow: 0px 0px 0.2em #030303;
+}
+
+.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-disabled-light
+{
+	background-color: #C1C1C1;
+	border: 1px solid #B8B8B8;
 }
 
 .bb-bb10-toggle-hires .indicator-hover-dark   {
@@ -5380,6 +5412,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 
