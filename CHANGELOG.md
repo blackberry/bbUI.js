@@ -20,7 +20,7 @@ Below you will find all the different changes that have been added since the fir
 		* Allows for a colored option using titleBarColor in the bb.init() function
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.checkbox.style()
-	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption(), getOnCaption(), getOffCaption() functions 
+	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption(), getOnCaption(), getOffCaption() functions  and ability to style dynamically using bb.toggle.style()
 	* **Radio Buttons:** Added show(), hide(), remove(), enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
 	* **Action Bars:** Added setBackCaption(), setSelectedTab() functions
 		* **Buttons/Tabs:** Added getCaption(), getImage() functions

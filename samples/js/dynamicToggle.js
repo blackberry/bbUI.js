@@ -37,18 +37,22 @@ function addRemoveToggle() {
 		toggle,
 		id = 'newToggle';
 		
-	// Add checkbox
+	// Add toggle
 	if (!button.flag) {
 		button.setCaption('Remove Toggle Button');
 		button.flag = true;
-		/*toggle = document.createElement('input');
-		toggle.setAttribute('type','checkbox');
+		toggle = document.createElement('div');
+		toggle.setAttribute('data-bb-type','toggle');
+		toggle.setAttribute('data-bb-on', 'On');
+		toggle.setAttribute('data-bb-off', 'Off');
 		toggle.setAttribute('id',id);
-		container.appendChild(toggle);*/
-	} else {// Remove Checkbox
+		// Style the toggle
+		toggle = bb.toggle.style(toggle);
+		container.appendChild(toggle);
+	} else {// Remove Toggle
 		button.setCaption('Add Toggle Button');
 		button.flag = false;
-		/*toggle = document.getElementById(id);
-		toggle.removeChild(checkbox);*/
+		toggle = document.getElementById(id);
+		container.removeChild(toggle);
 	}	
 }
