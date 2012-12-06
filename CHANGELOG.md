@@ -20,19 +20,20 @@ Below you will find all the different changes that have been added since the fir
 		* Allows for a colored option using titleBarColor in the bb.init() function
 * JavaScript Interfaces
 	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions 
-	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption() functions 
+	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption(), getOnCaption(), getOffCaption() functions 
 	* **Radio Buttons:** Added show(), hide(), remove(), enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
 	* **Action Bars:** Added setBackCaption(), setSelectedTab() functions
 		* **Buttons/Tabs:** Added getCaption(), getImage() functions
 	* **Scroll Panels:** Added show(), hide(), remove() functions
 	* **Grid Lists:** Added show(), hide(), remove() functions
 	* **Progress Indicator:** Added show(), hide(), remove() functions
-	* **Pill Buttons:** Added show(), hide(), remove() functions
+	* **Pill Buttons:** Added show(), hide(), remove(), getButtons() functions
 	* **Control Groups/Round Panels:** Added show(), hide(), remove() functions
 	* **Image Lists:** Added show(), hide(), remove() functions
 	* **Label Control Containers:** Added show(), hide(), remove() functions
 	* **BBM Bubbles:** Added show(), hide(), remove(), getStyle(), setStyle() functions
 	* **Progress Bars:** Added show(), hide(), remove(), setMax() functions and ability to style dynamically using bb.progress.style()
+	* **Title Bars:** Added getAccentText() function
 * Samples
 	* Updated samples for dynamic control manipulation
 	* Added sample to show how to make static pill buttons in your title area
