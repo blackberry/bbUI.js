@@ -2,37 +2,32 @@
 
 <table>
 <tr>
-<td>
-<i><b>Latest working version:</b></i>
-</td>
-<td>
-0.9.6
-</td>
-<td>
-BETA
-</td>
+<td><i><b>For the latest features:</b></i></td>
+<td>v0.9.6</td>
+<td><i>BETA</i></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/master.zip">Download as ZIP</a></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/master.tar.gz">Download as TAR.GZ</a></td>
 </tr>
 <tr>
-<td>
-<i><b>Last published version:</b></i>
-</td>
-<td>
-0.9.5
-</td>
-<td>
-BETA
-</td>
+<td><i><b>Last published version (v0.9.5):</b></i></td>
+<td>v0.9.5</td>
+<td><i>BETA</i></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.zip">Download as ZIP</a></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.tar.gz">Download as TAR.GZ</a></td>
 </tr>
 </table> 
+
+You can find both the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. As of v0.9.5 these include both the full version and minified versions of the bbUI files.  The **samples** directory will 
+give you examples of how to use the bbUI toolkit. You can also [download other previous releases as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
+
+All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
+
+## Project Goals
 
 The objective of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
 are found on the BlackBerry operating system so that you can create an application that follows system UI guidelines
 and looks at home on a BlackBerry with very little effort.
-
-All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
-
-## Project Goals
 
 The bbUI project is an incubation project where we experiment with application constructs and CSS to create a BlackBerry user experience.  We experiment with different methods
 of building an application UI using HTML5/CSS to squeeze out the most performance possible and adapt to the different idiosyncrasies of the BlackBerry browser following its transformation from BlackBerry 5 to 
@@ -40,26 +35,6 @@ BlackBerry 10.  This helps us find areas of improvement in the web rendering and
 JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus in bbUI is on BB10 -> PlayBook -> BB7 -> BB6 and then back-port for BB5.  
 
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
-
-## Downloads
-
-You can find both the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. As of v0.9.5 these include both the full version and minified versions of the bbUI files.  The **samples** directory will give you examples of how to use the bbUI toolkit.
-
-<table>
-<tr>
-<td><b>For the latest features</b></td>
-<td><a href="https://github.com/blackberry/bbUI.js/archive/master.zip">Download as ZIP</a></td>
-<td><a href="https://github.com/blackberry/bbUI.js/archive/master.tar.gz">Download as TAR.GZ</a></td>
-</tr>
-<tr>
-<td><b>bbUI v0.9.5</b></td>
-<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.zip">Download as ZIP</a></td>
-<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.tar.gz">Download as TAR.GZ</a></td>
-</tr>
-</table>
-
-You can also [download other previous releases as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
-
 
 ## Authors
 
