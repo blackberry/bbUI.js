@@ -13,7 +13,7 @@ Jake can be installed with npm with:
     
 Uglify-JS can be installed with npm with:
 
-    npm install -g uglify-js
+    npm install uglify-js
 
 and to build bbUI.js you just navigate to the bbUI.js directory via a comman dline and run:
 
