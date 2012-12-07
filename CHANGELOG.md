@@ -11,6 +11,7 @@ Below you will find all the different changes that have been added since the fir
 * Notable Updates
 	* Minified versions of the JavaScript and CSS files are now available in the "pkg" directory
 	* Jake files updated to now use Uglify.js and CleanCSS to minify JS/CSS files and add the build version
+	* The _**next**_ branch has now been removed and the latest features will be added to the master branch with an easier way of downloading the latest code
 * BlackBerry 10 Styling
 	* Updated Action Bar back button and "button actions" to have a highlight when touched
 	* Updated grids:
