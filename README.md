@@ -18,7 +18,28 @@ JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus i
 
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
 
-**Author(s)** 
+## Downloads
+
+You can find both the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. These include both the full version and minified versions of the bbUI files.  The **samples** directory will give you examples of how to use the bbUI toolkit.
+
+<table>
+<tr>
+<td><b>For the latest features</b></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/master.zip">Download as ZIP</a></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/master.tar.gz">Download as TAR.GZ</a></td>
+</tr>
+<tr>
+<td><b>bbUI v0.9.4</b></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.4.zip">Download as ZIP</a></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.4.tar.gz">Download as TAR.GZ</a></td>
+</tr>
+</table>
+
+You can also [download other previous release as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
+
+
+
+## Authors
 
 * [Tim Neil](https://github.com/tneil) follow me on Twitter [@brcewane](https://twitter.com/#!/brcewane)
 * [Gord Tanner](https://github.com/gtanner) follow me on Twitter [@gordtanner](https://twitter.com/#!/gordtanner)
@@ -35,9 +56,6 @@ JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus i
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
 
-## Source files to include
-
-You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository.  You can also [download the current release as a zip](https://github.com/blackberry/bbUI.js/tags)
 
 ## Showcase Your Application
 
