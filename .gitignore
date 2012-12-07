@@ -6,3 +6,5 @@ nbproject/private/private.properties
 nbproject/project.properties
 
 nbproject/project.xml
+
+node_modules/*.*
