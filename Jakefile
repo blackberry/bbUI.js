@@ -40,9 +40,16 @@ desc("package everything for a release");
 task('build', ['clean'], function () {
     var output = "",
         css = "",
+		version,
+		versionText = "",
         plugins = [];
 
+	version = JSON.parse(include("JakeVersion"));
+	version.build++;
+	versionText = '/* VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + '*/\n\n';
+	
     output += include("JakeLicense");
+	output += versionText;
     output += include("src/core.js");
 
     collect(__dirname + "/src/plugins", plugins);
@@ -51,12 +58,19 @@ task('build', ['clean'], function () {
         output += include(plugin);
     });
 
-    fs.writeFileSync(__dirname + "/pkg/bbui-0.9.5.js", output);
-    fs.writeFileSync(__dirname + "/samples/bbui-0.9.5.js", output);
+    fs.writeFileSync(__dirname + "/pkg/bbui.js", output);
+    fs.writeFileSync(__dirname + "/samples/bbui.js", output);
 
-    css += include("src/bbUI.css");
-    fs.writeFileSync(__dirname + "/pkg/bbui-0.9.5.css", css);
-    fs.writeFileSync(__dirname + "/samples/bbui-0.9.5.css", css);
+    css += include("JakeLicense");
+	css += versionText;
+	css += include("src/bbUI.css");
+	
+	// Update our build version
+	versionText = '{"major" : ' + version.major +',	"minor" : ' + version.minor +', "revision" : ' + version.revision + ', "build" : '+ version.build+'}';
+	
+    fs.writeFileSync(__dirname + "/pkg/bbui.css", css);
+    fs.writeFileSync(__dirname + "/samples/bbui.css", css);
+	fs.writeFileSync("JakeVersion", versionText);
 
-    console.log("Prepare ship for ludicrous speed!");
+    console.log("Holy Chetara Batman, That was fast!");
 });
