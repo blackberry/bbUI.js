@@ -5,15 +5,20 @@ or follow the installation guide [here][2]
 
 # Building
 
-Building is done with [jake][3] and [Uglify-js](https://github.com/mishoo/UglifyJS). 
+Building is done with [jake][3], JavaScript minifying is done with [Uglify-js](https://github.com/mishoo/UglifyJS) and CSS 
+minifying is done with [CleanCSS](https://github.com/GoalSmashers/clean-css). 
 
-Jake can be installed with npm with:
+Jake can be installed using npm with:
 
     npm install -g jake
     
-Uglify-JS can be installed with npm with:
+Uglify-JS can be installed using npm with:
 
     npm install uglify-js
+    
+CleanCSS can be installed using npm with:
+
+    npm install clean-css
 
 and to build bbUI.js you just navigate to the bbUI.js directory via a comman dline and run:
 
