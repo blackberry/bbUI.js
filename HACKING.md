@@ -5,11 +5,17 @@ or follow the installation guide [here][2]
 
 # Building
 
-Building is done with [jake][3]. Jake can be installed with npm with:
+Building is done with [jake][3] and [Uglify-js](https://github.com/mishoo/UglifyJS). 
+
+Jake can be installed with npm with:
 
     npm install -g jake
+    
+Uglify-JS can be installed with npm with:
 
-and to build bbUI.js you just run:
+    npm install -g uglify-js
+
+and to build bbUI.js you just navigate to the bbUI.js directory via a comman dline and run:
 
     jake
 
