@@ -14,13 +14,13 @@ Jake can be installed using npm with:
     
 Uglify-JS can be installed using npm with:
 
-    npm install uglify-js
+    npm install -g uglify-js
     
 CleanCSS can be installed using npm with:
 
-    npm install clean-css
+    npm install -g clean-css
 
-and to build bbUI.js you just navigate to the bbUI.js directory via a comman dline and run:
+and to build bbUI.js you just navigate to the bbUI.js directory via a command line and run:
 
     jake
 
