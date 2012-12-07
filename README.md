@@ -35,8 +35,7 @@ You can find both the necessary JavaScript and CSS files for your application in
 </tr>
 </table>
 
-You can also [download other previous release as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
-
+You can also [download other previous releases as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
 
 
 ## Authors
