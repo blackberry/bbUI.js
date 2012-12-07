@@ -1,6 +1,7 @@
 ![logo](https://raw.github.com/wiki/blackberry/bbUI.js/images/bbUI_100x403.png)
 
-_**Current version: 0.9.5 BETA**_ 
+_**Latest working version: 0.9.6 BETA**_ 
+_**Last published version: 0.9.5 BETA**_ 
 
 The objective of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
@@ -29,9 +30,9 @@ You can find both the necessary JavaScript and CSS files for your application in
 <td><a href="https://github.com/blackberry/bbUI.js/archive/master.tar.gz">Download as TAR.GZ</a></td>
 </tr>
 <tr>
-<td><b>bbUI v0.9.4</b></td>
-<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.4.zip">Download as ZIP</a></td>
-<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.4.tar.gz">Download as TAR.GZ</a></td>
+<td><b>bbUI v0.9.5</b></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.zip">Download as ZIP</a></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.tar.gz">Download as TAR.GZ</a></td>
 </tr>
 </table>
 
