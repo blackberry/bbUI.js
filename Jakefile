@@ -1,5 +1,7 @@
 var DEPLOY = __dirname + "/pkg/",
     _path = require('path'),
+	UglifyJS = require('uglify-js'),
+	cleanCSS = require('clean-css'),
     fs = require('fs');
 
 function include(files, transform) { 
@@ -40,36 +42,50 @@ desc("package everything for a release");
 task('build', ['clean'], function () {
     var output = "",
         css = "",
+		license = "",
+		minified,
 		version,
 		versionText = "",
         plugins = [];
 
+	console.log("Gathering Files...");
+	// Retrieve the version information
 	version = JSON.parse(include("JakeVersion"));
 	version.build++;
 	versionText = '/* VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + '*/\n\n';
 	
-    output += include("JakeLicense");
-	output += versionText;
-    output += include("src/core.js");
-
+	// Retrieve our license information
+	license = include("JakeLicense");
+	license += versionText;
+	
+	// Gather our core JS files
+    output = include("src/core.js");
     collect(__dirname + "/src/plugins", plugins);
-
     plugins.forEach(function (plugin) {
         output += include(plugin);
     });
+	
+	// Write our our JS files
+    fs.writeFileSync(__dirname + "/pkg/bbui.js", license + output);
+    fs.writeFileSync(__dirname + "/samples/bbui.js", license + output);
 
-    fs.writeFileSync(__dirname + "/pkg/bbui.js", output);
-    fs.writeFileSync(__dirname + "/samples/bbui.js", output);
-
-    css += include("JakeLicense");
-	css += versionText;
-	css += include("src/bbUI.css");
+	// Grab our CSS information
+	css = include("src/bbUI.css");
+	fs.writeFileSync(__dirname + "/pkg/bbui.css", license + css);
+    fs.writeFileSync(__dirname + "/samples/bbui.css", license + css);
+	
+	// Minify
+	console.log("Minifying...");
+	// First the JavaScript
+	license = '/*! bbUI VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + ' | github.com/blackberry/bbUI.js/blob/master/LICENSE !*/';
+	minified = UglifyJS.minify(__dirname + "/pkg/bbui.js");
+	fs.writeFileSync(__dirname + "/pkg/bbui-min.js", license + minified.code);
+	// Then the CSS
+	minified = cleanCSS.process(include(__dirname + "/pkg/bbui.css"));
+	fs.writeFileSync(__dirname + "/pkg/bbui-min.css", license + minified);
 	
 	// Update our build version
 	versionText = '{"major" : ' + version.major +',	"minor" : ' + version.minor +', "revision" : ' + version.revision + ', "build" : '+ version.build+'}';
-	
-    fs.writeFileSync(__dirname + "/pkg/bbui.css", css);
-    fs.writeFileSync(__dirname + "/samples/bbui.css", css);
 	fs.writeFileSync("JakeVersion", versionText);
 
     console.log("Holy Chetara Batman, That was fast!");

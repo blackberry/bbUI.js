@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.5.5*/
+/* VERSION: 0.9.5.6*/
 
 bb = {
 	scroller: null,  
