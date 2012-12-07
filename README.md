@@ -20,7 +20,7 @@ JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus i
 
 ## Downloads
 
-You can find both the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. These include both the full version and minified versions of the bbUI files.  The **samples** directory will give you examples of how to use the bbUI toolkit.
+You can find both the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. As of v0.9.5 these include both the full version and minified versions of the bbUI files.  The **samples** directory will give you examples of how to use the bbUI toolkit.
 
 <table>
 <tr>
