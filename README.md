@@ -1,6 +1,7 @@
 ![logo](https://raw.github.com/wiki/blackberry/bbUI.js/images/bbUI_100x403.png)
 
 _**Latest working version: 0.9.6 BETA**_ 
+
 _**Last published version: 0.9.5 BETA**_ 
 
 The objective of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
