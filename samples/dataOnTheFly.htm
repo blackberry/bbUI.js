@@ -16,6 +16,9 @@
 -->
 <div data-bb-type="screen" data-bb-effect="fade">
 	<div data-bb-type="title" data-bb-caption="[hack] Data on the Fly [/hack]" data-bb-back-caption="Back" ></div>
+	<style>
+		.center { margin: 0px auto 0px auto;}
+	</style>
 	<script id="dataOnTheFlyJS" src="js/dataOnTheFly.js"></script>
 	
 	<div id="buttonpanel" data-bb-type="round-panel"> 
@@ -24,7 +27,8 @@
     </div>
 	
 	<div id="waiting" style="text-align:center;padding-top:50px;padding-bottom:50px;">
-		<img src="images/loading1.gif" />
+		<img id="bb7Loading" src="images/loading1.gif" />
+		<div id="bb10Loading" class="center" id="actind" data-bb-type="activity-indicator" data-bb-size="large"></div>
 	</div>
 	
 	<div id="dataList" data-bb-type="image-list">

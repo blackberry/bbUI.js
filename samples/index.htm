@@ -40,7 +40,9 @@
 												dataOnLoad_initialLoad(element);
 											} else if (id == 'masterDetail') {
 												masterDetail_initialLoad(element);
-											}
+											} else if (id == 'dataOnTheFly') {
+												dataOnTheFly_onScreenReady(element);
+											} 
 											
 											// Remove all titles "except" input and pill buttons screen if running on BB10
 											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons') && (id != 'titlePillButtons')) {

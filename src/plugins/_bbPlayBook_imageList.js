@@ -229,6 +229,24 @@ _bbPlayBook_imageList = {
 				};
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
 			
+			// Refresh all the items in the list control
+			outerElement.refresh = function(items) {
+					if (!items || !items.length || (items.length <=0)) return;
+					var i,
+						item,
+						innerDiv = document.createElement('div');
+					
+					for (i = 0; i < items.length; i++) {
+						item = items[i];
+						this.styleItem(item);
+						innerDiv.appendChild(item);
+					}
+					// Refresh the 
+					this.innerHTML = '';
+					this.appendChild(innerDiv);					
+				};
+			outerElement.refresh = outerElement.refresh.bind(outerElement);
+			
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
