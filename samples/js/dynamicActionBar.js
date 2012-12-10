@@ -27,4 +27,8 @@ function setActionImages(img) {
 	document.getElementById('findAction').setImage(img);
 	document.getElementById('actionOverflowAction').setImage(img);
 }
+
+function setTab(tab) {
+	document.getElementById('myActionBar').setSelectedTab(tab);
+}
   

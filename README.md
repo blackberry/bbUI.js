@@ -1,24 +1,42 @@
 ![logo](https://raw.github.com/wiki/blackberry/bbUI.js/images/bbUI_100x403.png)
 
-_**Current version: 0.9.4 BETA**_ 
+<table>
+<tr>
+<td><i><b>For the latest features:</b></i></td>
+<td>v0.9.6</td>
+<td><i>BETA</i></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/master.zip">Download as ZIP</a></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/master.tar.gz">Download as TAR.GZ</a></td>
+</tr>
+<tr>
+<td><i><b>Last published version (v0.9.5):</b></i></td>
+<td>v0.9.5</td>
+<td><i>BETA</i></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.zip">Download as ZIP</a></td>
+<td><a href="https://github.com/blackberry/bbUI.js/archive/v0.9.5.tar.gz">Download as TAR.GZ</a></td>
+</tr>
+</table> 
+
+You can find both of the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. As of v0.9.5 this includes both the full version and minified versions of the bbUI files.  The **samples** directory will 
+give you examples of how to use the bbUI toolkit. You can also [download other previous releases as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
+
+All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
+
+## Project Goals
 
 The objective of the bbUI toolkit is to provide a BlackBerry&reg; User Experience and Design Language for HTML5 applications using the 
 [BlackBerry WebWorks](http://developer.blackberry.com/html5) framework.  It provides common UI constructs that
 are found on the BlackBerry operating system so that you can create an application that follows system UI guidelines
 and looks at home on a BlackBerry with very little effort.
 
-All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
-
-## Project Goals
-
 The bbUI project is an incubation project where we experiment with application constructs and CSS to create a BlackBerry user experience.  We experiment with different methods
 of building an application UI using HTML5/CSS to squeeze out the most performance possible and adapt to the different idiosyncrasies of the BlackBerry browser following its transformation from BlackBerry 5 to 
 BlackBerry 10.  This helps us find areas of improvement in the web rendering and animation engine. We also take our learnings from bbUI and apply them outward as contributions into mainstream 
-JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus in bbUI is on BB10 -> PlayBook -> BB7 -> BB6 and then back-port for BB5.  
+JavaScript frameworks such as [jQuery Mobile](https://github.com/blackberry/jQueryMobile-BB10-Theme), Sencha and Dojo. Development focus in bbUI is on BB10 -> PlayBook -> BB7 -> BB6 and then back-port for BB5.  
 
 **Please read the [Issues List](https://github.com/blackberry/bbUI.js/issues) for details on known issues, feature requests and planned improvements**
 
-**Author(s)** 
+## Authors
 
 * [Tim Neil](https://github.com/tneil) follow me on Twitter [@brcewane](https://twitter.com/#!/brcewane)
 * [Gord Tanner](https://github.com/gtanner) follow me on Twitter [@gordtanner](https://twitter.com/#!/gordtanner)
@@ -28,13 +46,18 @@ JavaScript frameworks such as jQueryMobile, Sencha and Dojo. Development focus i
 * [Justin Tokarchuk](https://github.com/jtokarchuk) follow me on Twitter [@jtokarchuk](https://twitter.com/#!/jtokarchuk)
 * [James Blashill](https://github.com/jblashill) 
 * [Jerome Carty](https://github.com/jcarty) follow me on Twitter [@jcarty](https://twitter.com/#!/jcarty)
+* [Karan Khiani](https://github.com/karancan) 
+* [Justin DaSilva](https://github.com/lyricidal) follow me on Twitter [@theiexplorers](https://twitter.com/theiexplorers)
+* [Arturo Linares](https://github.com/arturolinares) follow me on Twitter [@arturo_linares](https://twitter.com/arturo_linares)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
 
-## Source files to include
 
-You can find both the JS and CSS files that you need to add to your page in the "pkg" directory in this repository.  You can also [download the current release as a zip](https://github.com/blackberry/bbUI.js/tags)
+## Showcase Your Application
+
+Have a bbUI application that you would like to showcase to other potential bbUI developers. Feel free to promote your appliation or check out what others
+have accomplished in the [bbUI Showcase](https://github.com/blackberry/bbUI.js/issues/442)!
 
 ## Philosophy
 
@@ -88,7 +111,7 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
  &nbsp;&nbsp; [Checkbox](https://github.com/blackberry/bbUI.js/wiki/Checkboxes) &nbsp;&nbsp; [ControlGroup](https://github.com/blackberry/bbUI.js/wiki/Control-Groups) &nbsp;&nbsp; [DropDown](https://github.com/blackberry/bbUI.js/wiki/DropDowns) &nbsp;&nbsp; [ImageList](https://github.com/blackberry/bbUI.js/wiki/Image-List)
  &nbsp;&nbsp; [LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
  &nbsp;&nbsp; [ProgressIndicator](https://github.com/blackberry/bbUI.js/wiki/Progress-Indicator) &nbsp;&nbsp; [RadioButtons](https://github.com/blackberry/bbUI.js/wiki/Radio-Buttons) &nbsp;&nbsp;[ScreenMenu](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus) 
- &nbsp;&nbsp; [ScrollPanel](https://github.com/blackberry/bbUI.js/wiki/Scroll-Panel) &nbsp;&nbsp; [Slider](https://github.com/blackberry/bbUI.js/wiki/Sliders) &nbsp;&nbsp; [ToggleButton](https://github.com/blackberry/bbUI.js/wiki/Toggle-Buttons)
+ &nbsp;&nbsp; [ScrollPanel](https://github.com/blackberry/bbUI.js/wiki/Scroll-Panel) &nbsp;&nbsp; [Slider](https://github.com/blackberry/bbUI.js/wiki/Sliders) &nbsp;&nbsp; [Title Bars](https://github.com/blackberry/bbUI.js/wiki/Title-Bars) &nbsp;&nbsp; [ToggleButton](https://github.com/blackberry/bbUI.js/wiki/Toggle-Buttons)
 
 
 ## Tested On

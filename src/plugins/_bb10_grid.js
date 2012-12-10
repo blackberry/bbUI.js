@@ -70,6 +70,7 @@ _bb10_grid = {
 					else if (type == 'row') {
 						var k,
 							table,
+							columnCount = 0,
 							tr,
 							td,
 							numItems,
@@ -81,10 +82,16 @@ _bb10_grid = {
 							height,
 							width,
 							hasOverlay,
+							hardCodedColumnNum = -1, // none specified
 							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
 						
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
+						
+						// See if they specified the number of items per column
+						if (innerChildNode.hasAttribute('data-bb-columns')) {
+							hardCodedColumnNum = innerChildNode.getAttribute('data-bb-columns');
+						}
 						
 						table = document.createElement('table');
 						table.style.width = '100%';
@@ -92,8 +99,31 @@ _bb10_grid = {
 						tr = document.createElement('tr');
 						table.appendChild(tr);
 
+						// Calculate the width
+						if (hardCodedColumnNum > 0) {
+							// If there are more items than the number of hardcoded columns then
+							// we need to shrink the item size a bit to show that there are available
+							// items to the left to scroll to
+							if ((rowItems.length > hardCodedColumnNum) && !bb.device.isPlayBook) {
+								innerChildNode.style['overflow-y'] = 'hidden';
+								innerChildNode.style['overflow-x'] = 'scroll';
+								width = (window.innerWidth/(parseInt(hardCodedColumnNum) + 0.5));
+							} else {
+								width = (window.innerWidth/hardCodedColumnNum) - 6;
+							}
+						} else {
+							width = (window.innerWidth/numItems) - 6;
+						}
+							
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
+							
+							// If it is PlayBook, Don't do the carousel, it doesn't work well
+							if (bb.device.isPlayBook && (hardCodedColumnNum >0) && (k > hardCodedColumnNum - 1)) {
+								itemNode.style.display = 'none';
+								continue;
+							}
+														
 							subtitle = itemNode.innerHTML;
 							title = itemNode.getAttribute('data-bb-title');
 							hasOverlay = (subtitle || title);
@@ -102,8 +132,8 @@ _bb10_grid = {
 							td = document.createElement('td');
 							tr.appendChild(td);
 							td.appendChild(itemNode);
-							// deal with our margins
-							width = (window.innerWidth/numItems) - 6;
+							columnCount++;
+							
 							// Find out how to size the images
 							if (outerElement.isSquare) {
 								height = width;
@@ -148,7 +178,8 @@ _bb10_grid = {
 							itemNode.contextMenu = contextMenu;
 							itemNode.ontouchstart = function() {
 														if (this.overlay) {
-															this.overlay.setAttribute('style','opacity:1.0;background-color:' + bb.options.highlightColor +';');
+															this.overlay.style['opacity'] = '1.0';
+							                                this.overlay.style['background-color'] = bb.options.highlightColor;
 														}
 														itemNode.fingerDown = true;
 														itemNode.contextShown = false;
@@ -158,7 +189,8 @@ _bb10_grid = {
 													};
 							itemNode.ontouchend = function() {
 														if (this.overlay) {
-															this.overlay.setAttribute('style','');
+															this.overlay.style['opacity'] = '';
+							                                this.overlay.style['background-color'] = '';
 														}
 														itemNode.fingerDown = false;
 														if (itemNode.contextShown) {
@@ -174,6 +206,18 @@ _bb10_grid = {
 														};
 							itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
 						}
+						
+						// if there were hardcoded columns and not enough items to fit those columns, add the extra columns
+						if ((hardCodedColumnNum > 0) && (columnCount < hardCodedColumnNum)) {
+							var diff = hardCodedColumnNum - columnCount;
+							innerChildNode.extraColumns = [];
+							for (k = 0; k < diff; k++) {
+								td = document.createElement('td');
+								tr.appendChild(td);
+								td.style.width = width + 'px';
+								innerChildNode.extraColumns.push(td);
+							}
+						}
 					}
 				}
 			}
@@ -183,17 +227,40 @@ _bb10_grid = {
 									var items = this.querySelectorAll('[data-bb-type=row]'),
 										i,j,
 										rowItems,
+										row,
 										numItems,
 										itemNode,
 										width,
 										height;
 				
 									for (i = 0; i < items.length; i++) {
-										rowItems = items[i].querySelectorAll('[data-bb-type=item]');
+										var hardCodedColumnNum = -1;
+										row = items[i];
+										rowItems = row.querySelectorAll('[data-bb-type=item]');
 										numItems = rowItems.length;
+										
+										// See if they specified the number of items per column
+										if (row.hasAttribute('data-bb-columns')) {
+											hardCodedColumnNum = row.getAttribute('data-bb-columns');
+										}
+
+										// Calculate the width
+										if (hardCodedColumnNum > 0) {
+											// If there are more items than the number of hardcoded columns then
+											// we need to shrink the item size a bit to show that there are available
+											// items to the left to scroll to
+											if ((rowItems.length > hardCodedColumnNum) && !bb.device.isPlayBook) {
+												width = (window.innerWidth/(parseInt(hardCodedColumnNum) + 0.5));
+											} else {
+												width = (window.innerWidth/hardCodedColumnNum) - 6;
+											}
+										} else {
+											width = (window.innerWidth/numItems) - 6;
+										}
+										
+										// Adjust all the items
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];
-											width = (window.innerWidth/numItems) - 6;
 											if (outerElement.isSquare) {
 												height = width;
 											} else {
@@ -213,10 +280,38 @@ _bb10_grid = {
 											itemNode.style['-webkit-transition-timing-function'] = 'linear';
 											itemNode.style['-webkit-transform'] = 'translate3d(0,0,0)';
 										}
+										
+										// Adjust the extra columns if there was hard coded columns that were not filled
+										if (row.extraColumns) {
+											for (j = 0; j < row.extraColumns.length;j++) {
+												row.extraColumns[j].style.width = width + 'px';
+											}
+										}
 									}
 								};
 			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
 			window.addEventListener('resize', outerElement.orientationChanged,false); 
+			
+			// Add show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+
+			// Add hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+	
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);
 		}		
     }
 };

@@ -218,6 +218,24 @@ _bb_5_6_7_imageList = {
 				};
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
 			
+			// Refresh all the items in the list control
+			outerElement.refresh = function(items) {
+					if (!items || !items.length || (items.length <=0)) return;
+					var i,
+						item,
+						innerDiv = document.createElement('div');
+					
+					for (i = 0; i < items.length; i++) {
+						item = items[i];
+						this.styleItem(item);
+						innerDiv.appendChild(item);
+					}
+					// Refresh the 
+					this.innerHTML = '';
+					this.appendChild(innerDiv);					
+				};
+			outerElement.refresh = outerElement.refresh.bind(outerElement);
+			
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
@@ -249,6 +267,33 @@ _bb_5_6_7_imageList = {
 					}
 				};
 			outerElement.clear = outerElement.clear.bind(outerElement);
+			
+			// Add our show function
+			outerElement.show = function() {
+					this.style.display = 'block';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+			outerElement.remove = outerElement.remove.bind(outerElement);	
 			
 			// Gather our inner items and style them
 			items = outerElement.querySelectorAll('[data-bb-type=item], [data-bb-type=header]');

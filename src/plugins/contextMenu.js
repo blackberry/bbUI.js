@@ -19,6 +19,7 @@ bb.contextMenu = {
 			description = document.createElement('div'),
 			header;
 		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
+	
 		menu.actions = [];
 		menu.hideEvents = [];
 		menu.res = res;
@@ -72,6 +73,11 @@ bb.contextMenu = {
 		description.style.width = bb.contextMenu.getWidth() - 20 + 'px';
 		menu.description = description;
 		header.appendChild(description);
+		
+		// Create our scrolling container
+		menu.scrollContainer = document.createElement('div');
+		menu.scrollContainer.setAttribute('class', 'bb-bb10-context-menu-scroller');
+		menu.appendChild(menu.scrollContainer);
 
 		// Set our first left position
 		menu.style.left = bb.contextMenu.getLeft();
@@ -88,15 +94,27 @@ bb.contextMenu = {
 								this.description.innerHTML = data.description;
 							}
 							this.selected = data;
+							// Adjust our scroll container top
+							menu.scrollContainer.style.top = (bb.device.isPlayBook) ? '64px' : '130px';
 						} else {
 							this.header.style.display = 'none';	
-							this.selected = undefined;							
+							this.selected = undefined;
+							// Adjust our scroll container top
+							menu.scrollContainer.style.top = '0px';							
 						}
+						// Set our scroller
+						menu.scrollContainer.style['overflow-y'] = 'scroll';
+						menu.scrollContainer.style['overflow-x'] = 'hidden'
+						menu.scrollContainer.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+						
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';	
-						this.addEventListener("touchstart", this.touchHandler, false);		
+						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
+						this.addEventListener("touchstart", this.touchHandler, false);	
+						this.onclick = function() {	this.hide();}
 						// Remove the header click handling while peeking
 						this.header.addEventListener("click", this.hide, false);
 						this.style.visibility = 'visible';
@@ -111,6 +129,8 @@ bb.contextMenu = {
 						this.removeEventListener("touchmove", this.touchMoveHandler, false);
 						this.style['-webkit-transition'] = 'all 0.5s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(' + bb.contextMenu.getWidth() + 'px, 0px)';
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
 						if (!this.peeking) {
 							// Remove the header click handling 
 							this.header.removeEventListener("click", this.hide, false);	
@@ -118,12 +138,24 @@ bb.contextMenu = {
 						this.peeking = false;
 						this.visible = false;
 						
+						// Remove our scroller
+						menu.scrollContainer.style['overflow-y'] = '';
+						menu.scrollContainer.style['overflow-x'] = ''
+						menu.scrollContainer.style['-webkit-overflow-scrolling'] = '';
+						
 						// See if there was anyone listenting for hide events and call them
 						// starting from the last one registered and pop them off
 						for (var i = menu.hideEvents.length-1; i >= 0; i--) {
 							menu.hideEvents[i]();
 							menu.hideEvents.pop();
 						}
+						
+						// Hack because PlayBook doesn't seem to get all the touch end events
+						if (bb.device.isPlayBook) {
+							for (var i = 0; i < this.actions.length; i++) {
+								this.actions[i].ontouchend();
+							}
+						}						
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -137,15 +169,28 @@ bb.contextMenu = {
 								this.description.innerHTML = data.description;
 							}
 							this.selected = data;
+							// Adjust our scroller top
+							menu.scrollContainer.style.top = (bb.device.isPlayBook) ? '64px' : '130px';
+						} else {
+							// Adjust our scroller top
+							menu.scrollContainer.style.top = '0px';
 						}
+						
 						this.header.style.visibility = 'hidden';	
 						this.header.style['margin-bottom'] = '-'+ Math.floor(this.header.offsetHeight/2) + 'px';
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
 						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
+						this.style['-webkit-backface-visibility'] = 'hidden';
+						this.style['-webkit-perspective'] = '1000';
 						this.addEventListener("touchstart", this.touchHandler, false);	
-						this.addEventListener("touchmove", this.touchMoveHandler, false);						
+						this.addEventListener("touchmove", this.touchMoveHandler, false);		
+						this.onclick = function(event) {
+									if ((event.target == this) || (event.target == this.scrollContainer)){;
+										this.show();
+									}
+								};
 						// Remove the header click handling while peeking
 						this.header.removeEventListener("click", this.hide, false);		
 						this.style.visibility = 'visible';
@@ -158,17 +203,13 @@ bb.contextMenu = {
 								if (this.peeking) {
 									var touch = event.touches[0];
 									this.startPos = touch.pageX;
-									if (event.target == this) {
+									if (event.target == this.scrollContainer) {
 										//event.stopPropagation();
-									} else if (event.target.parentNode == this && event.target != this.header)  {
+									} else if (event.target.parentNode == this.scrollContainer && event.target != this.header)  {
 										event.preventDefault();
 										event.stopPropagation();
 									} 						
-								} else {
-									if (event.target == this) {
-										this.hide();
-									} 
-								}
+								} 
 							};
 		menu.touchHandler = menu.touchHandler.bind(menu);
 		
@@ -179,6 +220,7 @@ bb.contextMenu = {
 								var touch = event.touches[0];
 								if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
 									this.show(this.selected);
+									
 								}
 							};
 		menu.touchMoveHandler = menu.touchMoveHandler.bind(menu);
@@ -200,6 +242,7 @@ bb.contextMenu = {
 								// See how many actions to use for calculations
 								numActions = (this.pinnedAction) ? this.actions.length - 1 : this.actions.length;
 								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - itemHeight; //itemHeight is the header
+								if (margin < 0) margin = 0;
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
@@ -231,7 +274,8 @@ bb.contextMenu = {
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
-				this.appendChild(action);
+				//this.appendChild(action);
+				
 				this.actions.push(action);
 				// See if this item should be pinned to the bottom
 				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
@@ -241,7 +285,11 @@ bb.contextMenu = {
 					action.style.position = 'absolute';
 					action.style.width = '100%';
 					this.pinnedAction = action;
-				}				
+					this.appendChild(action);
+					this.scrollContainer.style.bottom = (bb.device.isPlayBook) ? '64px' : '130px';
+				} else {
+					this.scrollContainer.appendChild(action);
+				}
 				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
 					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
@@ -261,15 +309,36 @@ bb.contextMenu = {
 				action.appendChild(inner);
 				inner.innerHTML = caption;
 				action.display = inner;
+				action.menu = this;
 				
 				action.setAttribute('class',normal);
-				action.ontouchstart = function () {
-										this.setAttribute('class',this.highlight);
-										this.style['border-left-color'] = bb.options.highlightColor;
+				action.ontouchstart = function (e) {
+										if (this.menu.peeking) {
+											this.style['border-left-color'] = bb.options.highlightColor;
+										} else {
+											this.style['background-color'] = bb.options.highlightColor;
+										}
+										
+										e.stopPropagation();
+										// Hack because PlayBook doesn't seem to get all the touch end events
+										if (bb.device.isPlayBook) {
+											var existingAction, 
+												i;
+											for (i = 0; i < this.menu.actions.length; i++) {
+												existingAction = this.menu.actions[i];
+												if (existingAction != this) {
+													existingAction.ontouchend();
+												}
+											}
+										}
 									}
 				action.ontouchend = function () {
-										this.setAttribute('class',this.normal);
-										this.style['border-left-color'] = 'transparent';
+										if (this.menu.peeking) {
+											this.style['border-left-color'] = 'transparent';
+										} else {
+											this.style['background-color'] = '';
+										}
+										e.stopPropagation();
 									}
 				action.addEventListener("click", this.hide, false);
 				
