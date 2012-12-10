@@ -35,7 +35,7 @@ Below you will find all the different changes that have been added since the fir
 	* **Progress Indicator:** Added show(), hide(), remove() functions
 	* **Pill Buttons:** Added show(), hide(), remove(), getButtons() functions
 	* **Control Groups/Round Panels:** Added show(), hide(), remove() functions
-	* **Image Lists:** Added show(), hide(), remove() functions
+	* **Image Lists:** Added show(), hide(), remove(), refresh() functions
 	* **Label Control Containers:** Added show(), hide(), remove() functions
 	* **BBM Bubbles:** Added show(), hide(), remove(), getStyle(), setStyle() functions
 	* **Progress Bars:** Added show(), hide(), remove(), setMax() functions and ability to style dynamically using bb.progress.style()
