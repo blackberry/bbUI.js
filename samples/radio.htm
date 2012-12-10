@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <!--
-* Copyright 2010-2011 Research In Motion Limited.
+* Copyright 2010-2012 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -28,23 +28,29 @@
 		<table>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice One</td>
-				<td class="cell" ><input type="radio" name="group1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" >
+					<input type="radio" name="group1" id="control1" checked="true" value="one" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
+				</td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Two</td>
-				<td class="cell"><input type="radio" name="group1" value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3">
+					<input type="radio" name="group1" id="control2" value="two" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
+				</td>
 			</tr>
 			<tr>
 				<td class="cell" style="padding-top:7px;">Choice Three</td>
-				<td class="cell"><input type="radio" name="group1" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/></td>
+				<td class="cell" colspan="3">
+					<input type="radio" name="group1" id="control3" value="three" onchange="if (this.checked) document.getElementById('value').innerHTML = this.value;"/>
+				</td>
 			</tr>
 		</table>
 		
 		<div >
 			<h2>You clicked:&nbsp;<span id="value">one</span></h2>
 		</div>
+		
 	</div>
-	
+
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
-	

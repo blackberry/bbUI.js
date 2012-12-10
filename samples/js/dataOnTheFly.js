@@ -14,6 +14,15 @@
 * limitations under the License.
 */
 
+function dataOnTheFly_onScreenReady(element) {
+	// Make the proper activity indicator appear
+	if (bb.device.isBB10) {
+		element.getElementById('bb7Loading').style.display = 'none';
+	} else {
+		element.getElementById('bb10Loading').style.display = 'none';
+	}
+}
+
 function dataOnTheFly_initialLoad(element) {
 	// I'm just doing a setTimeout to mimic processing some data
 	// in a background worker thread
@@ -21,22 +30,24 @@ function dataOnTheFly_initialLoad(element) {
 }
 
 function dataOnTheFly_loadAfterTimeout() {
+	var i,
+		listItem, 
+		container, 
+		items = [],
+		dataList = document.getElementById('dataList');
+	
+	for (i = 0; i < 3; i++) {
+		// Create our list item
+		listItem = document.createElement('div');
+		listItem.setAttribute('data-bb-type', 'item');
+		listItem.setAttribute('data-bb-img', 'images/icons/icon11.png');
+		listItem.setAttribute('data-bb-title', 'Title ');
+		listItem.innerHTML = 'My description';
+		items.push(listItem);
+	}
+	// Remove our waiting and refresh the list
 	document.getElementById('waiting').style.display = 'none';
-	dataOnTheFly_addListItem()
-	dataOnTheFly_addListItem()
-	dataOnTheFly_addListItem()
-}
-
-function dataOnTheFly_addListItem() {
-	var listItem, container, dataList = document.getElementById('dataList');
-	// Create our list item
-	listItem = document.createElement('div');
-	listItem.setAttribute('data-bb-type', 'item');
-	listItem.setAttribute('data-bb-img', 'images/icons/icon11.png');
-	listItem.setAttribute('data-bb-title', 'Title ');
-	listItem.innerHTML = 'My description';
-	// Append the item
-	dataList.appendItem(listItem);
+	dataList.refresh(items);
 }
 
 function dataOnTheFly_addDropDown() {

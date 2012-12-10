@@ -1,7 +1,7 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <!--
-* Copyright 2010-2011 Research In Motion Limited.
+* Copyright 2010-2012 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,46 +18,43 @@
 <html> 
 	<head>
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
-		<link  rel="stylesheet" type="text/css" href="bbui-0.9.4.css"><link />
-		<script type="text/javascript" src="bbui-0.9.4.js"></script>
-		<script type="text/javascript" src="js/webworks-1.0.2.9.js"></script>
+		<link  rel="stylesheet" type="text/css" href="bbui.css"><link />
+		<script type="text/javascript" src="bbui.js"></script>
+		<script type="text/javascript" src="local:///chrome/webworks.js"></script>
 		<script type="text/javascript">
+			var webworksreadyFired = false;
 			document.addEventListener('webworksready', function(e) {
-				// For some fun I did some random color scheme generation :o)
-				var highlightColor,
-					randomNumber;
-				randomNumber=Math.floor(Math.random()*100);
-				if (randomNumber > 90) {
-					  highlightColor = '#BA55D3';
-				} else if (randomNumber > 60) {
-					  highlightColor = '#00BC9F';
-				} else if (randomNumber > 30) {
-					  highlightColor = '#00A8DF';
-				} else {
-					highlightColor = '#B2CC00';
-				}
+				// This is code to ensure that if webworksready is fired multiple times we still only init() one time
+				if (webworksreadyFired) return;
+				webworksreadyFired = true;
 				
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
 				bb.init({actionBarDark: true,
 						controlsDark: true,
 						listsDark: false,
-						bb10ForPlayBook: false,
-						highlightColor: highlightColor,
+						bb10ForPlayBook: true,
 						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
 						onscreenready: function(element, id) {
 											if (id == 'dataOnLoad') {
 												dataOnLoad_initialLoad(element);
 											} else if (id == 'masterDetail') {
 												masterDetail_initialLoad(element);
-											}
+											} else if (id == 'dataOnTheFly') {
+												dataOnTheFly_onScreenReady(element);
+											} 
 											
 											// Remove all titles "except" input and pill buttons screen if running on BB10
-											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
+											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons') && (id != 'titlePillButtons')) {
 												var titles = element.querySelectorAll('[data-bb-type=title]');
 												if (titles.length > 0) {
 													titles[0].parentNode.removeChild(titles[0]);
 												}
+											} 
+											
+											// Initialize our title pill buttons screen
+											if (bb.device.isBB10 && (id == 'titlePillButtons')) {
+												titlePillButtons_Init(element);
 											}
 											
 										},
@@ -65,11 +62,20 @@
 						ondomready: function(element, id) {
 											if (id == 'dataOnTheFly') {
 												dataOnTheFly_initialLoad(element);
-											}
+											} 
 										}
 						});
 				bb.pushScreen('menu.htm', 'menu');
 			}, false);
+			
+			// Fire the webworksready event for PlayBook and BBOS
+			window.addEventListener('load',function() {
+					if (navigator.userAgent.indexOf('Version/10.0') < 0) {
+						var evt = document.createEvent('Events');
+						evt.initEvent('webworksready', true, true);
+						document.dispatchEvent(evt);
+					}
+				});
 		</script>
 	</head>
 	<body>

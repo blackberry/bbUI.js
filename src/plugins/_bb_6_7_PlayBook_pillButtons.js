@@ -110,6 +110,38 @@ _bb_6_7_PlayBook_pillButtons = {
 						
 					},false);
 			}
+			// Add our show function
+			outerElement.show = function() {
+				this.style.display = 'block';
+				bb.refresh();
+					};
+			outerElement.show = outerElement.show.bind(outerElement);
+			
+			// Add our hide function
+			outerElement.hide = function() {
+				this.style.display = 'none';
+				bb.refresh();
+					};
+			outerElement.hide = outerElement.hide.bind(outerElement);
+			
+			// Add remove function
+			outerElement.remove = function() {
+				this.parentNode.removeChild(this);
+				bb.refresh();
+					};
+			outerElement.remove = outerElement.remove.bind(outerElement);
+			
+			// Add getButtons function
+			outerElement.getButtons = function() {
+				var items = this.querySelectorAll('[data-bb-type=pill-button]');
+				var buttonArray = new Array();
+				for (var j = 0; j < items.length; j++) {
+					buttonArray[j] = items[j].innerHTML;					
+				}				
+				return buttonArray;
+					};
+			outerElement.getButtons = outerElement.getButtons.bind(outerElement);
+
 		}
     } 
 };
