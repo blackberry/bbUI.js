@@ -186,7 +186,11 @@ bb.contextMenu = {
 						this.style['-webkit-perspective'] = '1000';
 						this.addEventListener("touchstart", this.touchHandler, false);	
 						this.addEventListener("touchmove", this.touchMoveHandler, false);		
-						this.onclick = function() {this.show()};
+						this.onclick = function(event) {
+									if ((event.target == this) || (event.target == this.scrollContainer)){;
+										this.show();
+									}
+								};
 						// Remove the header click handling while peeking
 						this.header.removeEventListener("click", this.hide, false);		
 						this.style.visibility = 'visible';
@@ -216,6 +220,7 @@ bb.contextMenu = {
 								var touch = event.touches[0];
 								if (this.startPos && (this.startPos - touch.pageX > this.threshold)) {
 									this.show(this.selected);
+									
 								}
 							};
 		menu.touchMoveHandler = menu.touchMoveHandler.bind(menu);
@@ -307,13 +312,14 @@ bb.contextMenu = {
 				action.menu = this;
 				
 				action.setAttribute('class',normal);
-				action.ontouchstart = function () {
+				action.ontouchstart = function (e) {
 										if (this.menu.peeking) {
 											this.style['border-left-color'] = bb.options.highlightColor;
 										} else {
 											this.style['background-color'] = bb.options.highlightColor;
 										}
 										
+										e.stopPropagation();
 										// Hack because PlayBook doesn't seem to get all the touch end events
 										if (bb.device.isPlayBook) {
 											var existingAction, 
@@ -332,6 +338,7 @@ bb.contextMenu = {
 										} else {
 											this.style['background-color'] = '';
 										}
+										e.stopPropagation();
 									}
 				action.addEventListener("click", this.hide, false);
 				
