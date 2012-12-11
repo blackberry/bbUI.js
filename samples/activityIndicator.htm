@@ -22,11 +22,17 @@
 	<script id="gaugeJS" src="js/gauge.js"></script>
 	<div style="margin:15px;color:Gray;">
 		<p align="center">
-		Below you will find an example of how to use activity indicators<br />       
+		Below you will find an example of how to use activity indicators for PlayBook and BlackBerry 10<br />       
 		</p>
 	</div>
+	<div align="center" style="padding-bottom: 30px;">
+		<div data-bb-type="button" data-bb-selected="true" onclick="document.getElementById('actind').hide();">Hide</div>
+		<div data-bb-type="button" data-bb-selected="true" onclick="document.getElementById('actind').show();">Show</div>
+		<div data-bb-type="button" data-bb-selected="true" onclick="document.getElementById('actind').remove();">Remove</div>
+	</div>
+
 	
-	<div class="center" data-bb-type="activity-indicator" data-bb-size="large"></div>
+	<div class="center" id="actind" data-bb-type="activity-indicator" data-bb-size="large"></div>
 	<div class="center" data-bb-type="activity-indicator" data-bb-size="medium"></div>
 	<div style="margin: 0px auto 0px auto;" data-bb-type="activity-indicator" data-bb-size="small"></div>
 	

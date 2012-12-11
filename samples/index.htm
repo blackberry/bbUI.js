@@ -1,6 +1,7 @@
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <!--
-* Copyright 2010-2011 Research In Motion Limited.
+* Copyright 2010-2012 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,58 +18,66 @@
 <html> 
 	<head>
 		<meta name="x-blackberry-defaultHoverEffect" content="false" />
-		<meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi" />
-		<link  rel="stylesheet" type="text/css" href="bbui-0.9.3.css"><link />
-		<script type="text/javascript" src="bbui-0.9.3.js"></script>
+		<link  rel="stylesheet" type="text/css" href="bbui.css"><link />
+		<script type="text/javascript" src="bbui.js"></script>
+		<script type="text/javascript" src="local:///chrome/webworks.js"></script>
 		<script type="text/javascript">
-					
-			// For some fun I did some random color scheme generation :o)
-			var bb10HighlightColor,
-				randomNumber;
-			randomNumber=Math.floor(Math.random()*100);
-			if (randomNumber > 90) {
-				  bb10HighlightColor = '#BA55D3';
-			} else if (randomNumber > 60) {
-				  bb10HighlightColor = '#00BC9F';
-			} else if (randomNumber > 30) {
-				  bb10HighlightColor = '#00A8DF';
-			} else {
-				bb10HighlightColor = '#B2CC00';
-			}
-			
-			// You must call init on bbUI before any other code loads.  
-			// If you want default functionality simply don't pass any parameters.. bb.init();
-			bb.init({bb10HighlightColor: bb10HighlightColor,
-					bb10ActionBarDark: true,
-					bb10ControlsDark: true,
-					bb10ListsDark: false,
-					bb10ForPlayBook: true,
-					// Fires "before" styling is applied and "before" the screen is inserted in the DOM
-					onscreenready: function(element, id) {
-										if (id == 'dataOnLoad') {
-											dataOnLoad_initialLoad(element);
-										} else if (id == 'masterDetail') {
-											masterDetail_initialLoad(element);
-										}
-										
-										// Remove all titles "except" input and pill buttons screen if running on BB10
-										if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons')) {
-											var titles = element.querySelectorAll('[data-bb-type=title]');
-											if (titles.length > 0) {
-												titles[0].parentNode.removeChild(titles[0]);
+			var webworksreadyFired = false;
+			document.addEventListener('webworksready', function(e) {
+				// This is code to ensure that if webworksready is fired multiple times we still only init() one time
+				if (webworksreadyFired) return;
+				webworksreadyFired = true;
+				
+				// You must call init on bbUI before any other code loads.  
+				// If you want default functionality simply don't pass any parameters.. bb.init();
+				bb.init({actionBarDark: true,
+						controlsDark: true,
+						listsDark: false,
+						bb10ForPlayBook: true,
+						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
+						onscreenready: function(element, id) {
+											if (id == 'dataOnLoad') {
+												dataOnLoad_initialLoad(element);
+											} else if (id == 'masterDetail') {
+												masterDetail_initialLoad(element);
+											} else if (id == 'dataOnTheFly') {
+												dataOnTheFly_onScreenReady(element);
+											} 
+											
+											// Remove all titles "except" input and pill buttons screen if running on BB10
+											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons') && (id != 'titlePillButtons')) {
+												var titles = element.querySelectorAll('[data-bb-type=title]');
+												if (titles.length > 0) {
+													titles[0].parentNode.removeChild(titles[0]);
+												}
+											} 
+											
+											// Initialize our title pill buttons screen
+											if (bb.device.isBB10 && (id == 'titlePillButtons')) {
+												titlePillButtons_Init(element);
 											}
+											
+										},
+						// Fires "after" styling is applied and "after" the screen is inserted in the DOM
+						ondomready: function(element, id) {
+											if (id == 'dataOnTheFly') {
+												dataOnTheFly_initialLoad(element);
+											} 
 										}
-										
-									},
-					// Fires "after" styling is applied and "after" the screen is inserted in the DOM
-					ondomready: function(element, id) {
-										if (id == 'dataOnTheFly') {
-											dataOnTheFly_initialLoad(element);
-										}
-									}
-					});
+						});
+				bb.pushScreen('menu.htm', 'menu');
+			}, false);
+			
+			// Fire the webworksready event for PlayBook and BBOS
+			window.addEventListener('load',function() {
+					if (navigator.userAgent.indexOf('Version/10.0') < 0) {
+						var evt = document.createEvent('Events');
+						evt.initEvent('webworksready', true, true);
+						document.dispatchEvent(evt);
+					}
+				});
 		</script>
 	</head>
-	<body onload="bb.pushScreen('menu.htm', 'menu');">	
+	<body>
 	</body>
 </html>

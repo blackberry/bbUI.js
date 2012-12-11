@@ -16,7 +16,7 @@
 -->
 <div data-bb-type="screen" data-bb-title="Screen Display" data-bb-effect="fade" >
 	<div data-bb-type="title" data-bb-caption="Screen Display" data-bb-back-caption="Back"></div>
-	<div data-bb-type="round-panel" id="mainList"> 
+	<div data-bb-type="round-panel" id="fontPanel"> 
 		<div data-bb-type="panel-header">Font</div>
 		<div style="margin:3px;">
 		   <div data-bb-type="label">Font Family:</div>
@@ -26,7 +26,7 @@
 				<option value="andalemono">Andale Mono</option>
 		   </select>
 	   </div>
-	   <div data-bb-type="label-control-container">
+	   <div data-bb-type="label-control-container" id="mylabelContainer">
 		   <div data-bb-type="row">
 			   <div data-bb-type="label">Font Size:</div>
 			   <select>
@@ -61,9 +61,9 @@
 	   </div>
 	</div>
 
-	<div data-bb-type="round-panel" id="mainList"> 
+	<div data-bb-type="round-panel" id="backlightPanel"> 
 		<div data-bb-type="panel-header">Backlight</div>
-		<div data-bb-type="label-control-container">
+		<div data-bb-type="label-control-container" id="mylabelContainer1">
 			<div data-bb-type="row">
 			   <div data-bb-type="label">Backlight Brightness:</div>
 			   <div data-bb-type="button">Cancel</div>
@@ -82,6 +82,18 @@
 		   </div> 	   
 		</div>
 	</div>
+            <div data-bb-type="round-panel" style="background-color: #252525"> 
+		<div data-bb-type="panel-header">Round Panel Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').hide();document.getElementById('backlightPanel').hide();" id="hide">Hide Round Panels</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').show();document.getElementById('backlightPanel').show();" id="show">Show Round Panels</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').remove();document.getElementById('backlightPanel').remove();" id="remove">Remove Round Panels</div>        
+		</div>
+        <div data-bb-type="round-panel" style="background-color: #252525"> 
+		<div data-bb-type="panel-header">Label Control Container Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('mylabelContainer').hide();document.getElementById('mylabelContainer1').hide();" id="hide1">Hide Label Control Containers</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('mylabelContainer').show();document.getElementById('mylabelContainer1').show();" id="show1">Show Label Control Containers</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('mylabelContainer').remove();document.getElementById('mylabelContainer1').remove();" id="remove1">Remove Label Control Containers</div>        
+		</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>

@@ -1,5 +1,5 @@
 /*
-* Copyright 2010-2011 Research In Motion Limited.
+* Copyright 2010-2012 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -27,5 +27,9 @@ function displayCheckedItems() {
 		text = (text.length > 0) ? text + ' &amp; ' : text;
 		text = text + document.getElementById('checkThree').value;
 	}
+	if (!document.getElementById('checkOne').checked && !document.getElementById('checkTwo').checked && !document.getElementById('checkThree').checked) {
+		text = 'none';
+	}
 	document.getElementById('value').innerHTML = text;
 }
+

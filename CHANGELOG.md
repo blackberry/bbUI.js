@@ -2,6 +2,104 @@
 
 Below you will find all the different changes that have been added since the first introduction of versioning for the bbUI toolkit.
 
+## Latest Working Version 0.9.6
+
+* _**Compatibility Changes:**_ 
+	* Light colored action overflow, tab overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+* JavaScript Interfaces
+	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
+
+
+## Version 0.9.5
+
+* _**Compatibility Changes:**_ 
+	* Image List items now only highlight if they have an associated onclick for the item or context menu assigned to the list
+	* Image List images are now 109x109 pixels instead of the 119x119 for BlackBerry 10 devices in bbUI 0.9.4
+	* Including bbUI now only needs bbUI.js and bbUI.css files. The version numbers are now part of the comments in the files instead of the file name
+* Notable Updates
+	* Minified versions of the JavaScript and CSS files are now available in the "pkg" directory
+	* Jake files updated to now use Uglify.js and CleanCSS to minify JS/CSS files and add the build version
+	* The _**next**_ branch has now been removed and the latest features will be added to the master branch with an easier way of downloading the latest code
+* BlackBerry 10 Styling
+	* Updated Action Bar back button and "button actions" to have a highlight when touched
+	* Updated grids:
+        * Now allow for a specified number of columns in a row
+		* Provide horizontal carousel scrolling
+	* Context menus, action overflow and tab overflow menus now scroll content when there are more actions than what will fit on the screen
+	* Action overflow and context menu highlighting has been updated to match BB10 UX
+	* Image list item height changed to match UX specs
+	* Updated title bars:
+		* Height of the bar and buttons changed to match UX specs
+		* Allows for a colored option using titleBarColor in the bb.init() function
+	* Toggle Buttons now can be disabled using the data-bb-disabled="true" attribute
+* JavaScript Interfaces
+	* **Checkboxes:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.checkbox.style()
+	* **Toggle Buttons:** Added show(), hide(), remove(), setOnCaption(), setOffCaption(), getOnCaption(), getOffCaption(), enable(), disable() functions  and ability to style dynamically using bb.toggle.style()
+	* **Radio Buttons:** Added show(), hide(), remove(), enable(), disable(), isEnabled(), enableGroup(), disableGroup() functions
+	* **Action Bars:** Added setBackCaption(), setSelectedTab() functions
+		* **Buttons/Tabs:** Added getCaption(), getImage() functions
+	* **Scroll Panels:** Added show(), hide(), remove() functions
+	* **Grid Lists:** Added show(), hide(), remove() functions
+	* **Progress Indicator:** Added show(), hide(), remove() functions
+	* **Pill Buttons:** Added show(), hide(), remove(), getButtons() functions
+	* **Control Groups/Round Panels:** Added show(), hide(), remove() functions
+	* **Image Lists:** Added show(), hide(), remove(), refresh() functions
+	* **Label Control Containers:** Added show(), hide(), remove() functions
+	* **BBM Bubbles:** Added show(), hide(), remove(), getStyle(), setStyle() functions
+	* **Progress Bars:** Added show(), hide(), remove(), setMax() functions and ability to style dynamically using bb.progress.style()
+	* **Title Bars:** Added getAccentText() function
+* Samples
+	* Updated samples for dynamic control manipulation
+	* Added sample to show how to make static pill buttons in your title area
+	* Main index.htm updated to show how to include webworks.js for BB10 and also fire the "webworksready" for non BB10 devices
+* Noteable Bug Fixes: 
+    * Hack added to sample index.htm to show how to deal with Ripple known issue of firing "webworksready" multiple times causing problems with bbUI in Ripple
+	* Fixed wrapping of text in long title bar caption and title bar accent text
+
+## Version 0.9.4
+
+* _**Compatibility Changes:**_ 
+	* bb10ActionBarDark changed to actionBarDark for bb.init()
+	* bb10ControlsDark changed to controlsDark for bb.init()
+	* bb10ListsDark changed to listsDark for bb.init()
+	* bb10HighlightColor changed to highlightColor for bb.init()
+	* You no longer specify a viewport meta tag in your main index.htm.  This is now supplied by the toolkit at runtime based on the OS version
+	* BlackBerry 10 title bars now take on the control coloring
+	* You no longer need to specify a unique **id** for your script tags used with screens.
+	* Scroll Panel JavaScript interfaces have been modified
+	* If you were calling bb.scroller.refresh() you will want to change your code to "if (bb.scroller) bb.scroller.refresh();"
+* BlackBerry 10 Styling
+	* Updated DropDown look to match Cascades
+	* Added new Title Bar styling for screens
+	* Grid view items display either one or two level of titles depending on what is provided in markup
+	* Added accent text to tab overflow items now allowing for a title and optional accent text for an action
+	* Truncated text on image lists now use a "fade" instead of an "ellipsis" on BB10 phones. Other devices still use "ellipsis"
+* PlayBook 2.0 Styling
+    * Added Activity Indicator 
+	* Text Input updates
+	* Image List updates
+	* Button updates
+* JavaScript Interfaces
+	* **Image List:** Added clear() function
+	* **Buttons:** Added show(), hide(), remove() functions as well as a dynamic way to create/style buttons
+	* **DropDowns:** Added enable(), disable(), show(), hide(), remove(), refresh(), setCaption(), setSelectedText() functions as well as a dynamic way to create/style dropdowns
+	* **Action Bar:** Added setCaption(), setImage() to actions
+	* **Context Menu:** Added setCaption(), setImage() to actions
+	* **Screens:** Added refresh(), scrollTo(), scrollToElement()
+	* **Activity Indicator:** Added show(), hide(), remove()
+	* Added bb.refresh() to refresh scrolling for the current screen
+	* Added the ability to pass custom parameters to pushScreen() and read them in ondomready and onscreenready
+* Samples
+	* Added sample screen for dynamic button manipulation
+	* Added sample screen for dynamic dropdown manipulation
+	* Added sample screen for dynamic action bar manipulation
+* Noteable Bug Fixes: 
+    * Back button used to have problems when you were more than 2 screens deep
+	* Back button used to have issues when screens did not have unique id's
+	* Context menu was not showing when doing a right-to-left swipe if it was on the same screen with an Action Bar that had action overflow items
+	* Sliders would sometimes would not color correctly and/or jump back to zero after you set their initial value in the DOM
+	* BlackBerry 6/7 Dropdowns now emulate properly in Ripple
+
 ## Version 0.9.3
 
 * _**Compatibility Changes:**_ 

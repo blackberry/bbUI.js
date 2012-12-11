@@ -14,7 +14,7 @@ bb.tabOverflow = {
 			caption : undefined
 		};
 		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
-		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-'+bb.actionBar.color);
+		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-dark');
 		screen.parentNode.appendChild(menu);
 		
 		if (!bb.screen.tabOverlay) {
@@ -102,6 +102,7 @@ bb.tabOverflow = {
 									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
 									margin;
 								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
+								if (margin < 0) margin = 0;
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
@@ -135,20 +136,23 @@ bb.tabOverflow = {
 		menu.add = function(action) {
 				var normal, 
 					caption = action.innerHTML,
+					accentTextValue = action.getAttribute('data-bb-accent-text'),
 					inner = document.createElement('div'),
+					innerClass = 'bb-bb10-tab-overflow-menu-item-inner-'+this.res,
 					img = document.createElement('img'),
 					table, tr, td;
 				
 				// set our styling
-				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-' + bb.actionBar.color;
+				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-dark';
 				this.appendChild(action);
 				this.actions.push(action);
 				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
-					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-dark';
 				}
 				// Set our inner information
 				action.normal = normal;
+				action.accentText = null;
 				action.menu = this;
 				action.caption = caption;
 				action.setAttribute('class',action.normal);
@@ -170,9 +174,21 @@ bb.tabOverflow = {
 				tr.appendChild(td);
 				// Add our caption
 				td = document.createElement('td');
-				inner.setAttribute('class','bb-bb10-tab-overflow-menu-item-inner-'+this.res);
 				inner.innerHTML = caption;
+				action.display = inner;
 				td.appendChild(inner);
+				// See if there is accent text
+				if (accentTextValue) {
+					action.accentText = document.createElement('div');
+					action.accentText.innerHTML = accentTextValue;
+					action.accentText.setAttribute('class','tab-accent-text');
+					td.appendChild(action.accentText);	
+					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-double-' + this.res;
+				} else {
+					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-single-' + this.res;
+				}
+				// Set our styling
+				inner.setAttribute('class',innerClass);
 				tr.appendChild(td);
 				
 				//Set the overflow tab item
@@ -198,24 +214,28 @@ bb.tabOverflow = {
 				action.onclick = function() {
 									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 									this.menu.itemClicked = true;
-									
 									bb.actionBar.highlightAction(this.visibleTab, this);
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
-										if (this.oldClick) {
-											this.oldClick();
-										}
-									} else {
-										tabOverflowBtn.tabHighlight.reset();
-										if (this.visibleTab.onclick) {
-											this.visibleTab.onclick();
-										}
-									}										
+									} 
+									if (this.oldClick) {
+										this.oldClick();
+									}
 								};
 								
-			
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.img.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
 	}
-},
+};

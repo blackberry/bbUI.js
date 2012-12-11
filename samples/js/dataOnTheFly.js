@@ -14,6 +14,15 @@
 * limitations under the License.
 */
 
+function dataOnTheFly_onScreenReady(element) {
+	// Make the proper activity indicator appear
+	if (bb.device.isBB10) {
+		element.getElementById('bb7Loading').style.display = 'none';
+	} else {
+		element.getElementById('bb10Loading').style.display = 'none';
+	}
+}
+
 function dataOnTheFly_initialLoad(element) {
 	// I'm just doing a setTimeout to mimic processing some data
 	// in a background worker thread
@@ -21,31 +30,24 @@ function dataOnTheFly_initialLoad(element) {
 }
 
 function dataOnTheFly_loadAfterTimeout() {
-	document.getElementById('waiting').style.display = 'none';
-	dataOnTheFly_addListItem()
-	dataOnTheFly_addListItem()
-	dataOnTheFly_addListItem()
-}
-
-function dataOnTheFly_addListItem() {
-	var listItem, container, dataList = document.getElementById('dataList');
-	// Create our list item
-	listItem = document.createElement('div');
-	listItem.setAttribute('data-bb-type', 'item');
-	listItem.setAttribute('data-bb-img', 'images/icons/icon11.png');
-	listItem.setAttribute('data-bb-title', 'Title ');
-	listItem.innerHTML = 'My description';
-	// Create a dummy container
-	container = document.createElement('div');
-	container.appendChild(listItem);
-	// Apply the styling
-	bb.imageList.apply([container]);
-	// Append the item
-	dataList.appendChild(container.firstChild);
-	// re-compute the scrolling area
-	if (bb.scroller) {
-		bb.scroller.refresh();
+	var i,
+		listItem, 
+		container, 
+		items = [],
+		dataList = document.getElementById('dataList');
+	
+	for (i = 0; i < 3; i++) {
+		// Create our list item
+		listItem = document.createElement('div');
+		listItem.setAttribute('data-bb-type', 'item');
+		listItem.setAttribute('data-bb-img', 'images/icons/icon11.png');
+		listItem.setAttribute('data-bb-title', 'Title ');
+		listItem.innerHTML = 'My description';
+		items.push(listItem);
 	}
+	// Remove our waiting and refresh the list
+	document.getElementById('waiting').style.display = 'none';
+	dataList.refresh(items);
 }
 
 function dataOnTheFly_addDropDown() {
@@ -66,13 +68,10 @@ function dataOnTheFly_addDropDown() {
 	option.setAttribute('value','andalemono');
 	option.innerHTML = 'Andale Mono';
 	dropdown.appendChild(option);	
-	// Create a dummy container
-	container = document.createElement('div');
-	container.appendChild(dropdown);
 	// Apply the styling
-	bb.dropdown.apply([dropdown]);
+	dropdown = bb.dropdown.style(dropdown);
 	// Append the item
-	buttonPanel.appendChild(container);
+	buttonPanel.appendChild(dropdown);
 	// re-compute the scrolling area
 	if (bb.scroller) {
 		bb.scroller.refresh();

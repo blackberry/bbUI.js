@@ -60,7 +60,8 @@ bb.actionBar = {
 		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {		
 			var chevron,
 				backCaption,
-				backslash;
+				backslash,
+				backHighlight;
 			backBtn = document.createElement('div');
 			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color);
 			backBtn.onclick = bb.popScreen;
@@ -74,6 +75,23 @@ bb.actionBar = {
 			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res);
 			backCaption.innerHTML = actionBar.getAttribute('data-bb-back-caption');
 			backBtn.appendChild(backCaption);
+			// Create our highlight for touch
+			backHighlight = document.createElement('div');
+			backHighlight.setAttribute('class','bb-bb10-action-bar-back-button-highlight');
+			backHighlight.style['position'] = 'absolute';
+			backHighlight.style['height'] = bb.device.isPlayBook ? '57px' : '110px';
+			backHighlight.style['width'] = bb.device.isPlayBook ? '4px' : '8px';
+			backHighlight.style['background-color'] = 'transparent';
+			backHighlight.style['top'] = bb.device.isPlayBook ? '8px' : '15px';
+			backBtn.backHighlight = backHighlight;
+			backBtn.appendChild(backHighlight);
+			backBtn.ontouchstart = function() {
+					this.backHighlight.style['background-color'] = bb.options.highlightColor;				
+			}
+			backBtn.ontouchend = function() {
+					this.backHighlight.style['background-color'] = 'transparent';				
+			}
+			
 			// Create our backslash
 			backslash = document.createElement('div');
 			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color); 
@@ -198,13 +216,19 @@ bb.actionBar = {
 									actionType,
 									length = this.shownActions.length,
 									margins = 2;
-								for (i = 0; length; i++) {
+									
+								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
 									// Compute margins
 									margins = (actionType == 'tab') ? 2 : 0;
 									action.style.width = (actionWidth - margins) + 'px'; 
+									if (action.highlight && (actionType != 'tab') && (action.getAttribute('data-bb-img') != 'overflow')) {
+										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
+										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
+									}
 								}
+								
 								// Adjust our more button
 								if (this.moreBtn && (this.shownActions.length > 0)) {
 									if (actionType == 'tab') {
@@ -216,7 +240,24 @@ bb.actionBar = {
 								}
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
-		window.addEventListener('orientationchange', actionBar.orientationChanged,false); 
+		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
+		
+		// Add setBackCaption function
+		actionBar.setBackCaption = function(value) {
+					this.setAttribute('data-bb-back-caption',value);
+					backCaption.innerHTML = value;		
+				};
+		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
+		
+		// Add setSelectedTab function
+		actionBar.setSelectedTab = function(tab) {
+					if (tab.getAttribute('data-bb-style') != 'tab') return;
+					bb.actionBar.highlightAction(tab);
+					if (tab.onclick) {
+						tab.onclick();
+					}
+				};
+		actionBar.setSelectedTab = actionBar.setSelectedTab.bind(actionBar);  
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {
@@ -226,15 +267,13 @@ bb.actionBar = {
 				action = visibleTabs[j];
 				// Don't add the visible overflow tab
 				if (action.getAttribute('data-bb-img') != 'overflow') {
-					clone = action.cloneNode(true);
-					clone.onclick = undefined;
+					clone = action.cloneNode(true);					
 					clone.visibleTab = action;
 					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
-			}			
-		
+			}		
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
@@ -285,6 +324,7 @@ bb.actionBar = {
 			display = document.createElement('div');
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
+			action.display = display;
 			action.appendChild(display);
 			
 			// See if it is our overflow tab
@@ -316,6 +356,7 @@ bb.actionBar = {
 				shownActions.push(action);
 				// Set our image
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
+				action.icon = icon;
 				
 				if (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
 					bb.actionBar.highlightAction(action);
@@ -324,6 +365,55 @@ bb.actionBar = {
 				action.addEventListener('click',function (e) {
 					bb.actionBar.highlightAction(this);
 				},false);
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+									// Change the associated overflow item if one exists
+									if (this.actionBar.tabOverflowMenu) {
+										var tabs = this.actionBar.tabOverflowMenu.actions,
+											i,
+											target;
+										for (i = 0; i < tabs.length; i++) {
+											target = tabs[i];
+											if (target.visibleTab == this)  {
+												target.setCaption(value);
+											} 
+										}
+									}
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the getCaption function
+				action.getCaption = function() {
+									return this.display.innerHTML;
+								};
+				action.getCaption = action.getCaption.bind(action);				
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.icon.setAttribute('src', value);
+									
+									// Change the associated overflow item if one exists
+									if (this.actionBar.tabOverflowMenu) {
+										var tabs = this.actionBar.tabOverflowMenu.actions,
+											i,
+											target;
+										for (i = 0; i < tabs.length; i++) {
+											target = tabs[i];
+											if (target.visibleTab == this)  {
+												target.setImage(value);
+											} 
+										}
+									}
+								};
+				action.setImage = action.setImage.bind(action);
+				
+				// Assign the getImage function
+				action.getImage = function() {
+									return this.icon.getAttribute('src');
+								};
+				action.getImage = action.getImage.bind(action);	
 			}
 			
 			// Make the last tab have a smaller border and insert the shading
@@ -334,7 +424,9 @@ bb.actionBar = {
 		
 		// Apply all our button styling
 		lastStyle = (visibleTabs.length > 0) ? 'tab' : 'button';
+		var actionWidth;
 		for (j = 0; j < visibleButtons.length; j++) {
+			actionWidth = btnWidth;
 			action = visibleButtons[j];
 			action.res = res;
 			caption = action.innerHTML;
@@ -359,11 +451,13 @@ bb.actionBar = {
 				}
 				// If it is next to a tab, stretch it so that the right shading lines up
 				if (stretchToTab) {
-					// Stretch the last button if all tabs are before the overflow button  
-					action.style.width = (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px' : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth) + 'px';
+					// Stretch the last button if all tabs are before the overflow button 
+					actionWidth	= (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth);			
+					action.style.width = actionWidth + 'px';
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
-					action.style.width = (actionBar.actionOverflowBtnWidth - 1) + 'px'; 
+					actionWidth = (actionBar.actionOverflowBtnWidth - 1);
+					action.style.width = actionWidth + 'px'; 
 					action.style.float = 'right';
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
@@ -371,19 +465,44 @@ bb.actionBar = {
 				shownActions.push(action);
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
+				action.icon = icon;
 				action.style.width = btnWidth + 'px'; 
+				
 				// set our shading if needed
 				if (lastStyle == 'tab') {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
 					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
 				}
+				
+				// Assign the setCaption function
+				action.setCaption = function(value) {
+									this.display.innerHTML = value;
+								};
+				action.setCaption = action.setCaption.bind(action);
+				
+				// Assign the getCaption function
+				action.getCaption = function() {
+									return this.display.innerHTML;
+								};
+				action.getCaption = action.getCaption.bind(action);	
+				
+				// Assign the setImage function
+				action.setImage = function(value) {
+									this.icon.setAttribute('src',value);
+								};
+				action.setImage = action.setImage.bind(action);
+				
+				// Assign the setImage function
+				action.getImage = function() {
+									return this.icon.getAttribute('src');
+								};
+				action.getImage = action.getImage.bind(action);
 			}
 			
-			
+			// Default settings
 			action.innerHTML = '';
 			action.setAttribute('class',action.normal);
-			
 			action.appendChild(icon);
 			lastStyle = 'button';
 			
@@ -391,7 +510,26 @@ bb.actionBar = {
 			var display = document.createElement('div');
 			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
 			display.innerHTML = caption;
-			action.appendChild(display);	
+			action.display = display;
+			action.appendChild(display);
+
+			// Set our highlight
+			action.highlight = document.createElement('div');
+			action.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
+			action.highlight.style['height'] = bb.device.isPlayBook ? '4px' : '8px';
+			action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
+			action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
+			action.highlight.style['background-color'] = 'transparent';
+			action.appendChild(action.highlight);
+			
+			// Highlight on touch
+			action.ontouchstart = function() {
+					this.highlight.style['background-color'] = bb.options.highlightColor;				
+			}
+			// Remove highlight when touch ends
+			action.ontouchend = function() {
+					this.highlight.style['background-color'] = 'transparent';				
+			}
 		}
 		// Center the action overflow items
 		if (actionBar.menu) {
@@ -402,8 +540,6 @@ bb.actionBar = {
 			actionBar.tabOverflowMenu.centerMenuItems();
 			actionBar.tabOverflowMenu.initSelected();
 		}
-		
-		
 	},
 
 	// Apply the proper highlighting for the action
@@ -431,7 +567,7 @@ bb.actionBar = {
 		}
 		
 		// Now highlight this action
-		action.style['border-top-color'] = bb.options.bb10HighlightColor;
+		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
 		
 		if (overflowAction) {
