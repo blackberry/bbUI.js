@@ -117,7 +117,7 @@ bb = {
 		
 		// Set up our pointers to objects for each OS version
 		if (bb.device.isBB10) {
-			bb.imageList = _bb10_imageList
+			bb.imageList = _bb10_imageList;
 			bb.activityIndicator = _bb10_activityIndicator;
 			bb.fileInput = _bb10_fileInput;
 			bb.button = _bb10_button;
