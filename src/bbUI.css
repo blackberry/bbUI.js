@@ -5007,11 +5007,6 @@ a.bb5-button-highlight span {
 	background-color: #121212;
 }
 
-.bb-bb10-tab-overflow-menu-light
-{
-	background-color: #F9F9F9;
-}
-
 .bb-bb10-tab-overflow-menu-item-lowres
 {
 	padding-left: 5px;
@@ -5082,28 +5077,6 @@ a.bb5-button-highlight span {
 
 .bb10Highlight .tab-accent-text {
 	color: white;
-}
-
-.bb-bb10-tab-overflow-menu-item-lowres-light
-{
-	color:Black;
-	border-bottom: solid 1px #D9DCDE;
-}
-
-.bb-bb10-tab-overflow-menu-item-first-lowres-light
-{
-	border-top: solid 1px #D9DCDE;
-}
-
-.bb-bb10-tab-overflow-menu-item-hires-light
-{
-	color:Black;
-	border-bottom: solid 2px #D9DCDE;
-}
-
-.bb-bb10-tab-overflow-menu-item-first-hires-light
-{
-	border-top: solid 2px #D9DCDE;
 }
 
 .bb-bb10-tab-overflow-menu-item-lowres-dark

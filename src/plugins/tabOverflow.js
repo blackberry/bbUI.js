@@ -14,7 +14,7 @@ bb.tabOverflow = {
 			caption : undefined
 		};
 		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
-		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-'+bb.actionBar.color);
+		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-dark');
 		screen.parentNode.appendChild(menu);
 		
 		if (!bb.screen.tabOverlay) {
@@ -143,12 +143,12 @@ bb.tabOverflow = {
 					table, tr, td;
 				
 				// set our styling
-				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-' + bb.actionBar.color;
+				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-dark';
 				this.appendChild(action);
 				this.actions.push(action);
 				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
-					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-dark';
 				}
 				// Set our inner information
 				action.normal = normal;
@@ -238,4 +238,4 @@ bb.tabOverflow = {
 		menu.add = menu.add.bind(menu);
 		return menu;
 	}
-},
+};

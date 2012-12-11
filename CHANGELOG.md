@@ -5,7 +5,7 @@ Below you will find all the different changes that have been added since the fir
 ## Version 0.9.6
 
 * _**Compatibility Changes:**_ 
-	* Light colored action overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+	* Light colored action overflow, tab overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 
