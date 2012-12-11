@@ -2,6 +2,11 @@
 
 Below you will find all the different changes that have been added since the first introduction of versioning for the bbUI toolkit.
 
+## Version 0.9.6
+* JavaScript Interfaces
+	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
+
+
 ## Version 0.9.5
 
 * _**Compatibility Changes:**_ 

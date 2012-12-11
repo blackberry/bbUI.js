@@ -56,6 +56,8 @@ function addRemoveRadioButton() {
 		radio = document.createElement('input');
 		radio.setAttribute('type','radio');
 		radio.setAttribute('name','group2');
+		radio.setAttribute('checked', 'true');
+		radio = bb.radio.style(radio);
 		radio.setAttribute('id',id);
 		container.appendChild(radio);
 	} else {// Remove Checkbox
