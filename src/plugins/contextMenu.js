@@ -18,7 +18,7 @@ bb.contextMenu = {
 			title = document.createElement('div'),
 			description = document.createElement('div'),
 			header;
-		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-' + bb.actionBar.color);
+		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-dark');
 	
 		menu.actions = [];
 		menu.hideEvents = [];
@@ -58,12 +58,12 @@ bb.contextMenu = {
 		
 		// Create the menu header
 		header = document.createElement('div');
-		header.setAttribute('class','bb-bb10-context-menu-item-'+res+' bb-bb10-context-menu-header-'+bb.actionBar.color);
+		header.setAttribute('class','bb-bb10-context-menu-item-'+res+' bb-bb10-context-menu-header-dark');
 		menu.header = header;
 		menu.appendChild(header);
 		
 		// Create our title container
-		title.setAttribute('class','bb-bb10-context-menu-header-title-'+res+' bb-bb10-context-menu-header-title-'+bb.actionBar.color);
+		title.setAttribute('class','bb-bb10-context-menu-header-title-'+res+' bb-bb10-context-menu-header-title-dark');
 		title.style.width = bb.contextMenu.getWidth() - 20 + 'px';
 		menu.topTitle = title;
 		header.appendChild(title);
@@ -273,14 +273,14 @@ bb.contextMenu = {
 					pin = false;
 				
 				// set our styling
-				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-' + bb.actionBar.color;
+				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-dark';
 				//this.appendChild(action);
 				
 				this.actions.push(action);
 				// See if this item should be pinned to the bottom
 				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
 				if (pin && !this.pinnedAction) {
-					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-dark';
 					action.style['bottom'] = '-2px';
 					action.style.position = 'absolute';
 					action.style.width = '100%';
@@ -292,7 +292,7 @@ bb.contextMenu = {
 				}
 				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
-					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-' + bb.actionBar.color;
+					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-dark';
 				}
 				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				action.normal = normal;

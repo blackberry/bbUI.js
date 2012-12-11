@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.2*/
+/* VERSION: 0.9.6.3*/
 
 body, html {
 	padding:0;
@@ -5206,18 +5206,6 @@ a.bb5-button-highlight span {
 	border-left: solid 2px #161616;
 }
 
-.bb-bb10-context-menu-lowres-light
-{
-	background-color: #F9F9F9;
-	border-left: solid 1px #D1D1D1;
-}
-
-.bb-bb10-context-menu-hires-light
-{
-	background-color: #F9F9F9;
-	border-left: solid 1px #D1D1D1;
-}
-
 .bb-bb10-context-menu-item-lowres
 {
 	padding-top: 7px;
@@ -5325,39 +5313,6 @@ a.bb5-button-highlight span {
 	color: white;
 }
 
-.bb-bb10-context-menu-header-title-light
-{
-	color: black;
-}
-
-.bb-bb10-context-menu-header-light
-{
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#FBFBFB), to(#E0E0E0));
-	border-bottom: solid 1px #D9DCDE;
-}
-
-.bb-bb10-context-menu-item-lowres-light
-{
-	color:Black;
-	border-bottom: solid 1px #D9DCDE;
-}
-
-.bb-bb10-context-menu-item-first-lowres-light
-{
-	border-top: solid 1px #D9DCDE;
-}
-
-.bb-bb10-context-menu-item-hires-light
-{
-	color:Black;
-	border-bottom: solid 2px #D9DCDE;
-}
-
-.bb-bb10-context-menu-item-first-hires-light
-{
-	border-top: solid 2px #D9DCDE;
-}
-
 .bb-bb10-context-menu-item-lowres-dark
 {
 	color:White;
@@ -5414,12 +5369,4 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
-
-
-
-
-
-
-
-
 
