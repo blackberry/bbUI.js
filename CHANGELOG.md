@@ -2,7 +2,7 @@
 
 Below you will find all the different changes that have been added since the first introduction of versioning for the bbUI toolkit.
 
-## Version 0.9.6
+## Latest Working Version 0.9.6
 
 * _**Compatibility Changes:**_ 
 	* Light colored action overflow, tab overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
