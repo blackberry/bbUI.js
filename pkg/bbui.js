@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.5*/
+/* VERSION: 0.9.6.6*/
 
 bb = {
 	scroller: null,  
@@ -2765,10 +2765,11 @@ bb.tabOverflow = {
 			screen.appendChild(overlay);
 			
 			// Hide the menu on touch
-			overlay.ontouchstart = function() {
+			overlay.ontouchstart = function(e) {
+						e.preventDefault();
+						e.stopPropagation();
 						this.menu.hide();
 					};
-			
 		}
 		menu.overlay = bb.screen.tabOverlay;
 		
@@ -2979,7 +2980,6 @@ bb.tabOverflow = {
 		return menu;
 	}
 };
-
 bb.titleBar = {
 
 	apply: function(titleBar) {
