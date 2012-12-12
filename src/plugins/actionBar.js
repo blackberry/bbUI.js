@@ -64,7 +64,9 @@ bb.actionBar = {
 				backHighlight;
 			backBtn = document.createElement('div');
 			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color);
-			backBtn.onclick = bb.popScreen;
+			backBtn.onclick = function () {
+					window.setTimeout(bb.popScreen,0);
+				};
 			actionBar.backBtn = backBtn;
 			// Create and add the chevron to the back button
 			chevron = document.createElement('div');
