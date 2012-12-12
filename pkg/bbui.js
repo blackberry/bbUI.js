@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.6*/
+/* VERSION: 0.9.6.7*/
 
 bb = {
 	scroller: null,  
@@ -2756,6 +2756,12 @@ bb.tabOverflow = {
 		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
 		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-dark');
 		screen.parentNode.appendChild(menu);
+		menu.width = (bb.device.isPlayBook) ? bb.innerWidth() - 77 : bb.innerWidth() - 154;
+		
+		// Set our initial styling
+		menu.style['z-index'] = '-100';
+		menu.style.display = 'none';
+		menu.style.width = menu.width + 'px';
 		
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');
@@ -2772,7 +2778,22 @@ bb.tabOverflow = {
 					};
 		}
 		menu.overlay = bb.screen.tabOverlay;
-		
+
+		// Apply styling at the begining and end of animation
+		menu.doEndTransition = function() {
+			if (this.visible) {
+				this.style['z-index'] = '';
+			} else {
+				this.style.display = 'none';
+				this.style.width = '0px';
+				this.screen.removeEventListener('webkitTransitionEnd',menu.doEndTransition);
+				this.screen.style['-webkit-transition'] = '';
+				this.screen.style['-webkit-transform'] = '';
+				this.screen.style['-webkit-backface-visibility'] = '';
+			}
+		};
+		menu.doEndTransition = menu.doEndTransition.bind(menu);	
+			
 		menu.show = function() {
 					this.itemClicked = false;
 					this.visible = true;
@@ -2781,6 +2802,7 @@ bb.tabOverflow = {
 					this.tabOverflowState.img = tabOverflowBtn.icon.src;
 					this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
 					this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					this.screen.addEventListener('webkitTransitionEnd',menu.doEndTransition);
 					this.setDimensions();					
 					// Reset our overflow menu button
 					tabOverflowBtn.reset();
@@ -2789,7 +2811,8 @@ bb.tabOverflow = {
 		
 		// Adjust the dimensions of the menu and screen
 		menu.setDimensions = function() {
-					var width = (bb.device.isPlayBook) ? bb.innerWidth() - 77 : bb.innerWidth() - 154;
+					this.style.display = '';
+					this.style.width = this.width + 'px';
 					// Set our screen's parent to have no overflow so the browser doesn't think it needs to scroll
 					this.screen.parentNode.style.position = 'absolute';
 					this.screen.parentNode.style.left = '0px';
@@ -2800,24 +2823,19 @@ bb.tabOverflow = {
 					this.screen.parentNode.style['overflow'] = 'hidden';
 					// Make our overlay visible
 					this.overlay.style.display = 'block';
-					// Show our menu
-					this.style.width = width + 'px';
-					this.style['-webkit-transition'] = 'all 0.2s ease-out';
-					this.style['-webkit-backface-visibility'] = 'hidden';
+					
 					// Slide our screen
-					this.screen.style.left = width + 'px';
-					this.screen.style.right = '-' + width +'px';
-					this.screen.style['-webkit-transition'] = 'all 0.2s ease-out';
+					this.screen.style['-webkit-transition'] = '0.3s ease-out';
+					this.screen.style['-webkit-transform'] = 'translate3d(' + this.width + 'px,0px,0px)';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
 		menu.setDimensions = menu.setDimensions.bind(menu);	
 		
 		menu.hide = function() {
 					this.visible = false;
-					// Set our sizes
-					this.style.width = '0px';
-					this.screen.style.left = '0px';
-					this.screen.style.right = '0px';
+					this.style['z-index'] = '-100';
+					this.screen.style['-webkit-transform'] = 'translate3d(0px,0px,0px)';
+					
 					// Make our overlay invisible
 					this.overlay.style.display = 'none';
 					
