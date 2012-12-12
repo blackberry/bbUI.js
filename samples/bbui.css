@@ -19,7 +19,7 @@
 body, html {
 	padding:0;
 	margin:0;
-	font-family: "Slate Pro",Slate,"Myriad Pro","BBAlpha Sans",Helvetica;
+	font-family: "Slate Pro",Slate,"Myriad Pro","BBAlpha Sans",Helvetica; 
 	font-size: 12pt;
 	overflow:visible;
 	user-select: none;
