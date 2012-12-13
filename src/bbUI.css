@@ -4150,12 +4150,12 @@ a.bb5-button-highlight span {
 
 .bb-bb10-pill-buttons-container-light
 {
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#BDBDBD), to(#D4D4D4));
-	color: #5D5D5D;
-	border-top-color: #A3A3A3;
-	border-bottom-color: #CECECE;
-	border-left-color: #C3C3C3;
-	border-right-color: #C4C4C4;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#F4F4F4), to(#FCFCFC));
+	color: #262626;
+	border-top-color: #B2B2B2;
+	border-bottom-color: #E3E3E3;
+	border-left-color: #CDCDCD;
+	border-right-color: #CDCDCD;
 }
 
 .bb-bb10-pill-buttons-container-dark
@@ -4247,25 +4247,25 @@ a.bb5-button-highlight span {
 }
 
 .bb-bb10-pill-button-selected-lowres-light{
-	color: black;
+	color: #555555;
 	border-width:1px;	
 	border-style: solid;
-	border-top-color: #B4B4B4;
-	border-left-color: #C2C2C2;
-	border-bottom-color: #B4B4B4;
-	border-right-color: #C8C8C8;
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
+	border-top-color: #C3C3C3;
+	border-left-color: #CACACA;
+	border-bottom-color: #CCCCCC;
+	border-right-color: #CACACA;
+	background-color: transparent;
 }
 
 .bb-bb10-pill-button-selected-hires-light{
-	color: black;
+	color: #555555;
 	border-width:2px;	
 	border-style: solid;
-	border-top-color: #B4B4B4;
-	border-left-color: #C2C2C2;
-	border-bottom-color: #B4B4B4;
-	border-right-color: #C8C8C8;
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
+	border-top-color: #C3C3C3;
+	border-left-color: #CACACA;
+	border-bottom-color: #CCCCCC;
+	border-right-color: #CACACA;
+	background-color: transparent;
 }
 
 .bb-bb10-pill-button-highlight-lowres-light{
