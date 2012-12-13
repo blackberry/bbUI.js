@@ -6,6 +6,10 @@ Below you will find all the different changes that have been added since the fir
 
 * _**Compatibility Changes:**_ 
 	* Light colored action overflow, tab overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+* Notable Updates
+	* Improved animation smoothness for tab overflow show/hide
+* BlackBerry 10 Styling
+	* Updated Pill Button styling
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 * Samples
@@ -13,7 +17,6 @@ Below you will find all the different changes that have been added since the fir
 * Noteable Bug Fixes: 
     * BB10 Back button highlighting more responsive and doesn't get blocked by screen animation
 	* Tab overflow menu "tinted" overlay no longer allows for touch events to propagate down to the screen below it
-	* Improved animation smoothness for tab overflow show/hide
 
 ## Version 0.9.5
 

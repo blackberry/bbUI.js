@@ -4145,7 +4145,7 @@ a.bb5-button-highlight span {
 	border-radius:5px;
 	padding: 2px;
 	font-size: 27pt;
-	height:89px;
+	height:69px;
 }
 
 .bb-bb10-pill-buttons-container-light
@@ -4160,12 +4160,12 @@ a.bb5-button-highlight span {
 
 .bb-bb10-pill-buttons-container-dark
 {
-	color: #8D8D8D;
-	border-top-color: #262626;
-	border-left-color: #2A2A2A;
-	border-right-color: #2A2A2A;
-	border-bottom-color: #2E2E2E;
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#292929), to(#333333));	
+	color: white;
+	border-top-color: #4B4B4B;
+	border-left-color: #4B4B4B;
+	border-right-color: #4B4B4B;
+	border-bottom-color: #474747;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#333333), to(#181818));	
 }
  
 .bb-bb10-pill-button-lowres  {
@@ -4196,7 +4196,7 @@ a.bb5-button-highlight span {
 	border-color: transparent;
 	display: table-cell;
 	background-clip: padding-box;	
-	height:85px;
+	height:65px;
 	border-radius: 5px;
 }
 
@@ -4216,11 +4216,11 @@ a.bb5-button-highlight span {
 .bb-bb10-pill-button-inner-hires 
 {
 	margin:0px;
-	border-width:2px;	
+	border-width:1px;	
 	border-style: solid;
 	border-radius: 5px;
-	height:76px;
-	line-height:63px;
+	height:56px;
+	line-height:47px;
 	z-index:10;
 	border-color: transparent;
 	padding-top: 5px;
@@ -4228,12 +4228,12 @@ a.bb5-button-highlight span {
 
 .bb-bb10-pill-button-inner-selected-lowres-dark
 {
-	border-color: #4F4F4F;
+	border-color: #7E7E7E;
 }
 
 .bb-bb10-pill-button-inner-selected-hires-dark
 {
-	border-color: #4F4F4F;
+	border-color: #7E7E7E;
 }
 
 .bb-bb10-pill-button-inner-selected-lowres-light
@@ -4290,19 +4290,19 @@ a.bb5-button-highlight span {
 
 .bb-bb10-pill-button-selected-lowres-dark
 {
-	color: white;
+	color: #909090;
 	border-width:1px;	
 	border-style: solid;
-	border-color:#090909;
+	border-color:#2B2B2B;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 }
 
 .bb-bb10-pill-button-selected-hires-dark
 {
-	color: white;
+	color: #909090;
 	border-width:2px;	
 	border-style: solid;
-	border-color:#090909;
+	border-color:#2B2B2B;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 }
 
@@ -5324,3 +5324,4 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
