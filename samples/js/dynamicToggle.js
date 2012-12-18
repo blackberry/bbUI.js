@@ -53,6 +53,7 @@ function addRemoveToggle() {
 		toggle.setAttribute('data-bb-type','toggle');
 		toggle.setAttribute('data-bb-on', 'On');
 		toggle.setAttribute('data-bb-off', 'Off');
+		toggle.setAttribute('data-bb-checked', 'true');
 		toggle.setAttribute('id',id);
 		// Style the toggle
 		toggle = bb.toggle.style(toggle);

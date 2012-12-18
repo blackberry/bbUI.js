@@ -512,6 +512,12 @@ bb = {
 				setTimeout(bb.domready.fire, 250);
 				return;
 			}
+			
+			// Raise an internal event to let the rest of the framework know that the dom is ready
+			var evt = document.createEvent('Events');
+			evt.initEvent('bbuidomready', true, true);
+			document.dispatchEvent(evt);
+			// Fire our event
 			bb.options.ondomready(bb.domready.container, bb.domready.id, bb.domready.params);
 			bb.domready.container = null;
 			bb.domready.id = null;	

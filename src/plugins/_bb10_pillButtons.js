@@ -93,7 +93,7 @@ _bb10_pillButtons = {
 											if (bb.screen.controlColor == 'light') {
 												this.outerElement.pill.style['background-color'] = '#DDDDDD';
 											}
-											this.setPillLeft();
+											this.outerElement.setPillLeft(this);
 										};
 				innerChildNode.dotouchstart = innerChildNode.dotouchstart.bind(innerChildNode);
 				
@@ -124,12 +124,7 @@ _bb10_pillButtons = {
 										};
 				innerChildNode.dotouchend = innerChildNode.dotouchend.bind(innerChildNode);
 				
-				// Set our pill left
-				innerChildNode.setPillLeft = function() {
-											// Set our styles
-											this.outerElement.pill.style['-webkit-transform'] = 'translate3d(' + this.parentNode.offsetLeft + 'px,0px,0px)';
-										};
-				innerChildNode.setPillLeft = innerChildNode.setPillLeft.bind(innerChildNode);				
+							
 				
 				// Tie it to mouse events in ripple, and touch events on devices
 				if (bb.device.isRipple) {
@@ -146,12 +141,34 @@ _bb10_pillButtons = {
 						}, true);
 			}
 			
+			// Set our pill left
+			outerElement.setPillLeft = function(element) {
+						if (!element) {
+							element = this.selected;
+						}
+						this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					};
+			outerElement.setPillLeft = outerElement.setPillLeft.bind(outerElement);	
+			
+			// Create our event handler for when the dom is ready
+			outerElement.onbbuidomready = function() {
+						this.setPillLeft();
+						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+					};
+			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
+			
+			/* Add our event listener for the domready to move our selected item.  We want to
+			   do it this way because it will ensure the screen transition animation is finished before
+			   the pill button move transition happens. This will help for any animation stalls/delays */
+			document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
+
 			// Handle pill sizing on orientation change
 			outerElement.doOrientationChange = function() {
-						var outerStyle = window.getComputedStyle(this),
-							pillLeft = this.parentNode.offsetLeft;
+						//var outerStyle = window.getComputedStyle(this),
+						//	pillLeft = this.parentNode.offsetLeft;
 						// Set our styles
-						this.pill.style['-webkit-transform'] = 'translate3d(' + pillLeft + 'px,0px,0px)';
+						//this.pill.style['-webkit-transform'] = 'translate3d(' + pillLeft + 'px,0px,0px)';
+						this.setPillLeft();
 					};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 

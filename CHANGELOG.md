@@ -8,6 +8,7 @@ Below you will find all the different changes that have been added since the fir
 	* Light colored action overflow, tab overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
 * Notable Updates
 	* Improved animation smoothness for tab overflow show/hide
+	* Toggle and Pill Buttons animate their selected state after the screen transition ends. This helps for screen transition smooth animations
 * BlackBerry 10 Styling
 	* Updated Pill Button styling
 * JavaScript Interfaces

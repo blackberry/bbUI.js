@@ -2,11 +2,11 @@ _bb10_toggle = {
 
 	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
-			bb.toggle.style(elements[i]);
+			bb.toggle.style(elements[i],true);
 		}
 	},
 	
-	style: function(outerElement) {
+	style: function(outerElement,offdom) {
 		var res,
 			table,
 			tr,
@@ -291,7 +291,23 @@ _bb10_toggle = {
 		
 		// set our checked state
 		outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
-		setTimeout(outerElement.positionButton,0);
+		
+		if (offdom) {
+			// Create our event handler for when the dom is ready
+			outerElement.onbbuidomready = function() {
+						this.positionButton();
+						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+					};
+			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
+		} else {
+			// Use a simple timeout to trigger the animation once inserted into the DOM
+			setTimeout(outerElement.positionButton,0);
+		}
+		
+		/* Add our event listener for the domready to move our selected item.  We want to
+		   do it this way because it will ensure the screen transition animation is finished before
+		   the toggle button move transition happens. This will help for any animation stalls/delays */
+		document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
 		
 		// Assign our document event listeners
 		document.addEventListener('touchmove', outerElement.moveToggle, false);

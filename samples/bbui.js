@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.11*/
+/* VERSION: 0.9.6.13*/
 
 bb = {
 	scroller: null,  
@@ -530,6 +530,12 @@ bb = {
 				setTimeout(bb.domready.fire, 250);
 				return;
 			}
+			
+			// Raise an internal event to let the rest of the framework know that the dom is ready
+			var evt = document.createEvent('Events');
+			evt.initEvent('bbuidomready', true, true);
+			document.dispatchEvent(evt);
+			// Fire our event
 			bb.options.ondomready(bb.domready.container, bb.domready.id, bb.domready.params);
 			bb.domready.container = null;
 			bb.domready.id = null;	
@@ -5122,7 +5128,7 @@ _bb10_pillButtons = {
 											if (bb.screen.controlColor == 'light') {
 												this.outerElement.pill.style['background-color'] = '#DDDDDD';
 											}
-											this.setPillLeft();
+											this.outerElement.setPillLeft(this);
 										};
 				innerChildNode.dotouchstart = innerChildNode.dotouchstart.bind(innerChildNode);
 				
@@ -5153,12 +5159,7 @@ _bb10_pillButtons = {
 										};
 				innerChildNode.dotouchend = innerChildNode.dotouchend.bind(innerChildNode);
 				
-				// Set our pill left
-				innerChildNode.setPillLeft = function() {
-											// Set our styles
-											this.outerElement.pill.style['-webkit-transform'] = 'translate3d(' + this.parentNode.offsetLeft + 'px,0px,0px)';
-										};
-				innerChildNode.setPillLeft = innerChildNode.setPillLeft.bind(innerChildNode);				
+							
 				
 				// Tie it to mouse events in ripple, and touch events on devices
 				if (bb.device.isRipple) {
@@ -5175,12 +5176,34 @@ _bb10_pillButtons = {
 						}, true);
 			}
 			
+			// Set our pill left
+			outerElement.setPillLeft = function(element) {
+						if (!element) {
+							element = this.selected;
+						}
+						this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					};
+			outerElement.setPillLeft = outerElement.setPillLeft.bind(outerElement);	
+			
+			// Create our event handler for when the dom is ready
+			outerElement.onbbuidomready = function() {
+						this.setPillLeft();
+						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+					};
+			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
+			
+			/* Add our event listener for the domready to move our selected item.  We want to
+			   do it this way because it will ensure the screen transition animation is finished before
+			   the pill button move transition happens. This will help for any animation stalls/delays */
+			document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
+
 			// Handle pill sizing on orientation change
 			outerElement.doOrientationChange = function() {
-						var outerStyle = window.getComputedStyle(this),
-							pillLeft = this.parentNode.offsetLeft;
+						//var outerStyle = window.getComputedStyle(this),
+						//	pillLeft = this.parentNode.offsetLeft;
 						// Set our styles
-						this.pill.style['-webkit-transform'] = 'translate3d(' + pillLeft + 'px,0px,0px)';
+						//this.pill.style['-webkit-transform'] = 'translate3d(' + pillLeft + 'px,0px,0px)';
+						this.setPillLeft();
 					};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 
@@ -5853,11 +5876,11 @@ _bb10_toggle = {
 
 	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
-			bb.toggle.style(elements[i]);
+			bb.toggle.style(elements[i],true);
 		}
 	},
 	
-	style: function(outerElement) {
+	style: function(outerElement,offdom) {
 		var res,
 			table,
 			tr,
@@ -6142,7 +6165,23 @@ _bb10_toggle = {
 		
 		// set our checked state
 		outerElement.checked = (outerElement.hasAttribute('data-bb-checked')) ? outerElement.getAttribute('data-bb-checked').toLowerCase() == 'true' : false;
-		setTimeout(outerElement.positionButton,0);
+		
+		if (offdom) {
+			// Create our event handler for when the dom is ready
+			outerElement.onbbuidomready = function() {
+						this.positionButton();
+						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+					};
+			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
+		} else {
+			// Use a simple timeout to trigger the animation once inserted into the DOM
+			setTimeout(outerElement.positionButton,0);
+		}
+		
+		/* Add our event listener for the domready to move our selected item.  We want to
+		   do it this way because it will ensure the screen transition animation is finished before
+		   the toggle button move transition happens. This will help for any animation stalls/delays */
+		document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
 		
 		// Assign our document event listeners
 		document.addEventListener('touchmove', outerElement.moveToggle, false);
