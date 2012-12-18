@@ -188,7 +188,7 @@ bb.contextMenu = {
 						this.addEventListener("touchmove", this.touchMoveHandler, false);		
 						this.onclick = function(event) {
 									if ((event.target == this) || (event.target == this.scrollContainer)){;
-										this.show();
+										this.show(this.selected);
 									}
 								};
 						// Remove the header click handling while peeking

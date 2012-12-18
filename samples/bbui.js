@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.10*/
+/* VERSION: 0.9.6.11*/
 
 bb = {
 	scroller: null,  
@@ -1690,7 +1690,7 @@ bb.contextMenu = {
 						this.addEventListener("touchmove", this.touchMoveHandler, false);		
 						this.onclick = function(event) {
 									if ((event.target == this) || (event.target == this.scrollContainer)){;
-										this.show();
+										this.show(this.selected);
 									}
 								};
 						// Remove the header click handling while peeking

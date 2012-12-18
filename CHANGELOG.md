@@ -17,6 +17,7 @@ Below you will find all the different changes that have been added since the fir
 * Noteable Bug Fixes: 
     * BB10 Back button highlighting more responsive and doesn't get blocked by screen animation
 	* Tab overflow menu "tinted" overlay no longer allows for touch events to propagate down to the screen below it
+	* Clicking the context menu when peeked now shows the title area of the context menu.
 
 ## Version 0.9.5
 
