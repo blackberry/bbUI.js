@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.9*/
+/* VERSION: 0.9.6.10*/
 
 body, html {
 	padding:0;
@@ -4186,6 +4186,23 @@ a.bb5-button-highlight span {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#333333), to(#181818));	
 }
  
+.bb-bb10-pill-buttons-table 
+{
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+	z-index: 4;
+	position: absolute;
+}
+
+.bb-bb10-pill-buttons-pill 
+{
+	position: relative;
+	z-index: 3;
+	-webkit-transition: 0.2s ease-in-out;
+	-webkit-backface-visibility: hidden;
+}
+ 
 .bb-bb10-pill-button-lowres  {
 	float: left;
 	text-align:center;
@@ -4200,6 +4217,7 @@ a.bb5-button-highlight span {
 	background-clip: padding-box;	
 	height:35px;
 	border-radius: 3px;
+	cursor: pointer;
 }
 
 .bb-bb10-pill-button-hires  {
@@ -4216,6 +4234,7 @@ a.bb5-button-highlight span {
 	background-clip: padding-box;	
 	height:65px;
 	border-radius: 5px;
+	cursor: pointer;
 }
 
 .bb-bb10-pill-button-inner-lowres 
@@ -4242,6 +4261,7 @@ a.bb5-button-highlight span {
 	z-index:10;
 	border-color: transparent;
 	padding-top: 5px;
+	background-color: transparent;
 }
 
 .bb-bb10-pill-button-inner-selected-lowres-dark
@@ -4286,26 +4306,6 @@ a.bb5-button-highlight span {
 	background-color: transparent;
 }
 
-.bb-bb10-pill-button-highlight-lowres-light{
-	color: white;
-	border-width:1px;	
-	border-style: solid;
-	border-top-color: #B4B4B4;
-	border-left-color: #C2C2C2;
-	border-bottom-color: #B4B4B4;
-	border-right-color: #C8C8C8;
-}
-
-.bb-bb10-pill-button-highlight-hires-light{
-	color: white;
-	border-width:1px;	
-	border-style: solid;
-	border-top-color: #B4B4B4;
-	border-left-color: #C2C2C2;
-	border-bottom-color: #B4B4B4;
-	border-right-color: #C8C8C8;
-}
-
 .bb-bb10-pill-button-selected-lowres-dark
 {
 	color: #909090;
@@ -4323,23 +4323,6 @@ a.bb5-button-highlight span {
 	border-color:#2B2B2B;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 }
-
-.bb-bb10-pill-button-highlight-lowres-dark
-{
-	color: white;
-	border-width:1px;	
-	border-style: solid;
-	border-color:#333333;
-}
-
-.bb-bb10-pill-button-highlight-hires-dark
-{
-	color: white;
-	border-width:2px;	
-	border-style: solid;
-	border-color:#333333;
-}
-
 
 
 /* ================================================= 

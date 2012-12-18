@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.9*/
+/* VERSION: 0.9.6.10*/
 
 bb = {
 	scroller: null,  
@@ -5044,82 +5044,147 @@ _bb10_pillButtons = {
 			outerElement.appendChild(containerDiv);
 			containerDiv.setAttribute('class',containerStyle);
 			
+			// Set our selected color
+			outerElement.selectedColor = (bb.screen.controlColor == 'dark') ? '#909090' : '#555555';
+			
 			// Gather our inner items
 			var items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
 				percentWidth = Math.floor(100 / items.length),
 				sidePadding = 101-(percentWidth * items.length),
 				sidePadding,
 				innerChildNode,
+				table,
+				tr,
+				td,
 				j;
 			
+			// Create our selection pill
+			pill = document.createElement('div');
+			pillInner = document.createElement('div');
+			pill.appendChild(pillInner);
+			pill.setAttribute('class',buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor + ' bb-bb10-pill-buttons-pill');
+			pillInner.setAttribute('class','bb-bb10-pill-button-inner-'+res +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor);
+			pill.style.width = percentWidth + '%';
+			outerElement.pill = pill;
+			containerDiv.appendChild(pill);
+						
+			// Set our left and right padding
 			outerElement.style['padding-left'] = sidePadding + '%';
 			outerElement.style['padding-right'] = sidePadding + '%';
+			
+			// create our containing table
+			table = document.createElement('table');
+			tr = document.createElement('tr');
+			table.appendChild(tr);
+			table.setAttribute('class','bb-bb10-pill-buttons-table');
+			table.style.width = (99 - (2*sidePadding)) + '%';
+			containerDiv.appendChild(table);				
+			
+			// Loop through all our buttons
 			for (j = 0; j < items.length; j++) {
 				innerChildNode = items[j];
-				containerDiv.appendChild(innerChildNode);
+				innerChildNode.isSelected = false;
 				
-				// Set our styling
-				innerChildNode.selected = buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor;
-				innerChildNode.normal = buttonStyle;
-				innerChildNode.highlight = buttonStyle + ' bb-bb10-pill-button-highlight-'+res+'-'+ bb.screen.controlColor +' bb10Highlight';
-				if (j == items.length - 1) {
-					innerChildNode.style.float = 'right';
-					if (j == 1) {
-						innerChildNode.style.width = percentWidth-2 + '%';
-					} else {
-						innerChildNode.style.width = (100-j) - (j * percentWidth) + '%';
-					}						
-				} else {
-					innerChildNode.style.width = percentWidth + '%';
-				}
-				
+				// Create our cell
+				td = document.createElement('td');
+				tr.appendChild(td);
+				td.appendChild(innerChildNode);
+				td.style.width = percentWidth + '%';
+							
 				// Create our inner container to have double borders
 				innerBorder = document.createElement('div');
-				innerBorder.normal = 'bb-bb10-pill-button-inner-'+res;
-				innerBorder.selected = innerBorder.normal +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor;
-				
 				innerBorder.innerHTML = innerChildNode.innerHTML;
 				innerChildNode.innerHTML = '';
 				innerChildNode.appendChild(innerBorder);
+				// Set our variables
+				innerChildNode.border = innerBorder;
+				innerChildNode.outerElement = outerElement;
 				
 				if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
-					innerChildNode.setAttribute('class',innerChildNode.selected);
-					innerBorder.setAttribute('class',innerBorder.selected);
+					innerChildNode.isSelected = true;
+					outerElement.selected = innerChildNode;
+					innerChildNode.style.color = outerElement.selectedColor;
+				} 
+				
+				// Set our styling
+				innerChildNode.setAttribute('class',buttonStyle);
+				innerBorder.setAttribute('class','bb-bb10-pill-button-inner-'+res);
+				innerChildNode.style['z-index'] = 4;
+				innerChildNode.style.width = '100%';
+				
+				// Set our touch start					
+				innerChildNode.dotouchstart = function(e) {
+											if (this.isSelected) return;
+											// Turn of the selected state of the last item
+											var lastSelected = this.outerElement.selected;
+											lastSelected.style.color = '';	
+											// change color of the pill if it is light coloring
+											if (bb.screen.controlColor == 'light') {
+												this.outerElement.pill.style['background-color'] = '#DDDDDD';
+											}
+											this.setPillLeft();
+										};
+				innerChildNode.dotouchstart = innerChildNode.dotouchstart.bind(innerChildNode);
+				
+				// Set our touch end					
+				innerChildNode.dotouchend = function(e) {
+											if (this.isSelected) return;
+											
+											// Reset the old selected
+											var lastSelected = this.outerElement.selected;
+											lastSelected.isSelected = false;
+											
+											// Select this item's state
+											this.isSelected = true;
+											this.outerElement.selected = this;
+											this.style.color = this.outerElement.selectedColor;
+											
+											// Remove color styling from pill if light
+											if (bb.screen.controlColor == 'light') {
+												this.outerElement.pill.style['background-color'] = '';
+											}
+											
+											// Raise the click event. Need to do it this way to match the
+											// Cascades selection style in pill buttons
+											var ev = document.createEvent('MouseEvents');
+											ev.initMouseEvent('click', true, true);
+											ev.doClick = true;
+											this.dispatchEvent(ev);
+										};
+				innerChildNode.dotouchend = innerChildNode.dotouchend.bind(innerChildNode);
+				
+				// Set our pill left
+				innerChildNode.setPillLeft = function() {
+											// Set our styles
+											this.outerElement.pill.style['-webkit-transform'] = 'translate3d(' + this.parentNode.offsetLeft + 'px,0px,0px)';
+										};
+				innerChildNode.setPillLeft = innerChildNode.setPillLeft.bind(innerChildNode);				
+				
+				// Tie it to mouse events in ripple, and touch events on devices
+				if (bb.device.isRipple) {
+					innerChildNode.onmousedown = innerChildNode.dotouchstart;	
+					innerChildNode.onmouseup = innerChildNode.dotouchend;
 				} else {
-					innerChildNode.setAttribute('class',innerChildNode.normal);
-					innerBorder.setAttribute('class',innerBorder.normal);
-					innerChildNode.ontouchstart = function() {
-												this.setAttribute('class',this.highlight);
-											};
-					innerChildNode.ontouchend = function() {
-												this.setAttribute('class',this.normal);
-											};
+					innerChildNode.ontouchstart = innerChildNode.dotouchstart;	
+					innerChildNode.ontouchend = innerChildNode.dotouchend;
 				}
 				
-				// Add our subscription for click events to change highlighting
-				innerChildNode.addEventListener('click',function (e) {
-						var innerChildNode,
-							innerBorder,
-							items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
-						for (var j = 0; j < items.length; j++) {
-							innerChildNode = items[j];
-							innerBorder = innerChildNode.firstChild;
-							if (innerChildNode == this) {
-								innerChildNode.setAttribute('class',innerChildNode.selected);
-								innerBorder.setAttribute('class',innerBorder.selected);
-							} else {
-								innerBorder.setAttribute('class',innerBorder.normal);
-								innerChildNode.setAttribute('class',innerChildNode.normal);
-								innerChildNode.ontouchstart = function() {
-												this.setAttribute('class',this.highlight);
-											};
-								innerChildNode.ontouchend = function() {
-												this.setAttribute('class',this.normal);
-											};
-							}
-						}
-					},false);
+				// Prevent the default click unless we want it to happen
+				innerChildNode.addEventListener('click',function (e) { 
+							e.stopPropagation();
+						}, true);
 			}
+			
+			// Handle pill sizing on orientation change
+			outerElement.doOrientationChange = function() {
+						var outerStyle = window.getComputedStyle(this),
+							pillLeft = this.parentNode.offsetLeft;
+						// Set our styles
+						this.pill.style['-webkit-transform'] = 'translate3d(' + pillLeft + 'px,0px,0px)';
+					};
+			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
+			window.addEventListener('resize', outerElement.doOrientationChange,false); 
+			
 			// Add our show function
 			outerElement.show = function() {
 				this.style.display = 'block';
