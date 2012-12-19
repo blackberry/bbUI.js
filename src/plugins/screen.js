@@ -6,6 +6,8 @@ bb.screen = {
 	overlay : null,
 	tabOverlay : null,
 	contextMenu : null,
+	currentScreen : null,
+	focusedInput : null,
 	animating : false,
     
     apply: function(elements) {
@@ -24,7 +26,7 @@ bb.screen = {
 		
         for (var i = 0; i < elements.length; i++) {
             outerElement = elements[i];
-            
+            bb.screen.currentScreen = outerElement;
 			// Set our screen resolution
 			outerElement.setAttribute('class', screenRes);
             		
@@ -50,6 +52,7 @@ bb.screen = {
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
 					titleBar = titleBar[0];
+					outerElement.titleBar = titleBar;
 				} else {
 					titleBar = null;
 				}
@@ -85,6 +88,11 @@ bb.screen = {
 				for (j = 0; j < tempHolder.length -1; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
+				
+				// Set our variables for showing/hiding action bars
+				outerElement.actionBarHeight = actionBarHeight;
+				outerElement.titleBarHeight = titleBarHeight;
+				outerElement.outerScrollArea = outerScrollArea;
 				
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
@@ -291,7 +299,22 @@ bb.screen = {
 						bb.scroller.scrollToElement(element);
 					} else if (bb.device.isBB10) {
 						if (!element) return;
-						this.scrollTo(element.offsetTop);
+						var offsetTop = 0,
+							target = element;
+						if (target.offsetParent) {
+							do {
+								offsetTop  += target.offsetTop;
+							} while (target = target.offsetParent);
+						}
+						// Adjust for title bar
+						if (bb.screen.currentScreen.titleBar) {
+							offsetTop -= bb.screen.currentScreen.titleBarHeight;
+						}
+						// Adjust for action bar
+						if (bb.screen.currentScreen.titleBar) {
+							offsetTop -= bb.screen.currentScreen.actionBarHeight;
+						}
+						this.scrollTo(offsetTop);
 					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);

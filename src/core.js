@@ -165,6 +165,32 @@ bb = {
 			bb.progress = _bb_progress;
 			bb.roundPanel = _bb_5_6_7_roundPanel;
 		}
+		
+		// Add our keyboard listener for BB10
+		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple) {
+			// Hide our action bar when the keyboard is about to pop up
+			blackberry.event.addEventListener('keyboardOpening', function() {
+				if (bb.screen.currentScreen.actionBar) {
+					bb.screen.currentScreen.actionBar.hide();
+				} 
+			});
+			
+			// Scroll to our selected input once the keyboard is opened
+			blackberry.event.addEventListener('keyboardOpened', function() {
+				if (bb.screen.currentScreen.actionBar) {
+					if (bb.screen.focusedInput) {
+						bb.screen.currentScreen.scrollToElement(bb.screen.focusedInput);
+					}
+				} 
+			});
+			
+			// Show our action bar when the keyboard disappears
+			blackberry.event.addEventListener('keyboardClosed', function() {
+				if (bb.screen.currentScreen.actionBar) {
+					bb.screen.currentScreen.actionBar.show();
+				} 
+			});
+		}
 	},
 
     doLoad: function(element) {

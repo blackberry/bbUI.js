@@ -11,17 +11,22 @@ Below you will find all the different changes that have been added since the fir
 	* Toggle and Pill Buttons animate their selected state after the screen transition ends. This helps for screen transition smooth animations
 	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads
+	
 * BlackBerry 10 Styling
 	* Updated Pill Button styling
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
+	* **Action Bar:** Added show(), hide() functions
 * Samples
 	* Created dedicated sample page for Pill Button JavaScript interfaces
 * Noteable Bug Fixes: 
     * BB10 Back button highlighting more responsive and doesn't get blocked by screen animation
 	* Tab overflow menu "tinted" overlay no longer allows for touch events to propagate down to the screen below it
 	* Clicking the context menu when peeked now shows the title area of the context menu.
-
+	* Action bar is now hidden when the virtual keyboard shows
+	* The screen's scrollToElement() function has now been fixed
+	* 
+	
 ## Version 0.9.5
 
 * _**Compatibility Changes:**_ 

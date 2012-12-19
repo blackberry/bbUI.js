@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.17*/
+/* VERSION: 0.9.6.18*/
 
 bb = {
 	scroller: null,  
@@ -182,6 +182,32 @@ bb = {
 			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
 			bb.progress = _bb_progress;
 			bb.roundPanel = _bb_5_6_7_roundPanel;
+		}
+		
+		// Add our keyboard listener for BB10
+		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple) {
+			// Hide our action bar when the keyboard is about to pop up
+			blackberry.event.addEventListener('keyboardOpening', function() {
+				if (bb.screen.currentScreen.actionBar) {
+					bb.screen.currentScreen.actionBar.hide();
+				} 
+			});
+			
+			// Scroll to our selected input once the keyboard is opened
+			blackberry.event.addEventListener('keyboardOpened', function() {
+				if (bb.screen.currentScreen.actionBar) {
+					if (bb.screen.focusedInput) {
+						bb.screen.currentScreen.scrollToElement(bb.screen.focusedInput);
+					}
+				} 
+			});
+			
+			// Show our action bar when the keyboard disappears
+			blackberry.event.addEventListener('keyboardClosed', function() {
+				if (bb.screen.currentScreen.actionBar) {
+					bb.screen.currentScreen.actionBar.show();
+				} 
+			});
 		}
 	},
 
@@ -850,6 +876,7 @@ bb.actionBar = {
 			j;
 			
 		actionBar.backBtnWidth = 0;
+		actionBar.isVisible = true;
 		actionBar.actionOverflowBtnWidth = 0;
 		actionBar.tabOverflowBtnWidth = 0;
 		actionBar.setAttribute('class','bb-bb10-action-bar-'+res+' bb-bb10-action-bar-' + bb.actionBar.color);
@@ -1084,6 +1111,27 @@ bb.actionBar = {
 					}
 				};
 		actionBar.setSelectedTab = actionBar.setSelectedTab.bind(actionBar);  
+		
+		// Add our hide function
+		actionBar.hide = function(tab) {
+					if (!this.isVisible) return;
+					this.style.display = 'none';
+					// Make the scroll area go right to the bottom of the displayed content
+					bb.screen.currentScreen.outerScrollArea.style['bottom'] = '0px';
+					this.isVisible = false;
+				};
+		actionBar.hide = actionBar.hide.bind(actionBar); 
+		
+		// Add our show function
+		actionBar.show = function(tab) {
+					if (this.isVisible) return;
+					this.style.display = '';
+					// Resize the screen scrolling area to stop at the top of the action bar
+					bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.currentScreen.actionBarHeight + 'px';
+					this.isVisible = true;
+				};
+		actionBar.show = actionBar.show.bind(actionBar);
+		
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {
@@ -2350,6 +2398,8 @@ bb.screen = {
 	overlay : null,
 	tabOverlay : null,
 	contextMenu : null,
+	currentScreen : null,
+	focusedInput : null,
 	animating : false,
     
     apply: function(elements) {
@@ -2368,7 +2418,7 @@ bb.screen = {
 		
         for (var i = 0; i < elements.length; i++) {
             outerElement = elements[i];
-            
+            bb.screen.currentScreen = outerElement;
 			// Set our screen resolution
 			outerElement.setAttribute('class', screenRes);
             		
@@ -2394,6 +2444,7 @@ bb.screen = {
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
 					titleBar = titleBar[0];
+					outerElement.titleBar = titleBar;
 				} else {
 					titleBar = null;
 				}
@@ -2429,6 +2480,11 @@ bb.screen = {
 				for (j = 0; j < tempHolder.length -1; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
+				
+				// Set our variables for showing/hiding action bars
+				outerElement.actionBarHeight = actionBarHeight;
+				outerElement.titleBarHeight = titleBarHeight;
+				outerElement.outerScrollArea = outerScrollArea;
 				
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
@@ -2635,7 +2691,22 @@ bb.screen = {
 						bb.scroller.scrollToElement(element);
 					} else if (bb.device.isBB10) {
 						if (!element) return;
-						this.scrollTo(element.offsetTop);
+						var offsetTop = 0,
+							target = element;
+						if (target.offsetParent) {
+							do {
+								offsetTop  += target.offsetTop;
+							} while (target = target.offsetParent);
+						}
+						// Adjust for title bar
+						if (bb.screen.currentScreen.titleBar) {
+							offsetTop -= bb.screen.currentScreen.titleBarHeight;
+						}
+						// Adjust for action bar
+						if (bb.screen.currentScreen.titleBar) {
+							offsetTop -= bb.screen.currentScreen.actionBarHeight;
+						}
+						this.scrollTo(offsetTop);
 					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
@@ -5961,6 +6032,7 @@ _bb10_textInput = {
 															this.style['border-color'] = bb.options.highlightColor;
 															this.isFocused = true;
 															this.clickCount = 0;
+															bb.screen.focusedInput = this;
 															}
 													}, false);
 													
@@ -5968,6 +6040,7 @@ _bb10_textInput = {
 														this.setAttribute('class',this.normal);	
 														this.style['border-color'] = '';
 														this.isFocused = false;
+														bb.screen.focusedInput = null;
 														this.removeEventListener('click',outerElement.handleDeleteClick , false);
 													}, false);
 													
@@ -5992,7 +6065,6 @@ _bb10_textInput = {
 		}
     }
 };
-
 _bb10_toggle = {
 
 	apply: function(elements) {

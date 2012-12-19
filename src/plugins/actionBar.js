@@ -26,6 +26,7 @@ bb.actionBar = {
 			j;
 			
 		actionBar.backBtnWidth = 0;
+		actionBar.isVisible = true;
 		actionBar.actionOverflowBtnWidth = 0;
 		actionBar.tabOverflowBtnWidth = 0;
 		actionBar.setAttribute('class','bb-bb10-action-bar-'+res+' bb-bb10-action-bar-' + bb.actionBar.color);
@@ -260,6 +261,27 @@ bb.actionBar = {
 					}
 				};
 		actionBar.setSelectedTab = actionBar.setSelectedTab.bind(actionBar);  
+		
+		// Add our hide function
+		actionBar.hide = function(tab) {
+					if (!this.isVisible) return;
+					this.style.display = 'none';
+					// Make the scroll area go right to the bottom of the displayed content
+					bb.screen.currentScreen.outerScrollArea.style['bottom'] = '0px';
+					this.isVisible = false;
+				};
+		actionBar.hide = actionBar.hide.bind(actionBar); 
+		
+		// Add our show function
+		actionBar.show = function(tab) {
+					if (this.isVisible) return;
+					this.style.display = '';
+					// Resize the screen scrolling area to stop at the top of the action bar
+					bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.currentScreen.actionBarHeight + 'px';
+					this.isVisible = true;
+				};
+		actionBar.show = actionBar.show.bind(actionBar);
+		
 		
 		// Add all our overflow tab actions
 		if (overflowTabs.length > 0 ) {

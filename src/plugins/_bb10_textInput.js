@@ -24,6 +24,7 @@ _bb10_textInput = {
 															this.style['border-color'] = bb.options.highlightColor;
 															this.isFocused = true;
 															this.clickCount = 0;
+															bb.screen.focusedInput = this;
 															}
 													}, false);
 													
@@ -31,6 +32,7 @@ _bb10_textInput = {
 														this.setAttribute('class',this.normal);	
 														this.style['border-color'] = '';
 														this.isFocused = false;
+														bb.screen.focusedInput = null;
 														this.removeEventListener('click',outerElement.handleDeleteClick , false);
 													}, false);
 													
