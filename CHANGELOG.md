@@ -24,7 +24,6 @@ Below you will find all the different changes that have been added since the fir
 	* Clicking the context menu when peeked now shows the title area of the context menu.
 	* Action bar is now hidden when the virtual keyboard shows
 	* The screen's scrollToElement() function has now been fixed
-	* 
 	
 ## Version 0.9.5
 
