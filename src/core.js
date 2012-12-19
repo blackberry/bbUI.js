@@ -171,6 +171,12 @@ bb = {
         // Apply our styling
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
+		bb.style(root);
+        // perform device specific formatting
+        bb.screen.reAdjustHeight();	
+    },
+	
+	style: function(root) {
 		if (bb.scrollPanel) 			bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));  
 	    if (bb.textInput) 				bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color], [type=search]'));
 		if (bb.dropdown)				bb.dropdown.apply(root.querySelectorAll('select'));
@@ -188,9 +194,7 @@ bb = {
 		if (bb.activityIndicator) 		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
 		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
-        // perform device specific formatting
-        bb.screen.reAdjustHeight();	
-    },
+	},
 	
 	device: {  
         isHiRes: false, 
