@@ -102,10 +102,29 @@ bb.titleBar = {
 				// First check for the image
 				if (titleBar.hasAttribute('data-bb-img')) {
 					img = document.createElement('img');
-					img.src = titleBar.getAttribute('data-bb-img');
+					//img.src = titleBar.getAttribute('data-bb-img');
 					titleBar.img = img;
 					topTitleArea.insertBefore(img, details);
 					details.setAttribute('class', 'bb-bb10-title-bar-caption-details-img-'+res);
+					
+					// Create our display image
+					img.style.opacity = '0';
+					img.style['-webkit-transition'] = 'opacity 0.5s linear';
+					img.style['-webkit-backface-visibility'] = 'hidden';
+					img.style['-webkit-perspective'] = 1000;
+					img.style['-webkit-transform'] = 'translate3d(0,0,0)';
+	
+					// Load our image once onbbuidomready 
+					titleBar.onbbuidomready = function() {
+								// Animate its visibility once loaded
+								this.img.onload = function() {
+									this.style.opacity = '1.0';
+								}
+								this.img.src = this.getAttribute('data-bb-img');
+								document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+							};
+					titleBar.onbbuidomready = titleBar.onbbuidomready.bind(titleBar);
+					document.addEventListener('bbuidomready', titleBar.onbbuidomready,false);		
 				} 
 				// Next check for the accent text
 				if (titleBar.hasAttribute('data-bb-accent-text')) {

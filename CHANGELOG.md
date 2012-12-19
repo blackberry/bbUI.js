@@ -9,7 +9,7 @@ Below you will find all the different changes that have been added since the fir
 * Notable Updates
 	* Improved animation smoothness for tab overflow show/hide
 	* Toggle and Pill Buttons animate their selected state after the screen transition ends. This helps for screen transition smooth animations
-	* Improved screen transition animation speeds when using BB10 grids and image lists
+	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads
 * BlackBerry 10 Styling
 	* Updated Pill Button styling
