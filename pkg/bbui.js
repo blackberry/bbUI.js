@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.15*/
+/* VERSION: 0.9.6.16*/
 
 bb = {
 	scroller: null,  
@@ -498,6 +498,8 @@ bb = {
 			bb.domready.id = id;
 			bb.domready.params = params;
 			setTimeout(bb.domready.fire, 1); 
+		} else {
+			setTimeout(bb.domready.fireEventsOnly, 1);
 		}
 		
 		// If an effect was applied then the popping will be handled at the end of the animation
@@ -544,8 +546,26 @@ bb = {
 			bb.domready.container = null;
 			bb.domready.id = null;	
 		    bb.domready.params = null;
+			// Raise an internal event to let the rest of the framework know that the dom has been processed
+			evt = document.createEvent('Events');
+			evt.initEvent('bbuidomprocessed', true, true);
+			document.dispatchEvent(evt);
+		},
+		
+		fireEventsOnly : function() {
+			if (bb.screen.animating) {
+				setTimeout(bb.domready.fireEventsOnly, 250);
+				return;
+			}
+			// Raise an internal event to let the rest of the framework know that the dom is ready
+			var evt = document.createEvent('Events');
+			evt.initEvent('bbuidomready', true, true);
+			document.dispatchEvent(evt);
+			// Raise an internal event to let the rest of the framework know that the dom has been processed
+			evt = document.createEvent('Events');
+			evt.initEvent('bbuidomprocessed', true, true);
+			document.dispatchEvent(evt);
 		}
-	
 	},
 	
 	// Creates the scroller for the screen
@@ -2408,6 +2428,54 @@ bb.screen = {
 				// Add them into the scrollable area
 				for (j = 0; j < tempHolder.length -1; j++) {
 					scrollArea.appendChild(tempHolder[j]);
+				}
+				
+				if (outerElement.getAttribute('data-bb-indicator')) { 
+					// Now add our iframe to load the sandboxed content
+					var overlay = document.createElement('div'),
+						indicator = document.createElement('div');
+					outerScrollArea.scrollArea = scrollArea;
+					outerScrollArea.overlay = overlay;
+					// Create our overlay
+					overlay.style['position'] = 'absolute';
+					overlay.style['bottom'] = '0px';
+					overlay.style['top'] = '0px';
+					overlay.style['left'] = '0px';
+					overlay.style['right'] = '0px';
+					overlay.touchstart = function(e) {
+								e.preventDefault();
+								e.stopPropagation();
+							};
+					overlay.touchend = function(e) {
+								e.preventDefault();
+								e.stopPropagation();
+							};
+					overlay.click = function(e) {
+								e.preventDefault();
+								e.stopPropagation();
+							};
+					outerScrollArea.appendChild(overlay);
+					scrollArea.style.display = 'none';
+						
+					// Add our indicator
+					indicator.setAttribute('data-bb-type', 'activity-indicator');
+					indicator.setAttribute('data-bb-size', 'large');
+					//indicator.style.margin = '0px auto 0px auto';
+					indicator.style.margin = '60% auto 50% auto';
+					overlay.appendChild(indicator);
+					
+					// Create our event handler for when the dom is ready
+					outerScrollArea.bbuidomprocessed = function() {
+								this.scrollArea.style.display = '';
+								this.removeChild(this.overlay);
+								document.removeEventListener('bbuidomprocessed', this.bbuidomprocessed,false);
+							};
+					outerScrollArea.bbuidomprocessed = outerScrollArea.bbuidomprocessed.bind(outerScrollArea);
+					
+					/* Add our event listener for the domready to move our selected item.  We want to
+					   do it this way because it will ensure the screen transition animation is finished before
+					   the pill button move transition happens. This will help for any animation stalls/delays */
+					document.addEventListener('bbuidomprocessed', outerScrollArea.bbuidomprocessed,false);
 				}
 				
 				// Set our outer scroll area dimensions
@@ -5222,7 +5290,7 @@ _bb10_pillButtons = {
 			// Create our event handler for when the dom is ready
 			outerElement.onbbuidomready = function() {
 						this.setPillLeft();
-						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
 			
@@ -6204,7 +6272,7 @@ _bb10_toggle = {
 			// Create our event handler for when the dom is ready
 			outerElement.onbbuidomready = function() {
 						this.positionButton();
-						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
 		} else {

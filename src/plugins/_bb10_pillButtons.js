@@ -153,7 +153,7 @@ _bb10_pillButtons = {
 			// Create our event handler for when the dom is ready
 			outerElement.onbbuidomready = function() {
 						this.setPillLeft();
-						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
 			

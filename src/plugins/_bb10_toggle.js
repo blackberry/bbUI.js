@@ -296,7 +296,7 @@ _bb10_toggle = {
 			// Create our event handler for when the dom is ready
 			outerElement.onbbuidomready = function() {
 						this.positionButton();
-						document.removeEventListener('bbuidomready', outerElement.onbbuidomready,false);
+						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
 		} else {
