@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.13*/
+/* VERSION: 0.9.6.14*/
 
 bb = {
 	scroller: null,  
@@ -4182,7 +4182,9 @@ _bb10_grid = {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			solidHeader = false,
 			headerJustify;
-
+			
+		
+		
 		// Apply our transforms to all grids
 		for (var i = 0; i < elements.length; i++) {
 			var j,
@@ -4325,11 +4327,29 @@ _bb10_grid = {
 
 							// Create our display image
 							image = document.createElement('img');
-							image.setAttribute('src',itemNode.getAttribute('data-bb-img'));
 							image.style.height = height + 'px';
 							image.style.width = width + 'px';
+							image.style.opacity = '0';
+							image.style['-webkit-transition'] = 'opacity 0.5s linear';
+							image.style['-webkit-backface-visibility'] = 'hidden';
+							image.style['-webkit-perspective'] = 1000;
+							image.style['-webkit-transform'] = 'translate3d(0,0,0)';
+							image.itemNode = itemNode;
 							itemNode.image = image;
 							itemNode.appendChild(image);
+							
+							// Load our image once onbbuidomready 
+							itemNode.onbbuidomready = function() {
+										// Animate its visibility once loaded
+										this.image.onload = function() {
+											this.style.opacity = '1.0';
+										}
+										this.image.src = this.getAttribute('data-bb-img');
+										document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+									};
+							itemNode.onbbuidomready = itemNode.onbbuidomready.bind(itemNode);
+							document.addEventListener('bbuidomready', itemNode.onbbuidomready,false);
+							
 							// Create our translucent overlay
 							if (hasOverlay) {
 								overlay = document.createElement('div');
@@ -4581,43 +4601,53 @@ _bb10_imageList = {
 						if (!this.hideImages) {
 							img = document.createElement('img');
 							img.outerElement = this;
+							
 							innerChildNode.img = img;
 							if (this.imagePlaceholder) {
 								img.placeholder = this.imagePlaceholder;
-								img.src = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
+								img.path = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
 							} else {
-								img.setAttribute('src',innerChildNode.getAttribute('data-bb-img'));
+								img.path = innerChildNode.getAttribute('data-bb-img');
 							}
 							innerChildNode.appendChild(img);
 							
 							if (this.imageEffect) {
-								img.style.opacity = '0.0';
-								img.even = (j%2 == 0)
-								img.onload = function() {
-												this.show();
-											};
-								img.show = function() {
+								img.style.opacity = '0';
+								img.style['-webkit-transition'] = 'opacity 0.5s linear';
+								img.style['-webkit-backface-visibility'] = 'hidden';
+								img.style['-webkit-perspective'] = 1000;
+								img.style['-webkit-transform'] = 'translate3d(0,0,0)';
+								innerChildNode.imageList = this;
+								// Load our image once onbbuidomready 
+								innerChildNode.onbbuidomready = function() {
+											// Animate its visibility once loaded
+											this.img.onload = function() {
 												this.style.opacity = '1.0';
-												if (this.even) { // Change timing based on even and odd numbers for some randomness
-													this.style['-webkit-transition'] = 'opacity 0.5s linear';
-												} else {
-													this.style['-webkit-transition'] = 'opacity 1.0s linear';
-												}
-												this.style['-webkit-backface-visibility'] = 'hidden';
-												this.style['-webkit-perspective'] = 1000;
-												this.style['-webkit-transform'] = 'translate3d(0,0,0)';
-											};
-								img.show = img.show.bind(img);
-							}
-							// Handle the error scenario
-							if (this.imagePlaceholder) {
-								img.onerror = function() {
-												if (this.src == this.placeholder) return;
-												this.src = this.placeholder;
-												if (this.outerElement.imageEffect) {
-													this.show();
-												}
-											};
+											}
+											this.img.src = this.img.path;
+											
+											if (this.imageList.imagePlaceholder) {
+												this.img.onerror = function() {
+													if (this.src == this.placeholder) return;
+													this.src = this.placeholder;
+												};
+											}
+											document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+										};
+								innerChildNode.onbbuidomready = innerChildNode.onbbuidomready.bind(innerChildNode);
+								document.addEventListener('bbuidomready', innerChildNode.onbbuidomready,false);
+							} else {
+								img.src = img.path;
+								// Handle the error scenario
+								if (this.imagePlaceholder) {
+									img.onerror = function() {
+													if (this.src == this.placeholder) return;
+													this.src = this.placeholder;
+													if (this.outerElement.imageEffect) {
+														this.show();
+													}
+												};
+								}
 							}
 						}
 						// Create the details container

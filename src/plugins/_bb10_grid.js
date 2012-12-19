@@ -3,7 +3,9 @@ _bb10_grid = {
 		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			solidHeader = false,
 			headerJustify;
-
+			
+		
+		
 		// Apply our transforms to all grids
 		for (var i = 0; i < elements.length; i++) {
 			var j,
@@ -146,11 +148,29 @@ _bb10_grid = {
 
 							// Create our display image
 							image = document.createElement('img');
-							image.setAttribute('src',itemNode.getAttribute('data-bb-img'));
 							image.style.height = height + 'px';
 							image.style.width = width + 'px';
+							image.style.opacity = '0';
+							image.style['-webkit-transition'] = 'opacity 0.5s linear';
+							image.style['-webkit-backface-visibility'] = 'hidden';
+							image.style['-webkit-perspective'] = 1000;
+							image.style['-webkit-transform'] = 'translate3d(0,0,0)';
+							image.itemNode = itemNode;
 							itemNode.image = image;
 							itemNode.appendChild(image);
+							
+							// Load our image once onbbuidomready 
+							itemNode.onbbuidomready = function() {
+										// Animate its visibility once loaded
+										this.image.onload = function() {
+											this.style.opacity = '1.0';
+										}
+										this.image.src = this.getAttribute('data-bb-img');
+										document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+									};
+							itemNode.onbbuidomready = itemNode.onbbuidomready.bind(itemNode);
+							document.addEventListener('bbuidomready', itemNode.onbbuidomready,false);
+							
 							// Create our translucent overlay
 							if (hasOverlay) {
 								overlay = document.createElement('div');
