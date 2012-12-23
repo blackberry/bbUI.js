@@ -729,58 +729,37 @@ bb = {
      * @param screenNumber	the specific screen that should be the top-most on stack; starts at 0!
      */
     popToScreenNumber: function(screenNumber) {
-    	console.log("resetToScreen: ALIVE!, screenNumber: " + screenNumber);
     	
     	// sanity checks
     	if(isNaN(screenNumber)){
-    		console.error("resetToScreen: did not get a numericalScreen number: ");
-    		console.dir(screenNumber);
     		return false;
     	}
     	
     	if(screenNumber >= (bb.screens.length - 1) ){
-    		console.warn("resetToScreen: screen number is higher than total length; cant pop!");
     		// nothing to pop off!
     		return;
     	}
     	
     	// similar functionality to popScreen(), but we don't need to loadScreen() after every pop.
 		var numItems = (bb.screens.length - screenNumber);
-		console.log("resetToScreen: numItems is : " + numItems + " total length is: " + bb.screens.length);
-		
 		
 		for(var i = 0 ; i < numItems ; i++ ){
-	    	console.log("resetToScreen: LOOP i: " + i);
-	    	
-			bb.removeLoadedScripts();
+	    	bb.removeLoadedScripts();
 			bb.clearScrollers();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-
 		}
 		
         // Quirky BrowserField2 bug on BBOS
 		if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
 			window.scroll(0,0);
-
-			console.log("resetToScreen: scrolling to fix small bug");
-
 		}
 
-		
-
-		console.log("resetToScreen: fetching screen #" + screenNumber );
-		
-		
-        // Retrieve the screen we 
+        // Retrieve screen at index screenNumber, display it 
         var display = bb.screens[screenNumber],
             newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
 		
-
-		console.log("resetToScreen: screen #" + screenNumber + " now loaded" );
-		
-
     },
 
     removeLoadedScripts: function() {
