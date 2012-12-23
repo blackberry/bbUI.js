@@ -102,8 +102,8 @@ _bb10_imageList = {
 								img.style['-webkit-perspective'] = 1000;
 								img.style['-webkit-transform'] = 'translate3d(0,0,0)';
 								innerChildNode.imageList = this;
-								// Load our image once onbbuidomready 
-								innerChildNode.onbbuidomready = function() {
+								// Load our image once bbuilistready 
+								innerChildNode.bbuilistready = function() {
 											// Animate its visibility once loaded
 											this.img.onload = function() {
 												this.style.opacity = '1.0';
@@ -116,10 +116,10 @@ _bb10_imageList = {
 													this.src = this.placeholder;
 												};
 											}
-											document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+											document.removeEventListener('bbuilistready', this.bbuilistready,false);
 										};
-								innerChildNode.onbbuidomready = innerChildNode.onbbuidomready.bind(innerChildNode);
-								document.addEventListener('bbuidomready', innerChildNode.onbbuidomready,false);
+								innerChildNode.bbuilistready = innerChildNode.bbuilistready.bind(innerChildNode);
+								document.addEventListener('bbuilistready', innerChildNode.bbuilistready,false);
 							} else {
 								img.src = img.path;
 								// Handle the error scenario
@@ -386,6 +386,10 @@ _bb10_imageList = {
 					this.styleItem(item);
 					this.appendChild(item);
 					this.items.push(item);
+					// Fire our list event
+					var evt = document.createEvent('Events');
+					evt.initEvent('bbuilistready', true, true);
+					document.dispatchEvent(evt);
 					if (bb.scroller) {
 						bb.scroller.refresh();
 					}
@@ -406,7 +410,12 @@ _bb10_imageList = {
 					}
 					// Refresh the 
 					this.innerHTML = '';
-					this.appendChild(innerDiv);					
+					this.appendChild(innerDiv);		
+
+					// Fire our list event
+					var evt = document.createEvent('Events');
+					evt.initEvent('bbuilistready', true, true);
+					document.dispatchEvent(evt);
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			
@@ -415,6 +424,10 @@ _bb10_imageList = {
 					this.styleItem(newItem);
 					this.insertBefore(newItem,existingItem);
 					this.items.splice(this.items.indexOf(existingItem),0,newItem);
+					// Fire our list event
+					var evt = document.createEvent('Events');
+					evt.initEvent('bbuilistready', true, true);
+					document.dispatchEvent(evt);
 					if (bb.scroller) {
 						bb.scroller.refresh();
 					}

@@ -24,12 +24,6 @@ function dataOnTheFly_onScreenReady(element) {
 }
 
 function dataOnTheFly_initialLoad(element) {
-	// I'm just doing a setTimeout to mimic processing some data
-	// in a background worker thread
-	setTimeout(dataOnTheFly_loadAfterTimeout,1000);
-}
-
-function dataOnTheFly_loadAfterTimeout() {
 	var i,
 		listItem, 
 		container, 
@@ -43,11 +37,16 @@ function dataOnTheFly_loadAfterTimeout() {
 		listItem.setAttribute('data-bb-img', 'images/icons/icon11.png');
 		listItem.setAttribute('data-bb-title', 'Title ');
 		listItem.innerHTML = 'My description';
+		listItem.onclick = function() {alert('foo');};
 		items.push(listItem);
 	}
 	// Remove our waiting and refresh the list
 	document.getElementById('waiting').style.display = 'none';
 	dataList.refresh(items);
+	// re-compute the scrolling area
+	if (bb.scroller) {
+		bb.scroller.refresh();
+	}
 }
 
 function dataOnTheFly_addDropDown() {

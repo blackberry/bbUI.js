@@ -549,6 +549,10 @@ bb = {
 			var evt = document.createEvent('Events');
 			evt.initEvent('bbuidomready', true, true);
 			document.dispatchEvent(evt);
+			// Fire our list event
+			evt = document.createEvent('Events');
+			evt.initEvent('bbuilistready', true, true);
+			document.dispatchEvent(evt);
 			// Fire our event
 			bb.options.ondomready(bb.domready.container, bb.domready.id, bb.domready.params);
 			bb.domready.container = null;
