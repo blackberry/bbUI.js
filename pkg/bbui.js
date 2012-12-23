@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.19*/
+/* VERSION: 0.9.6.20*/
 
 bb = {
 	scroller: null,  
@@ -590,6 +590,10 @@ bb = {
 			// Raise an internal event to let the rest of the framework know that the dom is ready
 			var evt = document.createEvent('Events');
 			evt.initEvent('bbuidomready', true, true);
+			document.dispatchEvent(evt);
+			// Fire our list event
+			evt = document.createEvent('Events');
+			evt.initEvent('bbuilistready', true, true);
 			document.dispatchEvent(evt);
 			// Raise an internal event to let the rest of the framework know that the dom has been processed
 			evt = document.createEvent('Events');
