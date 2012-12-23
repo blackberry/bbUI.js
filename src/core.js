@@ -732,7 +732,7 @@ bb = {
     	
     	// sanity checks
     	if(isNaN(screenNumber)){
-    		return false;
+    		return;
     	}
     	
     	if(screenNumber >= (bb.screens.length - 1) ){
@@ -741,7 +741,7 @@ bb = {
     	}
     	
     	// similar functionality to popScreen(), but we don't need to loadScreen() after every pop.
-		var numItems = (bb.screens.length - screenNumber);
+		var numItems = ((bb.screens.length-1) - screenNumber);
 		
 		for(var i = 0 ; i < numItems ; i++ ){
 	    	bb.removeLoadedScripts();
