@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.20*/
+/* VERSION: 0.9.6.21*/
 
 bb = {
 	scroller: null,  
@@ -6387,16 +6387,15 @@ _bb10_toggle = {
 						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
+			/* Add our event listener for the domready to move our selected item.  We want to
+		   do it this way because it will ensure the screen transition animation is finished before
+		   the toggle button move transition happens. This will help for any animation stalls/delays */
+			document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
 		} else {
 			// Use a simple timeout to trigger the animation once inserted into the DOM
 			setTimeout(outerElement.positionButton,0);
 		}
-		
-		/* Add our event listener for the domready to move our selected item.  We want to
-		   do it this way because it will ensure the screen transition animation is finished before
-		   the toggle button move transition happens. This will help for any animation stalls/delays */
-		document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
-		
+
 		// Assign our document event listeners
 		document.addEventListener('touchmove', outerElement.moveToggle, false);
 		document.addEventListener('touchend', outerElement.inner.animateEnd, false);
