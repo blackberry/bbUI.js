@@ -124,8 +124,11 @@ bb.screen = {
 					// Add our indicator
 					indicator.setAttribute('data-bb-type', 'activity-indicator');
 					indicator.setAttribute('data-bb-size', 'large');
-					//indicator.style.margin = '0px auto 0px auto';
-					indicator.style.margin = '60% auto 50% auto';
+					if (bb.getOrientation().toLowerCase() == 'landscape') {
+						indicator.style.margin = '20% auto 0px auto';
+					} else {
+						indicator.style.margin = '60% auto 0px auto';
+					}
 					overlay.appendChild(indicator);
 					
 					// Create our event handler for when the dom is ready
@@ -133,6 +136,9 @@ bb.screen = {
 								this.scrollArea.style.display = '';
 								this.removeChild(this.overlay);
 								document.removeEventListener('bbuidomprocessed', this.bbuidomprocessed,false);
+								if (bb.device.isPlayBook && bb.scroller) {
+									bb.scroller.refresh();
+								}
 							};
 					outerScrollArea.bbuidomprocessed = outerScrollArea.bbuidomprocessed.bind(outerScrollArea);
 					
