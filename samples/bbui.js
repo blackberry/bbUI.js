@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.25*/
+/* VERSION: 0.9.6.26*/
 
 bb = {
 	scroller: null,  
@@ -4318,8 +4318,15 @@ _bb10_dropdown = {
 		// Assign our setCaption function
 		select.setCaption = function(value){ 
 				this.dropdown.labelElement.innerHTML = value;
+				this.setAttribute('data-bb-label',value);
 			};
 		select.setCaption = select.setCaption.bind(select);
+		
+		// Assign our setCaption function
+		select.getCaption = function(){ 
+				return this.dropdown.labelElement.innerHTML;
+			};
+		select.getCaption = select.getCaption.bind(select);
 		
 		// Need to return the dropdown instead of the select for dynamic styling
 		return dropdown;

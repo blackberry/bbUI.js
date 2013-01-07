@@ -16,6 +16,7 @@ Below you will find all the different changes that have been added since the fir
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 	* **Action Bar:** Added show(), hide() functions
+	* **DropDown:** Added getCaption() 
 * Samples
 	* Created dedicated sample page for Pill Button JavaScript interfaces
 * Noteable Bug Fixes: 
