@@ -6,12 +6,12 @@ _bb_progress = {
 	
 	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
-			bb.progress.style(elements[i]);
+			bb.progress.style(elements[i], true);
 		}
 	},
 	
 	// Style individual item
-	style: function(progress) {
+	style: function(progress, offdom) {
 		var res,
 			color,
 			highlightColor,
@@ -100,7 +100,7 @@ _bb_progress = {
 						
 						// Determine width by percentage
 						xpos = Math.floor(parseInt(window.getComputedStyle(this.outerElement.outer).width) * percent);
-						this.outerElement.fill.style.width = xpos + 'px';
+						this.outerElement.fill.style.width = xpos + 'px';						
 					};
 		progress.setValue = progress.setValue.bind(progress);
 		
@@ -139,14 +139,24 @@ _bb_progress = {
 					this.outerElement.maxValue = value;
 				};
 		progress.setMax = progress.setMax.bind(progress);
-	
-		// Set our value on a timeout so that it can calculate width once in the DOM
-		window.setTimeout(progress.setValue, 0);
+		
+		if (offdom) {
+			// Load our image once onbbuidomready 
+			progress.onbbuidomready = function() {
+						this.setValue();
+						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+					};
+			progress.onbbuidomready = progress.onbbuidomready.bind(progress);
+			document.addEventListener('bbuidomready', progress.onbbuidomready,false);
+		} else {
+			window.setTimeout(progress.setValue, 0);
+		}
+		
+		// Re-calculate on orientation change
 		outerElement.doOrientationChange = function() {
 							window.setTimeout(this.progress.setValue, 0);
 						};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
-		// Assign our document event listeners
 		window.addEventListener('resize', outerElement.doOrientationChange,false); 
 		
 		return outerElement;
