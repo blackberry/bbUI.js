@@ -179,7 +179,7 @@ bb = {
 			blackberry.event.addEventListener('keyboardOpened', function() {
 				if (bb.screen.currentScreen.actionBar) {
 					if (bb.screen.focusedInput) {
-						bb.screen.currentScreen.scrollToElement(bb.screen.focusedInput);
+						bb.screen.focusedInput.scrollIntoView(false);
 					}
 				} 
 			});

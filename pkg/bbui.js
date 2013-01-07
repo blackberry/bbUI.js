@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.23*/
+/* VERSION: 0.9.6.24*/
 
 bb = {
 	scroller: null,  
@@ -197,7 +197,7 @@ bb = {
 			blackberry.event.addEventListener('keyboardOpened', function() {
 				if (bb.screen.currentScreen.actionBar) {
 					if (bb.screen.focusedInput) {
-						bb.screen.currentScreen.scrollToElement(bb.screen.focusedInput);
+						bb.screen.focusedInput.scrollIntoView(false);
 					}
 				} 
 			});
@@ -2721,7 +2721,7 @@ bb.screen = {
 							offsetTop -= bb.screen.currentScreen.titleBarHeight;
 						}
 						// Adjust for action bar
-						if (bb.screen.currentScreen.titleBar) {
+						if (bb.screen.currentScreen.actionBar) {
 							offsetTop -= bb.screen.currentScreen.actionBarHeight;
 						}
 						this.scrollTo(offsetTop);

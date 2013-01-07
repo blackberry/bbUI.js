@@ -311,7 +311,7 @@ bb.screen = {
 							offsetTop -= bb.screen.currentScreen.titleBarHeight;
 						}
 						// Adjust for action bar
-						if (bb.screen.currentScreen.titleBar) {
+						if (bb.screen.currentScreen.actionBar) {
 							offsetTop -= bb.screen.currentScreen.actionBarHeight;
 						}
 						this.scrollTo(offsetTop);
