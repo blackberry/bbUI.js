@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.21*/
+/* VERSION: 0.9.6.22*/
 
 body, html {
 	padding:0;
@@ -384,14 +384,14 @@ body, html {
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
-    box-shadow: 0px 0px 0.2em #030303;
+   /* box-shadow: 0px 0px 0.2em #030303;*/
 }
 
 .bb-bb10-slider-hires .bb-bb10-slider-indicator-light
 {
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DFDFDF 100%);
 	border: 1px solid #BFBFBF;
-    box-shadow: 0px 0px 0.2em #030303;
+  /*  box-shadow: 0px 0px 0.2em #030303;*/
 }
 
 .bb-bb10-slider-hires .indicator-hover-dark   {
@@ -656,7 +656,7 @@ body, html {
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
-    box-shadow: 0px 0px 0.2em #030303;
+   /* box-shadow: 0px 0px 0.2em #030303;*/
 }
 
 .bb-bb10-toggle-hires .bb-bb10-toggle-indicator-disabled-dark
@@ -669,7 +669,7 @@ body, html {
 {
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DFDFDF 100%);
 	border: 1px solid #BFBFBF;
-    box-shadow: 0px 0px 0.2em #030303;
+  /*  box-shadow: 0px 0px 0.2em #030303;*/
 }
 
 .bb-bb10-toggle-hires .bb-bb10-toggle-indicator-disabled-light
@@ -5325,5 +5325,6 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
