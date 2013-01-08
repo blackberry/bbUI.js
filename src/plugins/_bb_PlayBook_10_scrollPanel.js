@@ -18,7 +18,7 @@ _bb_PlayBook_10_scrollPanel = {
 				tempHolder.push(outerElement.childNodes[j]);
 			}
 			// Add them into the scrollable area
-			for (j = 0; j < tempHolder.length -1; j++) {
+			for (j = 0; j < tempHolder.length; j++) {
 				scrollArea.appendChild(tempHolder[j]);
 			}
 			

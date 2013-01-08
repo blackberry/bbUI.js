@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.27*/
+/* VERSION: 0.9.6.28*/
 
 bb = {
 	scroller: null,  
@@ -2499,7 +2499,7 @@ bb.screen = {
 					}
 				}
 				// Add them into the scrollable area
-				for (j = 0; j < tempHolder.length -1; j++) {
+				for (j = 0; j < tempHolder.length; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
 				
@@ -2654,7 +2654,7 @@ bb.screen = {
 					}
 				}
 				// Add them into the scrollable area
-				for (j = 0; j < tempHolder.length -1; j++) {
+				for (j = 0; j < tempHolder.length; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
                    
@@ -8418,7 +8418,7 @@ _bb_PlayBook_10_scrollPanel = {
 				tempHolder.push(outerElement.childNodes[j]);
 			}
 			// Add them into the scrollable area
-			for (j = 0; j < tempHolder.length -1; j++) {
+			for (j = 0; j < tempHolder.length; j++) {
 				scrollArea.appendChild(tempHolder[j]);
 			}
 			
@@ -8499,4 +8499,3 @@ _bb_PlayBook_10_scrollPanel = {
 	}
 	
 };
-
