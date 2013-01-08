@@ -109,7 +109,7 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 [BBMBubbles](https://github.com/blackberry/bbUI.js/wiki/BBM-Bubbles) &nbsp;&nbsp; [Button](https://github.com/blackberry/bbUI.js/wiki/Buttons)
  &nbsp;&nbsp; [Checkbox](https://github.com/blackberry/bbUI.js/wiki/Checkboxes) &nbsp;&nbsp; [ControlGroup](https://github.com/blackberry/bbUI.js/wiki/Control-Groups) &nbsp;&nbsp; [DropDown](https://github.com/blackberry/bbUI.js/wiki/DropDowns) &nbsp;&nbsp; [ImageList](https://github.com/blackberry/bbUI.js/wiki/Image-List)
- &nbsp;&nbsp; [LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
+ &nbsp;&nbsp; [Inputs](https://github.com/blackberry/bbUI.js/wiki/Inputs) &nbsp;&nbsp;[LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
  &nbsp;&nbsp; [ProgressIndicator](https://github.com/blackberry/bbUI.js/wiki/Progress-Indicator) &nbsp;&nbsp; [RadioButtons](https://github.com/blackberry/bbUI.js/wiki/Radio-Buttons) &nbsp;&nbsp;[ScreenMenu](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus) 
  &nbsp;&nbsp; [ScrollPanel](https://github.com/blackberry/bbUI.js/wiki/Scroll-Panel) &nbsp;&nbsp; [Slider](https://github.com/blackberry/bbUI.js/wiki/Sliders) &nbsp;&nbsp; [Title Bars](https://github.com/blackberry/bbUI.js/wiki/Title-Bars) &nbsp;&nbsp; [ToggleButton](https://github.com/blackberry/bbUI.js/wiki/Toggle-Buttons)
 

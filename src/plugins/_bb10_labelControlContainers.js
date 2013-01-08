@@ -42,9 +42,11 @@ _bb10_labelControlContainers = {
 					table.appendChild(tr);
 					tdControl = document.createElement('td');
 					tr.appendChild(tdControl);
-					control = row.querySelectorAll('[data-bb-type=button],input,[data-bb-type=dropdown],textarea')[0];
-					row.removeChild(control);
-					tdControl.appendChild(control);
+					control = row.querySelectorAll('[data-bb-type=button],[data-bb-type=input],[data-bb-type=dropdown],textarea,input[type=file]')[0];
+					if (control) {
+						row.removeChild(control);
+						tdControl.appendChild(control);
+					}
 					outerElement.removeChild(row);
 				}
 			}

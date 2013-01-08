@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.26*/
+/* VERSION: 0.9.6.27*/
 
 bb = {
 	scroller: null,  
@@ -197,7 +197,11 @@ bb = {
 			blackberry.event.addEventListener('keyboardOpened', function() {
 				if (bb.screen.currentScreen.actionBar) {
 					if (bb.screen.focusedInput) {
-						bb.screen.focusedInput.scrollIntoView(false);
+						if (bb.screen.focusedInput.container) {
+							bb.screen.focusedInput.container.scrollIntoView(false);
+						} else {
+							bb.screen.focusedInput.scrollIntoView(false);
+						}
 					}
 				} 
 			});
@@ -5240,9 +5244,11 @@ _bb10_labelControlContainers = {
 					table.appendChild(tr);
 					tdControl = document.createElement('td');
 					tr.appendChild(tdControl);
-					control = row.querySelectorAll('[data-bb-type=button],input,[data-bb-type=dropdown],textarea')[0];
-					row.removeChild(control);
-					tdControl.appendChild(control);
+					control = row.querySelectorAll('[data-bb-type=button],[data-bb-type=input],[data-bb-type=dropdown],textarea,input[type=file]')[0];
+					if (control) {
+						row.removeChild(control);
+						tdControl.appendChild(control);
+					}
 					outerElement.removeChild(row);
 				}
 			}
@@ -6052,61 +6058,134 @@ _bb10_slider = {
 };
 _bb10_textInput = { 
     apply: function(elements) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			i,
-			outerElement,
-			css;
-			
-		for (i = 0; i < elements.length; i++) {
-			outerElement = elements[i];
-			css = '';
-			// Keep the developers existing styling
-			if (outerElement.hasAttribute('class')) {
-				css = outerElement.getAttribute('class');
-			}
-		  
-			outerElement.normal = css + ' bb-bb10-input bb-bb10-input-'+res;
-			outerElement.focused = css + ' bb-bb10-input-focused bb-bb10-input-focused-'+res+' bb-bb10-input-'+res;
-			outerElement.setAttribute('class', outerElement.normal);
-			outerElement.isFocused = false;
-			outerElement.clickCount = 0;
-			outerElement.addEventListener('focus', function() {
-														if(this.readOnly == false) {
-															this.setAttribute('class',this.focused);
-															this.style['border-color'] = bb.options.highlightColor;
-															this.isFocused = true;
-															this.clickCount = 0;
-															bb.screen.focusedInput = this;
-															}
-													}, false);
-													
-			outerElement.addEventListener('blur', function() {
-														this.setAttribute('class',this.normal);	
-														this.style['border-color'] = '';
-														this.isFocused = false;
-														bb.screen.focusedInput = null;
-														this.removeEventListener('click',outerElement.handleDeleteClick , false);
-													}, false);
-													
-			outerElement.addEventListener('click',function (event) {
-												// Don't handle the first click which is the focus
-												if (this.clickCount == 0) {
-													this.clickCount++;
-													return;
-												}
-												if (event.target == this && this.isFocused) {
-													var deleteClicked = false;
-													if (bb.device.isPlayBook && event.clientX > (this.clientWidth - 40) && this.readOnly == false) {
-														deleteClicked = true;
-													} else if(event.clientX > (this.clientWidth - 45) && this.readOnly == false){
-														deleteClicked = true;
-													}
-													if (deleteClicked) {
-														this.value = '';
-													}
-												}
-											} , false);
+		for (var i = 0; i < elements.length; i++) {
+			bb.textInput.style(elements[i]);
 		}
+	},
+	
+	style: function(outerElement) {
+		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+			css = '',
+			container = document.createElement('div');
+		// Keep the developers existing styling
+		if (outerElement.hasAttribute('class')) {
+			css = outerElement.getAttribute('class');
+		}
+	  
+		// Insert the input inside the new div
+		if (outerElement.parentNode) {
+			outerElement.parentNode.insertBefore(container, outerElement);
+		}
+		container.appendChild(outerElement);
+		container.input = outerElement;
+		container.setAttribute('data-bb-type','input');
+		container.normal = 'bb-bb10-input-container bb-bb10-input-container-'+ res;
+		
+		// Set our input styling
+		outerElement.normal = css + ' bb-bb10-input bb-bb10-input-'+res;
+		outerElement.focused = css + ' bb-bb10-input bb-bb10-input-focused-'+res;
+		if (outerElement.disabled) {
+			outerElement.setAttribute('class', outerElement.normal + ' bb-bb10-input-disabled');
+		} else {
+			outerElement.setAttribute('class', outerElement.normal);
+		}
+		outerElement.isFocused = false;
+		outerElement.clickCount = 0;
+		outerElement.container = container;
+		outerElement.clearBtn = outerElement.getAttribute('data-bb-clear') != 'none';
+		
+		// Don't show the clear button on some input types
+		if (outerElement.type) {
+			var type = outerElement.type.toLowerCase();
+			if ((type == 'date') || (type == 'time') || (type == 'datetime') || (type == 'month') || (type == 'datetime-local') || (type == 'color') || (type == 'search')) {
+				outerElement.clearBtn = false;
+			}
+		}
+		
+		// Set our container class
+		if (outerElement.disabled) {
+			container.setAttribute('class',container.normal + ' bb-bb10-input-container-disabled');
+		} else {
+			container.setAttribute('class',container.normal);
+		}
+		
+		outerElement.doFocus = function() {
+								if(this.readOnly == false) {
+									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-focused-'+res);
+									if (this.clearBtn) {
+										this.setAttribute('class',this.focused);
+									}
+									this.container.style['border-color'] = bb.options.highlightColor;
+									this.isFocused = true;
+									this.clickCount = 0;
+									bb.screen.focusedInput = this;
+								}
+							};
+		outerElement.doFocus = outerElement.doFocus.bind(outerElement);
+		outerElement.addEventListener('focus', outerElement.doFocus, false);
+			
+		outerElement.doBlur = function() {
+								this.container.setAttribute('class',this.container.normal);	
+								if (this.clearBtn) {
+									this.setAttribute('class',this.normal);
+								}
+								this.container.style['border-color'] = '';
+								this.isFocused = false;
+								bb.screen.focusedInput = null;
+							};
+		outerElement.doBlur = outerElement.doBlur.bind(outerElement);	
+		outerElement.addEventListener('blur', outerElement.doBlur, false);
+		
+		// Add the clear button handler
+		if (outerElement.clearBtn) {
+			outerElement.container.ontouchstart = function(event) {
+									if (event.target == this) {
+										event.preventDefault();
+										event.stopPropagation();
+										this.input.value = '';
+									}
+								};
+		}
+
+		// Add our Show funtion
+		outerElement.show = function() {
+					this.container.style.display = '';
+				};
+		outerElement.show = outerElement.show.bind(outerElement);	
+		
+		// Add our hide funtion
+		outerElement.hide = function() {
+					this.container.style.display = 'none';
+				};
+		outerElement.hide = outerElement.hide.bind(outerElement);
+		
+		// Add our remove funtion
+		outerElement.remove = function() {
+					if (this.container.parentNode) {
+						this.container.parentNode.removeChild(this.container);
+					}
+				};
+		outerElement.remove = outerElement.remove.bind(outerElement);
+		
+		// Add our enable funtion
+		outerElement.enable = function() {
+					if (!this.disabled) return;
+					this.disabled = false;
+					this.container.setAttribute('class',this.container.normal);
+					this.setAttribute('class', this.normal);
+				};
+		outerElement.enable = outerElement.enable.bind(outerElement);
+		
+		// Add our disable funtion
+		outerElement.disable = function() {
+					if (this.disabled) return;
+					this.disabled = true;
+					this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-disabled');
+					this.setAttribute('class', this.normal + ' bb-bb10-input-disabled');
+				};
+		outerElement.disable = outerElement.disable.bind(outerElement);
+		
+		return container;
     }
 };
 _bb10_toggle = {
