@@ -50,8 +50,6 @@ _bb_bbmBubble = {
                         '<div class="details">'+ description +'</div>\n';
                 insidePanel.appendChild(innerChildNode);
             }
-
-            return outerElement;
         }
         
         // Add our get Style function
@@ -94,5 +92,7 @@ _bb_bbmBubble = {
             bb.refresh();
         };
         outerElement.remove = outerElement.remove.bind(outerElement);
+        
+        return outerElement;
     }
 };
