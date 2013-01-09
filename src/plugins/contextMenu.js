@@ -338,7 +338,6 @@ bb.contextMenu = {
 										} else {
 											this.style['background-color'] = '';
 										}
-										e.stopPropagation();
 									}
 				action.addEventListener("click", this.hide, false);
 				

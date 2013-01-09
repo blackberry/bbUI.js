@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.31*/
+/* VERSION: 0.9.6.32*/
 
 bb = {
 	scroller: null,  
@@ -1965,7 +1965,6 @@ bb.contextMenu = {
 										} else {
 											this.style['background-color'] = '';
 										}
-										e.stopPropagation();
 									}
 				action.addEventListener("click", this.hide, false);
 				
