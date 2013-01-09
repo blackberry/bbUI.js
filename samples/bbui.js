@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.30*/
+/* VERSION: 0.9.6.31*/
 
 bb = {
 	scroller: null,  
@@ -637,10 +637,20 @@ bb = {
 						bb.options.screen.onBeforeScrollStart(e);
 					}*/
 				},
+				onScrollEnd: function(e) {
+					// Raise an internal event to let the rest of the framework know that content is scrolling
+					evt = document.createEvent('Events');
+					evt.initEvent('bbuiscrolling', true, true);
+					document.dispatchEvent(evt);
+				},
 				onScrollMove: function(e) {
 					if (screen.onscroll) {
 						screen.onscroll(e);
 					}
+					// Raise an internal event to let the rest of the framework know that content is scrolling
+					evt = document.createEvent('Events');
+					evt.initEvent('bbuiscrolling', true, true);
+					document.dispatchEvent(evt);
 				}};
 				// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
 				/*if (bb.options.screen) {
@@ -851,6 +861,30 @@ bb = {
 		if (bb.scroller) {
 			bb.scroller.refresh();
 		}
+	},
+	
+	isScrolledIntoView : function(element) {
+		var offsetTop = 0,
+			target = element;
+		if (target.offsetParent) {
+			do {
+				offsetTop  += target.offsetTop;
+				if (target.scrollTop) {
+					offsetTop -= target.scrollTop;
+				}
+				// PlayBook calculation
+				if (bb.device.isPlayBook) {
+					if (target.scroller) {
+						offsetTop += target.scroller.y;
+					} else if (target.bbUIscrollWrapper) {
+						
+						offsetTop += bb.scroller.y;
+						//alert('here');
+					}
+				}
+			} while (target = target.offsetParent);
+		}
+		return offsetTop < bb.innerHeight();
 	}
 };
 
@@ -2509,6 +2543,14 @@ bb.screen = {
 				outerElement.titleBarHeight = titleBarHeight;
 				outerElement.outerScrollArea = outerScrollArea;
 				
+				// Raise an internal event to let the rest of the framework know that content is scrolling
+				outerScrollArea.addEventListener('scroll', function() {
+						
+						evt = document.createEvent('Events');
+						evt.initEvent('bbuiscrolling', true, true);
+						document.dispatchEvent(evt);
+					},false);
+
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
 					var overlay = document.createElement('div'),
@@ -4381,8 +4423,6 @@ _bb10_grid = {
 			solidHeader = false,
 			headerJustify;
 			
-		
-		
 		// Apply our transforms to all grids
 		for (var i = 0; i < elements.length; i++) {
 			var j,
@@ -4538,15 +4578,33 @@ _bb10_grid = {
 							
 							// Load our image once onbbuidomready 
 							itemNode.onbbuidomready = function() {
-										// Animate its visibility once loaded
-										this.image.onload = function() {
-											this.style.opacity = '1.0';
+										if (bb.isScrolledIntoView(this)) {
+											// Animate its visibility once loaded
+											this.image.onload = function() {
+												this.style.opacity = '1.0';
+											}
+											this.image.src = this.getAttribute('data-bb-img');
+										} else {
+											console.log('else');
+											document.addEventListener('bbuiscrolling', this.onbbuiscrolling,false);
 										}
-										this.image.src = this.getAttribute('data-bb-img');
 										document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 									};
 							itemNode.onbbuidomready = itemNode.onbbuidomready.bind(itemNode);
 							document.addEventListener('bbuidomready', itemNode.onbbuidomready,false);
+							
+							// Only have the image appear when it scrolls into view
+							itemNode.onbbuiscrolling = function() {
+										if (bb.isScrolledIntoView(this)) {
+											// Animate its visibility once loaded
+											this.image.onload = function() {
+												this.style.opacity = '1.0';
+											}
+											this.image.src = this.getAttribute('data-bb-img');
+											document.removeEventListener('bbuiscrolling', this.onbbuiscrolling,false);
+										} 
+									};
+							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);	
 							
 							// Create our translucent overlay
 							if (hasOverlay) {
@@ -8436,15 +8494,31 @@ _bb_PlayBook_10_scrollPanel = {
 											bb.scroller.enable();
 										}
 									},
+									onScrollEnd : function(e) {
+										// Raise an internal event to let the rest of the framework know that content is scrolling
+										evt = document.createEvent('Events');
+										evt.initEvent('bbuiscrolling', true, true);
+										document.dispatchEvent(evt);
+									},
 									onScrollMove: function(e) {
 										if (outerElement.onscroll) {
 											outerElement.onscroll(e);
 										}
+										// Raise an internal event to let the rest of the framework know that content is scrolling
+										evt = document.createEvent('Events');
+										evt.initEvent('bbuiscrolling', true, true);
+										document.dispatchEvent(evt);
 									}
 									});
 			} else {
 				outerElement.scroller = null;
 				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+				outerElement.addEventListener('scroll', function() {
+						// Raise an internal event to let the rest of the framework know that content is scrolling
+						evt = document.createEvent('Events');
+						evt.initEvent('bbuiscrolling', true, true);
+						document.dispatchEvent(evt);
+					},false);
 			}
 			
 			// Add show function
@@ -8491,7 +8565,14 @@ _bb_PlayBook_10_scrollPanel = {
 						this.scroller.scrollToElement(element);
 					} else {
 						if (!element) return;
-						this.scrollTo(element.offsetTop,0);
+						var offsetTop = 0,
+							target = element;
+						if (target.offsetParent) {
+							do {
+								offsetTop  += target.offsetTop;
+							} while (target = target.offsetParent);
+						}
+						this.scrollTo(offsetTop,0);
 					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);

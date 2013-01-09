@@ -619,10 +619,20 @@ bb = {
 						bb.options.screen.onBeforeScrollStart(e);
 					}*/
 				},
+				onScrollEnd: function(e) {
+					// Raise an internal event to let the rest of the framework know that content is scrolling
+					evt = document.createEvent('Events');
+					evt.initEvent('bbuiscrolling', true, true);
+					document.dispatchEvent(evt);
+				},
 				onScrollMove: function(e) {
 					if (screen.onscroll) {
 						screen.onscroll(e);
 					}
+					// Raise an internal event to let the rest of the framework know that content is scrolling
+					evt = document.createEvent('Events');
+					evt.initEvent('bbuiscrolling', true, true);
+					document.dispatchEvent(evt);
 				}};
 				// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
 				/*if (bb.options.screen) {
@@ -833,6 +843,30 @@ bb = {
 		if (bb.scroller) {
 			bb.scroller.refresh();
 		}
+	},
+	
+	isScrolledIntoView : function(element) {
+		var offsetTop = 0,
+			target = element;
+		if (target.offsetParent) {
+			do {
+				offsetTop  += target.offsetTop;
+				if (target.scrollTop) {
+					offsetTop -= target.scrollTop;
+				}
+				// PlayBook calculation
+				if (bb.device.isPlayBook) {
+					if (target.scroller) {
+						offsetTop += target.scroller.y;
+					} else if (target.bbUIscrollWrapper) {
+						
+						offsetTop += bb.scroller.y;
+						//alert('here');
+					}
+				}
+			} while (target = target.offsetParent);
+		}
+		return offsetTop < bb.innerHeight();
 	}
 };
 

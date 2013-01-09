@@ -94,6 +94,14 @@ bb.screen = {
 				outerElement.titleBarHeight = titleBarHeight;
 				outerElement.outerScrollArea = outerScrollArea;
 				
+				// Raise an internal event to let the rest of the framework know that content is scrolling
+				outerScrollArea.addEventListener('scroll', function() {
+						
+						evt = document.createEvent('Events');
+						evt.initEvent('bbuiscrolling', true, true);
+						document.dispatchEvent(evt);
+					},false);
+
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
 					var overlay = document.createElement('div'),

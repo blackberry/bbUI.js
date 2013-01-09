@@ -20,6 +20,7 @@ Below you will find all the different changes that have been added since the fir
 	* Input field styling updates (fonts and control behaviour)
 	* Label/Control container title font size updated
 	* Updated the clear button on input fields
+	* Grid lists now load their images as the user scrolls items into view
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 	* **Action Bar:** Added show(), hide() functions

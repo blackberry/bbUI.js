@@ -4,8 +4,6 @@ _bb10_grid = {
 			solidHeader = false,
 			headerJustify;
 			
-		
-		
 		// Apply our transforms to all grids
 		for (var i = 0; i < elements.length; i++) {
 			var j,
@@ -161,15 +159,33 @@ _bb10_grid = {
 							
 							// Load our image once onbbuidomready 
 							itemNode.onbbuidomready = function() {
-										// Animate its visibility once loaded
-										this.image.onload = function() {
-											this.style.opacity = '1.0';
+										if (bb.isScrolledIntoView(this)) {
+											// Animate its visibility once loaded
+											this.image.onload = function() {
+												this.style.opacity = '1.0';
+											}
+											this.image.src = this.getAttribute('data-bb-img');
+										} else {
+											console.log('else');
+											document.addEventListener('bbuiscrolling', this.onbbuiscrolling,false);
 										}
-										this.image.src = this.getAttribute('data-bb-img');
 										document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 									};
 							itemNode.onbbuidomready = itemNode.onbbuidomready.bind(itemNode);
 							document.addEventListener('bbuidomready', itemNode.onbbuidomready,false);
+							
+							// Only have the image appear when it scrolls into view
+							itemNode.onbbuiscrolling = function() {
+										if (bb.isScrolledIntoView(this)) {
+											// Animate its visibility once loaded
+											this.image.onload = function() {
+												this.style.opacity = '1.0';
+											}
+											this.image.src = this.getAttribute('data-bb-img');
+											document.removeEventListener('bbuiscrolling', this.onbbuiscrolling,false);
+										} 
+									};
+							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);	
 							
 							// Create our translucent overlay
 							if (hasOverlay) {

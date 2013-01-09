@@ -35,15 +35,31 @@ _bb_PlayBook_10_scrollPanel = {
 											bb.scroller.enable();
 										}
 									},
+									onScrollEnd : function(e) {
+										// Raise an internal event to let the rest of the framework know that content is scrolling
+										evt = document.createEvent('Events');
+										evt.initEvent('bbuiscrolling', true, true);
+										document.dispatchEvent(evt);
+									},
 									onScrollMove: function(e) {
 										if (outerElement.onscroll) {
 											outerElement.onscroll(e);
 										}
+										// Raise an internal event to let the rest of the framework know that content is scrolling
+										evt = document.createEvent('Events');
+										evt.initEvent('bbuiscrolling', true, true);
+										document.dispatchEvent(evt);
 									}
 									});
 			} else {
 				outerElement.scroller = null;
 				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
+				outerElement.addEventListener('scroll', function() {
+						// Raise an internal event to let the rest of the framework know that content is scrolling
+						evt = document.createEvent('Events');
+						evt.initEvent('bbuiscrolling', true, true);
+						document.dispatchEvent(evt);
+					},false);
 			}
 			
 			// Add show function
@@ -90,7 +106,14 @@ _bb_PlayBook_10_scrollPanel = {
 						this.scroller.scrollToElement(element);
 					} else {
 						if (!element) return;
-						this.scrollTo(element.offsetTop,0);
+						var offsetTop = 0,
+							target = element;
+						if (target.offsetParent) {
+							do {
+								offsetTop  += target.offsetTop;
+							} while (target = target.offsetParent);
+						}
+						this.scrollTo(offsetTop,0);
 					}
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
