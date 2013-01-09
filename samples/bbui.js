@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.32*/
+/* VERSION: 0.9.6.33*/
 
 bb = {
 	scroller: null,  
@@ -4233,6 +4233,9 @@ _bb10_dropdown = {
 								if (bb.scroller) {
 									bb.scroller.refresh();
 								}
+								// Scroll the dropdown into view if it's bottom is off the screen
+								this.scrollIntoView(false);
+								
 							};
 		dropdown.internalShow = dropdown.internalShow.bind(dropdown);
 		// Collapse the combo-box
