@@ -34,6 +34,7 @@ Below you will find all the different changes that have been added since the fir
 	* Action bar is now hidden when the virtual keyboard shows
 	* The screen's scrollToElement() function has now been fixed
 	* Clear button on input fields no longer gets in the way of long text in the field
+	* Wrapping of back caption on action bars is now fixed
 	
 ## Version 0.9.5
 

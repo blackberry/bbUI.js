@@ -4808,6 +4808,9 @@ a.bb5-button-highlight span {
 	position:relative;
 	height: 25px;
 	top: 61px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-action-bar-back-text-lowres
@@ -4815,6 +4818,9 @@ a.bb5-button-highlight span {
 	position:relative;
 	height: 20px;
 	top: 25px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-action-bar-back-button-hires-dark 
