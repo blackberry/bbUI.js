@@ -1,10 +1,17 @@
 _bb10_imageList = {  
     apply: function(elements) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+		var res = '1280x768-1280x720',
 			i,j,
 			outerElement,
 			items;
 	
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
 		// Apply our transforms to all Image Lists
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -260,13 +267,26 @@ _bb10_imageList = {
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
-							// Center the title if no description is given
-							title.style['margin-top'] = (bb.device.isPlayBook) ? '16px' : '-7px';
-							// Adjust highlight overlay
-							overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-72px' : '-121px';
+							// Adjust margins
+							if (bb.device.is1024x600) {
+								title.style['margin-top'] = '16px';
+								overlay.style['margin-top'] = '-72px';
+							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+								title.style['margin-top'] = '-7px';
+								overlay.style['margin-top'] = '-121px';
+							} else {
+								title.style['margin-top'] = '-7px';
+								overlay.style['margin-top'] = '-121px';
+							}
 							// Adjust accent text
 							if (accentText) {
-								accentText.style['margin-top'] = (bb.device.isPlayBook) ? '-52px' : '-82px';
+								if (bb.device.is1024x600) {
+									accentText.style['margin-top'] = '-52px';
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									accentText.style['margin-top'] = '-82px';
+								} else {
+									accentText.style['margin-top'] = '-82px';
+								}
 							}
 						}
 						descriptionDiv.innerHTML = description;
