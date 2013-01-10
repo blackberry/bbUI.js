@@ -12,21 +12,18 @@ _bb_progress = {
 	
 	// Style individual item
 	style: function(progress, offdom) {
-		var res,
-			color,
+		var color,
 			highlightColor,
 			accentColor,
 			NORMAL = 0,
 			PAUSED = 1,
 			ERROR = 2;
-			
+
 		if (bb.device.isBB10) {
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
 			color = bb.screen.controlColor;
 			highlightColor = bb.options.highlightColor;
 			accentColor = bb.options.shades.darkHighlight;
 		} else {
-			res = 'lowres';
 			color = 'light';
 			highlightColor = (bb.device.isPlayBook) ? bb.options.highlightColor : '#92B43B';
 			accentColor = '#8FB03B';
