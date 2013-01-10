@@ -813,7 +813,25 @@ body, html {
 /* ================================================= 
    BB10 Swipe Menu
    =================================================*/
-.bb-bb10-menu-bar-lowres {
+
+ .bb-bb10-menu-bar-dark
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
+	border-bottom-color: #626262;
+	color: white;
+}
+
+.bb-bb10-menu-bar-light
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#FAFAFA), to(#E0E0E0));
+	border-bottom-color: #CFCFCF;
+	color: black;
+}
+   
+/* ================================================= 
+   BB10 Swipe Menu 1024x600
+   =================================================*/
+.bb-bb10-menu-bar-1024x600 {
 	position: fixed;
 	left: 0px;
 	width: 100%;
@@ -827,9 +845,34 @@ body, html {
 	height: 100px;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
-}   
+}  
 
-.bb-bb10-menu-bar-hires {
+.bb-bb10-menu-bar-item-caption-1024x600
+{
+	font-size: 16pt;
+	padding-top: 10px;
+}
+
+.bb-bb10-menu-bar-item-1024x600 img 
+{
+	height: 40px;
+	width: 40px;
+	margin-top: 15px;
+}
+
+.bb-bb10-menu-bar-item-1024x600 
+{
+	text-align: center;
+	cursor: pointer;
+	float: left;
+	height: 88px;	
+}
+
+ /* ================================================= 
+   BB10 Swipe Menu 1280x768 and 1280x720
+   =================================================*/
+
+.bb-bb10-menu-bar-1280x768-1280x720 {
 	position: fixed;
 	left: 0px;
 	width: 100%;
@@ -845,21 +888,7 @@ body, html {
 	border-bottom-width: 2px;
 }   
 
-.bb-bb10-menu-bar-dark
-{
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
-	border-bottom-color: #626262;
-	color: white;
-}
-
-.bb-bb10-menu-bar-light
-{
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#FAFAFA), to(#E0E0E0));
-	border-bottom-color: #CFCFCF;
-	color: black;
-}
-
-.bb-bb10-menu-bar-item-lowres 
+.bb-bb10-menu-bar-item-1280x768-1280x720 
 {
 	text-align: center;
 	cursor: pointer;
@@ -867,35 +896,14 @@ body, html {
 	height: 88px;	
 }
 
-.bb-bb10-menu-bar-item-hires 
-{
-	text-align: center;
-	cursor: pointer;
-	float: left;
-	height: 88px;	
-}
-
-.bb-bb10-menu-bar-item-lowres img 
-{
-	height: 40px;
-	width: 40px;
-	margin-top: 15px;
-}
-
-.bb-bb10-menu-bar-item-hires img 
+.bb-bb10-menu-bar-item-1280x768-1280x720 img 
 {
 	height: 80px;
 	width: 80px;
 	margin-top: 10px;
 }
 
-.bb-bb10-menu-bar-item-caption-lowres
-{
-	font-size: 16pt;
-	padding-top: 10px;
-}
-
-.bb-bb10-menu-bar-item-caption-hires
+.bb-bb10-menu-bar-item-caption-1280x768-1280x720
 {
 	font-size: 20pt;
 	padding-top: 10px;

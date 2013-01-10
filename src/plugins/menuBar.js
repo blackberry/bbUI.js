@@ -54,7 +54,7 @@ bb.menuBar = {
 		// Get our resolution text for BB10 styling			
 		if (bb.device.isBB10) {
 			var bb10Menu = document.createElement('div'),
-				res,
+				res = '1280x768-1280x720',
 				i,
 				type,
 				item,
@@ -66,11 +66,12 @@ bb.menuBar = {
 				width,
 				bb10MenuItem;
 				
-			if (bb.device.isPlayBook) {
-				res = 'lowres';
+			// Set our 'res' for known resolutions, otherwise use the default
+			if (bb.device.is1024x600) {
+				res = '1024x600';
 				bb.menuBar.height = 100;
-			} else {
-				res = 'hires';
+			} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+				res = '1280x768-1280x720';
 				bb.menuBar.height = 140;
 			}
 
