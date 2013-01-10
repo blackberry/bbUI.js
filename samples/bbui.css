@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.36*/
+/* VERSION: 0.9.6.37*/
 
 body, html {
 	padding:0;
@@ -5215,19 +5215,28 @@ a.bb5-button-highlight span {
 	right : 0px;
 }
 
-.bb-bb10-context-menu-lowres-dark
+.bb-bb10-context-menu-header-dark
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
+	border-bottom: solid 1px #404040;
+}
+
+.bb-bb10-context-menu-header-title-dark
+{
+	color: white;
+}
+
+/* ================================================= 
+  BB10 Context Menu 1024x600
+=================================================*/
+
+.bb-bb10-context-menu-1024x600-dark
 {
 	background-color: #121212;
 	border-left: solid 1px #161616;
 }
 
-.bb-bb10-context-menu-hires-dark
-{
-	background-color: #121212;
-	border-left: solid 2px #161616;
-}
-
-.bb-bb10-context-menu-item-lowres
+.bb-bb10-context-menu-item-1024x600
 {
 	padding-top: 7px;
 	padding-bottom: 3px;	
@@ -5240,42 +5249,14 @@ a.bb5-button-highlight span {
 	font-size:16pt;
 }
 
-
-.bb-bb10-context-menu-item-hires
-{
-	padding-top: 14px;
-	padding-bottom: 3px;	
-	padding-left: 0px;
-	border-left: solid 10px;
-	border-left-color: transparent;
-	height: 109px;
-	line-height: 95px;
-	vertical-align: center;
-	font-size:30pt;
-}
-
-.bb-bb10-context-menu-item-inner-lowres
+.bb-bb10-context-menu-item-inner-1024x600
 {
 	padding-left: 5px;
 	position:relative;
 	float:left;
 }
 
-.bb-bb10-context-menu-item-inner-hires
-{
-	padding-left: 15px;
-	position:relative;
-	float:left;
-}
-
-.bb-bb10-context-menu-header-dark
-{
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
-	border-bottom: solid 1px #404040;
-}
-
-
-.bb-bb10-context-menu-header-title-lowres
+.bb-bb10-context-menu-header-title-1024x600
 {
 	font-size: 18pt;
 	height:30px;
@@ -5287,20 +5268,7 @@ a.bb5-button-highlight span {
 	text-overflow: ellipsis;
 }
 
-.bb-bb10-context-menu-header-title-hires
-{
-	font-size:30pt;
-	height:36px;
-	line-height:30px;
-	padding-left: 18px;
-	margin:0px;
-	padding-top:15px;
-	overflow:hidden;
-	white-space:nowrap;
-	text-overflow: -blackberry-fade;
-}
-
-.bb-bb10-context-menu-header-description-lowres
+.bb-bb10-context-menu-header-description-1024x600
 {
 	color: #737173;
 	font-size: 14pt;
@@ -5314,7 +5282,70 @@ a.bb5-button-highlight span {
 	text-overflow: ellipsis;
 }
 
-.bb-bb10-context-menu-header-description-hires
+.bb-bb10-context-menu-item-1024x600-dark
+{
+	color:White;
+	border-bottom: solid 1px #404040	
+}
+
+.bb-bb10-context-menu-item-first-1024x600-dark
+{
+	border-top: solid 1px #404040	
+}
+
+.bb-bb10-context-menu-item-image-1024x600
+{
+	position:relative;
+	float:left;
+	height: 42px;
+	width: 42px;
+	margin-top:3px;
+}
+
+/* ================================================= 
+  BB10 Context Menu 1280x768 and 1280x720
+=================================================*/
+
+.bb-bb10-context-menu-1280x768-1280x720-dark
+{
+	background-color: #121212;
+	border-left: solid 2px #161616;
+}
+
+.bb-bb10-context-menu-item-1280x768-1280x720
+{
+	padding-top: 14px;
+	padding-bottom: 3px;	
+	padding-left: 0px;
+	border-left: solid 10px;
+	border-left-color: transparent;
+	height: 109px;
+	line-height: 95px;
+	vertical-align: center;
+	font-size:30pt;
+}
+
+.bb-bb10-context-menu-item-inner-1280x768-1280x720
+{
+	padding-left: 15px;
+	position:relative;
+	float:left;
+}
+
+.bb-bb10-context-menu-header-title-1280x768-1280x720
+{
+	font-size:30pt;
+	height:36px;
+	line-height:30px;
+	padding-left: 18px;
+	margin:0px;
+	padding-top:15px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-context-menu-header-description-1280x768-1280x720
 {
 	color: #737173;
 	font-size: 24pt;
@@ -5329,43 +5360,18 @@ a.bb5-button-highlight span {
 	text-overflow: -blackberry-fade;
 }
 
-.bb-bb10-context-menu-header-title-dark
-{
-	color: white;
-}
-
-.bb-bb10-context-menu-item-lowres-dark
-{
-	color:White;
-	border-bottom: solid 1px #404040	
-}
-
-.bb-bb10-context-menu-item-first-lowres-dark
-{
-	border-top: solid 1px #404040	
-}
-
-.bb-bb10-context-menu-item-hires-dark
+.bb-bb10-context-menu-item-1280x768-1280x720-dark
 {
 	color:White;
 	border-bottom: solid 2px #404040	
 }
 
-.bb-bb10-context-menu-item-first-hires-dark
+.bb-bb10-context-menu-item-first-1280x768-1280x720-dark
 {
 	border-top: solid 2px #404040	
 }
 
-.bb-bb10-context-menu-item-image-lowres
-{
-	position:relative;
-	float:left;
-	height: 42px;
-	width: 42px;
-	margin-top:3px;
-}
-
-.bb-bb10-context-menu-item-image-hires
+.bb-bb10-context-menu-item-image-1280x768-1280x720
 {
 	position:relative;
 	float:left;

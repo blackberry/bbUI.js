@@ -3,13 +3,15 @@ bb.contextMenu = {
 	
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
-		var res,
+		var res = '1280x768-1280x720',
 			swipeThreshold;
-		if (bb.device.isPlayBook) {
-			res = 'lowres';
+				
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
 			swipeThreshold = 100;
-		} else {
-			res = 'hires';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
 			swipeThreshold = 300;
 		}
 		
