@@ -1364,94 +1364,6 @@ body, html {
 /* ================================================= 
    BB10 Checkboxes
    =================================================*/
-.bb-bb10-checkbox-target-hires
-{
-	padding: 20px;
-	height: 54px;
-	width: 54px;
-}
-
-.bb-bb10-checkbox-target-lowres
-{
-	padding: 10px;
-	height: 27px;
-	width: 27px;
-}
-
-.bb-bb10-checkbox-outer-hires
-{
-	height: 50px;
-	width: 50px;
-	border-width: 2px;
-	border-radius: 6px;
-	border-style: solid;
-}
-
-.bb-bb10-checkbox-outer-lowres
-{
-	height: 26px;
-	width: 26px;
-	border-width: 1px;
-	border-radius: 3px;
-	border-style: solid;
-}
-
-.bb-bb10-checkbox-inner-hires
-{
-	height: 40px;
-	width: 40px;
-	border-width: 1px;
-	border-style: solid;
-	margin: 4px;
-	border-radius: 2px;
-}
-
-.bb-bb10-checkbox-inner-lowres
-{
-	height: 20px;
-	width: 20px;
-	border-width: 1px;
-	border-style: solid;
-	margin: 2px;
-	border-radius: 1px;
-}
-
-.bb-bb10-checkbox-check-hidden-hires
-{
-	height: 15px;
-	width: 18px;
-	margin-left: 11px;
-	margin-top: 10px;
-	opacity: 0.0;
-}
-
-.bb-bb10-checkbox-check-hidden-lowres
-{
-	height: 7px;
-	width: 9px;
-	margin-left: 5px;
-	margin-top: 5px;
-	opacity: 0.0;
-}
-
-.bb-bb10-checkbox-check-display-hires
-{
-	height: 30px;
-	width: 36px;
-	margin-left: 2px;
-	margin-top: 4px;
-	opacity: 1.0;
-}
-
-.bb-bb10-checkbox-check-display-lowres
-{
-	height: 15px;
-	width: 18px;
-	margin-left: 1px;
-	margin-top: 2px;
-	opacity: 1.0;
-}
-
 .bb-bb10-checkbox-check-image
 {
 	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAeCAYAAABE4bxTAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AYGEyUM/CZdbQAAA1JJREFUWMPFlr9qI1cUh3/nnjtz74zqhTzAFsawhcu0gUAgYLdCsOCUNinyBEm15YJVLRsMARdbuXCMXyBssRAIeYAU+waGBUsz9/82c81oIktyYmkvCKFBc+/Hd37ncujq6gpfch0dHS38ll8KhIieAfj6+vr6FsCHw8PDAACCiLDLjxACzDyRUv5TluXvZVm+l1L+fXNz89XODQkhIIQ4llKel2XJQgiklOC9f+GcewvgSBLRrkoEZj5WSp1rrVkpBWZGSgnWWrRt+/3ODHVlOlZKnVdVxVVVoQ9UFAUAfAKArRsawtR1Da01pJQgIqSUkFJCWZbTrQPlzCilzuu6XoARQgAAYowgoksAr7YK1MG8XAWTUkKM8dJ7Pz44OAhbA+oC/FIp9ds6GGvteH9/P2ztYuwysxGMMWa8t7cXFm7q/KddwoQQLq21Y2NMGO7xZCXLmdFabwTTtm2Yz+fYCtCyzFRVtRbGGLMaiIj2AbwA8GdK6eN/LdNDMM65sTEmNE0Day1CCMuBhBAshLgQQky65yHG+CqE8EtK6Ulg+mbatoX3Hsv2lswMKeWPZVlO8kYxRnbO/eyce+a9P132Yi7TMDNFUTxoJpcpm1nWUFJKCa31d3VdQykFIQRCCLDWYj6fn1hr4Zw7jTEOzUw2gclmZrMZjDEPmrkHKooCWuvbvGkeCYwxYGbMZrMTIoJz7jSllM1MlFIXo9FoLUzTNP+CWdVIkplRFMWvSqlJNpRSAjODmXM7nxARYoynRDRRSl3Udc2j0Whlmdq2DU3TrC3Tsi77A8BPAM7yC8NJj5lPnHPPmfkbrfVKmGxmGOBNrhgZY0QIAd77aQgBzHzWZWQ4dsI59y0zQ2v9aJhNl4wxwjkHYwyklNOuTGddqe5hpJR5VICUcmWZNummtUBN02SAKRGhKIp7U/k7a8/W+jDGmEcHeCkQAIQQYIy5PwzAAlQGGB7Qh8mt/djMLAXKd0wfiogWoHLQN4Hp31mPBsqHdAeshdqWmaUDWowR3nu0bdt/PAVgi6J4TUQVAHjv37Vt+0PTNOHu7g5N08A597/MPDh+DE11601K6R0zP48x3lprP87nc+RuegozK0fYvqlu3IRz7hMz/9Xvyqc0k9dnzHXknrhPCCwAAAAASUVORK5CYII=");
@@ -1511,6 +1423,100 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#c0c0c0), to(#c0c0c0));
 }
 
+/* ================================================= 
+   BB10 Checkboxes for 1280x768 and 1280x720
+   =================================================*/
+
+.bb-bb10-checkbox-target-1280x768-1280x720
+{
+	padding: 20px;
+	height: 54px;
+	width: 54px;
+}
+
+.bb-bb10-checkbox-outer-1280x768-1280x720
+{
+	height: 50px;
+	width: 50px;
+	border-width: 2px;
+	border-radius: 6px;
+	border-style: solid;
+}
+
+.bb-bb10-checkbox-inner-1280x768-1280x720
+{
+	height: 40px;
+	width: 40px;
+	border-width: 1px;
+	border-style: solid;
+	margin: 4px;
+	border-radius: 2px;
+}
+
+.bb-bb10-checkbox-check-hidden-1280x768-1280x720
+{
+	height: 15px;
+	width: 18px;
+	margin-left: 11px;
+	margin-top: 10px;
+	opacity: 0.0;
+}
+
+.bb-bb10-checkbox-check-display-1280x768-1280x720
+{
+	height: 30px;
+	width: 36px;
+	margin-left: 2px;
+	margin-top: 4px;
+	opacity: 1.0;
+}
+/* ================================================= 
+   BB10 Checkboxes for 1024x600
+   =================================================*/
+
+.bb-bb10-checkbox-target-1024x600
+{
+	padding: 10px;
+	height: 27px;
+	width: 27px;
+}
+
+.bb-bb10-checkbox-outer-1024x600
+{
+	height: 26px;
+	width: 26px;
+	border-width: 1px;
+	border-radius: 3px;
+	border-style: solid;
+}
+
+.bb-bb10-checkbox-inner-1024x600
+{
+	height: 20px;
+	width: 20px;
+	border-width: 1px;
+	border-style: solid;
+	margin: 2px;
+	border-radius: 1px;
+}
+
+.bb-bb10-checkbox-check-hidden-1024x600
+{
+	height: 7px;
+	width: 9px;
+	margin-left: 5px;
+	margin-top: 5px;
+	opacity: 0.0;
+}
+
+.bb-bb10-checkbox-check-display-1024x600
+{
+	height: 15px;
+	width: 18px;
+	margin-left: 1px;
+	margin-top: 2px;
+	opacity: 1.0;
+}
 
 /* ================================================= 
    File Input buttons

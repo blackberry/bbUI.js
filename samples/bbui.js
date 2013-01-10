@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.44*/
+/* VERSION: 0.9.6.45*/
 
 bb = {
 	scroller: null,  
@@ -3917,8 +3917,6 @@ _bb10_button = {
 };
 _bb10_checkbox = {
 	apply: function(elements) {
-		
-			
 		for (var i = 0; i < elements.length; i++) {
 			bb.checkbox.style(elements[i]);
 		}
@@ -3929,8 +3927,15 @@ _bb10_checkbox = {
 			outerElement,
 			innerElement,
 			checkElement,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+			res = '1280x768-1280x720',
 			color = bb.screen.controlColor;
+			
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
 			
 		// Outside touch target
 		touchTarget = document.createElement('div');
