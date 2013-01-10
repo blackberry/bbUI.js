@@ -5,11 +5,18 @@ _bb10_activityIndicator = {
 			innerElement,
 			indicator, 
 			color = bb.screen.controlColor,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+			res = '1280x768-1280x720',
 			size,
 			width,
 			swirl;
-
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
 		if (elements.length > 0) {
 			var canvas = document.createElement('canvas'),
 				ctx,
@@ -47,12 +54,30 @@ _bb10_activityIndicator = {
 			size = (outerElement.hasAttribute('data-bb-size')) ? outerElement.getAttribute('data-bb-size').toLowerCase() : 'medium';
 			
 			if (size == 'large') {
-				width = (bb.device.isPlayBook) ? '93px' : '184px';
+				if (bb.device.is1024x600) {
+					width = '93px';
+				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+					width = '184px';
+				} else {
+					width = '184px';
+				}
 			} else if (size == 'small') {
-				width = (bb.device.isPlayBook) ? '21px' : '41px';
+				if (bb.device.is1024x600) {
+					width = '21px';
+				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+					width = '41px';
+				} else {
+					width = '41px';
+				}
 			} else {
 				size = 'medium';
-				width = (bb.device.isPlayBook) ? '46px' : '93px';
+				if (bb.device.is1024x600) {
+					width = '46px';
+				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+					width = '93px';
+				} else {
+					width = '93px';
+				}
 			}
 			
 			outerElement.style.width = width;
@@ -93,7 +118,6 @@ _bb10_activityIndicator = {
 			};
 			outerElement.remove = outerElement.remove.bind(outerElement);
 
-		return outerElement;
 		}
 	}
 }

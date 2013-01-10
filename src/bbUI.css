@@ -1273,54 +1273,57 @@ body, html {
 }
 
 /* ================================================= 
-   BB10 Activity Indicator
+   BB10 Activity Indicator 1280x768 and 1280x720
    =================================================*/
-.bb-bb10-activity-margin-hires
+.bb-bb10-activity-margin-1280x768-1280x720
 {	
 	margin: 10px;
 }  
 
-.bb-bb10-activity-margin-lowres
-{
-	margin: 5px;
-} 
-
-.bb-bb10-activity-large-hires
-{
-	height: 184px;
-	width: 184px;
-	background-size: 184px 184px;
-}
-
-.bb-bb10-activity-large-lowres
-{
-	height: 93px;
-	width: 93px;
-	background-size: 93px 93px;
-}
-
-.bb-bb10-activity-medium-hires
-{
-	height: 93px;
-	width: 93px;
-	background-size: 93px 93px;
-}
-
-.bb-bb10-activity-medium-lowres
-{
-	height: 46px;
-	width: 46px;
-	background-size: 46px 46px;
-}
-
-.bb-bb10-activity-small-hires
+.bb-bb10-activity-small-1280x768-1280x720
 {
 	height: 41px;
 	width: 41px;
 	background-size: 41px 41px;
 }
 
-.bb-bb10-activity-small-lowres
+.bb-bb10-activity-medium-1280x768-1280x720
+{
+	height: 93px;
+	width: 93px;
+	background-size: 93px 93px;
+}
+
+.bb-bb10-activity-large-1280x768-1280x720
+{
+	height: 184px;
+	width: 184px;
+	background-size: 184px 184px;
+}
+
+/* ================================================= 
+   BB10 Activity Indicator 1024x600
+   =================================================*/
+.bb-bb10-activity-margin-1024x600
+{
+	margin: 5px;
+} 
+
+.bb-bb10-activity-large-1024x600
+{
+	height: 93px;
+	width: 93px;
+	background-size: 93px 93px;
+}
+
+.bb-bb10-activity-medium-1024x600
+{
+	height: 46px;
+	width: 46px;
+	background-size: 46px 46px;
+}
+
+.bb-bb10-activity-small-1024x600
 {
 	height: 21px;
 	width: 21px;
