@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.39*/
+/* VERSION: 0.9.6.40*/
 
 body, html {
 	padding:0;
@@ -95,7 +95,7 @@ body, html {
 	font-size: 16pt;
 }
 
-.bb-bb10-lowres-screen {
+.bb-bb10-1024x600-screen {
 	font-size: 16pt;
 	position:absolute;
 	top:0px;
@@ -105,7 +105,7 @@ body, html {
 	background-color: white;
 }
 
-.bb-bb10-hires-screen {
+.bb-bb10-1280x768-1280x720-screen {
 	font-size: 30pt;
 	position:absolute;
 	top:0px;

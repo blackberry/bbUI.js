@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.39*/
+/* VERSION: 0.9.6.40*/
 
 bb = {
 	scroller: null,  
@@ -2469,9 +2469,9 @@ bb.screen = {
 		bb.screen.contextMenu = null;
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
-			screenRes = 'bb-bb10-lowres-screen';
+			screenRes = 'bb-bb10-1024x600-screen';
 		} else if (bb.device.isBB10) {
-			screenRes = 'bb-bb10-hires-screen';
+			screenRes = 'bb-bb10-1280x768-1280x720-screen';
 		} else if (bb.device.isHiRes) {
 			screenRes = 'bb-hires-screen';
 		}
@@ -2498,8 +2498,8 @@ bb.screen = {
 					tempHolder = [],
 					childNode = null, 
 					j,
-					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
-					titleBarHeight = (bb.device.isPlayBook) ? 65 : 111;
+					actionBarHeight = bb.screen.getActionBarHeight(),
+					titleBarHeight = bb.screen.getTitleBarHeight();
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
@@ -2958,7 +2958,29 @@ bb.screen = {
         else if (bb.device.isBB7 && (navigator.appVersion.indexOf('Ripple') < 0)) {
             document.body.style.height = screen.height + 'px';
         }
-    }
+    },
+	
+	getActionBarHeight: function() {
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			return 73;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return 140;
+		} else {
+			return 140;
+		}
+	},
+	
+	getTitleBarHeight: function() {
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			return 65;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return 111;
+		} else {
+			return 111;
+		}
+	}
 		
 };
 bb.tabOverflow = {
