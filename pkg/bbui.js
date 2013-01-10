@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.46*/
+/* VERSION: 0.9.6.47*/
 
 bb = {
 	scroller: null,  
@@ -4500,9 +4500,15 @@ _bb10_fileInput = {
 			outerElement,
 			btn,
 			span,
-			res;
+			res = '1280x768-1280x720';
 		
-		res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
 			outerElement.setAttribute('class','bb-bb10-file-button-'+res);

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.46*/
+/* VERSION: 0.9.6.47*/
 
 body, html {
 	padding:0;
@@ -1537,10 +1537,10 @@ body, html {
 }
 
 /* ================================================= 
-   File Input buttons
+   BB10 File Input buttons 1280x768 and 1280x720
    =================================================*/
 
-.bb-bb10-file-button-hires {
+.bb-bb10-file-button-1280x768-1280x720 {
 	position : relative;
 	width : 100%;
 	height : 87px;
@@ -1550,7 +1550,10 @@ body, html {
 	opacity: 0.0;
 }   
 
-.bb-bb10-file-button-lowres {
+/* ================================================= 
+   BB10 File Input buttons 1024x600
+   =================================================*/
+.bb-bb10-file-button-1024x600 {
 	position : relative;
 	width : 100%;
 	height : 51px;
