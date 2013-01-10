@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.40*/
+/* VERSION: 0.9.6.41*/
 
 body, html {
 	padding:0;
@@ -5081,40 +5081,41 @@ a.bb5-button-highlight span {
 	background-color: #121212;
 }
 
-.bb-bb10-tab-overflow-menu-item-lowres
+.bb10Highlight .tab-accent-text {
+	color: white;
+}
+
+/* ================================================= 
+  BB10 Tab Overflow Menu 1024x600
+=================================================*/   
+
+.bb-bb10-tab-overflow-menu-item-1024x600
 {
 	padding-left: 5px;
 	vertical-align: center;
 	font-size:20pt;
 }
 
-.bb-bb10-tab-overflow-menu-item-single-lowres {
+.bb-bb10-tab-overflow-menu-item-single-1024x600 {
 	padding-top: 7px;
 	padding-bottom: 3px;		
 	height: 52px;
 	line-height: 52px;
 }
 
-.bb-bb10-tab-overflow-menu-item-double-lowres {
+.bb-bb10-tab-overflow-menu-item-double-1024x600 {
 	padding-top: 5px;
 	padding-bottom: 0px;		
 	height: 27px;
 	line-height: 27px;
 }
 
-.bb-bb10-tab-overflow-menu-item-hires
-{
-	vertical-align: center;
-	font-size:39pt;
-	padding-left: 10px;
-}
-
-.bb-bb10-tab-overflow-menu-item-inner-lowres
+.bb-bb10-tab-overflow-menu-item-inner-1024x600
 {
 	padding-left: 5px;
 }
 
-.bb-bb10-tab-overflow-menu-item-lowres .tab-accent-text
+.bb-bb10-tab-overflow-menu-item-1024x600 .tab-accent-text
 {
 	padding-left: 5px;
 	font-size: 16pt;
@@ -5122,26 +5123,55 @@ a.bb5-button-highlight span {
 	color:#606060;
 }
 
-.bb-bb10-tab-overflow-menu-item-single-hires {
+.bb-bb10-tab-overflow-menu-item-1024x600-dark
+{
+	color:White;
+	border-bottom: solid 1px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-first-1024x600-dark
+{
+	border-top: solid 1px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-image-1024x600
+{
+	height: 42px;
+	width: 42px;
+	margin-top:-2px;
+}
+
+/* ================================================= 
+  BB10 Tab Overflow Menu 1280x768 and 1280x720
+=================================================*/   
+
+.bb-bb10-tab-overflow-menu-item-1280x768-1280x720
+{
+	vertical-align: center;
+	font-size:39pt;
+	padding-left: 10px;
+}
+
+.bb-bb10-tab-overflow-menu-item-single-1280x768-1280x720 {
 	padding-top: 14px;
 	padding-bottom: 3px;		
 	height: 109px;
 	line-height: 85px;
 }
 
-.bb-bb10-tab-overflow-menu-item-double-hires {
+.bb-bb10-tab-overflow-menu-item-double-1280x768-1280x720 {
 	padding-top: 5px;
 	padding-bottom: 3px;		
 	height: 60px;
 	line-height: 60px;
 }
 
-.bb-bb10-tab-overflow-menu-item-inner-hires
+.bb-bb10-tab-overflow-menu-item-inner-1280x768-1280x720
 {
 	padding-left: 15px;
 }
 
-.bb-bb10-tab-overflow-menu-item-hires .tab-accent-text
+.bb-bb10-tab-overflow-menu-item-1280x768-1280x720 .tab-accent-text
 {
 	padding-left: 15px;
 	font-size: 30pt;
@@ -5149,40 +5179,18 @@ a.bb5-button-highlight span {
 	color:#606060;
 }
 
-.bb10Highlight .tab-accent-text {
-	color: white;
-}
-
-.bb-bb10-tab-overflow-menu-item-lowres-dark
-{
-	color:White;
-	border-bottom: solid 1px #404040	
-}
-
-.bb-bb10-tab-overflow-menu-item-first-lowres-dark
-{
-	border-top: solid 1px #404040	
-}
-
-.bb-bb10-tab-overflow-menu-item-hires-dark
+.bb-bb10-tab-overflow-menu-item-1280x768-1280x720-dark
 {
 	color:White;
 	border-bottom: solid 2px #404040	
 }
 
-.bb-bb10-tab-overflow-menu-item-first-hires-dark
+.bb-bb10-tab-overflow-menu-item-first-1280x768-1280x720-dark
 {
 	border-top: solid 2px #404040	
 }
 
-.bb-bb10-tab-overflow-menu-item-image-lowres
-{
-	height: 42px;
-	width: 42px;
-	margin-top:-2px;
-}
-
-.bb-bb10-tab-overflow-menu-item-image-hires
+.bb-bb10-tab-overflow-menu-item-image-1280x768-1280x720
 {
 	height: 80px;
 	width: 80px;

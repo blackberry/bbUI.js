@@ -13,10 +13,20 @@ bb.tabOverflow = {
 			style : undefined,
 			caption : undefined
 		};
-		menu.res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+		
+		if (bb.device.is1024x600) {
+			menu.res = '1024x600';
+			menu.width = bb.innerWidth() - 77; 
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			menu.res = '1280x768-1280x720';
+			menu.width = bb.innerWidth() - 154; 
+		} else {
+			menu.res = '1280x768-1280x720';
+			menu.width = bb.innerWidth() - 154; 
+		}
+		
 		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-dark');
 		screen.parentNode.appendChild(menu);
-		menu.width = (bb.device.isPlayBook) ? bb.innerWidth() - 77 : bb.innerWidth() - 154;
 		
 		// Set our initial styling
 		menu.style['z-index'] = '-100';
@@ -118,8 +128,15 @@ bb.tabOverflow = {
 		// Center the items in the list
 		menu.centerMenuItems = function() {
 								var windowHeight = bb.innerHeight(),
-									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
+									itemHeight = 111,
 									margin;
+									
+								if (bb.device.is1024x600) {
+									itemHeight = 53;
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									itemHeight = 111;
+								} 
+								
 								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
 								if (margin < 0) margin = 0;
 								this.actions[0].style['margin-top'] = margin + 'px';
