@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.47*/
+/* VERSION: 0.9.6.48*/
 
 body, html {
 	padding:0;
@@ -4455,45 +4455,9 @@ a.bb5-button-highlight span {
 	background-position: 10px center;
 }
 
-
 /* ================================================= 
    BB10 Grid
    =================================================*/
-
-.bb-bb10-grid-lowres
-{
-	margin:0px;
-	padding:0px;	
-}
-
-.bb-bb10-grid-hires
-{
-	margin:0px;
-	padding:0px;	
-}
-
-
-.bb-bb10-grid-header-lowres
-{
-	height:28px;
-	line-height:30px;
-	vertical-align:middle;
-	border-bottom-width: 2px;
-	border-bottom-style: solid;
-	font-weight: bold;
-}
-
-.bb-bb10-grid-header-hires
-{
-	height:44px;
-	line-height:44px;
-	vertical-align:middle;
-	padding-left: 10px;
-	border-bottom-width: 3px;
-	border-bottom-style: solid;
-	font-weight: bold;
-}
-
 .bb-bb10-grid-header-normal-light {
 	background: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 	font-weight: normal;
@@ -4506,7 +4470,32 @@ a.bb5-button-highlight span {
 	color: white;
 }
 
-.bb-bb10-grid-header-lowres p
+.bb-bb10-grid-header-center
+{
+	text-align:center;
+}
+
+/* ================================================= 
+   BB10 Grid for 1024x600
+   =================================================*/
+
+.bb-bb10-grid-1024x600
+{
+	margin:0px;
+	padding:0px;	
+}
+
+.bb-bb10-grid-header-1024x600
+{
+	height:28px;
+	line-height:30px;
+	vertical-align:middle;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	font-weight: bold;
+}
+
+.bb-bb10-grid-header-1024x600 p
 {
 	font-size: 16pt;
 	line-height:30px;
@@ -4516,45 +4505,19 @@ a.bb5-button-highlight span {
 	margin-left: 10px;
 }
 
-.bb-bb10-grid-header-hires p
-{
-	font-size: 28pt;
-	line-height:44px;
-	margin:0px;
-	padding:0px;
-	margin-left: 10px;
-}
-
-.bb-bb10-grid-header-left-lowres
+.bb-bb10-grid-header-left-1024x600
 {
 	text-align:left;
 	padding-left: 10px;
 }
 
-.bb-bb10-grid-header-right-lowres
+.bb-bb10-grid-header-right-1024x600
 {
 	text-align:right;
 	padding-right: 10px;
 }
 
-.bb-bb10-grid-header-left-hires
-{
-	text-align:left;
-	padding-left: 20px;
-}
-
-.bb-bb10-grid-header-right-hires
-{
-	text-align:right;
-	padding-right: 20px;
-}
-
-.bb-bb10-grid-header-center
-{
-	text-align:center;
-}
-
-.bb-bb10-grid-item-overlay-lowres
+.bb-bb10-grid-item-overlay-1024x600
 {
 	position:relative;
 	right:0px;
@@ -4563,40 +4526,19 @@ a.bb5-button-highlight span {
 	opacity: 0.7;	
 }
 
-.bb-bb10-grid-item-overlay-two-rows-lowres
+.bb-bb10-grid-item-overlay-two-rows-1024x600
 {
 	height: 40px;
 	top:-40px;
 }
 
-.bb-bb10-grid-item-overlay-one-row-lowres
+.bb-bb10-grid-item-overlay-one-row-1024x600
 {
 	height: 24px;
 	top:-24px;
 }
 
-.bb-bb10-grid-item-overlay-hires
-{
-	position:relative;
-	right:0px;
-	left: 0px;
-	background-color: black;
-	opacity: 0.7;	
-}
-
-.bb-bb10-grid-item-overlay-two-rows-hires
-{
-	height: 70px;
-	top:-70px;
-}
-
-.bb-bb10-grid-item-overlay-one-row-hires
-{
-	height: 40px;
-	top:-40px;
-}
-
-.bb-bb10-grid-item-overlay-lowres .title
+.bb-bb10-grid-item-overlay-1024x600 .title
 {
 	text-align:center;
 	right:0px;
@@ -4611,17 +4553,79 @@ a.bb5-button-highlight span {
 	overflow: hidden;
 }
 
-.bb-bb10-grid-item-overlay-lowres .title-two-rows
+.bb-bb10-grid-item-overlay-1024x600 .title-two-rows
 {
 	height: 37px;
 }
 
-.bb-bb10-grid-item-overlay-lowres .title-one-row
+.bb-bb10-grid-item-overlay-1024x600 .title-one-row
 {
 	height: 21px;
 }
 
-.bb-bb10-grid-item-overlay-hires .title
+/* ================================================= 
+   BB10 Grid for 1280x768 and 1280x720
+   =================================================*/
+.bb-bb10-grid-1280x768-1280x720
+{
+	margin:0px;
+	padding:0px;	
+}
+
+.bb-bb10-grid-header-1280x768-1280x720
+{
+	height:44px;
+	line-height:44px;
+	vertical-align:middle;
+	padding-left: 10px;
+	border-bottom-width: 3px;
+	border-bottom-style: solid;
+	font-weight: bold;
+}
+
+.bb-bb10-grid-header-1280x768-1280x720 p
+{
+	font-size: 28pt;
+	line-height:44px;
+	margin:0px;
+	padding:0px;
+	margin-left: 10px;
+}
+
+.bb-bb10-grid-header-left-1280x768-1280x720
+{
+	text-align:left;
+	padding-left: 20px;
+}
+
+.bb-bb10-grid-header-right-1280x768-1280x720
+{
+	text-align:right;
+	padding-right: 20px;
+}
+
+.bb-bb10-grid-item-overlay-1280x768-1280x720
+{
+	position:relative;
+	right:0px;
+	left: 0px;
+	background-color: black;
+	opacity: 0.7;	
+}
+
+.bb-bb10-grid-item-overlay-two-rows-1280x768-1280x720
+{
+	height: 70px;
+	top:-70px;
+}
+
+.bb-bb10-grid-item-overlay-one-row-1280x768-1280x720
+{
+	height: 40px;
+	top:-40px;
+}
+
+.bb-bb10-grid-item-overlay-1280x768-1280x720 .title
 {
 	text-align:center;
 	right:0px;
@@ -4636,12 +4640,12 @@ a.bb5-button-highlight span {
 	overflow: hidden;
 }
 
-.bb-bb10-grid-item-overlay-hires .title-two-rows
+.bb-bb10-grid-item-overlay-1280x768-1280x720 .title-two-rows
 {
 	height: 66px;
 }
 
-.bb-bb10-grid-item-overlay-hires .title-one-row
+.bb-bb10-grid-item-overlay-1280x768-1280x720 .title-one-row
 {
 	height: 36px;
 }
