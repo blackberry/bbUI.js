@@ -41,6 +41,7 @@ bb = {
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
+		
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
@@ -49,6 +50,12 @@ bb = {
 		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
 		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
 		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
+		
+		// Set our resolution flags
+		bb.device.is1024x600 = bb.device.isPlayBook;
+		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
+		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
+		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
 		
 		// Determine HiRes
 		if (bb.device.isRipple) {
@@ -71,7 +78,7 @@ bb = {
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (bb.device.isBB10 && !bb.device.isPlayBook) { 
+		if (bb.device.isBB10 && !bb.device.is1024x600) { 
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
@@ -232,8 +239,13 @@ bb = {
 		isBB6: false,
 		isBB7: false,
 		isBB10: false,
-        isPlayBook: false,
-        isRipple: false
+        isPlayBook: false, 
+        isRipple: false,
+		// Resolutions
+		is1024x600: false,
+		is1280x768: false,
+		is720x720: false,
+		is1280x720: false		
     },
 	
 	// Options for rendering
@@ -806,26 +818,11 @@ bb = {
 		}
 	},
 	
+	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
-		// Orientation is backwards between playbook and BB10 smartphones
-		if (bb.device.isPlayBook) {
-			// Hack for ripple
-			if (!window.orientation) {
-				return (window.innerWidth == 1024) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'landscape';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'portrait';
-			}
-		} else {
-			if (!window.orientation) {
-				return (window.innerWidth == 1280) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'portrait';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'landscape';
-			}
-		}
+		// Orientation is backwards between playbook and BB10 smartphones so we can't rely on the value 
+		// of window.orientation.  Orientation denotes "up" and not landscape/portrait
+		return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
 	},
 	
 	cutHex : function(h) {

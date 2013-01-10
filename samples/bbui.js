@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.33*/
+/* VERSION: 0.9.6.36*/
 
 bb = {
 	scroller: null,  
@@ -59,6 +59,7 @@ bb = {
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
+		
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
@@ -67,6 +68,12 @@ bb = {
 		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
 		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
 		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
+		
+		// Set our resolution flags
+		bb.device.is1024x600 = bb.device.isPlayBook;
+		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
+		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
+		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
 		
 		// Determine HiRes
 		if (bb.device.isRipple) {
@@ -89,7 +96,7 @@ bb = {
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (bb.device.isBB10 && !bb.device.isPlayBook) { 
+		if (bb.device.isBB10 && !bb.device.is1024x600) { 
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
@@ -250,8 +257,13 @@ bb = {
 		isBB6: false,
 		isBB7: false,
 		isBB10: false,
-        isPlayBook: false,
-        isRipple: false
+        isPlayBook: false, 
+        isRipple: false,
+		// Resolutions
+		is1024x600: false,
+		is1280x768: false,
+		is720x720: false,
+		is1280x720: false		
     },
 	
 	// Options for rendering
@@ -824,26 +836,11 @@ bb = {
 		}
 	},
 	
+	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
-		// Orientation is backwards between playbook and BB10 smartphones
-		if (bb.device.isPlayBook) {
-			// Hack for ripple
-			if (!window.orientation) {
-				return (window.innerWidth == 1024) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'landscape';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'portrait';
-			}
-		} else {
-			if (!window.orientation) {
-				return (window.innerWidth == 1280) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'portrait';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'landscape';
-			}
-		}
+		// Orientation is backwards between playbook and BB10 smartphones so we can't rely on the value 
+		// of window.orientation.  Orientation denotes "up" and not landscape/portrait
+		return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
 	},
 	
 	cutHex : function(h) {
@@ -916,10 +913,17 @@ bb.actionBar = {
 			backBtn,
 			actionContainer = actionBar,
 			btnWidth,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+			res = '1280x768',
 			icon,
 			color = bb.actionBar.color,
 			j;
+			
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
 			
 		actionBar.backBtnWidth = 0;
 		actionBar.isVisible = true;
@@ -978,10 +982,10 @@ bb.actionBar = {
 			backHighlight = document.createElement('div');
 			backHighlight.setAttribute('class','bb-bb10-action-bar-back-button-highlight');
 			backHighlight.style['position'] = 'absolute';
-			backHighlight.style['height'] = bb.device.isPlayBook ? '57px' : '110px';
-			backHighlight.style['width'] = bb.device.isPlayBook ? '4px' : '8px';
+			backHighlight.style['height'] = bb.device.is1024x600 ? '57px' : '110px';
+			backHighlight.style['width'] = bb.device.is1024x600 ? '4px' : '8px';
 			backHighlight.style['background-color'] = 'transparent';
-			backHighlight.style['top'] = bb.device.isPlayBook ? '8px' : '15px';
+			backHighlight.style['top'] = bb.device.is1024x600 ? '8px' : '15px';
 			backBtn.backHighlight = backHighlight;
 			backBtn.appendChild(backHighlight);
 			backBtn.ontouchstart = function() {
@@ -1003,7 +1007,7 @@ bb.actionBar = {
 			table.appendChild(tr);
 			table.setAttribute('class','bb-bb10-action-bar-table');
 			// Set Back Button widths
-			if (bb.device.isPlayBook) {
+			if (bb.device.is1024x600) {
 				actionBar.backBtnWidth = 93;
 				td.style.width = 77+'px';
 			} else {
@@ -1015,7 +1019,7 @@ bb.actionBar = {
 			// Create the container for our backslash
 			td = document.createElement('td');
 			// Set backslash widths
-			td.style.width = bb.device.isPlayBook ? 16 + 'px' : 33+'px';
+			td.style.width = bb.device.is1024x600 ? 16 + 'px' : 33+'px';
 			backslash.style['background-color'] = bb.options.shades.darkOutline;
 			tr.appendChild(td);
 			td.appendChild(backslash);
@@ -1033,7 +1037,7 @@ bb.actionBar = {
 
 		// If we have "tab" actions marked as overflow we need to show the more tab button
 		if (overflowTabs.length > 0) {
-			actionBar.tabOverflowBtnWidth = (bb.device.isPlayBook) ? 77: 154;
+			actionBar.tabOverflowBtnWidth = (bb.device.is1024x600) ? 77: 154;
 			actionBar.tabOverflowMenu = bb.tabOverflow.create(screen);
 			actionBar.tabOverflowMenu.actionBar = actionBar;
 			// Create our action bar overflow button
@@ -1054,7 +1058,7 @@ bb.actionBar = {
 		
 		// If we have "button" actions marked as overflow we need to show the more menu button
 		if (overflowButtons.length > 0) {
-			actionBar.actionOverflowBtnWidth = (bb.device.isPlayBook) ? 77: 154;
+			actionBar.actionOverflowBtnWidth = (bb.device.is1024x600) ? 77: 154;
 			actionBar.menu = bb.contextMenu.create(screen);
 			actionBar.appendChild(actionBar.menu);
 			// Create our action bar overflow button
@@ -1436,7 +1440,7 @@ bb.actionBar = {
 			// Set our highlight
 			action.highlight = document.createElement('div');
 			action.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
-			action.highlight.style['height'] = bb.device.isPlayBook ? '4px' : '8px';
+			action.highlight.style['height'] = bb.device.is1024x600 ? '4px' : '8px';
 			action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
 			action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 			action.highlight.style['background-color'] = 'transparent';
