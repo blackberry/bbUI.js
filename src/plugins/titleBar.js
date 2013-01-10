@@ -3,7 +3,7 @@ bb.titleBar = {
 	apply: function(titleBar) {
 		
 		if (bb.device.isBB10) {
-			var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+			var res = '1280x768-1280x720',
 				orientation = bb.getOrientation(),
 				button,
 				caption,
@@ -12,6 +12,13 @@ bb.titleBar = {
 				topTitleArea = document.createElement('div'),
 				img,
 				accentText;
+			
+			// Set our 'res' for known resolutions, otherwise use the default
+			if (bb.device.is1024x600) {
+				res = '1024x600';
+			} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+				res = '1280x768-1280x720';
+			}
 			
 			// Insert our title area
 			titleBar.topTitleArea = topTitleArea;
@@ -128,7 +135,13 @@ bb.titleBar = {
 				} 
 				// Next check for the accent text
 				if (titleBar.hasAttribute('data-bb-accent-text')) {
-					caption.style['line-height'] = bb.device.isPlayBook ? '40px' : '70px';
+					if (bb.device.is1024x600) {
+						caption.style['line-height'] = '40px';
+					} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+						caption.style['line-height'] = '70px';
+					} else {
+						caption.style['line-height'] = '70px';
+					}
 					accentText = document.createElement('div');
 					accentText.setAttribute('class','bb-bb10-title-bar-accent-text-'+ res);
 					if (bb.options.coloredTitleBar) {
@@ -212,13 +225,20 @@ bb.titleBar = {
 	},
 	
 	styleBB10Button: function(outerElement) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+		var res = '1280x768-1280x720',
 			//disabledStyle,
 			innerElement = document.createElement('div'),
 			//disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal,
 			highlight, 
 			outerNormal;
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
 		
 		if (bb.options.coloredTitleBar) {
 			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored';

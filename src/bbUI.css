@@ -1820,155 +1820,6 @@ body, html {
 /* ================================================= 
    BB10 Title Bar
    =================================================*/
-.bb-bb10-title-bar-hires {
-	position:absolute;
-	top:0px;
-	left:0px;
-	right:0px;
-	border-bottom-width: 2px;
-	border-bottom-style: solid;
-	font-size: 39pt;
-	z-index:1000;
-}
-
-.bb-bb10-title-bar-portrait-hires {
-	height:110px;
-}
-
-.bb-bb10-title-bar-landscape-hires {
-	height:99px;
-}
-
-.bb-bb10-title-bar-caption-hires {
-	text-align:center;
-	height:100%;
-	padding:0px;
-	margin:0px;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-	text-overflow: -blackberry-fade;
-}
-
-.bb-bb10-title-bar-caption-portrait-hires {
-	line-height:110px;
-}
-
-.bb-bb10-title-bar-caption-landscape-hires {
-	line-height:110px;
-}
-
-.bb-bb10-title-bar-caption-details-img-hires {
-	margin-left: 130px;
-}
-
-.bb-bb10-title-bar-caption-left-hires {
-	text-align:left;
-	line-height:110px;
-	height:100%;
-	padding:0px;
-	padding-left: 10px;
-	margin:0px;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-	text-overflow: -blackberry-fade;
-}
-.bb-bb10-title-bar-accent-text-hires {
-	color:#606060;
-	text-align:left;
-	padding-top:2px;
-	padding-left: 10px;
-	margin-top:-12px;
-	font-size: 29pt;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-	text-overflow: -blackberry-fade;
-}
-
-.bb-bb10-title-bar-hires img
-{
-	position:relative;
-	float:left;
-	margin-top: -2px;
-	height:112px;
-	width:112px;
-}
-
-.bb-bb10-title-bar-lowres {
-	position:absolute;
-	top:0px;
-	left:0px;
-	right:0px;
-	font-size: 20pt;
-	z-index:1000;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-.bb-bb10-title-bar-portrait-lowres {
-	height:64px;
-}
-
-.bb-bb10-title-bar-landscape-lowres {
-	height:64px;
-}
-
-.bb-bb10-title-bar-caption-lowres {
-	text-align:center;
-	height:100%;
-	padding:0px;
-	margin:0px;
-	width: 100%;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-
-.bb-bb10-title-bar-caption-portrait-lowres {
-	line-height:76px;
-}
-
-.bb-bb10-title-bar-caption-landscape-lowres {
-	line-height:76px;
-}
-
-.bb-bb10-title-bar-caption-details-img-lowres {
-	margin-left: 75px;
-}
-
-.bb-bb10-title-bar-caption-left-lowres {
-	text-align:left;
-	line-height:76px;
-	height:100%;
-	padding:0px;
-	padding-left: 5px;
-	margin:0px;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-.bb-bb10-title-bar-accent-text-lowres {
-	color:#606060;
-	text-align:left;
-	margin:0px;
-	padding-left: 5px;
-	font-size: 16pt;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-
-.bb-bb10-title-bar-lowres img
-{
-	position:relative;
-	float:left;
-	height:64px;
-	width:64px;
-}
-
-
 .bb-bb10-title-bar-dark
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#414141), to(#131313));
@@ -1997,28 +1848,6 @@ body, html {
 	border-color: #4E4D4E;
 }
 
-.bb-bb10-titlebar-button-container-hires
-{
-	position: absolute;
-	top: 0px;
-	border-width:2px;
-	border-style: solid;
-	border-radius:10px;
-	padding: 4px;
-	margin: 15px;
-}  
-
-.bb-bb10-titlebar-button-container-lowres
-{
-	position: absolute;
-	top: 0px;
-	border-width:2px;
-	border-style: solid;
-	border-radius:4px;
-	padding: 1px;
-	margin: 9px;
-}    
-   
 .bb-bb10-titlebar-button {
 	border-style: solid;
 	text-align:center;
@@ -2042,35 +1871,12 @@ body, html {
 	border-color:#262626;
 	background-color: #262626;
 	color: #666666;
-	
 }
 
 .bb-bb10-titlebar-button-disabled-light {
 	border-color: #D4D4D4;
 	background-color: #C1C1C1;
 	color: #838383;
-}
-
-.bb-bb10-titlebar-button-hires {
-	border-width:1px;
-	border-radius:5px;
-	line-height:40px;
-	height:55px;
-	padding-top:12px;
-	padding-left: 35px;
-	padding-right: 35px;
-	font-size:28pt;
-}
-
-.bb-bb10-titlebar-button-lowres {
-	border-width:1px;
-	border-radius:2px;
-	line-height:34px;
-	height:34px;
-	padding-top:5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	font-size:14pt;
 }
 
 .bb-bb10-titlebar-button-highlight-light {
@@ -2085,6 +1891,204 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#252525), to(#171717));
 }
 
+/* ================================================= 
+   BB10 Title Bar for 1280x768 and 1280x720
+   =================================================*/
+   
+.bb-bb10-title-bar-1280x768-1280x720 {
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	font-size: 39pt;
+	z-index:1000;
+}
+
+.bb-bb10-title-bar-portrait-1280x768-1280x720 {
+	height:110px;
+}
+
+.bb-bb10-title-bar-landscape-1280x768-1280x720 {
+	height:99px;
+}
+
+.bb-bb10-title-bar-caption-1280x768-1280x720 {
+	text-align:center;
+	height:100%;
+	padding:0px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-title-bar-caption-portrait-1280x768-1280x720 {
+	line-height:110px;
+}
+
+.bb-bb10-title-bar-caption-landscape-1280x768-1280x720 {
+	line-height:110px;
+}
+
+.bb-bb10-title-bar-caption-details-img-1280x768-1280x720 {
+	margin-left: 130px;
+}
+
+.bb-bb10-title-bar-caption-left-1280x768-1280x720 {
+	text-align:left;
+	line-height:110px;
+	height:100%;
+	padding:0px;
+	padding-left: 10px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+.bb-bb10-title-bar-accent-text-1280x768-1280x720 {
+	color:#606060;
+	text-align:left;
+	padding-top:2px;
+	padding-left: 10px;
+	margin-top:-12px;
+	font-size: 29pt;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-title-bar-1280x768-1280x720 img
+{
+	position:relative;
+	float:left;
+	margin-top: -2px;
+	height:112px;
+	width:112px;
+}
+
+.bb-bb10-titlebar-button-container-1280x768-1280x720
+{
+	position: absolute;
+	top: 0px;
+	border-width:2px;
+	border-style: solid;
+	border-radius:10px;
+	padding: 4px;
+	margin: 15px;
+}  
+
+.bb-bb10-titlebar-button-1280x768-1280x720 {
+	border-width:1px;
+	border-radius:5px;
+	line-height:40px;
+	height:55px;
+	padding-top:12px;
+	padding-left: 35px;
+	padding-right: 35px;
+	font-size:28pt;
+}
+
+/* ================================================= 
+   BB10 Title Bar for 1024x600
+   =================================================*/
+
+.bb-bb10-title-bar-1024x600 {
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	font-size: 20pt;
+	z-index:1000;
+}
+
+.bb-bb10-title-bar-portrait-1024x600 {
+	height:64px;
+}
+
+.bb-bb10-title-bar-landscape-1024x600 {
+	height:64px;
+}
+
+.bb-bb10-title-bar-caption-1024x600 {
+	text-align:center;
+	height:100%;
+	padding:0px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+
+.bb-bb10-title-bar-caption-portrait-1024x600 {
+	line-height:76px;
+}
+
+.bb-bb10-title-bar-caption-landscape-1024x600 {
+	line-height:76px;
+}
+
+.bb-bb10-title-bar-caption-details-img-1024x600 {
+	margin-left: 75px;
+}
+
+.bb-bb10-title-bar-caption-left-1024x600 {
+	text-align:left;
+	line-height:76px;
+	height:100%;
+	padding:0px;
+	padding-left: 5px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+.bb-bb10-title-bar-accent-text-1024x600 {
+	color:#606060;
+	text-align:left;
+	margin:0px;
+	padding-left: 5px;
+	font-size: 16pt;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+
+.bb-bb10-title-bar-1024x600 img
+{
+	position:relative;
+	float:left;
+	height:64px;
+	width:64px;
+}
+
+.bb-bb10-titlebar-button-1024x600 {
+	border-width:1px;
+	border-radius:2px;
+	line-height:34px;
+	height:34px;
+	padding-top:5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size:14pt;
+}
+
+.bb-bb10-titlebar-button-container-1024x600
+{
+	position: absolute;
+	top: 0px;
+	border-width:2px;
+	border-style: solid;
+	border-radius:4px;
+	padding: 1px;
+	margin: 9px;
+}   
 /* ================================================= 
    PlayBook Title Bar
    =================================================*/
