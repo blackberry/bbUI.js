@@ -2,6 +2,8 @@ bb = {
 	scroller: null,  
     screens: [],
 	dropdownScrollers: [],
+	windowListeners: [],
+	documentListeners: [],
 	transparentPixel: 'data:image/png;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
 						
 	// Core control variables
@@ -728,14 +730,30 @@ bb = {
 
     // Pop a screen from the stack
     popScreen: function() {
-		var numItems = bb.screens.length;
+		var numItems = bb.screens.length,
+			i,
+			listener;
         if (numItems > 1) {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-
+			
+			// Clear any window listeners
+			for (i = 0 ; i < bb.windowListeners.length; i++) {
+				listener = bb.windowListeners[i];
+				window.removeEventListener(listener.name, listener.eventHandler, false);
+			}
+			bb.windowListners = [];
+			
+			// Clear any document listeners
+			for (i = 0 ; i < bb.documentListeners.length; i++) {
+				listener = bb.documentListeners[i];
+				document.removeEventListener(listener.name, listener.eventHandler, false);
+			}
+			bb.documentListeners = [];
+			
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
@@ -856,9 +874,7 @@ bb = {
 					if (target.scroller) {
 						offsetTop += target.scroller.y;
 					} else if (target.bbUIscrollWrapper) {
-						
 						offsetTop += bb.scroller.y;
-						//alert('here');
 					}
 				}
 			} while (target = target.offsetParent);

@@ -14,12 +14,14 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.57*/
+/* VERSION: 0.9.6.58*/
 
 bb = {
 	scroller: null,  
     screens: [],
 	dropdownScrollers: [],
+	windowListeners: [],
+	documentListeners: [],
 	transparentPixel: 'data:image/png;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
 						
 	// Core control variables
@@ -746,14 +748,30 @@ bb = {
 
     // Pop a screen from the stack
     popScreen: function() {
-		var numItems = bb.screens.length;
+		var numItems = bb.screens.length,
+			i,
+			listener;
         if (numItems > 1) {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-
+			
+			// Clear any window listeners
+			for (i = 0 ; i < bb.windowListeners.length; i++) {
+				listener = bb.windowListeners[i];
+				window.removeEventListener(listener.name, listener.eventHandler, false);
+			}
+			bb.windowListners = [];
+			
+			// Clear any document listeners
+			for (i = 0 ; i < bb.documentListeners.length; i++) {
+				listener = bb.documentListeners[i];
+				document.removeEventListener(listener.name, listener.eventHandler, false);
+			}
+			bb.documentListeners = [];
+			
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
@@ -874,9 +892,7 @@ bb = {
 					if (target.scroller) {
 						offsetTop += target.scroller.y;
 					} else if (target.bbUIscrollWrapper) {
-						
 						offsetTop += bb.scroller.y;
-						//alert('here');
 					}
 				}
 			} while (target = target.offsetParent);
@@ -913,7 +929,7 @@ bb.actionBar = {
 			backBtn,
 			actionContainer = actionBar,
 			btnWidth,
-			res = '1280x768',
+			res = '1280x768-1280x720',
 			icon,
 			color = bb.actionBar.color,
 			j;
@@ -1144,7 +1160,9 @@ bb.actionBar = {
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
 		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
-		
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: actionBar.orientationChanged});
+				
 		// Add setBackCaption function
 		actionBar.setBackCaption = function(value) {
 					this.setAttribute('data-bb-back-caption',value);
@@ -1890,6 +1908,8 @@ bb.contextMenu = {
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: menu.orientationChanged});
 		
 		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
 		menu.addEventListener('webkitTransitionEnd', function() { 
@@ -2446,6 +2466,9 @@ _bb_progress = {
 						};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 		window.addEventListener('resize', outerElement.doOrientationChange,false); 
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
+		
 		
 		return outerElement;
 	}
@@ -3152,6 +3175,8 @@ bb.tabOverflow = {
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: menu.orientationChanged});
 		
 		// Create our add item function
 		menu.add = function(action) {
@@ -4712,8 +4737,10 @@ _bb10_grid = {
 											}
 											this.image.src = this.getAttribute('data-bb-img');
 										} else {
-											console.log('else');
 											document.addEventListener('bbuiscrolling', this.onbbuiscrolling,false);
+											// Add listener for removal on popScreen
+											this.listener = {name: 'bbuiscrolling', eventHandler: this.onbbuiscrolling};
+											bb.documentListeners.push(this.listener);
 										}
 										document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 									};
@@ -4729,6 +4756,11 @@ _bb10_grid = {
 											}
 											this.image.src = this.getAttribute('data-bb-img');
 											document.removeEventListener('bbuiscrolling', this.onbbuiscrolling,false);
+											// Remove our listenter from the global list as well
+											var index = bb.documentListeners.indexOf(this.listener);
+											if (index >= 0) {
+												bb.documentListeners.splice(index,1);
+											}
 										} 
 									};
 							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);	
@@ -4873,6 +4905,8 @@ _bb10_grid = {
 								};
 			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
 			window.addEventListener('resize', outerElement.orientationChanged,false); 
+			// Add listener for removal on popScreen
+			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.orientationChanged});
 			
 			// Add show function
 			outerElement.show = function() {
@@ -5664,14 +5698,12 @@ _bb10_pillButtons = {
 
 			// Handle pill sizing on orientation change
 			outerElement.doOrientationChange = function() {
-						//var outerStyle = window.getComputedStyle(this),
-						//	pillLeft = this.parentNode.offsetLeft;
-						// Set our styles
-						//this.pill.style['-webkit-transform'] = 'translate3d(' + pillLeft + 'px,0px,0px)';
 						this.setPillLeft();
 					};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 
+			// Add listener for removal on popScreen
+			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
 			
 			// Add our show function
 			outerElement.show = function() {
@@ -6292,10 +6324,15 @@ _bb10_slider = {
 								window.setTimeout(outerElement.range.setValue, 0);
 							};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
-			// Assign our document event listeners
+			// Assign our document & windows event listeners
 			document.addEventListener('touchmove', outerElement.moveSlider, false);
+			bb.documentListeners.push({name: 'touchmove', eventHandler: outerElement.moveSlider});
+			
 			document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+			bb.documentListeners.push({name: 'touchend', eventHandler: outerElement.inner.animateEnd});
+			
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 
+			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
 		}
 	}
 };
@@ -6757,7 +6794,9 @@ _bb10_toggle = {
 
 		// Assign our document event listeners
 		document.addEventListener('touchmove', outerElement.moveToggle, false);
+		bb.documentListeners.push({name: 'touchmove', eventHandler: outerElement.moveToggle});
 		document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+		bb.documentListeners.push({name: 'touchend', eventHandler: outerElement.inner.animateEnd});
 		
 		return outerElement;
 	}

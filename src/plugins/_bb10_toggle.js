@@ -316,7 +316,9 @@ _bb10_toggle = {
 
 		// Assign our document event listeners
 		document.addEventListener('touchmove', outerElement.moveToggle, false);
+		bb.documentListeners.push({name: 'touchmove', eventHandler: outerElement.moveToggle});
 		document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+		bb.documentListeners.push({name: 'touchend', eventHandler: outerElement.inner.animateEnd});
 		
 		return outerElement;
 	}

@@ -173,8 +173,10 @@ _bb10_grid = {
 											}
 											this.image.src = this.getAttribute('data-bb-img');
 										} else {
-											console.log('else');
 											document.addEventListener('bbuiscrolling', this.onbbuiscrolling,false);
+											// Add listener for removal on popScreen
+											this.listener = {name: 'bbuiscrolling', eventHandler: this.onbbuiscrolling};
+											bb.documentListeners.push(this.listener);
 										}
 										document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 									};
@@ -190,6 +192,11 @@ _bb10_grid = {
 											}
 											this.image.src = this.getAttribute('data-bb-img');
 											document.removeEventListener('bbuiscrolling', this.onbbuiscrolling,false);
+											// Remove our listenter from the global list as well
+											var index = bb.documentListeners.indexOf(this.listener);
+											if (index >= 0) {
+												bb.documentListeners.splice(index,1);
+											}
 										} 
 									};
 							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);	
@@ -334,6 +341,8 @@ _bb10_grid = {
 								};
 			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
 			window.addEventListener('resize', outerElement.orientationChanged,false); 
+			// Add listener for removal on popScreen
+			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.orientationChanged});
 			
 			// Add show function
 			outerElement.show = function() {

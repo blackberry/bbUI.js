@@ -259,6 +259,8 @@ bb.contextMenu = {
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: menu.orientationChanged});
 		
 		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
 		menu.addEventListener('webkitTransitionEnd', function() { 

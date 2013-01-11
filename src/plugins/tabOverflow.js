@@ -167,6 +167,8 @@ bb.tabOverflow = {
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: menu.orientationChanged});
 		
 		// Create our add item function
 		menu.add = function(action) {

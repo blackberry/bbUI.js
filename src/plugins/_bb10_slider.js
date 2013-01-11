@@ -140,10 +140,15 @@ _bb10_slider = {
 								window.setTimeout(outerElement.range.setValue, 0);
 							};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
-			// Assign our document event listeners
+			// Assign our document & windows event listeners
 			document.addEventListener('touchmove', outerElement.moveSlider, false);
+			bb.documentListeners.push({name: 'touchmove', eventHandler: outerElement.moveSlider});
+			
 			document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+			bb.documentListeners.push({name: 'touchend', eventHandler: outerElement.inner.animateEnd});
+			
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 
+			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
 		}
 	}
 };

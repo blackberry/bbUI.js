@@ -173,14 +173,12 @@ _bb10_pillButtons = {
 
 			// Handle pill sizing on orientation change
 			outerElement.doOrientationChange = function() {
-						//var outerStyle = window.getComputedStyle(this),
-						//	pillLeft = this.parentNode.offsetLeft;
-						// Set our styles
-						//this.pill.style['-webkit-transform'] = 'translate3d(' + pillLeft + 'px,0px,0px)';
 						this.setPillLeft();
 					};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 
+			// Add listener for removal on popScreen
+			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
 			
 			// Add our show function
 			outerElement.show = function() {

@@ -155,6 +155,9 @@ _bb_progress = {
 						};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
 		window.addEventListener('resize', outerElement.doOrientationChange,false); 
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
+		
 		
 		return outerElement;
 	}

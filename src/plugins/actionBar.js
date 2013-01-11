@@ -20,7 +20,7 @@ bb.actionBar = {
 			backBtn,
 			actionContainer = actionBar,
 			btnWidth,
-			res = '1280x768',
+			res = '1280x768-1280x720',
 			icon,
 			color = bb.actionBar.color,
 			j;
@@ -251,7 +251,9 @@ bb.actionBar = {
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
 		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
-		
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: actionBar.orientationChanged});
+				
 		// Add setBackCaption function
 		actionBar.setBackCaption = function(value) {
 					this.setAttribute('data-bb-back-caption',value);
