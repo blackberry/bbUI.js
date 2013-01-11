@@ -5,8 +5,15 @@ _bb10_slider = {
 			range,
 			res,
 			color = bb.screen.controlColor,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+			res = '1280x768-1280x720';
 
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+			
 		for (i = 0; i < elements.length; i++) {
 			range = elements[i];
 			// Create our container div

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.53*/
+/* VERSION: 0.9.6.54*/
 
 body, html {
 	padding:0;
@@ -209,12 +209,16 @@ body, html {
   100% { -webkit-transform: scale(0); }  
 }  
 
-.bb-bb10-slider-lowres
+/* ================================================= 
+   BB10 Slider for 1024x600
+   =================================================*/
+
+.bb-bb10-slider-1024x600
 {
 	margin: 1.8em;
 }
 
-.bb-bb10-slider-lowres .outer
+.bb-bb10-slider-1024x600 .outer
 {
     display: inline-block;
     padding: 0.2em;
@@ -225,7 +229,7 @@ body, html {
 	width:100%;
 }
 
-.bb-bb10-slider-lowres .bb-bb10-slider-outer-dark
+.bb-bb10-slider-1024x600 .bb-bb10-slider-outer-dark
 {
 	background: #070707;
 	border-top: 1px solid rgba(255,255,255,0.05);
@@ -234,7 +238,7 @@ body, html {
     border-bottom: 1px solid rgba(255,255,255,0.4); 
 }
 
-.bb-bb10-slider-lowres .bb-bb10-slider-outer-light
+.bb-bb10-slider-1024x600 .bb-bb10-slider-outer-light
 {
 	background: -webkit-linear-gradient(top, #C9C9C9 0%, #DEDEDE 100%);
 	border-top: 1px solid #9B9B9B;
@@ -243,7 +247,7 @@ body, html {
     border-bottom: 1px solid #C8C8C8; 
 }
 
-.bb-bb10-slider-lowres .halo {
+.bb-bb10-slider-1024x600 .halo {
 	margin: 12px;
 	border-radius: 30px;
     width: 60px;
@@ -257,7 +261,7 @@ body, html {
     -webkit-transform: scale(0);
 }
 
-.bb-bb10-slider-lowres .indicator
+.bb-bb10-slider-1024x600 .indicator
 { 
     display: inline-block;
     padding: 0.5em 1.8em;
@@ -271,7 +275,7 @@ body, html {
     border: 0px;
 }
 
-.bb-bb10-slider-lowres .bb-bb10-slider-indicator-dark
+.bb-bb10-slider-1024x600 .bb-bb10-slider-indicator-dark
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border-top: 1px solid rgba(255,255,255,0.3);
@@ -281,7 +285,7 @@ body, html {
     box-shadow: 0px 0px 0.2em #030303;
 }
 
-.bb-bb10-slider-lowres .bb-bb10-slider-indicator-light
+.bb-bb10-slider-1024x600 .bb-bb10-slider-indicator-light
 {
 	color: #f9f9f9;
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DDDDDD 100%);
@@ -289,7 +293,7 @@ body, html {
     box-shadow: 0px 0px 0.2em #030303;
 }
 
-.bb-bb10-slider-lowres .indicator-hover-dark   {
+.bb-bb10-slider-1024x600 .indicator-hover-dark   {
     border-top: 2px solid #555;
     border-left: 2px solid #454545;
     border-right: 2px solid #454545;
@@ -297,18 +301,18 @@ body, html {
     border: 0px;
 }
 
-.bb-bb10-slider-lowres .indicator-hover-light   {
+.bb-bb10-slider-1024x600 .indicator-hover-light   {
 	border: 1px solid #BFBFBF;
 }
 
-.bb-bb10-slider-lowres .fill {
+.bb-bb10-slider-1024x600 .fill {
     position: absolute;
     height: 100%;
     width: 0px;
     border-radius: 0.2em;
 }
 
-.bb-bb10-slider-lowres .inner {
+.bb-bb10-slider-1024x600 .inner {
     top: -1.9em;
     left: -1.9em;
     position: absolute;
@@ -317,12 +321,16 @@ body, html {
     display: inline-block;
 }
 
-.bb-bb10-slider-hires
+/* ================================================= 
+   BB10 Slider for 1280x768 and 1280x720
+   =================================================*/
+
+.bb-bb10-slider-1280x768-1280x720
 {
 	margin: 1.8em;
 }
 
-.bb-bb10-slider-hires .outer
+.bb-bb10-slider-1280x768-1280x720 .outer
 {
     display: inline-block;
     padding: 1px;
@@ -333,7 +341,7 @@ body, html {
 	width:100%;
 }
 
-.bb-bb10-slider-hires .bb-bb10-slider-outer-dark
+.bb-bb10-slider-1280x768-1280x720 .bb-bb10-slider-outer-dark
 {
 	background: #070707;
 	border-top: 2px solid #0C0C0C;
@@ -342,7 +350,7 @@ body, html {
     border-bottom: 2px solid #404040; 
 }
 
-.bb-bb10-slider-hires .bb-bb10-slider-outer-light
+.bb-bb10-slider-1280x768-1280x720 .bb-bb10-slider-outer-light
 {
 	background: -webkit-linear-gradient(top, #C9C9C9 0%, #DEDEDE 100%);
 	border-top: 2px solid #9B9B9B;
@@ -351,7 +359,7 @@ body, html {
     border-bottom: 2px solid #C8C8C8; 
 }
 
-.bb-bb10-slider-hires .halo {
+.bb-bb10-slider-1280x768-1280x720 .halo {
     margin: 32px;
 	border-radius: 50px;
     width: 100px;
@@ -365,7 +373,7 @@ body, html {
     -webkit-transform: scale(0);
 }
 
-.bb-bb10-slider-hires .indicator
+.bb-bb10-slider-1280x768-1280x720 .indicator
 { 
     display: inline-block;
     padding: 0.5em 1.8em;
@@ -379,22 +387,21 @@ body, html {
     border: 0px;
 }
 
-
-.bb-bb10-slider-hires .bb-bb10-slider-indicator-dark
+.bb-bb10-slider-1280x768-1280x720 .bb-bb10-slider-indicator-dark
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
    /* box-shadow: 0px 0px 0.2em #030303;*/
 }
 
-.bb-bb10-slider-hires .bb-bb10-slider-indicator-light
+.bb-bb10-slider-1280x768-1280x720 .bb-bb10-slider-indicator-light
 {
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DFDFDF 100%);
 	border: 1px solid #BFBFBF;
   /*  box-shadow: 0px 0px 0.2em #030303;*/
 }
 
-.bb-bb10-slider-hires .indicator-hover-dark   {
+.bb-bb10-slider-1280x768-1280x720 .indicator-hover-dark   {
     border-top: 2px solid #555;
     border-left: 2px solid #454545;
     border-right: 2px solid #454545;
@@ -402,18 +409,18 @@ body, html {
     border: 0px;
 }
 
-.bb-bb10-slider-hires .indicator-hover-light   {
+.bb-bb10-slider-1280x768-1280x720 .indicator-hover-light   {
 	border: 2px solid #BFBFBF;
 }
 
-.bb-bb10-slider-hires .fill {
+.bb-bb10-slider-1280x768-1280x720 .fill {
     position: absolute;
     height: 100%;
     width: 0px;
     border-radius: 0.2em;
 }
 
-.bb-bb10-slider-hires .inner {
+.bb-bb10-slider-1280x768-1280x720 .inner {
     top: -1.9em;
     left: -1.9em;
     position: absolute;
