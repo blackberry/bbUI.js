@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.54*/
+/* VERSION: 0.9.6.55*/
 
 body, html {
 	padding:0;
@@ -998,20 +998,6 @@ body, html {
 	border-bottom-color:#C7C7C7;
 }
 
-.bb-bb10-input-container-hires {
-	height:82px;
-	border-radius:4px;
-	border-width: 2px;
-	padding: 2px;
-}
-
-.bb-bb10-input-container-lowres {
-	height:32px;
-	border-radius:4px;
-	border-width: 1px;
-	padding: 3px;
-}
-
 .bb-bb10-input-container-disabled {
 	background-color: #B9B9B9;
 	border-top-color: #838383;
@@ -1040,7 +1026,18 @@ body, html {
 	font-style:italic;
 }
 
-.bb-bb10-input-container-focused-hires
+/* ================================================= 
+   BB10 Input Box for 1280x768 and 1280x720
+   =================================================*/
+
+.bb-bb10-input-container-1280x768-1280x720 {
+	height:82px;
+	border-radius:4px;
+	border-width: 2px;
+	padding: 2px;
+}
+
+.bb-bb10-input-container-focused-1280x768-1280x720
 {
 	color: black;
 	background-color:#F9F9F9;
@@ -1051,7 +1048,31 @@ body, html {
 	padding: 0px;
 }
 
-.bb-bb10-input-container-focused-lowres
+.bb-bb10-input-1280x768-1280x720 {
+	font-size: 30pt;	
+	height:79px;
+	left: 10px;
+	right: 10px;
+}
+
+.bb-bb10-input-focused-1280x768-1280x720 {
+	font-size: 30pt;	
+	height:79px;
+	left: 8px;
+	right: 60px;
+}
+/* ================================================= 
+   BB10 Input Box for 1024x600
+   =================================================*/
+
+.bb-bb10-input-container-1024x600 {
+	height:32px;
+	border-radius:4px;
+	border-width: 1px;
+	padding: 3px;
+}
+
+.bb-bb10-input-container-focused-1024x600
 {
 	color: black;
 	background-color:#F9F9F9;
@@ -1062,28 +1083,14 @@ body, html {
 	padding: 2px;
 }
 
-.bb-bb10-input-hires {
-	font-size: 30pt;	
-	height:79px;
-	left: 10px;
-	right: 10px;
-}
-
-.bb-bb10-input-focused-hires {
-	font-size: 30pt;	
-	height:79px;
-	left: 8px;
-	right: 60px;
-}
-
-.bb-bb10-input-lowres {
+.bb-bb10-input-1024x600 {
 	height:30px;
 	font-size: 14pt;
 	left: 7px;
 	right: 7px;
 }
 
-.bb-bb10-input-focused-lowres {
+.bb-bb10-input-focused-1024x600 {
 	height:30px;
 	font-size: 14pt;
 	left: 6px;

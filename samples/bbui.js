@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.54*/
+/* VERSION: 0.9.6.55*/
 
 bb = {
 	scroller: null,  
@@ -6303,9 +6303,17 @@ _bb10_textInput = {
 	},
 	
 	style: function(outerElement) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+		var res = '1280x768-1280x720',
 			css = '',
 			container = document.createElement('div');
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
 		// Keep the developers existing styling
 		if (outerElement.hasAttribute('class')) {
 			css = outerElement.getAttribute('class');
