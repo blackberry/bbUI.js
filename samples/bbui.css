@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.51*/
+/* VERSION: 0.9.6.52*/
 
 body, html {
 	padding:0;
@@ -2823,13 +2823,11 @@ a.bb5-button-highlight span {
 }
 
 
-
-
 /* ================================================= 
-   Radio button BB10
+   Radio button BB10 for 1280x768 and 1280x720
    =================================================*/
 
-.bb-bb10-radio-container-hires-dark
+.bb-bb10-radio-container-1280x768-1280x720-dark
 {
 	height: 76px;
 	width: 76px;
@@ -2840,7 +2838,7 @@ a.bb5-button-highlight span {
 }
 
 
-.bb-bb10-radio-container-hires-light
+.bb-bb10-radio-container-1280x768-1280x720-light
 {
 	height: 76px;
 	width: 76px;
@@ -2851,7 +2849,7 @@ a.bb5-button-highlight span {
 }
 
 
-.bb-bb10-radio-dot-hires
+.bb-bb10-radio-dot-1280x768-1280x720
 {
 	height: 40px;
 	width: 40px;
@@ -2863,7 +2861,7 @@ a.bb5-button-highlight span {
 	display:block;
 }
 
-.bb-bb10-radio-dot-hires-disabled
+.bb-bb10-radio-dot-1280x768-1280x720-disabled
 {
 	background-image: -webkit-linear-gradient(top, rgba(89,89,89,0.5) 0%, rgba(89,89,89,0.5) 100%) !important;
 	background: rgba(89,89,89,0.5);
@@ -2877,7 +2875,7 @@ a.bb5-button-highlight span {
 	display:block;
 }
 
-.bb-bb10-radio-dot-center-hires
+.bb-bb10-radio-dot-center-1280x768-1280x720
 {
 	height: 18px;
 	width: 18px;
@@ -2889,7 +2887,11 @@ a.bb5-button-highlight span {
 	display:block;
 }
 
-.bb-bb10-radio-container-lowres-dark
+/* ================================================= 
+   Radio button BB10 for 1024x600
+   =================================================*/
+
+.bb-bb10-radio-container-1024x600-dark
 {
 	height: 38px;
 	width: 38px;
@@ -2900,7 +2902,7 @@ a.bb5-button-highlight span {
 }
 
 
-.bb-bb10-radio-container-lowres-light
+.bb-bb10-radio-container-1024x600-light
 {
 	height: 38px;
 	width: 38px;
@@ -2911,7 +2913,7 @@ a.bb5-button-highlight span {
 }
 
 
-.bb-bb10-radio-dot-lowres
+.bb-bb10-radio-dot-1024x600
 {
 	height: 20px;
 	width: 20px;
@@ -2923,7 +2925,21 @@ a.bb5-button-highlight span {
 	display:block;
 }
 
-.bb-bb10-radio-dot-center-lowres
+.bb-bb10-radio-dot-1024x600-disabled
+{
+	background-image: -webkit-linear-gradient(top, rgba(89,89,89,0.5) 0%, rgba(89,89,89,0.5) 100%) !important;
+	background: rgba(89,89,89,0.5);
+	height: 20px;
+	width: 20px;
+	border-radius: 10px;	
+	z-index:0;
+	top: 10px;
+	left: 9px;
+	position:relative;
+	display:block;
+}
+
+.bb-bb10-radio-dot-center-1024x600
 {
 	height: 10px;
 	width: 10px;
