@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.56*/
+/* VERSION: 0.9.6.57*/
 
 bb = {
 	scroller: null,  
@@ -5901,9 +5901,12 @@ _bb10_radio = {
 											} else {
 												this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
 											}
+											
+											// Fire our click
+											window.setTimeout(this.doclick,0);
 										}
 									};
-		outerElement.onclick = function() {
+		outerElement.doclick = function() {
 										if ((!this.input.checked) && (!this.input.disabled)) {
 											var evObj = document.createEvent('HTMLEvents');
 											evObj.initEvent('change', false, true );
@@ -5923,6 +5926,7 @@ _bb10_radio = {
 											this.input.dispatchEvent(evObj);
 										}
 									};
+		outerElement.doclick = outerElement.doclick.bind(outerElement);
 		
 		outerElement.getCurrentlyChecked = function() {
 										var inputs = document.querySelectorAll('input[type=radio][name='+ this.input.name +'][checked=true]');
