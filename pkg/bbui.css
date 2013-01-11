@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.50*/
+/* VERSION: 0.9.6.51*/
 
 body, html {
 	padding:0;
@@ -4240,33 +4240,6 @@ a.bb5-button-highlight span {
 /* ================================================= 
    BB10 Pill Buttons
    =================================================*/
-   
-.bb-bb10-pill-buttons-lowres {
-	padding-top:5px;
-}
-
-.bb-bb10-pill-buttons-hires {
-	padding-top:10px;
-}
-
-.bb-bb10-pill-buttons-container-lowres {
-	border-width:1px;
-	border-style: solid;
-	border-radius:3px;
-	padding: 2px;
-	font-size: 14pt;
-	height:37px;
-}
-
-.bb-bb10-pill-buttons-container-hires {
-	border-width:2px;
-	border-style: solid;
-	border-radius:5px;
-	padding: 2px;
-	font-size: 27pt;
-	height:69px;
-}
-
 .bb-bb10-pill-buttons-container-light
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F4F4F4), to(#FCFCFC));
@@ -4303,8 +4276,24 @@ a.bb5-button-highlight span {
 	-webkit-transition: 0.2s ease-in-out;
 	-webkit-backface-visibility: hidden;
 }
- 
-.bb-bb10-pill-button-lowres  {
+   
+/* ================================================= 
+   BB10 Pill Buttons for 1024x600
+   =================================================*/
+.bb-bb10-pill-buttons-1024x600 {
+	padding-top:5px;
+}
+
+.bb-bb10-pill-buttons-container-1024x600 {
+	border-width:1px;
+	border-style: solid;
+	border-radius:3px;
+	padding: 2px;
+	font-size: 14pt;
+	height:37px;
+}
+
+.bb-bb10-pill-button-1024x600  {
 	float: left;
 	text-align:center;
 	white-space:nowrap;
@@ -4321,7 +4310,67 @@ a.bb5-button-highlight span {
 	cursor: pointer;
 }
 
-.bb-bb10-pill-button-hires  {
+.bb-bb10-pill-button-inner-1024x600 
+{
+	margin:0px;
+	border-width:1px;	
+	border-style: solid;
+	border-radius: 3px;
+	height:28px;
+	line-height:28px;
+	z-index:10;
+	border-color: transparent;
+	padding-top: 5px;
+}
+
+.bb-bb10-pill-button-inner-selected-1024x600-dark
+{
+	border-color: #7E7E7E;
+}
+
+.bb-bb10-pill-button-inner-selected-1024x600-light
+{
+	border-color: transparent;
+}
+
+.bb-bb10-pill-button-selected-1024x600-light{
+	color: #555555;
+	border-width:1px;	
+	border-style: solid;
+	border-top-color: #C3C3C3;
+	border-left-color: #CACACA;
+	border-bottom-color: #CCCCCC;
+	border-right-color: #CACACA;
+	background-color: transparent;
+}
+
+.bb-bb10-pill-button-selected-1024x600-dark
+{
+	color: #909090;
+	border-width:1px;	
+	border-style: solid;
+	border-color:#2B2B2B;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
+}
+
+/* ================================================= 
+   BB10 Pill Buttons for 1280x768 and 1280x720
+   =================================================*/
+   
+.bb-bb10-pill-buttons-1280x768-1280x720 {
+	padding-top:10px;
+}
+
+.bb-bb10-pill-buttons-container-1280x768-1280x720 {
+	border-width:2px;
+	border-style: solid;
+	border-radius:5px;
+	padding: 2px;
+	font-size: 27pt;
+	height:69px;
+}
+
+.bb-bb10-pill-button-1280x768-1280x720  {
 	float: left;
 	text-align:center;
 	white-space:nowrap;
@@ -4338,20 +4387,7 @@ a.bb5-button-highlight span {
 	cursor: pointer;
 }
 
-.bb-bb10-pill-button-inner-lowres 
-{
-	margin:0px;
-	border-width:1px;	
-	border-style: solid;
-	border-radius: 3px;
-	height:28px;
-	line-height:28px;
-	z-index:10;
-	border-color: transparent;
-	padding-top: 5px;
-}
-
-.bb-bb10-pill-button-inner-hires 
+.bb-bb10-pill-button-inner-1280x768-1280x720 
 {
 	margin:0px;
 	border-width:1px;	
@@ -4365,38 +4401,17 @@ a.bb5-button-highlight span {
 	background-color: transparent;
 }
 
-.bb-bb10-pill-button-inner-selected-lowres-dark
+.bb-bb10-pill-button-inner-selected-1280x768-1280x720-dark
 {
 	border-color: #7E7E7E;
 }
 
-.bb-bb10-pill-button-inner-selected-hires-dark
-{
-	border-color: #7E7E7E;
-}
-
-.bb-bb10-pill-button-inner-selected-lowres-light
+.bb-bb10-pill-button-inner-selected-1280x768-1280x720-light
 {
 	border-color: transparent;
 }
 
-.bb-bb10-pill-button-inner-selected-hires-light
-{
-	border-color: transparent;
-}
-
-.bb-bb10-pill-button-selected-lowres-light{
-	color: #555555;
-	border-width:1px;	
-	border-style: solid;
-	border-top-color: #C3C3C3;
-	border-left-color: #CACACA;
-	border-bottom-color: #CCCCCC;
-	border-right-color: #CACACA;
-	background-color: transparent;
-}
-
-.bb-bb10-pill-button-selected-hires-light{
+.bb-bb10-pill-button-selected-1280x768-1280x720-light{
 	color: #555555;
 	border-width:2px;	
 	border-style: solid;
@@ -4407,16 +4422,7 @@ a.bb5-button-highlight span {
 	background-color: transparent;
 }
 
-.bb-bb10-pill-button-selected-lowres-dark
-{
-	color: #909090;
-	border-width:1px;	
-	border-style: solid;
-	border-color:#2B2B2B;
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
-}
-
-.bb-bb10-pill-button-selected-hires-dark
+.bb-bb10-pill-button-selected-1280x768-1280x720-dark
 {
 	color: #909090;
 	border-width:2px;	

@@ -1,13 +1,22 @@
 _bb10_pillButtons = {  
     apply: function(elements) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			i,
+		var res = '1280x768-1280x720';
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
+		var i,
 			outerElement,
 			containerStyle = 'bb-bb10-pill-buttons-container-'+res+' bb-bb10-pill-buttons-container-' + bb.screen.controlColor,
 			buttonStyle = 'bb-bb10-pill-button-'+res,
 			containerDiv,
 			innerBorder;
-
+	
+			
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
 			outerElement.setAttribute('class','bb-bb10-pill-buttons-'+res);
