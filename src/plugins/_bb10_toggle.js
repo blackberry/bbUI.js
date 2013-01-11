@@ -7,16 +7,22 @@ _bb10_toggle = {
 	},
 	
 	style: function(outerElement,offdom) {
-		var res,
+		var res = '1280x768-1280x720',
 			table,
 			tr,
 			td,
-			color = bb.screen.controlColor,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
-			
+			color = bb.screen.controlColor;
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
 		outerElement.checked = false;
 		outerElement.enabled = true;
-		outerElement.buffer = (bb.device.isPlayBook) ? 35 : 70;
+		outerElement.buffer = (bb.device.is1024x600) ? 35 : 70;
 		outerElement.isActivated = false;
 		outerElement.initialXPos = 0;
 		outerElement.currentXPos = 0;

@@ -426,33 +426,37 @@ body, html {
 	color: #262626;
 }
    
-.bb-bb10-toggle-lowres
+/* ================================================= 
+   BB10 Toggle for 1024x600
+   =================================================*/ 
+   
+.bb-bb10-toggle-1024x600
 {
 	padding:10px;
 	height: 34px;
 	width: 105px;
 }
 
-.bb-bb10-toggle-lowres .outer
+.bb-bb10-toggle-1024x600 .outer
 {
     height: 34px;
 	border-radius: 18px;
 	width:105px;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-outer-dark
+.bb-bb10-toggle-1024x600 .bb-bb10-toggle-outer-dark
 {
 	background: #070707;
 	border: 1px solid #404040;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-outer-light
+.bb-bb10-toggle-1024x600 .bb-bb10-toggle-outer-light
 {
 	background: -webkit-linear-gradient(top, #D7D7D7 0%, #D2D2D2 100%);
 	border: 1px solid #9B9B9B;
 }
 
-.bb-bb10-toggle-lowres .halo {
+.bb-bb10-toggle-1024x600 .halo {
     margin: 12px;
 	border-radius: 30px;
     width: 60px;
@@ -466,7 +470,7 @@ body, html {
     -webkit-transform: scale(0);
 }
 
-.bb-bb10-toggle-lowres .indicator
+.bb-bb10-toggle-1024x600 .indicator
 { 
     display: inline-block;
     padding: 0.5em 1.8em;
@@ -480,33 +484,33 @@ body, html {
     border: 0px;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-enabled-dark
+.bb-bb10-toggle-1024x600 .bb-bb10-toggle-indicator-enabled-dark
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
     box-shadow: 0px 0px 0.2em #030303;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-disabled-dark
+.bb-bb10-toggle-1024x600 .bb-bb10-toggle-indicator-disabled-dark
 {
 	background-color: #3F3F3F;
 	border: 1px solid #030303;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-enabled-light
+.bb-bb10-toggle-1024x600 .bb-bb10-toggle-indicator-enabled-light
 {
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DFDFDF 100%);
 	border: 1px solid #BFBFBF;
     box-shadow: 0px 0px 0.2em #030303;
 }
 
-.bb-bb10-toggle-lowres .bb-bb10-toggle-indicator-disabled-light
+.bb-bb10-toggle-1024x600 .bb-bb10-toggle-indicator-disabled-light
 {
 	background-color: #C1C1C1;
 	border: 1px solid #B8B8B8;
 }
 
-.bb-bb10-toggle-lowres .indicator-hover-dark   {
+.bb-bb10-toggle-1024x600 .indicator-hover-dark   {
     border-top: 1px solid #555;
     border-left: 1px solid #454545;
     border-right: 1px solid #454545;
@@ -514,11 +518,11 @@ body, html {
     border-color:transparent;
 }
 
-.bb-bb10-toggle-lowres .indicator-hover-light   {
+.bb-bb10-toggle-1024x600 .indicator-hover-light   {
 	border: 1px solid #BFBFBF;
 }
 
-.bb-bb10-toggle-lowres .fill {
+.bb-bb10-toggle-1024x600 .fill {
     position: static;
     height: 34px;
     width: 105px;
@@ -526,14 +530,14 @@ body, html {
 	border-radius: 18px;
 }
 
-.bb-bb10-toggle-lowres .inner {
+.bb-bb10-toggle-1024x600 .inner {
     position: relative;
     width: 155px;
     height: 34px;
 	left: -65px;
 }
 
-.bb-bb10-toggle-lowres .yes {
+.bb-bb10-toggle-1024x600 .yes {
 	height: 34px;
 	line-height: 44px;
 	vertical-align: middle;
@@ -545,7 +549,7 @@ body, html {
 	text-align:right;
 }
 
-.bb-bb10-toggle-lowres .no {
+.bb-bb10-toggle-1024x600 .no {
 	height: 34px;
 	line-height: 44px;
 	vertical-align: middle;
@@ -557,63 +561,66 @@ body, html {
 	text-align:left;
 }
 
-.bb-bb10-toggle-lowres .indicator-container {
+.bb-bb10-toggle-1024x600 .indicator-container {
 	margin-top: -60px;
 	margin-left: -23px;	
 }
 
-.bb-bb10-toggle-lowres .table {
+.bb-bb10-toggle-1024x600 .table {
 	padding: 0px;
 	margin:0px;
 	border-collapse: collapse;
 }
 
-.bb-bb10-toggle-lowres .right {
+.bb-bb10-toggle-1024x600 .right {
 	width: 43px;
 	padding: 0px;
 	margin: 0px;
 }
 
-.bb-bb10-toggle-lowres .left {
+.bb-bb10-toggle-1024x600 .left {
 	width: 43px;
 	padding: 0px;
 	margin: 0px;
 }
 
-.bb-bb10-toggle-lowres .center {
+.bb-bb10-toggle-1024x600 .center {
 	width: 69px;
 	padding: 0px;
 	margin: 0px;
 }
-   
 
-.bb-bb10-toggle-hires
+/* ================================================= 
+   BB10 Toggle for 1280x768 and 1280x720
+   =================================================*/ 
+
+.bb-bb10-toggle-1280x768-1280x720
 {
 	padding:20px;
 	height: 68px;
 	width: 210px;
 }
 
-.bb-bb10-toggle-hires .outer
+.bb-bb10-toggle-1280x768-1280x720 .outer
 {
     height: 68px;
 	border-radius: 36px;
 	width:210px;
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-outer-dark
+.bb-bb10-toggle-1280x768-1280x720 .bb-bb10-toggle-outer-dark
 {
 	background: #070707;
 	border: 2px solid #404040;
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-outer-light
+.bb-bb10-toggle-1280x768-1280x720 .bb-bb10-toggle-outer-light
 {
 	background: -webkit-linear-gradient(top, #D7D7D7 0%, #D2D2D2 100%);
 	border: 2px solid #9B9B9B;
 }
 
-.bb-bb10-toggle-hires .halo {
+.bb-bb10-toggle-1280x768-1280x720 .halo {
     margin: 34px;
 	border-radius: 50px;
     width: 100px;
@@ -627,7 +634,7 @@ body, html {
     -webkit-transform: scale(0);
 }
 
-.bb-bb10-toggle-hires .indicator
+.bb-bb10-toggle-1280x768-1280x720 .indicator
 { 
     display: inline-block;
     padding: 0.5em 1.8em;
@@ -641,33 +648,33 @@ body, html {
     border: 0px;
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-enabled-dark
+.bb-bb10-toggle-1280x768-1280x720 .bb-bb10-toggle-indicator-enabled-dark
 {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
    /* box-shadow: 0px 0px 0.2em #030303;*/
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-disabled-dark
+.bb-bb10-toggle-1280x768-1280x720 .bb-bb10-toggle-indicator-disabled-dark
 {
 	background-color: #3F3F3F;
 	border: 1px solid #030303;
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-enabled-light
+.bb-bb10-toggle-1280x768-1280x720 .bb-bb10-toggle-indicator-enabled-light
 {
 	background: -webkit-linear-gradient(top, #F9F9F9 0%, #DFDFDF 100%);
 	border: 1px solid #BFBFBF;
   /*  box-shadow: 0px 0px 0.2em #030303;*/
 }
 
-.bb-bb10-toggle-hires .bb-bb10-toggle-indicator-disabled-light
+.bb-bb10-toggle-1280x768-1280x720 .bb-bb10-toggle-indicator-disabled-light
 {
 	background-color: #C1C1C1;
 	border: 1px solid #B8B8B8;
 }
 
-.bb-bb10-toggle-hires .indicator-hover-dark   {
+.bb-bb10-toggle-1280x768-1280x720 .indicator-hover-dark   {
     border-top: 2px solid #555;
     border-left: 2px solid #454545;
     border-right: 2px solid #454545;
@@ -675,11 +682,11 @@ body, html {
     border-color:transparent;
 }
 
-.bb-bb10-toggle-hires .indicator-hover-light   {
+.bb-bb10-toggle-1280x768-1280x720 .indicator-hover-light   {
 	border: 2px solid #BFBFBF;
 }
 
-.bb-bb10-toggle-hires .fill {
+.bb-bb10-toggle-1280x768-1280x720 .fill {
     position: static;
     height: 68px;
     width: 210px;
@@ -687,14 +694,14 @@ body, html {
 	border-radius: 36px;
 }
 
-.bb-bb10-toggle-hires .inner {
+.bb-bb10-toggle-1280x768-1280x720 .inner {
     position: relative;
     width: 310px;
     height: 68px;
 	left: -130px;
 }
 
-.bb-bb10-toggle-hires .yes {
+.bb-bb10-toggle-1280x768-1280x720 .yes {
 	height: 68px;
 	line-height: 65px;
 	vertical-align: middle;
@@ -706,7 +713,7 @@ body, html {
 	text-align:right;
 }
 
-.bb-bb10-toggle-hires .no {
+.bb-bb10-toggle-1280x768-1280x720 .no {
 	height: 68px;
 	line-height: 65px;
 	vertical-align: middle;
@@ -718,30 +725,30 @@ body, html {
 	text-align:left;
 }
 
-.bb-bb10-toggle-hires .indicator-container {
+.bb-bb10-toggle-1280x768-1280x720 .indicator-container {
 	margin-top: -119px;
 	margin-left: -47px;	
 }
 
-.bb-bb10-toggle-hires .table {
+.bb-bb10-toggle-1280x768-1280x720 .table {
 	padding: 0px;
 	margin:0px;
 	border-collapse: collapse;
 }
 
-.bb-bb10-toggle-hires .right {
+.bb-bb10-toggle-1280x768-1280x720 .right {
 	width: 86px;
 	padding: 0px;
 	margin: 0px;
 }
 
-.bb-bb10-toggle-hires .left {
+.bb-bb10-toggle-1280x768-1280x720 .left {
 	width: 86px;
 	padding: 0px;
 	margin: 0px;
 }
 
-.bb-bb10-toggle-hires .center {
+.bb-bb10-toggle-1280x768-1280x720 .center {
 	width: 138px;
 	padding: 0px;
 	margin: 0px;
