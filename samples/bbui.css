@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.49*/
+/* VERSION: 0.9.6.50*/
 
 body, html {
 	padding:0;
@@ -2780,19 +2780,38 @@ a.bb5-button-highlight span {
 	width:100%;
 }
 
-.bb-bb10-label-control-label-row-hires
+/* ================================================= 
+   BB10 Label Control Rows for 1280x768 and 1280x720
+   =================================================*/
+
+.bb-bb10-label-control-label-row-1280x768-1280x720
 {
 	vertical-align: text-bottom;
 	height:57px;
 }
 
-.bb-bb10-label-control-label-row-lowres
+.bb-bb10-label-control-label-1280x768-1280x720
+{
+	position:relative;
+	top: 10px;
+	bottom:0px;
+	left:0px;
+	font-size: 30pt;
+	height:30px;
+	vertical-align: text-bottom;
+}
+
+/* ================================================= 
+   BB10 Label Control Rows for 1024x600
+   =================================================*/
+   
+.bb-bb10-label-control-label-row-1024x600
 {
 	vertical-align: text-bottom;
 	height:28px;
 }
 
-.bb-bb10-label-control-label-lowres
+.bb-bb10-label-control-label-1024x600
 {
 	position:relative;
 	top: 7px;
@@ -2803,16 +2822,7 @@ a.bb5-button-highlight span {
 	vertical-align: text-bottom;
 }
 
-.bb-bb10-label-control-label-hires
-{
-	position:relative;
-	top: 10px;
-	bottom:0px;
-	left:0px;
-	font-size: 30pt;
-	height:30px;
-	vertical-align: text-bottom;
-}
+
 
 
 /* ================================================= 
