@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.52*/
+/* VERSION: 0.9.6.53*/
 
 body, html {
 	padding:0;
@@ -1143,7 +1143,18 @@ body, html {
 /* ================================================= 
    BB10 Round panels
    =================================================*/
-.bb-bb10-round-panel-lowres {
+   
+.bb-bb10-round-panel-light {
+	border-color: #C6C6C6;
+	color: Black;
+	background-color: white;
+}   
+   
+/* ================================================= 
+   BB10 Round panels for 1024x600
+   =================================================*/
+   
+.bb-bb10-round-panel-1024x600 {
 	border-radius:5px;
 	border-width: 1px;
 	border-style: solid;
@@ -1154,7 +1165,25 @@ body, html {
 	padding: 5px;
 }
 
-.bb-bb10-round-panel-hires {
+.bb-bb10-panel-header-1024x600
+{
+	padding-top:5px;
+	margin-bottom: 5px; 
+	padding-bottom: 3px; 
+	font-size: 14pt;
+	font-weight: bold;
+}
+
+.bb-bb10-panel-header-1024x600-light {
+	border-bottom: solid 1px #DCDBDB; 
+	color: #7C7E80;	
+}
+
+/* ================================================= 
+   BB10 Round panels for 1280x768 and 1280x720
+   =================================================*/
+
+.bb-bb10-round-panel-1280x768-1280x720 {
 	border-radius:10px;
 	border-width: 2px;
 	border-style: solid;
@@ -1164,23 +1193,8 @@ body, html {
 	margin-top: 8px;
 	padding: 10px;
 }
-   
-.bb-bb10-round-panel-light {
-	border-color: #C6C6C6;
-	color: Black;
-	background-color: white;
-}
 
-.bb-bb10-panel-header-lowres
-{
-	padding-top:5px;
-	margin-bottom: 5px; 
-	padding-bottom: 3px; 
-	font-size: 14pt;
-	font-weight: bold;
-}
-
-.bb-bb10-panel-header-hires
+.bb-bb10-panel-header-1280x768-1280x720
 {
 	padding-top:0px;
 	margin-bottom: 10px; 
@@ -1189,12 +1203,7 @@ body, html {
 	font-weight: bold;
 }
 
-.bb-bb10-panel-header-lowres-light {
-	border-bottom: solid 1px #DCDBDB; 
-	color: #7C7E80;	
-}
-
-.bb-bb10-panel-header-hires-light {
+.bb-bb10-panel-header-1280x768-1280x720-light {
 	border-bottom: solid 2px #DCDBDB; 
 	color: #7C7E80;	
 }
