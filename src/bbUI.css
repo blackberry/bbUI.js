@@ -5124,45 +5124,6 @@ a.bb5-button-highlight span {
 	background-position: center center;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEFxQNFCU9Ho4AAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAABqUlEQVR42u3b223bQBBG4ZmdFfXsRnhBakkNKSEtpBa3oisbSQPkcvMgLCHKDK3kaWScDxBgQC/EDy8I8IgiAAAAAAAAAADgBai3C2qaJpuZqN4uLaUk1+tVGfDJ8Xa73TxekVKS8/nscsTg5ULqpj7GGCWE8OFjZtJ2bfY4YPRzFPSbmUkIYfEfmHO+jRhMGHBrQNXF51W4OcI5Z5mmaXXQ8j0Dbuj7XsdxnMd7vImM4/iDu/ATuq7LVVVJCEFyzjIMg5xOp9c50wAAAAAAfHEem8hvM3ujifzPeG2Tq111u7C754BpSnI+0UQ21XX9K1qcG8iiiQSTrutoIptHQfVniUqPTUREJIQgDLg94GoTKX977STumsjfhrrvJQy4ojSRtXhEE/kHpYmY2dxEjscjTQQAAAAAACdcvicSYxRVnR9xXS4Xmsgz2rad3xNZNJGU3P5K1VMTeS+P9D80EaOJfH4UVL/fD1fknEVV3T6RdtVEynhrj/VpIp+4f0/kMTA9vkPCgCv6vtdhGFa/m6bJ7U3EZRPZ7/eLJnI4HGgiAAAAAADga/gD0hGqxramvjAAAAAASUVORK5CYII=");
 }
-   
-/* ================================================= 
-  BB10 Tab Overflow Menu
-=================================================*/   
-.bb-bb10-tab-overflow-menu-overlay 
-{
-	z-index: 1000;
-	position: fixed;
-	top: 0px;
-	right:0px;
-	bottom:0px;
-	left:0px;
-	display:none;
-	background-color:black;
-	opacity:0.25;
-}
-
-.bb-bb10-tab-overflow-menu
-{
-	position:absolute;
-	top: 0px;
-	bottom: 0px;
-	width: 0px;
-	left: 0px;
-	z-index:1001;
-	white-space:nowrap;
-	overflow-y : scroll;
-	overflow-x : hidden;
-	-webkit-overflow-scrolling : -blackberry-touch;
-}
-
-.bb-bb10-tab-overflow-menu-dark
-{
-	background-color: #121212;
-}
-
-.bb10Highlight .tab-accent-text {
-	color: white;
-}
 
 /* ================================================= 
   BB10 Tab Overflow Menu 1024x600
@@ -5275,6 +5236,45 @@ a.bb5-button-highlight span {
 	width: 80px;
 	margin-top: 0px;
 	margin-left:12px;
+}
+
+/* ================================================= 
+  BB10 Tab Overflow Menu
+=================================================*/   
+.bb-bb10-tab-overflow-menu-overlay 
+{
+	z-index: 1000;
+	position: fixed;
+	top: 0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
+	display:none;
+	background-color:black;
+	opacity:0.25;
+}
+
+.bb-bb10-tab-overflow-menu
+{
+	position:absolute;
+	top: 0px;
+	bottom: 0px;
+	width: 0px;
+	left: 0px;
+	z-index:1001;
+	white-space:nowrap;
+	overflow-y : scroll;
+	overflow-x : hidden;
+	-webkit-overflow-scrolling : -blackberry-touch;
+}
+
+.bb-bb10-tab-overflow-menu-dark
+{
+	background-color: #121212;
+}
+
+.bb10Highlight .tab-accent-text {
+	color: white;
 }
 
 /* ================================================= 
