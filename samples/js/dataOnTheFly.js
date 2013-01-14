@@ -49,6 +49,19 @@ function dataOnTheFly_initialLoad(element) {
 	}
 }
 
+function dataOnTheFly_addListItem() {
+	var listItem, 
+		dataList = document.getElementById('dataList');
+	// Create our list item
+	listItem = document.createElement('div');
+	listItem.setAttribute('data-bb-type', 'item');
+	listItem.setAttribute('data-bb-img', 'images/icons/icon11.png');
+	listItem.setAttribute('data-bb-title', 'Title ');
+	listItem.innerHTML = 'My description';
+	listItem.onclick = function() {alert('foo');};
+	dataList.appendItem(listItem);
+}
+
 function dataOnTheFly_addDropDown() {
 	var dropdown, option, buttonPanel = document.getElementById('buttonpanel');
 	// Create our list item
