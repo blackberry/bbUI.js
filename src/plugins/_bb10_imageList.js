@@ -105,9 +105,9 @@ _bb10_imageList = {
 							if (this.imageEffect) {
 								img.style.opacity = '0';
 								img.style['-webkit-transition'] = 'opacity 0.5s linear';
-								img.style['-webkit-backface-visibility'] = 'hidden';
+								/*img.style['-webkit-backface-visibility'] = 'hidden';
 								img.style['-webkit-perspective'] = 1000;
-								img.style['-webkit-transform'] = 'translate3d(0,0,0)';
+								img.style['-webkit-transform'] = 'translate3d(0,0,0)';*/  // This was causing webkit to crash
 								innerChildNode.imageList = this;
 								// Load our image once bbuilistready 
 								innerChildNode.bbuilistready = function() {
