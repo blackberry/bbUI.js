@@ -2969,12 +2969,12 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-header-1280x768-1280x720
 {
-	height:44px;
-	line-height:44px;
-	font-size: 28pt;
-	border-bottom-width: 3px;
+	height:46px;
+	line-height:46px;
+	font-size: 22pt;
+	border-bottom-width: 4px;
 	border-bottom-style: solid;
-	margin-bottom: 1px;
+	margin-bottom: 3px;
 }
 
 .bb-bb10-image-list-header-left-1280x768-1280x720
@@ -3108,9 +3108,9 @@ a.bb5-button-highlight span {
 .bb-bb10-image-list-header-1024x600
 {
 	height:28px;
-	line-height:30px;
-	font-size: 16pt;
-	border-bottom-width: 2px;
+	line-height:35px;
+	font-size: 13pt;
+	border-bottom-width: 3px;
 	border-bottom-style: solid;
 	margin-bottom: 1px;
 }
@@ -4538,17 +4538,16 @@ a.bb5-button-highlight span {
 .bb-bb10-grid-header-1024x600
 {
 	height:28px;
-	line-height:30px;
+	line-height:28px;
 	vertical-align:middle;
-	border-bottom-width: 2px;
+	border-bottom-width: 3px;
 	border-bottom-style: solid;
-	font-weight: bold;
 }
 
 .bb-bb10-grid-header-1024x600 p
 {
-	font-size: 16pt;
-	line-height:30px;
+	font-size: 13pt;
+	line-height:28px;
 	margin:0px;
 	padding:0px;
 	padding-top:4px;
@@ -4624,18 +4623,17 @@ a.bb5-button-highlight span {
 
 .bb-bb10-grid-header-1280x768-1280x720
 {
-	height:44px;
-	line-height:44px;
+	height:46px;
+	line-height:46px;
 	vertical-align:middle;
 	padding-left: 10px;
-	border-bottom-width: 3px;
+	border-bottom-width: 4px;
 	border-bottom-style: solid;
-	font-weight: bold;
 }
 
 .bb-bb10-grid-header-1280x768-1280x720 p
 {
-	font-size: 28pt;
+	font-size: 22pt;
 	line-height:44px;
 	margin:0px;
 	padding:0px;
