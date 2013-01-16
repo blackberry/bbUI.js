@@ -21,8 +21,10 @@ Below you will find all the different changes that have been added since the fir
 	* Label/Control container title font size updated
 	* Updated the clear button on input fields
 	* Grid lists now load their images as the user scrolls items into view
+	* Updated headers on grid and image lists to better match the sizing on BB10
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
+	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()
 	* **Action Bar:** Added show(), hide() functions
 	* **DropDown:** Added getCaption() 
 	* **BB10 Inputs:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.textInput.style()
