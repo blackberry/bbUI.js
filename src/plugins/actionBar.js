@@ -23,7 +23,8 @@ bb.actionBar = {
 			res = '1280x768-1280x720',
 			icon,
 			color = bb.actionBar.color,
-			j;
+			j,
+			orientation = bb.getOrientation();
 			
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
@@ -32,11 +33,9 @@ bb.actionBar = {
 			res = '1280x768-1280x720';
 		}
 			
-		actionBar.backBtnWidth = 0;
+		actionBar.res = res;
 		actionBar.isVisible = true;
-		actionBar.actionOverflowBtnWidth = 0;
-		actionBar.tabOverflowBtnWidth = 0;
-		actionBar.setAttribute('class','bb-bb10-action-bar-'+res+' bb-bb10-action-bar-' + bb.actionBar.color);
+		actionBar.setAttribute('class','bb-bb10-action-bar-'+res+' bb-bb10-action-bar-'+orientation+'-'+res+' bb-bb10-action-bar-' + bb.actionBar.color);
 		actionBar.visibleTabs = visibleTabs;
 		actionBar.visibleButtons = visibleButtons;
 		actionBar.overflowButtons = overflowButtons;
@@ -71,7 +70,7 @@ bb.actionBar = {
 				backslash,
 				backHighlight;
 			backBtn = document.createElement('div');
-			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color);
+			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-' + color+' bb-bb10-action-bar-back-button-'+orientation+'-'+res);
 			backBtn.onclick = function () {
 					window.setTimeout(bb.popScreen,0);
 				};
@@ -82,18 +81,34 @@ bb.actionBar = {
 			backBtn.appendChild(chevron);
 			// Create and add our back caption to the back button
 			backCaption = document.createElement('div');
-			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res);
+			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res+' bb-bb10-action-bar-back-text-'+orientation+'-'+res);
 			backCaption.innerHTML = actionBar.getAttribute('data-bb-back-caption');
+			backBtn.backCaption = backCaption;
 			backBtn.appendChild(backCaption);
 			// Create our highlight for touch
 			backHighlight = document.createElement('div');
 			backHighlight.setAttribute('class','bb-bb10-action-bar-back-button-highlight');
 			backHighlight.style['position'] = 'absolute';
-			backHighlight.style['height'] = bb.device.is1024x600 ? '57px' : '110px';
 			backHighlight.style['width'] = bb.device.is1024x600 ? '4px' : '8px';
 			backHighlight.style['background-color'] = 'transparent';
-			backHighlight.style['top'] = bb.device.is1024x600 ? '8px' : '15px';
+			
+			// Use this to update dimentions on orientation change
+			backBtn.updateHighlightDimensions = function(orientation) {
+						if (bb.device.is1024x600) {
+							backHighlight.style['height'] = orientation == 'portrait' ? '57px' : '57px';
+							backHighlight.style['top'] = '8px';
+						} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '70px';
+							backHighlight.style['top'] = '15px';
+						} else {
+							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '110px';
+							backHighlight.style['top'] = '15px';
+						}				
+					};
+			backBtn.updateHighlightDimensions = backBtn.updateHighlightDimensions.bind(backBtn);
 			backBtn.backHighlight = backHighlight;
+			backBtn.updateHighlightDimensions(orientation);
+			
 			backBtn.appendChild(backHighlight);
 			backBtn.ontouchstart = function() {
 					this.backHighlight.style['background-color'] = bb.options.highlightColor;				
@@ -104,7 +119,8 @@ bb.actionBar = {
 			
 			// Create our backslash
 			backslash = document.createElement('div');
-			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color); 
+			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-'+color+' bb-bb10-action-bar-back-slash-'+orientation+'-'+res); 
+			backBtn.backslash = backslash;
 			
 			// Create a table to hold the back button and our actions
 			var table = document.createElement('table'),
@@ -115,13 +131,12 @@ bb.actionBar = {
 			table.setAttribute('class','bb-bb10-action-bar-table');
 			// Set Back Button widths
 			if (bb.device.is1024x600) {
-				actionBar.backBtnWidth = 93;
-				td.style.width = 77+'px';
+				td.style.width = (bb.actionBar.getBackBtnWidth(backBtn) - 16)+'px';
 			} else {
-				actionBar.backBtnWidth = 187;
-				td.style.width = 154+'px';
+				td.style.width = (bb.actionBar.getBackBtnWidth(backBtn) - 33)+'px';
 			}
 			tr.appendChild(td);
+			backBtn.innerChevron = td;
 			td.appendChild(backBtn);
 			// Create the container for our backslash
 			td = document.createElement('td');
@@ -144,7 +159,6 @@ bb.actionBar = {
 
 		// If we have "tab" actions marked as overflow we need to show the more tab button
 		if (overflowTabs.length > 0) {
-			actionBar.tabOverflowBtnWidth = (bb.device.is1024x600) ? 77: 154;
 			actionBar.tabOverflowMenu = bb.tabOverflow.create(screen);
 			actionBar.tabOverflowMenu.actionBar = actionBar;
 			// Create our action bar overflow button
@@ -165,7 +179,6 @@ bb.actionBar = {
 		
 		// If we have "button" actions marked as overflow we need to show the more menu button
 		if (overflowButtons.length > 0) {
-			actionBar.actionOverflowBtnWidth = (bb.device.is1024x600) ? 77: 154;
 			actionBar.menu = bb.contextMenu.create(screen);
 			actionBar.appendChild(actionBar.menu);
 			// Create our action bar overflow button
@@ -185,7 +198,7 @@ bb.actionBar = {
 		
 		// Determines how much width there is to use not including built in system buttons on the bar
 		actionBar.getUsableWidth = function() {
-				return bb.innerWidth() - this.backBtnWidth - this.actionOverflowBtnWidth - this.tabOverflowBtnWidth;		
+				return bb.innerWidth() - bb.actionBar.getBackBtnWidth(this.backBtn) - bb.actionBar.getActionOverflowBtnWidth(this.moreBtn) - bb.actionBar.getTabOverflowBtnWidth(this.tabOverflowBtn);		
 			}
 		actionBar.getUsableWidth = actionBar.getUsableWidth.bind(actionBar);
 		
@@ -218,6 +231,23 @@ bb.actionBar = {
 		// Get our button width
 		btnWidth = actionBar.calculateActionWidths();
 		
+		// This function replaces 'portrait' with 'landscape' or vica-versa
+		actionBar.switchOrientationCSS = function (value) {
+								if (value) {
+									var index = value.indexOf('portrait');
+									if (index > -1) {
+										value = value.replace('portrait', 'landscape');
+									} else {
+										index = value.indexOf('landscape');
+										if (index > -1) {
+											value = value.replace('landscape', 'portrait');
+										}
+									}
+								}
+								return value;
+							};
+		actionBar.switchOrientationCSS = actionBar.switchOrientationCSS.bind(actionBar);
+		
 		// Make sure we move when the orientation of the device changes
 		actionBar.orientationChanged = function(event) {
 								var actionWidth = actionBar.calculateActionWidths(),
@@ -225,8 +255,43 @@ bb.actionBar = {
 									action,
 									actionType,
 									length = this.shownActions.length,
-									margins = 2;
-									
+									margins = 2,
+									temp;
+								
+								// Set the style for the action bar
+								temp = this.getAttribute('class');
+								temp = this.switchOrientationCSS(temp);
+								this.setAttribute('class',temp);
+								if (this.isVisible) {
+									bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.getActionBarHeight() + 'px';
+									if (bb.scroller) {
+										bb.scroller.refresh();
+									}
+								}
+								
+								// Update our orientation for the back button
+								if (this.backBtn) {
+									// Back Button
+									temp = this.backBtn.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.backBtn.setAttribute('class',temp);
+									this.backBtn.updateHighlightDimensions();
+									// Back caption
+									temp = this.backBtn.backCaption.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.backBtn.backCaption.setAttribute('class',temp);
+									// Back slash
+									temp = this.backBtn.backslash.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.backBtn.backslash.setAttribute('class',temp);
+									// Inner Chevron
+									if (bb.device.is1024x600) {
+										this.backBtn.innerChevron.style.width = (bb.actionBar.getBackBtnWidth(this.backBtn) - 16)+'px';
+									} else {
+										this.backBtn.innerChevron.style.width = (bb.actionBar.getBackBtnWidth(this.backBtn) - 33)+'px';
+									}
+								}
+								
 								for (i = 0; i < length; i++) {
 									action = this.shownActions[i];
 									actionType = (action.hasAttribute('data-bb-style')) ? action.getAttribute('data-bb-style').toLowerCase() : 'button';
@@ -236,6 +301,22 @@ bb.actionBar = {
 									if (action.highlight && (actionType != 'tab') && (action.getAttribute('data-bb-img') != 'overflow')) {
 										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
 										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
+										// Update tab orientation
+										action.normal = this.switchOrientationCSS(action.normal);
+										temp = action.getAttribute('class');
+										temp = this.switchOrientationCSS(temp);
+										action.setAttribute('class',temp);
+									} else if (actionType == 'tab') {
+										// Update tab orientation
+										action.normal = this.switchOrientationCSS(action.normal);
+										action.highlight = this.switchOrientationCSS(action.highlight);
+										temp = action.getAttribute('class');
+										temp = this.switchOrientationCSS(temp);
+										action.setAttribute('class',temp);
+										// Update display text orientation
+										temp = action.display.getAttribute('class');
+										temp = this.switchOrientationCSS(temp);
+										action.display.setAttribute('class',temp);
 									}
 								}
 								
@@ -244,9 +325,50 @@ bb.actionBar = {
 									if (actionType == 'tab') {
 										// Stretch the last button if all tabs are before the overflow button  
 										this.moreBtn.style.width = (bb.innerWidth() - (this.shownActions.length * actionWidth)) + 'px';
+										this.moreBtn.highlight.style['width'] = (actionWidth * 0.6) + 'px';
+										this.moreBtn.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 									} else {
-										this.moreBtn.style.width = this.actionOverflowBtnWidth + 'px'; 
+										this.moreBtn.style.width = bb.actionBar.getActionOverflowBtnWidth(this.moreBtn) + 'px'; 
+										this.moreBtn.highlight.style['width'] = (bb.actionBar.getActionOverflowBtnWidth(this.moreBtn) * 0.6) + 'px';
+										this.moreBtn.highlight.style['margin-left'] = (bb.actionBar.getActionOverflowBtnWidth(this.moreBtn) * 0.2) + 'px';
 									}
+								}
+								
+								// Adjust our action overflow button
+								if (this.moreBtn) {
+									// Update the action
+									this.moreBtn.normal = this.switchOrientationCSS(this.moreBtn.normal);
+									temp = this.moreBtn.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.moreBtn.setAttribute('class',temp);
+									// Update the icon
+									temp = this.moreBtn.icon.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.moreBtn.icon.setAttribute('class',temp);
+								}
+								
+								// Adjust our tab overflow button
+								if (this.tabOverflowBtn) {
+									this.tabOverflowBtn.style.width = (bb.actionBar.getTabOverflowBtnWidth(this.tabOverflowBtn) -1) + 'px';
+									
+									// Update our tab
+									this.tabOverflowBtn.normal = this.switchOrientationCSS(this.tabOverflowBtn.normal);
+									this.tabOverflowBtn.highlight = this.switchOrientationCSS(this.tabOverflowBtn.highlight);
+									temp = this.tabOverflowBtn.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.tabOverflowBtn.setAttribute('class',temp);
+									temp = this.tabOverflowBtn.tabHighlight.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.tabOverflowBtn.tabHighlight.setAttribute('class',temp);
+									// Update display text
+									temp = this.tabOverflowBtn.display.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.tabOverflowBtn.display.setAttribute('class',temp);
+									// Update our icon
+									this.tabOverflowBtn.icon.normal = this.switchOrientationCSS(this.tabOverflowBtn.icon.normal);
+									temp = this.tabOverflowBtn.icon.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.tabOverflowBtn.icon.setAttribute('class',temp);
 								}
 							};
 		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
@@ -278,6 +400,9 @@ bb.actionBar = {
 					// Make the scroll area go right to the bottom of the displayed content
 					bb.screen.currentScreen.outerScrollArea.style['bottom'] = '0px';
 					this.isVisible = false;
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
 				};
 		actionBar.hide = actionBar.hide.bind(actionBar); 
 		
@@ -286,8 +411,11 @@ bb.actionBar = {
 					if (this.isVisible) return;
 					this.style.display = '';
 					// Resize the screen scrolling area to stop at the top of the action bar
-					bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.currentScreen.actionBarHeight + 'px';
+					bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.getActionBarHeight() + 'px';
 					this.isVisible = true;
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
 				};
 		actionBar.show = actionBar.show.bind(actionBar);
 		
@@ -345,7 +473,7 @@ bb.actionBar = {
 			}
 			action.actionBar = actionBar;
 			action.innerHTML = '';
-			action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-tab-'+color+' bb-bb10-action-bar-tab-normal-'+color;
+			action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-tab-'+color+' bb-bb10-action-bar-tab-normal-'+color;
 			action.highlight = action.normal + ' bb-bb10-action-bar-tab-selected-'+color;
 			action.setAttribute('class',action.normal);
 
@@ -355,27 +483,26 @@ bb.actionBar = {
 			action.appendChild(icon);
 			// Set our caption
 			display = document.createElement('div');
-			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
+			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res+' bb-bb10-action-bar-action-display-'+orientation+'-'+res);
 			display.innerHTML = caption;
 			action.display = display;
 			action.appendChild(display);
 			
 			// See if it is our overflow tab
 			if (action.getAttribute('data-bb-img') == 'overflow') {
-				action.style.width = actionBar.tabOverflowBtnWidth + 'px'; 
 				action.icon = icon;
 				display.innerHTML = '&nbsp;';
 				action.display = display;
 				// Set our transparent pixel
 				icon.setAttribute('src',bb.transparentPixel);
-				icon.normal = 'bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-tab-overflow-'+res+'-'+color;
+				icon.normal = 'bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-tab-overflow-'+res+'-'+color + ' bb-bb10-action-bar-tab-overflow-'+orientation+'-'+res;
 				icon.highlight = 'bb-bb10-action-bar-icon-'+res;
 				icon.setAttribute('class',icon.normal);
 				// Crete our tab highlight div
 				action.tabHighlight = document.createElement('div');
-				action.tabHighlight.setAttribute('class','bb-bb10-action-bar-tab-overflow-'+res+'-'+color+' bb-bb10-action-bar-tab-overflow-highlight-'+res);
+				action.tabHighlight.setAttribute('class','bb-bb10-action-bar-tab-overflow-'+res+'-'+color+' bb-bb10-action-bar-tab-overflow-highlight-'+res+' bb-bb10-action-bar-tab-overflow-highlight-'+ orientation +'-'+res);
 				action.appendChild(action.tabHighlight);
-				action.style.width = (actionBar.tabOverflowBtnWidth - 1) + 'px';
+				action.style.width = (bb.actionBar.getTabOverflowBtnWidth(action) - 1) + 'px';
 				// Set our reset function
 				action.reset = function() {
 							this.icon.setAttribute('src',bb.transparentPixel);
@@ -474,7 +601,7 @@ bb.actionBar = {
 			if (action.getAttribute('data-bb-img') == 'overflow') {
 				// Set our transparent pixel
 				icon.setAttribute('src',bb.transparentPixel);
-				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-overflow-button-'+res+'-'+color);
+				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-overflow-button-'+res+'-'+color+' bb-bb10-action-bar-overflow-button-'+orientation+'-'+res);
 				// Stretch to the last tab as long as the only tab isn't the tab overflow 
 				var stretchToTab = false;
 				if ((lastStyle == 'tab') && actionBar.tabOverflowMenu && (visibleTabs.length == 1) && (visibleButtons.length == 1)) {
@@ -485,27 +612,26 @@ bb.actionBar = {
 				// If it is next to a tab, stretch it so that the right shading lines up
 				if (stretchToTab) {
 					// Stretch the last button if all tabs are before the overflow button 
-					actionWidth	= (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - actionBar.tabOverflowBtnWidth) : (bb.innerWidth() - (numVisibleTabs * btnWidth) - actionBar.tabOverflowBtnWidth);			
+					actionWidth	= (actionBar.tabOverflowMenu) ?  (bb.innerWidth() - ((numVisibleTabs-1) * btnWidth) - bb.actionBar.getTabOverflowBtnWidth(actionBar.tabOverflowBtn)) : (bb.innerWidth() - (numVisibleTabs * btnWidth) - bb.actionBar.getTabOverflowBtnWidth(actionBar.tabOverflowBtn));			
 					action.style.width = actionWidth + 'px';
-					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res +' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
-					actionWidth = (actionBar.actionOverflowBtnWidth - 1);
+					actionWidth = (bb.actionBar.getActionOverflowBtnWidth(action) - 1);
 					action.style.width = actionWidth + 'px'; 
 					action.style.float = 'right';
-					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-button-'+color;
 				}
 			} else {
 				shownActions.push(action);
 				icon.setAttribute('src',action.getAttribute('data-bb-img'));
 				icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
-				action.icon = icon;
 				action.style.width = btnWidth + 'px'; 
 				
 				// set our shading if needed
 				if (lastStyle == 'tab') {
-					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-button-'+color+' bb-bb10-action-bar-button-tab-left-'+res+'-'+color;
 				} else {
-					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-button-'+color;
+					action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-button-'+color;
 				}
 				
 				// Assign the setCaption function
@@ -534,6 +660,7 @@ bb.actionBar = {
 			}
 			
 			// Default settings
+			action.icon = icon;
 			action.innerHTML = '';
 			action.setAttribute('class',action.normal);
 			action.appendChild(icon);
@@ -572,6 +699,45 @@ bb.actionBar = {
 		if (actionBar.tabOverflowMenu) {
 			actionBar.tabOverflowMenu.centerMenuItems();
 			actionBar.tabOverflowMenu.initSelected();
+		}
+	},
+	
+	// Return the tab overflow button width based on orientation and screen resolution
+	getTabOverflowBtnWidth: function(button) {
+		if (!button) return 0;
+		
+		if (bb.device.is1024x600) {
+			return bb.getOrientation() == 'portrait' ? 77 : 123;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else {
+			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		}
+	},
+	
+	// Return the action overflow button width based on orientation and screen resolution
+	getActionOverflowBtnWidth: function(button) {
+		if (!button) return 0;
+		
+		if (bb.device.is1024x600) {
+			return bb.getOrientation() == 'portrait' ? 77 : 123;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else {
+			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		}
+	},
+	
+	// Return the back button width based on orientation and screen resolution
+	getBackBtnWidth: function(button) {
+		if (!button) return 0;
+		
+		if (bb.device.is1024x600) {
+			return bb.getOrientation() == 'portrait' ? 93 : 150;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return bb.getOrientation() == 'portrait' ? 187 : 300;
+		} else {
+			return bb.getOrientation() == 'portrait' ? 187 : 300;
 		}
 	},
 

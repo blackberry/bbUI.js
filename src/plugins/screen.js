@@ -326,7 +326,7 @@ bb.screen = {
 						}
 						// Adjust for action bar
 						if (bb.screen.currentScreen.actionBar) {
-							offsetTop -= bb.screen.currentScreen.actionBarHeight;
+							offsetTop -= bb.screen.getActionBarHeight();
 						}
 						this.scrollTo(offsetTop);
 					}
@@ -511,11 +511,11 @@ bb.screen = {
 	getActionBarHeight: function() {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
-			return 73;
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return 140;
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100; 
 		} else {
-			return 140;
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100;
 		}
 	},
 	

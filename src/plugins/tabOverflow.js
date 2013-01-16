@@ -16,13 +16,10 @@ bb.tabOverflow = {
 		
 		if (bb.device.is1024x600) {
 			menu.res = '1024x600';
-			menu.width = bb.innerWidth() - 77; 
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			menu.res = '1280x768-1280x720';
-			menu.width = bb.innerWidth() - 154; 
 		} else {
 			menu.res = '1280x768-1280x720';
-			menu.width = bb.innerWidth() - 154; 
 		}
 		
 		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-dark');
@@ -82,7 +79,7 @@ bb.tabOverflow = {
 		// Adjust the dimensions of the menu and screen
 		menu.setDimensions = function() {
 					this.style.display = '';
-					this.style.width = this.width + 'px';
+					this.style.width = bb.tabOverflow.getWidth() + 'px';
 					// Set our screen's parent to have no overflow so the browser doesn't think it needs to scroll
 					this.screen.parentNode.style.position = 'absolute';
 					this.screen.parentNode.style.left = '0px';
@@ -96,7 +93,7 @@ bb.tabOverflow = {
 					
 					// Slide our screen
 					this.screen.style['-webkit-transition'] = '0.3s ease-out';
-					this.screen.style['-webkit-transform'] = 'translate3d(' + this.width + 'px,0px,0px)';
+					this.screen.style['-webkit-transform'] = 'translate3d(' + bb.tabOverflow.getWidth() + 'px,0px,0px)';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
 		menu.setDimensions = menu.setDimensions.bind(menu);	
@@ -275,5 +272,16 @@ bb.tabOverflow = {
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
+	},
+	
+	// Get the preferred width of the overflow
+	getWidth: function() {
+		if (bb.device.is1024x600) {
+			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
+		} else {
+			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
+		}
 	}
 };
