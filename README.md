@@ -49,6 +49,7 @@ JavaScript frameworks such as [jQuery Mobile](https://github.com/blackberry/jQue
 * [Karan Khiani](https://github.com/karancan) 
 * [Justin DaSilva](https://github.com/lyricidal) follow me on Twitter [@theiexplorers](https://twitter.com/theiexplorers)
 * [Arturo Linares](https://github.com/arturolinares) follow me on Twitter [@arturo_linares](https://twitter.com/arturo_linares)
+* [Frederico Silva](https://github.com/fredericosilva)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
