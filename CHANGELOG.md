@@ -39,6 +39,7 @@ Below you will find all the different changes that have been added since the fir
 	* The screen's scrollToElement() function has now been fixed
 	* Clear button on input fields no longer gets in the way of long text in the field
 	* Wrapping of back caption on action bars is now fixed
+	* Fixed a bug where script tags with text/template were trying to be evaluated 
 	
 ## Version 0.9.5
 
