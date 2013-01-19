@@ -4636,13 +4636,13 @@ bb.titleBar = {
 										} 
 										//Set margins for title bar caption when only an action button is present
 										else if (this.actionButton) {
-											this.caption.style['margin-left'] = '0px';
-											this.caption.style['margin-right'] = '0px';
+											this.caption.style['margin-left'] = (actionWidth+24) +'px';
+											this.caption.style['margin-right'] = (actionWidth+24) +'px';
 										} 
 										//Set margins for title bar caption when only a back button is present
 										else if (this.backButton) {
-											this.caption.style['margin-right'] = '0px';
-											this.caption.style['margin-left'] =  '0px';
+											this.caption.style['margin-right'] = (backWidth + 24) +'px';
+											this.caption.style['margin-left'] =  (backWidth + 24) +'px';
 										}
 									};
 				titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
