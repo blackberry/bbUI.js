@@ -2027,6 +2027,8 @@ body, html {
 	border-radius:10px;
 	padding: 4px;
 	margin: 15px;
+	/* Set the max width to 100% for the titlebar button */
+	max-width: 100%;
 }  
 
 .bb-bb10-titlebar-button-1280x768-1280x720 {
@@ -2038,6 +2040,11 @@ body, html {
 	padding-left: 35px;
 	padding-right: 35px;
 	font-size:28pt;
+	/* Truncate the titlebar button's text when it overflows */
+	overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    text-overflow: -blackberry-fade;
 }
 
 /* ================================================= 
