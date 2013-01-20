@@ -3053,7 +3053,7 @@ a.bb5-button-highlight span {
 	font-size: 26pt;	
 	margin-bottom: 0px;
 	margin-top:-1px;
-	text-overflow: -blackberry-fade;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-image-list-item-1280x768-1280x720 .accent-text
