@@ -225,7 +225,7 @@ bb.actionBar = {
 								result = Math.floor(totalWidth/(5-numSystemActions));
 							}
 							
-							return result;
+							return result
 						};
 		actionBar.calculateActionWidths = actionBar.calculateActionWidths.bind(actionBar);
 		// Get our button width
@@ -234,14 +234,11 @@ bb.actionBar = {
 		// This function replaces 'portrait' with 'landscape' or vica-versa
 		actionBar.switchOrientationCSS = function (value) {
 								if (value) {
-									var index = value.indexOf('portrait');
-									if (index > -1) {
-										value = value.replace('portrait', 'landscape');
+									var orientation = bb.getOrientation();
+									if (orientation == 'portrait') {
+										value = value.replace('landscape', 'portrait');
 									} else {
-										index = value.indexOf('landscape');
-										if (index > -1) {
-											value = value.replace('landscape', 'portrait');
-										}
+										value = value.replace('portrait', 'landscape');
 									}
 								}
 								return value;
@@ -249,12 +246,12 @@ bb.actionBar = {
 		actionBar.switchOrientationCSS = actionBar.switchOrientationCSS.bind(actionBar);
 		
 		// Make sure we move when the orientation of the device changes
-		actionBar.orientationChanged = function(event) {
-								var actionWidth = actionBar.calculateActionWidths(),
-									i,
+		actionBar.reLayoutActionBar = function(event) {
+								var i,
 									action,
 									actionType,
 									length = this.shownActions.length,
+									actionWidth = Math.floor(this.getUsableWidth()/length),
 									margins = 2,
 									temp;
 								
@@ -298,7 +295,8 @@ bb.actionBar = {
 									// Compute margins
 									margins = (actionType == 'tab') ? 2 : 0;
 									action.style.width = (actionWidth - margins) + 'px'; 
-									if (action.highlight && (actionType != 'tab') && (action.getAttribute('data-bb-img') != 'overflow')) {
+									// Update the action items
+									if (action.highlight && (actionType != 'tab')) {
 										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
 										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 										// Update tab orientation
@@ -371,10 +369,10 @@ bb.actionBar = {
 									this.tabOverflowBtn.icon.setAttribute('class',temp);
 								}
 							};
-		actionBar.orientationChanged = actionBar.orientationChanged.bind(actionBar);	
-		window.addEventListener('orientationchange', actionBar.orientationChanged,false);
+		actionBar.reLayoutActionBar = actionBar.reLayoutActionBar.bind(actionBar);	
+		window.addEventListener('orientationchange', actionBar.reLayoutActionBar,false);
 		// Add listener for removal on popScreen
-		bb.windowListeners.push({name: 'orientationchange', eventHandler: actionBar.orientationChanged});
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: actionBar.reLayoutActionBar});
 				
 		// Add setBackCaption function
 		actionBar.setBackCaption = function(value) {
@@ -472,6 +470,7 @@ bb.actionBar = {
 				action.style.width = (btnWidth - tabMargins) + 'px'; 
 			}
 			action.actionBar = actionBar;
+			action.visible = true;
 			action.innerHTML = '';
 			action.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-tab-'+color+' bb-bb10-action-bar-tab-normal-'+color;
 			action.highlight = action.normal + ' bb-bb10-action-bar-tab-selected-'+color;
@@ -574,6 +573,14 @@ bb.actionBar = {
 									return this.icon.getAttribute('src');
 								};
 				action.getImage = action.getImage.bind(action);	
+				
+				// Add our hide() function
+				action.hide = bb.actionBar.actionHide;
+				action.hide = action.hide.bind(action);
+				
+				// Add our show() function
+				action.show = bb.actionBar.actionShow;
+				action.show = action.show.bind(action);
 			}
 			
 			// Make the last tab have a smaller border and insert the shading
@@ -589,6 +596,8 @@ bb.actionBar = {
 			actionWidth = btnWidth;
 			action = visibleButtons[j];
 			action.res = res;
+			action.actionBar = actionBar;
+			action.visible = true;
 			caption = action.innerHTML;
 			// Don't add any more than 5 items on the action bar
 			if ((((numVisibleTabs + j) > 4)) || (actionBar.backBtn && (j > 3))) {
@@ -657,6 +666,14 @@ bb.actionBar = {
 									return this.icon.getAttribute('src');
 								};
 				action.getImage = action.getImage.bind(action);
+				
+				// Add our hide() function
+				action.hide = bb.actionBar.actionHide;
+				action.hide = action.hide.bind(action);
+				
+				// Add our show() function
+				action.show = bb.actionBar.actionShow;
+				action.show = action.show.bind(action);
 			}
 			
 			// Default settings
@@ -700,6 +717,45 @@ bb.actionBar = {
 			actionBar.tabOverflowMenu.centerMenuItems();
 			actionBar.tabOverflowMenu.initSelected();
 		}
+	},
+	
+	actionShow: function() {
+		if (this.visible) return;
+		this.style.display = '';
+		this.visible = true;
+		// Add this action to the shown actions
+		this.actionBar.shownActions.push(this);
+		// See if we need action overflow adjustments.  
+		if (this.actionBar.moreBtn) {
+			
+			/* TODO: Style action overflow button to check to see if the last 
+					 visible item on the actionbar is a tab. If so it needs to be
+					 styled appropriately		
+			*/
+			
+		}
+		this.actionBar.reLayoutActionBar();
+	},
+	
+	actionHide: function() {
+		if (!this.visible) return;
+		this.style.display = 'none';
+		this.visible = false;
+		// Remove this action from the shown actions
+		var index = this.actionBar.shownActions.indexOf(this);
+		if (index >= 0) {
+			this.actionBar.shownActions.splice(index,1);
+		}
+		// See if we need action overflow adjustments.  
+		if (this.actionBar.moreBtn) {
+			
+			/* TODO: Style action overflow button to check to see if the last 
+					 visible item on the actionbar is a tab. If so it needs to be
+					 styled appropriately		
+			*/
+			
+		}
+		this.actionBar.reLayoutActionBar();
 	},
 	
 	// Return the tab overflow button width based on orientation and screen resolution
