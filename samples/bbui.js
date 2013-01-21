@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.72*/
+/* VERSION: 0.9.6.73*/
 
 bb = {
 	scroller: null,  
@@ -3447,13 +3447,20 @@ bb.tabOverflow = {
 				// set our styling
 				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-dark';
 				this.appendChild(action);
-				this.actions.push(action);
+				
+				// Check for our visibility
+				if (action.hasAttribute('data-bb-visible') && action.getAttribute('data-bb-visible').toLowerCase() == 'false') {
+					action.visible = false;
+					action.style.display = 'none';
+				} else {
+					action.visible = true;
+					this.actions.push(action);
+				}
 				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
 					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-dark';
 				}
 				// Set our inner information
-				action.visible = true;
 				action.normal = normal;
 				action.accentText = null;
 				action.menu = this;

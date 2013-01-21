@@ -4849,6 +4849,9 @@ a.bb5-button-highlight span {
 	font-size:12pt;
 	line-height:18px;
 	margin-top: 3px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 .bb-bb10-action-bar-action-display-portrait-1024x600 {
@@ -5088,6 +5091,9 @@ a.bb5-button-highlight span {
 	font-size:20pt;
 	margin-top:3px;
 	line-height:30px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-action-bar-action-display-portrait-1280x768-1280x720 {
