@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.70*/
+/* VERSION: 0.9.6.71*/
 
 bb = {
 	scroller: null,  
@@ -2160,7 +2160,6 @@ bb.contextMenu = {
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-dark';
-				//this.appendChild(action);
 				
 				this.actions.push(action);
 				// See if this item should be pinned to the bottom
@@ -2182,6 +2181,7 @@ bb.contextMenu = {
 				}
 				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
 				action.normal = normal;
+				action.visible = true;
 				action.highlight = highlight;
 				// Set our inner information
 				action.innerHTML = '';
@@ -2238,6 +2238,32 @@ bb.contextMenu = {
 									this.img.setAttribute('src',value);
 								};
 				action.setImage = action.setImage.bind(action);
+				
+				// Assign the hide function
+				action.hide = function() {
+									if (!this.visible) return;
+									this.visible = false;
+									// Remove from the actions list
+									var index = this.menu.actions.indexOf(this);
+									this.menu.actions.splice(index,1);
+									// Change style
+									this.style.display = 'none';
+									this.menu.centerMenuItems();
+								};
+				action.hide = action.hide.bind(action);
+				
+				// Assign the show function
+				action.show = function() {
+									if (this.visible) return;
+									this.visible = true;
+									// Add to the actions list
+									this.menu.actions.push(this);
+									// Change style
+									this.style.display = '';
+									this.menu.centerMenuItems();
+								};
+				action.show = action.show.bind(action);
+				
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
