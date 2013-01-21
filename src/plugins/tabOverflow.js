@@ -186,6 +186,7 @@ bb.tabOverflow = {
 					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-dark';
 				}
 				// Set our inner information
+				action.visible = true;
 				action.normal = normal;
 				action.accentText = null;
 				action.menu = this;
@@ -269,6 +270,27 @@ bb.tabOverflow = {
 									this.img.setAttribute('src',value);
 								};
 				action.setImage = action.setImage.bind(action);
+				
+				// Assign the show function
+				action.show = function() {
+									if (this.visible) return;
+									this.visible = true;
+									this.menu.actions.push(this);
+									this.style.display = '';
+									this.menu.centerMenuItems();
+								};
+				action.show = action.show.bind(action);
+				
+				// Assign the hide function
+				action.hide = function() {
+									if (!this.visible) return;
+									this.visible = false;
+									var index = this.menu.actions.indexOf(this);
+									this.menu.actions.splice(index,1);
+									this.style.display = 'none';	
+									this.menu.centerMenuItems();
+								};
+				action.hide = action.hide.bind(action);
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;
