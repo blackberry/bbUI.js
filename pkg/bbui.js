@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.74*/
+/* VERSION: 0.9.6.75*/
 
 bb = {
 	scroller: null,  
@@ -6180,7 +6180,6 @@ _bb10_radio = {
 							this.centerDotDiv.style['-webkit-transition-property'] = 'all';
 							this.centerDotDiv.style['-webkit-transition-duration'] = '0.1s';
 							this.centerDotDiv.style['-webkit-transition-timing-function'] = 'ease-in';
-							this.centerDotDiv.style['-webkit-backface-visibility'] = 'hidden';
 							this.centerDotDiv.style['-webkit-perspective'] = 1000;
 							this.centerDotDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							
