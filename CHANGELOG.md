@@ -27,6 +27,7 @@ Below you will find all the different changes that have been added since the fir
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()
 	* **Action Bar:** Added show(), hide() functions
+		* Buttons and Tabs: Added show(), hide() functions
 	* **DropDown:** Added getCaption() function
 	* **BB10 Inputs:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.textInput.style()
 	* **Context Menu:** Added hide(), show() functions to menu items
