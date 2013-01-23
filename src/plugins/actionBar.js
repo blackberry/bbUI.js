@@ -813,6 +813,7 @@ bb.actionBar = {
 			}
 			// Reset the overflow button
 			action.actionBar.tabOverflowBtn.style['border-top-color'] = '';
+			action.actionBar.tabOverflowBtn.setAttribute('class',action.actionBar.tabOverflowBtn.normal);
 		}
 		
 		// Now highlight this action

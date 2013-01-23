@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.76*/
+/* VERSION: 0.9.6.77*/
 
 bb = {
 	scroller: null,  
@@ -1726,6 +1726,7 @@ bb.actionBar = {
 			}
 			// Reset the overflow button
 			action.actionBar.tabOverflowBtn.style['border-top-color'] = '';
+			action.actionBar.tabOverflowBtn.setAttribute('class',action.actionBar.tabOverflowBtn.normal);
 		}
 		
 		// Now highlight this action
