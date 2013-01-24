@@ -60,6 +60,12 @@ Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://icon
 Have a bbUI application that you would like to showcase to other potential bbUI developers. Feel free to promote your appliation or check out what others
 have accomplished in the [bbUI Showcase](https://github.com/blackberry/bbUI.js/issues/442)!
 
+## Handy Image Resources
+
+Both RIM and community members have provided some images that you can use on your BlackBerry 10 action bars:
+* [RIM provided images](https://developer.blackberry.com/design/bb10/)
+* [Community provided images](http://devblog.blackberry.com/2012/12/blackberry-10-icon-sets/)
+
 ## Philosophy
 
 The bbUI toolkit is designed to progressively enhance its capability based on the abilities of the Web rendering engine 
