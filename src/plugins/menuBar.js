@@ -75,7 +75,7 @@ bb.menuBar = {
 				bb.menuBar.height = 140;
 			}
 
-			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-'+bb.actionBar.color);
+			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-dark');
 			items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
 			if(items.length > 0){
 				for (i = 0; i < items.length; i++) {
