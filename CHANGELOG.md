@@ -5,7 +5,7 @@ Below you will find all the different changes that have been added since the fir
 ## Latest Working Version 0.9.6
 
 * _**Compatibility Changes:**_ 
-	* Light colored action overflow, tab overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+	* Light colored action bars, context menus and screen menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
 	* BB10 Input fields are now wrapped with a container after they have been styled. 
 		* This may affect code that was showing/hiding/disabling inputs via JavaScript. 
 		* New JavaScript interfaces have been added to input controls for BB10.
