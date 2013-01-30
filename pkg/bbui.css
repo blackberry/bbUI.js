@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.85*/
+/* VERSION: 0.9.6.86*/
 
 body, html {
 	padding:0;
@@ -4775,8 +4775,6 @@ a.bb5-button-highlight span {
 	right:0px;
 	left:0px;
 	background-repeat:  repeat-x;
-	border-top-width: 1px;
-	border-top-style:solid;
 	overflow:hidden;
 }
 
@@ -4968,8 +4966,6 @@ a.bb5-button-highlight span {
 	right:0px;
 	left:0px;
 	background-repeat:  repeat-x;
-	border-top-width: 1px;
-	border-top-style: solid;
 	overflow:hidden;
 }
 
