@@ -31,6 +31,7 @@ Below you will find all the different changes that have been added since the fir
 	* **DropDown:** Added getCaption() function
 	* **BB10 Inputs:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.textInput.style()
 	* **Context Menu:** Added hide(), show() functions to menu items
+	* **Pill Buttons:** Added clear(), appendButton() and ability to style dynamically using bb.pillButtons.style()
 * Samples
 	* Created dedicated sample page for Pill Button JavaScript interfaces
 * Noteable Bug Fixes: 
