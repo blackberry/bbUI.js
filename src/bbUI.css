@@ -5298,6 +5298,7 @@ a.bb5-button-highlight span {
 	top: 0px;
 	clear: both;
 	visibility : hidden;
+	box-shadow: rgba(50, 50, 50, 0.447059) -10px 0px 20px;
 }
 
 .bb-bb10-context-menu-overlay

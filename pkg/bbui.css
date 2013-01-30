@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.81*/
+/* VERSION: 0.9.6.82*/
 
 body, html {
 	padding:0;
@@ -5316,6 +5316,7 @@ a.bb5-button-highlight span {
 	top: 0px;
 	clear: both;
 	visibility : hidden;
+	box-shadow: rgba(50, 50, 50, 0.447059) -10px 0px 20px;
 }
 
 .bb-bb10-context-menu-overlay
