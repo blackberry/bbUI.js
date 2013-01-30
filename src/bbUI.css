@@ -5419,8 +5419,7 @@ a.bb5-button-highlight span {
 {
 	padding-top: 14px;
 	padding-bottom: 3px;	
-	padding-left: 0px;
-	border-left: solid 10px;
+	padding-left: 10px;
 	border-left-color: transparent;
 	height: 109px;
 	line-height: 95px;
