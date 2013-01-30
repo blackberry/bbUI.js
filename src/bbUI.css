@@ -4726,9 +4726,8 @@ a.bb5-button-highlight span {
 .bb-bb10-action-bar-tab-dark {
 	color: white;
 	border-top-color: #373737;
-	border-right-color: #141414;
-	border-right-width: 2px;
-	border-right-style: solid;
+
+	box-shadow:-1px 0 0 rgb(10,10,10);
 }
 
 .bb-bb10-action-bar-button-dark {
