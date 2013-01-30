@@ -6725,6 +6725,7 @@ _bb10_textInput = {
 		outerElement.clickCount = 0;
 		outerElement.container = container;
 		outerElement.clearBtn = outerElement.getAttribute('data-bb-clear') != 'none';
+		outerElement.hasClearBtn = false;
 		
 		// Don't show the clear button on some input types
 		if (outerElement.type) {
@@ -6744,8 +6745,12 @@ _bb10_textInput = {
 		outerElement.doFocus = function() {
 								if(this.readOnly == false) {
 									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-focused-'+res);
-									if (this.clearBtn) {
-										this.setAttribute('class',this.focused);
+									if (this.clearBtn && this.value) {
+										this.setAttribute('class', this.focused);
+										this.hasClearBtn = true;
+									} else {
+										this.setAttribute('class', this.normal);
+										this.hasClearBtn = false;
 									}
 									this.container.style['border-color'] = bb.options.highlightColor;
 									this.isFocused = true;
@@ -6768,6 +6773,16 @@ _bb10_textInput = {
 		outerElement.doBlur = outerElement.doBlur.bind(outerElement);	
 		outerElement.addEventListener('blur', outerElement.doBlur, false);
 		
+		// Monitor input to add or remove clear button
+		outerElement.updateClearButton = function() {
+											if (this.clearBtn) {
+												if ((this.value.length == 0 && this.hasClearBtn) || (this.value.length > 0 && !this.hasClearBtn))
+													outerElement.doFocus();
+											}
+		};
+		outerElement.updateClearButton = outerElement.updateClearButton.bind(outerElement);  
+		outerElement.addEventListener("input", outerElement.updateClearButton, false);
+				
 		// Add the clear button handler
 		if (outerElement.clearBtn) {
 			outerElement.container.ontouchstart = function(event) {
@@ -6775,6 +6790,7 @@ _bb10_textInput = {
 										event.preventDefault();
 										event.stopPropagation();
 										this.input.value = '';
+										outerElement.doFocus();
 									}
 								};
 		}
