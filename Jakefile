@@ -26,6 +26,21 @@ function collect(path, files, matches) {
     }
 }
 
+function inlineImages(css, basePath) {
+	var imgRegex = /url\s?\(['"]?(.*?)(?=['"]?\))/gi;
+	while (match = imgRegex.exec(css)) {
+		var imgPath = _path.join(basePath, match[1]);
+		try {
+			var img = fs.readFileSync(imgPath, 'base64');
+			var ext = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+			css = css.replace(match[1], 'data:image/' + ext + ';base64,' + img);
+		} catch (err) {
+			console.log('Image not found (%s).', imgPath);
+		}
+	}
+	return css;
+}
+
 desc("runs jake build");
 task('default', ['build'], function () {});
 
@@ -69,8 +84,9 @@ task('build', ['clean'], function () {
     fs.writeFileSync(__dirname + "/pkg/bbui.js", license + output);
     fs.writeFileSync(__dirname + "/samples/bbui.js", license + output);
 
+
 	// Grab our CSS information
-	css = include("src/bbUI.css");
+	css = inlineImages(include("src/bbUI.css"), "");
 	fs.writeFileSync(__dirname + "/pkg/bbui.css", license + css);
     fs.writeFileSync(__dirname + "/samples/bbui.css", license + css);
 	
