@@ -21,8 +21,10 @@ Below you will find all the different changes that have been added since the fir
 	* Label/Control container title font size updated
 	* Updated the clear button on input fields
 	* Grid lists now load their images as the user scrolls items into view
-	* Updated headers on grid and image lists to better match the sizing on BB10
+	* Updated headers on grid and image lists to better match the sizing and coloring on BB10
 	* Updated Action Bars to have a minimized version when in landscape
+	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
+	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()
