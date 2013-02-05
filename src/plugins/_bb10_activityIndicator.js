@@ -15,6 +15,8 @@ _bb10_activityIndicator = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		if (elements.length > 0) {
@@ -58,7 +60,9 @@ _bb10_activityIndicator = {
 					width = '93px';
 				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 					width = '184px';
-				} else {
+				}  else if (bb.device.is720x720) {
+					width = '170px';
+				}else {
 					width = '184px';
 				}
 			} else if (size == 'small') {
@@ -75,7 +79,9 @@ _bb10_activityIndicator = {
 					width = '46px';
 				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 					width = '93px';
-				} else {
+				} else if (bb.device.is720x720) {
+					width = '88px';
+				}else {
 					width = '93px';
 				}
 			}

@@ -92,7 +92,7 @@ bb.tabOverflow = {
 					this.overlay.style.display = 'block';
 					
 					// Slide our screen
-					this.screen.style['-webkit-transition'] = '0.3s ease-out';
+					this.screen.style['-webkit-transition'] = '0.2s ease-out';
 					this.screen.style['-webkit-transform'] = 'translate3d(' + bb.tabOverflow.getWidth() + 'px,0px,0px)';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
