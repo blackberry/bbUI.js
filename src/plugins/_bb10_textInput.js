@@ -30,10 +30,14 @@ _bb10_textInput = {
 		container.input = outerElement;
 		container.setAttribute('data-bb-type','input');
 		container.normal = 'bb-bb10-input-container bb-bb10-input-container-'+ res;
+		container.passwd = ' bb-bb10-input-container-passwd-focused-'+ res;
+		container.passwd_shown = container.passwd + " show-passwd";
 		
 		// Set our input styling
 		outerElement.normal = css + ' bb-bb10-input bb-bb10-input-'+res;
 		outerElement.focused = css + ' bb-bb10-input bb-bb10-input-focused-'+res;
+
+
 		if (outerElement.disabled) {
 			outerElement.setAttribute('class', outerElement.normal + ' bb-bb10-input-disabled');
 		} else {
@@ -44,6 +48,8 @@ _bb10_textInput = {
 		outerElement.container = container;
 		outerElement.clearBtn = outerElement.getAttribute('data-bb-clear') != 'none';
 		outerElement.hasClearBtn = false;
+		outerElement.showPasswdBtn = outerElement.getAttribute('data-bb-show-password') != 'none';
+		outerElement.hasShowPasswdBtn = false;
 		
 		// Don't show the clear button on some input types
 		if (outerElement.type) {
@@ -61,21 +67,39 @@ _bb10_textInput = {
 		}
 		
 		outerElement.doFocus = function() {
-								if(this.readOnly == false) {
-									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-focused-'+res);
-									if (this.clearBtn && this.value) {
-										this.setAttribute('class', this.focused);
-										this.hasClearBtn = true;
-									} else {
-										this.setAttribute('class', this.normal);
-										this.hasClearBtn = false;
-									}
-									this.container.style['border-color'] = bb.options.highlightColor;
-									this.isFocused = true;
-									this.clickCount = 0;
-									bb.screen.focusedInput = this;
-								}
-							};
+			if(this.readOnly != false) return;
+
+			// non-password inputs show the clear button
+			if(outerElement.type.toLowerCase() != "password" && !this.hasShowPasswdBtn) {
+				this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-focused-'+res);
+
+				if (this.clearBtn && this.value) {
+					this.setAttribute('class', this.focused);
+					this.hasClearBtn = true;
+				} else {
+					this.setAttribute('class', this.normal);
+					this.hasClearBtn = false;
+				}
+
+			// password fields have the show/hide password button
+			} else {
+				this.container.setAttribute('class',this.container.normal + this.container.passwd);
+				this.setAttribute('class', this.focused);
+
+				if (this.showPasswdBtn && this.value) {
+					this.hasShowPasswdBtn = true;
+				} else {
+					
+					this.hasShowPasswdBtn = false;
+				}
+			}
+			this.container.style['border-color'] = bb.options.highlightColor;
+			this.isFocused = true;
+			this.clickCount = 0;
+
+			bb.screen.focusedInput = this;
+		};
+
 		outerElement.doFocus = outerElement.doFocus.bind(outerElement);
 		outerElement.addEventListener('focus', outerElement.doFocus, false);
 			
@@ -111,6 +135,19 @@ _bb10_textInput = {
 										outerElement.doFocus();
 									}
 								};
+		}
+		// Add password button
+		if (outerElement.showPasswdBtn) {
+			outerElement.container.ontouchstart = 
+				function(event) {
+					if (event.target == this) {
+						event.preventDefault();
+						event.stopPropagation();
+						
+						this.setAttribute('class', this.normal + this.passwd_shown);
+						outerElement.doFocus();
+					}
+				};
 		}
 
 		// Add our Show funtion
