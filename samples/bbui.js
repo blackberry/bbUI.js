@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.81*/
+/* VERSION: 0.9.6.82*/
 
 bb = {
 	scroller: null,  
@@ -824,13 +824,7 @@ bb = {
 				return 1024;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerHeight;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 1280;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 768;
-			}
+			return window.innerHeight;
 		}
 	},
 	
@@ -846,18 +840,13 @@ bb = {
 				return 600;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerWidth;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 768;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 1280;
-			}
+			return window.innerWidth;
 		}
 	},
 	
 	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
+		if (bb.device.is720x720) return 'portrait';
 		// Orientation is backwards between playbook and BB10 smartphones so we can't rely on the value 
 		// of window.orientation.  Orientation denotes "up" and not landscape/portrait
 		return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
@@ -939,6 +928,8 @@ bb.actionBar = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 			
 		actionBar.res = res;
@@ -1006,6 +997,9 @@ bb.actionBar = {
 							backHighlight.style['top'] = '8px';
 						} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '70px';
+							backHighlight.style['top'] = '15px';
+						} else if (bb.device.is720x720) {
+							backHighlight.style['height'] = '78px';
 							backHighlight.style['top'] = '15px';
 						} else {
 							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '110px';
@@ -1130,7 +1124,7 @@ bb.actionBar = {
 									action,
 									tab,
 									lastActionType = 'button',
-									actionWidth = 0, //Math.floor(this.getUsableWidth()/length),
+									actionWidth = 0, 
 									margins = 2,
 									temp,
 									max = 5,
@@ -1664,6 +1658,8 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else if (bb.device.is720x720) {
+			return 144;
 		} else {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		}
@@ -1677,6 +1673,8 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else if (bb.device.is720x720) {
+			return 144;
 		} else {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		}
@@ -1690,7 +1688,9 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 93 : 150;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 187 : 300;
-		} else {
+		} else if (bb.device.is720x720) {
+			return 174;
+		}else {
 			return bb.getOrientation() == 'portrait' ? 187 : 300;
 		}
 	},
@@ -2860,7 +2860,9 @@ bb.screen = {
 					// Add our indicator
 					indicator.setAttribute('data-bb-type', 'activity-indicator');
 					indicator.setAttribute('data-bb-size', 'large');
-					if (bb.getOrientation().toLowerCase() == 'landscape') {
+					if (bb.device.is720x720) {
+						indicator.style.margin = '30% auto 0px auto';
+					} else if (bb.getOrientation().toLowerCase() == 'landscape') {
 						indicator.style.margin = '20% auto 0px auto';
 					} else {
 						indicator.style.margin = '60% auto 0px auto';
@@ -3242,6 +3244,8 @@ bb.screen = {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100; 
+		} else if (bb.device.is720x720) {
+			return 110;
 		} else {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100;
 		}
@@ -3353,7 +3357,7 @@ bb.tabOverflow = {
 					this.overlay.style.display = 'block';
 					
 					// Slide our screen
-					this.screen.style['-webkit-transition'] = '0.3s ease-out';
+					this.screen.style['-webkit-transition'] = '0.2s ease-out';
 					this.screen.style['-webkit-transform'] = 'translate3d(' + bb.tabOverflow.getWidth() + 'px,0px,0px)';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
@@ -3912,6 +3916,8 @@ _bb10_activityIndicator = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		if (elements.length > 0) {
@@ -3955,7 +3961,9 @@ _bb10_activityIndicator = {
 					width = '93px';
 				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 					width = '184px';
-				} else {
+				}  else if (bb.device.is720x720) {
+					width = '170px';
+				}else {
 					width = '184px';
 				}
 			} else if (size == 'small') {
@@ -3972,7 +3980,9 @@ _bb10_activityIndicator = {
 					width = '46px';
 				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 					width = '93px';
-				} else {
+				} else if (bb.device.is720x720) {
+					width = '88px';
+				}else {
 					width = '93px';
 				}
 			}
@@ -5233,6 +5243,8 @@ _bb10_imageList = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		// Apply our transforms to all Image Lists
@@ -5486,7 +5498,7 @@ _bb10_imageList = {
 							}
 						}
 						
-						// Adjust the description description
+						// Adjust the description 
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
@@ -5497,7 +5509,10 @@ _bb10_imageList = {
 							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 								title.style['margin-top'] = '-7px';
 								overlay.style['margin-top'] = '-121px';
-							} else {
+							} else if (bb.device.is720x720) {
+								title.style['margin-top'] = '-14px';
+								overlay.style['margin-top'] = '-108px';
+							}else {
 								title.style['margin-top'] = '-7px';
 								overlay.style['margin-top'] = '-121px';
 							}
@@ -5506,6 +5521,8 @@ _bb10_imageList = {
 								if (bb.device.is1024x600) {
 									accentText.style['margin-top'] = '-52px';
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									accentText.style['margin-top'] = '-82px';
+								} else if (bb.device.is720x720) {
 									accentText.style['margin-top'] = '-82px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
@@ -5528,7 +5545,6 @@ _bb10_imageList = {
 						
 						innerChildNode.ontouchstart = function () {
 														if (!innerChildNode.trappedClick && !this.contextMenu) return;
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 														innerChildNode.fingerDown = true;
 														innerChildNode.contextShown = false;
 														if (innerChildNode.contextMenu) {
@@ -5548,6 +5564,7 @@ _bb10_imageList = {
 														if (innerChildNode.fingerDown) {
 															innerChildNode.contextShown = true;
 															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 															innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 															innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 														}
@@ -5560,12 +5577,10 @@ _bb10_imageList = {
 						innerChildNode.outerElement = this;
 						innerChildNode.addEventListener('click',function (e) {
 								if (!innerChildNode.trappedClick) return;
-								this.setAttribute('class',this.highlight);
 								this.outerElement.selected = this;
 								if (this.trappedClick) {
 									setTimeout(this.trappedClick, 0);
 								}
-								setTimeout(this.finishHighlight, 250);
 							},false);
 							
 						// Finish the highlight on a delay

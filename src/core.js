@@ -806,13 +806,7 @@ bb = {
 				return 1024;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerHeight;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 1280;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 768;
-			}
+			return window.innerHeight;
 		}
 	},
 	
@@ -828,18 +822,13 @@ bb = {
 				return 600;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerWidth;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 768;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 1280;
-			}
+			return window.innerWidth;
 		}
 	},
 	
 	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
+		if (bb.device.is720x720) return 'portrait';
 		// Orientation is backwards between playbook and BB10 smartphones so we can't rely on the value 
 		// of window.orientation.  Orientation denotes "up" and not landscape/portrait
 		return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
