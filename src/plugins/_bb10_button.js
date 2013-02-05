@@ -106,6 +106,10 @@ _bb10_button = {
 				},false);
 		}
 		
+		outerElement.getCaption = function() {
+			return this.captionElement.innerHTML;
+		}
+
 		// Assign our set caption function
 		outerElement.setCaption = function(value) {
 				if (this.isImageOnly && (value.length > 0)) {
@@ -136,6 +140,22 @@ _bb10_button = {
 				this.captionElement.innerHTML = value;
 			};
 			
+		outerElement.getImage = function() {
+			var imageURL='';
+
+			if (this.isImageOnly) {
+				imageURL = this.captionElement.style['background-image'];
+			} else if (this.imgElement) {
+				imageURL = this.imgElement.style['background-image'];
+			}
+			// Chop off 'url()', if present. 
+			imageURL = imageURL.trim()
+			if(imageURL.search('url\\\(') == 0) {
+				imageURL = imageURL.substr(4, imageURL.length-5);
+			}
+
+			return imageURL;
+		}
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				if (this.isImageOnly) {
