@@ -1941,7 +1941,8 @@ body, html {
 	white-space:nowrap;
 	vertical-align: middle;
 	display: block;
-	background-clip: padding-box;	
+	background-clip: padding-box;
+	max-width: 253px;	
 }
 
 .bb-bb10-titlebar-button-light {
