@@ -5,8 +5,15 @@ _bb10_slider = {
 			range,
 			res,
 			color = bb.screen.controlColor,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+			res = '1280x768-1280x720';
 
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+			
 		for (i = 0; i < elements.length; i++) {
 			range = elements[i];
 			// Create our container div
@@ -133,10 +140,15 @@ _bb10_slider = {
 								window.setTimeout(outerElement.range.setValue, 0);
 							};
 			outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
-			// Assign our document event listeners
+			// Assign our document & windows event listeners
 			document.addEventListener('touchmove', outerElement.moveSlider, false);
+			bb.documentListeners.push({name: 'touchmove', eventHandler: outerElement.moveSlider});
+			
 			document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+			bb.documentListeners.push({name: 'touchend', eventHandler: outerElement.inner.animateEnd});
+			
 			window.addEventListener('resize', outerElement.doOrientationChange,false); 
+			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
 		}
 	}
 };

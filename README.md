@@ -49,6 +49,7 @@ JavaScript frameworks such as [jQuery Mobile](https://github.com/blackberry/jQue
 * [Karan Khiani](https://github.com/karancan) 
 * [Justin DaSilva](https://github.com/lyricidal) follow me on Twitter [@theiexplorers](https://twitter.com/theiexplorers)
 * [Arturo Linares](https://github.com/arturolinares) follow me on Twitter [@arturo_linares](https://twitter.com/arturo_linares)
+* [Frederico Silva](https://github.com/fredericosilva)
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
@@ -58,6 +59,12 @@ Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://icon
 
 Have a bbUI application that you would like to showcase to other potential bbUI developers. Feel free to promote your appliation or check out what others
 have accomplished in the [bbUI Showcase](https://github.com/blackberry/bbUI.js/issues/442)!
+
+## Handy Image Resources
+
+Both RIM and community members have provided some images that you can use on your BlackBerry 10 action bars:
+* [RIM provided images](https://developer.blackberry.com/design/bb10/)
+* [Community provided images](http://devblog.blackberry.com/2012/12/blackberry-10-icon-sets/)
 
 ## Philosophy
 
@@ -109,7 +116,7 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 [BBMBubbles](https://github.com/blackberry/bbUI.js/wiki/BBM-Bubbles) &nbsp;&nbsp; [Button](https://github.com/blackberry/bbUI.js/wiki/Buttons)
  &nbsp;&nbsp; [Checkbox](https://github.com/blackberry/bbUI.js/wiki/Checkboxes) &nbsp;&nbsp; [ControlGroup](https://github.com/blackberry/bbUI.js/wiki/Control-Groups) &nbsp;&nbsp; [DropDown](https://github.com/blackberry/bbUI.js/wiki/DropDowns) &nbsp;&nbsp; [ImageList](https://github.com/blackberry/bbUI.js/wiki/Image-List)
- &nbsp;&nbsp; [LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
+ &nbsp;&nbsp; [Inputs](https://github.com/blackberry/bbUI.js/wiki/Inputs) &nbsp;&nbsp;[LabelControlContainer](https://github.com/blackberry/bbUI.js/wiki/Label-Control-Container) &nbsp;&nbsp; [PillButtons](https://github.com/blackberry/bbUI.js/wiki/Pill-Buttons)
  &nbsp;&nbsp; [ProgressIndicator](https://github.com/blackberry/bbUI.js/wiki/Progress-Indicator) &nbsp;&nbsp; [RadioButtons](https://github.com/blackberry/bbUI.js/wiki/Radio-Buttons) &nbsp;&nbsp;[ScreenMenu](https://github.com/blackberry/bbUI.js/wiki/Screen-Menus) 
  &nbsp;&nbsp; [ScrollPanel](https://github.com/blackberry/bbUI.js/wiki/Scroll-Panel) &nbsp;&nbsp; [Slider](https://github.com/blackberry/bbUI.js/wiki/Sliders) &nbsp;&nbsp; [Title Bars](https://github.com/blackberry/bbUI.js/wiki/Title-Bars) &nbsp;&nbsp; [ToggleButton](https://github.com/blackberry/bbUI.js/wiki/Toggle-Buttons)
 

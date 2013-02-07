@@ -7,8 +7,15 @@ _bb10_dropdown = {
 	},
 	// Apply our styling to an individual dropdown
 	style: function(select) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
-			img,
+		var res = '1280x768-1280x720';
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
+		var img,
 			i,j,
 			innerElement,
 			innerContainer,
@@ -230,14 +237,18 @@ _bb10_dropdown = {
 								} else {
 									this.numItems = this.options.length;
 								}
-								// Set the open height
-								if (bb.device.isPlayBook) {
+								
+								if (bb.device.is1024x600) {
 									scrollHeight = (this.numItems * 43);
 									this.style.height = 45 + scrollHeight +'px';
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									scrollHeight = (this.numItems * 99);
+									this.style.height = 95 + scrollHeight +'px';
 								} else {
 									scrollHeight = (this.numItems * 99);
 									this.style.height = 95 + scrollHeight +'px';
 								}
+								
 								// Refresh our scroller based on the height only once
 								this.scrollArea.style.height = scrollHeight - 10 + 'px';
 								if (!this.isRefreshed) {
@@ -262,6 +273,9 @@ _bb10_dropdown = {
 								if (bb.scroller) {
 									bb.scroller.refresh();
 								}
+								// Scroll the dropdown into view if it's bottom is off the screen
+								this.scrollIntoView(false);
+								
 							};
 		dropdown.internalShow = dropdown.internalShow.bind(dropdown);
 		// Collapse the combo-box
@@ -269,12 +283,14 @@ _bb10_dropdown = {
 								this.open = false;
 								this.style.height = '59px';
 								
-								if (bb.device.isPlayBook) {
+								if (bb.device.is1024x600) {
 									this.style.height = '43px';
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									this.style.height = '95px';
 								} else {
 									this.style.height = '95px';
 								}
-									
+								
 								// Animate our caption change
 								this.caption.style.opacity = '1.0';
 								this.caption.style['-webkit-transition'] = 'opacity 0.5s linear';
@@ -393,8 +409,15 @@ _bb10_dropdown = {
 		// Assign our setCaption function
 		select.setCaption = function(value){ 
 				this.dropdown.labelElement.innerHTML = value;
+				this.setAttribute('data-bb-label',value);
 			};
 		select.setCaption = select.setCaption.bind(select);
+		
+		// Assign our setCaption function
+		select.getCaption = function(){ 
+				return this.dropdown.labelElement.innerHTML;
+			};
+		select.getCaption = select.getCaption.bind(select);
 		
 		// Need to return the dropdown instead of the select for dynamic styling
 		return dropdown;

@@ -7,7 +7,7 @@ _bb10_radio = {
 	},
 	
 	style: function(outerElement) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+		var res = '1280x768-1280x720',
 			outerElement,
 			containerDiv,
 			dotDiv,
@@ -15,11 +15,19 @@ _bb10_radio = {
 			radio,
 			color = bb.screen.controlColor,	
 			input = outerElement;
-			
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+				
 		outerElement = document.createElement('div');
 		outerElement.setAttribute('class','bb-bb10-radio-container-'+res + '-'+color);
 		outerElement.input = input;
 		input.outerElement = outerElement;
+		input.res = res;
 
 		// Make the existing <input[type=radio]> invisible so that we can hide it and create our own display
 		input.style.display = 'none';
@@ -53,7 +61,7 @@ _bb10_radio = {
 		dotDiv.centerDotDiv = centerDotDiv;
 		
 		dotDiv.slideOutUp = function() {
-							if (bb.device.isPlayBook) {
+							if (bb.device.is1024x600) {
 								this.style.height = '0px';
 								this.style.width = '10px';
 								this.style.top = '9px';
@@ -75,7 +83,7 @@ _bb10_radio = {
 		dotDiv.slideOutUp = dotDiv.slideOutUp.bind(dotDiv);
 		
 		dotDiv.slideOutDown = function() {
-							if (bb.device.isPlayBook) {
+							if (bb.device.is1024x600) {
 								this.style.height = '0px';
 								this.style.width = '10px';
 								this.style.top = '30px';
@@ -97,7 +105,7 @@ _bb10_radio = {
 		dotDiv.slideOutDown = dotDiv.slideOutDown.bind(dotDiv);
 		
 		dotDiv.slideIn = function() {
-							if (bb.device.isPlayBook) {
+							if (bb.device.is1024x600) {
 								this.style.height = '20px';
 								this.style.width = '20px';
 								this.style.top = '10px';
@@ -127,7 +135,6 @@ _bb10_radio = {
 							this.centerDotDiv.style['-webkit-transition-property'] = 'all';
 							this.centerDotDiv.style['-webkit-transition-duration'] = '0.1s';
 							this.centerDotDiv.style['-webkit-transition-timing-function'] = 'ease-in';
-							this.centerDotDiv.style['-webkit-backface-visibility'] = 'hidden';
 							this.centerDotDiv.style['-webkit-perspective'] = 1000;
 							this.centerDotDiv.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							
@@ -149,7 +156,7 @@ _bb10_radio = {
 											} 
 											// Reset for our highlights
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.isPlayBook) {
+											if (bb.device.is1024x600) {
 												this.dotDiv.style.height = '20px';
 												this.dotDiv.style.width = '20px';
 												this.dotDiv.style.top = '10px';
@@ -169,7 +176,7 @@ _bb10_radio = {
 		outerElement.ontouchend = function() {
 										if (!this.input.checked) {
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.isPlayBook) {
+											if (bb.device.is1024x600) {
 												this.dotDiv.style.height = '0px';
 												this.dotDiv.style.width = '9px';
 												this.dotDiv.style.left = '16px';
@@ -180,13 +187,16 @@ _bb10_radio = {
 											}
 											// Reset top position
 											if (this.slideFromTop) {
-												this.dotDiv.style.top = bb.device.isPlayBook ? '9px' : '18px';
+												this.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
 											} else {
-												this.dotDiv.style.top = bb.device.isPlayBook ? '30px' : '60px';
+												this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
 											}
+											
+											// Fire our click
+											window.setTimeout(this.doclick,0);
 										}
 									};
-		outerElement.onclick = function() {
+		outerElement.doclick = function() {
 										if ((!this.input.checked) && (!this.input.disabled)) {
 											var evObj = document.createEvent('HTMLEvents');
 											evObj.initEvent('change', false, true );
@@ -206,6 +216,7 @@ _bb10_radio = {
 											this.input.dispatchEvent(evObj);
 										}
 									};
+		outerElement.doclick = outerElement.doclick.bind(outerElement);
 		
 		outerElement.getCurrentlyChecked = function() {
 										var inputs = document.querySelectorAll('input[type=radio][name='+ this.input.name +'][checked=true]');
@@ -240,7 +251,7 @@ _bb10_radio = {
 					
 						// Emulate TouchEnd
 						this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
-						if (bb.device.isPlayBook) {
+						if (bb.device.is1024x600) {
 							this.outerElement.dotDiv.style.height = '0px';
 							this.outerElement.dotDiv.style.width = '9px';
 							this.outerElement.dotDiv.style.left = '16px';
@@ -251,9 +262,9 @@ _bb10_radio = {
 						}
 						// Reset top position
 						if (this.outerElement.slideFromTop) {
-							this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '9px' : '18px';
+							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
 						} else {
-							this.outerElement.dotDiv.style.top = bb.device.isPlayBook ? '30px' : '60px';
+							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
 						}
 						
 						// Fire our clicked event
@@ -274,7 +285,7 @@ _bb10_radio = {
 		input.enable = function() {
 				if (!this.disabled) return;
 				this.disabled = false;
-				this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires");
+				this.outerElement.dotDiv.setAttribute('class', 'bb-bb10-radio-dot-'+this.res);
 			};
 		input.enable = input.enable.bind(input);
 			
@@ -282,7 +293,7 @@ _bb10_radio = {
 		input.disable = function() {
 				if (this.disabled) return;
 				this.disabled = true;
-				this.nextSibling.setAttribute("class", "bb-bb10-radio-dot-hires-disabled");
+				this.outerElement.dotDiv.setAttribute('class', 'bb-bb10-radio-dot-'+this.res+'-disabled');
 			};
 		input.disable = input.disable.bind(input);
 		
@@ -318,7 +329,7 @@ _bb10_radio = {
 	
 	resetDot : function(dot) {
 		dot.style['-webkit-transition'] = 'none';
-		if (bb.device.isPlayBook) {
+		if (bb.device.is1024x600) {
 			dot.style.height = '0px';
 			dot.style.width = '0px';
 			dot.style.top = '10px';

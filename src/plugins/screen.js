@@ -17,9 +17,9 @@ bb.screen = {
 		bb.screen.contextMenu = null;
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
-			screenRes = 'bb-bb10-lowres-screen';
+			screenRes = 'bb-bb10-1024x600-screen';
 		} else if (bb.device.isBB10) {
-			screenRes = 'bb-bb10-hires-screen';
+			screenRes = 'bb-bb10-1280x768-1280x720-screen';
 		} else if (bb.device.isHiRes) {
 			screenRes = 'bb-hires-screen';
 		}
@@ -46,8 +46,8 @@ bb.screen = {
 					tempHolder = [],
 					childNode = null, 
 					j,
-					actionBarHeight = (bb.device.isPlayBook) ? 73 : 140,
-					titleBarHeight = (bb.device.isPlayBook) ? 65 : 111;
+					actionBarHeight = bb.screen.getActionBarHeight(),
+					titleBarHeight = bb.screen.getTitleBarHeight();
 				
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
@@ -85,7 +85,7 @@ bb.screen = {
 					}
 				}
 				// Add them into the scrollable area
-				for (j = 0; j < tempHolder.length -1; j++) {
+				for (j = 0; j < tempHolder.length; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
 				
@@ -94,6 +94,14 @@ bb.screen = {
 				outerElement.titleBarHeight = titleBarHeight;
 				outerElement.outerScrollArea = outerScrollArea;
 				
+				// Raise an internal event to let the rest of the framework know that content is scrolling
+				outerScrollArea.addEventListener('scroll', function() {
+						
+						evt = document.createEvent('Events');
+						evt.initEvent('bbuiscrolling', true, true);
+						document.dispatchEvent(evt);
+					},false);
+
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
 					var overlay = document.createElement('div'),
@@ -124,8 +132,13 @@ bb.screen = {
 					// Add our indicator
 					indicator.setAttribute('data-bb-type', 'activity-indicator');
 					indicator.setAttribute('data-bb-size', 'large');
-					//indicator.style.margin = '0px auto 0px auto';
-					indicator.style.margin = '60% auto 50% auto';
+					if (bb.device.is720x720) {
+						indicator.style.margin = '30% auto 0px auto';
+					} else if (bb.getOrientation().toLowerCase() == 'landscape') {
+						indicator.style.margin = '20% auto 0px auto';
+					} else {
+						indicator.style.margin = '60% auto 0px auto';
+					}
 					overlay.appendChild(indicator);
 					
 					// Create our event handler for when the dom is ready
@@ -133,6 +146,9 @@ bb.screen = {
 								this.scrollArea.style.display = '';
 								this.removeChild(this.overlay);
 								document.removeEventListener('bbuidomprocessed', this.bbuidomprocessed,false);
+								if (bb.device.isPlayBook && bb.scroller) {
+									bb.scroller.refresh();
+								}
 							};
 					outerScrollArea.bbuidomprocessed = outerScrollArea.bbuidomprocessed.bind(outerScrollArea);
 					
@@ -234,7 +250,7 @@ bb.screen = {
 					}
 				}
 				// Add them into the scrollable area
-				for (j = 0; j < tempHolder.length -1; j++) {
+				for (j = 0; j < tempHolder.length; j++) {
 					scrollArea.appendChild(tempHolder[j]);
 				}
                    
@@ -311,8 +327,8 @@ bb.screen = {
 							offsetTop -= bb.screen.currentScreen.titleBarHeight;
 						}
 						// Adjust for action bar
-						if (bb.screen.currentScreen.titleBar) {
-							offsetTop -= bb.screen.currentScreen.actionBarHeight;
+						if (bb.screen.currentScreen.actionBar) {
+							offsetTop -= bb.screen.getActionBarHeight();
 						}
 						this.scrollTo(offsetTop);
 					}
@@ -492,6 +508,30 @@ bb.screen = {
         else if (bb.device.isBB7 && (navigator.appVersion.indexOf('Ripple') < 0)) {
             document.body.style.height = screen.height + 'px';
         }
-    }
+    },
+	
+	getActionBarHeight: function() {
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100; 
+		} else if (bb.device.is720x720) {
+			return 110;
+		} else {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100;
+		}
+	},
+	
+	getTitleBarHeight: function() {
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			return 65;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return 111;
+		} else {
+			return 111;
+		}
+	}
 		
 };

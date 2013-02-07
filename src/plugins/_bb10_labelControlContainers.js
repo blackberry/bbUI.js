@@ -12,7 +12,15 @@ _bb10_labelControlContainers = {
 			tdControl,
 			control,
 			bbType,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
+			res = '1280x768-1280x720';
+			
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
 			// Fetch all our rows
@@ -42,9 +50,11 @@ _bb10_labelControlContainers = {
 					table.appendChild(tr);
 					tdControl = document.createElement('td');
 					tr.appendChild(tdControl);
-					control = row.querySelectorAll('[data-bb-type=button],input,[data-bb-type=dropdown],textarea')[0];
-					row.removeChild(control);
-					tdControl.appendChild(control);
+					control = row.querySelectorAll('[data-bb-type=button],[data-bb-type=input],[data-bb-type=dropdown],textarea,input[type=file]')[0];
+					if (control) {
+						row.removeChild(control);
+						tdControl.appendChild(control);
+					}
 					outerElement.removeChild(row);
 				}
 			}

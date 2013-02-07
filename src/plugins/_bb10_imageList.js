@@ -1,10 +1,19 @@
 _bb10_imageList = {  
     apply: function(elements) {
-		var res = (bb.device.isPlayBook) ? 'lowres' : 'hires',
+		var res = '1280x768-1280x720',
 			i,j,
 			outerElement,
 			items;
 	
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
+		}
+		
 		// Apply our transforms to all Image Lists
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -98,9 +107,9 @@ _bb10_imageList = {
 							if (this.imageEffect) {
 								img.style.opacity = '0';
 								img.style['-webkit-transition'] = 'opacity 0.5s linear';
-								img.style['-webkit-backface-visibility'] = 'hidden';
+								/*img.style['-webkit-backface-visibility'] = 'hidden';
 								img.style['-webkit-perspective'] = 1000;
-								img.style['-webkit-transform'] = 'translate3d(0,0,0)';
+								img.style['-webkit-transform'] = 'translate3d(0,0,0)';*/  // This was causing webkit to crash
 								innerChildNode.imageList = this;
 								// Load our image once bbuilistready 
 								innerChildNode.bbuilistready = function() {
@@ -256,17 +265,35 @@ _bb10_imageList = {
 							}
 						}
 						
-						// Adjust the description description
+						// Adjust the description 
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
-							// Center the title if no description is given
-							title.style['margin-top'] = (bb.device.isPlayBook) ? '16px' : '-7px';
-							// Adjust highlight overlay
-							overlay.style['margin-top'] = (bb.device.isPlayBook) ? '-72px' : '-121px';
+							// Adjust margins
+							if (bb.device.is1024x600) {
+								title.style['margin-top'] = '16px';
+								overlay.style['margin-top'] = '-72px';
+							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+								title.style['margin-top'] = '-7px';
+								overlay.style['margin-top'] = '-121px';
+							} else if (bb.device.is720x720) {
+								title.style['margin-top'] = '-14px';
+								overlay.style['margin-top'] = '-108px';
+							}else {
+								title.style['margin-top'] = '-7px';
+								overlay.style['margin-top'] = '-121px';
+							}
 							// Adjust accent text
 							if (accentText) {
-								accentText.style['margin-top'] = (bb.device.isPlayBook) ? '-52px' : '-82px';
+								if (bb.device.is1024x600) {
+									accentText.style['margin-top'] = '-52px';
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									accentText.style['margin-top'] = '-82px';
+								} else if (bb.device.is720x720) {
+									accentText.style['margin-top'] = '-82px';
+								} else {
+									accentText.style['margin-top'] = '-82px';
+								}
 							}
 						}
 						descriptionDiv.innerHTML = description;
@@ -285,7 +312,6 @@ _bb10_imageList = {
 						
 						innerChildNode.ontouchstart = function () {
 														if (!innerChildNode.trappedClick && !this.contextMenu) return;
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 														innerChildNode.fingerDown = true;
 														innerChildNode.contextShown = false;
 														if (innerChildNode.contextMenu) {
@@ -305,6 +331,7 @@ _bb10_imageList = {
 														if (innerChildNode.fingerDown) {
 															innerChildNode.contextShown = true;
 															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 															innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 															innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 														}
@@ -317,12 +344,10 @@ _bb10_imageList = {
 						innerChildNode.outerElement = this;
 						innerChildNode.addEventListener('click',function (e) {
 								if (!innerChildNode.trappedClick) return;
-								this.setAttribute('class',this.highlight);
 								this.outerElement.selected = this;
 								if (this.trappedClick) {
 									setTimeout(this.trappedClick, 0);
 								}
-								setTimeout(this.finishHighlight, 250);
 							},false);
 							
 						// Finish the highlight on a delay
@@ -397,15 +422,16 @@ _bb10_imageList = {
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
 			
 			// Refresh all the items in the list control
-			outerElement.refresh = function(items) {
-					if (!items || !items.length || (items.length <=0)) return;
+			outerElement.refresh = function(listItems) {
+					if (!listItems || !listItems.length || (listItems.length <=0)) return;
 					var i,
 						item,
 						innerDiv = document.createElement('div');
-					
-					for (i = 0; i < items.length; i++) {
-						item = items[i];
+					this.items = [];
+					for (i = 0; i < listItems.length; i++) {
+						item = listItems[i];
 						this.styleItem(item);
+						this.items.push(item);
 						innerDiv.appendChild(item);
 					}
 					// Refresh the 

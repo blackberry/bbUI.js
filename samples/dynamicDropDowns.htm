@@ -57,17 +57,18 @@
 	</div>
 	
 	<div data-bb-type="round-panel"> 
-		<div data-bb-type="panel-header">Change DropDown Caption</div>
+		<div data-bb-type="panel-header">Get/Set DropDown Caption</div>
 		<table width="100%;">
 			<tr>
-				<td style="padding-left:20px"><input id="caption" type="text" placeholder="Enter button caption"/></td>
-				<td><div data-bb-type="button" onclick="document.getElementById('captionTarget').setCaption(document.getElementById('caption').value);">Apply</div></td>
+				<td style="padding-left:20px;width:70%;"><input id="caption" type="text" placeholder="Enter button caption"/></td>
+				<td><div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('captionTarget').setCaption(document.getElementById('caption').value);">Apply</div></td>
 			</tr>
 		</table>
 		<select id="captionTarget" data-bb-label="My Caption:">
 			<option value="1" selected="true">One</option>
 			<option value="2">Two</option>
 		</select>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="alert(document.getElementById('captionTarget').getCaption());">Get Caption</div>
 	</div>
 	
 	<div data-bb-type="round-panel"> 

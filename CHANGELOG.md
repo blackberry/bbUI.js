@@ -5,17 +5,35 @@ Below you will find all the different changes that have been added since the fir
 ## Latest Working Version 0.9.6
 
 * _**Compatibility Changes:**_ 
-	* Light colored action overflow, tab overflow and context menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+	* Light colored action bars, context menus and screen menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+	* BB10 Input fields are now wrapped with a container after they have been styled. 
+		* This may affect code that was showing/hiding/disabling inputs via JavaScript. 
+		* New JavaScript interfaces have been added to input controls for BB10.
+		* Inputs now grow to their container size. You may need to adjust container sizing to get the desired layout result
 * Notable Updates
 	* Improved animation smoothness for tab overflow show/hide
-	* Toggle and Pill Buttons animate their selected state after the screen transition ends. This helps for screen transition smooth animations
+	* Toggle Buttons, Pill Buttons and Progress bars animate their state after the screen transition ends. This helps for screen transition smooth animations
 	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads
 * BlackBerry 10 Styling
 	* Updated Pill Button styling
+	* Input field styling updates (fonts and control behaviour)
+	* Label/Control container title font size updated
+	* Updated the clear button on input fields
+	* Grid lists now load their images as the user scrolls items into view
+	* Updated headers on grid and image lists to better match the sizing and coloring on BB10
+	* Updated Action Bars to have a minimized version when in landscape
+	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
+	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
+	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()
 	* **Action Bar:** Added show(), hide() functions
+		* Buttons and Tabs: Added show(), hide() functions
+	* **DropDown:** Added getCaption() function
+	* **BB10 Inputs:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.textInput.style()
+	* **Context Menu:** Added hide(), show() functions to menu items
+	* **Pill Buttons:** Added clear(), appendButton() and ability to style dynamically using bb.pillButtons.style()
 * Samples
 	* Created dedicated sample page for Pill Button JavaScript interfaces
 * Noteable Bug Fixes: 
@@ -24,6 +42,9 @@ Below you will find all the different changes that have been added since the fir
 	* Clicking the context menu when peeked now shows the title area of the context menu.
 	* Action bar is now hidden when the virtual keyboard shows
 	* The screen's scrollToElement() function has now been fixed
+	* Clear button on input fields no longer gets in the way of long text in the field
+	* Wrapping of back caption on action bars is now fixed
+	* Fixed a bug where script tags with text/template were trying to be evaluated 
 	
 ## Version 0.9.5
 

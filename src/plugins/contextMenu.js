@@ -3,13 +3,15 @@ bb.contextMenu = {
 	
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
-		var res,
+		var res = '1280x768-1280x720',
 			swipeThreshold;
-		if (bb.device.isPlayBook) {
-			res = 'lowres';
+				
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
 			swipeThreshold = 100;
-		} else {
-			res = 'hires';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
 			swipeThreshold = 300;
 		}
 		
@@ -45,11 +47,14 @@ bb.contextMenu = {
 		menu.overlay.ontouchend = function() {
 										if (this.closeMenu) {
 											this.menu.hide();
+											event.preventDefault();
 										}
 									};
 		menu.overlay.ontouchstart = function(event) {
 											this.closeMenu = true;
-											if (!this.menu.peeking) return;
+											if (!this.menu.peeking && this.menu.visible) {
+												event.preventDefault();
+											} else if (!this.menu.peeking) return;
 											
 											var touch = event.touches[0];
 											this.startPos = touch.pageX;
@@ -257,6 +262,8 @@ bb.contextMenu = {
 							};
 		menu.orientationChanged = menu.orientationChanged.bind(menu);	
 		window.addEventListener('orientationchange', menu.orientationChanged,false); 
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: menu.orientationChanged});
 		
 		// Listen for when the animation ends so that we can make it invisible to avoid orientation change artifacts
 		menu.addEventListener('webkitTransitionEnd', function() { 
@@ -274,9 +281,16 @@ bb.contextMenu = {
 				
 				// set our styling
 				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-dark';
-				//this.appendChild(action);
+
+				// Check for our visibility
+				if (action.hasAttribute('data-bb-visible') && action.getAttribute('data-bb-visible').toLowerCase() == 'false') {
+					action.visible = false;
+					action.style.display = 'none';
+				} else {
+					action.visible = true;
+					this.actions.push(action);
+				}
 				
-				this.actions.push(action);
 				// See if this item should be pinned to the bottom
 				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
 				if (pin && !this.pinnedAction) {
@@ -338,7 +352,6 @@ bb.contextMenu = {
 										} else {
 											this.style['background-color'] = '';
 										}
-										e.stopPropagation();
 									}
 				action.addEventListener("click", this.hide, false);
 				
@@ -353,6 +366,32 @@ bb.contextMenu = {
 									this.img.setAttribute('src',value);
 								};
 				action.setImage = action.setImage.bind(action);
+				
+				// Assign the hide function
+				action.hide = function() {
+									if (!this.visible) return;
+									this.visible = false;
+									// Remove from the actions list
+									var index = this.menu.actions.indexOf(this);
+									this.menu.actions.splice(index,1);
+									// Change style
+									this.style.display = 'none';
+									this.menu.centerMenuItems();
+								};
+				action.hide = action.hide.bind(action);
+				
+				// Assign the show function
+				action.show = function() {
+									if (this.visible) return;
+									this.visible = true;
+									// Add to the actions list
+									this.menu.actions.push(this);
+									// Change style
+									this.style.display = '';
+									this.menu.centerMenuItems();
+								};
+				action.show = action.show.bind(action);
+				
 		};
 		menu.add = menu.add.bind(menu);
 		return menu;

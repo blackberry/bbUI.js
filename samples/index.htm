@@ -30,8 +30,7 @@
 				
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
-				bb.init({actionBarDark: true,
-						controlsDark: true,
+				bb.init({controlsDark: true,
 						listsDark: false,
 						bb10ForPlayBook: true,
 						// Fires "before" styling is applied and "before" the screen is inserted in the DOM
@@ -59,7 +58,7 @@
 											
 										},
 						// Fires "after" styling is applied and "after" the screen is inserted in the DOM
-						ondomready: function(element, id) {
+						ondomready: function(element, id, params) {
 											if (id == 'dataOnTheFly') {
 												dataOnTheFly_initialLoad(element);
 											} 

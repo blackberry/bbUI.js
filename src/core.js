@@ -2,6 +2,8 @@ bb = {
 	scroller: null,  
     screens: [],
 	dropdownScrollers: [],
+	windowListeners: [],
+	documentListeners: [],
 	transparentPixel: 'data:image/png;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
 						
 	// Core control variables
@@ -41,14 +43,21 @@ bb = {
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
+		
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
-			bb.device.isBB10 = (navigator.userAgent.indexOf('Version/10.0') >= 0);
+			bb.device.isBB10 = (navigator.userAgent.indexOf('BB10') >= 0);
 		}
 		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
 		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
 		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
+		
+		// Set our resolution flags
+		bb.device.is1024x600 = bb.device.isPlayBook;
+		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
+		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
+		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
 		
 		// Determine HiRes
 		if (bb.device.isRipple) {
@@ -71,7 +80,7 @@ bb = {
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (bb.device.isBB10 && !bb.device.isPlayBook) { 
+		if (bb.device.isBB10 && !bb.device.is1024x600) { 
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
@@ -111,7 +120,6 @@ bb = {
 			}
 		}
 		// Set our coloring
-		bb.actionBar.color = (bb.options.actionBarDark) ? 'dark' : 'light';
 		bb.screen.controlColor = (bb.options.controlsDark) ? 'dark' : 'light';
 		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
 		
@@ -167,7 +175,7 @@ bb = {
 		}
 		
 		// Add our keyboard listener for BB10
-		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple) {
+		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
 			// Hide our action bar when the keyboard is about to pop up
 			blackberry.event.addEventListener('keyboardOpening', function() {
 				if (bb.screen.currentScreen.actionBar) {
@@ -179,7 +187,11 @@ bb = {
 			blackberry.event.addEventListener('keyboardOpened', function() {
 				if (bb.screen.currentScreen.actionBar) {
 					if (bb.screen.focusedInput) {
-						bb.screen.currentScreen.scrollToElement(bb.screen.focusedInput);
+						if (bb.screen.focusedInput.container) {
+							bb.screen.focusedInput.container.scrollIntoView(false);
+						} else {
+							bb.screen.focusedInput.scrollIntoView(false);
+						}
 					}
 				} 
 			});
@@ -228,16 +240,20 @@ bb = {
 		isBB6: false,
 		isBB7: false,
 		isBB10: false,
-        isPlayBook: false,
-        isRipple: false
+        isPlayBook: false, 
+        isRipple: false,
+		// Resolutions
+		is1024x600: false,
+		is1280x768: false,
+		is720x720: false,
+		is1280x720: false		
     },
 	
 	// Options for rendering
 	options: {
 		onbackkey: null,
 		onscreenready: null,
-		ondomready: null,  	
-		actionBarDark: true, 	
+		ondomready: null,  		
 		controlsDark: false, 
 		coloredTitleBar: false,
 		listsDark: false,
@@ -284,26 +300,30 @@ bb = {
 		}
 		
         scripts.forEach(function (script) {
-            var scriptTag = document.createElement('script');
-
-            if (script.text) {
-                //if there is text, just eval it since they probably don't have a src.
-                eval(script.text);
-                return;
-            }
-            var scriptGuid = bb.guidGenerator();
-			// Either update the old screen in the stack record or add to the new one
-			if (screenRecord) {
-				screenRecord.scripts.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
-			} else {
-				container.scriptIds.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
+            var scriptTag = document.createElement('script'),
+				type = script.getAttribute('type');
+			
+			// First check the type. If the type isn't specified or if it isn't "text/javascript" then skip the script
+			if (!type || type.toLowerCase() == 'text/javascript') {
+				if (script.text) {
+					//if there is text, just eval it since they probably don't have a src.
+					eval(script.text);
+					return;
+				}
+				var scriptGuid = bb.guidGenerator();
+				// Either update the old screen in the stack record or add to the new one
+				if (screenRecord) {
+					screenRecord.scripts.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
+				} else {
+					container.scriptIds.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
+				}
+				scriptTag.setAttribute('type','text/javascript');
+				scriptTag.setAttribute('src', script.getAttribute('src'));
+				scriptTag.setAttribute('id', scriptGuid);
+				newScriptTags.push(scriptTag);
+				// Remove script tag from container because we are going to add it to <head>
+				script.parentNode.removeChild(script);
 			}
-            scriptTag.setAttribute('type','text/javascript');
-            scriptTag.setAttribute('src', script.getAttribute('src'));
-            scriptTag.setAttribute('id', scriptGuid);
-            newScriptTags.push(scriptTag);
-            // Remove script tag from container because we are going to add it to <head>
-            script.parentNode.removeChild(script);
         });
 
         // Add getElementById for the container so that it can be used in the onscreenready event
@@ -573,6 +593,10 @@ bb = {
 			var evt = document.createEvent('Events');
 			evt.initEvent('bbuidomready', true, true);
 			document.dispatchEvent(evt);
+			// Fire our list event
+			evt = document.createEvent('Events');
+			evt.initEvent('bbuilistready', true, true);
+			document.dispatchEvent(evt);
 			// Raise an internal event to let the rest of the framework know that the dom has been processed
 			evt = document.createEvent('Events');
 			evt.initEvent('bbuidomprocessed', true, true);
@@ -611,10 +635,20 @@ bb = {
 						bb.options.screen.onBeforeScrollStart(e);
 					}*/
 				},
+				onScrollEnd: function(e) {
+					// Raise an internal event to let the rest of the framework know that content is scrolling
+					evt = document.createEvent('Events');
+					evt.initEvent('bbuiscrolling', true, true);
+					document.dispatchEvent(evt);
+				},
 				onScrollMove: function(e) {
 					if (screen.onscroll) {
 						screen.onscroll(e);
 					}
+					// Raise an internal event to let the rest of the framework know that content is scrolling
+					evt = document.createEvent('Events');
+					evt.initEvent('bbuiscrolling', true, true);
+					document.dispatchEvent(evt);
 				}};
 				// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
 				/*if (bb.options.screen) {
@@ -698,14 +732,30 @@ bb = {
 
     // Pop a screen from the stack
     popScreen: function() {
-		var numItems = bb.screens.length;
+		var numItems = bb.screens.length,
+			i,
+			listener;
         if (numItems > 1) {
             bb.removeLoadedScripts();
 			bb.clearScrollers();
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-
+			
+			// Clear any window listeners
+			for (i = 0 ; i < bb.windowListeners.length; i++) {
+				listener = bb.windowListeners[i];
+				window.removeEventListener(listener.name, listener.eventHandler, false);
+			}
+			bb.windowListners = [];
+			
+			// Clear any document listeners
+			for (i = 0 ; i < bb.documentListeners.length; i++) {
+				listener = bb.documentListeners[i];
+				document.removeEventListener(listener.name, listener.eventHandler, false);
+			}
+			bb.documentListeners = [];
+			
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
@@ -797,13 +847,7 @@ bb = {
 				return 1024;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerHeight;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 1280;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 768;
-			}
+			return window.innerHeight;
 		}
 	},
 	
@@ -819,36 +863,16 @@ bb = {
 				return 600;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerWidth;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 768;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 1280;
-			}
+			return window.innerWidth;
 		}
 	},
 	
+	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
-		// Orientation is backwards between playbook and BB10 smartphones
-		if (bb.device.isPlayBook) {
-			// Hack for ripple
-			if (!window.orientation) {
-				return (window.innerWidth == 1024) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'landscape';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'portrait';
-			}
-		} else {
-			if (!window.orientation) {
-				return (window.innerWidth == 1280) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'portrait';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'landscape';
-			}
-		}
+		if (bb.device.is720x720) return 'portrait';
+		// Orientation is backwards between playbook and BB10 smartphones so we can't rely on the value 
+		// of window.orientation.  Orientation denotes "up" and not landscape/portrait
+		return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
 	},
 	
 	cutHex : function(h) {
@@ -866,6 +890,28 @@ bb = {
 		if (bb.scroller) {
 			bb.scroller.refresh();
 		}
+	},
+	
+	isScrolledIntoView : function(element) {
+		var offsetTop = 0,
+			target = element;
+		if (target.offsetParent) {
+			do {
+				offsetTop  += target.offsetTop;
+				if (target.scrollTop) {
+					offsetTop -= target.scrollTop;
+				}
+				// PlayBook calculation
+				if (bb.device.isPlayBook) {
+					if (target.scroller) {
+						offsetTop += target.scroller.y;
+					} else if (target.bbUIscrollWrapper) {
+						offsetTop += bb.scroller.y;
+					}
+				}
+			} while (target = target.offsetParent);
+		}
+		return offsetTop < bb.innerHeight();
 	}
 };
 

@@ -7,8 +7,16 @@ _bb10_button = {
 	},
 	// Style an individual button
 	style: function(outerElement) {
-		var res = (bb.device.isPlayBook) ? res = 'lowres' : 'hires',
-			disabledStyle,
+		var res = '1280x768-1280x720';
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+
+		var disabledStyle,
 			imgSrc,
 			caption,
 			imgElement,
@@ -19,7 +27,7 @@ _bb10_button = {
 			highlight = 'bb-bb10-button bb-bb10-button-'+res+' bb10-button-highlight',
 			outerNormal = 'bb-bb10-button-container-'+res+' bb-bb10-button-container-' + bb.screen.controlColor,
 			outerNormalWithoutImageOnly = outerNormal;
-			
+
 		outerElement.isImageOnly = false;
 		outerElement.enabled = !disabled;
 		caption = outerElement.innerHTML;

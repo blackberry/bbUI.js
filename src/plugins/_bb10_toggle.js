@@ -7,16 +7,22 @@ _bb10_toggle = {
 	},
 	
 	style: function(outerElement,offdom) {
-		var res,
+		var res = '1280x768-1280x720',
 			table,
 			tr,
 			td,
-			color = bb.screen.controlColor,
-			res = (bb.device.isPlayBook) ? 'lowres' : 'hires';
-			
+			color = bb.screen.controlColor;
+		
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			res = '1024x600';
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			res = '1280x768-1280x720';
+		}
+		
 		outerElement.checked = false;
 		outerElement.enabled = true;
-		outerElement.buffer = (bb.device.isPlayBook) ? 35 : 70;
+		outerElement.buffer = (bb.device.is1024x600) ? 35 : 70;
 		outerElement.isActivated = false;
 		outerElement.initialXPos = 0;
 		outerElement.currentXPos = 0;
@@ -299,19 +305,20 @@ _bb10_toggle = {
 						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
+			/* Add our event listener for the domready to move our selected item.  We want to
+		   do it this way because it will ensure the screen transition animation is finished before
+		   the toggle button move transition happens. This will help for any animation stalls/delays */
+			document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
 		} else {
 			// Use a simple timeout to trigger the animation once inserted into the DOM
 			setTimeout(outerElement.positionButton,0);
 		}
-		
-		/* Add our event listener for the domready to move our selected item.  We want to
-		   do it this way because it will ensure the screen transition animation is finished before
-		   the toggle button move transition happens. This will help for any animation stalls/delays */
-		document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
-		
+
 		// Assign our document event listeners
 		document.addEventListener('touchmove', outerElement.moveToggle, false);
+		bb.documentListeners.push({name: 'touchmove', eventHandler: outerElement.moveToggle});
 		document.addEventListener('touchend', outerElement.inner.animateEnd, false);
+		bb.documentListeners.push({name: 'touchend', eventHandler: outerElement.inner.animateEnd});
 		
 		return outerElement;
 	}
