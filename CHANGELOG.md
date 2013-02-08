@@ -25,6 +25,7 @@ Below you will find all the different changes that have been added since the fir
 	* Updated Action Bars to have a minimized version when in landscape
 	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
 	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
+	* Action Bar styling improvements to better match Cascades
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()

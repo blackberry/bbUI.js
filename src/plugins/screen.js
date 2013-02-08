@@ -515,11 +515,11 @@ bb.screen = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100; 
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
 		} else if (bb.device.is720x720) {
-			return 110;
+			return 109;
 		} else {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100;
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99;
 		}
 	},
 	
