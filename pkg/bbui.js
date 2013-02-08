@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.93*/
+/* VERSION: 0.9.6.94*/
 
 bb = {
 	scroller: null,  
@@ -6815,6 +6815,8 @@ _bb10_textInput = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		// Keep the developers existing styling
@@ -6862,7 +6864,7 @@ _bb10_textInput = {
 		
 		outerElement.doFocus = function() {
 								if(this.readOnly == false) {
-									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-focused-'+res);
+									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-cancel-button bb-bb10-input-container-focused-'+res);
 									if (this.clearBtn && this.value) {
 										this.setAttribute('class', this.focused);
 										this.hasClearBtn = true;
