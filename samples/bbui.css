@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.87*/
+/* VERSION: 0.9.6.88*/
 
 body, html {
 	padding:0;
@@ -1941,7 +1941,11 @@ body, html {
 	white-space:nowrap;
 	vertical-align: middle;
 	display: block;
-	background-clip: padding-box;	
+	background-clip: padding-box;
+	max-width: 240px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;	
 }
 
 .bb-bb10-titlebar-button-light {
