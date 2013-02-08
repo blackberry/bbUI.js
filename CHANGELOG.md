@@ -38,6 +38,7 @@ Below you will find all the different changes that have been added since the fir
 	* **Pill Buttons:** Added clear(), appendButton() and ability to style dynamically using bb.pillButtons.style()
 	* **Buttons:** Added getCaption(), getImage() functions
 	* **Screens:** Added getActionBarHeight(), getTitleBarHeight() functions that return standard heights in pixels
+	* **BB6/7 Title Bars:** Added getCaption(), setCaption() functions
 * Samples
 	* Created dedicated sample page for Pill Button JavaScript interfaces
 * Noteable Bug Fixes: 

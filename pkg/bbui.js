@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.90*/
+/* VERSION: 0.9.6.91*/
 
 bb = {
 	scroller: null,  
@@ -3810,6 +3810,34 @@ bb.titleBar = {
 				titleBar.appendChild(button);
 			}
 		} else {
+			//device is legacy
+
+            // assign a setCaption function
+            titleBar.setCaption = function(value) {
+
+                if(!value) {
+                    // if no value specified, pull from attribute
+
+                    value = this.getAttribute('data-bb-caption');
+                    this.innerHTML = value;
+                    return;
+                }
+
+                // update the innerHTML and the attribute to be through
+                this.setAttribute('data-bb-caption', value);
+                this.innerHTML = value;
+            };
+
+            titleBar.setCaption = titleBar.setCaption.bind(titleBar);
+
+            // Assign the getCaption function
+            titleBar.getCaption = function() {
+                return this.innerHTML;
+            };
+
+            titleBar.getCaption = titleBar.getCaption.bind(titleBar);
+
+
 			if (titleBar.hasAttribute('data-bb-caption')) {
 				if (bb.device.isHiRes) {
 					titleBar.setAttribute('class', 'bb-hires-screen-title');
