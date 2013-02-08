@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.85*/
+/* VERSION: 0.9.6.86*/
 
 body, html {
 	padding:0;
@@ -2285,13 +2285,14 @@ body, html {
 }
 
 .bb-bb10-dropdown-item-dark  .text-align, 
-.bb-bb10-dropdown-item-dark  .text-align 
+.bb-bb10-dropdown-item-light  .text-align 
 {
 	height: 100%;
 }
 
+
 .bb-bb10-dropdown-item-dark  .text-align, 
-.bb-bb10-dropdown-item-dark  .text-align, 
+.bb-bb10-dropdown-item-light  .text-align, 
 .bb-bb10-dropdown-item-dark  .text-container, 
 .bb-bb10-dropdown-item-light .text-container 
 {
@@ -5916,6 +5917,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 
