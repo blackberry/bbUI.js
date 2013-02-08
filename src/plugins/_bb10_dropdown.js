@@ -156,6 +156,7 @@ _bb10_dropdown = {
 							accentText = document.createElement('div');
 							accentText.setAttribute('class','accent-text');
 							accentText.innerHTML = option.getAttribute('data-bb-accent-text');
+							item.accentText = accentText;
 							textContainer.appendChild(accentText);
 						}
 						
@@ -178,11 +179,17 @@ _bb10_dropdown = {
 						item.ontouchstart = function(event) {
 												this.style['background-color'] = bb.options.highlightColor;
 												this.style['color'] = 'white';
+												if (this.accentText) {
+													this.accentText.style['color'] = 'white';
+												}
 											};
 						
 						item.ontouchend = function(event) {
 												this.style['background-color'] = 'transparent';
 												this.style['color'] = '';
+												if (this.accentText) {
+													this.accentText.style['color'] = '';
+												}
 											};			
 						item.onclick = function() {
 											this.select.setSelectedItem(this.index);
