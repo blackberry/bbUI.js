@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.91*/
+/* VERSION: 0.9.6.92*/
 
 bb = {
 	scroller: null,  
@@ -4088,6 +4088,8 @@ _bb10_button = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 
 		var disabledStyle,

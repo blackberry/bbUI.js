@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.91*/
+/* VERSION: 0.9.6.92*/
 
 body, html {
 	padding:0;
@@ -1726,6 +1726,62 @@ body, html {
 	line-height:60px;
 	height:75px;
 	padding-top:12px;
+	padding-left: 35px;
+	padding-right: 35px;
+	font-size:28pt;
+}
+
+/* ================================================= 
+   BB10 Buttons for 720x720
+   =================================================*/
+.bb-bb10-button-caption-with-image-720x720
+{
+	float:left;
+	text-align:left;
+	margin-left: 14px;
+}
+
+.bb-bb10-button-image-720x720
+{
+	height: 71px;
+	width: 71px;
+	float: left;
+	margin-left: -27px;
+	margin-top: -3px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-bb10-button-caption-with-image-only-720x720
+{
+	height:71px;
+	width:71px;
+	background-position: center center;
+	background-size: cover;
+	margin-top: -3px;
+	margin-left: -27px;
+}
+
+.bb-bb10-button-container-image-only-720x720
+{
+	width: 87px;
+}
+
+.bb-bb10-button-container-720x720
+{
+	border-width:2px;
+	border-style: solid;
+	border-radius:10px;
+	padding: 4px;
+	margin: 10px;
+} 
+
+.bb-bb10-button-720x720 {
+	border-width:1px;
+	border-radius:5px;
+	line-height:60px;
+	height:74px;
+	padding-top:7px;
 	padding-left: 35px;
 	padding-right: 35px;
 	font-size:28pt;
@@ -5921,6 +5977,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 
