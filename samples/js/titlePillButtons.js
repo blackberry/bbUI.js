@@ -28,11 +28,11 @@ function titlePillButtons_UnInit() {
 // Adjust the height of the scroller based on orientation
 function titlePillButtons_HandleResize(element, init) {
 	var actionBarHeight = bb.screen.getActionBarHeight(),
-		headerHeight = bb.device.isPlayBook ? 64 : 106,
+		headerHeight = bb.device.isPlayBook ? 64 : 101,
 		scrollerHeight = 0,
 		scroller = (init == true) ? element.getElementById('myScroller') : document.getElementById('myScroller');
 	// Calculate the height of the scroller
-	scrollerHeight = window.innerHeight - headerHeight - actionBarHeight - headerHeight;
+	scrollerHeight = window.innerHeight - bb.screen.getTitleBarHeight() - actionBarHeight - headerHeight;
 	scroller.style.height = scrollerHeight + 'px';
 	if (!init) {
 		scroller.refresh();

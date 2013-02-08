@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.92*/
+/* VERSION: 0.9.6.93*/
 
 bb = {
 	scroller: null,  
@@ -3273,7 +3273,9 @@ bb.screen = {
 			return 65;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return 111;
-		} else {
+		} else if (bb.device.is720x720) {
+			return 95;
+		}else {
 			return 111;
 		}
 	}
@@ -3615,6 +3617,8 @@ bb.titleBar = {
 				res = '1024x600';
 			} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 				res = '1280x768-1280x720';
+			} else if (bb.device.is720x720) {
+				res = '720x720';
 			}
 			
 			// Insert our title area
@@ -3736,7 +3740,9 @@ bb.titleBar = {
 						caption.style['line-height'] = '40px';
 					} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 						caption.style['line-height'] = '70px';
-					} else {
+					} else if (bb.device.is720x720) {
+						caption.style['line-height'] = '55px';
+					}else {
 						caption.style['line-height'] = '70px';
 					}
 					accentText = document.createElement('div');
@@ -3863,6 +3869,8 @@ bb.titleBar = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		if (bb.options.coloredTitleBar) {

@@ -2123,6 +2123,109 @@ body, html {
 }
 
 /* ================================================= 
+   BB10 Title Bar for 720x720
+   =================================================*/
+   
+.bb-bb10-title-bar-1280x768-720x720 {
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	font-size: 39pt;
+	z-index:1000;
+}
+
+.bb-bb10-title-bar-portrait-720x720 {
+	height:95px;
+}
+
+.bb-bb10-title-bar-landscape-720x720 {
+	height:95px;
+}
+
+.bb-bb10-title-bar-caption-720x720 {
+	text-align:center;
+	height:100%;
+	padding:0px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-title-bar-caption-portrait-720x720 {
+	line-height:95px;
+}
+
+.bb-bb10-title-bar-caption-landscape-720x720 {
+	line-height:95px;
+}
+
+.bb-bb10-title-bar-caption-details-img-720x720 {
+	margin-left: 105px;
+}
+
+.bb-bb10-title-bar-caption-left-720x720 {
+	text-align:left;
+	line-height:95px;
+	height:100%;
+	padding:0px;
+	padding-left: 10px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+.bb-bb10-title-bar-accent-text-720x720 {
+	color:#606060;
+	text-align:left;
+	padding-top:2px;
+	padding-left: 10px;
+	margin-top:-13px;
+	font-size: 29pt;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-title-bar-720x720 img
+{
+	position:relative;
+	float:left;
+	margin-top: 0px;
+	height:95px;
+	width:95px;
+}
+
+.bb-bb10-titlebar-button-container-720x720
+{
+	position: absolute;
+	top: 0px;
+	border-width:2px;
+	border-style: solid;
+	border-radius:10px;
+	padding: 4px;
+	margin: 6px;
+}  
+
+.bb-bb10-titlebar-button-720x720 {
+	border-width:1px;
+	border-radius:5px;
+	line-height:40px;
+	height:55px;
+	padding-top:12px;
+	padding-left: 35px;
+	padding-right: 35px;
+	font-size:28pt;
+}
+
+
+/* ================================================= 
    BB10 Title Bar for 1024x600
    =================================================*/
 

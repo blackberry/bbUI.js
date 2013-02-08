@@ -529,7 +529,9 @@ bb.screen = {
 			return 65;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return 111;
-		} else {
+		} else if (bb.device.is720x720) {
+			return 95;
+		}else {
 			return 111;
 		}
 	}
