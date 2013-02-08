@@ -770,6 +770,46 @@ bb = {
             }
         }
     },
+    
+    /**
+    * Pop screen(s) off of the stack until arrival at screenNumber
+    * useful for any application that has a 'jump to home screen' functionality
+    *
+    * @param screenNumber the specific screen that should be the top-most on stack; starts at 0!
+    */
+    popToScreenNumber: function(screenNumber) {
+            
+         // sanity checks
+    	if(isNaN(screenNumber)){
+             return;
+    	}
+            
+        if(screenNumber >= (bb.screens.length - 1) ){
+        	// nothing to pop off!
+        	return;
+        }
+            
+        // similar functionality to popScreen(), but we don't need to loadScreen() after every pop.
+        var numItems = ((bb.screens.length-1) - screenNumber);
+        
+        for(var i = 0 ; i < numItems ; i++ ) {
+        	bb.removeLoadedScripts();
+        	bb.clearScrollers();
+        	bb.menuBar.clearMenu();
+        	bb.screen.overlay = null;
+        	bb.screen.tabOverlay = null;
+        }
+
+        // Quirky BrowserField2 bug on BBOS
+        if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
+        	window.scroll(0,0);
+        }
+
+        // Retrieve screen at index screenNumber, display it
+        var display = bb.screens[screenNumber], 
+        newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
+
+    },
 
     removeLoadedScripts: function() {
         // pop the old item
