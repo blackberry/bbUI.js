@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.89*/
+/* VERSION: 0.9.6.90*/
 
 bb = {
 	scroller: null,  
@@ -847,9 +847,25 @@ bb = {
 	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
 		if (bb.device.is720x720) return 'portrait';
-		// Orientation is backwards between playbook and BB10 smartphones so we can't rely on the value 
-		// of window.orientation.  Orientation denotes "up" and not landscape/portrait
-		return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 'landscape';
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 'portrait';
+			}
+		} else {
+			if (!window.orientation) {
+				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 'portrait';
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 'landscape';
+			}
+		}
 	},
 	
 	cutHex : function(h) {
