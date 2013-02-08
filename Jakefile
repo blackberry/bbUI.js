@@ -69,6 +69,7 @@ task('build', ['clean'], function () {
     });
 	
 	// Write our our JS files
+    fs.mkdirSync(__dirname + '/pkg');
     fs.writeFileSync(__dirname + "/pkg/bbui.js", license + output);
     fs.writeFileSync(__dirname + "/samples/bbui.js", license + output);
 
