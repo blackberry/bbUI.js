@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.83*/
+/* VERSION: 0.9.6.85*/
 
 bb = {
 	scroller: null,  
@@ -3243,11 +3243,11 @@ bb.screen = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100; 
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
 		} else if (bb.device.is720x720) {
-			return 110;
+			return 109;
 		} else {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100;
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99;
 		}
 	},
 	
@@ -4509,7 +4509,8 @@ _bb10_dropdown = {
 					var options = select.getElementsByTagName('option'),
 						caption = '',
 						option,
-						item;
+						item,
+						textContainer, textAlign, primaryText, accentText;
 						
 					// First clear any existing items
 					this.itemsElement.innerHTML = '';
@@ -4529,8 +4530,30 @@ _bb10_dropdown = {
 						if (!item.dropdown.selected) {
 							item.dropdown.selected = item;
 						}
-						item.innerHTML = option.innerHTML;
+						// Append primary text node
+						primaryText = document.createElement('div');
+                        primaryText.setAttribute('class', 'primary-text');
+                        primaryText.innerHTML = option.innerHTML;
+						textContainer = document.createElement('div');
+                        textContainer.setAttribute('class', 'text-container');
+                        textContainer.appendChild(primaryText);
+
+                        // Needed for vertical alignment to work
+                        textAlign = document.createElement('span');
+                        textAlign.setAttribute('class', 'text-align');
+                        item.appendChild(textAlign);
+                        item.appendChild(textContainer);
+
 						this.itemsElement.appendChild(item);
+						
+                        // Accent text for additional cues about this option
+						if (option.hasAttribute('data-bb-accent-text')) {
+							accentText = document.createElement('div');
+							accentText.setAttribute('class','accent-text');
+							accentText.innerHTML = option.getAttribute('data-bb-accent-text');
+							textContainer.appendChild(accentText);
+						}
+						
 						// Create the image
 						img = document.createElement('div');
 						img.setAttribute('class','bb-bb10-dropdown-selected-image-'+res+'-'+bb.screen.controlColor);
@@ -4818,6 +4841,7 @@ _bb10_dropdown = {
 		return dropdown;
     }
 };
+
 _bb10_fileInput = {
 
 	apply: function(elements) {
