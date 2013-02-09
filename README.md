@@ -112,7 +112,8 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry Dev Alpha 10.0.x Beta
+* BlackBerry Z10 10.0
+* BlackBerry Q10 10.1.x Beta
 * BlackBerry PlayBook v2.0.1.x
 * BlackBerry PlayBook v2.1.x.x
 * BlackBerry Torch 9860 v7.0.0.x
@@ -125,7 +126,7 @@ If you find a bug or have an enhancement request, please fill out a [github Issu
 
 ## Contributing
 
-To build and contribute to bbUI.js please see the HACKING.md file
+To build and contribute to bbUI.js please see the [HACKING.md](HACKING.md) file
 
 If you would like to contribute code to the bbUI.js project please follow the [How to Contribute](http://blackberry.github.com/howToContribute.html) instructions for contributor agreements.
 
