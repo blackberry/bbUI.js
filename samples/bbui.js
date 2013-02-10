@@ -5331,6 +5331,28 @@ _bb10_grid = {
 				bb.refresh();
 				};
 			outerElement.remove = outerElement.remove.bind(outerElement);
+			
+			 // Removes all groups from the grid
+			outerElement.clear = function() {
+					var items = this.querySelectorAll('[data-bb-type=group]');
+					for (j = 0; j < items.length; j++) {
+						items[j].parentNode.removeChild(items[j]);
+					}
+				};
+			outerElement.clear = outerElement.clear.bind(outerElement);
+			
+			// Appends a group DOM element to the end of the grid
+			outerElement.appendGroup = function(group) {
+					this.appendChild(group)
+				};
+			outerElement.appendGroup = outerElement.appendGroup.bind(outerElement);
+			
+			// Inserts a group DOM element before the specified existing group
+			outerElement.insertGroupBefore = function(newGroup, existingGroup) {
+					this.insertBefore(newGroup, existingGroup.nextSibling);
+				};
+			outerElement.insertGroupBefore = outerElement.insertGroupBefore.bind(outerElement);
+			
 		}		
     }
 };
