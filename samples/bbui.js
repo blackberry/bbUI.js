@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.94*/
+/* VERSION: 0.9.6.95*/
 
 bb = {
 	scroller: null,  
@@ -858,7 +858,7 @@ bb = {
 				return 'portrait';
 			}
 		} else {
-			if (!window.orientation) {
+			if (window.orientation == undefined) {
 				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
 			} else if (window.orientation == 0 || window.orientation == 180) {
 				return 'portrait';

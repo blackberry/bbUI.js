@@ -840,7 +840,7 @@ bb = {
 				return 'portrait';
 			}
 		} else {
-			if (!window.orientation) {
+			if (window.orientation == undefined) {
 				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
 			} else if (window.orientation == 0 || window.orientation == 180) {
 				return 'portrait';
