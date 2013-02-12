@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.95*/
+/* VERSION: 0.9.6.96*/
 
 bb = {
 	scroller: null,  
@@ -1191,7 +1191,7 @@ bb.actionBar = {
 									temp = this.backBtn.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
 									this.backBtn.setAttribute('class',temp);
-									this.backBtn.updateHighlightDimensions();
+									this.backBtn.updateHighlightDimensions(orientation);
 									// Back caption
 									temp = this.backBtn.backCaption.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
