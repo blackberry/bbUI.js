@@ -191,13 +191,13 @@ _bb10_pillButtons = {
 			// Create our event handler for when the dom is ready
 			outerElement.onbbuidomready = function() {
 						this.initialize();
-						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+						document.removeEventListener('bbuidomprocessed', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
 			/* Add our event listener for the domready to move our selected item.  We want to
 		      do it this way because it will ensure the screen transition animation is finished before
 		      the pill button move transition happens. This will help for any animation stalls/delays */
-			document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
+			document.addEventListener('bbuidomprocessed', outerElement.onbbuidomready,false);
 		} else {
 			window.setTimeout(outerElement.initialize, 0);
 		}
