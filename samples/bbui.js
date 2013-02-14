@@ -6606,6 +6606,14 @@ _bb10_roundPanel = {
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
+			
+			// Add setHeader function
+			outerElement.setHeader = function(value) {
+						for (j = 0; j < this.querySelectorAll('[data-bb-type=panel-header]').length; j++) {
+							 items[j].innerHTML = value;
+						}
+					};
+			outerElement.setHeader = outerElement.setHeader.bind(outerElement);
             }
 		}
         else {
@@ -6640,6 +6648,14 @@ _bb10_roundPanel = {
 				bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
+			
+			// Add setHeader function
+			outerElement.setHeader = function(value) {
+						for (j = 0; j < this.querySelectorAll('[data-bb-type=panel-header]').length; j++) {
+							 items[j].innerHTML = value;
+						}
+					};
+			outerElement.setHeader = outerElement.setHeader.bind(outerElement);
             }
         }
     }
