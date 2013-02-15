@@ -14,18 +14,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 -->
-<div style="background-color: #252525" data-bb-type="screen" data-bb-effect="slide-left">
+<div data-bb-type="screen" data-bb-effect="slide-left">
 	<div data-bb-type="title" data-bb-caption="Progress Interface" data-bb-back-caption="Back" ></div>
 	<script src="js/dynamicProgress.js"></script>
 	
-	<div data-bb-type="round-panel" style="background-color: #252525;color:white;"> 
+	<div data-bb-type="round-panel"> 
 		<div data-bb-type="panel-header">Create/Remove Progress Bars</div>
 		<div id="addRemove" data-bb-type="button" data-bb-style="stretch" onclick="addRemoveIndicator()">Add Progress Bar</div>
 		<div id="progressContainer">
 		</div>
 	</div>
 	
-	<div data-bb-type="round-panel" style="background-color: #252525;color:white;"> 
+	<div data-bb-type="round-panel"> 
 		<div data-bb-type="panel-header">Manipulate Progress Bar State</div>
 		<div style="margin:20px;">
 			<progress id="progress1" value="20" max="100"></progress>
@@ -36,15 +36,13 @@
 		<div id="reset" data-bb-type="button" data-bb-style="stretch" onclick="percent=4;document.getElementById('progress1').setValue(0);">Reset</div>
 		<div id="max" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="document.getElementById('progress1').setMax(200);">Update Max</div>
 	</div>
-	<div data-bb-type="round-panel" style="background-color: #252525;color:white;"> 
+	<div data-bb-type="round-panel"> 
 		<div style="margin:20px;">
 			<progress id="progress2" value="60" max="100"></progress>
 		</div>
 		<div id="show" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="showProgress()">Show</div>
 		<div id="hide" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="hideProgress()">Hide</div>
 	</div>
-	
-	
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>

@@ -6,6 +6,7 @@ Below you will find all the different changes that have been added since the fir
 
 * _**Compatibility Changes:**_ 
 	* Light colored action bars, context menus and screen menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+	* Control Groups/Round Panels have now changed their styling.  This could impact the look and feel of your application
 	* BB10 Input fields are now wrapped with a container after they have been styled. 
 		* This may affect code that was showing/hiding/disabling inputs via JavaScript. 
 		* New JavaScript interfaces have been added to input controls for BB10.
@@ -27,6 +28,7 @@ Below you will find all the different changes that have been added since the fir
 	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
 	* Action Bar styling improvements to better match Cascades
 	* DropDown controls now allow for a second line of text using the data-bb-accent text property on an &lg;option&gt;
+	* Control Groups/Round Panels have now been updated to the latest styling
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()

@@ -17,7 +17,16 @@
 <div data-bb-type="screen" data-bb-effect="fade">
 	<div data-bb-type="title" data-bb-caption="Image List" data-bb-back-caption="Back" ></div>
 	<script id="listButtons" src="js/imageListAddButtons.js"></script>
-	<div data-bb-type="round-panel" style="text-align:center"> 
+	<style type="text/css">
+		.panel {
+			text-align:center;
+			border: solid 1px gray;
+			border-radius:10px;
+			margin:15px;
+			padding:15px
+		}
+	</style>
+	<div class="panel"> 
 		Move items from the top list to the bottom list by clicking the (+) button
 	</div>
 	<div id="topList" data-bb-type="image-list" data-bb-style="addbuttons" data-bb-image-effect="fade">
@@ -25,7 +34,7 @@
 		<div data-bb-type="item" data-bb-img="images/imageList/2.jpg" onbtnclick="prependItem()" data-bb-title="Mmmm.. Orange">My favorite color</div>	
 		<div data-bb-type="item" data-bb-img="images/imageList/5.jpg" onbtnclick="prependItem()" data-bb-title="Graffiti">A nice backdrop</div>	
 	</div>
-	<div data-bb-type="round-panel" style="text-align:center"> 
+	<div class="panel"> 
 		Move items from the bottom list to the top list by clicking the (-) button
 	</div>
 	<div id="bottomList" data-bb-type="image-list" data-bb-style="removebuttons" data-bb-image-effect="fade">	

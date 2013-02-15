@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.98*/
+/* VERSION: 0.9.6.99*/
 
 bb = {
 	scroller: null,  
@@ -6579,7 +6579,9 @@ _bb10_roundPanel = {
 				j,
 				outerElement,
 				items,
-				res = '1280x768-1280x720';	
+				header,
+				res = '1280x768-1280x720',
+				color = bb.screen.listColor;	
 
 			// Set our 'res' for known resolutions, otherwise use the default
 			if (bb.device.is1024x600) {
@@ -6590,10 +6592,12 @@ _bb10_roundPanel = {
 				
 			for (i = 0; i < elements.length; i++) {
                 outerElement = elements[i];
-                outerElement.setAttribute('class','bb-bb10-round-panel-'+res+' bb-bb10-round-panel-light');
+                outerElement.setAttribute('class','bb-bb10-round-panel-'+res+' bb-bb10-round-panel-'+color);
                 items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
                 for (j = 0; j < items.length; j++) {
-                     items[j].setAttribute('class','bb-bb10-panel-header-'+res+' bb-bb10-panel-header-'+res+'-light');
+                     header = items[j];
+					 header.setAttribute('class','bb-bb10-panel-header-'+res+' bb-bb10-panel-header-'+res+'-'+color);
+					 header.style['border-bottom-color'] = bb.options.shades.darkOutline;
                 }
 			// Add our show function
 			outerElement.show = function() {
