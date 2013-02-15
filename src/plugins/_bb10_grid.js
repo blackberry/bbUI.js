@@ -42,6 +42,78 @@ _bb10_grid = {
 				if (innerChildNode.hasAttribute('data-bb-type')) {
 				
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
+
+					// If the inner item is a group
+					if (type == 'group') {
+						// Add get title function
+						innerChildNode.getTitle = function() {
+							if (this.hasAttribute('data-bb-title')) {
+								return this.getAttribute('data-bb-title');
+							} else {
+								return false;
+							}
+						};
+						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
+
+						// Add remove title function
+						innerChildNode.removeTitle = function() {
+							if (this.getTitle()) {
+								// Remove the title attribute of the group
+								this.removeAttribute('data-bb-title');
+								// Remove the title element which is the first 
+								// child node of the group
+								this.removeChild(this.firstChild);
+							} 
+						}
+						innerChildNode.removeTitle = innerChildNode.removeTitle.bind(innerChildNode);
+
+						// Add set title function
+						innerChildNode.setTitle = function(titleText) {
+							// Remove the title if title text is null or empty
+							if (!titleText || titleText === '') {
+								this.removeTitle();
+							} 
+							// Set the title otherwise
+							else {
+								// Add the title attribute
+								this.setAttribute('data-bb-title', titleText);
+
+								// Create a new title element
+								title = document.createElement('div');
+								title.normal = 'bb-bb10-grid-header-'+res;
+								title.innerHTML = '<p>'+ titleText +'</p>';
+								
+								// Style our header for appearance
+								if (solidHeader) {
+									title.normal = title.normal +' bb10Accent';
+									title.style.color = 'white';
+									title.style['border-bottom-color'] = 'transparent';
+								} else {
+									title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
+									title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+								}
+								
+								// Style our header for text justification
+								if (headerJustify == 'left') {
+									title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
+								} else if (headerJustify == 'right') {
+									title.normal = title.normal + ' bb-bb10-grid-header-right-'+res;
+								} else {
+									title.normal = title.normal + ' bb-bb10-grid-header-center';
+								}
+								
+								title.setAttribute('class', title.normal);
+								
+								// Insert the newly created title as the first child
+								if (this.firstChild) {
+									this.insertBefore(title, this.firstChild);
+								} else {
+									this.appendChild(title);
+								}
+							}
+						}
+						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);
+					}
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
 						title.normal = 'bb-bb10-grid-header-'+res;
