@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.97*/
+/* VERSION: 0.9.6.98*/
 
 bb = {
 	scroller: null,  
@@ -4480,6 +4480,8 @@ _bb10_dropdown = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		var img,
@@ -4729,7 +4731,9 @@ _bb10_dropdown = {
 								var scrollHeight;
 								this.open = true;
 								// Figure out how many items to show
-								if (this.options.length > 5) {
+								if (bb.device.is720x720 && (this.options.length > 4)) {
+									this.numItems = 3;
+								} else if (this.options.length > 5) {
 									this.numItems = 5;
 								} else {
 									this.numItems = this.options.length;
@@ -4741,7 +4745,10 @@ _bb10_dropdown = {
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									scrollHeight = (this.numItems * 99);
 									this.style.height = 95 + scrollHeight +'px';
-								} else {
+								} else if (bb.device.is720x720) {
+									scrollHeight = (this.numItems * 85);
+									this.style.height = 77 + scrollHeight +'px';
+								}else {
 									scrollHeight = (this.numItems * 99);
 									this.style.height = 95 + scrollHeight +'px';
 								}
@@ -4784,7 +4791,9 @@ _bb10_dropdown = {
 									this.style.height = '43px';
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									this.style.height = '95px';
-								} else {
+								} else if (bb.device.is720x720) {
+									this.style.height = '77px';
+								}else {
 									this.style.height = '95px';
 								}
 								
