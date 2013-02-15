@@ -6084,62 +6084,11 @@ _bb10_grid = {
 				if (innerChildNode.hasAttribute('data-bb-type')) {
 				
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
-					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
-						title = document.createElement('div');
-						title.normal = 'bb-bb10-grid-header-'+res;
-						title.innerHTML = '<p>'+ innerChildNode.getAttribute('data-bb-title') +'</p>';
-						
-						// Style our header for appearance
-						if (solidHeader) {
-							title.normal = title.normal +' bb10Accent';
-							title.style.color = 'white';
-							title.style['border-bottom-color'] = 'transparent';
-						} else {
-							title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
-							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
-						}
-						
-						// Style our header for text justification
-						if (headerJustify == 'left') {
-							title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
-						} else if (headerJustify == 'right') {
-							title.normal = title.normal + ' bb-bb10-grid-header-right-'+res;
-						} else {
-							title.normal = title.normal + ' bb-bb10-grid-header-center';
-						}
-						
-						title.setAttribute('class', title.normal);
-						
-						if (innerChildNode.firstChild) {
-							innerChildNode.insertBefore(title, innerChildNode.firstChild);
-						} else {
-							innerChildNode.appendChild(title);
-						}
 
+					// If the inner item is a group
+					if (type == 'group') {
 						// Add get title function
 						innerChildNode.getTitle = function() {
-							return this.getAttribute("data-bb-title");
-						};
-						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
-
-						// Add set title function
-						innerChildNode.setTitle = function(titleText) {
-							if (titleText) {
-								// Update the title attribute
-								this.setAttribute("data-bb-title", titleText);
-								// Update the title element
-								var title = this.firstChild;
-								title.innerHTML = '<p>' + titleText + '</p>';
-							}
-						}
-						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);
-					}
-					// If the inner child node is a group and it has no title
-					else if (type == 'group' && !innerChildNode.hasAttribute('data-bb-title')) {
-						// Add get title function
-						innerChildNode.getTitle = function() {
-							// Check if it has the title attribute in case the inner child node has 
-							// been modified with setTitle function
 							if (this.hasAttribute('data-bb-title')) {
 								return this.getAttribute('data-bb-title');
 							} else {
@@ -6148,9 +6097,26 @@ _bb10_grid = {
 						};
 						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
 
+						// Add remove title function
+						innerChildNode.removeTitle = function() {
+							if (this.getTitle()) {
+								// Remove the title attribute of the group
+								this.removeAttribute('data-bb-title');
+								// Remove the title element which is the first 
+								// child node of the group
+								this.removeChild(this.firstChild);
+							} 
+						}
+						innerChildNode.removeTitle = innerChildNode.removeTitle.bind(innerChildNode);
+
 						// Add set title function
 						innerChildNode.setTitle = function(titleText) {
-							if (titleText) {
+							// Remove the title if title text is null or empty
+							if (!titleText || titleText === '') {
+								this.removeTitle();
+							} 
+							// Set the title otherwise
+							else {
 								// Add the title attribute
 								this.setAttribute('data-bb-title', titleText);
 
@@ -6189,6 +6155,38 @@ _bb10_grid = {
 							}
 						}
 						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);
+					}
+					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
+						title = document.createElement('div');
+						title.normal = 'bb-bb10-grid-header-'+res;
+						title.innerHTML = '<p>'+ innerChildNode.getAttribute('data-bb-title') +'</p>';
+						
+						// Style our header for appearance
+						if (solidHeader) {
+							title.normal = title.normal +' bb10Accent';
+							title.style.color = 'white';
+							title.style['border-bottom-color'] = 'transparent';
+						} else {
+							title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
+							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+						}
+						
+						// Style our header for text justification
+						if (headerJustify == 'left') {
+							title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
+						} else if (headerJustify == 'right') {
+							title.normal = title.normal + ' bb-bb10-grid-header-right-'+res;
+						} else {
+							title.normal = title.normal + ' bb-bb10-grid-header-center';
+						}
+						
+						title.setAttribute('class', title.normal);
+						
+						if (innerChildNode.firstChild) {
+							innerChildNode.insertBefore(title, innerChildNode.firstChild);
+						} else {
+							innerChildNode.appendChild(title);
+						}
 					}
 					else if (type == 'row') {
 						var k,
