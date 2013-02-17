@@ -159,6 +159,43 @@ _bb10_grid = {
 							}
 						}
 						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);
+
+						/**
+						 * Gets the last child DOM node element of the group
+						 * 
+						 * @return {DOM node element} the last child DOM
+						 * node element of the group
+						 */
+						innerChildNode.getLastDomChild = function() {
+							if (!this.lastChild) return false;
+							var lastChild = this.lastChild;
+							while (lastChild.nodeType != 1) {
+								lastChild = lastChild.previousSibling;
+							}
+							return lastChild;
+						}
+						innerChildNode.getLastDomChild = innerChildNode.getLastDomChild.bind(innerChildNode);
+
+						/**
+						 * Appends a row DOM element to the end of the group
+						 * 
+						 * @param  {DOM node element} row a row DOM element
+						 */
+						innerChildNode.appendRow = function(row) {
+							if (!row) return false;
+							// Check if the input is actually a row DOM element
+							var isRow = (row.hasAttribute && row.hasAttribute('data-bb-type') 
+								&& row.getAttribute('data-bb-type') == 'row') ? true : false;
+							if (!isRow) return false;
+							// Add the row after the last child DOM element
+							if (this.getLastDomChild()) {
+								var lastDomChild = this.getLastDomChild();
+								this.insertBefore(row, lastDomChild);
+							} else {
+								this.appendChild(row);
+							}
+						}
+						innerChildNode.appendRow = innerChildNode.appendRow.bind(innerChildNode);
 					}
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
