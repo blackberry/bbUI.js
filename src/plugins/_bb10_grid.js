@@ -45,7 +45,12 @@ _bb10_grid = {
 
 					// If the inner item is a group
 					if (type == 'group') {
-						// Add get title function
+						/**
+						 * Gets the title text of the group
+						 * 
+						 * @return {string or false} the title text or false if 
+						 * no title is set
+						 */
 						innerChildNode.getTitle = function() {
 							if (this.hasAttribute('data-bb-title')) {
 								return this.getAttribute('data-bb-title');
@@ -55,7 +60,9 @@ _bb10_grid = {
 						};
 						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
 
-						// Add remove title function
+						/**
+						 * Removes the title of the group
+						 */
 						innerChildNode.removeTitle = function() {
 							if (this.getTitle()) {
 								// Remove the title attribute of the group
@@ -67,7 +74,12 @@ _bb10_grid = {
 						}
 						innerChildNode.removeTitle = innerChildNode.removeTitle.bind(innerChildNode);
 
-						// Add set title function
+						/**
+						 * Sets the title of the group
+						 * 
+						 * @param {string} titleText the title text, if it is 
+						 * null or empty, the title will be removed from the group
+						 */
 						innerChildNode.setTitle = function(titleText) {
 							// Remove the title if title text is null or empty
 							if (!titleText || titleText === '') {
@@ -114,7 +126,9 @@ _bb10_grid = {
 						}
 						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);
 
-						// Add clear function
+						/**
+						 * Removes all the rows from the group
+						 */
 						innerChildNode.clear = function() {
 							if (this.hasChildNodes()) {
 								var childNodes = this.childNodes;
@@ -134,6 +148,17 @@ _bb10_grid = {
 							}
 						}
 						innerChildNode.clear = innerChildNode.clear.bind(innerChildNode);
+
+						/**
+						 * Removes the group itself from the grid
+						 */
+						innerChildNode.remove = function() {
+							if (this.parentNode) {
+								var grid = this.parentNode;
+								grid.removeChild(this);
+							}
+						}
+						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);
 					}
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
