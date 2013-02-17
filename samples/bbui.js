@@ -6155,6 +6155,27 @@ _bb10_grid = {
 							}
 						}
 						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);
+
+						// Add clear function
+						innerChildNode.clear = function() {
+							if (this.hasChildNodes()) {
+								var childNodes = this.childNodes;
+								for (var i = 0; i < childNodes.length; i++) {
+									// Check if the child node element has the hasAttribute() method
+									// <text> is also a child node and it does not have this method
+									if (childNodes[i].hasAttribute) {
+										// Check if the child node is a row element
+										var isRow = (childNodes[i].hasAttribute('data-bb-type') 
+											&& childNodes[i].getAttribute('data-bb-type')=='row') ? true : false;
+										// Remove the child node if so
+										if (isRow) {
+											this.removeChild(childNodes[i]);
+										}
+									}
+								}
+							}
+						}
+						innerChildNode.clear = innerChildNode.clear.bind(innerChildNode);
 					}
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
