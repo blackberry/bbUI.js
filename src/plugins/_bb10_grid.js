@@ -42,6 +42,202 @@ _bb10_grid = {
 				if (innerChildNode.hasAttribute('data-bb-type')) {
 				
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
+
+					// If the inner item is a group
+					if (type == 'group') {
+						/**
+						 * Gets the title of the group
+						 * 
+						 * @return {string or false} the title string of the 
+						 * group or false if no title is set
+						 */
+						innerChildNode.getTitle = function() {
+							if (this.hasAttribute('data-bb-title')) {
+								return this.getAttribute('data-bb-title');
+							} else {
+								return false;
+							}
+						};
+						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
+
+						/**
+						 * Removes the title of the group
+						 */
+						innerChildNode.removeTitle = function() {
+							if (this.getTitle()) {
+								// Remove the title attribute of the group
+								this.removeAttribute('data-bb-title');
+								// Remove the title element which is the first 
+								// child node of the group
+								this.removeChild(this.firstChild);
+							} 
+						}
+						innerChildNode.removeTitle = innerChildNode.removeTitle.bind(innerChildNode);
+
+						/**
+						 * Sets the title of the group
+						 * 
+						 * @param {string} value the new title string
+						 */
+						innerChildNode.setTitle = function(value) {
+							// Get the old title value
+							var oldValue = this.getTitle();
+
+							// Set the new title value only if it differs from 
+							// the old one
+							if (value != oldValue) {
+								// Remove the old title
+								this.removeTitle();
+
+								// Set the new title only when title value is 
+								// not null and non-empty
+								if (value && value != '') {
+									// Set the new title attribute
+									this.setAttribute('data-bb-title', value);
+									
+									// Create a new title element
+									title = document.createElement('div');
+									title.normal = 'bb-bb10-grid-header-'+res;
+									title.innerHTML = '<p>'+ value +'</p>';
+									
+									// Style our header for appearance
+									if (solidHeader) {
+										title.normal = title.normal +' bb10Accent';
+										title.style.color = 'white';
+										title.style['border-bottom-color'] = 'transparent';
+									} else {
+										title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
+										title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+									}
+									
+									// Style our header for text justification
+									if (headerJustify == 'left') {
+										title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
+									} else if (headerJustify == 'right') {
+										title.normal = title.normal + ' bb-bb10-grid-header-right-'+res;
+									} else {
+										title.normal = title.normal + ' bb-bb10-grid-header-center';
+									}
+									
+									title.setAttribute('class', title.normal);
+									
+									// Insert the newly created title as the first child
+									if (this.firstChild) {
+										this.insertBefore(title, this.firstChild);
+									} else {
+										this.appendChild(title);
+									}
+								}
+							}
+						}
+						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);
+
+						/**
+						 * Removes the group itself from the grid
+						 */
+						innerChildNode.remove = function() {
+							if (this.parentNode) {
+								var grid = this.parentNode;
+								grid.removeChild(this);
+							}
+						}
+						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);
+
+						/**
+						 * Checks if an element is a row DOM element
+						 * 
+						 * @param  {var}  element a JS variable
+						 * @return {Boolean} true if element is row DOM lement, 
+						 * false otherwise
+						 */
+						function isRow(element) {
+							if (!element || !element.hasAttribute) return false;
+							var isRow = (element.hasAttribute('data-bb-type') 
+								&& element.getAttribute('data-bb-type') == 'row') ? true : false;
+							return isRow;
+						}
+
+						/**
+						 * Removes all the rows from the group
+						 */
+						innerChildNode.clear = function() {
+							if (this.hasChildNodes()) {
+								var childNodes = this.childNodes;
+								for (var i = 0; i < childNodes.length; i++) {
+									if (isRow(childNodes[i])) {
+										this.removeChild(childNodes[i]);
+									}
+								}
+							}
+						}
+						innerChildNode.clear = innerChildNode.clear.bind(innerChildNode);
+
+						/**
+						 * Gets all the rows in the group
+						 * 
+						 * @return {Array()} an array of all the rows in the group,
+						 * or false if the group has no row
+						 */
+						innerChildNode.getRows = function() {
+							if (!this.hasChildNodes) return false;
+							var childNodes = this.childNodes;
+							var rows = Array();
+							for (var i = 0; i < childNodes.length; i++) {
+								if (isRow(childNodes[i])) {
+									rows.push(childNodes[i]);
+								}
+							}
+							if (rows.length > 0) {
+								return rows;
+							} else {
+								return false;
+							}
+						}
+						innerChildNode.getRows = innerChildNode.getRows.bind(innerChildNode);
+
+						/**
+						 * Appends a row DOM element to the end of the group
+						 * 
+						 * @param  {DOM node element} row a row DOM element
+						 */
+						innerChildNode.appendRow = function(row) {
+							if (isRow(row)) {
+								this.appendChild(row);
+							}
+						}
+						innerChildNode.appendRow = innerChildNode.appendRow.bind(innerChildNode);
+
+						/**
+						 * Inserts a row DOM element before the specified existing row
+						 * 
+						 * @param  {row DOM element} newRow      a row DOM element to be inserted
+						 * @param  {row DOM element} existingRow an existing row DOM element 
+						 */
+						innerChildNode.insertRowBefore = function(newRow, existingRow) {
+							if (isRow(newRow) && isRow(existingRow)) {
+								this.insertBefore(newRow, existingRow);
+							}
+						}
+						innerChildNode.insertRowBefore = innerChildNode.insertRowBefore.bind(innerChildNode);
+
+						/**
+						 * Refreshes the group with an array of rows
+						 * 
+						 * @param  {[row DOM element]} rows an array of row DOM elements
+						 */
+						innerChildNode.refresh = function(rows) {
+							if (!(rows instanceof Array)) return false;
+							// Remove all the exiting rows from the group
+							this.clear();
+							// Add all the new rows to the group
+							for (var i = 0; i < rows.length; i++) {
+								if (isRow(rows[i])) {
+									this.appendRow(rows[i]);
+								}
+							}
+						}
+						innerChildNode.refresh = innerChildNode.refresh.bind(innerChildNode);
+					}
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
 						title.normal = 'bb-bb10-grid-header-'+res;
