@@ -91,6 +91,42 @@ _bb10_grid = {
 							hasOverlay,
 							hardCodedColumnNum = -1, // none specified
 							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
+
+						/**
+						 * Gets the number of columns of a row
+						 * 
+						 * @return {int} number of columns in the row
+						 */
+						innerChildNode.getNumColumns = function() {
+							if (!this.hasAttribute('data-bb-columns')) return -1;
+							var numColumns = parseInt(this.getAttribute('data-bb-columns')); 
+							return numColumns;
+						}
+						innerChildNode.getNumColumns = innerChildNode.getNumColumns.bind(innerChildNode);
+
+						/**
+						 * Checks if a value is a non-negative integer
+						 * 
+						 * @param  {var}  value a js variable
+						 * @return {Boolean} true if value is a non-negative integer, or flase otehrwise
+						 */
+						function isNonNegInteger(value) {
+							return /^[\d]+$/.test(value);
+						}
+
+						/**
+						 * Sets the number of columns of a row
+						 * 
+						 * @param {int} value the number of columns to be set
+						 */
+						innerChildNode.setNumColumns = function(value) {
+							if (!isNonNegInteger(value)) {
+								throw 'Error: input should be a non-negative integer!';
+							} else {
+								this.setAttribute('data-bb-columns', value);
+							}
+						}
+						innerChildNode.setNumColumns = innerChildNode.setNumColumns.bind(innerChildNode);
 						
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
