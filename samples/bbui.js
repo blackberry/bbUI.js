@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.105*/
+/* VERSION: 0.9.6.106*/
 
 bb = {
 	scroller: null,  
@@ -6157,6 +6157,7 @@ _bb10_pillButtons = {
 
 		// Handle pill sizing on orientation change
 		outerElement.doOrientationChange = function() {
+					this.recalculateSize();
 					this.setPillLeft();
 				};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);

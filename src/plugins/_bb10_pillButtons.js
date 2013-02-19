@@ -214,6 +214,7 @@ _bb10_pillButtons = {
 
 		// Handle pill sizing on orientation change
 		outerElement.doOrientationChange = function() {
+					this.recalculateSize();
 					this.setPillLeft();
 				};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
