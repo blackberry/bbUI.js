@@ -121,7 +121,7 @@ _bb10_grid = {
 						} else {
 							width = (window.innerWidth/numItems) - 6;
 						}
-							
+												
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
 							
@@ -139,7 +139,7 @@ _bb10_grid = {
 							td = document.createElement('td');
 							tr.appendChild(td);
 							td.appendChild(itemNode);
-							columnCount++;
+							columnCount++;							
 							
 							// Find out how to size the images
 							if (outerElement.isSquare) {
@@ -155,11 +155,12 @@ _bb10_grid = {
 							image = document.createElement('img');
 							image.style.height = height + 'px';
 							image.style.width = width + 'px';
+							
 							image.style.opacity = '0';
 							image.style['-webkit-transition'] = 'opacity 0.5s linear';
-							image.style['-webkit-backface-visibility'] = 'hidden';
-							image.style['-webkit-perspective'] = 1000;
-							image.style['-webkit-transform'] = 'translate3d(0,0,0)';
+						//	image.style['-webkit-backface-visibility'] = 'hidden';
+						//	image.style['-webkit-perspective'] = 1000;
+						//	image.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							image.itemNode = itemNode;
 							itemNode.image = image;
 							itemNode.appendChild(image);
@@ -307,7 +308,6 @@ _bb10_grid = {
 										} else {
 											width = (window.innerWidth/numItems) - 6;
 										}
-										
 										// Adjust all the items
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];
