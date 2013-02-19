@@ -155,12 +155,9 @@ _bb10_grid = {
 							image = document.createElement('img');
 							image.style.height = height + 'px';
 							image.style.width = width + 'px';
-							
 							image.style.opacity = '0';
 							image.style['-webkit-transition'] = 'opacity 0.5s linear';
-						//	image.style['-webkit-backface-visibility'] = 'hidden';
-						//	image.style['-webkit-perspective'] = 1000;
-						//	image.style['-webkit-transform'] = 'translate3d(0,0,0)';
+							image.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							image.itemNode = itemNode;
 							itemNode.image = image;
 							itemNode.appendChild(image);

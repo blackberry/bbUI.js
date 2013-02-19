@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.108*/
+/* VERSION: 0.9.6.109*/
 
 body, html {
 	padding:0;
@@ -5024,7 +5024,6 @@ a.bb5-button-highlight span {
 	border-color:#2B2B2B;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 }
-
 
 /* ================================================= 
    Ripple Drop-Down dialog
