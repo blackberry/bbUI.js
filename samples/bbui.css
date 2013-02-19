@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.102*/
+/* VERSION: 0.9.6.103*/
 
 body, html {
 	padding:0;
@@ -3467,7 +3467,6 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-item-1280x768-1280x720 .description
 {
-	color:#606060;
 	overflow: hidden;
 	white-space:nowrap;
 	font-size: 26pt;	
@@ -3481,7 +3480,6 @@ a.bb5-button-highlight span {
 {
 	position:relative;
 	float:right;	
-	color:#606060;
 	font-size:22pt;
 	margin-right: 10px;
 	margin-top:-79px;
@@ -3605,7 +3603,6 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-item-720x720 .description
 {
-	color:#606060;
 	overflow: hidden;
 	white-space:nowrap;
 	font-size: 24pt;	
@@ -3619,7 +3616,6 @@ a.bb5-button-highlight span {
 {
 	position:relative;
 	float:right;	
-	color:#606060;
 	font-size:24pt;
 	margin-right: 10px;
 	margin-top:-84px;
@@ -3742,7 +3738,6 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-item-1024x600 .description
 {
-	color:#606060;
 	overflow: hidden;
 	white-space:nowrap;
 	font-size: 14pt;	
@@ -3755,7 +3750,6 @@ a.bb5-button-highlight span {
 {
 	position:relative;
 	float:right;	
-	color:#606060;
 	font-size:14pt;
 	margin-right: 5px;
 	margin-top:-50px;
@@ -3836,6 +3830,22 @@ a.bb5-button-highlight span {
 {
 	padding-bottom: 0px;
 	overflow:hidden;
+}
+
+.bb-bb10-image-list-accent-text-dark {
+	color: White;
+}
+
+.bb-bb10-image-list-accent-text-light {
+	color:#606060;
+}
+
+.bb-bb10-image-list-description-dark {
+	color: White;
+}
+
+.bb-bb10-image-list-description-light {
+	color:#606060;
 }
 
 .bb-bb10-image-list-item-dark
