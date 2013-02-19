@@ -171,8 +171,18 @@ _bb10_pillButtons = {
 		outerElement.setPillLeft = function(element) {
 					if (!element) {
 						element = this.selected;
+						// Nothing was marked as selected so select the first button
+						if (!element) {
+							var items = this.table.querySelectorAll('[data-bb-type=pill-button]');
+							if (items.length > 0) {
+								element = items[0];
+								this.selected = element;
+							}
+						}
 					}
-					this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					if (element) {
+						this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					}
 				};
 		outerElement.setPillLeft = outerElement.setPillLeft.bind(outerElement);	
 		
