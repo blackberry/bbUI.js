@@ -43,6 +43,7 @@ Below you will find all the different changes that have been added since the fir
 	* **BB6/7 Title Bars:** Added getCaption(), setCaption() functions
 * Samples
 	* Created dedicated sample page for Pill Button JavaScript interfaces
+	* Updated samples to allow for a simple switch in code to use the dark or light theme for BlackBerry 10
 * Noteable Bug Fixes: 
     * BB10 Back button highlighting more responsive and doesn't get blocked by screen animation
 	* Tab overflow menu "tinted" overlay no longer allows for touch events to propagate down to the screen below it
