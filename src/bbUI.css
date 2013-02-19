@@ -1204,7 +1204,7 @@ body, html {
 .bb-bb10-panel-header-1024x600-dark {
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
-	border-top: solid 1px #DCDBDB;
+	border-top: solid 1px #3A3A3A;
 	color: white;	
 }
 
@@ -1215,6 +1215,8 @@ body, html {
 .bb-bb10-round-panel-1280x768-1280x720 {
 	margin-bottom: 8px;
 	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .bb-bb10-panel-header-1280x768-1280x720
@@ -1225,8 +1227,8 @@ body, html {
 	padding-bottom: 6px; 
 	font-size: 22pt;
 	font-weight: bold;
-	margin-left: -10px;
-	margin-right: -10px;
+	margin-left: -20px;
+	margin-right: -20px;
 	margin-top: -10px;
 }
 
