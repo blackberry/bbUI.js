@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.99*/
+/* VERSION: 0.9.6.100*/
 
 body, html {
 	padding:0;
@@ -5075,13 +5075,11 @@ a.bb5-button-highlight span {
    BB10 Grid
    =================================================*/
 .bb-bb10-grid-header-normal-light {
-	background: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 	font-weight: normal;
 	color: black;
 }
 
 .bb-bb10-grid-header-normal-dark {
-	background: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 	font-weight: normal;
 	color: white;
 }
@@ -5209,13 +5207,13 @@ a.bb5-button-highlight span {
 .bb-bb10-grid-header-left-1280x768-1280x720
 {
 	text-align:left;
-	padding-left: 20px;
+	padding-left: 5px;
 }
 
 .bb-bb10-grid-header-right-1280x768-1280x720
 {
 	text-align:right;
-	padding-right: 20px;
+	padding-right: 5px;
 }
 
 .bb-bb10-grid-item-overlay-1280x768-1280x720
