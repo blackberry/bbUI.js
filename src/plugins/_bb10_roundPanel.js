@@ -18,7 +18,7 @@ _bb10_roundPanel = {
 				
 			for (i = 0; i < elements.length; i++) {
                 outerElement = elements[i];
-                outerElement.setAttribute('class','bb-bb10-round-panel-'+res+' bb-bb10-round-panel-'+color);
+                outerElement.setAttribute('class','bb-bb10-round-panel-'+res);
                 items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
                 for (j = 0; j < items.length; j++) {
                      header = items[j];

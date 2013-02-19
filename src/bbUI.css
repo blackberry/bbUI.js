@@ -1171,19 +1171,7 @@ body, html {
 	margin-top: 3px;
 	padding: 5px;
 }
-
-/* ================================================= 
-   BB10 Round panels
-   =================================================*/
-   
-.bb-bb10-round-panel-light {
-	border-color: #C6C6C6;
-}  
-
-.bb-bb10-round-panel-light {
-	border-color: #C6C6C6;
-}   
-   
+ 
 /* ================================================= 
    BB10 Round panels for 1024x600
    =================================================*/
@@ -1252,7 +1240,7 @@ body, html {
 .bb-bb10-panel-header-1280x768-1280x720-dark {
 	border-bottom-style: solid;
 	border-bottom-width: 4px;
-	border-top: solid 1px #DCDBDB;
+	border-top: solid 1px #3A3A3A;
 	color: white;	
 }
 
