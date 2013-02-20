@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.111*/
+/* VERSION: 0.9.6.112*/
 
 bb = {
 	scroller: null,  
@@ -2387,6 +2387,9 @@ bb.menuBar = {
 			} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 				res = '1280x768-1280x720';
 				bb.menuBar.height = 140;
+			} else if (bb.device.is720x720) {
+				res = '720x720';
+				bb.menuBar.height = 110;
 			}
 
 			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-dark');

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.111*/
+/* VERSION: 0.9.6.112*/
 
 body, html {
 	padding:0;
@@ -842,16 +842,6 @@ body, html {
     display: inline-block;
 }
 
-/* ================================================= 
-   BB10 Swipe Menu
-   =================================================*/
-
- .bb-bb10-menu-bar-dark
-{
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
-	border-bottom-color: #626262;
-	color: white;
-}
    
 /* ================================================= 
    BB10 Swipe Menu 1024x600
@@ -910,7 +900,7 @@ body, html {
 	z-index:1002;
 	height: 140px;
 	border-bottom-style: solid;
-	border-bottom-width: 2px;
+	border-bottom-width: 1px;
 }   
 
 .bb-bb10-menu-bar-item-1280x768-1280x720 
@@ -932,6 +922,58 @@ body, html {
 {
 	font-size: 20pt;
 	padding-top: 10px;
+}
+
+/* ================================================= 
+   BB10 Swipe Menu 720x720
+   =================================================*/
+
+.bb-bb10-menu-bar-720x720 {
+	position: fixed;
+	left: 0px;
+	width: 100%;
+	clear: both;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	top: -113px;
+	font-size: 100%;
+	z-index:1002;
+	height: 110px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}   
+
+.bb-bb10-menu-bar-item-720x720 
+{
+	text-align: center;
+	cursor: pointer;
+	float: left;
+	/*height: 88px;	*/
+}
+
+.bb-bb10-menu-bar-item-720x720 img 
+{
+	height: 75px;
+	width: 75px;
+	margin-top: 2px;
+}
+
+.bb-bb10-menu-bar-item-caption-720x720
+{
+	font-size: 18pt;
+	padding-top: 0px;
+}
+
+/* ================================================= 
+   BB10 Swipe Menu
+   =================================================*/
+
+ .bb-bb10-menu-bar-dark
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
+	border-bottom-color: #626262;
+	color: white;
 }
 
 
