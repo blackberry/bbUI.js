@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.110*/
+/* VERSION: 0.9.6.111*/
 
 bb = {
 	scroller: null,  
@@ -5884,6 +5884,8 @@ _bb10_labelControlContainers = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		for (i = 0; i < elements.length; i++) {

@@ -3216,6 +3216,27 @@ a.bb5-button-highlight span {
 }
 
 /* ================================================= 
+   BB10 Label Control Rows for 720x720
+   =================================================*/
+
+.bb-bb10-label-control-label-row-720x720
+{
+	vertical-align: text-bottom;
+	height:44px;
+}
+
+.bb-bb10-label-control-label-720x720
+{
+	position:relative;
+	top: 0px;
+	bottom:0px;
+	left:0px;
+	font-size: 28pt;
+	height:30px;
+	vertical-align: text-bottom;
+}
+
+/* ================================================= 
    BB10 Label Control Rows for 1024x600
    =================================================*/
    

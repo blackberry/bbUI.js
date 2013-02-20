@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.110*/
+/* VERSION: 0.9.6.111*/
 
 body, html {
 	padding:0;
@@ -3229,6 +3229,27 @@ a.bb5-button-highlight span {
 	bottom:0px;
 	left:0px;
 	font-size: 30pt;
+	height:30px;
+	vertical-align: text-bottom;
+}
+
+/* ================================================= 
+   BB10 Label Control Rows for 720x720
+   =================================================*/
+
+.bb-bb10-label-control-label-row-720x720
+{
+	vertical-align: text-bottom;
+	height:44px;
+}
+
+.bb-bb10-label-control-label-720x720
+{
+	position:relative;
+	top: 0px;
+	bottom:0px;
+	left:0px;
+	font-size: 28pt;
 	height:30px;
 	vertical-align: text-bottom;
 }
