@@ -17,6 +17,7 @@ Below you will find all the different changes that have been added since the fir
 	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads
 * BlackBerry 10 Styling
+	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
 	* Updated Pill Button styling
 	* Input field styling updates (fonts and control behaviour)
 	* Label/Control container title font size updated
@@ -24,7 +25,6 @@ Below you will find all the different changes that have been added since the fir
 	* Grid lists now load their images as the user scrolls items into view
 	* Updated headers on grid and image lists to better match the sizing and coloring on BB10
 	* Updated Action Bars to have a minimized version when in landscape
-	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
 	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
 	* Action Bar styling improvements to better match Cascades
 	* DropDown controls now allow for a second line of text using the data-bb-accent text property on an &lg;option&gt;
