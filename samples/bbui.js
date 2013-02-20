@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.112*/
+/* VERSION: 0.9.6.113*/
 
 bb = {
 	scroller: null,  
@@ -2773,8 +2773,10 @@ bb.screen = {
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
 			screenRes = 'bb-bb10-1024x600-screen';
-		} else if (bb.device.isBB10) {
+		} else if (bb.device.isBB10 && (bb.device.is1280x768 || bb.device.is1280x720)) {
 			screenRes = 'bb-bb10-1280x768-1280x720-screen';
+		} else if (bb.device.isBB10 && bb.device.is720x720) {
+			screenRes = 'bb-bb10-720x720-screen';
 		} else if (bb.device.isHiRes) {
 			screenRes = 'bb-hires-screen';
 		}

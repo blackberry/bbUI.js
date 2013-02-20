@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.112*/
+/* VERSION: 0.9.6.113*/
 
 body, html {
 	padding:0;
@@ -107,6 +107,16 @@ body, html {
 
 .bb-bb10-1280x768-1280x720-screen {
 	font-size: 30pt;
+	position:absolute;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right: 0px;
+	background-color: white;
+}
+
+.bb-bb10-720x720-screen {
+	font-size: 28pt;
 	position:absolute;
 	top:0px;
 	left:0px;

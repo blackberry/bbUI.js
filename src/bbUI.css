@@ -97,6 +97,16 @@ body, html {
 	background-color: white;
 }
 
+.bb-bb10-720x720-screen {
+	font-size: 28pt;
+	position:absolute;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right: 0px;
+	background-color: white;
+}
+
 .bb-transition-overlay
 {
 	z-index: 1000;
