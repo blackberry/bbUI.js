@@ -185,6 +185,7 @@ bb.actionBar = {
 			// Create our action bar overflow button
 			action = document.createElement('div');
 			action.menu = actionBar.menu;
+			action.menu.actionBar = actionBar;
 			
 			action.setAttribute('data-bb-type','action');
 			action.setAttribute('data-bb-style','button');

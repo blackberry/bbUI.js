@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.109*/
+/* VERSION: 0.9.6.110*/
 
 bb = {
 	scroller: null,  
@@ -1101,6 +1101,7 @@ bb.actionBar = {
 			// Create our action bar overflow button
 			action = document.createElement('div');
 			action.menu = actionBar.menu;
+			action.menu.actionBar = actionBar;
 			
 			action.setAttribute('data-bb-type','action');
 			action.setAttribute('data-bb-style','button');
@@ -2126,12 +2127,19 @@ bb.contextMenu = {
 								var windowHeight = bb.innerHeight(),
 									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
 									margin,
-									numActions;
+									numActions = 0,
+									headerHeight = (this.actionBar == undefined) ? itemHeight : 0,
+									i;
 								// See how many actions to use for calculations
-								numActions = (this.pinnedAction) ? this.actions.length - 1 : this.actions.length;
-								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - itemHeight; //itemHeight is the header
+								for (i = 0; i < this.actions.length; i++) {
+									if (this.actions[i].visible == true) {
+										numActions++;
+									}
+								}
+								numActions = (this.pinnedAction) ? numActions - 1 : numActions;
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - headerHeight;
 								if (margin < 0) margin = 0;
-								this.actions[0].style['margin-top'] = margin + 'px';
+								this.scrollContainer.style['padding-top'] = margin +'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
