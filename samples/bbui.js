@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.113*/
+/* VERSION: 0.9.6.114*/
 
 bb = {
 	scroller: null,  
@@ -6484,7 +6484,6 @@ _bb10_radio = {
 								this.outerElement.slideFromTop = false;
 							}
 						} 
-					
 						// Emulate TouchEnd
 						this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
 						if (bb.device.is1024x600) {
@@ -6502,11 +6501,8 @@ _bb10_radio = {
 						} else {
 							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
 						}
-						
-						// Fire our clicked event
-						var ev = document.createEvent('MouseEvents');
-						ev.initMouseEvent('click', true, true);
-						this.outerElement.dispatchEvent(ev);
+						// Fire our click
+						window.setTimeout(this.outerElement.doclick,0);
 					}
 					
 				};
