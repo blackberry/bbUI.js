@@ -5573,6 +5573,7 @@ a.bb5-button-highlight span {
 	left:0px;
 	background-repeat:  repeat-x;
 	overflow:hidden;
+	/*box-shadow: rgba(50, 50, 50, 0.447059) 0 -10px 20px;*/
 }
 
 .bb-bb10-action-bar-portrait-1280x768-1280x720 {
@@ -5765,6 +5766,7 @@ a.bb5-button-highlight span {
 	left:0px;
 	background-repeat:  repeat-x;
 	overflow:hidden;
+	/*box-shadow: rgba(50, 50, 50, 0.447059) 0 -10px 20px;*/
 }
 
 .bb-bb10-action-bar-portrait-720x720 {
