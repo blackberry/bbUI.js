@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.115*/
+/* VERSION: 0.9.6.116*/
 
 bb = {
 	scroller: null,  
@@ -5971,7 +5971,7 @@ _bb10_pillButtons = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
-		}
+		} 
 		
 		var i,
 			containerStyle = 'bb-bb10-pill-buttons-container-'+res+' bb-bb10-pill-buttons-container-' + bb.screen.controlColor,
@@ -6001,7 +6001,6 @@ _bb10_pillButtons = {
 		pill.appendChild(pillInner);
 		pill.setAttribute('class',buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor + ' bb-bb10-pill-buttons-pill');
 		pillInner.setAttribute('class','bb-bb10-pill-button-inner-'+res +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor);
-		//pill.style.width = percentWidth + '%';
 		pill.style.opacity = '0';
 		outerElement.pill = pill;
 		containerDiv.appendChild(pill);
@@ -6180,6 +6179,8 @@ _bb10_pillButtons = {
 		// Add our show function
 		outerElement.show = function() {
 			this.style.display = 'block';
+			this.recalculateSize();
+			this.setPillLeft();
 			bb.refresh();
 		};
 		outerElement.show = outerElement.show.bind(outerElement);
