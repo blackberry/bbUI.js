@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.116*/
+/* VERSION: 0.9.6.117*/
 
 bb = {
 	scroller: null,  
@@ -222,7 +222,11 @@ bb = {
 			});
 		}
 	},
-
+	getCurScreen : function(){
+		var numItems = bb.screens.length,
+		screen = document.getElementById(bb.screens[numItems-1].guid);
+		return screen.childNodes[1];
+	},
     doLoad: function(element) {
         // Apply our styling
         var root = element || document.body;
@@ -5222,6 +5226,8 @@ _bb10_grid = {
 														itemNode.contextShown = false;
 														if (itemNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 							itemNode.ontouchend = function() {
@@ -5236,7 +5242,9 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
-															if (itemNode.fingerDown) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}

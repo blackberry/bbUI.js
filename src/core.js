@@ -204,7 +204,11 @@ bb = {
 			});
 		}
 	},
-
+	getCurScreen : function(){
+		var numItems = bb.screens.length,
+		screen = document.getElementById(bb.screens[numItems-1].guid);
+		return screen.childNodes[1];
+	},
     doLoad: function(element) {
         // Apply our styling
         var root = element || document.body;
