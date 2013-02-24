@@ -1,16 +1,16 @@
-_bb10_grid = {  
+_bb10_grid = {
     apply: function(elements) {
 		var res = '1280x768-1280x720',
 			solidHeader = false,
 			headerJustify;
-		
+
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
 		}
-				
+
 		// Apply our transforms to all grids
 		for (var i = 0; i < elements.length; i++) {
 			var j,
@@ -20,33 +20,33 @@ _bb10_grid = {
 				innerChildNode,
 				contextMenu,
 				outerElement = elements[i];
-				
-			outerElement.setAttribute('class','bb-bb10-grid-'+res);	
+
+			outerElement.setAttribute('class','bb-bb10-grid-'+res);
 			// See if it is square or landscape layout
 			outerElement.isSquare = (outerElement.hasAttribute('data-bb-style') && outerElement.getAttribute('data-bb-style').toLowerCase() == 'square');
-			
+
 			// Get our header style
 			solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
 			// Get our header justification
 			headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
-			
+
 			// Assign our context menu if there is one
 			if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
 				contextMenu = bb.screen.contextMenu;
 			}
-			
+
 			// Gather our inner items
 			items = outerElement.querySelectorAll('[data-bb-type=group], [data-bb-type=row]');
 			for (j = 0; j < items.length; j++) {
 				innerChildNode = items[j];
 				if (innerChildNode.hasAttribute('data-bb-type')) {
-				
+
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
 						title.normal = 'bb-bb10-grid-header-'+res;
 						title.innerHTML = '<p>'+ innerChildNode.getAttribute('data-bb-title') +'</p>';
-						
+
 						// Style our header for appearance
 						if (solidHeader) {
 							title.normal = title.normal +' bb10Accent';
@@ -56,7 +56,7 @@ _bb10_grid = {
 							title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
 							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
 						}
-						
+
 						// Style our header for text justification
 						if (headerJustify == 'left') {
 							title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
@@ -65,9 +65,9 @@ _bb10_grid = {
 						} else {
 							title.normal = title.normal + ' bb-bb10-grid-header-center';
 						}
-						
+
 						title.setAttribute('class', title.normal);
-						
+
 						if (innerChildNode.firstChild) {
 							innerChildNode.insertBefore(title, innerChildNode.firstChild);
 						} else {
@@ -91,15 +91,15 @@ _bb10_grid = {
 							hasOverlay,
 							hardCodedColumnNum = -1, // none specified
 							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
-						
+
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
-						
+
 						// See if they specified the number of items per column
 						if (innerChildNode.hasAttribute('data-bb-columns')) {
 							hardCodedColumnNum = innerChildNode.getAttribute('data-bb-columns');
 						}
-						
+
 						table = document.createElement('table');
 						table.style.width = '100%';
 						innerChildNode.appendChild(table);
@@ -121,16 +121,16 @@ _bb10_grid = {
 						} else {
 							width = (window.innerWidth/numItems) - 6;
 						}
-												
+
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
-							
+
 							// If it is PlayBook, Don't do the carousel, it doesn't work well
 							if (bb.device.isPlayBook && (hardCodedColumnNum >0) && (k > hardCodedColumnNum - 1)) {
 								itemNode.style.display = 'none';
 								continue;
 							}
-														
+
 							subtitle = itemNode.innerHTML;
 							title = itemNode.getAttribute('data-bb-title');
 							hasOverlay = (subtitle || title);
@@ -139,8 +139,8 @@ _bb10_grid = {
 							td = document.createElement('td');
 							tr.appendChild(td);
 							td.appendChild(itemNode);
-							columnCount++;							
-							
+							columnCount++;
+
 							// Find out how to size the images
 							if (outerElement.isSquare) {
 								height = width;
@@ -161,8 +161,8 @@ _bb10_grid = {
 							image.itemNode = itemNode;
 							itemNode.image = image;
 							itemNode.appendChild(image);
-							
-							// Load our image once onbbuidomready 
+
+							// Load our image once onbbuidomready
 							itemNode.onbbuidomready = function() {
 										if (bb.isScrolledIntoView(this)) {
 											// Animate its visibility once loaded
@@ -180,7 +180,7 @@ _bb10_grid = {
 									};
 							itemNode.onbbuidomready = itemNode.onbbuidomready.bind(itemNode);
 							document.addEventListener('bbuidomready', itemNode.onbbuidomready,false);
-							
+
 							// Only have the image appear when it scrolls into view
 							itemNode.onbbuiscrolling = function() {
 										if (bb.isScrolledIntoView(this)) {
@@ -195,16 +195,16 @@ _bb10_grid = {
 											if (index >= 0) {
 												bb.documentListeners.splice(index,1);
 											}
-										} 
+										}
 									};
-							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);	
-							
+							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);
+
 							// Create our translucent overlay
 							if (hasOverlay) {
 								overlay = document.createElement('div');
 								if (title && subtitle) {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
-									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';	
+									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';
 								} else if (title){
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
 									overlay.innerHTML = '<div><p class="title title-one-row">' + title + '</p></div>';
@@ -216,7 +216,7 @@ _bb10_grid = {
 							} else {
 								overlay = null;
 							}
-							
+
 							// Setup our variables
 							itemNode.overlay = overlay;
 							itemNode.title = title;
@@ -233,6 +233,8 @@ _bb10_grid = {
 														itemNode.contextShown = false;
 														if (itemNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 							itemNode.ontouchend = function() {
@@ -247,14 +249,16 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
-															if (itemNode.fingerDown) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
 														};
 							itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
 						}
-						
+
 						// if there were hardcoded columns and not enough items to fit those columns, add the extra columns
 						if ((hardCodedColumnNum > 0) && (columnCount < hardCodedColumnNum)) {
 							var diff = hardCodedColumnNum - columnCount;
@@ -269,7 +273,7 @@ _bb10_grid = {
 					}
 				}
 			}
-			
+
 			// Make sure we move when the orientation of the device changes
 			outerElement.orientationChanged = function(event) {
 									var items = this.querySelectorAll('[data-bb-type=row]'),
@@ -280,13 +284,13 @@ _bb10_grid = {
 										itemNode,
 										width,
 										height;
-				
+
 									for (i = 0; i < items.length; i++) {
 										var hardCodedColumnNum = -1;
 										row = items[i];
 										rowItems = row.querySelectorAll('[data-bb-type=item]');
 										numItems = rowItems.length;
-										
+
 										// See if they specified the number of items per column
 										if (row.hasAttribute('data-bb-columns')) {
 											hardCodedColumnNum = row.getAttribute('data-bb-columns');
@@ -327,7 +331,7 @@ _bb10_grid = {
 											itemNode.style['-webkit-transition-timing-function'] = 'linear';
 											itemNode.style['-webkit-transform'] = 'translate3d(0,0,0)';
 										}
-										
+
 										// Adjust the extra columns if there was hard coded columns that were not filled
 										if (row.extraColumns) {
 											for (j = 0; j < row.extraColumns.length;j++) {
@@ -336,11 +340,11 @@ _bb10_grid = {
 										}
 									}
 								};
-			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
-			window.addEventListener('resize', outerElement.orientationChanged,false); 
+			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);
+			window.addEventListener('resize', outerElement.orientationChanged,false);
 			// Add listener for removal on popScreen
 			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.orientationChanged});
-			
+
 			// Add show function
 			outerElement.show = function() {
 				this.style.display = 'block';
@@ -354,13 +358,13 @@ _bb10_grid = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 				};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-		}		
+		}
     }
 };

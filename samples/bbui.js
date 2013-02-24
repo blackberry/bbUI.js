@@ -14,16 +14,16 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.116*/
+/* VERSION: 0.9.6.118*/
 
 bb = {
-	scroller: null,  
+	scroller: null,
     screens: [],
 	dropdownScrollers: [],
 	windowListeners: [],
 	documentListeners: [],
 	transparentPixel: 'data:image/png;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
-						
+
 	// Core control variables
 	imageList : null,
 	activityIndicator : null,
@@ -36,7 +36,7 @@ bb = {
 	roundPanel : null,
 	grid : null,
 	pillButtons : null,
-	labelControlContainers : null,	
+	labelControlContainers : null,
 	slider : null,
 	radio : null,
 	progress : null,
@@ -48,20 +48,20 @@ bb = {
 		if (options) {
 			for (var i in options) bb.options[i] = options[i];
 		}
-		
+
 		// Assign our back handler if provided otherwise assign the default
-		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {	
+		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {
 			if (bb.options.onbackkey) {
 				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.options.onbackkey);
-			} else { // Use the default 
+			} else { // Use the default
 				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.popScreen);
 			}
 		}
-		
+
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
-		
+
 		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
 			bb.device.isBB10 = true;
 		} else {
@@ -70,21 +70,21 @@ bb = {
 		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
 		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
 		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
-		
+
 		// Set our resolution flags
 		bb.device.is1024x600 = bb.device.isPlayBook;
 		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
 		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
 		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
-		
+
 		// Determine HiRes
 		if (bb.device.isRipple) {
-			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
+			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480;
 		} else {
 			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
 		}
-		
-		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
+
+		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
 			i;
 		for (i = 0; i < viewports.length; i++) {
@@ -93,18 +93,18 @@ bb = {
 			} catch (ex) {
 				// Throw away the error
 			}
-		}			
-		
+		}
+
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (bb.device.isBB10 && !bb.device.is1024x600) { 
+		if (bb.device.isBB10 && !bb.device.is1024x600) {
 			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
 		} else {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
 		}
 		document.head.appendChild(meta);
-		
+
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
 			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
@@ -118,7 +118,7 @@ bb = {
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
 			darkDarkHighlight: 'rgb('+ (R - 140) +', '+ (G - 140) +', '+ (B - 140) +')'
 		};
-		
+
 		// Create our coloring
 		if (document.styleSheets && document.styleSheets.length) {
 			try {
@@ -140,7 +140,7 @@ bb = {
 		// Set our coloring
 		bb.screen.controlColor = (bb.options.controlsDark) ? 'dark' : 'light';
 		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
-		
+
 		// Set up our pointers to objects for each OS version
 		if (bb.device.isBB10) {
 			bb.imageList = _bb10_imageList;
@@ -191,16 +191,16 @@ bb = {
 			bb.progress = _bb_progress;
 			bb.roundPanel = _bb_5_6_7_roundPanel;
 		}
-		
+
 		// Add our keyboard listener for BB10
 		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
 			// Hide our action bar when the keyboard is about to pop up
 			blackberry.event.addEventListener('keyboardOpening', function() {
 				if (bb.screen.currentScreen.actionBar) {
 					bb.screen.currentScreen.actionBar.hide();
-				} 
+				}
 			});
-			
+
 			// Scroll to our selected input once the keyboard is opened
 			blackberry.event.addEventListener('keyboardOpened', function() {
 				if (bb.screen.currentScreen.actionBar) {
@@ -211,29 +211,33 @@ bb = {
 							bb.screen.focusedInput.scrollIntoView(false);
 						}
 					}
-				} 
+				}
 			});
-			
+
 			// Show our action bar when the keyboard disappears
 			blackberry.event.addEventListener('keyboardClosed', function() {
 				if (bb.screen.currentScreen.actionBar) {
 					bb.screen.currentScreen.actionBar.show();
-				} 
+				}
 			});
 		}
 	},
-
+	getCurScreen : function(){
+		var numItems = bb.screens.length,
+		screen = document.getElementById(bb.screens[numItems-1].guid);
+		return screen.childNodes[1];
+	},
     doLoad: function(element) {
         // Apply our styling
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
 		bb.style(root);
         // perform device specific formatting
-        bb.screen.reAdjustHeight();	
+        bb.screen.reAdjustHeight();
     },
-	
+
 	style: function(root) {
-		if (bb.scrollPanel) 			bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));  
+		if (bb.scrollPanel) 			bb.scrollPanel.apply(root.querySelectorAll('[data-bb-type=scroll-panel]'));
 	    if (bb.textInput) 				bb.textInput.apply(root.querySelectorAll('input[type=text], [type=password], [type=tel], [type=url], [type=email], [type=number], [type=date], [type=time], [type=datetime], [type=month], [type=datetime-local], [type=color], [type=search]'));
 		if (bb.dropdown)				bb.dropdown.apply(root.querySelectorAll('select'));
         if (bb.roundPanel) 				bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
@@ -251,34 +255,34 @@ bb = {
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
 		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
 	},
-	
-	device: {  
-        isHiRes: false, 
+
+	device: {
+        isHiRes: false,
         isBB5: false,
 		isBB6: false,
 		isBB7: false,
 		isBB10: false,
-        isPlayBook: false, 
+        isPlayBook: false,
         isRipple: false,
 		// Resolutions
 		is1024x600: false,
 		is1280x768: false,
 		is720x720: false,
-		is1280x720: false		
+		is1280x720: false
     },
-	
+
 	// Options for rendering
 	options: {
 		onbackkey: null,
 		onscreenready: null,
-		ondomready: null,  		
-		controlsDark: false, 
+		ondomready: null,
+		controlsDark: false,
 		coloredTitleBar: false,
 		listsDark: false,
 		highlightColor: '#00A8DF',
 		bb10ForPlayBook: false
 	},
-	
+
     loadScreen: function(url, id, popping, guid, params, screenRecord) {
         var xhr = new XMLHttpRequest(),
             container = document.createElement('div'),
@@ -316,11 +320,11 @@ bb = {
 		if (screenRecord) {
 			screenRecord.scripts = [];
 		}
-		
+
         scripts.forEach(function (script) {
             var scriptTag = document.createElement('script'),
 				type = script.getAttribute('type');
-			
+
 			// First check the type. If the type isn't specified or if it isn't "text/javascript" then skip the script
 			if (!type || type.toLowerCase() == 'text/javascript') {
 				if (script.text) {
@@ -386,9 +390,9 @@ bb = {
         }
         return container;
     },
-	
+
 	// Initialize the container
-	initContainer : function(container, id, popping, params) {	
+	initContainer : function(container, id, popping, params) {
 		// Fire the onscreenready and then apply our changes in doLoad()
 		if (bb.options.onscreenready) {
 			bb.options.onscreenready(container, id, params);
@@ -396,13 +400,13 @@ bb = {
 		bb.doLoad(container);
 		// Load in the new content
 		document.body.appendChild(container);
-		
+
 		var screen = container.querySelectorAll('[data-bb-type=screen]'),
 			animationScreen,
 			effect,
 			effectToApply = null,
 			overlay;
-				
+
         if (screen.length > 0 ) {
             screen = screen[0];
 			// Swap the screen with the animation
@@ -424,8 +428,8 @@ bb = {
 						animationScreen.setAttribute('data-bb-effect','slide-out-down');
 					}  else if (previousEffect.toLowerCase() == 'slide-down') {
 						animationScreen.setAttribute('data-bb-effect','slide-out-up');
-					} 
-				}				
+					}
+				}
 			} else {
 				animationScreen = screen;
 			}
@@ -436,7 +440,7 @@ bb = {
 					effect = animationScreen.getAttribute('data-bb-effect');
 					if (effect) {
 						effect = effect.toLowerCase();
-					
+
 						if (effect == 'fade') {
 							effectToApply = bb.screen.fadeIn;
 						} else if (effect == 'fade-out') {
@@ -469,9 +473,9 @@ bb = {
 								break;
 							}
 						}
-	
+
 						animationScreen.style.display = 'inline'; // This is a wierd hack
-						
+
 						// Listen for when the animation ends so that we can clear the previous screen
 						if (effectToApply) {
 							// Create our overlay
@@ -483,7 +487,7 @@ bb = {
 							bb.screen.animating = true;
 							animationScreen.doEndAnimation = function() {
 									var s = this.style;
-									bb.screen.animating = false;	
+									bb.screen.animating = false;
 									// Remove our overlay
 									document.body.removeChild(this.overlay);
 									this.overlay = null;
@@ -500,16 +504,16 @@ bb = {
 											s.height = '';
 											s['-webkit-animation-name'] = '';
 											s['-webkit-animation-duration'] = '';
-											s['-webkit-animation-timing-function'] = ''; 
+											s['-webkit-animation-timing-function'] = '';
 											s['-webkit-transform'] = '';
 										} else {
 											this.style.display = 'none';
 											this.parentNode.parentNode.removeChild(this.parentNode);
 											// Pop it from the stack
-											bb.screens.pop();	
+											bb.screens.pop();
 											screen.style['z-index'] = '';
 											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
-											bb.screens[bb.screens.length-1].container = container;  
+											bb.screens[bb.screens.length-1].container = container;
 										}
 									} else if (bb.screens.length <= 1) {
 										// Clear style changes that may have been made for the animation
@@ -521,33 +525,33 @@ bb = {
 										s.height = '';
 										s['-webkit-animation-name'] = '';
 										s['-webkit-animation-duration'] = '';
-										s['-webkit-animation-timing-function'] = ''; 
+										s['-webkit-animation-timing-function'] = '';
 										s['-webkit-transform'] = '';
 									}
-									
+
 									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
-									bb.createScreenScroller(screen); 
+									bb.createScreenScroller(screen);
 								};
 							animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
 							animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
-							
+
 							effectToApply.call(this, animationScreen);
 						}
-					} 
-				}				
-			} 
-		} 
-		
+					}
+				}
+			}
+		}
+
 		// Fire the ondomready after the element is added to the DOM and we've set our animation flags
 		if (bb.options.ondomready) {
 			bb.domready.container = container;
 			bb.domready.id = id;
 			bb.domready.params = params;
-			setTimeout(bb.domready.fire, 1); 
+			setTimeout(bb.domready.fire, 1);
 		} else {
 			setTimeout(bb.domready.fireEventsOnly, 1);
 		}
-		
+
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
 			if (!popping) {
@@ -558,31 +562,31 @@ bb = {
 				}
 			} else if (popping) {
 				screen.style['z-index'] = '';
-				
+
 				var currentScreen = bb.screens[bb.screens.length-1].container;
 				currentScreen.parentNode.removeChild(currentScreen);
 				// Pop it from the stack
-				bb.screens.pop();	
+				bb.screens.pop();
 				// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
-				bb.screens[bb.screens.length-1].container = container; 
+				bb.screens[bb.screens.length-1].container = container;
 			}
-			bb.createScreenScroller(screen); 
+			bb.createScreenScroller(screen);
 		}
 	},
-	
+
 	// Function pointer to allow us to asynchronously fire ondomready
 	domready : {
-	
+
 		container : null,
 		id : null,
 		params : null,
-		
+
 		fire : function() {
 			if (bb.screen.animating) {
 				setTimeout(bb.domready.fire, 250);
 				return;
 			}
-			
+
 			// Raise an internal event to let the rest of the framework know that the dom is ready
 			var evt = document.createEvent('Events');
 			evt.initEvent('bbuidomready', true, true);
@@ -594,14 +598,14 @@ bb = {
 			// Fire our event
 			bb.options.ondomready(bb.domready.container, bb.domready.id, bb.domready.params);
 			bb.domready.container = null;
-			bb.domready.id = null;	
+			bb.domready.id = null;
 		    bb.domready.params = null;
 			// Raise an internal event to let the rest of the framework know that the dom has been processed
 			evt = document.createEvent('Events');
 			evt.initEvent('bbuidomprocessed', true, true);
 			document.dispatchEvent(evt);
 		},
-		
+
 		fireEventsOnly : function() {
 			if (bb.screen.animating) {
 				setTimeout(bb.domready.fireEventsOnly, 250);
@@ -621,21 +625,21 @@ bb = {
 			document.dispatchEvent(evt);
 		}
 	},
-	
+
 	// Creates the scroller for the screen
-	createScreenScroller : function(screen) {  
+	createScreenScroller : function(screen) {
 		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
 			// Only apply iScroll if it is the PlayBook
 			if (bb.device.isPlayBook) {
 				var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 					var target = e.target;
-					
+
 					// Don't scroll the screen when touching in our drop downs for BB10
 					if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
 						return;
 					}
-					
+
 					while (target.nodeType != 1) target = target.parentNode;
 
 					if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
@@ -647,7 +651,7 @@ bb = {
 								activeElement.blur();
 							}
 						}
-					} 
+					}
 					// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
 					/*if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
 						bb.options.screen.onBeforeScrollStart(e);
@@ -677,7 +681,7 @@ bb = {
 						}
 					}
 				}*/
-				bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
+				bb.scroller = new iScroll(scrollWrapper, scrollerOptions);
 			} else if (bb.device.isBB10) {
 				// Use the built in inertial scrolling with elastic ends
 				bb.scroller = null;
@@ -689,7 +693,7 @@ bb = {
 					};
 			}
 		}
-	},  
+	},
 
 	// Clear the scroller objects
 	clearScrollers: function() {
@@ -702,19 +706,19 @@ bb = {
 			bb.dropdownScrollers.pop();
 		}
 	},
-	
+
 	// Remove the topmost screen from the dom
 	removeTopMostScreenFromDom: function() {
 		var numItems = bb.screens.length,
-			oldScreen = document.getElementById(bb.screens[numItems -1].guid);	
+			oldScreen = document.getElementById(bb.screens[numItems -1].guid);
 		document.body.removeChild(oldScreen);
 	},
-	
+
 	// Remove the previous screen from the dom
 	removePreviousScreenFromDom: function() {
 		var numItems = bb.screens.length,
 			oldScreen,
-			stepBack;	
+			stepBack;
 		if (numItems == 1) return; // There is only one screen on the stack
 		stepBack = (numItems > 1) ? 2 : 1;
 		oldScreen = document.getElementById(bb.screens[numItems - stepBack].guid);
@@ -722,7 +726,7 @@ bb = {
 			document.body.removeChild(oldScreen);
 		}
 	},
-	
+
     // Add a new screen to the stack
     pushScreen: function (url, id, params) {
 		// Remove our old screen
@@ -741,11 +745,11 @@ bb = {
 				window.scroll(0,0);
 			}
         }
-		
+
         // Add our screen to the stack
         var guid = bb.guidGenerator(),
 			container = bb.loadScreen(url, id, false, guid, params);
-		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container, 'guid': guid, 'params' : params});    
+		bb.screens.push({'id' : id, 'url' : url, 'scripts' : container.scriptIds, 'container' : container, 'guid': guid, 'params' : params});
     },
 
     // Pop a screen from the stack
@@ -759,25 +763,25 @@ bb = {
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-			
+
 			// Clear any window listeners
 			for (i = 0 ; i < bb.windowListeners.length; i++) {
 				listener = bb.windowListeners[i];
 				window.removeEventListener(listener.name, listener.eventHandler, false);
 			}
 			bb.windowListners = [];
-			
+
 			// Clear any document listeners
 			for (i = 0 ; i < bb.documentListeners.length; i++) {
 				listener = bb.documentListeners[i];
 				document.removeEventListener(listener.name, listener.eventHandler, false);
 			}
 			bb.documentListeners = [];
-			
+
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
-					
+
             // Quirky BrowserField2 bug on BBOS
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
 				window.scroll(0,0);
@@ -811,7 +815,7 @@ bb = {
             }
         }
     },
-	
+
 	innerHeight: function() {
 		// Orientation is backwards between playbook and BB10 smartphones
 		if (bb.device.isPlayBook) {
@@ -827,7 +831,7 @@ bb = {
 			return window.innerHeight;
 		}
 	},
-	
+
 	innerWidth: function() {
 		// Orientation is backwards between playbook and BB10 smartphones
 		if (bb.device.isPlayBook) {
@@ -843,7 +847,7 @@ bb = {
 			return window.innerWidth;
 		}
 	},
-	
+
 	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
 		if (bb.device.is720x720) return 'portrait';
@@ -867,24 +871,24 @@ bb = {
 			}
 		}
 	},
-	
+
 	cutHex : function(h) {
 		return (h.charAt(0)=="#") ? h.substring(1,7):h
 	},
-	
+
 	guidGenerator : function() {
 		var S4 = function() {
 		   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 		};
 		return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
 	},
-	
+
 	refresh : function() {
 		if (bb.scroller) {
 			bb.scroller.refresh();
 		}
 	},
-	
+
 	isScrolledIntoView : function(element) {
 		var offsetTop = 0,
 			target = element;
@@ -908,12 +912,12 @@ bb = {
 	}
 };
 
-Function.prototype.bind = function(object){ 
-  var fn = this; 
-  return function(){ 
-    return fn.apply(object, arguments); 
-  }; 
-}; 
+Function.prototype.bind = function(object){
+  var fn = this;
+  return function(){
+    return fn.apply(object, arguments);
+  };
+};
 // Apply styling to an action bar
 bb.actionBar = {
 
@@ -2337,8 +2341,8 @@ bb.menuBar = {
 	},
 
 	createBlackberryMenu: function(menuBar){
-		var items, 
-			item, 
+		var items,
+			item,
 			title,
 			div;
 		items = menuBar.getElementsByTagName('div');
@@ -2361,11 +2365,11 @@ bb.menuBar = {
 			}else{
 				console.log('invalid menu item type');
 			}
-		}		
+		}
 	},
-	
+
 	createSwipeMenu: function(menuBar, screen){
-		// Get our resolution text for BB10 styling			
+		// Get our resolution text for BB10 styling
 		if (bb.device.isBB10) {
 			var bb10Menu = document.createElement('div'),
 				res = '1280x768-1280x720',
@@ -2379,7 +2383,7 @@ bb.menuBar = {
 				div,
 				width,
 				bb10MenuItem;
-				
+
 			// Set our 'res' for known resolutions, otherwise use the default
 			if (bb.device.is1024x600) {
 				res = '1024x600';
@@ -2402,6 +2406,7 @@ bb.menuBar = {
 					if (type == 'menu-item') {
 						caption = item.innerHTML;
 						imgPath = item.getAttribute('data-bb-img');
+						useid = item.getAttribute('data-bb-useid');
 						// If the item doesn't have both an image and text then remove it
 						if ((caption && imgPath) && (foundItems.length < 5)) {
 							// BB10 menus only allow 5 items max
@@ -2419,7 +2424,10 @@ bb.menuBar = {
 							div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
 							div.innerHTML = caption;
 							bb10MenuItem.appendChild(div);
-
+							// Set the menu ID if specified so we can play around with it later
+							if(useid){
+								bb10MenuItem.setAttribute('id',useid);
+							}
 							// Assign any click handlers
 							bb10MenuItem.onclick	= item.onclick;
 							bb10Menu.appendChild(bb10MenuItem);
@@ -2445,8 +2453,8 @@ bb.menuBar = {
 						item.style.float = 'right';
 					} else {
 						item.style.width = width +'%';
-					}				
-				}	
+					}
+				}
 			} else {
 				bb10Menu.style.display = 'none';
 				bb.menuBar.menu = null;
@@ -2457,24 +2465,24 @@ bb.menuBar = {
 			bb10Menu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
 			document.body.appendChild(bb10Menu);
 			// Assign the menu
-			bb.menuBar.menu	= bb10Menu;	
+			bb.menuBar.menu	= bb10Menu;
 		} else {
-			var pbMenu = document.createElement('div'), 
-				items, 
-				pbMenuInner, 
+			var pbMenu = document.createElement('div'),
+				items,
+				pbMenuInner,
 				j,
 				item,
-				img, 
-				title, 
-				div, 
-				br, 
+				img,
+				title,
+				div,
+				br,
 				pbMenuItem;
 			pbMenu.setAttribute('class','pb-menu-bar');
 			// See if there are any items declared
 			items = menuBar.getElementsByTagName('div');
 			if(items.length > 0){
 				pbMenuInner	= document.createElement("ul");
-				pbMenu.appendChild(pbMenuInner);				
+				pbMenu.appendChild(pbMenuInner);
 				// Loop through our menu items
 				for (j = 0; j < items.length; j++) {
 					item = items[j];
@@ -2488,18 +2496,18 @@ bb.menuBar = {
 							// Create our item
 							pbMenuItem = document.createElement("li");
 							item.innerHTML = '';
-							
+
 							// Get our image
 							img	= new Image();
 							img.src	= iconPath;
 							pbMenuItem.appendChild(img);
-								
+
 							// Add our caption
 							div = document.createElement('div');
 							div.setAttribute('class','pb-menu-bar-caption');
 							div.innerText = title;
 							pbMenuItem.appendChild(div);
-							
+
 							// Assign any click handlers
 							pbMenuItem.onclick	= item.onclick;
 							pbMenuInner.appendChild(pbMenuItem);
@@ -2517,16 +2525,16 @@ bb.menuBar = {
 			pbMenu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
 			document.body.appendChild(pbMenu);
 			// Assign the menu
-			bb.menuBar.menu	= pbMenu;	
+			bb.menuBar.menu	= pbMenu;
 		}
-		
+
 		// Add the overlay for trapping clicks on items below
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
 			bb.screen.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
 		}
 		screen.appendChild(bb.screen.overlay);
-		bb.menuBar.menu.overlay = bb.screen.overlay;	
+		bb.menuBar.menu.overlay = bb.screen.overlay;
 	},
 
 	showMenuBar: function(){
@@ -4987,19 +4995,19 @@ _bb10_fileInput = {
 		}
 	}
 };
-_bb10_grid = {  
+_bb10_grid = {
     apply: function(elements) {
 		var res = '1280x768-1280x720',
 			solidHeader = false,
 			headerJustify;
-		
+
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
 		}
-				
+
 		// Apply our transforms to all grids
 		for (var i = 0; i < elements.length; i++) {
 			var j,
@@ -5009,33 +5017,33 @@ _bb10_grid = {
 				innerChildNode,
 				contextMenu,
 				outerElement = elements[i];
-				
-			outerElement.setAttribute('class','bb-bb10-grid-'+res);	
+
+			outerElement.setAttribute('class','bb-bb10-grid-'+res);
 			// See if it is square or landscape layout
 			outerElement.isSquare = (outerElement.hasAttribute('data-bb-style') && outerElement.getAttribute('data-bb-style').toLowerCase() == 'square');
-			
+
 			// Get our header style
 			solidHeader = outerElement.hasAttribute('data-bb-header-style') ? (outerElement.getAttribute('data-bb-header-style').toLowerCase() == 'solid') : false;
 			// Get our header justification
 			headerJustify = outerElement.hasAttribute('data-bb-header-justify') ? outerElement.getAttribute('data-bb-header-justify').toLowerCase() : 'center';
-			
+
 			// Assign our context menu if there is one
 			if (outerElement.hasAttribute('data-bb-context') && outerElement.getAttribute('data-bb-context').toLowerCase() == 'true') {
 				contextMenu = bb.screen.contextMenu;
 			}
-			
+
 			// Gather our inner items
 			items = outerElement.querySelectorAll('[data-bb-type=group], [data-bb-type=row]');
 			for (j = 0; j < items.length; j++) {
 				innerChildNode = items[j];
 				if (innerChildNode.hasAttribute('data-bb-type')) {
-				
+
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
 						title.normal = 'bb-bb10-grid-header-'+res;
 						title.innerHTML = '<p>'+ innerChildNode.getAttribute('data-bb-title') +'</p>';
-						
+
 						// Style our header for appearance
 						if (solidHeader) {
 							title.normal = title.normal +' bb10Accent';
@@ -5045,7 +5053,7 @@ _bb10_grid = {
 							title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
 							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
 						}
-						
+
 						// Style our header for text justification
 						if (headerJustify == 'left') {
 							title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
@@ -5054,9 +5062,9 @@ _bb10_grid = {
 						} else {
 							title.normal = title.normal + ' bb-bb10-grid-header-center';
 						}
-						
+
 						title.setAttribute('class', title.normal);
-						
+
 						if (innerChildNode.firstChild) {
 							innerChildNode.insertBefore(title, innerChildNode.firstChild);
 						} else {
@@ -5080,15 +5088,15 @@ _bb10_grid = {
 							hasOverlay,
 							hardCodedColumnNum = -1, // none specified
 							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
-						
+
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
-						
+
 						// See if they specified the number of items per column
 						if (innerChildNode.hasAttribute('data-bb-columns')) {
 							hardCodedColumnNum = innerChildNode.getAttribute('data-bb-columns');
 						}
-						
+
 						table = document.createElement('table');
 						table.style.width = '100%';
 						innerChildNode.appendChild(table);
@@ -5110,16 +5118,16 @@ _bb10_grid = {
 						} else {
 							width = (window.innerWidth/numItems) - 6;
 						}
-												
+
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
-							
+
 							// If it is PlayBook, Don't do the carousel, it doesn't work well
 							if (bb.device.isPlayBook && (hardCodedColumnNum >0) && (k > hardCodedColumnNum - 1)) {
 								itemNode.style.display = 'none';
 								continue;
 							}
-														
+
 							subtitle = itemNode.innerHTML;
 							title = itemNode.getAttribute('data-bb-title');
 							hasOverlay = (subtitle || title);
@@ -5128,8 +5136,8 @@ _bb10_grid = {
 							td = document.createElement('td');
 							tr.appendChild(td);
 							td.appendChild(itemNode);
-							columnCount++;							
-							
+							columnCount++;
+
 							// Find out how to size the images
 							if (outerElement.isSquare) {
 								height = width;
@@ -5150,8 +5158,8 @@ _bb10_grid = {
 							image.itemNode = itemNode;
 							itemNode.image = image;
 							itemNode.appendChild(image);
-							
-							// Load our image once onbbuidomready 
+
+							// Load our image once onbbuidomready
 							itemNode.onbbuidomready = function() {
 										if (bb.isScrolledIntoView(this)) {
 											// Animate its visibility once loaded
@@ -5169,7 +5177,7 @@ _bb10_grid = {
 									};
 							itemNode.onbbuidomready = itemNode.onbbuidomready.bind(itemNode);
 							document.addEventListener('bbuidomready', itemNode.onbbuidomready,false);
-							
+
 							// Only have the image appear when it scrolls into view
 							itemNode.onbbuiscrolling = function() {
 										if (bb.isScrolledIntoView(this)) {
@@ -5184,16 +5192,16 @@ _bb10_grid = {
 											if (index >= 0) {
 												bb.documentListeners.splice(index,1);
 											}
-										} 
+										}
 									};
-							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);	
-							
+							itemNode.onbbuiscrolling = itemNode.onbbuiscrolling.bind(itemNode);
+
 							// Create our translucent overlay
 							if (hasOverlay) {
 								overlay = document.createElement('div');
 								if (title && subtitle) {
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
-									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';	
+									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';
 								} else if (title){
 									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
 									overlay.innerHTML = '<div><p class="title title-one-row">' + title + '</p></div>';
@@ -5205,7 +5213,7 @@ _bb10_grid = {
 							} else {
 								overlay = null;
 							}
-							
+
 							// Setup our variables
 							itemNode.overlay = overlay;
 							itemNode.title = title;
@@ -5222,6 +5230,8 @@ _bb10_grid = {
 														itemNode.contextShown = false;
 														if (itemNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 							itemNode.ontouchend = function() {
@@ -5236,14 +5246,16 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
-															if (itemNode.fingerDown) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
 														};
 							itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
 						}
-						
+
 						// if there were hardcoded columns and not enough items to fit those columns, add the extra columns
 						if ((hardCodedColumnNum > 0) && (columnCount < hardCodedColumnNum)) {
 							var diff = hardCodedColumnNum - columnCount;
@@ -5258,7 +5270,7 @@ _bb10_grid = {
 					}
 				}
 			}
-			
+
 			// Make sure we move when the orientation of the device changes
 			outerElement.orientationChanged = function(event) {
 									var items = this.querySelectorAll('[data-bb-type=row]'),
@@ -5269,13 +5281,13 @@ _bb10_grid = {
 										itemNode,
 										width,
 										height;
-				
+
 									for (i = 0; i < items.length; i++) {
 										var hardCodedColumnNum = -1;
 										row = items[i];
 										rowItems = row.querySelectorAll('[data-bb-type=item]');
 										numItems = rowItems.length;
-										
+
 										// See if they specified the number of items per column
 										if (row.hasAttribute('data-bb-columns')) {
 											hardCodedColumnNum = row.getAttribute('data-bb-columns');
@@ -5316,7 +5328,7 @@ _bb10_grid = {
 											itemNode.style['-webkit-transition-timing-function'] = 'linear';
 											itemNode.style['-webkit-transform'] = 'translate3d(0,0,0)';
 										}
-										
+
 										// Adjust the extra columns if there was hard coded columns that were not filled
 										if (row.extraColumns) {
 											for (j = 0; j < row.extraColumns.length;j++) {
@@ -5325,11 +5337,11 @@ _bb10_grid = {
 										}
 									}
 								};
-			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);	
-			window.addEventListener('resize', outerElement.orientationChanged,false); 
+			outerElement.orientationChanged = outerElement.orientationChanged.bind(outerElement);
+			window.addEventListener('resize', outerElement.orientationChanged,false);
 			// Add listener for removal on popScreen
 			bb.windowListeners.push({name: 'resize', eventHandler: outerElement.orientationChanged});
-			
+
 			// Add show function
 			outerElement.show = function() {
 				this.style.display = 'block';
@@ -5343,14 +5355,14 @@ _bb10_grid = {
 				bb.refresh();
 				};
 			outerElement.hide = outerElement.hide.bind(outerElement);
-	
+
 			// Add remove function
 			outerElement.remove = function() {
 				this.parentNode.removeChild(this);
 				bb.refresh();
 				};
 			outerElement.remove = outerElement.remove.bind(outerElement);
-		}		
+		}
     }
 };
 _bb10_imageList = {  

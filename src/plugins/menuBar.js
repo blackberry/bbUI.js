@@ -23,8 +23,8 @@ bb.menuBar = {
 	},
 
 	createBlackberryMenu: function(menuBar){
-		var items, 
-			item, 
+		var items,
+			item,
 			title,
 			div;
 		items = menuBar.getElementsByTagName('div');
@@ -47,11 +47,11 @@ bb.menuBar = {
 			}else{
 				console.log('invalid menu item type');
 			}
-		}		
+		}
 	},
-	
+
 	createSwipeMenu: function(menuBar, screen){
-		// Get our resolution text for BB10 styling			
+		// Get our resolution text for BB10 styling
 		if (bb.device.isBB10) {
 			var bb10Menu = document.createElement('div'),
 				res = '1280x768-1280x720',
@@ -65,7 +65,7 @@ bb.menuBar = {
 				div,
 				width,
 				bb10MenuItem;
-				
+
 			// Set our 'res' for known resolutions, otherwise use the default
 			if (bb.device.is1024x600) {
 				res = '1024x600';
@@ -88,6 +88,7 @@ bb.menuBar = {
 					if (type == 'menu-item') {
 						caption = item.innerHTML;
 						imgPath = item.getAttribute('data-bb-img');
+						useid = item.getAttribute('data-bb-useid');
 						// If the item doesn't have both an image and text then remove it
 						if ((caption && imgPath) && (foundItems.length < 5)) {
 							// BB10 menus only allow 5 items max
@@ -105,7 +106,10 @@ bb.menuBar = {
 							div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
 							div.innerHTML = caption;
 							bb10MenuItem.appendChild(div);
-
+							// Set the menu ID if specified so we can play around with it later
+							if(useid){
+								bb10MenuItem.setAttribute('id',useid);
+							}
 							// Assign any click handlers
 							bb10MenuItem.onclick	= item.onclick;
 							bb10Menu.appendChild(bb10MenuItem);
@@ -131,8 +135,8 @@ bb.menuBar = {
 						item.style.float = 'right';
 					} else {
 						item.style.width = width +'%';
-					}				
-				}	
+					}
+				}
 			} else {
 				bb10Menu.style.display = 'none';
 				bb.menuBar.menu = null;
@@ -143,24 +147,24 @@ bb.menuBar = {
 			bb10Menu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
 			document.body.appendChild(bb10Menu);
 			// Assign the menu
-			bb.menuBar.menu	= bb10Menu;	
+			bb.menuBar.menu	= bb10Menu;
 		} else {
-			var pbMenu = document.createElement('div'), 
-				items, 
-				pbMenuInner, 
+			var pbMenu = document.createElement('div'),
+				items,
+				pbMenuInner,
 				j,
 				item,
-				img, 
-				title, 
-				div, 
-				br, 
+				img,
+				title,
+				div,
+				br,
 				pbMenuItem;
 			pbMenu.setAttribute('class','pb-menu-bar');
 			// See if there are any items declared
 			items = menuBar.getElementsByTagName('div');
 			if(items.length > 0){
 				pbMenuInner	= document.createElement("ul");
-				pbMenu.appendChild(pbMenuInner);				
+				pbMenu.appendChild(pbMenuInner);
 				// Loop through our menu items
 				for (j = 0; j < items.length; j++) {
 					item = items[j];
@@ -174,18 +178,18 @@ bb.menuBar = {
 							// Create our item
 							pbMenuItem = document.createElement("li");
 							item.innerHTML = '';
-							
+
 							// Get our image
 							img	= new Image();
 							img.src	= iconPath;
 							pbMenuItem.appendChild(img);
-								
+
 							// Add our caption
 							div = document.createElement('div');
 							div.setAttribute('class','pb-menu-bar-caption');
 							div.innerText = title;
 							pbMenuItem.appendChild(div);
-							
+
 							// Assign any click handlers
 							pbMenuItem.onclick	= item.onclick;
 							pbMenuInner.appendChild(pbMenuItem);
@@ -203,16 +207,16 @@ bb.menuBar = {
 			pbMenu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
 			document.body.appendChild(pbMenu);
 			// Assign the menu
-			bb.menuBar.menu	= pbMenu;	
+			bb.menuBar.menu	= pbMenu;
 		}
-		
+
 		// Add the overlay for trapping clicks on items below
 		if (!bb.screen.overlay) {
 			bb.screen.overlay = document.createElement('div');
 			bb.screen.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
 		}
 		screen.appendChild(bb.screen.overlay);
-		bb.menuBar.menu.overlay = bb.screen.overlay;	
+		bb.menuBar.menu.overlay = bb.screen.overlay;
 	},
 
 	showMenuBar: function(){
