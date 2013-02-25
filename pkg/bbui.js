@@ -251,7 +251,11 @@ bb = {
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
 		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
 	},
-	
+	getCurScreen : function(){
+		var numItems = bb.screens.length,
+		screen = document.getElementById(bb.screens[numItems-1].guid);
+		return screen.querySelector('[data-bb-type=screen]');
+	},
 	device: {  
         isHiRes: false, 
         isBB5: false,
@@ -2419,7 +2423,7 @@ bb.menuBar = {
 							div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
 							div.innerHTML = caption;
 							bb10MenuItem.appendChild(div);
-
+							
 							// Assign any click handlers
 							bb10MenuItem.onclick	= item.onclick;
 							bb10Menu.appendChild(bb10MenuItem);
@@ -5222,6 +5226,8 @@ _bb10_grid = {
 														itemNode.contextShown = false;
 														if (itemNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 							itemNode.ontouchend = function() {
@@ -5236,7 +5242,9 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
-															if (itemNode.fingerDown) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
@@ -5671,6 +5679,8 @@ _bb10_imageList = {
 														innerChildNode.contextShown = false;
 														if (innerChildNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															innerChildNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 						innerChildNode.ontouchend = function (event) {
@@ -5683,7 +5693,9 @@ _bb10_imageList = {
 														}
 													};
 						innerChildNode.touchTimer = function() {
-														if (innerChildNode.fingerDown) {
+														var scr = bb.getCurScreen();
+														var curx = scr.bbUIscrollWrapper.scrollTop;
+														if (innerChildNode.fingerDown && Math.abs(innerChildNode.touchstartx - curx) < 50) {
 															innerChildNode.contextShown = true;
 															this.setAttribute('class',this.highlight);
 															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
