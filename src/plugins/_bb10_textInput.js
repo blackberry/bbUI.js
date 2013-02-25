@@ -1,5 +1,5 @@
 _bb10_textInput = { 
-    apply: function(elements) {
+	apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			bb.textInput.style(elements[i]);
 		}
@@ -30,8 +30,10 @@ _bb10_textInput = {
 		container.input = outerElement;
 		container.setAttribute('data-bb-type','input');
 		container.normal = 'bb-bb10-input-container bb-bb10-input-container-'+ res;
-		container.passwd = ' bb-bb10-input-container-passwd-focused-'+ res;
-		container.passwd_shown = container.passwd + " show-passwd";
+		container.stylePasswd = ' bb-bb10-input-container-passwd-focused-'+ res;
+		container.stylePasswdShown = container.stylePasswd + " show-passwd";
+		container.passwdIsShown = false;
+		container.disableBlur = false;
 		
 		// Set our input styling
 		outerElement.normal = css + ' bb-bb10-input bb-bb10-input-'+res;
@@ -83,7 +85,11 @@ _bb10_textInput = {
 
 			// password fields have the show/hide password button
 			} else {
-				this.container.setAttribute('class',this.container.normal + this.container.passwd);
+				if (!this.container.passwdIsShown) {
+					this.container.setAttribute('class',this.container.normal + this.container.stylePasswd);
+				} else {
+					this.container.setAttribute('class',this.container.normal + this.container.stylePasswdShown);
+				}
 				this.setAttribute('class', this.focused);
 
 				if (this.showPasswdBtn && this.value) {
@@ -103,15 +109,23 @@ _bb10_textInput = {
 		outerElement.doFocus = outerElement.doFocus.bind(outerElement);
 		outerElement.addEventListener('focus', outerElement.doFocus, false);
 			
-		outerElement.doBlur = function() {
-								this.container.setAttribute('class',this.container.normal);	
-								if (this.clearBtn) {
-									this.setAttribute('class',this.normal);
-								}
-								this.container.style['border-color'] = '';
-								this.isFocused = false;
-								bb.screen.focusedInput = null;
-							};
+		outerElement.doBlur = function(e) {
+			// Retain focus on input if we clicked on its control
+			// e.g. the password button
+			if (this.container.disableBlur) {
+				this.container.disableBlur = false;
+				this.focus();
+				return;
+			}
+
+			this.container.setAttribute('class',this.container.normal);	
+			if (this.clearBtn) {
+				this.setAttribute('class',this.normal);
+			}
+			this.container.style['border-color'] = '';
+			this.isFocused = false;
+			bb.screen.focusedInput = null;
+		};
 		outerElement.doBlur = outerElement.doBlur.bind(outerElement);	
 		outerElement.addEventListener('blur', outerElement.doBlur, false);
 		
@@ -136,15 +150,21 @@ _bb10_textInput = {
 									}
 								};
 		}
-		// Add password button
+		
+		// View password button behaviour
 		if (outerElement.showPasswdBtn) {
 			outerElement.container.ontouchstart = 
 				function(event) {
 					if (event.target == this) {
 						event.preventDefault();
 						event.stopPropagation();
+
+						this.passwdIsShown = !this.passwdIsShown;
+						var inputType = (this.passwdIsShown) ? 'text' : 'password';
+						outerElement.setAttribute('type', inputType);
 						
-						this.setAttribute('class', this.normal + this.passwd_shown);
+						this.setAttribute('class', this.normal + this.stylePasswdShown);
+						this.disableBlur = true;
 						outerElement.doFocus();
 					}
 				};
@@ -189,5 +209,5 @@ _bb10_textInput = {
 		outerElement.disable = outerElement.disable.bind(outerElement);
 		
 		return container;
-    }
+	}
 };
