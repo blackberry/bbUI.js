@@ -88,7 +88,6 @@ bb.menuBar = {
 					if (type == 'menu-item') {
 						caption = item.innerHTML;
 						imgPath = item.getAttribute('data-bb-img');
-						useid = item.getAttribute('data-bb-useid');
 						// If the item doesn't have both an image and text then remove it
 						if ((caption && imgPath) && (foundItems.length < 5)) {
 							// BB10 menus only allow 5 items max
@@ -106,10 +105,7 @@ bb.menuBar = {
 							div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
 							div.innerHTML = caption;
 							bb10MenuItem.appendChild(div);
-							// Set the menu ID if specified so we can play around with it later
-							if(useid){
-								bb10MenuItem.setAttribute('id',useid);
-							}
+
 							// Assign any click handlers
 							bb10MenuItem.onclick	= item.onclick;
 							bb10Menu.appendChild(bb10MenuItem);
