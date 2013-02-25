@@ -121,7 +121,7 @@ _bb10_grid = {
 						} else {
 							width = (window.innerWidth/numItems) - 6;
 						}
-							
+												
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
 							
@@ -139,7 +139,7 @@ _bb10_grid = {
 							td = document.createElement('td');
 							tr.appendChild(td);
 							td.appendChild(itemNode);
-							columnCount++;
+							columnCount++;							
 							
 							// Find out how to size the images
 							if (outerElement.isSquare) {
@@ -157,8 +157,6 @@ _bb10_grid = {
 							image.style.width = width + 'px';
 							image.style.opacity = '0';
 							image.style['-webkit-transition'] = 'opacity 0.5s linear';
-							image.style['-webkit-backface-visibility'] = 'hidden';
-							image.style['-webkit-perspective'] = 1000;
 							image.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							image.itemNode = itemNode;
 							itemNode.image = image;
@@ -235,6 +233,8 @@ _bb10_grid = {
 														itemNode.contextShown = false;
 														if (itemNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 							itemNode.ontouchend = function() {
@@ -249,7 +249,9 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
-															if (itemNode.fingerDown) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
@@ -307,7 +309,6 @@ _bb10_grid = {
 										} else {
 											width = (window.innerWidth/numItems) - 6;
 										}
-										
 										// Adjust all the items
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];

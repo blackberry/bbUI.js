@@ -18,8 +18,10 @@ bb.screen = {
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
 			screenRes = 'bb-bb10-1024x600-screen';
-		} else if (bb.device.isBB10) {
+		} else if (bb.device.isBB10 && (bb.device.is1280x768 || bb.device.is1280x720)) {
 			screenRes = 'bb-bb10-1280x768-1280x720-screen';
+		} else if (bb.device.isBB10 && bb.device.is720x720) {
+			screenRes = 'bb-bb10-720x720-screen';
 		} else if (bb.device.isHiRes) {
 			screenRes = 'bb-hires-screen';
 		}
@@ -132,7 +134,9 @@ bb.screen = {
 					// Add our indicator
 					indicator.setAttribute('data-bb-type', 'activity-indicator');
 					indicator.setAttribute('data-bb-size', 'large');
-					if (bb.getOrientation().toLowerCase() == 'landscape') {
+					if (bb.device.is720x720) {
+						indicator.style.margin = '30% auto 0px auto';
+					} else if (bb.getOrientation().toLowerCase() == 'landscape') {
 						indicator.style.margin = '20% auto 0px auto';
 					} else {
 						indicator.style.margin = '60% auto 0px auto';
@@ -513,9 +517,11 @@ bb.screen = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100; 
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+		} else if (bb.device.is720x720) {
+			return 109;
 		} else {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100;
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99;
 		}
 	},
 	
@@ -525,7 +531,9 @@ bb.screen = {
 			return 65;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return 111;
-		} else {
+		} else if (bb.device.is720x720) {
+			return 95;
+		}else {
 			return 111;
 		}
 	}

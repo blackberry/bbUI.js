@@ -15,6 +15,8 @@ _bb10_textInput = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		// Keep the developers existing styling
@@ -69,6 +71,7 @@ _bb10_textInput = {
 		}
 		
 		outerElement.doFocus = function() {
+<<<<<<< HEAD
 			if(this.readOnly != false) return;
 
 			// non-password inputs show the clear button
@@ -106,6 +109,23 @@ _bb10_textInput = {
 			bb.screen.focusedInput = this;
 		};
 
+=======
+								if(this.readOnly == false) {
+									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-cancel-button bb-bb10-input-container-focused-'+res);
+									if (this.clearBtn && this.value) {
+										this.setAttribute('class', this.focused);
+										this.hasClearBtn = true;
+									} else {
+										this.setAttribute('class', this.normal);
+										this.hasClearBtn = false;
+									}
+									this.container.style['border-color'] = bb.options.highlightColor;
+									this.isFocused = true;
+									this.clickCount = 0;
+									bb.screen.focusedInput = this;
+								}
+							};
+>>>>>>> upstream/master
 		outerElement.doFocus = outerElement.doFocus.bind(outerElement);
 		outerElement.addEventListener('focus', outerElement.doFocus, false);
 			

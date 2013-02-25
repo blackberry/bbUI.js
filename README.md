@@ -20,7 +20,7 @@
 You can find both of the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. As of v0.9.5 this includes both the full version and minified versions of the bbUI files.  The **samples** directory will 
 give you examples of how to use the bbUI toolkit. You can also [download other previous releases as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
 
-All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](bbUI.js/blob/master/CHANGELOG.md).
+All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](CHANGELOG.md).
 
 ## Project Goals
 
@@ -38,18 +38,7 @@ JavaScript frameworks such as [jQuery Mobile](https://github.com/blackberry/jQue
 
 ## Authors
 
-* [Tim Neil](https://github.com/tneil) follow me on Twitter [@brcewane](https://twitter.com/#!/brcewane)
-* [Gord Tanner](https://github.com/gtanner) follow me on Twitter [@gordtanner](https://twitter.com/#!/gordtanner)
-* [Ken Wallis](https://github.com/kwallis) follow me on Twitter [@ken_wallis](https://twitter.com/#!/ken_wallis)
-* [David Sosby](https://github.com/dsosby) follow me on Twitter [@ramdump](https://twitter.com/#!/ramdump)
-* [Rory Craig-Barnes](https://github.com/glasspear) follow me on Twitter [@roryboy](https://twitter.com/#!/roryboy)
-* [Justin Tokarchuk](https://github.com/jtokarchuk) follow me on Twitter [@jtokarchuk](https://twitter.com/#!/jtokarchuk)
-* [James Blashill](https://github.com/jblashill) 
-* [Jerome Carty](https://github.com/jcarty) follow me on Twitter [@jcarty](https://twitter.com/#!/jcarty)
-* [Karan Khiani](https://github.com/karancan) 
-* [Justin DaSilva](https://github.com/lyricidal) follow me on Twitter [@theiexplorers](https://twitter.com/theiexplorers)
-* [Arturo Linares](https://github.com/arturolinares) follow me on Twitter [@arturo_linares](https://twitter.com/arturo_linares)
-* [Frederico Silva](https://github.com/fredericosilva)
+You can find the [list of Contributors to bbUI here](https://github.com/blackberry/bbUI.js/graphs/contributors) 
 
 Icons in "samples/images/icons" are [Plastique Icons by Scott Lewis](http://iconify.it/) under the [Creative Commons Attribution-Share Alike 3.0 Unported License](http://creativecommons.org/licenses/by-sa/3.0/legalcode) as 
 [specified here](http://www.iconfinder.com/browse/iconset/plastique-icons/#readme).
@@ -123,7 +112,8 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry Dev Alpha 10.0.x Beta
+* BlackBerry Z10 10.0
+* BlackBerry Q10 10.1.x Beta
 * BlackBerry PlayBook v2.0.1.x
 * BlackBerry PlayBook v2.1.x.x
 * BlackBerry Torch 9860 v7.0.0.x
@@ -136,7 +126,7 @@ If you find a bug or have an enhancement request, please fill out a [github Issu
 
 ## Contributing
 
-To build and contribute to bbUI.js please see the HACKING.md file
+To build and contribute to bbUI.js please see the [HACKING.md](HACKING.md) file
 
 If you would like to contribute code to the bbUI.js project please follow the [How to Contribute](http://blackberry.github.com/howToContribute.html) instructions for contributor agreements.
 

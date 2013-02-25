@@ -14,6 +14,8 @@ _bb10_button = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 
 		var disabledStyle,
@@ -140,22 +142,12 @@ _bb10_button = {
 				this.captionElement.innerHTML = value;
 			};
 			
-		outerElement.getImage = function() {
-			var imageURL='';
-
-			if (this.isImageOnly) {
-				imageURL = this.captionElement.style['background-image'];
-			} else if (this.imgElement) {
-				imageURL = this.imgElement.style['background-image'];
-			}
-			// Chop off 'url()', if present. 
-			imageURL = imageURL.trim()
-			if(imageURL.search('url\\\(') == 0) {
-				imageURL = imageURL.substr(4, imageURL.length-5);
-			}
-
-			return imageURL;
-		}
+		// Returns the caption of the button
+		outerElement.getCaption = function() {
+			return this.captionElement.innerHTML;
+		};
+		outerElement.getCaption = outerElement.getCaption.bind(outerElement);
+			
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				if (this.isImageOnly) {
@@ -180,6 +172,18 @@ _bb10_button = {
 					this.captionElement.setAttribute('class','');
 				}
 			};
+			
+		// Returns image url
+		outerElement.getImage = function() {
+			if (this.isImageOnly) {
+				return this.captionElement.style['background-image'].slice(4, -1);
+			} else if (this.imgElement) {
+				return this.imgElement.style['background-image'].slice(4, -1);
+			} else {
+				return '';
+			}
+		};
+		outerElement.getImage = outerElement.getImage.bind(outerElement);
 		
 		// Assign our enable function
 		outerElement.enable = function(){ 

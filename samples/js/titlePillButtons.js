@@ -16,25 +16,25 @@
 
 // Assign our document event listeners
 function titlePillButtons_Init(element) {
-	window.addEventListener('resize', titlePillButtons_HandleResize,false);
-	titlePillButtons_HandleResize(element);
+	window.addEventListener('orientationchange', titlePillButtons_HandleResize,false);
+	titlePillButtons_HandleResize(element, true);
 }
 
 // Remove our document event listeners
 function titlePillButtons_UnInit() {
-	window.removeEventListener('resize', titlePillButtons_HandleResize,false);
+	window.removeEventListener('orientationchange', titlePillButtons_HandleResize,false);
 }
 
 // Adjust the height of the scroller based on orientation
-function titlePillButtons_HandleResize(element) {
-	var actionBarHeight = bb.device.isPlayBook ? 73 : 140,
-		headerHeight = bb.device.isPlayBook ? 64 : 106,
+function titlePillButtons_HandleResize(element, init) {
+	var actionBarHeight = bb.screen.getActionBarHeight(),
+		headerHeight = bb.device.isPlayBook ? 64 : 101,
 		scrollerHeight = 0,
-		scroller = element ? element.getElementById('myScroller') : document.getElementById('myScroller');
+		scroller = (init == true) ? element.getElementById('myScroller') : document.getElementById('myScroller');
 	// Calculate the height of the scroller
-	scrollerHeight = window.innerHeight - headerHeight - actionBarHeight - headerHeight;
+	scrollerHeight = window.innerHeight - bb.screen.getTitleBarHeight() - actionBarHeight - headerHeight;
 	scroller.style.height = scrollerHeight + 'px';
-	if (!element) {
+	if (!init) {
 		scroller.refresh();
 	}
 }

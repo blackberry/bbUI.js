@@ -28,6 +28,8 @@ bb.actionBar = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 			
 		actionBar.res = res;
@@ -95,6 +97,9 @@ bb.actionBar = {
 							backHighlight.style['top'] = '8px';
 						} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '70px';
+							backHighlight.style['top'] = '15px';
+						} else if (bb.device.is720x720) {
+							backHighlight.style['height'] = '78px';
 							backHighlight.style['top'] = '15px';
 						} else {
 							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '110px';
@@ -180,6 +185,7 @@ bb.actionBar = {
 			// Create our action bar overflow button
 			action = document.createElement('div');
 			action.menu = actionBar.menu;
+			action.menu.actionBar = actionBar;
 			
 			action.setAttribute('data-bb-type','action');
 			action.setAttribute('data-bb-style','button');
@@ -219,7 +225,7 @@ bb.actionBar = {
 									action,
 									tab,
 									lastActionType = 'button',
-									actionWidth = 0, //Math.floor(this.getUsableWidth()/length),
+									actionWidth = 0, 
 									margins = 2,
 									temp,
 									max = 5,
@@ -270,7 +276,7 @@ bb.actionBar = {
 									temp = this.backBtn.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
 									this.backBtn.setAttribute('class',temp);
-									this.backBtn.updateHighlightDimensions();
+									this.backBtn.updateHighlightDimensions(orientation);
 									// Back caption
 									temp = this.backBtn.backCaption.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
@@ -753,6 +759,8 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else if (bb.device.is720x720) {
+			return 144;
 		} else {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		}
@@ -766,6 +774,8 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else if (bb.device.is720x720) {
+			return 144;
 		} else {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		}
@@ -779,7 +789,9 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 93 : 150;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 187 : 300;
-		} else {
+		} else if (bb.device.is720x720) {
+			return 174;
+		}else {
 			return bb.getOrientation() == 'portrait' ? 187 : 300;
 		}
 	},

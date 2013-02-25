@@ -10,6 +10,8 @@ _bb10_imageList = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		// Apply our transforms to all Image Lists
@@ -163,7 +165,7 @@ _bb10_imageList = {
 						
 						// Create our description
 						descriptionDiv = document.createElement('div');
-						descriptionDiv.setAttribute('class','description');
+						descriptionDiv.setAttribute('class','description bb-bb10-image-list-description-'+bb.screen.listColor);
 						details.description = descriptionDiv;
 						details.appendChild(descriptionDiv);
 						
@@ -256,14 +258,14 @@ _bb10_imageList = {
 							// Create the accent text
 							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
 								accentText = document.createElement('div');
-								accentText.setAttribute('class','accent-text');
+								accentText.setAttribute('class','accent-text bb-bb10-image-list-accent-text-'+bb.screen.listColor);
 								accentText.innerHTML = innerChildNode.getAttribute('data-bb-accent-text');
 								details.appendChild(accentText);
 								details.accentText = accentText;
 							}
 						}
 						
-						// Adjust the description description
+						// Adjust the description 
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
@@ -274,7 +276,10 @@ _bb10_imageList = {
 							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 								title.style['margin-top'] = '-7px';
 								overlay.style['margin-top'] = '-121px';
-							} else {
+							} else if (bb.device.is720x720) {
+								title.style['margin-top'] = '-14px';
+								overlay.style['margin-top'] = '-108px';
+							}else {
 								title.style['margin-top'] = '-7px';
 								overlay.style['margin-top'] = '-121px';
 							}
@@ -283,6 +288,8 @@ _bb10_imageList = {
 								if (bb.device.is1024x600) {
 									accentText.style['margin-top'] = '-52px';
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									accentText.style['margin-top'] = '-82px';
+								} else if (bb.device.is720x720) {
 									accentText.style['margin-top'] = '-82px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
@@ -305,11 +312,12 @@ _bb10_imageList = {
 						
 						innerChildNode.ontouchstart = function () {
 														if (!innerChildNode.trappedClick && !this.contextMenu) return;
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 														innerChildNode.fingerDown = true;
 														innerChildNode.contextShown = false;
 														if (innerChildNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															innerChildNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 						innerChildNode.ontouchend = function (event) {
@@ -322,9 +330,12 @@ _bb10_imageList = {
 														}
 													};
 						innerChildNode.touchTimer = function() {
-														if (innerChildNode.fingerDown) {
+														var scr = bb.getCurScreen();
+														var curx = scr.bbUIscrollWrapper.scrollTop;
+														if (innerChildNode.fingerDown && Math.abs(innerChildNode.touchstartx - curx) < 50) {
 															innerChildNode.contextShown = true;
 															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 															innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 															innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 														}
@@ -337,12 +348,10 @@ _bb10_imageList = {
 						innerChildNode.outerElement = this;
 						innerChildNode.addEventListener('click',function (e) {
 								if (!innerChildNode.trappedClick) return;
-								this.setAttribute('class',this.highlight);
 								this.outerElement.selected = this;
 								if (this.trappedClick) {
 									setTimeout(this.trappedClick, 0);
 								}
-								setTimeout(this.finishHighlight, 250);
 							},false);
 							
 						// Finish the highlight on a delay

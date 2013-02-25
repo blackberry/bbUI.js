@@ -6,6 +6,7 @@ Below you will find all the different changes that have been added since the fir
 
 * _**Compatibility Changes:**_ 
 	* Light colored action bars, context menus and screen menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
+	* Control Groups/Round Panels have now changed their styling for BlackBerry 10.  This could impact the look and feel of your application
 	* BB10 Input fields are now wrapped with a container after they have been styled. 
 		* This may affect code that was showing/hiding/disabling inputs via JavaScript. 
 		* New JavaScript interfaces have been added to input controls for BB10.
@@ -16,6 +17,7 @@ Below you will find all the different changes that have been added since the fir
 	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads
 * BlackBerry 10 Styling
+	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
 	* Updated Pill Button styling
 	* Input field styling updates (fonts and control behaviour)
 	* Label/Control container title font size updated
@@ -23,8 +25,10 @@ Below you will find all the different changes that have been added since the fir
 	* Grid lists now load their images as the user scrolls items into view
 	* Updated headers on grid and image lists to better match the sizing and coloring on BB10
 	* Updated Action Bars to have a minimized version when in landscape
-	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
 	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
+	* Action Bar styling improvements to better match Cascades
+	* DropDown controls now allow for a second line of text using the data-bb-accent text property on an &lg;option&gt;
+	* Control Groups/Round Panels have now been updated to the latest styling
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
 	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()
@@ -34,8 +38,12 @@ Below you will find all the different changes that have been added since the fir
 	* **BB10 Inputs:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.textInput.style()
 	* **Context Menu:** Added hide(), show() functions to menu items
 	* **Pill Buttons:** Added clear(), appendButton() and ability to style dynamically using bb.pillButtons.style()
+	* **Buttons:** Added getCaption(), getImage() functions
+	* **Screens:** Added getActionBarHeight(), getTitleBarHeight() functions that return standard heights in pixels
+	* **BB6/7 Title Bars:** Added getCaption(), setCaption() functions
 * Samples
 	* Created dedicated sample page for Pill Button JavaScript interfaces
+	* Updated samples to allow for a simple switch in code to use the dark or light theme for BlackBerry 10
 * Noteable Bug Fixes: 
     * BB10 Back button highlighting more responsive and doesn't get blocked by screen animation
 	* Tab overflow menu "tinted" overlay no longer allows for touch events to propagate down to the screen below it

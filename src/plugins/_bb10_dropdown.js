@@ -13,6 +13,8 @@ _bb10_dropdown = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		var img,
@@ -114,7 +116,8 @@ _bb10_dropdown = {
 					var options = select.getElementsByTagName('option'),
 						caption = '',
 						option,
-						item;
+						item,
+						textContainer, textAlign, primaryText, accentText;
 						
 					// First clear any existing items
 					this.itemsElement.innerHTML = '';
@@ -134,8 +137,31 @@ _bb10_dropdown = {
 						if (!item.dropdown.selected) {
 							item.dropdown.selected = item;
 						}
-						item.innerHTML = option.innerHTML;
+						// Append primary text node
+						primaryText = document.createElement('div');
+                        primaryText.setAttribute('class', 'primary-text');
+                        primaryText.innerHTML = option.innerHTML;
+						textContainer = document.createElement('div');
+                        textContainer.setAttribute('class', 'text-container');
+                        textContainer.appendChild(primaryText);
+
+                        // Needed for vertical alignment to work
+                        textAlign = document.createElement('span');
+                        textAlign.setAttribute('class', 'text-align');
+                        item.appendChild(textAlign);
+                        item.appendChild(textContainer);
+
 						this.itemsElement.appendChild(item);
+						
+                        // Accent text for additional cues about this option
+						if (option.hasAttribute('data-bb-accent-text')) {
+							accentText = document.createElement('div');
+							accentText.setAttribute('class','accent-text');
+							accentText.innerHTML = option.getAttribute('data-bb-accent-text');
+							item.accentText = accentText;
+							textContainer.appendChild(accentText);
+						}
+						
 						// Create the image
 						img = document.createElement('div');
 						img.setAttribute('class','bb-bb10-dropdown-selected-image-'+res+'-'+bb.screen.controlColor);
@@ -155,11 +181,17 @@ _bb10_dropdown = {
 						item.ontouchstart = function(event) {
 												this.style['background-color'] = bb.options.highlightColor;
 												this.style['color'] = 'white';
+												if (this.accentText) {
+													this.accentText.style['color'] = 'white';
+												}
 											};
 						
 						item.ontouchend = function(event) {
 												this.style['background-color'] = 'transparent';
 												this.style['color'] = '';
+												if (this.accentText) {
+													this.accentText.style['color'] = '';
+												}
 											};			
 						item.onclick = function() {
 											this.select.setSelectedItem(this.index);
@@ -232,7 +264,9 @@ _bb10_dropdown = {
 								var scrollHeight;
 								this.open = true;
 								// Figure out how many items to show
-								if (this.options.length > 5) {
+								if (bb.device.is720x720 && (this.options.length > 4)) {
+									this.numItems = 3;
+								} else if (this.options.length > 5) {
 									this.numItems = 5;
 								} else {
 									this.numItems = this.options.length;
@@ -244,7 +278,10 @@ _bb10_dropdown = {
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									scrollHeight = (this.numItems * 99);
 									this.style.height = 95 + scrollHeight +'px';
-								} else {
+								} else if (bb.device.is720x720) {
+									scrollHeight = (this.numItems * 85);
+									this.style.height = 77 + scrollHeight +'px';
+								}else {
 									scrollHeight = (this.numItems * 99);
 									this.style.height = 95 + scrollHeight +'px';
 								}
@@ -287,7 +324,9 @@ _bb10_dropdown = {
 									this.style.height = '43px';
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									this.style.height = '95px';
-								} else {
+								} else if (bb.device.is720x720) {
+									this.style.height = '77px';
+								}else {
 									this.style.height = '95px';
 								}
 								

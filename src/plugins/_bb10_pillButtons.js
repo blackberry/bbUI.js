@@ -16,7 +16,7 @@ _bb10_pillButtons = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
-		}
+		} 
 		
 		var i,
 			containerStyle = 'bb-bb10-pill-buttons-container-'+res+' bb-bb10-pill-buttons-container-' + bb.screen.controlColor,
@@ -46,7 +46,6 @@ _bb10_pillButtons = {
 		pill.appendChild(pillInner);
 		pill.setAttribute('class',buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor + ' bb-bb10-pill-buttons-pill');
 		pillInner.setAttribute('class','bb-bb10-pill-button-inner-'+res +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor);
-		//pill.style.width = percentWidth + '%';
 		pill.style.opacity = '0';
 		outerElement.pill = pill;
 		containerDiv.appendChild(pill);
@@ -171,8 +170,18 @@ _bb10_pillButtons = {
 		outerElement.setPillLeft = function(element) {
 					if (!element) {
 						element = this.selected;
+						// Nothing was marked as selected so select the first button
+						if (!element) {
+							var items = this.table.querySelectorAll('[data-bb-type=pill-button]');
+							if (items.length > 0) {
+								element = items[0];
+								this.selected = element;
+							}
+						}
 					}
-					this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					if (element) {
+						this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					}
 				};
 		outerElement.setPillLeft = outerElement.setPillLeft.bind(outerElement);	
 		
@@ -191,19 +200,20 @@ _bb10_pillButtons = {
 			// Create our event handler for when the dom is ready
 			outerElement.onbbuidomready = function() {
 						this.initialize();
-						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+						document.removeEventListener('bbuidomprocessed', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
 			/* Add our event listener for the domready to move our selected item.  We want to
 		      do it this way because it will ensure the screen transition animation is finished before
 		      the pill button move transition happens. This will help for any animation stalls/delays */
-			document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
+			document.addEventListener('bbuidomprocessed', outerElement.onbbuidomready,false);
 		} else {
 			window.setTimeout(outerElement.initialize, 0);
 		}
 
 		// Handle pill sizing on orientation change
 		outerElement.doOrientationChange = function() {
+					this.recalculateSize();
 					this.setPillLeft();
 				};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
@@ -214,6 +224,8 @@ _bb10_pillButtons = {
 		// Add our show function
 		outerElement.show = function() {
 			this.style.display = 'block';
+			this.recalculateSize();
+			this.setPillLeft();
 			bb.refresh();
 		};
 		outerElement.show = outerElement.show.bind(outerElement);

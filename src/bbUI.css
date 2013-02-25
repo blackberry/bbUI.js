@@ -97,6 +97,16 @@ body, html {
 	background-color: white;
 }
 
+.bb-bb10-720x720-screen {
+	font-size: 28pt;
+	position:absolute;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right: 0px;
+	background-color: white;
+}
+
 .bb-transition-overlay
 {
 	z-index: 1000;
@@ -824,16 +834,6 @@ body, html {
     display: inline-block;
 }
 
-/* ================================================= 
-   BB10 Swipe Menu
-   =================================================*/
-
- .bb-bb10-menu-bar-dark
-{
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
-	border-bottom-color: #626262;
-	color: white;
-}
    
 /* ================================================= 
    BB10 Swipe Menu 1024x600
@@ -892,7 +892,7 @@ body, html {
 	z-index:1002;
 	height: 140px;
 	border-bottom-style: solid;
-	border-bottom-width: 2px;
+	border-bottom-width: 1px;
 }   
 
 .bb-bb10-menu-bar-item-1280x768-1280x720 
@@ -914,6 +914,58 @@ body, html {
 {
 	font-size: 20pt;
 	padding-top: 10px;
+}
+
+/* ================================================= 
+   BB10 Swipe Menu 720x720
+   =================================================*/
+
+.bb-bb10-menu-bar-720x720 {
+	position: fixed;
+	left: 0px;
+	width: 100%;
+	clear: both;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	top: -113px;
+	font-size: 100%;
+	z-index:1002;
+	height: 110px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}   
+
+.bb-bb10-menu-bar-item-720x720 
+{
+	text-align: center;
+	cursor: pointer;
+	float: left;
+	/*height: 88px;	*/
+}
+
+.bb-bb10-menu-bar-item-720x720 img 
+{
+	height: 75px;
+	width: 75px;
+	margin-top: 2px;
+}
+
+.bb-bb10-menu-bar-item-caption-720x720
+{
+	font-size: 18pt;
+	padding-top: 0px;
+}
+
+/* ================================================= 
+   BB10 Swipe Menu
+   =================================================*/
+
+ .bb-bb10-menu-bar-dark
+{
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
+	border-bottom-color: #626262;
+	color: white;
 }
 
 
@@ -1004,8 +1056,11 @@ body, html {
 
 .bb-bb10-input::-webkit-input-placeholder 
 { 
-	color:#4A4A4A; 
-	font-style:italic;
+	color:#555555; 
+}
+
+.bb-bb10-input-cancel-button {
+	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAABVsFofAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyQjRDODEzODZEMjA2ODExQTYxM0YzNEI5Rjg0ODQxOSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxOTNEODcwOUQ5QkQxMUUxOEEzQkQwRUE1NzY5NjQyQSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxOTNEODcwOEQ5QkQxMUUxOEEzQkQwRUE1NzY5NjQyQSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjJCNEM4MTM4NkQyMDY4MTFBNjEzRjM0QjlGODQ4NDE5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJCNEM4MTM4NkQyMDY4MTFBNjEzRjM0QjlGODQ4NDE5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+v+pDjgAABWpJREFUeNrsm39kXWcYx0925xJCCCOUkkq0NqWT2aQii0bpzY+7jDuJUVajNEbptHatTKrRaKUSorM/wphOopfGtWaXGGt+iMZqJdSis1AupYTL5VIi+z7dc3j39L33nnPPOT3n1vvw0Zz3vu97zv3e5zzv8z7ntGF/f98ypre3jARGHCOOEceIY8Qx4hhxjDhGHGNGHCOOESdIe9vrBMPDw6F+gcXFxeiKU6MdBJ+DTtAGjoEYf7YHHoEdsAkWwNO69BwX1gLOg0/B0Qr9YiwakQLXwRa4C2bAbt2I46BY1gQugIv8dy12lKF5JlmkYr0H5BHwDxj3IIwU+ip4wl4VbXHIczTEwA9gHryj+bwEsuAM+AB0gAamg9vOcJ+SZnwruAOmk8lkLChxGrzWkHFxsqkR3AEDmu558B34GZQcnqKRPXCcA7m0LBjNZrOlqHtOjL1lQOMpafaKuTLeUA7q+yM4Ai5pxibpnENDQ7Gox5xpcibR9gz0ciD18uvS2BvguGZpp3NORdlzRsBX4ld9CN4Hmy48pRqPwEc8t9p+fnBwcCSKnkM5zC3R9jdIsOf4bTRnH+c/qt2CQC1R85xx0CLixCfgOR830coCfgUnavCWEzx2mueitgL4DBSVfnQN41ES5wA4K77MBHisHE+R24NT/CVTLoRJ8ZhTPMeU8tk2uCL6n+3v7z8QldvqHIiL5XpGs5eyjfredpjEpbhvvMxcFp8rL+Y/F7o4iUSClu7TGq8pirabYE85joPbVTwoxX3iShvNMaP2W1paesFpgjr2NF1bqOLgIjrBQeWiipyTyC+6DEZdCFROGJojp/bl68iAXaWdrqkzbHFkcM1WSPAyDgWqJExGzkuWy+XonPdkEA875hwTx/er9M9Qqs81G10M0sWYPR6TqTL3cpVre70lC/w6si6z5WCYLdC8UuCyBbJqFIauZUtT5ghVnFZN4md5EMiqRRi+lh3R1Bp2zGkS93nBRf6ii0FVY4wu5ry8p5aX5bmbwo45ftiew7b6qiHT0s37KtuawXOHw3XB19LEIEe3VV9fX7NoKoYtzjMhTrtDccqtSlaZIO0kILdpNqehirONf94VK8RGjcKM8t/ztQikWTkfhx2QZZ3mYwebyEoJXsZlJl0pIX0YdkCWSd8A13zdekzGRaL4ivX29sY1Fcj7UfCcvPJrNXNFUFePcbwlqOJBJzV7q5SoJ9E1bXoVx/PTh56enmv45xulieLQe+KX/8X6/9MIpwleSsQgsntgUDmmz/4UGfHkyspKOgrFru/BC+VXOwwuCk/I15LglfGgvCxuUTBWjulaZqNS7KInAXOi7VtwWDn+Gszy5jDhNHdRYlCCx87yXLbROa6L/nOrq6t5P8TxfFt1d3fbBfYnIuehfdZxF0mhW6Okb1XcTvSSQcfa2tpuJDyHXZkKTWPC3du59tvq42MZ9XHwb+J2Isb8EsbvvRW9RzMh2qga9wf40MfzkKc84LlVm1hfX1/w0zX9fhx8mauBahs9nfidg3SjB2+hsRfAA1GafVmBhDCX/b5vg9iV0xKdE22NHDj/Al9WSBR1Rn2/4LFTmrFZZevhq3kOyF1dXeU+kvmPaiVefe5y9bCgFMraOdjS7UNvgZ2sIObkxsZG2grIgnztLc2bv2mxitnekNSk/E6Ngu4Yx7nALKiXl2x+AofADZevnVR6HWWS51wI+v+nvo5KIN0ylyj/sP57DWWnhjl2eOwh9shC5CuBtuc4tDx/sTTXgFIcV9o4xrQryWOBBdniW2e77sqkHoxi0RUr4mZe7w9yKX+TzXiOEceIY8Qx4hhxjDhGHCOOEceYEceIY8QJ1P4VYABOFMDawslQnQAAAABJRU5ErkJggg=="); 
 }
 
 /* ================================================= 
@@ -1026,7 +1081,6 @@ body, html {
 	color: black;
 	background-color:#F9F9F9;
 	border-width: 4px;
-	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAABVsFofAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyQjRDODEzODZEMjA2ODExQTYxM0YzNEI5Rjg0ODQxOSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxOTNEODcwOUQ5QkQxMUUxOEEzQkQwRUE1NzY5NjQyQSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxOTNEODcwOEQ5QkQxMUUxOEEzQkQwRUE1NzY5NjQyQSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjJCNEM4MTM4NkQyMDY4MTFBNjEzRjM0QjlGODQ4NDE5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJCNEM4MTM4NkQyMDY4MTFBNjEzRjM0QjlGODQ4NDE5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+v+pDjgAABWpJREFUeNrsm39kXWcYx0925xJCCCOUkkq0NqWT2aQii0bpzY+7jDuJUVajNEbptHatTKrRaKUSorM/wphOopfGtWaXGGt+iMZqJdSis1AupYTL5VIi+z7dc3j39L33nnPPOT3n1vvw0Zz3vu97zv3e5zzv8z7ntGF/f98ypre3jARGHCOOEceIY8Qx4hhxjDhGHGNGHCOOESdIe9vrBMPDw6F+gcXFxeiKU6MdBJ+DTtAGjoEYf7YHHoEdsAkWwNO69BwX1gLOg0/B0Qr9YiwakQLXwRa4C2bAbt2I46BY1gQugIv8dy12lKF5JlmkYr0H5BHwDxj3IIwU+ip4wl4VbXHIczTEwA9gHryj+bwEsuAM+AB0gAamg9vOcJ+SZnwruAOmk8lkLChxGrzWkHFxsqkR3AEDmu558B34GZQcnqKRPXCcA7m0LBjNZrOlqHtOjL1lQOMpafaKuTLeUA7q+yM4Ai5pxibpnENDQ7Gox5xpcibR9gz0ciD18uvS2BvguGZpp3NORdlzRsBX4ld9CN4Hmy48pRqPwEc8t9p+fnBwcCSKnkM5zC3R9jdIsOf4bTRnH+c/qt2CQC1R85xx0CLixCfgOR830coCfgUnavCWEzx2mueitgL4DBSVfnQN41ES5wA4K77MBHisHE+R24NT/CVTLoRJ8ZhTPMeU8tk2uCL6n+3v7z8QldvqHIiL5XpGs5eyjfredpjEpbhvvMxcFp8rL+Y/F7o4iUSClu7TGq8pirabYE85joPbVTwoxX3iShvNMaP2W1paesFpgjr2NF1bqOLgIjrBQeWiipyTyC+6DEZdCFROGJojp/bl68iAXaWdrqkzbHFkcM1WSPAyDgWqJExGzkuWy+XonPdkEA875hwTx/er9M9Qqs81G10M0sWYPR6TqTL3cpVre70lC/w6si6z5WCYLdC8UuCyBbJqFIauZUtT5ghVnFZN4md5EMiqRRi+lh3R1Bp2zGkS93nBRf6ii0FVY4wu5ry8p5aX5bmbwo45ftiew7b6qiHT0s37KtuawXOHw3XB19LEIEe3VV9fX7NoKoYtzjMhTrtDccqtSlaZIO0kILdpNqehirONf94VK8RGjcKM8t/ztQikWTkfhx2QZZ3mYwebyEoJXsZlJl0pIX0YdkCWSd8A13zdekzGRaL4ivX29sY1Fcj7UfCcvPJrNXNFUFePcbwlqOJBJzV7q5SoJ9E1bXoVx/PTh56enmv45xulieLQe+KX/8X6/9MIpwleSsQgsntgUDmmz/4UGfHkyspKOgrFru/BC+VXOwwuCk/I15LglfGgvCxuUTBWjulaZqNS7KInAXOi7VtwWDn+Gszy5jDhNHdRYlCCx87yXLbROa6L/nOrq6t5P8TxfFt1d3fbBfYnIuehfdZxF0mhW6Okb1XcTvSSQcfa2tpuJDyHXZkKTWPC3du59tvq42MZ9XHwb+J2Isb8EsbvvRW9RzMh2qga9wf40MfzkKc84LlVm1hfX1/w0zX9fhx8mauBahs9nfidg3SjB2+hsRfAA1GafVmBhDCX/b5vg9iV0xKdE22NHDj/Al9WSBR1Rn2/4LFTmrFZZevhq3kOyF1dXeU+kvmPaiVefe5y9bCgFMraOdjS7UNvgZ2sIObkxsZG2grIgnztLc2bv2mxitnekNSk/E6Ngu4Yx7nALKiXl2x+AofADZevnVR6HWWS51wI+v+nvo5KIN0ylyj/sP57DWWnhjl2eOwh9shC5CuBtuc4tDx/sTTXgFIcV9o4xrQryWOBBdniW2e77sqkHoxi0RUr4mZe7w9yKX+TzXiOEceIY8Qx4hhxjDhGHCOOEceYEceIY8QJ1P4VYABOFMDawslQnQAAAABJRU5ErkJggg=="); 
 	background-repeat: no-repeat;
 	background-position: center right;
 	padding: 0px;
@@ -1051,6 +1105,40 @@ body, html {
 .bb-bb10-input-focused-1280x768-1280x720 {
 	font-size: 30pt;	
 	height:79px;
+	left: 8px;
+	right: 60px;
+}
+/* ================================================= 
+   BB10 Input Box for 720x720
+   =================================================*/
+
+.bb-bb10-input-container-720x720 {
+	height:69px;
+	border-radius:4px;
+	border-width: 2px;
+	padding: 2px;
+}
+
+.bb-bb10-input-container-focused-720x720
+{
+	color: black;
+	background-color:#F9F9F9;
+	border-width: 4px;	
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding: 0px;
+}
+
+.bb-bb10-input-720x720 {
+	font-size: 30pt;	
+	height:66px;
+	left: 10px;
+	right: 10px;
+}
+
+.bb-bb10-input-focused-720x720 {
+	font-size: 30pt;	
+	height:66px;
 	left: 8px;
 	right: 60px;
 }
@@ -1146,44 +1234,41 @@ body, html {
 	margin-top: 3px;
 	padding: 5px;
 }
-
-/* ================================================= 
-   BB10 Round panels
-   =================================================*/
-   
-.bb-bb10-round-panel-light {
-	border-color: #C6C6C6;
-	color: Black;
-	background-color: white;
-}   
-   
+ 
 /* ================================================= 
    BB10 Round panels for 1024x600
    =================================================*/
    
 .bb-bb10-round-panel-1024x600 {
-	border-radius:5px;
-	border-width: 1px;
-	border-style: solid;
-	margin-left: 5px;
-	margin-right: 5px;
 	margin-bottom: 3px;
-	margin-top: 3px;
 	padding: 5px;
 }
 
 .bb-bb10-panel-header-1024x600
 {
-	padding-top:5px;
+	padding-top:9px;
+	padding-left: 5px;
 	margin-bottom: 5px; 
 	padding-bottom: 3px; 
-	font-size: 14pt;
+	font-size: 12pt;
 	font-weight: bold;
+	margin-left: -5px;
+	margin-right: -5px;
+	margin-top: -5px;
 }
 
 .bb-bb10-panel-header-1024x600-light {
-	border-bottom: solid 1px #DCDBDB; 
-	color: #7C7E80;	
+	border-bottom-style: solid;
+	border-bottom-width: 2px; 
+	border-top: solid 1px #DCDBDB;
+	color: black;	
+}
+
+.bb-bb10-panel-header-1024x600-dark {
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-top: solid 1px #3A3A3A;
+	color: white;	
 }
 
 /* ================================================= 
@@ -1191,28 +1276,37 @@ body, html {
    =================================================*/
 
 .bb-bb10-round-panel-1280x768-1280x720 {
-	border-radius:10px;
-	border-width: 2px;
-	border-style: solid;
-	margin-left: 10px;
-	margin-right: 10px;
 	margin-bottom: 8px;
-	margin-top: 8px;
 	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .bb-bb10-panel-header-1280x768-1280x720
 {
-	padding-top:0px;
+	padding-top:2px;
+	padding-left: 10px; 
 	margin-bottom: 10px; 
 	padding-bottom: 6px; 
-	font-size: 24pt;
-	font-weight: bold;
+	font-size: 22pt;
+	font-weight: 600;
+	margin-left: -20px;
+	margin-right: -20px;
+	margin-top: -10px;
 }
 
 .bb-bb10-panel-header-1280x768-1280x720-light {
-	border-bottom: solid 2px #DCDBDB; 
-	color: #7C7E80;	
+	border-bottom-style: solid;
+	border-bottom-width: 4px; 
+	border-top: solid 1px #DCDBDB;
+	color: black;	
+}
+
+.bb-bb10-panel-header-1280x768-1280x720-dark {
+	border-bottom-style: solid;
+	border-bottom-width: 4px;
+	border-top: solid 1px #3A3A3A;
+	color: white;	
 }
 
 
@@ -1333,6 +1427,35 @@ body, html {
 	height: 184px;
 	width: 184px;
 	background-size: 184px 184px;
+}
+
+/* ================================================= 
+   BB10 Activity Indicator 720x720
+   =================================================*/
+.bb-bb10-activity-margin-720x720
+{	
+	margin: 10px;
+}  
+
+.bb-bb10-activity-small-720x720
+{
+	height: 41px;
+	width: 41px;
+	background-size: 41px 41px;
+}
+
+.bb-bb10-activity-medium-720x720
+{
+	height: 88px;
+	width: 88px;
+	background-size: 88px 88px;
+}
+
+.bb-bb10-activity-large-720x720
+{
+	height: 170px;
+	width: 170px;
+	background-size: 170px 170px;
 }
 
 /* ================================================= 
@@ -1696,6 +1819,62 @@ body, html {
 }
 
 /* ================================================= 
+   BB10 Buttons for 720x720
+   =================================================*/
+.bb-bb10-button-caption-with-image-720x720
+{
+	float:left;
+	text-align:left;
+	margin-left: 14px;
+}
+
+.bb-bb10-button-image-720x720
+{
+	height: 65px;
+	width: 65px;
+	float: left;
+	margin-left: -27px;
+	margin-top: -7px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-bb10-button-caption-with-image-only-720x720
+{
+	height:65px;
+	width:65px;
+	background-position: center center;
+	background-size: cover;
+	margin-top: -7px;
+	margin-left: -27px;
+}
+
+.bb-bb10-button-container-image-only-720x720
+{
+	width: 83px;
+}
+
+.bb-bb10-button-container-720x720
+{
+	border-width:2px;
+	border-style: solid;
+	border-radius:10px;
+	padding: 4px;
+	margin: 10px;
+} 
+
+.bb-bb10-button-720x720 {
+	border-width:1px;
+	border-radius:5px;
+	line-height:50px;
+	height:60px;
+	padding-top:7px;
+	padding-left: 35px;
+	padding-right: 35px;
+	font-size:24pt;
+}
+
+/* ================================================= 
    BB10 Buttons for 1024x600
    =================================================*/
 
@@ -1739,7 +1918,7 @@ body, html {
 	border-radius:4px;
 	padding: 1px;
 	margin: 16px;
-}    
+}
 
 .bb-bb10-button-1024x600 {
 	border-width:1px;
@@ -1820,7 +1999,7 @@ body, html {
 	border-radius:3px;
 	padding: 2px;
 	margin: 10px;
-}    
+}
    
 .bb-pb-button {
 	border-style: solid;
@@ -1905,7 +2084,11 @@ body, html {
 	white-space:nowrap;
 	vertical-align: middle;
 	display: block;
-	background-clip: padding-box;	
+	background-clip: padding-box;
+	max-width: 240px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;	
 }
 
 .bb-bb10-titlebar-button-light {
@@ -1962,7 +2145,7 @@ body, html {
 }
 
 .bb-bb10-title-bar-landscape-1280x768-1280x720 {
-	height:99px;
+	height:110px;
 }
 
 .bb-bb10-title-bar-caption-1280x768-1280x720 {
@@ -2043,6 +2226,109 @@ body, html {
 	padding-right: 35px;
 	font-size:28pt;
 }
+
+/* ================================================= 
+   BB10 Title Bar for 720x720
+   =================================================*/
+   
+.bb-bb10-title-bar-1280x768-720x720 {
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	font-size: 39pt;
+	z-index:1000;
+}
+
+.bb-bb10-title-bar-portrait-720x720 {
+	height:95px;
+}
+
+.bb-bb10-title-bar-landscape-720x720 {
+	height:95px;
+}
+
+.bb-bb10-title-bar-caption-720x720 {
+	text-align:center;
+	height:100%;
+	padding:0px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-title-bar-caption-portrait-720x720 {
+	line-height:95px;
+}
+
+.bb-bb10-title-bar-caption-landscape-720x720 {
+	line-height:95px;
+}
+
+.bb-bb10-title-bar-caption-details-img-720x720 {
+	margin-left: 105px;
+}
+
+.bb-bb10-title-bar-caption-left-720x720 {
+	text-align:left;
+	line-height:95px;
+	height:100%;
+	padding:0px;
+	padding-left: 10px;
+	margin:0px;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+.bb-bb10-title-bar-accent-text-720x720 {
+	color:#606060;
+	text-align:left;
+	padding-top:2px;
+	padding-left: 10px;
+	margin-top:-13px;
+	font-size: 29pt;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-title-bar-720x720 img
+{
+	position:relative;
+	float:left;
+	margin-top: 0px;
+	height:95px;
+	width:95px;
+}
+
+.bb-bb10-titlebar-button-container-720x720
+{
+	position: absolute;
+	top: 0px;
+	border-width:2px;
+	border-style: solid;
+	border-radius:10px;
+	padding: 4px;
+	margin: 6px;
+}  
+
+.bb-bb10-titlebar-button-720x720 {
+	border-width:1px;
+	border-radius:5px;
+	line-height:40px;
+	height:55px;
+	padding-top:12px;
+	padding-left: 35px;
+	padding-right: 35px;
+	font-size:28pt;
+}
+
 
 /* ================================================= 
    BB10 Title Bar for 1024x600
@@ -2248,15 +2534,60 @@ body, html {
 	border-bottom-color: #B4B4B4;
 }
 
+.bb-bb10-dropdown-item-dark  .text-align, 
+.bb-bb10-dropdown-item-light  .text-align 
+{
+	height: 100%;
+}
+
+
+.bb-bb10-dropdown-item-dark  .text-align, 
+.bb-bb10-dropdown-item-light  .text-align, 
+.bb-bb10-dropdown-item-dark  .text-container, 
+.bb-bb10-dropdown-item-light .text-container 
+{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.bb-bb10-dropdown-item-dark  .primary-text, 
+.bb-bb10-dropdown-item-light .primary-text 
+{
+	line-height: normal;
+}
+
+.bb-bb10-dropdown-item-dark  .accent-text, 
+.bb-bb10-dropdown-item-light .accent-text
+{
+	color:#606060;
+	line-height: normal;
+	text-align:left;
+	margin-top: -5px;
+	font-size: 75%;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	text-overflow: -blackberry-fade;
+}
+
 .bb-bb10-dropdown-item-selected-dark 
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#252525));
 	color: white;
 }
 
+.bb-bb10-dropdown-item-selected-dark .accent-text {
+	color: white;
+}
+
 .bb-bb10-dropdown-item-selected-light
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#EAEAEA), to(#EDEDED));
+	color: black;
+}
+
+.bb-bb10-dropdown-item-selected-light .accent-text
+{
 	color: black;
 }
 
@@ -2324,6 +2655,7 @@ body, html {
 	padding-right: 10px;
 	vertical-align: center;
 }
+
 
 .bb-bb10-dropdown-selected-image-1024x600-dark 
 {
@@ -2437,7 +2769,6 @@ body, html {
 .bb-bb10-dropdown-item-1280x768-1280x720 
 {
 	height: 97px;
-	line-height: 100px;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	font-size: 29pt;
@@ -2446,9 +2777,10 @@ body, html {
 	vertical-align: center;
 }
 
+
 .bb-bb10-dropdown-selected-image-1280x768-1280x720-dark 
 {
-	float:right;
+	float: right;
 	height:31px;
 	width:36px;	
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAfCAYAAACPvW/2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AkLFAg2b3WHuQAAAoJJREFUWMPF2D2K20AYBuBX9liyZUta1mvIAVIF9gCpAqlyhGBYSGsT2JwgkBvYVQgEFhYWUqRJnSaQIpAmVaot9gS2Jetv9DPzpdk19toey44tD0wjfUIP84l5JWlEhGMNKSUqlcrCMe0YICklhBAdAM8BjDVN+8UYEwBQOQYmz/MuEd0S0Tci+iml/JPn+ZPSQfeYNwCuAThzp86llJ9KbZkQ4gHzGUB1VYlhGIyVhcmyTIUBY8wDAFYGJk1TJaZarYIxNjx4y/I8L4QxDOMrgNcABDskhnN+saFNC5iDtSzLsgfMlQpTr9cXMAcBZVmGOI6VmFqthkajsYTZOyhNU0RRtDNmr6A0TRGGoRKj6zqazeZazBJICAEhBBhjS6GnGkmS7AWzAPJ9H0mSPANwDuC3aZp3pmkWwvi+r8QYhoFWq7URM8uyOI6rnPMbIvpLRF+I6DYMww9BECgxnHNMp9MLIroioioR4fHUdR2WZRXCzFaIc/5WStmd368AvA/DsCOl7Nu2vRLjeZ5yZer1OmzbLoyZgTRNe7Vmx+5FUQQACyjOOVzX7W7COI6zFWYGMk1zHMfxuppeGIYgor7jOIjj+AFzrcKcnJxsjZnPshdBEPzwPE9V+9EwjH6SJEpMo9HA6enpTpjH4XoZBMHAdV1V/XcAL1WYdru9M2ZV2l/6vr8JtXKYpvnfmFU79dCyLAAYTCaT0jHromOGGo/HhTBnZ2d7waiybGhZFohIiWo2m+h0OnvDbArX4f3eMxiNRqVginwGDW3bftdutwFgFgeHwizcZMPsCSEizjllWUZEdENEesFrt5rbvOQ7AJ4CGAO4O9S7uHbMnw27PEOlj38Kz+EpiEjJBwAAAABJRU5ErkJggg==");
@@ -2459,9 +2791,10 @@ body, html {
 	margin-right: 15px;
 }
 
+
 .bb-bb10-dropdown-selected-image-1280x768-1280x720-light 
 {
-	float:right;
+	float: right;
 	height:31px;
 	width:36px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAfCAYAAACPvW/2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AkLEzc1q+3qugAAA2JJREFUWMPFl8tr41YUxj9dSVe6khIvEtlWnkiyIQwMWQ9kkS66CHRXOouAIdsU+gcoi5YS0j9hViaOTR6T16LNYzHeDMyixVB1k248i5JVHoZCKMEUHJ9uajMhkj2eiZ0LdyHdc9GP7zv3niMpm83iKUe1Wr33LD0hkA3gBYC/AfxarVbvAIAREZ5gLkqS9J5z/rOqqu+I6I9sNpsGAOUJlFnSdT2fSCRkSZIAAI1G4/nNzU0ewFcKEQ0URgiRTyQSMgC0vi3LMizLWhi0Qku6rueHh4flKBEMw6gDwKAUWhJCxMIAwOzs7BsAYIOEiQtwXTdcW1v7aRAK5XRdz1uWJTebzViYfD4fCCF+7zdQTtf1wtDQUKxNruuG6+vrgRCiDID6mdQ5TdO6whQKhXsw/VIop2laoZNNnueFGxsbD2D6cVPnOOcFy7LkuBjXdcNisRgIIcrT09MP1GD9sCkuwPO8sFQqxcJEWfYMwHMAFQB/9QpjmmZHm1owU1NTsXnSskwmoi3G2J+c89eMsfdE9GMvNpmm2dGmzc3NQAhRnpycpA/XIhVijH1nGMYi57z1Xq7X69/X63UbwLfdlDEMI1YZ3/fDra2tQAhRnpiY6HqCFCLCyMjI141G4x6xruuQJGn59vYWMVCLLZi4k+r7fri9vR0IIcrj4+MfdZwZANi23Yha1DQNpmkuA3gVAVMyTTM2gX3fD3d2dnqCaefQ/Pz8L81mE1FTVVUIIZaJ6FWruVJVtSSEkOP2uK7bhhkbG6NOORip0MrKyuuFhYW9uE2ccwghlgG8UVW11LIpanqeF+7u7rZher07FCKC4zgXFxcXq0SE09PTl1GBnHMwxr5UFAWdcmZvby8QQpQdx/mkEtC+h9Lp9Nnl5eUqEeHk5CQSijGGuNOUyWTaMOl0+pPr0b2LMZVKnV1dXXWEioPZ398PDMMop1KpzyqOD6p9CwrAR0FlMpnw4ODgUWBi248PoY6Pj18OCqZj+5FMJs+ur69XiSgSKpPJhIeHh4FhGOVkMvloPUzHBq0FpShK4+jo6Ju7uzsVAGZmZirFYvGHx4YBAGl0dLRrUK1We3Z+fv5FpVIZcxzndm5u7jcAb23bbn4uQK1W6x3o/40cwDCAf23b/uexFHkANOA/167jP5mGvRa48VdiAAAAAElFTkSuQmCC");
@@ -2557,6 +2890,134 @@ body, html {
 	font-size:28pt;
 }
 
+
+/* ================================================= 
+   BB10 DropDown Buttons for 720x720
+   =================================================*/
+
+.bb-bb10-dropdown-item-720x720 
+{
+	height: 78px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	font-size: 24pt;
+	padding-left: 18px;
+	padding-right: 10px;
+	vertical-align: center;
+}
+
+
+.bb-bb10-dropdown-selected-image-720x720-dark 
+{
+	float: right;
+	height:31px;
+	width:36px;	
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAfCAYAAACPvW/2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AkLFAg2b3WHuQAAAoJJREFUWMPF2D2K20AYBuBX9liyZUta1mvIAVIF9gCpAqlyhGBYSGsT2JwgkBvYVQgEFhYWUqRJnSaQIpAmVaot9gS2Jetv9DPzpdk19toey44tD0wjfUIP84l5JWlEhGMNKSUqlcrCMe0YICklhBAdAM8BjDVN+8UYEwBQOQYmz/MuEd0S0Tci+iml/JPn+ZPSQfeYNwCuAThzp86llJ9KbZkQ4gHzGUB1VYlhGIyVhcmyTIUBY8wDAFYGJk1TJaZarYIxNjx4y/I8L4QxDOMrgNcABDskhnN+saFNC5iDtSzLsgfMlQpTr9cXMAcBZVmGOI6VmFqthkajsYTZOyhNU0RRtDNmr6A0TRGGoRKj6zqazeZazBJICAEhBBhjS6GnGkmS7AWzAPJ9H0mSPANwDuC3aZp3pmkWwvi+r8QYhoFWq7URM8uyOI6rnPMbIvpLRF+I6DYMww9BECgxnHNMp9MLIroioioR4fHUdR2WZRXCzFaIc/5WStmd368AvA/DsCOl7Nu2vRLjeZ5yZer1OmzbLoyZgTRNe7Vmx+5FUQQACyjOOVzX7W7COI6zFWYGMk1zHMfxuppeGIYgor7jOIjj+AFzrcKcnJxsjZnPshdBEPzwPE9V+9EwjH6SJEpMo9HA6enpTpjH4XoZBMHAdV1V/XcAL1WYdru9M2ZV2l/6vr8JtXKYpvnfmFU79dCyLAAYTCaT0jHromOGGo/HhTBnZ2d7waiybGhZFohIiWo2m+h0OnvDbArX4f3eMxiNRqVginwGDW3bftdutwFgFgeHwizcZMPsCSEizjllWUZEdENEesFrt5rbvOQ7AJ4CGAO4O9S7uHbMnw27PEOlj38Kz+EpiEjJBwAAAABJRU5ErkJggg==");
+	background-repeat: no-repeat;
+	background-position: center center;
+	visibility:hidden;
+	margin-top:25px;
+	margin-right: 15px;
+}
+
+
+.bb-bb10-dropdown-selected-image-720x720-light 
+{
+	float: right;
+	height:31px;
+	width:36px;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAfCAYAAACPvW/2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AkLEzc1q+3qugAAA2JJREFUWMPFl8tr41YUxj9dSVe6khIvEtlWnkiyIQwMWQ9kkS66CHRXOouAIdsU+gcoi5YS0j9hViaOTR6T16LNYzHeDMyixVB1k248i5JVHoZCKMEUHJ9uajMhkj2eiZ0LdyHdc9GP7zv3niMpm83iKUe1Wr33LD0hkA3gBYC/AfxarVbvAIAREZ5gLkqS9J5z/rOqqu+I6I9sNpsGAOUJlFnSdT2fSCRkSZIAAI1G4/nNzU0ewFcKEQ0URgiRTyQSMgC0vi3LMizLWhi0Qku6rueHh4flKBEMw6gDwKAUWhJCxMIAwOzs7BsAYIOEiQtwXTdcW1v7aRAK5XRdz1uWJTebzViYfD4fCCF+7zdQTtf1wtDQUKxNruuG6+vrgRCiDID6mdQ5TdO6whQKhXsw/VIop2laoZNNnueFGxsbD2D6cVPnOOcFy7LkuBjXdcNisRgIIcrT09MP1GD9sCkuwPO8sFQqxcJEWfYMwHMAFQB/9QpjmmZHm1owU1NTsXnSskwmoi3G2J+c89eMsfdE9GMvNpmm2dGmzc3NQAhRnpycpA/XIhVijH1nGMYi57z1Xq7X69/X63UbwLfdlDEMI1YZ3/fDra2tQAhRnpiY6HqCFCLCyMjI141G4x6xruuQJGn59vYWMVCLLZi4k+r7fri9vR0IIcrj4+MfdZwZANi23Yha1DQNpmkuA3gVAVMyTTM2gX3fD3d2dnqCaefQ/Pz8L81mE1FTVVUIIZaJ6FWruVJVtSSEkOP2uK7bhhkbG6NOORip0MrKyuuFhYW9uE2ccwghlgG8UVW11LIpanqeF+7u7rZher07FCKC4zgXFxcXq0SE09PTl1GBnHMwxr5UFAWdcmZvby8QQpQdx/mkEtC+h9Lp9Nnl5eUqEeHk5CQSijGGuNOUyWTaMOl0+pPr0b2LMZVKnV1dXXWEioPZ398PDMMop1KpzyqOD6p9CwrAR0FlMpnw4ODgUWBi248PoY6Pj18OCqZj+5FMJs+ur69XiSgSKpPJhIeHh4FhGOVkMvloPUzHBq0FpShK4+jo6Ju7uzsVAGZmZirFYvGHx4YBAGl0dLRrUK1We3Z+fv5FpVIZcxzndm5u7jcAb23bbn4uQK1W6x3o/40cwDCAf23b/uexFHkANOA/167jP5mGvRa48VdiAAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	background-position: center center;
+	visibility:hidden;
+	margin-top:25px;
+	margin-right: 15px;
+}
+
+.bb-bb10-dropdown-container-720x720
+{
+	border-width:2px;
+	border-style: solid;
+	border-radius:4px;
+	padding: 0px;
+	height: 77px;
+	overflow:hidden;
+}  
+
+.bb-bb10-dropdown-container-inner-720x720
+{
+	z-index: 10;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 4px;
+	padding: 2px;
+}
+
+.bb-bb10-dropdown-caption-720x720 {
+	position:relative;
+	display:block;
+	float: right;
+	font-size: 24pt;
+	z-index:1;
+	margin-right:-55px;
+}
+
+.bb-bb10-dropdown-label-720x720 {
+	display:table-cell;
+	float: left;
+	font-size: 24pt;
+	margin-left: -20px;
+}
+
+.bb-bb10-dropdown-arrow-720x720-dark 
+{
+	position:relative;
+	float:right;
+	z-index:2;
+	display:block;
+	top:4px;
+	float:right;
+	height:37px;
+	width:37px;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAZCAYAAABQDyyRAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AkLFAYPrvMiPwAAAZZJREFUSMfFls9KAkEcgL8t6dobdFNRUTr1DD2FIARBdIgkyYvRC/QAC1Ik+B5dO8WCyrqKf29dgyBYp8sYo86O6y65A8Psb4ad79vZXX4/SwhBki0Vd4P5fB7r/gMSbrFOYDabPQLHwM3eBSS8IUMfqO5NYDqdqnCAWzlW/11gMpmsw2NJ7CQwHo+D4JElQguMRqNt8EgSoQSGw6EJ7gOHUSW2CgwGAxP8CvgCngMkfKAWWcDzPBP8Mp1O257nLWOdxJ0cazsL9Pt9IzyTydgAMpe0okpoBVzXNcKz2ay9DJRkFkliQ6DX6xnhuVzOVicWi4UatuR7fw0rsSLQ7XZN8It8Pt9cn9Sk87YcgyR8oL4h0Ol0rk3wQqHQ1C0E1BMmiXvgE3haScdCiIYQAk2vBMGXAgG9LYQoCyF8zdofK6Vs5Gv2rxSLxRfTr7qlogo6iSMZ+2pB8qBc/4SBh2xtoAx8K3N1+S1gqU/gOM4ZcAq8lUolN8zujuOEFTkBzoEP4H05acUtSncQ0DYr6ao48aI0cYFf/SHcF6xT7WIAAAAASUVORK5CYII=");
+	background-repeat: no-repeat;	
+	background-position: center center;
+	opacity:0.0;
+}
+
+.bb-bb10-dropdown-arrow-720x720-light 
+{
+	position:relative;
+	float:right;
+	z-index:2;
+	display:block;
+	top:4px;
+	float:right;
+	height:37px;
+	width:37px;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAZCAYAAABQDyyRAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AkLEzQhmhptBAAAAaxJREFUSMfVls1KAlEUgD8tWrdp22ZgEFGMERNFXfcMLYIgCKJVUuSm6AWitRBFQe/RtoUkipjiC9QqCILgetrM0KQzd8aZSjpwuXPvMPf75tz5OQkRYZ6xGHeBWq0W6/okc45kzLs/Ay7msgXVavUMOLGHCqj/mUClUnHDAQ7svv7rAuVyeRIeS2ImgVKp5AePLBFaoFgsBsEjSYQSKBQKOrgCFqJKBArk83kdfA94A658JBRwFFnAsiwdfLfVajUty3LGXhKHdn80s0Aul9PC2+12E0ApBXAbVcJTIJvNauGdTqfpDMbjsXMYSWJKIJPJaOHdbrfpnpj4m97a+34TVuKbQDqd1sF3er3e5eSkKwNO3Nm9n4QCGlMCqVRqXwfv9/uXXic8BIIkjoEX4Bwg4aTQNM1nYMVjse3BYHDt97Capql7kTZ9JF6B5W8ZEBHlBR8Oh9c6QkBF5ZeJJXuskq6FTkUEu32ISCDcEQhodyKyJSLvrrmGiCgR+doCAMMw1oE14H40Gj2F+UwbhhH2d7IKbACPwIMzmYhblM4g4BmJeVfF/7so/Yn4BPZZyHcERDOVAAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	background-position: center center;
+	opacity:0.0;
+}
+
+.bb-bb10-dropdown-720x720 {
+	border-width:2px;
+	border-radius:5px;
+	padding:0px;
+	border-style:solid;
+}
+
+.bb-bb10-dropdown-inner-720x720 {
+	border-width:2px;
+	border-radius:5px;
+	line-height:42px;
+	height:55px;
+	padding-top:10px;
+	padding-left: 29px;
+	padding-right: 29px;
+	font-size:24pt;
+}
   
 /* ================================================= 
    BB7 DropDown Buttons
@@ -2818,6 +3279,27 @@ a.bb5-button-highlight span {
 }
 
 /* ================================================= 
+   BB10 Label Control Rows for 720x720
+   =================================================*/
+
+.bb-bb10-label-control-label-row-720x720
+{
+	vertical-align: text-bottom;
+	height:44px;
+}
+
+.bb-bb10-label-control-label-720x720
+{
+	position:relative;
+	top: 0px;
+	bottom:0px;
+	left:0px;
+	font-size: 28pt;
+	height:30px;
+	vertical-align: text-bottom;
+}
+
+/* ================================================= 
    BB10 Label Control Rows for 1024x600
    =================================================*/
    
@@ -3051,7 +3533,6 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-item-1280x768-1280x720 .description
 {
-	color:#606060;
 	overflow: hidden;
 	white-space:nowrap;
 	font-size: 26pt;	
@@ -3065,7 +3546,6 @@ a.bb5-button-highlight span {
 {
 	position:relative;
 	float:right;	
-	color:#606060;
 	font-size:22pt;
 	margin-right: 10px;
 	margin-top:-79px;
@@ -3105,6 +3585,141 @@ a.bb5-button-highlight span {
 	margin-right: 68px;
 }
 
+/* ================================================= 
+   Image List BB10 for 720x720
+   =================================================*/
+
+.bb-bb10-image-list-header-720x720
+{
+	height:46px;
+	line-height:46px;
+	font-size: 22pt;
+	border-bottom-width: 4px;
+	border-bottom-style: solid;
+	margin-bottom: 3px;
+}
+
+.bb-bb10-image-list-header-left-720x720
+{
+	text-align:left;
+	padding-left: 20px;
+}
+
+.bb-bb10-image-list-header-right-720x720
+{
+	text-align:right;
+	padding-right: 20px;
+}
+
+.bb-bb10-image-list-item-720x720
+{
+	padding-top: 6px;	
+	padding-left: 5px;
+	height: 86px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+.bb-bb10-image-list-item-overlay-720x720 {
+	position:relative;
+	border-width: 4px;
+	border-style: solid;
+	border-color: transparent;
+	background-color: transparent;
+	z-index: 100;
+	margin-top: -86px;
+	margin-left: -5px;
+	height: 84px;
+}
+
+.bb-bb10-image-list-item-details-720x720
+{
+	position:relative;
+	margin-left:105px;
+	margin-bottom: 0px;
+	margin-top:17px;
+}
+
+.bb-bb10-image-list-item-noimage-720x720
+{
+	margin-left:10px;
+}
+
+.bb-bb10-image-list-item-720x720 .title
+{
+	overflow: hidden;
+	white-space: nowrap;
+	font-size: 33pt;
+	line-height:59px;
+	text-overflow: -blackberry-fade;
+	padding-top:5px;
+	margin-top: -36px;
+}
+
+.bb-bb10-image-list-item-720x720 img
+{
+	position:relative;
+	left: -5px;	
+	top: -6px;
+	float:left;
+	height:92px;
+	width:92px;
+}
+
+.bb-bb10-image-list-item-720x720 .description
+{
+	overflow: hidden;
+	white-space:nowrap;
+	font-size: 24pt;	
+	margin-bottom: 0px;
+	margin-top:-4px;
+	text-overflow: ellipsis; /*This is here for ripple*/
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-image-list-item-720x720 .accent-text
+{
+	position:relative;
+	float:right;	
+	font-size:24pt;
+	margin-right: 10px;
+	margin-top:-84px;
+}
+
+.bb-bb10-image-list-item-button-border-720x720
+{
+	width: 36px;
+	height: 36px;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 19px;
+	margin-top: 26px;
+}
+
+.bb-bb10-image-list-item-720x720 .button
+{
+	position:relative;
+	float:right;
+	width:68px;
+	height:108px;
+	margin-top: -90px;
+	padding-left: 20px;
+	z-index: 100;
+}
+
+.bb-bb10-image-list-item-button-inner-720x720
+{
+	width: 36px;
+	height: 36px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.bb-bb10-image-list-item-720x720 .details-button-margin
+{
+	margin-right: 68px;
+}
 
 /* ================================================= 
    Image List BB10 for 1024x600
@@ -3189,7 +3804,6 @@ a.bb5-button-highlight span {
 
 .bb-bb10-image-list-item-1024x600 .description
 {
-	color:#606060;
 	overflow: hidden;
 	white-space:nowrap;
 	font-size: 14pt;	
@@ -3202,7 +3816,6 @@ a.bb5-button-highlight span {
 {
 	position:relative;
 	float:right;	
-	color:#606060;
 	font-size:14pt;
 	margin-right: 5px;
 	margin-top:-50px;
@@ -3258,13 +3871,11 @@ a.bb5-button-highlight span {
 }
 
 .bb-bb10-image-list-header-normal-light {
-	background: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 	font-weight: normal;
 	color: black;
 }
 
 .bb-bb10-image-list-header-normal-dark {
-	background: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 	font-weight: normal;
 	color: white;
 }
@@ -3285,6 +3896,22 @@ a.bb5-button-highlight span {
 {
 	padding-bottom: 0px;
 	overflow:hidden;
+}
+
+.bb-bb10-image-list-accent-text-dark {
+	color: White;
+}
+
+.bb-bb10-image-list-accent-text-light {
+	color:#606060;
+}
+
+.bb-bb10-image-list-description-dark {
+	color: White;
+}
+
+.bb-bb10-image-list-description-light {
+	color:#606060;
 }
 
 .bb-bb10-image-list-item-dark
@@ -4464,7 +5091,6 @@ a.bb5-button-highlight span {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 }
 
-
 /* ================================================= 
    Ripple Drop-Down dialog
    =================================================*/
@@ -4514,13 +5140,11 @@ a.bb5-button-highlight span {
    BB10 Grid
    =================================================*/
 .bb-bb10-grid-header-normal-light {
-	background: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 	font-weight: normal;
 	color: black;
 }
 
 .bb-bb10-grid-header-normal-dark {
-	background: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 	font-weight: normal;
 	color: white;
 }
@@ -4648,13 +5272,13 @@ a.bb5-button-highlight span {
 .bb-bb10-grid-header-left-1280x768-1280x720
 {
 	text-align:left;
-	padding-left: 20px;
+	padding-left: 5px;
 }
 
 .bb-bb10-grid-header-right-1280x768-1280x720
 {
 	text-align:right;
-	padding-right: 20px;
+	padding-right: 5px;
 }
 
 .bb-bb10-grid-item-overlay-1280x768-1280x720
@@ -4737,9 +5361,8 @@ a.bb5-button-highlight span {
 .bb-bb10-action-bar-tab-dark {
 	color: white;
 	border-top-color: #373737;
-	border-right-color: #141414;
-	border-right-width: 2px;
-	border-right-style: solid;
+
+	box-shadow:-1px 0 0 rgb(10,10,10);
 }
 
 .bb-bb10-action-bar-button-dark {
@@ -4769,8 +5392,6 @@ a.bb5-button-highlight span {
 	right:0px;
 	left:0px;
 	background-repeat:  repeat-x;
-	border-top-width: 1px;
-	border-top-style:solid;
 	overflow:hidden;
 }
 
@@ -4962,9 +5583,8 @@ a.bb5-button-highlight span {
 	right:0px;
 	left:0px;
 	background-repeat:  repeat-x;
-	border-top-width: 1px;
-	border-top-style: solid;
 	overflow:hidden;
+	/*box-shadow: rgba(50, 50, 50, 0.447059) 0 -10px 20px;*/
 }
 
 .bb-bb10-action-bar-portrait-1280x768-1280x720 {
@@ -4984,9 +5604,9 @@ a.bb5-button-highlight span {
 
 .bb-bb10-action-bar-button-tab-left-1280x768-1280x720-dark
 {
-	background-position:left -4px;
-	background-repeat:no-repeat;
-	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAB1CAIAAAAwSA0oAAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB9wEFRcpJS1EicAAAAQ/SURBVGhD1ZrpVttADIUdeAh2EvYspC3t+79b5VwfWdYyW5zQzg+OoeGrlitpZszi4eFhsVhcXl5eXFzQA75iyWf6tus6+5V/SA/Dur29vbu7Wy6Xq9Xq+fn55eXl7e3t4+NjvV5vNpvdbvf5+bnf738c1s/D+nVYX19fvw/rz3R1Nzc3BH18fCTo09MTQV9fXwn6/v5O0O12WwvtYKMkwkwikqVkZiGUje0Id39/D69hIxFhJvsuoYiAcp8jQNwUEWbCd1oIaBRTgoLrE0vMZEtlrgga2siOq7zL1LsC6ImsHoqjCiU7znnn1CMCKghkbwUR8vwOoqyZEq8pjpx0dllmaVC40iPn2sZREpEZmZ8+jspGKNwSZfEoYUoD80SSTlQ5rsvUQTI2Mk4VeIQ7I5EKRjWLY23kFqm8dhONPsTV7cfRJaJaEolGb+97OHdc2yJZj0o9CZE7xBI9VhCrFG4bT69w5TVPBQolXLYKz9TMNxAxuDG8suke65qma0miXSLrEZIc53UJsUiPvAP4h4ly3xOZSZmJkmPbmt5J2emKXGeJnB+faLsZq0el25nXdreXGDIlknT2j8cQdTeLtig2iO4+bVC4rOssEQpPN91J74mI2D9yTvJEKhs6MdhtLnUz3jtLx6N+ga3AkJmIKJtjJCC1UTkXEQq3Ywt6VFvIIhslUZWgIjp7M9SMiqOc15aYFtCkZtB7ZM3wSEinRbbxaqLd40rcqB51ipNHQyjRnVzy/BV2s+gUl5iFoY3Zc2FUhaVEV4zpLAM9ZkbaKE/DVeP/XMSEvBu9LpSOOhjl1aMy49aMPHPxc+rmI9scq4ly9isb5clacR31qDgmqjBjI+sxkZmo10p03sZ0m7BmnpHoJjq6AJh4fX19LacCX8ZJPbrDWh6S+F6FHjoQ3XszVz1qoyJZeHaI7jk46uEpolSPdbmdiEGYLmprlx9HOVojosq1ix7jeBKikg7vJsqDmMo17nHt0UNORFaSfNDqUZk5ihjFUXWzChv5Plypx+2Prr/44STXVUUdQUNiW1pCG9VVlFJPwuWeeHV1RdtcvlVI5FoOL96Q24dMzbh73ASO/imTmf+BaEs77bLjtWzg0uXCtPjERAPPGjgh8klmNqJ6z2VFjs1Fdmn12Jco3CmyLHzglEQVxxm8BpHPHdx7Cp3ljw1e42WhIkp5l3MnxOhivRw3yYwbR55csLdkaa/tFXMJRX7mxEQZR6meKjNHG+VbYeAagkj/d0/EG0hLrDKNPzwQ0Sbcoq7ljkS3YGpxo9dk42xEGtb0Rjwq6hYbmQhtq23jDMRmGY65VjbORoR01MxqcLnPNdlIV4VElL22jYXf6t/PMFG+1WqGDkT1xyPNOO0124g20ba0jdx12nD0Wz2RNrjktXw72IxziMew8LuDjRDj8bieiHY7P5H/9uZ4MztqZdQcZyT+BU+MsECN23toAAAAAElFTkSuQmCC");
+	background-position: left -8px;
+	background-repeat: no-repeat;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAACMCAIAAAC7wcOxAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OEE1RjVCNEM2MzQzMTFFMjgyRTNCMTg0NzUzRDEyODEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OEE1RjVCNEI2MzQzMTFFMjgyRTNCMTg0NzUzRDEyODEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmRpZDowMTgwMTE3NDA3MjA2ODExQTYyRDgxQzAxNTg4RkU0QSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowMTgwMTE3NDA3MjA2ODExQTYyRDgxQzAxNTg4RkU0QSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtrbD/AAAAQfSURBVHja7F39jsMgCO9In2Hv/6a7XZr0jKIiIgI9/2i2trmBIPz40Hu9328AeL1e3+txHK9iXDfv6/1O9iF7Ab1SbqZ3RMYvV5/PJ72mH9JH6bjvlI8aA6VbkBmcw0uAKAMZexSGFSjmyLCkLGPm/ooyPMqn8hRA+3GDn65ghzR2HdvQfYNCek2TSxPCXq6zHGZmbYZbawPor37Zq/F/3W/zv8WQfseZCuf7eykb1+eb7vtp9nL6AoVPZUUAqfWQsWfHZwBxRokU3yiHbUjFpwYY/NTQVmOlbRRpX4Zs4owoKtBpTTWQR33Xy6+YFBD5K9awaB+XTgrEFMMgKz0K2lRDpEwO6W7DiEjBjjotmghgULDIkC7EpTe8zH71vpO9kH4lvlPDpQowFXTUZiem2UKZjq/X8BaeUFtj1tnYWmc6gP4zRFuK5nw3Shi8GAwTHr+dxdk1caBvYGxlhCeFY2GcjWdlAg7NtaEop4tmTK/DIYDalf/O6Kl0g/PU6Cu2vC01Wl1TJkvz52ARQXbwKtApZiR8LWgsaC42zaDpzx82AvajKD+lng11d+gj0zLMlBNdXaOwczNq21XH1OOwpl30mNDavHCqa76kCrVVx1tjQ8wrZTHUQNkuTAeMmaaUfu3oMykjHMqWSoFpQ70Y8YKJKQ67ltZrzluK9C1l07WVGbvR095+ybWYZhRt2kfqZwa70bCw1pV4YBlUlOGN4SKsQ1ieur5EiN7Vf0KN8emQxRq4gVEVdVelAbaKeoHjwp0Kz0XeG5nP64fpTpDUSaKesPR4tZrhRpcINeM54xt995ea7ZSVt6VeHAZ0fb2vSELVlhoJO0gR8GS+0EoXdLmR2buvz/0hJTike0If61AqVrLFIRouzeyXN53VZ0jMcb5UhIHNHbREE+puwIz6+ei+zA5LQDeVZP6g1lJSezN7qi3D0T2uLqoxm2P8nRzGKPoiHMqWIuye3rKUUCs14G6GpqHGZi0Q+BXOsD+8vN91HtZRbEVoV9Esx1BTfd7Rcm0RvMUi8GkuT+M3UFLNYhjSUmJPKcUT2pyRMzttjrKnfm80xI+eBFeXudoTI7frNdfGSNXYD7hAUFxuME2wpBuEkZVABOzRkObrUJw4Kx208exnax22t+N5tLfgjuK1qC2ULfUeFg5gGo/WBdfSUSjjqb80M57BqhdnGf6WAS6vMGgkRAZBiTnr3IvmLYZKLr7sTT8j7B3orIoPDWWEGZl8fx20ImmLCHtmYiLvCD1R6ZcGcGkjFSOHzz04PuymLVwfy/N4S8OQm5sz98KsTwjs66fWobNzogK49cf7w8CG9HhCVv/vv5LR82gWOvAF/GEYqT4AtQXuwsBlOFO6+M8IG+bQ3SkDrQg43jiv/3hca1BAIWsNx9qcqR8BBgDejfqQFVse3gAAAABJRU5ErkJggg==');
 }
 
 .bb-bb10-action-bar-action-1280x768-1280x720
@@ -5131,6 +5751,7 @@ a.bb5-button-highlight span {
 
 .bb-bb10-action-bar-overflow-button-1280x768-1280x720-dark 
 {
+	margin-top: 18px;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEExcbIeIyRnQAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAC+klEQVR42u3ZQUgUURwG8G9235udZWdnxw1hEdFDVmYkZQftEGKlQhch7ZaiFXT30sWzWEFR58oIvXTw5tKlbgaKQl4UQat1MVxjjaCdnYXZeR2iBRG3PU71/WDufz4evHn/DyAiIiIiIiIiIiIior+AFrSB+vv6VevpVti2jVKphGw2i9nZWY0B1mDw+qDqutiFWCwGKSV834frush8zuDR40eBDFEEZZDuq93LZ86eQUNDA0zTrARYLBahhTTcHLmpZl7NaAzwCHWxugstx1tQX1+PeDx+IEAhBHK7OfAEVhtECiQSCdi2DdM0IYSAUgqRSATlchmxWCyQAYaCMkjRKeLb/jcYhgEpJcLhMMLhMKSU8DwPe3t7DLCa+fS8tryyDNd1oWla5fN9Hzs7O1j9sHqXt3ANhoeH1cDAAJqbmvGj8AMLCwuYmJgI7G8MERERERER0f8mcI/03t7e/fb29rpkMgnXdfHx00fMzrATqcngjUHVfakb8XgcQohKJ7K5tYmHDx6yE6mm53LPVMf5DjQ2NsI0Tei6Dt/34TgONE3D2NiYmp6eZidylLgdv3fq5CmkUqkDnYjjOBBC4MvuF/AEVhENRWFZ1qFORNf1X52IwU6kqu/Od+T38zAMA7quQwgBIQQikQg8z0Pua44BVvMm/UZber90qBMpl8vYzmxjZWklkJ1I4IyMjKh0Oq3W19fV4uKimro/pZgKERERERERUXAEbsN7rf+aOtdxDsljSZTcErY2t/Di5Qt2IrUYGhpSfX19sCwLUkoopVAoFLCxsYHJyUl2ItX0XOl53dnZiaampkMr/VAohNt3bqvnz56zEzlKwkrcaGtrQyqVQiKROBCglBIndk6AJ7AKKSVs20YymYRlWZVa8/dKPxqNBjLAwKz0C04B+Xwe0Wi00olIKWEYBjzPw25ul1f+n4yPj6tMJqMcx1Gu66pisajy+byam5vjWr9Wo7dG1dt3b1U2m1Vra2vqydMnDI+IiIiIiIiI/h0/AaEPHrjW6Tb1AAAAAElFTkSuQmCC");	
@@ -5155,31 +5776,30 @@ a.bb5-button-highlight span {
 	right:0px;
 	left:0px;
 	background-repeat:  repeat-x;
-	border-top-width: 1px;
-	border-top-style: solid;
 	overflow:hidden;
+	/*box-shadow: rgba(50, 50, 50, 0.447059) 0 -10px 20px;*/
 }
 
 .bb-bb10-action-bar-portrait-720x720 {
-	height: 139px;
+	height: 109px;
 }
 
 .bb-bb10-action-bar-landscape-720x720 {
-	height: 99px;
+	height: 109px;
 }
 
 .bb-bb10-action-bar-icon-720x720
 {
 	height: 80px;
 	width: 80px;
-	margin-top: 4px;
+	margin-top: 10px;
 }
 
 .bb-bb10-action-bar-button-tab-left-720x720-dark
 {
-	background-position:left -4px;
+	background-position:left -8px;
 	background-repeat:no-repeat;
-	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAB1CAIAAAAwSA0oAAAABGdBTUEAALGPC/xhBQAAAAd0SU1FB9wEFRcpJS1EicAAAAQ/SURBVGhD1ZrpVttADIUdeAh2EvYspC3t+79b5VwfWdYyW5zQzg+OoeGrlitpZszi4eFhsVhcXl5eXFzQA75iyWf6tus6+5V/SA/Dur29vbu7Wy6Xq9Xq+fn55eXl7e3t4+NjvV5vNpvdbvf5+bnf738c1s/D+nVYX19fvw/rz3R1Nzc3BH18fCTo09MTQV9fXwn6/v5O0O12WwvtYKMkwkwikqVkZiGUje0Id39/D69hIxFhJvsuoYiAcp8jQNwUEWbCd1oIaBRTgoLrE0vMZEtlrgga2siOq7zL1LsC6ImsHoqjCiU7znnn1CMCKghkbwUR8vwOoqyZEq8pjpx0dllmaVC40iPn2sZREpEZmZ8+jspGKNwSZfEoYUoD80SSTlQ5rsvUQTI2Mk4VeIQ7I5EKRjWLY23kFqm8dhONPsTV7cfRJaJaEolGb+97OHdc2yJZj0o9CZE7xBI9VhCrFG4bT69w5TVPBQolXLYKz9TMNxAxuDG8suke65qma0miXSLrEZIc53UJsUiPvAP4h4ly3xOZSZmJkmPbmt5J2emKXGeJnB+faLsZq0el25nXdreXGDIlknT2j8cQdTeLtig2iO4+bVC4rOssEQpPN91J74mI2D9yTvJEKhs6MdhtLnUz3jtLx6N+ga3AkJmIKJtjJCC1UTkXEQq3Ywt6VFvIIhslUZWgIjp7M9SMiqOc15aYFtCkZtB7ZM3wSEinRbbxaqLd40rcqB51ipNHQyjRnVzy/BV2s+gUl5iFoY3Zc2FUhaVEV4zpLAM9ZkbaKE/DVeP/XMSEvBu9LpSOOhjl1aMy49aMPHPxc+rmI9scq4ly9isb5clacR31qDgmqjBjI+sxkZmo10p03sZ0m7BmnpHoJjq6AJh4fX19LacCX8ZJPbrDWh6S+F6FHjoQ3XszVz1qoyJZeHaI7jk46uEpolSPdbmdiEGYLmprlx9HOVojosq1ix7jeBKikg7vJsqDmMo17nHt0UNORFaSfNDqUZk5ihjFUXWzChv5Plypx+2Prr/44STXVUUdQUNiW1pCG9VVlFJPwuWeeHV1RdtcvlVI5FoOL96Q24dMzbh73ASO/imTmf+BaEs77bLjtWzg0uXCtPjERAPPGjgh8klmNqJ6z2VFjs1Fdmn12Jco3CmyLHzglEQVxxm8BpHPHdx7Cp3ljw1e42WhIkp5l3MnxOhivRw3yYwbR55csLdkaa/tFXMJRX7mxEQZR6meKjNHG+VbYeAagkj/d0/EG0hLrDKNPzwQ0Sbcoq7ljkS3YGpxo9dk42xEGtb0Rjwq6hYbmQhtq23jDMRmGY65VjbORoR01MxqcLnPNdlIV4VElL22jYXf6t/PMFG+1WqGDkT1xyPNOO0124g20ba0jdx12nD0Wz2RNrjktXw72IxziMew8LuDjRDj8bieiHY7P5H/9uZ4MztqZdQcZyT+BU+MsECN23toAAAAAElFTkSuQmCC");
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAABsCAIAAAAUkV57AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Qzg5RTk2MzM2OEQ3MTFFMkFCRjc4M0Y4NERCNjc5OEUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Qzg5RTk2MzQ2OEQ3MTFFMkFCRjc4M0Y4NERCNjc5OEUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDODlFOTYzMTY4RDcxMUUyQUJGNzgzRjg0REI2Nzk4RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDODlFOTYzMjY4RDcxMUUyQUJGNzgzRjg0REI2Nzk4RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtgCP+sAAAL5SURBVHjaxFltsiMhCJx0cojc/6CTtZ67xofQNmrV+sOaDwcVaGiZx/v9vq7r+Xw+fhqAclv6R9fKk/Z2fNiua//6fD7l6r7vMvrz08pFvb3+tTq6tDrYPDTtZWYwH5fbJiUSYV6hf1HXaJ5ccqty4U5VRZe9tzn0/qVsJNVgPq6K69U3Pm9K75+0HnW1/X5dy/bW6201CkX/cS+uF2FUbJ47azRbM3rptR75Zj8Gze9Gg5jVKa7z9Z42oau7lOnhTuUqVPQzuNrh4nqwOrjuLWg8sV5HNnHNaNdI+jFq1aA3vrWW6VFhvM9FyIglRE4z7jQSwTDDDeoKHSeD6LcGRcYsvzAjum6/R/4JUghTAihSEV9CIbGJcemxd5ULEiZG3fMJvpYxeBBRFPUw0duNzyQXOTF8VBbP+lNQIhoabUrKhW4+EfO9g5lrtRmF2DwjerXi55iGezfWqpiJ8GNiF+8RxRhiH243RIxUQUjLMwwzohtXcQwzU8Y19oWv+phRqNNIAU3f2w3uISDy3mlKYB6ufMwkLrNutkadjE0kNnpnaC6xGMcPIsBFuX+KHPDQZBDCGZrlZtl8MonhhhYti/uVZyLVuGgh+AFx7CgAH8OM6KQgCUA58UuYSQFmHBxGM54YJpg5GCb+4pqc2dyTwYT3RMmvXTeQqZgZmZi4lgRmIuT8P8tEaFHyjDsAR/hYiBkubp2bZanTPJodwEyKuE/HIKo0TZ08Osb7eWZchV6MQ1RoW+6RirXps8KR0ibWaBQZg+ggueyb4KXRdctMS29pzIw10nXeo1fMxGlADupba1wrm/iWWXCUeZWLCz2AmZPnGZMCdzHD+wQDEFPzyq7FnyUJ3uNysNSfmS9manM/IFVmiZtNz5grDOBANNs/9PsoPOk9m3kq5Ga8v+87F82iXS9WC0mZdQ0/cLnOjpNjSu/Sa9xkYmGeiYjKroen/gtu/Z85iZmFvb+iCLa1xuUfJ365ePorJeuV6vleRw7EU5W+xj8CDABcJz6MyvkbDAAAAABJRU5ErkJggg==");
 }
 
 .bb-bb10-action-bar-action-720x720
@@ -5192,11 +5812,11 @@ a.bb5-button-highlight span {
 }
 
 .bb-bb10-action-bar-action-portrait-720x720 {
-	height:131px;
+	height:101px;
 }
 
 .bb-bb10-action-bar-action-landscape-720x720 {
-	height:91px;
+	height:101px;
 }
 
 .bb-bb10-action-bar-action-display-720x720
@@ -5207,10 +5827,11 @@ a.bb5-button-highlight span {
 	overflow:hidden;
 	white-space:nowrap;
 	text-overflow: -blackberry-fade;
+	display:none;
 }
 
 .bb-bb10-action-bar-action-display-portrait-720x720 {
-	display: block;
+	display: none;
 }
 
 .bb-bb10-action-bar-action-display-landscape-720x720 {
@@ -5228,13 +5849,13 @@ a.bb5-button-highlight span {
 }
 
 .bb-bb10-action-bar-back-button-portrait-720x720 {
-	height:138px;
-	width:154px;
+	height:108px;
+	width:141px;
 }
 
 .bb-bb10-action-bar-back-button-landscape-720x720 {
-	height:98px;
-	width:267px;
+	height:108px;
+	width:141px;
 }
 
 .bb-bb10-action-bar-back-text-720x720
@@ -5248,7 +5869,7 @@ a.bb5-button-highlight span {
 }
 
 .bb-bb10-action-bar-back-text-portrait-720x720 {
-	display:block;
+	display:none;
 }
 
 .bb-bb10-action-bar-back-text-landscape-720x720 {
@@ -5283,15 +5904,15 @@ a.bb5-button-highlight span {
 }
 
 .bb-bb10-action-bar-back-slash-portrait-720x720 {
-	height: 138px;
+	height: 108px;
 }
 
 .bb-bb10-action-bar-back-slash-landscape-720x720 {
-	height: 98px;
+	height: 108px;
 }
 
 .bb-bb10-action-bar-tab-overflow-portait-720x720 {
-	/*place holder for no changes*/
+	margin-top: -12px;
 }
 
 .bb-bb10-action-bar-tab-overflow-landscape-720x720 {
@@ -5301,7 +5922,7 @@ a.bb5-button-highlight span {
 .bb-bb10-action-bar-tab-overflow-720x720-dark 
 {
 	background-repeat: no-repeat;
-	background-position: center center;
+	background-position: center -20px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AYBDiM67O9n6AAAAmxJREFUeNrt28+K2kAABvBvJn8IRmmMIIUgHoU+Qz3uA3TpgxT2FbwW+hiFHvoABS8ufQTv4i4URAmoJJtJZvbQHnrpIQmxZPg+yNFAfkwymfmMMMaAaRdJAiISkYgMEYlIRCIyRCQiEYnIEJGIRCQiQ0QiEpGIDBGJSEQiMkQkIhEZIhKRiERk/o7b9gRKqV4DeJ73f0aiUipRSn1VSj0BMH0+lFJGKfX053qSJh6i7j9lq6paaK1/AogtvDNPUsql4zjbThGLovgG4KPFj7jvvu/fd42YAnhjMeLF9/1RpxOLEAJaa3tfV2T9aaL2L1zXXVv9uuK6PzqfWAC8M8ZsyrKMtdaw4RMOIQSklHBd9ySEWALYdo0IAAmALwDeA3hrwQD8BeARwCcAz7cYiQyXfUQkIhEZIhKRiERkiEjE3qR1x5Kmaa8BoihqfY5Ga+c0TRNjzGf83oBILBhMzwAehRAPURR1vwFxuVwWRVFY27H4vr8cDofbTm/noihWxhgbAQEgLopiBeC+U0RjzJ3l22d3nU8snufh5eXFWkHf97t/xQnDcC2EsBJQCIEwDG/TsWitN+fzOVZKWdH8SSnheR5Go9FJSsmOpWHYsXDZR0SGiEQkIhEZIhKRiERk/pXWHctut+s1wHw+b32ORmvn/X6faK2t61iklA+z2az7DYjD4bC4Xq/WdiyDwWA5nU5rbYXVfiZmWbayFBAA4jzPV50/E23vWIwxtTuW2iMxCAKrZ9om11d7JI7H43WWZR9s/CBISonxeHybjqUsy83xeIzzPEdVVb3HcxwHQRBgMpmcXNdlx9IwrTqWVyY3JzOg14TmAAAAAElFTkSuQmCC");
 }
 
@@ -5315,26 +5936,27 @@ a.bb5-button-highlight span {
 }
 
 .bb-bb10-action-bar-tab-overflow-highlight-portrait-720x720 {
-	margin-top: -117px;
+	margin-top: -103px;
 }
 
 .bb-bb10-action-bar-tab-overflow-highlight-landscape-720x720 {
-	margin-top: -100px;
+	margin-top: -103px;
 }
 
 .bb-bb10-action-bar-overflow-button-720x720-dark 
 {
+	margin-top: 3px;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wEExcbIeIyRnQAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAC+klEQVR42u3ZQUgUURwG8G9235udZWdnxw1hEdFDVmYkZQftEGKlQhch7ZaiFXT30sWzWEFR58oIvXTw5tKlbgaKQl4UQat1MVxjjaCdnYXZeR2iBRG3PU71/WDufz4evHn/DyAiIiIiIiIiIiIior+AFrSB+vv6VevpVti2jVKphGw2i9nZWY0B1mDw+qDqutiFWCwGKSV834frush8zuDR40eBDFEEZZDuq93LZ86eQUNDA0zTrARYLBahhTTcHLmpZl7NaAzwCHWxugstx1tQX1+PeDx+IEAhBHK7OfAEVhtECiQSCdi2DdM0IYSAUgqRSATlchmxWCyQAYaCMkjRKeLb/jcYhgEpJcLhMMLhMKSU8DwPe3t7DLCa+fS8tryyDNd1oWla5fN9Hzs7O1j9sHqXt3ANhoeH1cDAAJqbmvGj8AMLCwuYmJgI7G8MERERERER0f8mcI/03t7e/fb29rpkMgnXdfHx00fMzrATqcngjUHVfakb8XgcQohKJ7K5tYmHDx6yE6mm53LPVMf5DjQ2NsI0Tei6Dt/34TgONE3D2NiYmp6eZidylLgdv3fq5CmkUqkDnYjjOBBC4MvuF/AEVhENRWFZ1qFORNf1X52IwU6kqu/Od+T38zAMA7quQwgBIQQikQg8z0Pua44BVvMm/UZber90qBMpl8vYzmxjZWklkJ1I4IyMjKh0Oq3W19fV4uKimro/pZgKERERERERUXAEbsN7rf+aOtdxDsljSZTcErY2t/Di5Qt2IrUYGhpSfX19sCwLUkoopVAoFLCxsYHJyUl2ItX0XOl53dnZiaampkMr/VAohNt3bqvnz56zEzlKwkrcaGtrQyqVQiKROBCglBIndk6AJ7AKKSVs20YymYRlWZVa8/dKPxqNBjLAwKz0C04B+Xwe0Wi00olIKWEYBjzPw25ul1f+n4yPj6tMJqMcx1Gu66pisajy+byam5vjWr9Wo7dG1dt3b1U2m1Vra2vqydMnDI+IiIiIiIiI/h0/AaEPHrjW6Tb1AAAAAElFTkSuQmCC");	
 }
 
 .bb-bb10-action-bar-overflow-button-portait-720x720 {
-	/*place holder for no changes*/
+	margin-top: 0px;
 }
 
 .bb-bb10-action-bar-overflow-button-landscape-720x720 {
-	margin-top: -3px;
+	margin-top: 0px;
 }
  
 /* ================================================= 
@@ -5502,6 +6124,7 @@ a.bb5-button-highlight span {
 	top: 0px;
 	clear: both;
 	visibility : hidden;
+	box-shadow: rgba(50, 50, 50, 0.447059) -10px 0px 20px;
 }
 
 .bb-bb10-context-menu-overlay
@@ -5623,8 +6246,7 @@ a.bb5-button-highlight span {
 {
 	padding-top: 14px;
 	padding-bottom: 3px;	
-	padding-left: 0px;
-	border-left: solid 10px;
+	padding-left: 10px;
 	border-left-color: transparent;
 	height: 109px;
 	line-height: 95px;
@@ -5703,7 +6325,3 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
-
-
-
-

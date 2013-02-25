@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.81*/
+/* VERSION: 0.9.6.117*/
 
 bb = {
 	scroller: null,  
@@ -824,13 +824,7 @@ bb = {
 				return 1024;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerHeight;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 1280;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 768;
-			}
+			return window.innerHeight;
 		}
 	},
 	
@@ -846,21 +840,32 @@ bb = {
 				return 600;
 			}
 		} else {
-			if (!window.orientation) {
-				return window.innerWidth;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 768;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 1280;
-			}
+			return window.innerWidth;
 		}
 	},
 	
 	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
-		// Orientation is backwards between playbook and BB10 smartphones so we can't rely on the value 
-		// of window.orientation.  Orientation denotes "up" and not landscape/portrait
-		return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+		if (bb.device.is720x720) return 'portrait';
+		// Orientation is backwards between playbook and BB10 smartphones
+		if (bb.device.isPlayBook) {
+			// Hack for ripple
+			if (!window.orientation) {
+				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 'landscape';
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 'portrait';
+			}
+		} else {
+			if (window.orientation == undefined) {
+				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+			} else if (window.orientation == 0 || window.orientation == 180) {
+				return 'portrait';
+			} else if (window.orientation == -90 || window.orientation == 90) {
+				return 'landscape';
+			}
+		}
 	},
 	
 	cutHex : function(h) {
@@ -939,6 +944,8 @@ bb.actionBar = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 			
 		actionBar.res = res;
@@ -1006,6 +1013,9 @@ bb.actionBar = {
 							backHighlight.style['top'] = '8px';
 						} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '70px';
+							backHighlight.style['top'] = '15px';
+						} else if (bb.device.is720x720) {
+							backHighlight.style['height'] = '78px';
 							backHighlight.style['top'] = '15px';
 						} else {
 							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '110px';
@@ -1091,6 +1101,7 @@ bb.actionBar = {
 			// Create our action bar overflow button
 			action = document.createElement('div');
 			action.menu = actionBar.menu;
+			action.menu.actionBar = actionBar;
 			
 			action.setAttribute('data-bb-type','action');
 			action.setAttribute('data-bb-style','button');
@@ -1130,7 +1141,7 @@ bb.actionBar = {
 									action,
 									tab,
 									lastActionType = 'button',
-									actionWidth = 0, //Math.floor(this.getUsableWidth()/length),
+									actionWidth = 0, 
 									margins = 2,
 									temp,
 									max = 5,
@@ -1181,7 +1192,7 @@ bb.actionBar = {
 									temp = this.backBtn.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
 									this.backBtn.setAttribute('class',temp);
-									this.backBtn.updateHighlightDimensions();
+									this.backBtn.updateHighlightDimensions(orientation);
 									// Back caption
 									temp = this.backBtn.backCaption.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
@@ -1664,6 +1675,8 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else if (bb.device.is720x720) {
+			return 144;
 		} else {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		}
@@ -1677,6 +1690,8 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
+		} else if (bb.device.is720x720) {
+			return 144;
 		} else {
 			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		}
@@ -1690,7 +1705,9 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 93 : 150;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return bb.getOrientation() == 'portrait' ? 187 : 300;
-		} else {
+		} else if (bb.device.is720x720) {
+			return 174;
+		}else {
 			return bb.getOrientation() == 'portrait' ? 187 : 300;
 		}
 	},
@@ -2110,12 +2127,19 @@ bb.contextMenu = {
 								var windowHeight = bb.innerHeight(),
 									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
 									margin,
-									numActions;
+									numActions = 0,
+									headerHeight = (this.actionBar == undefined) ? itemHeight : 0,
+									i;
 								// See how many actions to use for calculations
-								numActions = (this.pinnedAction) ? this.actions.length - 1 : this.actions.length;
-								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - itemHeight; //itemHeight is the header
+								for (i = 0; i < this.actions.length; i++) {
+									if (this.actions[i].visible == true) {
+										numActions++;
+									}
+								}
+								numActions = (this.pinnedAction) ? numActions - 1 : numActions;
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((numActions * itemHeight)/2) - headerHeight;
 								if (margin < 0) margin = 0;
-								this.actions[0].style['margin-top'] = margin + 'px';
+								this.scrollContainer.style['padding-top'] = margin +'px';
 							};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
@@ -2363,6 +2387,9 @@ bb.menuBar = {
 			} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 				res = '1280x768-1280x720';
 				bb.menuBar.height = 140;
+			} else if (bb.device.is720x720) {
+				res = '720x720';
+				bb.menuBar.height = 110;
 			}
 
 			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-dark');
@@ -2746,8 +2773,10 @@ bb.screen = {
 		
 		if (bb.device.isBB10 && bb.device.isPlayBook) {
 			screenRes = 'bb-bb10-1024x600-screen';
-		} else if (bb.device.isBB10) {
+		} else if (bb.device.isBB10 && (bb.device.is1280x768 || bb.device.is1280x720)) {
 			screenRes = 'bb-bb10-1280x768-1280x720-screen';
+		} else if (bb.device.isBB10 && bb.device.is720x720) {
+			screenRes = 'bb-bb10-720x720-screen';
 		} else if (bb.device.isHiRes) {
 			screenRes = 'bb-hires-screen';
 		}
@@ -2860,7 +2889,9 @@ bb.screen = {
 					// Add our indicator
 					indicator.setAttribute('data-bb-type', 'activity-indicator');
 					indicator.setAttribute('data-bb-size', 'large');
-					if (bb.getOrientation().toLowerCase() == 'landscape') {
+					if (bb.device.is720x720) {
+						indicator.style.margin = '30% auto 0px auto';
+					} else if (bb.getOrientation().toLowerCase() == 'landscape') {
 						indicator.style.margin = '20% auto 0px auto';
 					} else {
 						indicator.style.margin = '60% auto 0px auto';
@@ -3241,9 +3272,11 @@ bb.screen = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100; 
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+		} else if (bb.device.is720x720) {
+			return 109;
 		} else {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 100;
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99;
 		}
 	},
 	
@@ -3253,7 +3286,9 @@ bb.screen = {
 			return 65;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return 111;
-		} else {
+		} else if (bb.device.is720x720) {
+			return 95;
+		}else {
 			return 111;
 		}
 	}
@@ -3353,7 +3388,7 @@ bb.tabOverflow = {
 					this.overlay.style.display = 'block';
 					
 					// Slide our screen
-					this.screen.style['-webkit-transition'] = '0.3s ease-out';
+					this.screen.style['-webkit-transition'] = '0.2s ease-out';
 					this.screen.style['-webkit-transform'] = 'translate3d(' + bb.tabOverflow.getWidth() + 'px,0px,0px)';
 					this.screen.style['-webkit-backface-visibility'] = 'hidden';
 				};
@@ -3595,6 +3630,8 @@ bb.titleBar = {
 				res = '1024x600';
 			} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 				res = '1280x768-1280x720';
+			} else if (bb.device.is720x720) {
+				res = '720x720';
 			}
 			
 			// Insert our title area
@@ -3716,7 +3753,9 @@ bb.titleBar = {
 						caption.style['line-height'] = '40px';
 					} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 						caption.style['line-height'] = '70px';
-					} else {
+					} else if (bb.device.is720x720) {
+						caption.style['line-height'] = '55px';
+					}else {
 						caption.style['line-height'] = '70px';
 					}
 					accentText = document.createElement('div');
@@ -3790,6 +3829,34 @@ bb.titleBar = {
 				titleBar.appendChild(button);
 			}
 		} else {
+			//device is legacy
+
+            // assign a setCaption function
+            titleBar.setCaption = function(value) {
+
+                if(!value) {
+                    // if no value specified, pull from attribute
+
+                    value = this.getAttribute('data-bb-caption');
+                    this.innerHTML = value;
+                    return;
+                }
+
+                // update the innerHTML and the attribute to be through
+                this.setAttribute('data-bb-caption', value);
+                this.innerHTML = value;
+            };
+
+            titleBar.setCaption = titleBar.setCaption.bind(titleBar);
+
+            // Assign the getCaption function
+            titleBar.getCaption = function() {
+                return this.innerHTML;
+            };
+
+            titleBar.getCaption = titleBar.getCaption.bind(titleBar);
+
+
 			if (titleBar.hasAttribute('data-bb-caption')) {
 				if (bb.device.isHiRes) {
 					titleBar.setAttribute('class', 'bb-hires-screen-title');
@@ -3815,6 +3882,8 @@ bb.titleBar = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		if (bb.options.coloredTitleBar) {
@@ -3912,6 +3981,8 @@ _bb10_activityIndicator = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		if (elements.length > 0) {
@@ -3955,7 +4026,9 @@ _bb10_activityIndicator = {
 					width = '93px';
 				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 					width = '184px';
-				} else {
+				}  else if (bb.device.is720x720) {
+					width = '170px';
+				}else {
 					width = '184px';
 				}
 			} else if (size == 'small') {
@@ -3972,7 +4045,9 @@ _bb10_activityIndicator = {
 					width = '46px';
 				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 					width = '93px';
-				} else {
+				} else if (bb.device.is720x720) {
+					width = '88px';
+				}else {
 					width = '93px';
 				}
 			}
@@ -4034,6 +4109,8 @@ _bb10_button = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 
 		var disabledStyle,
@@ -4156,6 +4233,12 @@ _bb10_button = {
 				this.captionElement.innerHTML = value;
 			};
 			
+		// Returns the caption of the button
+		outerElement.getCaption = function() {
+			return this.captionElement.innerHTML;
+		};
+		outerElement.getCaption = outerElement.getCaption.bind(outerElement);
+			
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				if (this.isImageOnly) {
@@ -4180,6 +4263,18 @@ _bb10_button = {
 					this.captionElement.setAttribute('class','');
 				}
 			};
+			
+		// Returns image url
+		outerElement.getImage = function() {
+			if (this.isImageOnly) {
+				return this.captionElement.style['background-image'].slice(4, -1);
+			} else if (this.imgElement) {
+				return this.imgElement.style['background-image'].slice(4, -1);
+			} else {
+				return '';
+			}
+		};
+		outerElement.getImage = outerElement.getImage.bind(outerElement);
 		
 		// Assign our enable function
 		outerElement.enable = function(){ 
@@ -4398,6 +4493,8 @@ _bb10_dropdown = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		var img,
@@ -4499,7 +4596,8 @@ _bb10_dropdown = {
 					var options = select.getElementsByTagName('option'),
 						caption = '',
 						option,
-						item;
+						item,
+						textContainer, textAlign, primaryText, accentText;
 						
 					// First clear any existing items
 					this.itemsElement.innerHTML = '';
@@ -4519,8 +4617,31 @@ _bb10_dropdown = {
 						if (!item.dropdown.selected) {
 							item.dropdown.selected = item;
 						}
-						item.innerHTML = option.innerHTML;
+						// Append primary text node
+						primaryText = document.createElement('div');
+                        primaryText.setAttribute('class', 'primary-text');
+                        primaryText.innerHTML = option.innerHTML;
+						textContainer = document.createElement('div');
+                        textContainer.setAttribute('class', 'text-container');
+                        textContainer.appendChild(primaryText);
+
+                        // Needed for vertical alignment to work
+                        textAlign = document.createElement('span');
+                        textAlign.setAttribute('class', 'text-align');
+                        item.appendChild(textAlign);
+                        item.appendChild(textContainer);
+
 						this.itemsElement.appendChild(item);
+						
+                        // Accent text for additional cues about this option
+						if (option.hasAttribute('data-bb-accent-text')) {
+							accentText = document.createElement('div');
+							accentText.setAttribute('class','accent-text');
+							accentText.innerHTML = option.getAttribute('data-bb-accent-text');
+							item.accentText = accentText;
+							textContainer.appendChild(accentText);
+						}
+						
 						// Create the image
 						img = document.createElement('div');
 						img.setAttribute('class','bb-bb10-dropdown-selected-image-'+res+'-'+bb.screen.controlColor);
@@ -4540,11 +4661,17 @@ _bb10_dropdown = {
 						item.ontouchstart = function(event) {
 												this.style['background-color'] = bb.options.highlightColor;
 												this.style['color'] = 'white';
+												if (this.accentText) {
+													this.accentText.style['color'] = 'white';
+												}
 											};
 						
 						item.ontouchend = function(event) {
 												this.style['background-color'] = 'transparent';
 												this.style['color'] = '';
+												if (this.accentText) {
+													this.accentText.style['color'] = '';
+												}
 											};			
 						item.onclick = function() {
 											this.select.setSelectedItem(this.index);
@@ -4617,7 +4744,9 @@ _bb10_dropdown = {
 								var scrollHeight;
 								this.open = true;
 								// Figure out how many items to show
-								if (this.options.length > 5) {
+								if (bb.device.is720x720 && (this.options.length > 4)) {
+									this.numItems = 3;
+								} else if (this.options.length > 5) {
 									this.numItems = 5;
 								} else {
 									this.numItems = this.options.length;
@@ -4629,7 +4758,10 @@ _bb10_dropdown = {
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									scrollHeight = (this.numItems * 99);
 									this.style.height = 95 + scrollHeight +'px';
-								} else {
+								} else if (bb.device.is720x720) {
+									scrollHeight = (this.numItems * 85);
+									this.style.height = 77 + scrollHeight +'px';
+								}else {
 									scrollHeight = (this.numItems * 99);
 									this.style.height = 95 + scrollHeight +'px';
 								}
@@ -4672,7 +4804,9 @@ _bb10_dropdown = {
 									this.style.height = '43px';
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									this.style.height = '95px';
-								} else {
+								} else if (bb.device.is720x720) {
+									this.style.height = '77px';
+								}else {
 									this.style.height = '95px';
 								}
 								
@@ -4808,6 +4942,7 @@ _bb10_dropdown = {
 		return dropdown;
     }
 };
+
 _bb10_fileInput = {
 
 	apply: function(elements) {
@@ -4975,7 +5110,7 @@ _bb10_grid = {
 						} else {
 							width = (window.innerWidth/numItems) - 6;
 						}
-							
+												
 						for (k = 0; k < numItems; k++) {
 							itemNode = rowItems[k];
 							
@@ -4993,7 +5128,7 @@ _bb10_grid = {
 							td = document.createElement('td');
 							tr.appendChild(td);
 							td.appendChild(itemNode);
-							columnCount++;
+							columnCount++;							
 							
 							// Find out how to size the images
 							if (outerElement.isSquare) {
@@ -5011,8 +5146,6 @@ _bb10_grid = {
 							image.style.width = width + 'px';
 							image.style.opacity = '0';
 							image.style['-webkit-transition'] = 'opacity 0.5s linear';
-							image.style['-webkit-backface-visibility'] = 'hidden';
-							image.style['-webkit-perspective'] = 1000;
 							image.style['-webkit-transform'] = 'translate3d(0,0,0)';
 							image.itemNode = itemNode;
 							itemNode.image = image;
@@ -5089,6 +5222,8 @@ _bb10_grid = {
 														itemNode.contextShown = false;
 														if (itemNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 							itemNode.ontouchend = function() {
@@ -5103,7 +5238,9 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
-															if (itemNode.fingerDown) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
@@ -5161,7 +5298,6 @@ _bb10_grid = {
 										} else {
 											width = (window.innerWidth/numItems) - 6;
 										}
-										
 										// Adjust all the items
 										for (j = 0; j < numItems; j++ ) {
 											itemNode = rowItems[j];
@@ -5233,6 +5369,8 @@ _bb10_imageList = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		// Apply our transforms to all Image Lists
@@ -5386,7 +5524,7 @@ _bb10_imageList = {
 						
 						// Create our description
 						descriptionDiv = document.createElement('div');
-						descriptionDiv.setAttribute('class','description');
+						descriptionDiv.setAttribute('class','description bb-bb10-image-list-description-'+bb.screen.listColor);
 						details.description = descriptionDiv;
 						details.appendChild(descriptionDiv);
 						
@@ -5479,14 +5617,14 @@ _bb10_imageList = {
 							// Create the accent text
 							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
 								accentText = document.createElement('div');
-								accentText.setAttribute('class','accent-text');
+								accentText.setAttribute('class','accent-text bb-bb10-image-list-accent-text-'+bb.screen.listColor);
 								accentText.innerHTML = innerChildNode.getAttribute('data-bb-accent-text');
 								details.appendChild(accentText);
 								details.accentText = accentText;
 							}
 						}
 						
-						// Adjust the description description
+						// Adjust the description 
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
@@ -5497,7 +5635,10 @@ _bb10_imageList = {
 							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 								title.style['margin-top'] = '-7px';
 								overlay.style['margin-top'] = '-121px';
-							} else {
+							} else if (bb.device.is720x720) {
+								title.style['margin-top'] = '-14px';
+								overlay.style['margin-top'] = '-108px';
+							}else {
 								title.style['margin-top'] = '-7px';
 								overlay.style['margin-top'] = '-121px';
 							}
@@ -5506,6 +5647,8 @@ _bb10_imageList = {
 								if (bb.device.is1024x600) {
 									accentText.style['margin-top'] = '-52px';
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									accentText.style['margin-top'] = '-82px';
+								} else if (bb.device.is720x720) {
 									accentText.style['margin-top'] = '-82px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
@@ -5528,11 +5671,12 @@ _bb10_imageList = {
 						
 						innerChildNode.ontouchstart = function () {
 														if (!innerChildNode.trappedClick && !this.contextMenu) return;
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 														innerChildNode.fingerDown = true;
 														innerChildNode.contextShown = false;
 														if (innerChildNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															innerChildNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 						innerChildNode.ontouchend = function (event) {
@@ -5545,9 +5689,12 @@ _bb10_imageList = {
 														}
 													};
 						innerChildNode.touchTimer = function() {
-														if (innerChildNode.fingerDown) {
+														var scr = bb.getCurScreen();
+														var curx = scr.bbUIscrollWrapper.scrollTop;
+														if (innerChildNode.fingerDown && Math.abs(innerChildNode.touchstartx - curx) < 50) {
 															innerChildNode.contextShown = true;
 															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 															innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
 															innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 														}
@@ -5560,12 +5707,10 @@ _bb10_imageList = {
 						innerChildNode.outerElement = this;
 						innerChildNode.addEventListener('click',function (e) {
 								if (!innerChildNode.trappedClick) return;
-								this.setAttribute('class',this.highlight);
 								this.outerElement.selected = this;
 								if (this.trappedClick) {
 									setTimeout(this.trappedClick, 0);
 								}
-								setTimeout(this.finishHighlight, 250);
 							},false);
 							
 						// Finish the highlight on a delay
@@ -5752,6 +5897,8 @@ _bb10_labelControlContainers = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		for (i = 0; i < elements.length; i++) {
@@ -5832,7 +5979,7 @@ _bb10_pillButtons = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
-		}
+		} 
 		
 		var i,
 			containerStyle = 'bb-bb10-pill-buttons-container-'+res+' bb-bb10-pill-buttons-container-' + bb.screen.controlColor,
@@ -5862,7 +6009,6 @@ _bb10_pillButtons = {
 		pill.appendChild(pillInner);
 		pill.setAttribute('class',buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor + ' bb-bb10-pill-buttons-pill');
 		pillInner.setAttribute('class','bb-bb10-pill-button-inner-'+res +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor);
-		//pill.style.width = percentWidth + '%';
 		pill.style.opacity = '0';
 		outerElement.pill = pill;
 		containerDiv.appendChild(pill);
@@ -5987,8 +6133,18 @@ _bb10_pillButtons = {
 		outerElement.setPillLeft = function(element) {
 					if (!element) {
 						element = this.selected;
+						// Nothing was marked as selected so select the first button
+						if (!element) {
+							var items = this.table.querySelectorAll('[data-bb-type=pill-button]');
+							if (items.length > 0) {
+								element = items[0];
+								this.selected = element;
+							}
+						}
 					}
-					this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					if (element) {
+						this.pill.style['-webkit-transform'] = 'translate3d(' + element.parentNode.offsetLeft + 'px,0px,0px)';
+					}
 				};
 		outerElement.setPillLeft = outerElement.setPillLeft.bind(outerElement);	
 		
@@ -6007,19 +6163,20 @@ _bb10_pillButtons = {
 			// Create our event handler for when the dom is ready
 			outerElement.onbbuidomready = function() {
 						this.initialize();
-						document.removeEventListener('bbuidomready', this.onbbuidomready,false);
+						document.removeEventListener('bbuidomprocessed', this.onbbuidomready,false);
 					};
 			outerElement.onbbuidomready = outerElement.onbbuidomready.bind(outerElement);
 			/* Add our event listener for the domready to move our selected item.  We want to
 		      do it this way because it will ensure the screen transition animation is finished before
 		      the pill button move transition happens. This will help for any animation stalls/delays */
-			document.addEventListener('bbuidomready', outerElement.onbbuidomready,false);
+			document.addEventListener('bbuidomprocessed', outerElement.onbbuidomready,false);
 		} else {
 			window.setTimeout(outerElement.initialize, 0);
 		}
 
 		// Handle pill sizing on orientation change
 		outerElement.doOrientationChange = function() {
+					this.recalculateSize();
 					this.setPillLeft();
 				};
 		outerElement.doOrientationChange = outerElement.doOrientationChange.bind(outerElement);
@@ -6030,6 +6187,8 @@ _bb10_pillButtons = {
 		// Add our show function
 		outerElement.show = function() {
 			this.style.display = 'block';
+			this.recalculateSize();
+			this.setPillLeft();
 			bb.refresh();
 		};
 		outerElement.show = outerElement.show.bind(outerElement);
@@ -6334,7 +6493,6 @@ _bb10_radio = {
 								this.outerElement.slideFromTop = false;
 							}
 						} 
-					
 						// Emulate TouchEnd
 						this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
 						if (bb.device.is1024x600) {
@@ -6352,11 +6510,8 @@ _bb10_radio = {
 						} else {
 							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
 						}
-						
-						// Fire our clicked event
-						var ev = document.createEvent('MouseEvents');
-						ev.initMouseEvent('click', true, true);
-						this.outerElement.dispatchEvent(ev);
+						// Fire our click
+						window.setTimeout(this.outerElement.doclick,0);
 					}
 					
 				};
@@ -6452,7 +6607,9 @@ _bb10_roundPanel = {
 				j,
 				outerElement,
 				items,
-				res = '1280x768-1280x720';	
+				header,
+				res = '1280x768-1280x720',
+				color = bb.screen.listColor;	
 
 			// Set our 'res' for known resolutions, otherwise use the default
 			if (bb.device.is1024x600) {
@@ -6463,10 +6620,12 @@ _bb10_roundPanel = {
 				
 			for (i = 0; i < elements.length; i++) {
                 outerElement = elements[i];
-                outerElement.setAttribute('class','bb-bb10-round-panel-'+res+' bb-bb10-round-panel-light');
+                outerElement.setAttribute('class','bb-bb10-round-panel-'+res);
                 items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
                 for (j = 0; j < items.length; j++) {
-                     items[j].setAttribute('class','bb-bb10-panel-header-'+res+' bb-bb10-panel-header-'+res+'-light');
+                     header = items[j];
+					 header.setAttribute('class','bb-bb10-panel-header-'+res+' bb-bb10-panel-header-'+res+'-'+color);
+					 header.style['border-bottom-color'] = bb.options.shades.darkOutline;
                 }
 			// Add our show function
 			outerElement.show = function() {
@@ -6697,6 +6856,8 @@ _bb10_textInput = {
 			res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			res = '720x720';
 		}
 		
 		// Keep the developers existing styling
@@ -6744,7 +6905,7 @@ _bb10_textInput = {
 		
 		outerElement.doFocus = function() {
 								if(this.readOnly == false) {
-									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-focused-'+res);
+									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-cancel-button bb-bb10-input-container-focused-'+res);
 									if (this.clearBtn && this.value) {
 										this.setAttribute('class', this.focused);
 										this.hasClearBtn = true;
@@ -7512,6 +7673,12 @@ _bbPlayBook_button = {
 				this.captionElement.innerHTML = value;
 			};
 			
+		// Returns the caption of the button
+		outerElement.getCaption = function() {
+			return this.captionElement.innerHTML;
+		};
+		outerElement.getCaption = outerElement.getCaption.bind(outerElement);
+			
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				if (this.isImageOnly) {
@@ -7536,6 +7703,18 @@ _bbPlayBook_button = {
 					this.captionElement.setAttribute('class','');
 				}
 			};
+			
+		// Returns image url
+		outerElement.getImage = function() {
+			if (this.isImageOnly) {
+				return this.captionElement.style['background-image'].slice(4, -1);
+			} else if (this.imgElement) {
+				return this.imgElement.style['background-image'].slice(4, -1);
+			} else {
+				return '';
+			}
+		};
+		outerElement.getImage = outerElement.getImage.bind(outerElement);
 		
 		// Assign our enable function
 		outerElement.enable = function(){ 
@@ -8433,11 +8612,23 @@ _bb_6_7_button = {
 			};
 		outerElement.setCaption = outerElement.setCaption.bind(outerElement);
 		
+		// Assign our get caption function
+		outerElement.getCaption = function(value) {
+				return this.innerHTML;
+			};
+		outerElement.getCaption = outerElement.getCaption.bind(outerElement);
+		
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				// Not yet implemented
 			};
 		outerElement.setImage = outerElement.setImage.bind(outerElement);
+		
+		// Assign our get image function
+		outerElement.getImage = function(value) {
+				return '';
+			};
+		outerElement.getImage = outerElement.getImage.bind(outerElement);
 		
 		// Assign our enable function
 		outerElement.enable = function(){
@@ -8524,7 +8715,6 @@ _bb_6_7_button = {
 		return outerElement;
     }
 };
-
 _bb_6_7_PlayBook_dropdown = { 
     // Style a list of items
 	apply: function(elements) {

@@ -61,11 +61,23 @@ _bb_6_7_button = {
 			};
 		outerElement.setCaption = outerElement.setCaption.bind(outerElement);
 		
+		// Assign our get caption function
+		outerElement.getCaption = function(value) {
+				return this.innerHTML;
+			};
+		outerElement.getCaption = outerElement.getCaption.bind(outerElement);
+		
 		// Assign our set image function
 		outerElement.setImage = function(value) {
 				// Not yet implemented
 			};
 		outerElement.setImage = outerElement.setImage.bind(outerElement);
+		
+		// Assign our get image function
+		outerElement.getImage = function(value) {
+				return '';
+			};
+		outerElement.getImage = outerElement.getImage.bind(outerElement);
 		
 		// Assign our enable function
 		outerElement.enable = function(){

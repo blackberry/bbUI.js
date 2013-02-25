@@ -53,6 +53,9 @@ task('build', ['clean'], function () {
 	version = JSON.parse(include("JakeVersion"));
 	version.build++;
 	versionText = '/* VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + '*/\n\n';
+
+	pkg = JSON.parse(include("package.json"));
+	pkg.version = version.major + '.' + version.minor + '.' + version.revision;
 	
 	// Retrieve our license information
 	license = include("JakeLicense");
@@ -85,8 +88,10 @@ task('build', ['clean'], function () {
 	fs.writeFileSync(__dirname + "/pkg/bbui-min.css", license + minified);
 	
 	// Update our build version
-	versionText = '{"major" : ' + version.major +',	"minor" : ' + version.minor +', "revision" : ' + version.revision + ', "build" : '+ version.build+'}';
-	fs.writeFileSync("JakeVersion", versionText);
+	fs.writeFileSync("JakeVersion", JSON.stringify(version, undefined, 2));
+
+	// Update the build version in the npm package.json
+	fs.writeFileSync("package.json", JSON.stringify(pkg, undefined, 2));
 
     console.log("Holy Chetara Batman, That was fast!");
 });
