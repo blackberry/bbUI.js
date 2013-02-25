@@ -254,7 +254,7 @@ bb = {
 	getCurScreen : function(){
 		var numItems = bb.screens.length,
 		screen = document.getElementById(bb.screens[numItems-1].guid);
-		return screen.childNodes[1];
+		return screen.querySelector('[data-bb-type=screen]');
 	},
 	device: {  
         isHiRes: false, 
