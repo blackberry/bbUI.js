@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.116*/
+/* VERSION: 0.9.6.117*/
 
 bb = {
 	scroller: null,  
@@ -251,11 +251,7 @@ bb = {
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
 		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
 	},
-	getCurScreen : function(){
-		var numItems = bb.screens.length,
-		screen = document.getElementById(bb.screens[numItems-1].guid);
-		return screen.querySelector('[data-bb-type=screen]');
-	},
+	
 	device: {  
         isHiRes: false, 
         isBB5: false,
@@ -2423,7 +2419,7 @@ bb.menuBar = {
 							div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
 							div.innerHTML = caption;
 							bb10MenuItem.appendChild(div);
-							
+
 							// Assign any click handlers
 							bb10MenuItem.onclick	= item.onclick;
 							bb10Menu.appendChild(bb10MenuItem);

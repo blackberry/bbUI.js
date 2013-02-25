@@ -316,6 +316,8 @@ _bb10_imageList = {
 														innerChildNode.contextShown = false;
 														if (innerChildNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															innerChildNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 						innerChildNode.ontouchend = function (event) {
@@ -328,7 +330,9 @@ _bb10_imageList = {
 														}
 													};
 						innerChildNode.touchTimer = function() {
-														if (innerChildNode.fingerDown) {
+														var scr = bb.getCurScreen();
+														var curx = scr.bbUIscrollWrapper.scrollTop;
+														if (innerChildNode.fingerDown && Math.abs(innerChildNode.touchstartx - curx) < 50) {
 															innerChildNode.contextShown = true;
 															this.setAttribute('class',this.highlight);
 															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
