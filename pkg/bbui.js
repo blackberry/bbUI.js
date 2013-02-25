@@ -251,7 +251,11 @@ bb = {
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
 		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
 	},
-	
+	getCurScreen : function(){
+		var numItems = bb.screens.length,
+		screen = document.getElementById(bb.screens[numItems-1].guid);
+		return screen.childNodes[1];
+	},
 	device: {  
         isHiRes: false, 
         isBB5: false,
@@ -2402,6 +2406,7 @@ bb.menuBar = {
 					if (type == 'menu-item') {
 						caption = item.innerHTML;
 						imgPath = item.getAttribute('data-bb-img');
+						useid = item.getAttribute('data-bb-useid');
 						// If the item doesn't have both an image and text then remove it
 						if ((caption && imgPath) && (foundItems.length < 5)) {
 							// BB10 menus only allow 5 items max
@@ -2419,7 +2424,10 @@ bb.menuBar = {
 							div.setAttribute('class','bb-bb10-menu-bar-item-caption-'+res);
 							div.innerHTML = caption;
 							bb10MenuItem.appendChild(div);
-
+							// Set the menu ID if specified so we can play around with it later
+							if(useid){
+								bb10MenuItem.setAttribute('id',useid);
+							}
 							// Assign any click handlers
 							bb10MenuItem.onclick	= item.onclick;
 							bb10Menu.appendChild(bb10MenuItem);
@@ -5222,6 +5230,8 @@ _bb10_grid = {
 														itemNode.contextShown = false;
 														if (itemNode.contextMenu) {
 															window.setTimeout(this.touchTimer, 667);
+															var scr = bb.getCurScreen();
+															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
 														}
 													};
 							itemNode.ontouchend = function() {
@@ -5236,7 +5246,9 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
-															if (itemNode.fingerDown) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
