@@ -233,7 +233,9 @@ bb = {
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
 		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
 	},
-	
+	getCurScreen : function(){
+		return document.querySelector('[data-bb-type=screen]');
+	},
 	device: {  
         isHiRes: false, 
         isBB5: false,
