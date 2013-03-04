@@ -8,7 +8,8 @@ _bb10_textInput = {
 	style: function(outerElement) {
 		var res = '1280x768-1280x720',
 			css = '',
-			container = document.createElement('div');
+			container = document.createElement('div'),
+			inputBtn = document.createElement('div');
 		
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
@@ -31,16 +32,27 @@ _bb10_textInput = {
 		container.appendChild(outerElement);
 		container.input = outerElement;
 		container.setAttribute('data-bb-type','input');
-		container.normal = 'bb-bb10-input-container bb-bb10-input-container-'+ res;
-		container.stylePasswd = ' bb-bb10-input-container-passwd-focused-'+ res;
-		container.stylePasswdShown = container.stylePasswd + " show-passwd";
+		container.css = {
+			normal: ' bb-bb10-input-container bb-bb10-input-container-'+res,
+			focused: ' bb-bb10-input-container-focused-'+res,
+			disabled: ' bb-bb10-input-container-disabled',
+			// The cancel button is set via a background image
+			cancelBtn: ' bb-bb10-input-cancel-button'
+		};
 		container.passwdIsShown = false;
 		container.disableBlur = false;
+
+		// Set properties for the password show button
+		inputBtn.css = {
+			'defaultState': 'button-state-default'
+		}
+		inputBtn.classList.add('bb-bb10-input-button-passwd-1280x768-1280x720');
+		inputBtn.classList.add(inputBtn.css.defaultState);
+		inputBtn.style['background-color'] = bb.options.highlightColor;
 		
 		// Set our input styling
 		outerElement.normal = css + ' bb-bb10-input bb-bb10-input-'+res;
 		outerElement.focused = css + ' bb-bb10-input bb-bb10-input-focused-'+res;
-
 
 		if (outerElement.disabled) {
 			outerElement.setAttribute('class', outerElement.normal + ' bb-bb10-input-disabled');
@@ -65,9 +77,9 @@ _bb10_textInput = {
 		
 		// Set our container class
 		if (outerElement.disabled) {
-			container.setAttribute('class',container.normal + ' bb-bb10-input-container-disabled');
+			container.setAttribute('class',container.css.normal + container.css.disabled);
 		} else {
-			container.setAttribute('class',container.normal);
+			container.setAttribute('class',container.css.normal);
 		}
 		
 		outerElement.doFocus = function() {
@@ -75,7 +87,9 @@ _bb10_textInput = {
 
 			// non-password inputs show the clear button
 			if(outerElement.type.toLowerCase() != "password" && !this.hasShowPasswdBtn) {
-				this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-cancel-button bb-bb10-input-container-focused-'+res);
+				this.container.setAttribute('class',
+					this.container.css.normal + this.container.css.focused + 
+					this.container.css.cancelBtn );
 
 				if (this.clearBtn && this.value) {
 					this.setAttribute('class', this.focused);
@@ -87,11 +101,10 @@ _bb10_textInput = {
 
 			// password fields have the show/hide password button
 			} else {
-				if (!this.container.passwdIsShown) {
-					this.container.setAttribute('class',this.container.normal + this.container.stylePasswd);
-				} else {
-					this.container.setAttribute('class',this.container.normal + this.container.stylePasswdShown);
-				}
+				this.container.setAttribute('class',
+					this.container.css.normal + this.container.css.focused);
+				this.container.appendChild(inputBtn);
+
 				this.setAttribute('class', this.focused);
 
 				if (this.showPasswdBtn && this.value) {
@@ -120,11 +133,14 @@ _bb10_textInput = {
 				return;
 			}
 
-			this.container.setAttribute('class',this.container.normal);	
+			this.container.setAttribute('class',this.container.css.normal);	
 			if (this.clearBtn) {
 				this.setAttribute('class',this.normal);
 			}
 			this.container.style['border-color'] = '';
+			if (outerElement.hasShowPasswdBtn) {
+				this.container.removeChild(inputBtn);
+			}
 			this.isFocused = false;
 			bb.screen.focusedInput = null;
 		};
@@ -153,23 +169,25 @@ _bb10_textInput = {
 								};
 		}
 		
-		// View password button behaviour
+		// Behaviour for revealing value of password
 		if (outerElement.showPasswdBtn) {
-			outerElement.container.ontouchstart = 
-				function(event) {
-					if (event.target == this) {
-						event.preventDefault();
-						event.stopPropagation();
+			inputBtn.addEventListener('touchstart', function(event) {
+				event.preventDefault();
+				event.stopPropagation();
 
-						this.passwdIsShown = !this.passwdIsShown;
-						var inputType = (this.passwdIsShown) ? 'text' : 'password';
-						outerElement.setAttribute('type', inputType);
-						
-						this.setAttribute('class', this.normal + this.stylePasswdShown);
-						this.disableBlur = true;
-						outerElement.doFocus();
-					}
-				};
+				container.passwdIsShown = !container.passwdIsShown;
+				var inputType = (container.passwdIsShown) ? 'text' : 'password';
+				outerElement.setAttribute('type', inputType);
+
+				if (container.passwdIsShown) {
+					inputBtn.classList.remove(inputBtn.css.defaultState);
+				} else {
+					inputBtn.classList.add(inputBtn.css.defaultState);
+				}
+				
+				container.disableBlur = true;
+				return false;
+			});
 		}
 
 		// Add our Show funtion
@@ -196,7 +214,7 @@ _bb10_textInput = {
 		outerElement.enable = function() {
 					if (!this.disabled) return;
 					this.disabled = false;
-					this.container.setAttribute('class',this.container.normal);
+					this.container.setAttribute('class',this.container.css.normal);
 					this.setAttribute('class', this.normal);
 				};
 		outerElement.enable = outerElement.enable.bind(outerElement);
@@ -205,7 +223,7 @@ _bb10_textInput = {
 		outerElement.disable = function() {
 					if (this.disabled) return;
 					this.disabled = true;
-					this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-disabled');
+					this.container.setAttribute('class',this.container.css.normal + this.container.css.disabled);
 					this.setAttribute('class', this.normal + ' bb-bb10-input-disabled');
 				};
 		outerElement.disable = outerElement.disable.bind(outerElement);
