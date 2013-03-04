@@ -108,10 +108,6 @@ _bb10_button = {
 				},false);
 		}
 		
-		outerElement.getCaption = function() {
-			return this.captionElement.innerHTML;
-		}
-
 		// Assign our set caption function
 		outerElement.setCaption = function(value) {
 				if (this.isImageOnly && (value.length > 0)) {
