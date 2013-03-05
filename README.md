@@ -18,7 +18,7 @@
 </table> 
 
 You can find both of the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. If you are using BlackBerry 10 [Context Menus](https://github.com/blackberry/bbUI.js/wiki/Context-Menus) you
-will also need to include the WebWorks extension outlined in the [extension README](ext/README.md). As of v0.9.5 this includes both the full version and minified versions of the bbUI files.  The **samples** directory will 
+will also need to include the WebWorks extension outlined in the [extension README](ext/). As of v0.9.5 this includes both the full version and minified versions of the bbUI files.  The **samples** directory will 
 give you examples of how to use the bbUI toolkit. You can also [download other previous releases as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
 
 All changes can be found in the [Commit History](https://github.com/blackberry/bbUI.js/commits/master) for this repo or in the [Change Log](CHANGELOG.md).
