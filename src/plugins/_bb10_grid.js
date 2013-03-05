@@ -42,6 +42,153 @@ _bb10_grid = {
 				if (innerChildNode.hasAttribute('data-bb-type')) {
 				
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
+
+					// If the inner child is a group
+					if (type == 'group') {
+						// Set the title as the groupTitle attribute of the group
+						innerChildNode.groupTitle = title;
+
+						/**
+						 * Gets the title value of the group
+						 * 
+						 * @return {string or null} the title value or null if 
+						 * title attribtue is not set
+						 */
+						innerChildNode.getTitle = function() {
+							if (this.hasAttribute('data-bb-title')) {
+								return this.getAttribute('data-bb-title');
+							} else {
+								return null;
+							}
+						};
+						innerChildNode.getTitle = innerChildNode.getTitle.bind(innerChildNode);
+
+						/**
+						 * Sets the title of the group
+						 * 
+						 * @param {string} value the new title value. If value 
+						 * is falsy, title will be removed.
+						 */
+						innerChildNode.setTitle = function(value) {
+							// Get the old title value
+							var oldValue = this.getTitle();
+
+							// Set the title only if the new value differs from 
+							// the old value
+							if (value != oldValue) {
+								// If the new value is falsy
+								if (!value) {
+									// Set the title attribute to an empty string
+									this.setAttribute('data-bb-title', '');
+									// Remove the title element
+									if (this.groupTitle) {
+										this.removeChild(this.groupTitle);
+										this.groupTitle = null;
+									}	
+								}
+								// If the new value is not falsy and the group 
+								// already has a title
+								else if (this.getTitle()) {
+									// Set the new title attribute
+									this.setAttribute('data-bb-title', value);
+									// Set the new title value
+									this.groupTitle.innerHTML = '<p>' + value + '</p>';
+								}
+								// If the new value is not falsy and the group 
+								// has no title
+								else {
+									// Set the title attribute
+									this.setAttribute('data-bb-title', value);
+									
+									// Create a new title element
+									title = document.createElement('div');
+									title.normal = 'bb-bb10-grid-header-'+res;
+									title.innerHTML = '<p>'+ value +'</p>';
+									
+									// Style our header for appearance
+									if (solidHeader) {
+										title.normal = title.normal +' bb10Accent';
+										title.style.color = 'white';
+										title.style['border-bottom-color'] = 'transparent';
+									} else {
+										title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
+										title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+									}
+									
+									// Style our header for text justification
+									if (headerJustify == 'left') {
+										title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
+									} else if (headerJustify == 'right') {
+										title.normal = title.normal + ' bb-bb10-grid-header-right-'+res;
+									} else {
+										title.normal = title.normal + ' bb-bb10-grid-header-center';
+									}
+									
+									title.setAttribute('class', title.normal);
+
+									// Insert the newly created title as the first child
+									if (this.firstChild) {
+										this.insertBefore(title, this.firstChild);
+									} else {
+										this.appendChild(title);
+									}
+
+									// Update the groupTitle attribute of the group
+									this.groupTitle = title;
+								}
+							}
+						}
+						innerChildNode.setTitle = innerChildNode.setTitle.bind(innerChildNode);
+
+						/**
+						 * Removes the group itself from the grid
+						 */
+						innerChildNode.remove = function() {
+							if (this.parentNode) {
+								var grid = this.parentNode;
+								grid.removeChild(this);
+							}
+						}
+						innerChildNode.remove = innerChildNode.remove.bind(innerChildNode);
+
+						/**
+						 * Checks if a DOM element is a row
+						 * 
+						 * @param  {var}  a DOM element
+						 * @return {Boolean} true if DOM element is a row, false 
+						 * otherwise
+						 */
+						function isRow(element) {
+							if (!element || !element.hasAttribute) return false;
+							var isRow = element.hasAttribute('data-bb-type') 
+								&& element.getAttribute('data-bb-type') === 'row';
+							return isRow;
+						}
+
+						/**
+						 * Gets all the rows in the group
+						 * 
+						 * @return {Row[]} an array of all the rows in the group,
+						 * or null if the group has no rows
+						 */
+						innerChildNode.getRows = function() {
+							if (!this.hasChildNodes) return null;
+							var childNodes = this.childNodes;
+							var rows = [];
+							for (var i = 0, len = childNodes.length; i < len; i++) {
+								if (isRow(childNodes[i])) {
+									rows.push(childNodes[i]);
+								}
+							}
+							if (rows.length > 0) {
+								return rows;
+							} else {
+								return null;
+							}
+						}
+						innerChildNode.getRows = innerChildNode.getRows.bind(innerChildNode);
+					}
+					// If the inner child is a group and has title attribute set
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
 						title.normal = 'bb-bb10-grid-header-'+res;
@@ -73,6 +220,9 @@ _bb10_grid = {
 						} else {
 							innerChildNode.appendChild(title);
 						}
+
+						// Update the groupTitle attribute of the group
+						innerChildNode.groupTitle = title;
 					}
 					else if (type == 'row') {
 						var k,
