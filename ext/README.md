@@ -3,7 +3,7 @@
 When using [Context Menus](https://github.com/blackberry/bbUI.js/wiki/Context-Menus) for BlackBerry 10 you will need to include the WebWorks
 extension contained in the **bbui** folder shown above in the file listing.
 
-**NOTE: This is only for BlackBerry 10 devices, and it is not needed for PlayBook BlackBerry 10 styling**
+_**NOTE: This is only for BlackBerry 10 devices, and it is not needed for PlayBook BlackBerry 10 styling**_
 
 ### Installing the bbUI.js WebWorks Extension
 
