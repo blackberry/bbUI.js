@@ -41,7 +41,7 @@ _bb10_contextMenu = {
 			};
 		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
 		window.addEventListener('contextmenu', menu.oncontextmenu);
-		bb.windowListeners.push({name: 'oncontextmenu', eventHandler: menu.oncontextmenu});
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
 
 		// Handle our context closed event
 		menu.oncontextmenuclosed = function(contextEvent) {

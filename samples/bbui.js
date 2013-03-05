@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.123*/
+/* VERSION: 0.9.6.125*/
 
 bb = {
 	scroller: null,  
@@ -775,6 +775,7 @@ bb = {
 			bb.screen.tabOverlay = null;
 			if (bb.screen.contextMenu) {
 				bb.screen.contextMenu.clearWWcontextMenu();
+				bb.screen.contextMenu = null;
 			}
 			
 			// Clear any window listeners
@@ -4114,7 +4115,7 @@ _bb10_contextMenu = {
 			};
 		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
 		window.addEventListener('contextmenu', menu.oncontextmenu);
-		bb.windowListeners.push({name: 'oncontextmenu', eventHandler: menu.oncontextmenu});
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
 
 		// Handle our context closed event
 		menu.oncontextmenuclosed = function(contextEvent) {

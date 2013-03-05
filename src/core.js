@@ -757,6 +757,7 @@ bb = {
 			bb.screen.tabOverlay = null;
 			if (bb.screen.contextMenu) {
 				bb.screen.contextMenu.clearWWcontextMenu();
+				bb.screen.contextMenu = null;
 			}
 			
 			// Clear any window listeners
