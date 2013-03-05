@@ -17,13 +17,6 @@
 <div data-bb-type="screen" data-bb-effect="slide-left">
 	<div data-bb-type="round-panel"> 
 		<div data-bb-type="panel-header">BlackBerry 10 Only</div>
-		<p style="text-align:center;">The Delete menu item demonstrates how to grab the currently selected item of the context menu</p>
-		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('foo').menu.show({title:'Context Menu',description: 'Show Menu',selected:this});">Show Context Menu</div>
-		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('foo').menu.peek({title:'Context Menu',description: 'Peek Menu',selected:this});">Peek Context Menu</div> 
-	</div>
-		
-	<div data-bb-type="round-panel"> 
-		<div data-bb-type="panel-header">BlackBerry 10 Only</div>
 		<p style="text-align:center;">The below list demonstrates using the built in press and hold context menu for image lists</p>
 	</div>
 	<div data-bb-type="image-list" data-bb-context="true">
@@ -54,7 +47,7 @@
 		</div>
 	</div>	
 	<div id="foo" data-bb-type="context-menu">
-		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Email Work</div>
+		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('foo');">Email Work</div>
 		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Invite to Meeting</div>
 		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Call Work</div>
 		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">View details</div>

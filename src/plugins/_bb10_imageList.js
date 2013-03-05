@@ -311,36 +311,60 @@ _bb10_imageList = {
 						innerChildNode.title = title.innerHTML;	
 						
 						innerChildNode.ontouchstart = function () {
-														if (!innerChildNode.trappedClick && !this.contextMenu) return;
-														innerChildNode.fingerDown = true;
-														innerChildNode.contextShown = false;
-														if (innerChildNode.contextMenu) {
-															window.setTimeout(this.touchTimer, 667);
-															var scr = bb.getCurScreen();
-															innerChildNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
+														if (bb.device.isPlayBook) {
+															if (!innerChildNode.trappedClick && !this.contextMenu) return;
+															innerChildNode.fingerDown = true;
+															innerChildNode.contextShown = false;
+															if (innerChildNode.contextMenu) {
+																window.setTimeout(this.touchTimer, 667);
+																var scr = bb.getCurScreen();
+																innerChildNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
+															}
 														}
 													};
 						innerChildNode.ontouchend = function (event) {
-														if (!innerChildNode.trappedClick && !this.contextMenu) return;
-														this.overlay.style['border-color'] = 'transparent';
-														innerChildNode.fingerDown = false;
-														if (innerChildNode.contextShown) {
-															event.preventDefault();
-															event.stopPropagation();
+														if (bb.device.isPlayBook) {
+															if (!innerChildNode.trappedClick && !this.contextMenu) return;
+															this.overlay.style['border-color'] = 'transparent';
+															innerChildNode.fingerDown = false;
+															if (innerChildNode.contextShown) {
+																event.preventDefault();
+																event.stopPropagation();
+															}
 														}
 													};
 						innerChildNode.touchTimer = function() {
-														var scr = bb.getCurScreen();
-														var curx = scr.bbUIscrollWrapper.scrollTop;
-														if (innerChildNode.fingerDown && Math.abs(innerChildNode.touchstartx - curx) < 50) {
-															innerChildNode.contextShown = true;
-															this.setAttribute('class',this.highlight);
-															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
-															innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
-															innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
+														if (bb.device.isPlayBook) {
+															var scr = bb.getCurScreen();
+															var curx = scr.bbUIscrollWrapper.scrollTop;
+															if (innerChildNode.fingerDown && Math.abs(innerChildNode.touchstartx - curx) < 50) {
+																innerChildNode.contextShown = true;
+																this.drawSelected();
+																innerChildNode.contextMenu.hideEvents.push(this.finishHighlight);
+																innerChildNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
+															}
 														}
 													};
 						innerChildNode.touchTimer = innerChildNode.touchTimer.bind(innerChildNode);
+						// Draw the selected state for the context menu
+						innerChildNode.drawSelected = function() {
+														this.setAttribute('class',this.highlight);
+														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+													};
+						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
+						// Draw the unselected state for the context menu
+						innerChildNode.drawUnselected = function() {
+														this.setAttribute('class',this.normal);
+														this.overlay.style['border-color'] =  'transparent';
+													};
+						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);
+						
+						// See if a context menu needs to be assigned
+						if (this.contextMenu) {
+							innerChildNode.guid = 'bbui'+bb.guidGenerator();
+							innerChildNode.setAttribute('data-bb-context-menu-id', innerChildNode.guid);
+							innerChildNode.setAttribute('data-webworks-context', '{"id":"'+innerChildNode.guid+'","type":"bbui-context","header":"'+innerChildNode.title+'","subheader":"'+innerChildNode.description+'"}');
+						}	
 						
 						// Add our subscription for click events to change highlighting on click
 						innerChildNode.trappedClick = innerChildNode.onclick;

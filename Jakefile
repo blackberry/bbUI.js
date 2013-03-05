@@ -42,6 +42,7 @@ desc("package everything for a release");
 task('build', ['clean'], function () {
     var output = "",
         css = "",
+		ext = "",
 		license = "",
 		minified,
 		version,
@@ -77,6 +78,14 @@ task('build', ['clean'], function () {
 	fs.writeFileSync(__dirname + "/pkg/bbui.css", license + css);
     fs.writeFileSync(__dirname + "/samples/bbui.css", license + css);
 	
+	// Version our Extensions
+	ext = include("src/ext/client.js");
+	fs.writeFileSync(__dirname + "/ext/bbui/client.js", license + ext);
+	ext = include("src/ext/index.js");
+	fs.writeFileSync(__dirname + "/ext/bbui/index.js", license + ext);
+	ext = include("src/ext/manifest.json");
+	fs.writeFileSync(__dirname + "/ext/bbui/manifest.json", ext);
+    
 	// Minify
 	console.log("Minifying...");
 	// First the JavaScript

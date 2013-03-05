@@ -340,7 +340,12 @@ bb.screen = {
     },
 	
 	// Process all of the context menu code
-	processContext : function (context, screen) {
+	processContext: function (context, screen) {
+		if (!bb.device.isPlayBook && !bb.device.isRipple) {
+			if (blackberry.ui && blackberry.ui.contextmenu) {
+				blackberry.ui.contextmenu.enabled = true;
+			}
+		}	
 		screen.appendChild(context);
 		context.menu = bb.contextMenu.create(screen);
 		context.appendChild(context.menu);

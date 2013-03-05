@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.118*/
+/* VERSION: 0.9.6.123*/
 
 body, html {
 	padding:0;
@@ -3490,6 +3490,8 @@ a.bb5-button-highlight span {
 	border-top-width: 0px;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
+	-webkit-transition: background 0.3s;
+    -transition: background 0.1s;
 }
 
 .bb-bb10-image-list-item-overlay-1280x768-1280x720 {
@@ -3626,6 +3628,8 @@ a.bb5-button-highlight span {
 	border-top-width: 0px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+	-webkit-transition: background 0.3s;
+    -transition: background 0.1s;
 }
 
 .bb-bb10-image-list-item-overlay-720x720 {

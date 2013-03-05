@@ -224,6 +224,14 @@ _bb10_grid = {
 							itemNode.fingerDown = false;
 							itemNode.contextShown = false;
 							itemNode.contextMenu = contextMenu;
+							
+							// See if a context menu needs to be assigned
+							if (itemNode.contextMenu) {
+								itemNode.guid = 'bbui'+bb.guidGenerator();
+								itemNode.setAttribute('data-bb-context-menu-id', itemNode.guid);
+								itemNode.setAttribute('data-webworks-context', '{"id":"'+itemNode.guid+'","type":"bbui-context","header":"'+itemNode.title+'","subheader":"'+itemNode.description+'"}');
+							}	
+							
 							itemNode.ontouchstart = function() {
 														if (this.overlay) {
 															this.overlay.style['opacity'] = '1.0';
@@ -231,7 +239,7 @@ _bb10_grid = {
 														}
 														itemNode.fingerDown = true;
 														itemNode.contextShown = false;
-														if (itemNode.contextMenu) {
+														if (itemNode.contextMenu && (bb.device.isPlayBook || bb.device.isRipple)) {
 															window.setTimeout(this.touchTimer, 667);
 															var scr = bb.getCurScreen();
 															itemNode.touchstartx = scr.bbUIscrollWrapper.scrollTop;
@@ -249,14 +257,34 @@ _bb10_grid = {
 														}
 													};
 							itemNode.touchTimer = function() {
+														if (bb.device.isPlayBook || bb.device.isRipple) {
 															var scr = bb.getCurScreen();
 															var curx = scr.bbUIscrollWrapper.scrollTop;
 															if (itemNode.fingerDown && Math.abs(itemNode.touchstartx - curx) < 50) {
 																itemNode.contextShown = true;
 																itemNode.contextMenu.peek({title:this.title,description:this.description, selected: this});
 															}
-														};
+														}
+													};
 							itemNode.touchTimer = itemNode.touchTimer.bind(itemNode);
+							
+							// Draw the selected state based on the BB10 context menu
+							itemNode.drawSelected = function() {
+														if (this.overlay) {
+															this.overlay.style['opacity'] = '1.0';
+							                                this.overlay.style['background-color'] = bb.options.highlightColor;
+														}
+													};
+							itemNode.drawSelected = itemNode.drawSelected.bind(itemNode);
+							
+							// Draw the Unselected state based on the BB10 context menu
+							itemNode.drawUnselected = function() {
+														if (this.overlay) {
+															this.overlay.style['opacity'] = '';
+							                                this.overlay.style['background-color'] = '';
+														}
+													};
+							itemNode.drawUnselected = itemNode.drawUnselected.bind(itemNode);
 						}
 						
 						// if there were hardcoded columns and not enough items to fit those columns, add the extra columns

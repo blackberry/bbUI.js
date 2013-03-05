@@ -180,7 +180,7 @@ bb.actionBar = {
 		
 		// If we have "button" actions marked as overflow we need to show the more menu button
 		if (overflowButtons.length > 0) {
-			actionBar.menu = bb.contextMenu.create(screen);
+			actionBar.menu = bb.actionOverflow.create(screen);
 			actionBar.appendChild(actionBar.menu);
 			// Create our action bar overflow button
 			action = document.createElement('div');

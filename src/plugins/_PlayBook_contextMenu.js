@@ -1,6 +1,5 @@
-// BlackBerry 10 Context Menu
-bb.contextMenu = {
-	
+// BlackBerry 10 Context Menu for PlayBook
+_PlayBook_contextMenu = {
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
 		var res = '1280x768-1280x720',
@@ -69,13 +68,13 @@ bb.contextMenu = {
 		
 		// Create our title container
 		title.setAttribute('class','bb-bb10-context-menu-header-title-'+res+' bb-bb10-context-menu-header-title-dark');
-		title.style.width = bb.contextMenu.getWidth() - 20 + 'px';
+		title.style.width = _PlayBook_contextMenu.getWidth() - 20 + 'px';
 		menu.topTitle = title;
 		header.appendChild(title);
 		
 		// Create our description container
 		description.setAttribute('class','bb-bb10-context-menu-header-description-'+res);
-		description.style.width = bb.contextMenu.getWidth() - 20 + 'px';
+		description.style.width = _PlayBook_contextMenu.getWidth() - 20 + 'px';
 		menu.description = description;
 		header.appendChild(description);
 		
@@ -85,7 +84,7 @@ bb.contextMenu = {
 		menu.appendChild(menu.scrollContainer);
 
 		// Set our first left position
-		menu.style.left = bb.contextMenu.getLeft();
+		menu.style.left = _PlayBook_contextMenu.getLeft();
 		
 		// Display the menu
 		menu.show = function(data){
@@ -115,7 +114,7 @@ bb.contextMenu = {
 						this.peeking = false;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getWidth() + 'px, 0)';
+						this.style['-webkit-transform'] = 'translate(-' + _PlayBook_contextMenu.getWidth() + 'px, 0)';
 						this.style['-webkit-backface-visibility'] = 'hidden';
 						this.style['-webkit-perspective'] = '1000';
 						this.addEventListener("touchstart", this.touchHandler, false);	
@@ -133,7 +132,7 @@ bb.contextMenu = {
 						this.removeEventListener("touchstart", this.touchHandler, false);
 						this.removeEventListener("touchmove", this.touchMoveHandler, false);
 						this.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(' + bb.contextMenu.getWidth() + 'px, 0px)';
+						this.style['-webkit-transform'] = 'translate(' + _PlayBook_contextMenu.getWidth() + 'px, 0px)';
 						this.style['-webkit-backface-visibility'] = 'hidden';
 						this.style['-webkit-perspective'] = '1000';
 						if (!this.peeking) {
@@ -186,7 +185,7 @@ bb.contextMenu = {
 						this.peeking = true;
 						this.overlay.style.display = 'inline';
 						this.style['-webkit-transition'] = 'all 0.3s ease-in-out';
-						this.style['-webkit-transform'] = 'translate(-' + bb.contextMenu.getPeekWidth() + ', 0)';	
+						this.style['-webkit-transform'] = 'translate(-' + _PlayBook_contextMenu.getPeekWidth() + ', 0)';	
 						this.style['-webkit-backface-visibility'] = 'hidden';
 						this.style['-webkit-perspective'] = '1000';
 						this.addEventListener("touchstart", this.touchHandler, false);	
@@ -202,6 +201,11 @@ bb.contextMenu = {
 						this.visible = true;
 					};
 		menu.peek = menu.peek.bind(menu);
+		
+		menu.clearWWcontextMenu = function() {
+				// Here because the interface is needed on BB10 WebWorks context menu
+			};
+		menu.clearWWcontextMenu = menu.clearWWcontextMenu.bind(menu);
 		
 		// Trap touch start events in a way that we can add and remove the handler
 		menu.touchHandler = function(event) {

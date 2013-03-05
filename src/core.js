@@ -142,6 +142,8 @@ bb = {
 			bb.progress = _bb_progress;
 			bb.checkbox = _bb10_checkbox;
 			bb.toggle = _bb10_toggle;
+			bb.contextMenu = (bb.device.isPlayBook || bb.device.isRipple) ? _PlayBook_contextMenu : _bb10_contextMenu;
+			bb.actionOverflow = _PlayBook_contextMenu;
 		} else if (bb.device.isBB5) {
 			bb.imageList = _bb_5_6_7_imageList;
 			bb.button = _bb5_button;
@@ -203,6 +205,16 @@ bb = {
 				} 
 			});
 		}
+		
+		// Initialize our Context Menu via the bbUI Extension for BB10
+		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple) {
+			if (blackberry.ui && blackberry.ui.contextmenu) {
+				blackberry.ui.contextmenu.enabled = true;
+				if (blackberry.bbui) {
+					blackberry.bbui.initContext({highlightColor : bb.options.highlightColor});
+				}
+			}
+		}	
 	},
 
     doLoad: function(element) {
@@ -743,6 +755,9 @@ bb = {
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
+			if (bb.screen.contextMenu) {
+				bb.screen.contextMenu.clearWWcontextMenu();
+			}
 			
 			// Clear any window listeners
 			for (i = 0 ; i < bb.windowListeners.length; i++) {
