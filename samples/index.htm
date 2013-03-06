@@ -30,7 +30,7 @@
 				// This is code to ensure that if webworksready is fired multiple times we still only init() one time
 				if (webworksreadyFired) return;
 				webworksreadyFired = true;
-				
+
 				var config;
 				// Toggle our coloring for testing 
 				if (darkColoring) {
@@ -43,6 +43,7 @@
 							coloredTitleBar: true,
 							bb10ForPlayBook: true};
 				}
+				
 				// Handle styling of the screen before it is displayed
 				config.onscreenready = function(element, id) {
 											if (darkColoring && bb.device.isBB10) {
@@ -93,7 +94,7 @@
 			
 			// Fire the webworksready event for PlayBook and BBOS
 			window.addEventListener('load',function() {
-					if (navigator.userAgent.indexOf('Version/10.0') < 0) {
+					if (navigator.userAgent.indexOf('BB10') < 0) {
 						var evt = document.createEvent('Events');
 						evt.initEvent('webworksready', true, true);
 						document.dispatchEvent(evt);
