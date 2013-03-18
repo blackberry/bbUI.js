@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.125*/
+/* VERSION: 0.9.6.126*/
 
 bb = {
 	scroller: null,  
@@ -748,6 +748,11 @@ bb = {
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
 			bb.clearScrollers();
+			
+			if (bb.screen.contextMenu) {
+				bb.screen.contextMenu = null;
+			}
+			
 			// Quirk with displaying with animations
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
 				currentScreen = document.getElementById(bb.screens[numItems -1].guid);
@@ -773,10 +778,6 @@ bb = {
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-			if (bb.screen.contextMenu) {
-				bb.screen.contextMenu.clearWWcontextMenu();
-				bb.screen.contextMenu = null;
-			}
 			
 			// Clear any window listeners
 			for (i = 0 ; i < bb.windowListeners.length; i++) {
@@ -4074,6 +4075,10 @@ _bb10_checkbox = {
 };
 // BlackBerry 10 Context Menu
 _bb10_contextMenu = {
+
+	actionIds : [],  // Stores all the action ids for the global context menu
+
+
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
 	
@@ -4138,6 +4143,7 @@ _bb10_contextMenu = {
 						icon: action.getAttribute('data-bb-img')
 					};
 				// Assign a pointer to the menu item
+				bb.contextMenu.actionIds.push(menuItem.actionId);
 				action.menuItem = menuItem;
 				action.menu = this;
 				action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
@@ -4220,10 +4226,9 @@ _bb10_contextMenu = {
 		menu.clearWWcontextMenu = function() {
 				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
 					i,
-					action;
-				for (i = 0; i < this.actions.length;i++) {
-					action = this.actions[i];
-					blackberry.ui.contextmenu.removeItem(contexts, action.menuItem.actionId);
+					actionId;
+				for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
+					blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
 				}
 			};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);

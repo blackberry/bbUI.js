@@ -730,6 +730,11 @@ bb = {
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
 			bb.clearScrollers();
+			
+			if (bb.screen.contextMenu) {
+				bb.screen.contextMenu = null;
+			}
+			
 			// Quirk with displaying with animations
 			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
 				currentScreen = document.getElementById(bb.screens[numItems -1].guid);
@@ -755,10 +760,6 @@ bb = {
 		    bb.menuBar.clearMenu();
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-			if (bb.screen.contextMenu) {
-				bb.screen.contextMenu.clearWWcontextMenu();
-				bb.screen.contextMenu = null;
-			}
 			
 			// Clear any window listeners
 			for (i = 0 ; i < bb.windowListeners.length; i++) {

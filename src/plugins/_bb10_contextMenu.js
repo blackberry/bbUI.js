@@ -1,5 +1,9 @@
 // BlackBerry 10 Context Menu
 _bb10_contextMenu = {
+
+	actionIds : [],  // Stores all the action ids for the global context menu
+
+
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
 	
@@ -64,6 +68,7 @@ _bb10_contextMenu = {
 						icon: action.getAttribute('data-bb-img')
 					};
 				// Assign a pointer to the menu item
+				bb.contextMenu.actionIds.push(menuItem.actionId);
 				action.menuItem = menuItem;
 				action.menu = this;
 				action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
@@ -146,10 +151,9 @@ _bb10_contextMenu = {
 		menu.clearWWcontextMenu = function() {
 				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
 					i,
-					action;
-				for (i = 0; i < this.actions.length;i++) {
-					action = this.actions[i];
-					blackberry.ui.contextmenu.removeItem(contexts, action.menuItem.actionId);
+					actionId;
+				for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
+					blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
 				}
 			};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);

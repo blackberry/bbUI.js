@@ -5,7 +5,9 @@ Below you will find all the different changes that have been added since the fir
 ## Latest Working Version 0.9.6
 
 * _**Compatibility Changes:**_ 
-	* Context Menus no longer have the peek() and show() functions.  All functionality is now tied into the framework.
+	* Context Menus: 
+	    * No longer have the peek() and show() functions.  All functionality is now tied into the framework.  
+	    * You now require the bbUI WebWorks plug-in from the _ext_ directory for the context menu functionality on BlackBerry 10 smartphones
 	* Light colored action bars, context menus and screen menus are no longer supported. Only dark styling is allowed to match BB10 UX guidelines
 	* Control Groups/Round Panels have now changed their styling for BlackBerry 10.  This could impact the look and feel of your application
 	* BB10 Input fields are now wrapped with a container after they have been styled. 
