@@ -73,6 +73,11 @@ bb.tabOverflow = {
 					this.setDimensions();					
 					// Reset our overflow menu button
 					tabOverflowBtn.reset();
+					if(bb.device.isPlayBook){
+						blackberry.app.event.onSwipeDown();
+					} else {
+						blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);
+					}
 				};
 		menu.show = menu.show.bind(menu);	
 		
@@ -113,6 +118,11 @@ bb.tabOverflow = {
 						tabOverflowBtn.icon.setAttribute('class',this.tabOverflowState.style);
 						tabOverflowBtn.tabHighlight.style.display = this.tabOverflowState.display;
 						tabOverflowBtn.display.innerHTML = this.tabOverflowState.caption;
+					}
+					if(bb.device.isPlayBook){
+						blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
+					} else {
+						blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
 					}
 				};
 		menu.hide = menu.hide.bind(menu);
