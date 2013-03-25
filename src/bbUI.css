@@ -834,7 +834,23 @@ body, html {
     display: inline-block;
 }
 
-   
+/* ================================================= 
+   BB10 Swipe Menu 
+   =================================================*/
+.bb-bb10-menu-bar-overlay 
+{
+	z-index: 1000;
+	position: fixed;
+	top: 0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
+	display:none;
+	background-color:black;
+	opacity:0.25;
+}
+
+
 /* ================================================= 
    BB10 Swipe Menu 1024x600
    =================================================*/

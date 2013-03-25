@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.128*/
+/* VERSION: 0.9.6.129*/
 
 body, html {
 	padding:0;
@@ -852,7 +852,23 @@ body, html {
     display: inline-block;
 }
 
-   
+/* ================================================= 
+   BB10 Swipe Menu 
+   =================================================*/
+.bb-bb10-menu-bar-overlay 
+{
+	z-index: 1000;
+	position: fixed;
+	top: 0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
+	display:none;
+	background-color:black;
+	opacity:0.25;
+}
+
+
 /* ================================================= 
    BB10 Swipe Menu 1024x600
    =================================================*/
@@ -6336,3 +6352,4 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
