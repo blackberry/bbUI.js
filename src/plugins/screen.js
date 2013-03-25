@@ -33,14 +33,10 @@ bb.screen = {
 			outerElement.setAttribute('class', screenRes);
             		
 			//check to see if a menu/menuBar needs to be created
-			var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
-			if (menuBar.length > 0) {
-				menuBar = menuBar[0];
-				bb.menuBar.apply(menuBar,outerElement);
-			}
            
             if (bb.device.isBB10) {
-                var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+                	titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]'),
 					outerScrollArea,
@@ -48,9 +44,16 @@ bb.screen = {
 					tempHolder = [],
 					childNode = null, 
 					j,
+					menuBarHeight = bb.screen.getMenuBarHeight(),
 					actionBarHeight = bb.screen.getActionBarHeight(),
 					titleBarHeight = bb.screen.getTitleBarHeight();
 				
+				if (menuBar.length > 0) {
+					menuBar = menuBar[0];
+					outerElement.menuBar = menuBar;
+				}else{
+					menuBar = null;
+				}
 				// Figure out what to do with the title bar
                 if (titleBar.length > 0) {
 					titleBar = titleBar[0];
@@ -92,6 +95,7 @@ bb.screen = {
 				}
 				
 				// Set our variables for showing/hiding action bars
+				outerElement.menuBarHeight = menuBarHeight
 				outerElement.actionBarHeight = actionBarHeight;
 				outerElement.titleBarHeight = titleBarHeight;
 				outerElement.outerScrollArea = outerScrollArea;
@@ -192,6 +196,10 @@ bb.screen = {
 		          	outerScrollArea.style['right'] = '0px';
 				}
 				
+				if(menuBar) {
+					bb.menuBar.apply(menuBar, outerElement);
+				}
+
 				// Apply any title bar styling
 				if (titleBar) {		
 					bb.titleBar.apply(titleBar);
@@ -210,6 +218,12 @@ bb.screen = {
 				}
 			} 
 			else if (bb.device.isPlayBook) {
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+				if (menuBar.length > 0) {
+					menuBar = menuBar[0];
+					bb.menuBar.apply(menuBar,outerElement);
+				}
+
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					outerScrollArea,
 					scrollArea,
@@ -276,7 +290,12 @@ bb.screen = {
 				}
             }
             else {
-                // See if there is a title bar
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+				if (menuBar.length > 0) {
+					menuBar = menuBar[0];
+					bb.menuBar.apply(menuBar,outerElement);
+				}
+	                // See if there is a title bar
                 var titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]');		
@@ -516,6 +535,17 @@ bb.screen = {
             document.body.style.height = screen.height + 'px';
         }
     },
+	
+	getMenuBarHeight: function() {
+		// Set our 'res' for known resolutions, otherwise use the default
+		if (bb.device.is1024x600) {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
+		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 111; 
+		} else {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 140 : 111;
+		}
+	},
 	
 	getActionBarHeight: function() {
 		// Set our 'res' for known resolutions, otherwise use the default
