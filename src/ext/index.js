@@ -7,21 +7,6 @@ var LIB_FOLDER = '../../lib/',
 qnx.webplatform.getController().addEventListener('webview.initialized', function (clientWebView) {
 	_bbUI_clientWebView_Handle = clientWebView;
 	_clientWebView = require(LIB_FOLDER+'webview');
-	
-	_bbUI_clientWebView_Handle.addEventListener('DocumentLoaded', function() {			
-		// Assign old event to call later
-		_bbUI_clientWebView_Handle.oldNotifyContextMenuCancelled = _bbUI_clientWebView_Handle.notifyContextMenuCancelled;
-		// Handle event for callback
-		_bbUI_clientWebView_Handle.notifyContextMenuCancelled = function() {
-			var js = "evt = document.createEvent('Events');"+
-					"evt.initEvent('bbui.contextClosed', true, true);"+
-					"document.dispatchEvent(evt);";
-			_clientWebView.executeJavascript(js);
-			
-			// Call the old existing event
-			_bbUI_clientWebView_Handle.oldNotifyContextMenuCancelled();
-		}
-	});
 });
 
 qnx.webplatform.getController().addEventListener('overlayWebView.initialized', function () {
@@ -56,10 +41,35 @@ module.exports = {
 				"}";
 		// Apply our new styles
 		_bbUI_overlayWebView.executeJavascript(js);
+		
+		if (navigator.userAgent.toLowerCase().indexOf('version/10.0.9') >= 0) {
+			// Assign old event to call later
+			_bbUI_overlayWebView.oldNotifyContextMenuCancelled = _bbUI_overlayWebView.notifyContextMenuCancelled;
+			
+			// Handle event for callback
+			_bbUI_overlayWebView.notifyContextMenuCancelled = function() {
+				var js = "evt = document.createEvent('Events');"+
+						"evt.initEvent('bbui.contextClosed', true, true);"+
+						"document.dispatchEvent(evt);";
+				_clientWebView.executeJavascript(js);
+				
+				// Call the old existing event
+				_bbUI_overlayWebView.oldNotifyContextMenuCancelled();
+			}
+		} else {
+			// Assign old event to call later
+			_bbUI_clientWebView_Handle.oldNotifyContextMenuCancelled = _bbUI_clientWebView_Handle.notifyContextMenuCancelled;
+		
+			// Handle event for callback
+			_bbUI_clientWebView_Handle.notifyContextMenuCancelled = function() {
+				var js = "evt = document.createEvent('Events');"+
+						"evt.initEvent('bbui.contextClosed', true, true);"+
+						"document.dispatchEvent(evt);";
+				_clientWebView.executeJavascript(js);
+				
+				// Call the old existing event
+				_bbUI_clientWebView_Handle.oldNotifyContextMenuCancelled();
+			}
+		}
     }
 };
-
-
-
-
-
