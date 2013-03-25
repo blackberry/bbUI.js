@@ -123,11 +123,6 @@ _PlayBook_contextMenu = {
 						this.header.addEventListener("click", this.hide, false);
 						this.style.visibility = 'visible';
 						this.visible = true;
-						if(bb.device.isPlayBook){
-							blackberry.app.event.onSwipeDown('');
-						} else {
-							blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);
-						}
 					};
 		menu.show = menu.show.bind(menu);
 		// Hide the menu
@@ -164,12 +159,7 @@ _PlayBook_contextMenu = {
 							for (var i = 0; i < this.actions.length; i++) {
 								this.actions[i].ontouchend();
 							}
-						}
-						if(bb.device.isPlayBook){
-							blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
-						} else {
-							blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
-						}
+						}						
 					};
 		menu.hide = menu.hide.bind(menu);
 		// Peek the menu
@@ -209,11 +199,6 @@ _PlayBook_contextMenu = {
 						this.header.removeEventListener("click", this.hide, false);		
 						this.style.visibility = 'visible';
 						this.visible = true;
-						if(bb.device.isPlayBook){
-							blackberry.app.event.onSwipeDown('');
-						} else {
-							blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);
-						}
 					};
 		menu.peek = menu.peek.bind(menu);
 		

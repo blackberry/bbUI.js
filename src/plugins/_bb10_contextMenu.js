@@ -41,7 +41,7 @@ _bb10_contextMenu = {
 							selected : node
 						};
 				}
-				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);				
+				
 			};
 		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
 		window.addEventListener('contextmenu', menu.oncontextmenu);
@@ -52,7 +52,6 @@ _bb10_contextMenu = {
 				if (this.selected && this.selected.selected) {
 					this.selected.selected.drawUnselected();
 				}
-				blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
 			};
 		menu.oncontextmenuclosed = menu.oncontextmenuclosed.bind(menu);
 		document.addEventListener('bbui.contextClosed', menu.oncontextmenuclosed);
