@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.129*/
+/* VERSION: 0.9.6.128*/
 
 var LIB_FOLDER = '../../lib/',
 	_bbUI_overlayWebView,
