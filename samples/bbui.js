@@ -5859,6 +5859,22 @@ _bb10_pillButtons = {
 				innerChildNode.addEventListener('click',function (e) { 
 							e.stopPropagation();
 						}, true);
+						
+				// Assign our setCaption function
+				innerChildNode.setCaption = function(value){ 
+						this.firstChild.innerHTML = value;
+					};
+				innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+				
+				// Assign our getCaption function
+				innerChildNode.getCaption = function(){ 
+						if (this.firstChild.innerHTML) {
+							return this.firstChild.innerHTML;
+						} else {
+							return '';
+						}
+					};
+				innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode);
 			}
 			
 			// Set our pill left
@@ -5921,9 +5937,9 @@ _bb10_pillButtons = {
 				}				
 				return buttonArray;
 					};
-			outerElement.getButtons = outerElement.getButtons.bind(outerElement);
+			outerElement.getButtons = outerElement.getButtons.bind(outerElement);		
 		}
-    } 
+    }
 };
 _bb10_radio = {
 	apply: function(elements) {
