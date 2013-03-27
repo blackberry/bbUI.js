@@ -21,3 +21,5 @@ Framework
 		  - index.js
 		  - manifext.json
 ```
+
+![folder](https://raw.github.com/wiki/blackberry/bbUI.js/images/extension.png)
