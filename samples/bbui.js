@@ -3347,7 +3347,21 @@ bb.titleBar = {
 				button.innerHTML = titleBar.getAttribute('data-bb-back-caption');
 				topTitleArea.appendChild(button);
 				titleBar.backButton = button;
-				button.onclick = bb.popScreen;
+
+                if (titleBar.hasAttribute('onbackclick')) {
+                    button.onbackclick = titleBar.getAttribute('onbackclick');
+                    titleBar.onbackclick = function() {
+                        eval(this.backButton.onbackclick);
+                    };
+                } 
+                button.onclick = function() {
+                    if (titleBar.onbackclick) {
+                        titleBar.onbackclick();
+                    } else {
+                        bb.popScreen();
+                    } 
+                };
+
 				bb.titleBar.styleBB10Button(button);
 				button.style.left = '0px';
 			}
