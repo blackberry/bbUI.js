@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.129*/
+/* VERSION: 0.9.6.130*/
 
 body, html {
 	padding:0;
@@ -6389,6 +6389,82 @@ a.bb5-button-highlight span {
 	width: 80px;
 	margin-top:10px;
 	margin-left:12px;
+}
+
+/* ================================================= 
+  BB10 Context Menu 720x720
+=================================================*/
+
+.bb-bb10-context-menu-720x720-dark
+{
+	background-color: #121212;
+	border-left: solid 2px #161616;
+}
+
+.bb-bb10-context-menu-item-720x720
+{
+	padding-left: 4px;
+	border-left-color: transparent;
+	height: 90px;
+	line-height: 85px;
+	vertical-align: center;
+	font-size:28pt;
+}
+
+.bb-bb10-context-menu-item-inner-720x720
+{
+	padding-left: 15px;
+	position:relative;
+	float:left;
+}
+
+.bb-bb10-context-menu-header-title-720x720
+{
+	font-size:30pt;
+	height:36px;
+	line-height:30px;
+	padding-left: 18px;
+	margin:0px;
+	padding-top:15px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-context-menu-header-description-720x720
+{
+	color: #737173;
+	font-size: 24pt;
+	height:30px;
+	line-height:30px;
+	padding-left: 18px;
+	margin:0px;
+	margin-top:5px;
+	padding-top:0px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: -blackberry-fade;
+}
+
+.bb-bb10-context-menu-item-720x720-dark
+{
+	color:White;
+	border-bottom: solid 3px #404040	
+}
+
+.bb-bb10-context-menu-item-first-720x720-dark
+{
+	border-top: solid 3px #404040	
+}
+
+.bb-bb10-context-menu-item-image-720x720
+{
+	position:relative;
+	float:left;
+	height: 80px;
+	width: 80px;
+	margin-top:5px;
+	margin-left:8px;
 }
 
    

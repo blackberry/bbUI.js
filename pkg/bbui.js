@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.129*/
+/* VERSION: 0.9.6.130*/
 
 bb = {
 	scroller: null,  
@@ -9303,6 +9303,9 @@ _PlayBook_contextMenu = {
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			res = '1280x768-1280x720';
 			swipeThreshold = 300;
+		} else if (bb.device.is720x720) {
+			res = '720x720';
+			swipeThreshold = 300;
 		}
 		
 		// Create the oveflow menu container
@@ -9551,11 +9554,22 @@ _PlayBook_contextMenu = {
 		// Center the items in the list
 		menu.centerMenuItems = function() {
 								var windowHeight = bb.innerHeight(),
-									itemHeight = (bb.device.isPlayBook) ? 53 : 111,
+									itemHeight = 11,
 									margin,
 									numActions = 0,
-									headerHeight = (this.actionBar == undefined) ? itemHeight : 0,
+									headerHeight = 0,
 									i;
+									
+								if (bb.device.isPlayBook) {
+									itemHeight = 53;
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									itemHeight = 111;
+								} else if (bb.device.is720x720) {
+									itemHeight = 80;
+								}
+								
+								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
+							
 								// See how many actions to use for calculations
 								for (i = 0; i < this.actions.length; i++) {
 									if (this.actions[i].visible == true) {
@@ -9617,7 +9631,15 @@ _PlayBook_contextMenu = {
 					action.style.width = '100%';
 					this.pinnedAction = action;
 					this.appendChild(action);
-					this.scrollContainer.style.bottom = (bb.device.isPlayBook) ? '64px' : '130px';
+					if (bb.device.isPlayBook) {
+						this.scrollContainer.style.bottom = '64px';
+					} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+						this.scrollContainer.style.bottom = '130px';
+					} else if (bb.device.is720x720) {
+						this.scrollContainer.style.bottom = '95px';
+					} else {
+						this.scrollContainer.style.bottom = '130px';
+					}
 				} else {
 					this.scrollContainer.appendChild(action);
 				}
@@ -9737,4 +9759,3 @@ _PlayBook_contextMenu = {
 		return window.innerWidth + 3 + 'px';	
 	}
 };
-
