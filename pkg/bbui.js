@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.128*/
+/* VERSION: 0.9.6.129*/
 
 bb = {
 	scroller: null,  
@@ -2990,6 +2990,8 @@ bb.tabOverflow = {
 			menu.res = '1024x600';
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			menu.res = '1280x768-1280x720';
+		} else if (bb.device.is720x720) {
+			menu.res = '720x720';
 		} else {
 			menu.res = '1280x768-1280x720';
 		}
@@ -3114,7 +3116,9 @@ bb.tabOverflow = {
 									itemHeight = 53;
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									itemHeight = 111;
-								} 
+								} else if (bb.device.is720x720) {
+									itemHeight = 80;
+								}
 								
 								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
 								if (margin < 0) margin = 0;
@@ -3291,12 +3295,13 @@ bb.tabOverflow = {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
+		} else if (bb.device.is720x720) {
+			return bb.innerWidth() - 143;
 		} else {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
 		}
 	}
 };
-
 bb.titleBar = {
 
 	apply: function(titleBar) {

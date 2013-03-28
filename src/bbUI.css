@@ -6082,6 +6082,60 @@ a.bb5-button-highlight span {
 }
 
 /* ================================================= 
+  BB10 Tab Overflow Menu 720x720
+=================================================*/   
+
+.bb-bb10-tab-overflow-menu-item-720x720
+{
+	vertical-align: center;
+	font-size:29pt;
+}
+
+.bb-bb10-tab-overflow-menu-item-single-720x720 {
+	height: 85px;
+	line-height: 75px;
+}
+
+.bb-bb10-tab-overflow-menu-item-double-720x720 {		
+	height: 85px;
+	line-height: 46px;
+}
+
+.bb-bb10-tab-overflow-menu-item-inner-720x720
+{
+	padding-left: 5px;
+}
+
+.bb-bb10-tab-overflow-menu-item-720x720 .tab-accent-text
+{
+	padding-left: 5px;
+	font-size: 19pt;
+	height: 40px;
+	color:#606060;
+	margin-top: -40px;
+}
+
+.bb-bb10-tab-overflow-menu-item-720x720-dark
+{
+	color:White;
+	border-bottom: solid 2px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-first-720x720-dark
+{
+	border-top: solid 2px #404040	
+}
+
+.bb-bb10-tab-overflow-menu-item-image-720x720
+{
+	height: 80px;
+	width: 80px;
+	margin-top: 0px;
+	margin-left:9px;
+}
+
+
+/* ================================================= 
   BB10 Tab Overflow Menu
 =================================================*/   
 .bb-bb10-tab-overflow-menu-overlay 
@@ -6334,3 +6388,4 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
