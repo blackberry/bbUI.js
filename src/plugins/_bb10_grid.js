@@ -90,7 +90,8 @@ _bb10_grid = {
 							width,
 							hasOverlay,
 							hardCodedColumnNum = -1, // none specified
-							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
+							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]'),
+							json;
 						
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
@@ -229,7 +230,12 @@ _bb10_grid = {
 							if (itemNode.contextMenu) {
 								itemNode.guid = 'bbui'+bb.guidGenerator();
 								itemNode.setAttribute('data-bb-context-menu-id', itemNode.guid);
-								itemNode.setAttribute('data-webworks-context', '{"id":"'+itemNode.guid+'","type":"bbui-context","header":"'+itemNode.title+'","subheader":"'+itemNode.description+'"}');
+								json = new Object();
+								json.id = itemNode.guid;
+								json.type = 'bbui-context';
+								json.header = itemNode.title;
+								json.subheader = itemNode.description;
+								itemNode.setAttribute('data-webworks-context', JSON.stringify(json));
 							}	
 							
 							itemNode.ontouchstart = function() {

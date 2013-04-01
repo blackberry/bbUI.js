@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.130*/
+/* VERSION: 0.9.6.131*/
 
 bb = {
 	scroller: null,  
@@ -4946,7 +4946,8 @@ _bb10_grid = {
 							width,
 							hasOverlay,
 							hardCodedColumnNum = -1, // none specified
-							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]');
+							rowItems = innerChildNode.querySelectorAll('[data-bb-type=item]'),
+							json;
 						
 						numItems = rowItems.length;
 						if (numItems == 0) continue;
@@ -5085,7 +5086,12 @@ _bb10_grid = {
 							if (itemNode.contextMenu) {
 								itemNode.guid = 'bbui'+bb.guidGenerator();
 								itemNode.setAttribute('data-bb-context-menu-id', itemNode.guid);
-								itemNode.setAttribute('data-webworks-context', '{"id":"'+itemNode.guid+'","type":"bbui-context","header":"'+itemNode.title+'","subheader":"'+itemNode.description+'"}');
+								json = new Object();
+								json.id = itemNode.guid;
+								json.type = 'bbui-context';
+								json.header = itemNode.title;
+								json.subheader = itemNode.description;
+								itemNode.setAttribute('data-webworks-context', JSON.stringify(json));
 							}	
 							
 							itemNode.ontouchstart = function() {
@@ -5309,7 +5315,8 @@ _bb10_imageList = {
 						btnBorder,
 						highlight,
 						normal,
-						btnInner;
+						btnInner,
+						json;
 					
 					if (type == 'header') {
 						// Set our normal and highlight styling
@@ -5617,7 +5624,12 @@ _bb10_imageList = {
 						if (this.contextMenu) {
 							innerChildNode.guid = 'bbui'+bb.guidGenerator();
 							innerChildNode.setAttribute('data-bb-context-menu-id', innerChildNode.guid);
-							innerChildNode.setAttribute('data-webworks-context', '{"id":"'+innerChildNode.guid+'","type":"bbui-context","header":"'+innerChildNode.title+'","subheader":"'+innerChildNode.description+'"}');
+							json = new Object();
+							json.id = innerChildNode.guid;
+							json.type = 'bbui-context';
+							json.header = innerChildNode.title;
+							json.subheader = innerChildNode.description;
+							innerChildNode.setAttribute('data-webworks-context', JSON.stringify(json));
 						}	
 						
 						// Add our subscription for click events to change highlighting on click

@@ -55,7 +55,8 @@ _bb10_imageList = {
 						btnBorder,
 						highlight,
 						normal,
-						btnInner;
+						btnInner,
+						json;
 					
 					if (type == 'header') {
 						// Set our normal and highlight styling
@@ -363,7 +364,12 @@ _bb10_imageList = {
 						if (this.contextMenu) {
 							innerChildNode.guid = 'bbui'+bb.guidGenerator();
 							innerChildNode.setAttribute('data-bb-context-menu-id', innerChildNode.guid);
-							innerChildNode.setAttribute('data-webworks-context', '{"id":"'+innerChildNode.guid+'","type":"bbui-context","header":"'+innerChildNode.title+'","subheader":"'+innerChildNode.description+'"}');
+							json = new Object();
+							json.id = innerChildNode.guid;
+							json.type = 'bbui-context';
+							json.header = innerChildNode.title;
+							json.subheader = innerChildNode.description;
+							innerChildNode.setAttribute('data-webworks-context', JSON.stringify(json));
 						}	
 						
 						// Add our subscription for click events to change highlighting on click
