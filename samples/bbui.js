@@ -1854,6 +1854,39 @@ _bb_bbmBubble = {
                 innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n' +
                         '<div class="details">'+ description +'</div>\n';
                 insidePanel.appendChild(innerChildNode);
+				
+				// Get bubble item caption
+				innerChildNode.getCaption = function() {
+				  return this.innerText.trim();
+				};
+				innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode);
+				
+				// Set bubble item caption
+				innerChildNode.setCaption = function(value) {
+				  this.getElementsByClassName("details")[0].innerHTML = value;
+				  bb.refresh();
+				};
+				innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+				
+				// Get bubble item image
+				innerChildNode.getImage = function() {
+				  return this.firstChild.getAttribute('src');
+				};
+				innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
+				
+				// Set bubble item image
+				innerChildNode.setImage = function(value) {
+				  this.firstChild.setAttribute('src', value);
+				  bb.refresh();
+				};
+				innerChildNode.setImage = innerChildNode.setImage.bind(innerChildNode);
+				
+				// Remove item
+				innerChildNode.remove = function(value) {
+				  this.outerHTML = "";
+				  bb.refresh();
+				};
+				innerChildNode.remove = innerChildNode.remove.bind(innerChildNode); 
             }
         }
         
@@ -1897,6 +1930,19 @@ _bb_bbmBubble = {
             bb.refresh();
         };
         outerElement.remove = outerElement.remove.bind(outerElement);
+		
+        // Remove all the items in a bubble
+        outerElement.clear = function() {
+            this.getElementsByClassName("nogap")[0].innerHTML = "";
+            bb.refresh();
+        };
+        outerElement.clear = outerElement.clear.bind(outerElement);
+    
+        // Get all the items in a bubble
+        outerElement.getItems = function() {
+            return this.querySelectorAll('[data-bb-type=item]');
+        };
+        outerElement.getItems = outerElement.getItems.bind(outerElement); 
         
         return outerElement;
     }

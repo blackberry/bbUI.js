@@ -25,25 +25,40 @@
 		</div>
 	</div>
 	
-	<div data-bb-type="round-panel"> 
+	<div data-bb-type="round-panel">
 		<div data-bb-type="panel-header">BBM Bubble Functions</div>
 		
 		<div>
 			<div data-bb-type="bbm-bubble" data-bb-style="right" id="myBBMBubble">
-				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png">My car just broke down and I have one million things to do!!</div> 
-				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png">Why can&apos;t groceries just come to you?</div> 
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png" id="item1">My car just broke down and I have one million things to do!!</div>
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png" id="item2">Why can&apos;t groceries just come to you?</div>
 			</div>
 			<div data-bb-type="bbm-bubble" data-bb-style="left" id="myBBMBubble1">
-				<div data-bb-type="item" data-bb-img="images/bbmBubbles/read.png">The big island was fun.. We were there for our honeymoon.  One side of the island is pretty much desert grass and volcano ash, and the other side is rainforest</div> 
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/read.png" id="item3">The big island was fun.. We were there for our honeymoon.  One side of the island is pretty much desert grass and volcano ash, and the other side is rainforest</div> 
 			</div>
 		</div>
 
 		<div data-bb-type="button" data-bb-style="stretch" onclick="swapBubbles();" id="swap">Swap BBM Bubble Directions</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="getBubbles();" id="getstyle">Get BBM Bubble Directions</div>     
+        <div data-bb-type="button" data-bb-style="stretch" onclick="getBubbles();" id="getstyle">Get BBM Bubble Directions</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="hideBubbles()" id="hide">Hide BBM Bubbles</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="showBubbles();" id="show">Show BBM Bubbles</div>          
+        <div data-bb-type="button" data-bb-style="stretch" onclick="showBubbles();" id="show">Show BBM Bubbles</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myBBMBubble').clear();" id="clear">Clear Bubble 1 Items</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myBBMBubble').getItems();" id="getItems">Get Bubble 1 Items</div>
+	</div>
+	
+	<div data-bb-type="round-panel">
+		<div data-bb-type="panel-header">BBM Bubble Item Functions</div>
+		
+		<div>
+			<div data-bb-type="bbm-bubble" data-bb-style="right" id="myBBMBubble2">
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png" id="item4">The big island was fun.. We were there for our honeymoon!</div>
+			</div>
+		</div>
+
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('item4').setCaption(document.getElementById('item3').getCaption());" id="setGetCaption">Set Caption</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('item4').setImage(document.getElementById('item3').getImage());" id="setGetImage">Set Image</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('item4').remove();" id="remove">Remove Item</div>
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
-
