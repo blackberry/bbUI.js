@@ -6030,6 +6030,18 @@ _bb10_pillButtons = {
 				innerChildNode.addEventListener('click',function (e) { 
 							e.stopPropagation();
 						}, true);
+				
+				// setCaption function
+				innerChildNode.setCaption = function(value){ 
+					this.firstChild.innerHTML = value;
+			    };
+				innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+				
+				// getCaption function, returns null if no button
+				innerChildNode.getCaption = function(){ 
+					return this.firstChild.innerHTML;
+			    };
+				innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode); 
 						
 				return innerChildNode;
 			};

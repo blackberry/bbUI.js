@@ -18,9 +18,9 @@
 	<script id="dynamicPillButtonsJS" src="js/dynamicPillButtons.js" ></script>
 	
 	<div data-bb-type="pill-buttons" id="myPillButtons">
-		<div data-bb-type="pill-button" data-bb-selected="true">Contact</div>
-		<div data-bb-type="pill-button">Address</div>
-		<div data-bb-type="pill-button">Phone</div>
+		<div data-bb-type="pill-button" data-bb-selected="true" id="button1">Contact</div>
+		<div data-bb-type="pill-button" id="button2">Address</div>
+		<div data-bb-type="pill-button" id="button3">Phone</div>
 	</div>
 	
     <div data-bb-type="round-panel"> 
@@ -31,6 +31,7 @@
         <div data-bb-type="button" data-bb-style="stretch" onclick="alert(document.getElementById('myPillButtons').getButtons());" id="get">Get Pill Buttons</div>             
 		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPillButtons').clear();" id="clear">Clear Pill Buttons</div>
 		<div data-bb-type="button" data-bb-style="stretch" onclick="appendButton()" id="append">appendButton()</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('button3').setCaption(document.getElementById('button1').getCaption());" id="title">Change Button Title</div>
 	</div>
 	
 	<div data-bb-type="round-panel"> 
