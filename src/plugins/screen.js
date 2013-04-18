@@ -35,7 +35,7 @@ bb.screen = {
 			//check to see if a menu/menuBar needs to be created
            
             if (bb.device.isBB10) {
-				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]'),
                 	titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]'),
