@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.131*/
+/* VERSION: 0.9.6.132*/
 
 body, html {
 	padding:0;
@@ -921,7 +921,6 @@ body, html {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	top: -143px;
 	font-size: 100%;
 	z-index:1002;
 	height: 140px;
@@ -962,7 +961,6 @@ body, html {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	top: -113px;
 	font-size: 100%;
 	z-index:1002;
 	height: 110px;
