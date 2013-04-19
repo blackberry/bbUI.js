@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.132*/
+/* VERSION: 0.9.6.133*/
 
 bb = {
 	scroller: null,  
@@ -2536,8 +2536,30 @@ bb.screen = {
 						evt = document.createEvent('Events');
 						evt.initEvent('bbuiscrolling', true, true);
 						document.dispatchEvent(evt);
+						/* This is a major hack to fix an issue in webkit where it doesn't always
+						   understand when to re-paint the screen when scrolling a <div> with overflow
+						   and using the inertial scrolling */
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
+						
+						/* ************* END OF THE SCROLLING HACK *******************/
+						
 					},false);
-
+				
+				/* ********** PART OF THE SCROLLING HACK ************/
+				outerScrollArea.resetPadding = function() {
+						this.style['padding-right'] = '0px';
+						this.timeout = null;
+					};
+				outerScrollArea.resetPadding = outerScrollArea.resetPadding.bind(outerScrollArea);
+				/* ********** END OF THE SCROLLING HACK ************/
+				
+				
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
 					var overlay = document.createElement('div'),
@@ -3004,7 +3026,6 @@ bb.screen = {
 	}
 		
 };
-
 bb.tabOverflow = {
 
 	create : function(screen) {
@@ -9272,8 +9293,30 @@ _bb_PlayBook_10_scrollPanel = {
 						// Raise an internal event to let the rest of the framework know that content is scrolling
 						evt = document.createEvent('Events');
 						evt.initEvent('bbuiscrolling', true, true);
-						document.dispatchEvent(evt);
+						document.dispatchEvent(evt);	
+
+						/* This is a major hack to fix an issue in webkit where it doesn't always
+						   understand when to re-paint the screen when scrolling a <div> with overflow
+						   and using the inertial scrolling */
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
+						
+						/* ************* END OF THE SCROLLING HACK *******************/
+						
 					},false);
+					
+				/* ********** PART OF THE SCROLLING HACK ************/
+				outerElement.resetPadding = function() {
+						this.style['padding-right'] = '0px';
+						this.timeout = null;
+					};
+				outerElement.resetPadding = outerElement.resetPadding.bind(outerElement);
+				/* ********** END OF THE SCROLLING HACK ************/
 			}
 			
 			// Add show function
@@ -9333,8 +9376,7 @@ _bb_PlayBook_10_scrollPanel = {
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
 			outerElement.setAttribute('class','bb-scroll-panel');
 		}
-	}
-	
+	}	
 };
 // BlackBerry 10 Context Menu for PlayBook
 _PlayBook_contextMenu = {
