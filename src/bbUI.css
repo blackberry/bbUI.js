@@ -1070,7 +1070,8 @@ body, html {
 
 .bb-bb10-input::-webkit-input-placeholder 
 { 
-	color:#555555; 
+	/*color:#555555; */
+	color: silver;
 }
 
 .bb-bb10-input-cancel-button {
@@ -6462,4 +6463,5 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 

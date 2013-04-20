@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.134*/
+/* VERSION: 0.9.6.135*/
 
 body, html {
 	padding:0;
@@ -1088,7 +1088,8 @@ body, html {
 
 .bb-bb10-input::-webkit-input-placeholder 
 { 
-	color:#555555; 
+	/*color:#555555; */
+	color: silver;
 }
 
 .bb-bb10-input-cancel-button {
@@ -6480,5 +6481,6 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
