@@ -368,7 +368,9 @@ _bb10_imageList = {
 							json.id = innerChildNode.guid;
 							json.type = 'bbui-context';
 							json.header = innerChildNode.title;
-							json.subheader = innerChildNode.description;
+							if (innerChildNode.description && (innerChildNode.description != '&nbsp;')) {
+								json.subheader = innerChildNode.description;
+							}
 							innerChildNode.setAttribute('data-webworks-context', JSON.stringify(json));
 						}	
 						

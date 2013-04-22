@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.135*/
+/* VERSION: 0.9.6.136*/
 
 bb = {
 	scroller: null,  
@@ -5684,7 +5684,9 @@ _bb10_imageList = {
 							json.id = innerChildNode.guid;
 							json.type = 'bbui-context';
 							json.header = innerChildNode.title;
-							json.subheader = innerChildNode.description;
+							if (innerChildNode.description && (innerChildNode.description != '&nbsp;')) {
+								json.subheader = innerChildNode.description;
+							}
 							innerChildNode.setAttribute('data-webworks-context', JSON.stringify(json));
 						}	
 						
