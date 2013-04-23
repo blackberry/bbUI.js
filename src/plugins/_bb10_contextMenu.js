@@ -10,7 +10,6 @@ _bb10_contextMenu = {
 		var menu = document.createElement('div');
 		menu.style.display = 'none';
 		menu.actions = [];
-		menu.pinnedAction = undefined;
 		
 		// Handle our context open event
 		menu.oncontextmenu = function(contextEvent) {
@@ -24,7 +23,8 @@ _bb10_contextMenu = {
 					if (node.hasAttribute) {
 						bbuiType = node.hasAttribute('data-bb-type') ? node.getAttribute('data-bb-type').toLowerCase() : undefined;
 						if (bbuiType == 'item') {
-							found = true;
+							// Make sure it has the webworks attribute
+							found = node.hasAttribute('data-webworks-context');
 							break;
 						} 
 					}
@@ -40,6 +40,8 @@ _bb10_contextMenu = {
 							description : data.subheader,
 							selected : node
 						};
+				} else {
+					contextEvent.preventDefault();
 				}
 				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);				
 			};
@@ -70,15 +72,14 @@ _bb10_contextMenu = {
 					};
 				// Assign a pointer to the menu item
 				bb.contextMenu.actionIds.push(menuItem.actionId);
+				action.pinned = false;
 				action.menuItem = menuItem;
 				action.menu = this;
 				action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
 				
 				// Check for the pinned item
-				if (!this.pinnedAction) {
-					if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
-						this.pinnedAction = action;
-					}
+				if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
+					action.pinned = true;
 				}
 				// Handle the click of the menu item
 				action.doclick = function(id) {
@@ -122,15 +123,20 @@ _bb10_contextMenu = {
 		menu.centerMenuItems = function() {
 				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
 					i,
+					pinnedAction = false,
 					action,
 					options = {
 						includeContextItems: [blackberry.ui.contextmenu.CONTEXT_ALL],
 						includePlatformItems: false,
 						includeMenuServiceItems: false
 					};
+					
 				// See if we have a pinned action
-				if (this.pinnedAction) {
-					options.pinnedItemId = this.pinnedAction.menuItem.actionId;
+				for (i = 0; i < this.actions.length; i++) {
+					action = this.actions[i];
+					if (action.visible && action.pinned) {
+						options.pinnedItemId = action.menuItem.actionId;
+					}
 				}
 				// First clear any items that exist
 				this.clearWWcontextMenu();
