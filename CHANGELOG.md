@@ -43,6 +43,7 @@ Below you will find all the different changes that have been added since the fir
 	* **BB10 Inputs:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.textInput.style()
 	* **Context Menu:** Added hide(), show() functions to menu items
 	* **Pill Buttons:** Added clear(), appendButton() and ability to style dynamically using bb.pillButtons.style()
+		* Button: Added getCaption(), setCaption functions for BB10 pill buttons
 	* **Buttons:** Added getCaption(), getImage() functions
 	* **Screens:** Added getActionBarHeight(), getTitleBarHeight() functions that return standard heights in pixels
 	* **BB6/7 Title Bars:** Added getCaption(), setCaption() functions

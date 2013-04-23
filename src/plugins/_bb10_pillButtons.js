@@ -137,6 +137,18 @@ _bb10_pillButtons = {
 							e.stopPropagation();
 						}, true);
 						
+				// setCaption function
+				innerChildNode.setCaption = function(value){ 
+					this.border.innerHTML = value;
+			    };
+				innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+				
+				// getCaption function, returns null if no button
+				innerChildNode.getCaption = function(){ 
+					return this.border.innerHTML;
+			    };
+				innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode); 
+						
 				return innerChildNode;
 			};
 		outerElement.styleButton = outerElement.styleButton.bind(outerElement);

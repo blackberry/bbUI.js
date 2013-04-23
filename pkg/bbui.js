@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.138*/
+/* VERSION: 0.9.6.139*/
 
 bb = {
 	scroller: null,  
@@ -6170,6 +6170,18 @@ _bb10_pillButtons = {
 				innerChildNode.addEventListener('click',function (e) { 
 							e.stopPropagation();
 						}, true);
+						
+				// setCaption function
+				innerChildNode.setCaption = function(value){ 
+					this.border.innerHTML = value;
+			    };
+				innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+				
+				// getCaption function, returns null if no button
+				innerChildNode.getCaption = function(){ 
+					return this.border.innerHTML;
+			    };
+				innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode); 
 						
 				return innerChildNode;
 			};
