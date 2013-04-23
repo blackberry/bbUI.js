@@ -35,7 +35,8 @@ Below you will find all the different changes that have been added since the fir
 	* Application/Screen menu now behaves like the Cascades version
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
-	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()
+	* **BBM Bubbles:** Added clear(), getitems() and ability to style dynamically using bb.bbmBubble.style()
+		* Items: Added getCaption(), setCaption(), getImage(), setImage() and remove() functions
 	* **Action Bar:** Added show(), hide() functions
 		* Buttons and Tabs: Added show(), hide() functions
 	* **DropDown:** Added getCaption() function
