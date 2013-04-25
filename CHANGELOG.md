@@ -14,8 +14,10 @@ Below you will find all the different changes that have been added since the fir
 		* This may affect code that was showing/hiding/disabling inputs via JavaScript. 
 		* New JavaScript interfaces have been added to input controls for BB10.
 		* Inputs now grow to their container size. You may need to adjust container sizing to get the desired layout result
+	* BB10 data-bb-image-effect="fade" for image lists have been removed for performance reasons
 * Notable Updates
 	* Improved animation smoothness for tab overflow show/hide
+	* Improved speed when scrolling large image lists of up to around 100 items
 	* Toggle Buttons, Pill Buttons and Progress bars animate their state after the screen transition ends. This helps for screen transition smooth animations
 	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads

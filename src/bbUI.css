@@ -3498,7 +3498,7 @@ a.bb5-button-highlight span {
 	border-color: transparent;
 	background-color: transparent;
 	z-index: 100;
-	margin-top: -98px;
+	margin-top: -133px;
 	margin-left: -5px;
 	height: 101px;
 }
@@ -3509,11 +3509,24 @@ a.bb5-button-highlight span {
 	margin-left:130px;
 	margin-bottom: 0px;
 	margin-top:17px;
+	
+	margin-left: -5px;
+	height: 140px;
+	background-repeat: no-repeat;
+	padding-left: 119px;
+	background-size: 109px 109px;
+	background-position: 0px 7px;
+}
+
+.bb-bb10-image-list-item-details-nodescription-1280x768-1280x720
+{
+	background-position: 0px 0px;
+	margin-top: 1px;
 }
 
 .bb-bb10-image-list-item-noimage-1280x768-1280x720
 {
-	margin-left:10px;
+	padding-left:10px;
 }
 
 .bb-bb10-image-list-item-1280x768-1280x720 .title
@@ -3525,16 +3538,6 @@ a.bb5-button-highlight span {
 	text-overflow: -blackberry-fade;
 	padding-top:5px;
 	margin-top: -30px;
-}
-
-.bb-bb10-image-list-item-1280x768-1280x720 img
-{
-	position:relative;
-	left: -5px;	
-	top: -6px;
-	float:left;
-	height:109px;
-	width:109px;
 }
 
 .bb-bb10-image-list-item-1280x768-1280x720 .description
@@ -3573,7 +3576,7 @@ a.bb5-button-highlight span {
 	float:right;
 	width:68px;
 	height:108px;
-	margin-top: -105px;
+	margin-top: -140px;
 	padding-left: 20px;
 	z-index: 100;
 }
@@ -3636,7 +3639,7 @@ a.bb5-button-highlight span {
 	border-color: transparent;
 	background-color: transparent;
 	z-index: 100;
-	margin-top: -86px;
+	margin-top: -127px;
 	margin-left: -5px;
 	height: 84px;
 }
@@ -3644,14 +3647,27 @@ a.bb5-button-highlight span {
 .bb-bb10-image-list-item-details-720x720
 {
 	position:relative;
-	margin-left:105px;
 	margin-bottom: 0px;
 	margin-top:17px;
+	
+	margin-left: -5px;
+	height: 140px;
+	background-repeat: no-repeat;
+	padding-left: 105px;
+	background-size: 92px 92px;
+	background-position: 0px 13px;
+}
+
+
+.bb-bb10-image-list-item-details-nodescription-720x720
+{
+	background-position: 0px 7px;
+	margin-top: 1px;
 }
 
 .bb-bb10-image-list-item-noimage-720x720
 {
-	margin-left:10px;
+	padding-left:10px;
 }
 
 .bb-bb10-image-list-item-720x720 .title
@@ -3665,15 +3681,6 @@ a.bb5-button-highlight span {
 	margin-top: -36px;
 }
 
-.bb-bb10-image-list-item-720x720 img
-{
-	position:relative;
-	left: -5px;	
-	top: -6px;
-	float:left;
-	height:92px;
-	width:92px;
-}
 
 .bb-bb10-image-list-item-720x720 .description
 {
@@ -3711,7 +3718,7 @@ a.bb5-button-highlight span {
 	float:right;
 	width:68px;
 	height:108px;
-	margin-top: -90px;
+	margin-top: -130px;
 	padding-left: 20px;
 	z-index: 100;
 }
@@ -3772,7 +3779,7 @@ a.bb5-button-highlight span {
 	border-color: transparent;
 	background-color: transparent;
 	z-index: 100;
-	margin-top: -61px;
+	margin-top: -97px;
 	margin-left: -5px;
 	height: 53px;	
 }
@@ -3780,14 +3787,26 @@ a.bb5-button-highlight span {
 .bb-bb10-image-list-item-details-1024x600 
 {
 	position:relative;
-	margin-left:70px;
 	margin-bottom: 0px;
-	margin-top:5px;
+	margin-top:-6px;
+	margin-left: -5px;
+	height: 100px;
+	background-repeat: no-repeat;
+	padding-left: 70px;
+	background-size: 64px 64px;
+	background-position: 0px 0px;
+}
+
+
+.bb-bb10-image-list-item-details-nodescription-1024x600 
+{
+	background-position: 0px 0px;
+	margin-top: -25px;
 }
 
 .bb-bb10-image-list-item-noimage-1024x600
 {
-	margin-left:5px;
+	padding-left:5px;
 }
 
 .bb-bb10-image-list-item-1024x600 .title
@@ -3797,18 +3816,9 @@ a.bb5-button-highlight span {
 	text-overflow: ellipsis;
 	font-size: 20pt;
 	line-height:20px;	
-	padding-top:5px;
+	padding-top:15px;
 }
 
-.bb-bb10-image-list-item-1024x600 img
-{
-	position:relative;
-	left: -5px;	
-	float:left;
-	height:64px;
-	width:64px;
-	top:-8px;
-}
 
 .bb-bb10-image-list-item-1024x600 .description
 {
@@ -3835,7 +3845,7 @@ a.bb5-button-highlight span {
 	float:right;
 	width:34px;
 	height:59px;
-	margin-top: -59px;
+	margin-top: -94px;
 	padding-left: 10px;
 	z-index: 100;
 }
@@ -6463,5 +6473,6 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
