@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.140*/
+/* VERSION: 0.9.6.141*/
 
 bb = {
 	scroller: null,  
@@ -5648,28 +5648,28 @@ _bb10_imageList = {
 								title.style['padding-top'] = '28px';
 								overlay.style['margin-top'] = '-94px';
 								if (innerChildNode.btn) {
-									innerChildNode.btn.style['margin-top'] = '-80px';
+									innerChildNode.btn.style['margin-top'] = '-59px';
 								}
 							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-140px';
 								if (innerChildNode.btn) {
-									innerChildNode.btn.style['margin-top'] = '-122px';
+									innerChildNode.btn.style['margin-top'] = '-102px';
 								}
 							} else if (bb.device.is720x720) {
 								title.style['margin-top'] = '-14px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-133px';
 								if (innerChildNode.btn) {
-									innerChildNode.btn.style['margin-top'] = '-115px';
+									innerChildNode.btn.style['margin-top'] = '-89px';
 								}
 							}else {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-121px';
 								if (innerChildNode.btn) {
-									innerChildNode.btn.style['margin-top'] = '-122px';
+									innerChildNode.btn.style['margin-top'] = '-102px';
 								}
 							}
 							// Adjust accent text

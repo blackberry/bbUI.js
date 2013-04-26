@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.140*/
+/* VERSION: 0.9.6.141*/
 
 body, html {
 	padding:0;
@@ -3594,7 +3594,7 @@ a.bb5-button-highlight span {
 	float:right;
 	width:68px;
 	height:108px;
-	margin-top: -140px;
+	margin-top: -105px;
 	padding-left: 20px;
 	z-index: 100;
 }
@@ -3736,7 +3736,7 @@ a.bb5-button-highlight span {
 	float:right;
 	width:68px;
 	height:108px;
-	margin-top: -130px;
+	margin-top: -92px;
 	padding-left: 20px;
 	z-index: 100;
 }
@@ -3863,7 +3863,7 @@ a.bb5-button-highlight span {
 	float:right;
 	width:34px;
 	height:59px;
-	margin-top: -94px;
+	margin-top: -59px;
 	padding-left: 10px;
 	z-index: 100;
 }
