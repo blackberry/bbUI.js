@@ -22,6 +22,7 @@ _bb10_imageList = {
 			outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
 			if (!outerElement.hideImages) {
 				outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				outerElement.imageLoading = outerElement.hasAttribute('data-bb-image-loading') ? outerElement.getAttribute('data-bb-image-loading') : undefined;
 			}
 			
 			// See what kind of style they want for this list
@@ -105,23 +106,44 @@ _bb10_imageList = {
 						} else {
 							img = new Image();
 							innerChildNode.img = img;
-							img.innerChildNode = innerChildNode;
 							if (this.imagePlaceholder) {
 								img.placeholder = this.imagePlaceholder;
 								img.path = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
 							} else {
 								img.path = innerChildNode.getAttribute('data-bb-img');
 							}
-							// Load the image
-							img.onload = function() {
-								this.innerChildNode.details.style['background-image'] = 'url("'+this.src+'")';
-							}
-							// Handle the error scenario
+							// Handle our loaded image
+							innerChildNode.onimageload = function() {
+									this.details.style['background-image'] = 'url("'+this.img.src+'")';
+									innerChildNode.details.style['background-size'] = '';
+									// Unassign this image so that it is removed from memory
+									this.img = null;
+								};
+							innerChildNode.onimageload = innerChildNode.onimageload.bind(innerChildNode);
+							img.onload = innerChildNode.onimageload;
+							
 							if (this.imagePlaceholder) {
-								img.onerror = function() {
-												if (this.src == this.placeholder) return;
-												this.src = this.placeholder;
-											};
+								// Handle our error state
+								innerChildNode.onimageerror = function() {
+									if (this.img.src == this.img.placeholder) return;
+									this.img.src = this.img.placeholder;
+								};
+								innerChildNode.onimageerror = innerChildNode.onimageerror.bind(innerChildNode);
+								img.onerror = innerChildNode.onimageerror;
+							}
+							// Add our loading image
+							if (this.imageLoading) {
+								innerChildNode.details.style['background-image'] = 'url("'+this.imageLoading+'")';
+								// Hack to adjust background sizes for re-paint issues in webkit
+								if (bb.device.is1024x600) {
+									innerChildNode.details.style['background-size'] = '64px 65px';
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									innerChildNode.details.style['background-size'] = '109px 110px';
+								} else if (bb.device.is720x720) {
+									innerChildNode.details.style['background-size'] = '92px 93px';
+								}else {
+									innerChildNode.details.style['background-size'] = '109px 110px';
+								}
 							}
 							img.src = img.path;
 						}
