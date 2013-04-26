@@ -5590,6 +5590,14 @@ a.bb5-button-highlight span {
 	/*place holder for no changes*/
 }
 
+.bb-bb10-action-bar-slide-label-1024x600 {
+	display:none;
+}
+
+.bb-bb10-action-bar-slide-label-text-1024x600 {
+	display:none;
+}
+
  /* ================================================= 
    BB10 Action Bar 1280x786 and 1280x720
    =================================================*/
@@ -5781,6 +5789,14 @@ a.bb5-button-highlight span {
 
 .bb-bb10-action-bar-overflow-button-landscape-1280x768-1280x720 {
 	margin-top: -3px;
+}
+
+.bb-bb10-action-bar-slide-label-1280x768-1280x720 {
+	display:none;
+}
+
+.bb-bb10-action-bar-slide-label-text-1280x768-1280x720 {
+	display:none;
 }
 
 /* ================================================= 
@@ -5975,6 +5991,34 @@ a.bb5-button-highlight span {
 
 .bb-bb10-action-bar-overflow-button-landscape-720x720 {
 	margin-top: 0px;
+}
+
+.bb-bb10-action-bar-slide-label-720x720 {
+	position:fixed;
+	height: 0px;
+	width: 100%;
+	bottom: 108px;
+	opacity: 0.4;
+	background-color: black;
+	border-top: 1px solid #464646;
+	-webkit-transition: height 0.1s linear;
+	-webkit-backface-visibility: hidden;
+}
+
+.bb-bb10-action-bar-slide-label-text-720x720 {
+	position:fixed;
+	height: 0px;
+	line-height: 48px;
+	text-align: center;
+	color: white;
+	font-size:20pt;
+	width: 200px;
+	bottom: 108px;
+	visibility: hidden;
+	-webkit-transition-property: height, visibility;
+	-webkit-transition-duration: 0.1s, 0.3;
+	-webkit-transition-timing-function: linear, linear;
+	-webkit-backface-visibility: hidden;
 }
  
 /* ================================================= 
@@ -6473,6 +6517,7 @@ a.bb5-button-highlight span {
 	padding-top: 0px;
 	width: 10px;
 }
+
 
 
 

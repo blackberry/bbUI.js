@@ -32,6 +32,7 @@ Below you will find all the different changes that have been added since the fir
 	* Updated Action Bars to have a minimized version when in landscape
 	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
 	* Action Bar styling improvements to better match Cascades
+		* This includes press and hold pop-up tips for the caption on action bar items for Q10
 	* DropDown controls now allow for a second line of text using the data-bb-accent text property on an &lg;option&gt;
 	* Control Groups/Round Panels have now been updated to the latest styling
 	* Application/Screen menu now behaves like the Cascades version
