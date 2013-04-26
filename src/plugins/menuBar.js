@@ -84,6 +84,24 @@ bb.menuBar = {
 				bb.menuBar.height = 110;
 			}
 
+			// Handle any press-and-hold events
+			bb10Menu.oncontextmenu = function(contextEvent) {
+				var node = contextEvent.srcElement,
+					parentNode = node.parentNode;
+				// Loop up to the parent node.. if it is this action bar then prevent default
+				if (!parentNode) return;
+				while (parentNode) {
+					if (parentNode == this) {
+						contextEvent.preventDefault();
+						break;
+					}
+					parentNode = parentNode.parentNode;
+				}			
+			};
+			bb10Menu.oncontextmenu = bb10Menu.oncontextmenu.bind(bb10Menu);
+			window.addEventListener('contextmenu', bb10Menu.oncontextmenu);
+			bb.windowListeners.push({name: 'contextmenu', eventHandler: bb10Menu.oncontextmenu});
+			
 			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-dark');
 			items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
 			if(items.length > 0){

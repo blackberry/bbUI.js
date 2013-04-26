@@ -32,6 +32,24 @@ bb.tabOverflow = {
 		menu.style.display = 'none';
 		menu.style.width = menu.width + 'px';
 		
+		// Handle any press-and-hold events
+		menu.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
+		window.addEventListener('contextmenu', menu.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
+		
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');
 			overlay.menu = menu;

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.142*/
+/* VERSION: 0.9.6.143*/
 
 bb = {
 	scroller: null,  
@@ -975,6 +975,24 @@ bb.actionBar = {
 		actionBar.overflowButtons = overflowButtons;
 		actionBar.overflowTabs = overflowTabs;
 		
+		// Handle any press-and-hold events
+		actionBar.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		actionBar.oncontextmenu = actionBar.oncontextmenu.bind(actionBar);
+		window.addEventListener('contextmenu', actionBar.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: actionBar.oncontextmenu});
+			
 		// Gather our action bar and action overflow tabs and buttons
 		for (j = 0; j < actions.length; j++) {
 			action = actions[j];
@@ -2065,6 +2083,24 @@ bb.menuBar = {
 				bb.menuBar.height = 110;
 			}
 
+			// Handle any press-and-hold events
+			bb10Menu.oncontextmenu = function(contextEvent) {
+				var node = contextEvent.srcElement,
+					parentNode = node.parentNode;
+				// Loop up to the parent node.. if it is this action bar then prevent default
+				if (!parentNode) return;
+				while (parentNode) {
+					if (parentNode == this) {
+						contextEvent.preventDefault();
+						break;
+					}
+					parentNode = parentNode.parentNode;
+				}			
+			};
+			bb10Menu.oncontextmenu = bb10Menu.oncontextmenu.bind(bb10Menu);
+			window.addEventListener('contextmenu', bb10Menu.oncontextmenu);
+			bb.windowListeners.push({name: 'contextmenu', eventHandler: bb10Menu.oncontextmenu});
+			
 			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-dark');
 			items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
 			if(items.length > 0){
@@ -2340,7 +2376,6 @@ bb.menuBar = {
 		}
 	}
 };
-
 _bb_progress = {
 
 	NORMAL : 0,
@@ -3136,6 +3171,24 @@ bb.tabOverflow = {
 		menu.style['z-index'] = '-100';
 		menu.style.display = 'none';
 		menu.style.width = menu.width + 'px';
+		
+		// Handle any press-and-hold events
+		menu.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
+		window.addEventListener('contextmenu', menu.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
 		
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');

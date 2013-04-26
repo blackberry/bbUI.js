@@ -40,6 +40,24 @@ bb.actionBar = {
 		actionBar.overflowButtons = overflowButtons;
 		actionBar.overflowTabs = overflowTabs;
 		
+		// Handle any press-and-hold events
+		actionBar.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		actionBar.oncontextmenu = actionBar.oncontextmenu.bind(actionBar);
+		window.addEventListener('contextmenu', actionBar.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: actionBar.oncontextmenu});
+			
 		// Gather our action bar and action overflow tabs and buttons
 		for (j = 0; j < actions.length; j++) {
 			action = actions[j];
