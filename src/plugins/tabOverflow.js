@@ -283,6 +283,7 @@ bb.tabOverflow = {
 
 				// See if it was selected
 				action.initialSelected = (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true'));
+				action.selected = action.initialSelected;
 				
 				// Trap the old click so that we can call it later
 				action.oldClick = action.onclick;
@@ -301,6 +302,13 @@ bb.tabOverflow = {
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
+									this.caption = value;
+									
+									// Update the overflow button if this tab is selected
+									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+									if ((this.visibleTab == tabOverflowBtn) && (this.selected == true)) {
+										tabOverflowBtn.display.innerHTML = this.caption;
+									}
 								};
 				action.setCaption = action.setCaption.bind(action);
 				

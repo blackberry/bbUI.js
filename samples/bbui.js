@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.144*/
+/* VERSION: 0.9.6.145*/
 
 bb = {
 	scroller: null,  
@@ -1847,9 +1847,11 @@ bb.actionBar = {
 		// Now highlight this action
 		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
+		action.selected = true;
 		
 		if (overflowAction) {
 			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+			overflowAction.selected = true;
 		}
 		
 		// See if there was a tab overflow
@@ -1884,6 +1886,7 @@ bb.actionBar = {
 			for (i = 0; i < tabs.length; i++) {
 				target = tabs[i];
 				target.setAttribute('class', target.normal);
+				target.selected = false;
 			}
 		}
 	}
@@ -3490,6 +3493,7 @@ bb.tabOverflow = {
 
 				// See if it was selected
 				action.initialSelected = (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true'));
+				action.selected = action.initialSelected;
 				
 				// Trap the old click so that we can call it later
 				action.oldClick = action.onclick;
@@ -3508,6 +3512,13 @@ bb.tabOverflow = {
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
+									this.caption = value;
+									
+									// Update the overflow button if this tab is selected
+									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+									if ((this.visibleTab == tabOverflowBtn) && (this.selected == true)) {
+										tabOverflowBtn.display.innerHTML = this.caption;
+									}
 								};
 				action.setCaption = action.setCaption.bind(action);
 				

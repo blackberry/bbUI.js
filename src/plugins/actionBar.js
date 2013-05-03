@@ -912,9 +912,11 @@ bb.actionBar = {
 		// Now highlight this action
 		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
+		action.selected = true;
 		
 		if (overflowAction) {
 			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+			overflowAction.selected = true;
 		}
 		
 		// See if there was a tab overflow
@@ -949,6 +951,7 @@ bb.actionBar = {
 			for (i = 0; i < tabs.length; i++) {
 				target = tabs[i];
 				target.setAttribute('class', target.normal);
+				target.selected = false;
 			}
 		}
 	}
