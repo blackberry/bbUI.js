@@ -33,7 +33,27 @@
 	<div style="padding-top:50px">
 		<div data-bb-type="button" data-bb-style="stretch" onclick="moveSlider()">Slide with a Timer</div>
 	</div>
-	
+	<div data-bb-type="round-panel">
+		<div data-bb-type="panel-header">RGBA Color Slider</div>
+		<table style="position: relative; left: 5%; width: 90%; text-shadow: white 5px 5px 5px;">	
+			<tr>
+				<td>Red: </td>
+				<td style="width:100%"><input id="redslide" type="range" min="0" max="255" value="255" step="1" style="width:100%" onchange="colorDiv();"/></td>
+			</tr>
+			<tr>
+				<td>Green: </td>
+				<td style="width:100%"><input id="greenslide" type="range" min="0" max="255" value="255" step="1" style="width:100%" onchange="colorDiv();"/></td>
+			</tr>
+			<tr>
+				<td>Blue: </td>
+				<td style="width:100%"><input id="blueslide" type="range" min="0" max="255" value="255" step="1" style="width:100%" onchange="colorDiv();"/></td>
+			</tr>
+			<tr>
+				<td>Alpha: </td>
+				<td style="width:100%"><input id="alphaslide" type="range" min="0" max="100" value="100" step="1" style="width:100%" onchange="colorDiv();"/></td>
+			</tr>
+		</table>
+	</div>
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
 </div>
 	
