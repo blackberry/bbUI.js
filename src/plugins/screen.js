@@ -35,7 +35,7 @@ bb.screen = {
 			//check to see if a menu/menuBar needs to be created
            
             if (bb.device.isBB10) {
-				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]'),
                 	titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]'),
@@ -106,8 +106,30 @@ bb.screen = {
 						evt = document.createEvent('Events');
 						evt.initEvent('bbuiscrolling', true, true);
 						document.dispatchEvent(evt);
+						/* This is a major hack to fix an issue in webkit where it doesn't always
+						   understand when to re-paint the screen when scrolling a <div> with overflow
+						   and using the inertial scrolling */
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
+						
+						/* ************* END OF THE SCROLLING HACK *******************/
+						
 					},false);
-
+				
+				/* ********** PART OF THE SCROLLING HACK ************/
+				outerScrollArea.resetPadding = function() {
+						this.style['padding-right'] = '0px';
+						this.timeout = null;
+					};
+				outerScrollArea.resetPadding = outerScrollArea.resetPadding.bind(outerScrollArea);
+				/* ********** END OF THE SCROLLING HACK ************/
+				
+				
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
 					var overlay = document.createElement('div'),

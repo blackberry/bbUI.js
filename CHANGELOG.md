@@ -14,8 +14,10 @@ Below you will find all the different changes that have been added since the fir
 		* This may affect code that was showing/hiding/disabling inputs via JavaScript. 
 		* New JavaScript interfaces have been added to input controls for BB10.
 		* Inputs now grow to their container size. You may need to adjust container sizing to get the desired layout result
+	* BB10 data-bb-image-effect="fade" for image lists have been removed for performance reasons
 * Notable Updates
 	* Improved animation smoothness for tab overflow show/hide
+	* Improved speed when scrolling large image lists of up to around 100 items
 	* Toggle Buttons, Pill Buttons and Progress bars animate their state after the screen transition ends. This helps for screen transition smooth animations
 	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads
@@ -30,18 +32,21 @@ Below you will find all the different changes that have been added since the fir
 	* Updated Action Bars to have a minimized version when in landscape
 	* Image list selection highlighting on touch and press-and-hold updated to match Cascades
 	* Action Bar styling improvements to better match Cascades
+		* This includes press and hold pop-up tips for the caption on action bar items for Q10
 	* DropDown controls now allow for a second line of text using the data-bb-accent text property on an &lg;option&gt;
 	* Control Groups/Round Panels have now been updated to the latest styling
 	* Application/Screen menu now behaves like the Cascades version
 * JavaScript Interfaces
 	* **Radio Buttons:** Added ability to style dynamically using bb.radio.style()
-	* **BBM Bubbles:** Added ability to style dynamically using bb.bbmBubble.style()
+	* **BBM Bubbles:** Added clear(), getitems() and ability to style dynamically using bb.bbmBubble.style()
+		* Items: Added getCaption(), setCaption(), getImage(), setImage() and remove() functions
 	* **Action Bar:** Added show(), hide() functions
 		* Buttons and Tabs: Added show(), hide() functions
 	* **DropDown:** Added getCaption() function
 	* **BB10 Inputs:** Added show(), hide(), remove(), enable(), disable() functions and ability to style dynamically using bb.textInput.style()
 	* **Context Menu:** Added hide(), show() functions to menu items
 	* **Pill Buttons:** Added clear(), appendButton() and ability to style dynamically using bb.pillButtons.style()
+		* Button: Added getCaption(), setCaption functions for BB10 pill buttons
 	* **Buttons:** Added getCaption(), getImage() functions
 	* **Screens:** Added getActionBarHeight(), getTitleBarHeight() functions that return standard heights in pixels
 	* **BB6/7 Title Bars:** Added getCaption(), setCaption() functions

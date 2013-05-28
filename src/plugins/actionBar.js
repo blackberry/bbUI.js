@@ -21,7 +21,9 @@ bb.actionBar = {
 			res = '1280x768-1280x720',
 			icon,
 			j,
-			orientation = bb.getOrientation();
+			orientation = bb.getOrientation(),
+			slideLabel = document.createElement('div'),
+			slideText = document.createElement('div');
 			
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
@@ -40,6 +42,65 @@ bb.actionBar = {
 		actionBar.overflowButtons = overflowButtons;
 		actionBar.overflowTabs = overflowTabs;
 		
+		// Handle any press-and-hold events
+		actionBar.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		actionBar.oncontextmenu = actionBar.oncontextmenu.bind(actionBar);
+		window.addEventListener('contextmenu', actionBar.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: actionBar.oncontextmenu});
+		
+		// Create our sliding label area for Q10
+		slideLabel.setAttribute('class','bb-bb10-action-bar-slide-label-'+res);
+		actionBar.slideLabel = slideLabel;
+		slideText.setAttribute('class','bb-bb10-action-bar-slide-label-text-'+res);
+		actionBar.slideText = slideText;
+		actionBar.parentNode.appendChild(slideLabel);
+		actionBar.parentNode.appendChild(slideText);
+		actionBar.slideUpShown = false;
+		
+		// Timer for the slide up label for Q10
+		actionBar.doLabelTimer = function() {
+			this.slideUpShown = true;
+			this.slideLabel.style.height = '48px';
+			this.slideText.style.height = '48px';
+			this.slideText.style.visibility = 'visible';
+		};
+		actionBar.doLabelTimer = actionBar.doLabelTimer.bind(actionBar);
+		// Handles the closing of the label bar for Q10
+		actionBar.doTouchEnd = function() {
+			if (this.timer) clearTimeout(this.timer);
+			if (this.slideUpShown) {
+				this.slideUpShown = false;
+				this.slideLabel.style.height = '0px';
+				this.slideText.style.visibility = 'hidden';
+				this.slideText.style.height = '0px';
+			}
+		}
+		actionBar.doTouchEnd = actionBar.doTouchEnd.bind(actionBar);
+		// Make the label appear on the press and hold for Q10
+		actionBar.showLabel = function(actionItem, text) {
+			if (bb.device.is720x720) {
+				var computedStyle = window.getComputedStyle(actionItem);
+				this.slideText.innerHTML = text;
+				this.slideText.style.width = parseInt(computedStyle.width)+'px';
+				this.slideText.style['margin-left'] = (bb.actionBar.getBackBtnWidth(this.backBtn) + actionItem.offsetLeft) + 'px';
+				this.timer = setTimeout(this.doLabelTimer,1000);	
+			}
+		}
+		actionBar.showLabel = actionBar.showLabel.bind(actionBar);
+		
+					
 		// Gather our action bar and action overflow tabs and buttons
 		for (j = 0; j < actions.length; j++) {
 			action = actions[j];
@@ -568,6 +629,15 @@ bb.actionBar = {
 			// Add our show() function
 			tab.show = bb.actionBar.actionShow;
 			tab.show = tab.show.bind(tab);
+			
+			// Handle press-and-hold on Q10
+			tab.ontouchstart = function() {
+					this.actionBar.showLabel(this,this.display.innerHTML);				
+			}
+			// Remove highlight when touch ends
+			tab.ontouchend = function() {
+					this.actionBar.doTouchEnd();
+			}			
 		}
 		
 		// Add our tab overflow buton styling if one exists
@@ -612,7 +682,17 @@ bb.actionBar = {
 						this.tabHighlight.style.display = 'none';
 						this.display.innerHTML = '&nbsp;';
 					};
-			tabOverflow.reset = tabOverflow.reset.bind(tabOverflow);	
+			tabOverflow.reset = tabOverflow.reset.bind(tabOverflow);
+			
+			// Handle press-and-hold on Q10
+			tabOverflow.ontouchstart = function() {
+					var text = ((this.display.innerHTML == '') || (this.display.innerHTML == '&nbsp;')) ? 'More' : this.display.innerHTML;
+					this.actionBar.showLabel(this,text);				
+			}
+			// Remove highlight when touch ends
+			tabOverflow.ontouchend = function() {
+					this.actionBar.doTouchEnd();
+			}			
 		}
 		
 		// Apply all our button styling
@@ -675,13 +755,16 @@ bb.actionBar = {
 			// Add our show() function
 			button.show = bb.actionBar.actionShow;
 			button.show = button.show.bind(button);
+			
 			// Highlight on touch
 			button.ontouchstart = function() {
-					this.highlight.style['background-color'] = bb.options.highlightColor;				
+					this.highlight.style['background-color'] = bb.options.highlightColor;	
+					this.actionBar.showLabel(this,this.display.innerHTML);				
 			}
 			// Remove highlight when touch ends
 			button.ontouchend = function() {
-					this.highlight.style['background-color'] = 'transparent';				
+					this.highlight.style['background-color'] = 'transparent';
+					this.actionBar.doTouchEnd();
 			}
 		}
 		
@@ -716,12 +799,14 @@ bb.actionBar = {
 			actionOverflow.appendChild(actionOverflow.highlight);
 			// Highlight on touch
 			actionOverflow.ontouchstart = function() {
-					this.highlight.style['background-color'] = bb.options.highlightColor;				
+					this.highlight.style['background-color'] = bb.options.highlightColor;	
+					this.actionBar.showLabel(this,'More');						
 			}
 			// Remove highlight when touch ends
 			actionOverflow.ontouchend = function() {
-					this.highlight.style['background-color'] = 'transparent';				
-			}
+					this.highlight.style['background-color'] = 'transparent';	
+					this.actionBar.doTouchEnd();					
+			}		
 		}
 		// Center the action overflow items
 		if (actionBar.menu) {
@@ -827,9 +912,11 @@ bb.actionBar = {
 		// Now highlight this action
 		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
+		action.selected = true;
 		
 		if (overflowAction) {
 			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+			overflowAction.selected = true;
 		}
 		
 		// See if there was a tab overflow
@@ -864,6 +951,7 @@ bb.actionBar = {
 			for (i = 0; i < tabs.length; i++) {
 				target = tabs[i];
 				target.setAttribute('class', target.normal);
+				target.selected = false;
 			}
 		}
 	}

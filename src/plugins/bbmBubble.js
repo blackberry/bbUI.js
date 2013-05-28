@@ -7,6 +7,68 @@ _bb_bbmBubble = {
     },
 
     style: function(outerElement) {
+		var placeholder, 
+			insidepanel, 
+			image, 
+			innerChildNode,
+			details; 
+		
+		// Style an indiviual item
+		outerElement.styleItem = function(innerChildNode) {
+			image = document.createElement('img');
+			image.setAttribute('src', innerChildNode.getAttribute('data-bb-img'));
+			
+			details = document.createElement('div');
+			details.setAttribute('class','details');
+			details.innerHTML = innerChildNode.innerHTML;
+			
+			innerChildNode.innerHTML = '';
+			
+			innerChildNode.appendChild(image);
+			innerChildNode.appendChild(details);
+			
+			// Set our variables
+			innerChildNode.image = image;
+			innerChildNode.details = details;
+			innerChildNode.outerElement = outerElement;
+
+			// Get bubble item caption
+			innerChildNode.getCaption = function() {
+				return this.details.innerText;
+			};
+			innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode);
+			
+			// Set bubble item caption
+			innerChildNode.setCaption = function(value) {
+				this.details.innerHTML = value;
+				bb.refresh();
+			};
+			innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+			
+			// Get bubble item image
+			innerChildNode.getImage = function() {
+				return this.image.src;
+			};
+			innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
+			
+			// Set bubble item image
+			innerChildNode.setImage = function(value) {
+				this.image.setAttribute('src', value);
+				bb.refresh();
+			};
+			innerChildNode.setImage = innerChildNode.setImage.bind(innerChildNode);
+			
+			// Remove item
+			innerChildNode.remove = function(value) {
+				this.outerHTML = "";
+				bb.refresh();
+			};
+			innerChildNode.remove = innerChildNode.remove.bind(innerChildNode); 
+		
+			return innerChildNode;
+		};
+		outerElement.styleItem = outerElement.styleItem.bind(outerElement);
+		
         if (outerElement.hasAttribute('data-bb-style')) {
             var style = outerElement.getAttribute('data-bb-style').toLowerCase(), j;
             if (style == 'left') {
@@ -21,41 +83,43 @@ _bb_bbmBubble = {
             }
             
             // Create our new <div>'s
-            var placeholder = document.createElement('div');
+            placeholder = document.createElement('div');
             placeholder.setAttribute('class','top-left image');
             outerElement.appendChild(placeholder);
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','top-right image');
             outerElement.appendChild(placeholder);
-            
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','inside');
             outerElement.appendChild(placeholder);
-            
-            var insidePanel = document.createElement('div');
+			
+            insidePanel = document.createElement('div');
             insidePanel.setAttribute('class','nogap');
             placeholder.appendChild(insidePanel);
-            
+			
+			outerElement.insidePanel = insidePanel;
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','bottom-left image');
             outerElement.appendChild(placeholder);
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','bottom-right image');
             outerElement.appendChild(placeholder);
+				
             // Add our previous children back to the insidePanel
             for (j = 0; j < innerElements.length; j++) {
-                var innerChildNode = innerElements[j],
-                    description = innerChildNode.innerHTML;
-                innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n' +
-                        '<div class="details">'+ description +'</div>\n';
-                insidePanel.appendChild(innerChildNode);
+                innerChildNode = innerElements[j];
+				insidePanel.appendChild(outerElement.styleItem(innerChildNode));
             }
         }
         
         // Add our get Style function
         outerElement.getStyle = function() {
                     return this.getAttribute('data-bb-style');
-                };
+		};
         outerElement.getStyle = outerElement.getStyle.bind(outerElement);
         
         // Add setStyle function (left or right)
@@ -92,6 +156,19 @@ _bb_bbmBubble = {
             bb.refresh();
         };
         outerElement.remove = outerElement.remove.bind(outerElement);
+		
+        // Remove all the items in a bubble
+        outerElement.clear = function() {
+            this.insidePanel.innerHTML = "";
+            bb.refresh();
+        };
+        outerElement.clear = outerElement.clear.bind(outerElement);
+    
+        // Get all the items in a bubble
+        outerElement.getItems = function() {
+            return this.querySelectorAll('[data-bb-type=item]');
+        };
+        outerElement.getItems = outerElement.getItems.bind(outerElement); 
         
         return outerElement;
     }

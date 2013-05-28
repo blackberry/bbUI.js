@@ -21,8 +21,8 @@ _bb10_imageList = {
 			outerElement.setAttribute('class','bb-bb10-image-list');
 			outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
 			if (!outerElement.hideImages) {
-				outerElement.imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
 				outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				outerElement.imageLoading = outerElement.hasAttribute('data-bb-image-loading') ? outerElement.getAttribute('data-bb-image-loading') : undefined;
 			}
 			
 			// See what kind of style they want for this list
@@ -58,6 +58,8 @@ _bb10_imageList = {
 						btnInner,
 						json;
 					
+					innerChildNode.btn = undefined;
+
 					if (type == 'header') {
 						// Set our normal and highlight styling
 						normal = 'bb-bb10-image-list-header bb-bb10-image-list-header-'+res;
@@ -91,59 +93,8 @@ _bb10_imageList = {
 						innerChildNode.highlight = highlight;
 						innerChildNode.setAttribute('class', normal);
 						innerChildNode.innerHTML = '';
-						// Create our image
-						if (!this.hideImages) {
-							img = document.createElement('img');
-							img.outerElement = this;
-							
-							innerChildNode.img = img;
-							if (this.imagePlaceholder) {
-								img.placeholder = this.imagePlaceholder;
-								img.path = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
-							} else {
-								img.path = innerChildNode.getAttribute('data-bb-img');
-							}
-							innerChildNode.appendChild(img);
-							
-							if (this.imageEffect) {
-								img.style.opacity = '0';
-								img.style['-webkit-transition'] = 'opacity 0.5s linear';
-								/*img.style['-webkit-backface-visibility'] = 'hidden';
-								img.style['-webkit-perspective'] = 1000;
-								img.style['-webkit-transform'] = 'translate3d(0,0,0)';*/  // This was causing webkit to crash
-								innerChildNode.imageList = this;
-								// Load our image once bbuilistready 
-								innerChildNode.bbuilistready = function() {
-											// Animate its visibility once loaded
-											this.img.onload = function() {
-												this.style.opacity = '1.0';
-											}
-											this.img.src = this.img.path;
-											
-											if (this.imageList.imagePlaceholder) {
-												this.img.onerror = function() {
-													if (this.src == this.placeholder) return;
-													this.src = this.placeholder;
-												};
-											}
-											document.removeEventListener('bbuilistready', this.bbuilistready,false);
-										};
-								innerChildNode.bbuilistready = innerChildNode.bbuilistready.bind(innerChildNode);
-								document.addEventListener('bbuilistready', innerChildNode.bbuilistready,false);
-							} else {
-								img.src = img.path;
-								// Handle the error scenario
-								if (this.imagePlaceholder) {
-									img.onerror = function() {
-													if (this.src == this.placeholder) return;
-													this.src = this.placeholder;
-													if (this.outerElement.imageEffect) {
-														this.show();
-													}
-												};
-								}
-							}
-						}
+						img = undefined;
+			
 						// Create the details container
 						details = document.createElement('div');
 						details.innerChildNode = innerChildNode;
@@ -152,7 +103,50 @@ _bb10_imageList = {
 						detailsClass = 'bb-bb10-image-list-item-details-'+res;
 						if (this.hideImages) {
 							detailsClass = detailsClass + ' bb-bb10-image-list-item-noimage-'+res;
-						} 
+						} else {
+							img = new Image();
+							innerChildNode.img = img;
+							if (this.imagePlaceholder) {
+								img.placeholder = this.imagePlaceholder;
+								img.path = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
+							} else {
+								img.path = innerChildNode.getAttribute('data-bb-img');
+							}
+							// Handle our loaded image
+							innerChildNode.onimageload = function() {
+									this.details.style['background-image'] = 'url("'+this.img.src+'")';
+									innerChildNode.details.style['background-size'] = '';
+									// Unassign this image so that it is removed from memory
+									this.img = null;
+								};
+							innerChildNode.onimageload = innerChildNode.onimageload.bind(innerChildNode);
+							img.onload = innerChildNode.onimageload;
+							
+							if (this.imagePlaceholder) {
+								// Handle our error state
+								innerChildNode.onimageerror = function() {
+									if (this.img.src == this.img.placeholder) return;
+									this.img.src = this.img.placeholder;
+								};
+								innerChildNode.onimageerror = innerChildNode.onimageerror.bind(innerChildNode);
+								img.onerror = innerChildNode.onimageerror;
+							}
+							// Add our loading image
+							if (this.imageLoading) {
+								innerChildNode.details.style['background-image'] = 'url("'+this.imageLoading+'")';
+								// Hack to adjust background sizes for re-paint issues in webkit
+								if (bb.device.is1024x600) {
+									innerChildNode.details.style['background-size'] = '64px 65px';
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									innerChildNode.details.style['background-size'] = '109px 110px';
+								} else if (bb.device.is720x720) {
+									innerChildNode.details.style['background-size'] = '92px 93px';
+								}else {
+									innerChildNode.details.style['background-size'] = '109px 110px';
+								}
+							}
+							img.src = img.path;
+						}
 						
 						// Create our title
 						title = document.createElement('div');
@@ -270,19 +264,37 @@ _bb10_imageList = {
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
+							detailsClass = detailsClass + ' bb-bb10-image-list-item-details-nodescription-'+res;
+							
 							// Adjust margins
 							if (bb.device.is1024x600) {
 								title.style['margin-top'] = '16px';
-								overlay.style['margin-top'] = '-72px';
+								title.style['padding-top'] = '28px';
+								overlay.style['margin-top'] = '-94px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-59px';
+								}
 							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 								title.style['margin-top'] = '-7px';
-								overlay.style['margin-top'] = '-121px';
+								title.style['padding-top'] = '20px';
+								overlay.style['margin-top'] = '-140px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-102px';
+								}
 							} else if (bb.device.is720x720) {
 								title.style['margin-top'] = '-14px';
-								overlay.style['margin-top'] = '-108px';
+								title.style['padding-top'] = '20px';
+								overlay.style['margin-top'] = '-133px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-89px';
+								}
 							}else {
 								title.style['margin-top'] = '-7px';
+								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-121px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-102px';
+								}
 							}
 							// Adjust accent text
 							if (accentText) {
@@ -368,7 +380,9 @@ _bb10_imageList = {
 							json.id = innerChildNode.guid;
 							json.type = 'bbui-context';
 							json.header = innerChildNode.title;
-							json.subheader = innerChildNode.description;
+							if (innerChildNode.description && (innerChildNode.description != '&nbsp;')) {
+								json.subheader = innerChildNode.description;
+							}
 							innerChildNode.setAttribute('data-webworks-context', JSON.stringify(json));
 						}	
 						

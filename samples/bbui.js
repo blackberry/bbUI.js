@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.131*/
+/* VERSION: 0.9.6.145*/
 
 bb = {
 	scroller: null,  
@@ -128,7 +128,7 @@ bb = {
 				document.styleSheets[0].insertRule('.pb-button-light-highlight {color:'+bb.options.shades.darkHighlight+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.pb-button-dark-highlight {color:'+bb.options.highlightColor+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.shades.darkHighlight +';}', 0);
-				document.styleSheets[0].insertRule('.bb10-title-colored {color:white;text-shadow: 0px 2px black;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-colored {color:white;border-color: '+bb.options.shades.darkHighlight+';text-shadow: 0px 2px black;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
@@ -956,7 +956,9 @@ bb.actionBar = {
 			res = '1280x768-1280x720',
 			icon,
 			j,
-			orientation = bb.getOrientation();
+			orientation = bb.getOrientation(),
+			slideLabel = document.createElement('div'),
+			slideText = document.createElement('div');
 			
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
@@ -975,6 +977,65 @@ bb.actionBar = {
 		actionBar.overflowButtons = overflowButtons;
 		actionBar.overflowTabs = overflowTabs;
 		
+		// Handle any press-and-hold events
+		actionBar.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		actionBar.oncontextmenu = actionBar.oncontextmenu.bind(actionBar);
+		window.addEventListener('contextmenu', actionBar.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: actionBar.oncontextmenu});
+		
+		// Create our sliding label area for Q10
+		slideLabel.setAttribute('class','bb-bb10-action-bar-slide-label-'+res);
+		actionBar.slideLabel = slideLabel;
+		slideText.setAttribute('class','bb-bb10-action-bar-slide-label-text-'+res);
+		actionBar.slideText = slideText;
+		actionBar.parentNode.appendChild(slideLabel);
+		actionBar.parentNode.appendChild(slideText);
+		actionBar.slideUpShown = false;
+		
+		// Timer for the slide up label for Q10
+		actionBar.doLabelTimer = function() {
+			this.slideUpShown = true;
+			this.slideLabel.style.height = '48px';
+			this.slideText.style.height = '48px';
+			this.slideText.style.visibility = 'visible';
+		};
+		actionBar.doLabelTimer = actionBar.doLabelTimer.bind(actionBar);
+		// Handles the closing of the label bar for Q10
+		actionBar.doTouchEnd = function() {
+			if (this.timer) clearTimeout(this.timer);
+			if (this.slideUpShown) {
+				this.slideUpShown = false;
+				this.slideLabel.style.height = '0px';
+				this.slideText.style.visibility = 'hidden';
+				this.slideText.style.height = '0px';
+			}
+		}
+		actionBar.doTouchEnd = actionBar.doTouchEnd.bind(actionBar);
+		// Make the label appear on the press and hold for Q10
+		actionBar.showLabel = function(actionItem, text) {
+			if (bb.device.is720x720) {
+				var computedStyle = window.getComputedStyle(actionItem);
+				this.slideText.innerHTML = text;
+				this.slideText.style.width = parseInt(computedStyle.width)+'px';
+				this.slideText.style['margin-left'] = (bb.actionBar.getBackBtnWidth(this.backBtn) + actionItem.offsetLeft) + 'px';
+				this.timer = setTimeout(this.doLabelTimer,1000);	
+			}
+		}
+		actionBar.showLabel = actionBar.showLabel.bind(actionBar);
+		
+					
 		// Gather our action bar and action overflow tabs and buttons
 		for (j = 0; j < actions.length; j++) {
 			action = actions[j];
@@ -1503,6 +1564,15 @@ bb.actionBar = {
 			// Add our show() function
 			tab.show = bb.actionBar.actionShow;
 			tab.show = tab.show.bind(tab);
+			
+			// Handle press-and-hold on Q10
+			tab.ontouchstart = function() {
+					this.actionBar.showLabel(this,this.display.innerHTML);				
+			}
+			// Remove highlight when touch ends
+			tab.ontouchend = function() {
+					this.actionBar.doTouchEnd();
+			}			
 		}
 		
 		// Add our tab overflow buton styling if one exists
@@ -1547,7 +1617,17 @@ bb.actionBar = {
 						this.tabHighlight.style.display = 'none';
 						this.display.innerHTML = '&nbsp;';
 					};
-			tabOverflow.reset = tabOverflow.reset.bind(tabOverflow);	
+			tabOverflow.reset = tabOverflow.reset.bind(tabOverflow);
+			
+			// Handle press-and-hold on Q10
+			tabOverflow.ontouchstart = function() {
+					var text = ((this.display.innerHTML == '') || (this.display.innerHTML == '&nbsp;')) ? 'More' : this.display.innerHTML;
+					this.actionBar.showLabel(this,text);				
+			}
+			// Remove highlight when touch ends
+			tabOverflow.ontouchend = function() {
+					this.actionBar.doTouchEnd();
+			}			
 		}
 		
 		// Apply all our button styling
@@ -1610,13 +1690,16 @@ bb.actionBar = {
 			// Add our show() function
 			button.show = bb.actionBar.actionShow;
 			button.show = button.show.bind(button);
+			
 			// Highlight on touch
 			button.ontouchstart = function() {
-					this.highlight.style['background-color'] = bb.options.highlightColor;				
+					this.highlight.style['background-color'] = bb.options.highlightColor;	
+					this.actionBar.showLabel(this,this.display.innerHTML);				
 			}
 			// Remove highlight when touch ends
 			button.ontouchend = function() {
-					this.highlight.style['background-color'] = 'transparent';				
+					this.highlight.style['background-color'] = 'transparent';
+					this.actionBar.doTouchEnd();
 			}
 		}
 		
@@ -1651,12 +1734,14 @@ bb.actionBar = {
 			actionOverflow.appendChild(actionOverflow.highlight);
 			// Highlight on touch
 			actionOverflow.ontouchstart = function() {
-					this.highlight.style['background-color'] = bb.options.highlightColor;				
+					this.highlight.style['background-color'] = bb.options.highlightColor;	
+					this.actionBar.showLabel(this,'More');						
 			}
 			// Remove highlight when touch ends
 			actionOverflow.ontouchend = function() {
-					this.highlight.style['background-color'] = 'transparent';				
-			}
+					this.highlight.style['background-color'] = 'transparent';	
+					this.actionBar.doTouchEnd();					
+			}		
 		}
 		// Center the action overflow items
 		if (actionBar.menu) {
@@ -1762,9 +1847,11 @@ bb.actionBar = {
 		// Now highlight this action
 		action.style['border-top-color'] = bb.options.highlightColor;
 		action.setAttribute('class',action.highlight);
+		action.selected = true;
 		
 		if (overflowAction) {
 			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+			overflowAction.selected = true;
 		}
 		
 		// See if there was a tab overflow
@@ -1799,6 +1886,7 @@ bb.actionBar = {
 			for (i = 0; i < tabs.length; i++) {
 				target = tabs[i];
 				target.setAttribute('class', target.normal);
+				target.selected = false;
 			}
 		}
 	}
@@ -1812,6 +1900,68 @@ _bb_bbmBubble = {
     },
 
     style: function(outerElement) {
+		var placeholder, 
+			insidepanel, 
+			image, 
+			innerChildNode,
+			details; 
+		
+		// Style an indiviual item
+		outerElement.styleItem = function(innerChildNode) {
+			image = document.createElement('img');
+			image.setAttribute('src', innerChildNode.getAttribute('data-bb-img'));
+			
+			details = document.createElement('div');
+			details.setAttribute('class','details');
+			details.innerHTML = innerChildNode.innerHTML;
+			
+			innerChildNode.innerHTML = '';
+			
+			innerChildNode.appendChild(image);
+			innerChildNode.appendChild(details);
+			
+			// Set our variables
+			innerChildNode.image = image;
+			innerChildNode.details = details;
+			innerChildNode.outerElement = outerElement;
+
+			// Get bubble item caption
+			innerChildNode.getCaption = function() {
+				return this.details.innerText;
+			};
+			innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode);
+			
+			// Set bubble item caption
+			innerChildNode.setCaption = function(value) {
+				this.details.innerHTML = value;
+				bb.refresh();
+			};
+			innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+			
+			// Get bubble item image
+			innerChildNode.getImage = function() {
+				return this.image.src;
+			};
+			innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
+			
+			// Set bubble item image
+			innerChildNode.setImage = function(value) {
+				this.image.setAttribute('src', value);
+				bb.refresh();
+			};
+			innerChildNode.setImage = innerChildNode.setImage.bind(innerChildNode);
+			
+			// Remove item
+			innerChildNode.remove = function(value) {
+				this.outerHTML = "";
+				bb.refresh();
+			};
+			innerChildNode.remove = innerChildNode.remove.bind(innerChildNode); 
+		
+			return innerChildNode;
+		};
+		outerElement.styleItem = outerElement.styleItem.bind(outerElement);
+		
         if (outerElement.hasAttribute('data-bb-style')) {
             var style = outerElement.getAttribute('data-bb-style').toLowerCase(), j;
             if (style == 'left') {
@@ -1826,41 +1976,43 @@ _bb_bbmBubble = {
             }
             
             // Create our new <div>'s
-            var placeholder = document.createElement('div');
+            placeholder = document.createElement('div');
             placeholder.setAttribute('class','top-left image');
             outerElement.appendChild(placeholder);
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','top-right image');
             outerElement.appendChild(placeholder);
-            
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','inside');
             outerElement.appendChild(placeholder);
-            
-            var insidePanel = document.createElement('div');
+			
+            insidePanel = document.createElement('div');
             insidePanel.setAttribute('class','nogap');
             placeholder.appendChild(insidePanel);
-            
+			
+			outerElement.insidePanel = insidePanel;
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','bottom-left image');
             outerElement.appendChild(placeholder);
+			
             placeholder = document.createElement('div');
             placeholder.setAttribute('class','bottom-right image');
             outerElement.appendChild(placeholder);
+				
             // Add our previous children back to the insidePanel
             for (j = 0; j < innerElements.length; j++) {
-                var innerChildNode = innerElements[j],
-                    description = innerChildNode.innerHTML;
-                innerChildNode.innerHTML = '<img src="'+ innerChildNode.getAttribute('data-bb-img') +'" />\n' +
-                        '<div class="details">'+ description +'</div>\n';
-                insidePanel.appendChild(innerChildNode);
+                innerChildNode = innerElements[j];
+				insidePanel.appendChild(outerElement.styleItem(innerChildNode));
             }
         }
         
         // Add our get Style function
         outerElement.getStyle = function() {
                     return this.getAttribute('data-bb-style');
-                };
+		};
         outerElement.getStyle = outerElement.getStyle.bind(outerElement);
         
         // Add setStyle function (left or right)
@@ -1897,6 +2049,19 @@ _bb_bbmBubble = {
             bb.refresh();
         };
         outerElement.remove = outerElement.remove.bind(outerElement);
+		
+        // Remove all the items in a bubble
+        outerElement.clear = function() {
+            this.insidePanel.innerHTML = "";
+            bb.refresh();
+        };
+        outerElement.clear = outerElement.clear.bind(outerElement);
+    
+        // Get all the items in a bubble
+        outerElement.getItems = function() {
+            return this.querySelectorAll('[data-bb-type=item]');
+        };
+        outerElement.getItems = outerElement.getItems.bind(outerElement); 
         
         return outerElement;
     }
@@ -1904,7 +2069,7 @@ _bb_bbmBubble = {
 /*! * iScroll v4.1.9 ~ Copyright (c) 2011 Matteo Spinelli, http://cubiq.org * Released under MIT license, http://cubiq.org/license */(function(){var m = Math,	mround = function (r) { return r >> 0; },	vendor = (/webkit/i).test(navigator.appVersion) ? 'webkit' :		(/firefox/i).test(navigator.userAgent) ? 'Moz' :		(/trident/i).test(navigator.userAgent) ? 'ms' :		'opera' in window ? 'O' : '',    // Browser capabilities    isAndroid = (/android/gi).test(navigator.appVersion),    isIDevice = (/iphone|ipad/gi).test(navigator.appVersion),    isPlaybook = (/playbook/gi).test(navigator.appVersion),    isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),    has3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix(),    hasTouch = 'ontouchstart' in window && !isTouchPad,    hasTransform = vendor + 'Transform' in document.documentElement.style,    hasTransitionEnd = isIDevice || isPlaybook,	nextFrame = (function() {	    return window.requestAnimationFrame			|| window.webkitRequestAnimationFrame			|| window.mozRequestAnimationFrame			|| window.oRequestAnimationFrame			|| window.msRequestAnimationFrame			|| function(callback) { return setTimeout(callback, 1); }	})(),	cancelFrame = (function () {	    return window.cancelRequestAnimationFrame			|| window.webkitCancelAnimationFrame			|| window.webkitCancelRequestAnimationFrame			|| window.mozCancelRequestAnimationFrame			|| window.oCancelRequestAnimationFrame			|| window.msCancelRequestAnimationFrame			|| clearTimeout	})(),	// Events	RESIZE_EV = 'onorientationchange' in window ? 'orientationchange' : 'resize',	START_EV = hasTouch ? 'touchstart' : 'mousedown',	MOVE_EV = hasTouch ? 'touchmove' : 'mousemove',	END_EV = hasTouch ? 'touchend' : 'mouseup',	CANCEL_EV = hasTouch ? 'touchcancel' : 'mouseup',	WHEEL_EV = vendor == 'Moz' ? 'DOMMouseScroll' : 'mousewheel',	// Helpers	trnOpen = 'translate' + (has3d ? '3d(' : '('),	trnClose = has3d ? ',0)' : ')',	// Constructor	iScroll = function (el, options) {		var that = this,			doc = document,			i;		that.wrapper = typeof el == 'object' ? el : doc.getElementById(el);		that.wrapper.style.overflow = 'hidden';		that.scroller = that.wrapper.children[0];		// Default options		that.options = {			hScroll: true,			vScroll: true,			x: 0,			y: 0,			bounce: true,			bounceLock: false,			momentum: true,			lockDirection: true,			useTransform: true,			useTransition: false,			topOffset: 0,			checkDOMChanges: false,		// Experimental			// Scrollbar			hScrollbar: true,			vScrollbar: true,			fixedScrollbar: isAndroid,			hideScrollbar: isIDevice,			fadeScrollbar: isIDevice && has3d,			scrollbarClass: '',			// Zoom			zoom: false,			zoomMin: 1,			zoomMax: 4,			doubleTapZoom: 2,			wheelAction: 'scroll',			// Snap			snap: false,			snapThreshold: 1,			// Events			onRefresh: null,			onBeforeScrollStart: function (e) { e.preventDefault(); },			onScrollStart: null,			onBeforeScrollMove: null,			onScrollMove: null,			onBeforeScrollEnd: null,			onScrollEnd: null,			onTouchEnd: null,			onDestroy: null,			onZoomStart: null,			onZoom: null,			onZoomEnd: null		};		// User defined options		for (i in options) that.options[i] = options[i];				// Set starting position		that.x = that.options.x;		that.y = that.options.y;		// Normalize options		that.options.useTransform = hasTransform ? that.options.useTransform : false;		that.options.hScrollbar = that.options.hScroll && that.options.hScrollbar;		that.options.vScrollbar = that.options.vScroll && that.options.vScrollbar;		that.options.zoom = that.options.useTransform && that.options.zoom;		that.options.useTransition = hasTransitionEnd && that.options.useTransition;		// Helpers FIX ANDROID BUG!		// translate3d and scale doesn't work together! 		// Ignoring 3d ONLY WHEN YOU SET that.options.zoom		if ( that.options.zoom && isAndroid ){			trnOpen = 'translate(';			trnClose = ')';		}				// Set some default styles		that.scroller.style[vendor + 'TransitionProperty'] = that.options.useTransform ? '-' + vendor.toLowerCase() + '-transform' : 'top left';		that.scroller.style[vendor + 'TransitionDuration'] = '0';		that.scroller.style[vendor + 'TransformOrigin'] = '0 0';		if (that.options.useTransition) that.scroller.style[vendor + 'TransitionTimingFunction'] = 'cubic-bezier(0.33,0.66,0.66,1)';				if (that.options.useTransform) that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose;		else that.scroller.style.cssText += ';position:absolute;top:' + that.y + 'px;left:' + that.x + 'px';		if (that.options.useTransition) that.options.fixedScrollbar = true;		that.refresh();		that._bind(RESIZE_EV, window);		that._bind(START_EV);		if (!hasTouch) {			that._bind('mouseout', that.wrapper);			if (that.options.wheelAction != 'none')				that._bind(WHEEL_EV);		}		if (that.options.checkDOMChanges) that.checkDOMTime = setInterval(function () {			that._checkDOMChanges();		}, 500);	};// PrototypeiScroll.prototype = {	enabled: true,	x: 0,	y: 0,	steps: [],	scale: 1,	currPageX: 0, currPageY: 0,	pagesX: [], pagesY: [],	aniTime: null,	wheelZoomCount: 0,		handleEvent: function (e) {		var that = this;		switch(e.type) {			case START_EV:				if (!hasTouch && e.button !== 0) return;				that._start(e);				break;			case MOVE_EV: that._move(e); break;			case END_EV:			case CANCEL_EV: that._end(e); break;			case RESIZE_EV: that._resize(); break;			case WHEEL_EV: that._wheel(e); break;			case 'mouseout': that._mouseout(e); break;			case 'webkitTransitionEnd': that._transitionEnd(e); break;		}	},		_checkDOMChanges: function () {		if (this.moved || this.zoomed || this.animating ||			(this.scrollerW == this.scroller.offsetWidth * this.scale && this.scrollerH == this.scroller.offsetHeight * this.scale)) return;		this.refresh();	},		_scrollbar: function (dir) {		var that = this,			doc = document,			bar;		if (!that[dir + 'Scrollbar']) {			if (that[dir + 'ScrollbarWrapper']) {				if (hasTransform) that[dir + 'ScrollbarIndicator'].style[vendor + 'Transform'] = '';				that[dir + 'ScrollbarWrapper'].parentNode.removeChild(that[dir + 'ScrollbarWrapper']);				that[dir + 'ScrollbarWrapper'] = null;				that[dir + 'ScrollbarIndicator'] = null;			}			return;		}		if (!that[dir + 'ScrollbarWrapper']) {			// Create the scrollbar wrapper			bar = doc.createElement('div');			if (that.options.scrollbarClass) bar.className = that.options.scrollbarClass + dir.toUpperCase();			else bar.style.cssText = 'position:absolute;z-index:100;' + (dir == 'h' ? 'height:7px;bottom:1px;left:2px;right:' + (that.vScrollbar ? '7' : '2') + 'px' : 'width:7px;bottom:' + (that.hScrollbar ? '7' : '2') + 'px;top:2px;right:1px');			bar.style.cssText += ';pointer-events:none;-' + vendor + '-transition-property:opacity;-' + vendor + '-transition-duration:' + (that.options.fadeScrollbar ? '350ms' : '0') + ';overflow:hidden;opacity:' + (that.options.hideScrollbar ? '0' : '1');			that.wrapper.appendChild(bar);			that[dir + 'ScrollbarWrapper'] = bar;			// Create the scrollbar indicator			bar = doc.createElement('div');			if (!that.options.scrollbarClass) {				bar.style.cssText = 'position:absolute;z-index:100;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.9);-' + vendor + '-background-clip:padding-box;-' + vendor + '-box-sizing:border-box;' + (dir == 'h' ? 'height:100%' : 'width:100%') + ';-' + vendor + '-border-radius:3px;border-radius:3px';			}			bar.style.cssText += ';pointer-events:none;-' + vendor + '-transition-property:-' + vendor + '-transform;-' + vendor + '-transition-timing-function:cubic-bezier(0.33,0.66,0.66,1);-' + vendor + '-transition-duration:0;-' + vendor + '-transform:' + trnOpen + '0,0' + trnClose;			if (that.options.useTransition) bar.style.cssText += ';-' + vendor + '-transition-timing-function:cubic-bezier(0.33,0.66,0.66,1)';			that[dir + 'ScrollbarWrapper'].appendChild(bar);			that[dir + 'ScrollbarIndicator'] = bar;		}		if (dir == 'h') {			that.hScrollbarSize = that.hScrollbarWrapper.clientWidth;			that.hScrollbarIndicatorSize = m.max(mround(that.hScrollbarSize * that.hScrollbarSize / that.scrollerW), 8);			that.hScrollbarIndicator.style.width = that.hScrollbarIndicatorSize + 'px';			that.hScrollbarMaxScroll = that.hScrollbarSize - that.hScrollbarIndicatorSize;			that.hScrollbarProp = that.hScrollbarMaxScroll / that.maxScrollX;		} else {			that.vScrollbarSize = that.vScrollbarWrapper.clientHeight;			that.vScrollbarIndicatorSize = m.max(mround(that.vScrollbarSize * that.vScrollbarSize / that.scrollerH), 8);			that.vScrollbarIndicator.style.height = that.vScrollbarIndicatorSize + 'px';			that.vScrollbarMaxScroll = that.vScrollbarSize - that.vScrollbarIndicatorSize;			that.vScrollbarProp = that.vScrollbarMaxScroll / that.maxScrollY;		}		// Reset position		that._scrollbarPos(dir, true);	},		_resize: function () {		var that = this;		setTimeout(function () { that.refresh(); }, isAndroid ? 200 : 0);	},		_pos: function (x, y) {		x = this.hScroll ? x : 0;		y = this.vScroll ? y : 0;		if (this.options.useTransform) {			this.scroller.style[vendor + 'Transform'] = trnOpen + x + 'px,' + y + 'px' + trnClose + ' scale(' + this.scale + ')';		} else {			x = mround(x);			y = mround(y);			this.scroller.style.left = x + 'px';			this.scroller.style.top = y + 'px';		}		this.x = x;		this.y = y;		this._scrollbarPos('h');		this._scrollbarPos('v');	},	_scrollbarPos: function (dir, hidden) {		var that = this,			pos = dir == 'h' ? that.x : that.y,			size;		if (!that[dir + 'Scrollbar']) return;		pos = that[dir + 'ScrollbarProp'] * pos;		if (pos < 0) {			if (!that.options.fixedScrollbar) {				size = that[dir + 'ScrollbarIndicatorSize'] + mround(pos * 3);				if (size < 8) size = 8;				that[dir + 'ScrollbarIndicator'].style[dir == 'h' ? 'width' : 'height'] = size + 'px';			}			pos = 0;		} else if (pos > that[dir + 'ScrollbarMaxScroll']) {			if (!that.options.fixedScrollbar) {				size = that[dir + 'ScrollbarIndicatorSize'] - mround((pos - that[dir + 'ScrollbarMaxScroll']) * 3);				if (size < 8) size = 8;				that[dir + 'ScrollbarIndicator'].style[dir == 'h' ? 'width' : 'height'] = size + 'px';				pos = that[dir + 'ScrollbarMaxScroll'] + (that[dir + 'ScrollbarIndicatorSize'] - size);			} else {				pos = that[dir + 'ScrollbarMaxScroll'];			}		}		that[dir + 'ScrollbarWrapper'].style[vendor + 'TransitionDelay'] = '0';		that[dir + 'ScrollbarWrapper'].style.opacity = hidden && that.options.hideScrollbar ? '0' : '1';		that[dir + 'ScrollbarIndicator'].style[vendor + 'Transform'] = trnOpen + (dir == 'h' ? pos + 'px,0' : '0,' + pos + 'px') + trnClose;	},		_start: function (e) {		var that = this,			point = hasTouch ? e.touches[0] : e,			matrix, x, y,			c1, c2;		if (!that.enabled) return;		if (that.options.onBeforeScrollStart) that.options.onBeforeScrollStart.call(that, e);		if (that.options.useTransition || that.options.zoom) that._transitionTime(0);		that.moved = false;		that.animating = false;		that.zoomed = false;		that.distX = 0;		that.distY = 0;		that.absDistX = 0;		that.absDistY = 0;		that.dirX = 0;		that.dirY = 0;		// Gesture start		if (that.options.zoom && hasTouch && e.touches.length > 1) {			c1 = m.abs(e.touches[0].pageX-e.touches[1].pageX);			c2 = m.abs(e.touches[0].pageY-e.touches[1].pageY);			that.touchesDistStart = m.sqrt(c1 * c1 + c2 * c2);			that.originX = m.abs(e.touches[0].pageX + e.touches[1].pageX - that.wrapperOffsetLeft * 2) / 2 - that.x;			that.originY = m.abs(e.touches[0].pageY + e.touches[1].pageY - that.wrapperOffsetTop * 2) / 2 - that.y;			if (that.options.onZoomStart) that.options.onZoomStart.call(that, e);		}		if (that.options.momentum) {			if (that.options.useTransform) {				// Very lame general purpose alternative to CSSMatrix				matrix = getComputedStyle(that.scroller, null)[vendor + 'Transform'].replace(/[^0-9-.,]/g, '').split(',');				x = matrix[4] * 1;				y = matrix[5] * 1;			} else {				x = getComputedStyle(that.scroller, null).left.replace(/[^0-9-]/g, '') * 1;				y = getComputedStyle(that.scroller, null).top.replace(/[^0-9-]/g, '') * 1;			}						if (x != that.x || y != that.y) {				if (that.options.useTransition) that._unbind('webkitTransitionEnd');				else cancelFrame(that.aniTime);				that.steps = [];				that._pos(x, y);			}		}		that.absStartX = that.x;	// Needed by snap threshold		that.absStartY = that.y;		that.startX = that.x;		that.startY = that.y;		that.pointX = point.pageX;		that.pointY = point.pageY;		that.startTime = e.timeStamp || Date.now();		if (that.options.onScrollStart) that.options.onScrollStart.call(that, e);		that._bind(MOVE_EV);		that._bind(END_EV);		that._bind(CANCEL_EV);	},		_move: function (e) {		var that = this,			point = hasTouch ? e.touches[0] : e,			deltaX = point.pageX - that.pointX,			deltaY = point.pageY - that.pointY,			newX = that.x + deltaX,			newY = that.y + deltaY,			c1, c2, scale,			timestamp = e.timeStamp || Date.now();		if (that.options.onBeforeScrollMove) that.options.onBeforeScrollMove.call(that, e);		// Zoom		if (that.options.zoom && hasTouch && e.touches.length > 1) {			c1 = m.abs(e.touches[0].pageX - e.touches[1].pageX);			c2 = m.abs(e.touches[0].pageY - e.touches[1].pageY);			that.touchesDist = m.sqrt(c1*c1+c2*c2);			that.zoomed = true;			scale = 1 / that.touchesDistStart * that.touchesDist * this.scale;			if (scale < that.options.zoomMin) scale = 0.5 * that.options.zoomMin * Math.pow(2.0, scale / that.options.zoomMin);			else if (scale > that.options.zoomMax) scale = 2.0 * that.options.zoomMax * Math.pow(0.5, that.options.zoomMax / scale);			that.lastScale = scale / this.scale;			newX = this.originX - this.originX * that.lastScale + this.x,			newY = this.originY - this.originY * that.lastScale + this.y;			this.scroller.style[vendor + 'Transform'] = trnOpen + newX + 'px,' + newY + 'px' + trnClose + ' scale(' + scale + ')';			if (that.options.onZoom) that.options.onZoom.call(that, e);			return;		}		that.pointX = point.pageX;		that.pointY = point.pageY;		// Slow down if outside of the boundaries		if (newX > 0 || newX < that.maxScrollX) {			newX = that.options.bounce ? that.x + (deltaX / 2) : newX >= 0 || that.maxScrollX >= 0 ? 0 : that.maxScrollX;		}		if (newY > that.minScrollY || newY < that.maxScrollY) { 			newY = that.options.bounce ? that.y + (deltaY / 2) : newY >= that.minScrollY || that.maxScrollY >= 0 ? that.minScrollY : that.maxScrollY;		}		that.distX += deltaX;		that.distY += deltaY;		that.absDistX = m.abs(that.distX);		that.absDistY = m.abs(that.distY);		if (that.absDistX < 6 && that.absDistY < 6) {			return;		}		// Lock direction		if (that.options.lockDirection) {			if (that.absDistX > that.absDistY + 5) {				newY = that.y;				deltaY = 0;			} else if (that.absDistY > that.absDistX + 5) {				newX = that.x;				deltaX = 0;			}		}		that.moved = true;		that._pos(newX, newY);		that.dirX = deltaX > 0 ? -1 : deltaX < 0 ? 1 : 0;		that.dirY = deltaY > 0 ? -1 : deltaY < 0 ? 1 : 0;		if (timestamp - that.startTime > 300) {			that.startTime = timestamp;			that.startX = that.x;			that.startY = that.y;		}				if (that.options.onScrollMove) that.options.onScrollMove.call(that, e);	},		_end: function (e) {		if (hasTouch && e.touches.length != 0) return;		var that = this,			point = hasTouch ? e.changedTouches[0] : e,			target, ev,			momentumX = { dist:0, time:0 },			momentumY = { dist:0, time:0 },			duration = (e.timeStamp || Date.now()) - that.startTime,			newPosX = that.x,			newPosY = that.y,			distX, distY,			newDuration,			snap,			scale;		that._unbind(MOVE_EV);		that._unbind(END_EV);		that._unbind(CANCEL_EV);		if (that.options.onBeforeScrollEnd) that.options.onBeforeScrollEnd.call(that, e);		if (that.zoomed) {			scale = that.scale * that.lastScale;			scale = Math.max(that.options.zoomMin, scale);			scale = Math.min(that.options.zoomMax, scale);			that.lastScale = scale / that.scale;			that.scale = scale;			that.x = that.originX - that.originX * that.lastScale + that.x;			that.y = that.originY - that.originY * that.lastScale + that.y;						that.scroller.style[vendor + 'TransitionDuration'] = '200ms';			that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose + ' scale(' + that.scale + ')';						that.zoomed = false;			that.refresh();			if (that.options.onZoomEnd) that.options.onZoomEnd.call(that, e);			return;		}		if (!that.moved) {			if (hasTouch) {				if (that.doubleTapTimer && that.options.zoom) {					// Double tapped					clearTimeout(that.doubleTapTimer);					that.doubleTapTimer = null;					if (that.options.onZoomStart) that.options.onZoomStart.call(that, e);					that.zoom(that.pointX, that.pointY, that.scale == 1 ? that.options.doubleTapZoom : 1);					if (that.options.onZoomEnd) {						setTimeout(function() {							that.options.onZoomEnd.call(that, e);						}, 200); // 200 is default zoom duration					}				} else {					that.doubleTapTimer = setTimeout(function () {						that.doubleTapTimer = null;						// Find the last touched element						target = point.target;						while (target.nodeType != 1) target = target.parentNode;						if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {							ev = document.createEvent('MouseEvents');							ev.initMouseEvent('click', true, true, e.view, 1,								point.screenX, point.screenY, point.clientX, point.clientY,								e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,								0, null);							ev._fake = true;							target.dispatchEvent(ev);						}					}, that.options.zoom ? 250 : 0);				}			}			that._resetPos(200);			if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);			return;		}		if (duration < 300 && that.options.momentum) {			momentumX = newPosX ? that._momentum(newPosX - that.startX, duration, -that.x, that.scrollerW - that.wrapperW + that.x, that.options.bounce ? that.wrapperW : 0) : momentumX;			momentumY = newPosY ? that._momentum(newPosY - that.startY, duration, -that.y, (that.maxScrollY < 0 ? that.scrollerH - that.wrapperH + that.y - that.minScrollY : 0), that.options.bounce ? that.wrapperH : 0) : momentumY;			newPosX = that.x + momentumX.dist;			newPosY = that.y + momentumY.dist; 			if ((that.x > 0 && newPosX > 0) || (that.x < that.maxScrollX && newPosX < that.maxScrollX)) momentumX = { dist:0, time:0 }; 			if ((that.y > that.minScrollY && newPosY > that.minScrollY) || (that.y < that.maxScrollY && newPosY < that.maxScrollY)) momentumY = { dist:0, time:0 };		}		if (momentumX.dist || momentumY.dist) {			newDuration = m.max(m.max(momentumX.time, momentumY.time), 10);			// Do we need to snap?			if (that.options.snap) {				distX = newPosX - that.absStartX;				distY = newPosY - that.absStartY;				if (m.abs(distX) < that.options.snapThreshold && m.abs(distY) < that.options.snapThreshold) { that.scrollTo(that.absStartX, that.absStartY, 200); }				else {					snap = that._snap(newPosX, newPosY);					newPosX = snap.x;					newPosY = snap.y;					newDuration = m.max(snap.time, newDuration);				}			}			that.scrollTo(mround(newPosX), mround(newPosY), newDuration);			if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);			return;		}		// Do we need to snap?		if (that.options.snap) {			distX = newPosX - that.absStartX;			distY = newPosY - that.absStartY;			if (m.abs(distX) < that.options.snapThreshold && m.abs(distY) < that.options.snapThreshold) that.scrollTo(that.absStartX, that.absStartY, 200);			else {				snap = that._snap(that.x, that.y);				if (snap.x != that.x || snap.y != that.y) that.scrollTo(snap.x, snap.y, snap.time);			}			if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);			return;		}		that._resetPos(200);		if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);	},		_resetPos: function (time) {		var that = this,			resetX = that.x >= 0 ? 0 : that.x < that.maxScrollX ? that.maxScrollX : that.x,			resetY = that.y >= that.minScrollY || that.maxScrollY > 0 ? that.minScrollY : that.y < that.maxScrollY ? that.maxScrollY : that.y;		if (resetX == that.x && resetY == that.y) {			if (that.moved) {				that.moved = false;				if (that.options.onScrollEnd) that.options.onScrollEnd.call(that);		// Execute custom code on scroll end			}			if (that.hScrollbar && that.options.hideScrollbar) {				if (vendor == 'webkit') that.hScrollbarWrapper.style[vendor + 'TransitionDelay'] = '300ms';				that.hScrollbarWrapper.style.opacity = '0';			}			if (that.vScrollbar && that.options.hideScrollbar) {				if (vendor == 'webkit') that.vScrollbarWrapper.style[vendor + 'TransitionDelay'] = '300ms';				that.vScrollbarWrapper.style.opacity = '0';			}			return;		}		that.scrollTo(resetX, resetY, time || 0);	},	_wheel: function (e) {		var that = this,			wheelDeltaX, wheelDeltaY,			deltaX, deltaY,			deltaScale;		if ('wheelDeltaX' in e) {			wheelDeltaX = e.wheelDeltaX / 12;			wheelDeltaY = e.wheelDeltaY / 12;		} else if('wheelDelta' in e) {			wheelDeltaX = wheelDeltaY = e.wheelDelta / 12;		} else if ('detail' in e) {			wheelDeltaX = wheelDeltaY = -e.detail * 3;		} else {			return;		}				if (that.options.wheelAction == 'zoom') {			deltaScale = that.scale * Math.pow(2, 1/3 * (wheelDeltaY ? wheelDeltaY / Math.abs(wheelDeltaY) : 0));			if (deltaScale < that.options.zoomMin) deltaScale = that.options.zoomMin;			if (deltaScale > that.options.zoomMax) deltaScale = that.options.zoomMax;						if (deltaScale != that.scale) {				if (!that.wheelZoomCount && that.options.onZoomStart) that.options.onZoomStart.call(that, e);				that.wheelZoomCount++;								that.zoom(e.pageX, e.pageY, deltaScale, 400);								setTimeout(function() {					that.wheelZoomCount--;					if (!that.wheelZoomCount && that.options.onZoomEnd) that.options.onZoomEnd.call(that, e);				}, 400);			}						return;		}				deltaX = that.x + wheelDeltaX;		deltaY = that.y + wheelDeltaY;		if (deltaX > 0) deltaX = 0;		else if (deltaX < that.maxScrollX) deltaX = that.maxScrollX;		if (deltaY > that.minScrollY) deltaY = that.minScrollY;		else if (deltaY < that.maxScrollY) deltaY = that.maxScrollY;		that.scrollTo(deltaX, deltaY, 0);	},		_mouseout: function (e) {		var t = e.relatedTarget;		if (!t) {			this._end(e);			return;		}		while (t = t.parentNode) if (t == this.wrapper) return;				this._end(e);	},	_transitionEnd: function (e) {		var that = this;		if (e.target != that.scroller) return;		that._unbind('webkitTransitionEnd');				that._startAni();	},	/**	 *	 * Utilities	 *	 */	_startAni: function () {		var that = this,			startX = that.x, startY = that.y,			startTime = Date.now(),			step, easeOut,			animate;		if (that.animating) return;				if (!that.steps.length) {			that._resetPos(400);			return;		}				step = that.steps.shift();				if (step.x == startX && step.y == startY) step.time = 0;		that.animating = true;		that.moved = true;				if (that.options.useTransition) {			that._transitionTime(step.time);			that._pos(step.x, step.y);			that.animating = false;			if (step.time) that._bind('webkitTransitionEnd');			else that._resetPos(0);			return;		}		animate = function () {			var now = Date.now(),				newX, newY;			if (now >= startTime + step.time) {				that._pos(step.x, step.y);				that.animating = false;				if (that.options.onAnimationEnd) that.options.onAnimationEnd.call(that);			// Execute custom code on animation end				that._startAni();				return;			}			now = (now - startTime) / step.time - 1;			easeOut = m.sqrt(1 - now * now);			newX = (step.x - startX) * easeOut + startX;			newY = (step.y - startY) * easeOut + startY;			that._pos(newX, newY);			if (that.animating) that.aniTime = nextFrame(animate);		};		animate();	},	_transitionTime: function (time) {		time += 'ms';		this.scroller.style[vendor + 'TransitionDuration'] = time;		if (this.hScrollbar) this.hScrollbarIndicator.style[vendor + 'TransitionDuration'] = time;		if (this.vScrollbar) this.vScrollbarIndicator.style[vendor + 'TransitionDuration'] = time;	},	_momentum: function (dist, time, maxDistUpper, maxDistLower, size) {		var deceleration = 0.0006,			speed = m.abs(dist) / time,			newDist = (speed * speed) / (2 * deceleration),			newTime = 0, outsideDist = 0;		// Proportinally reduce speed if we are outside of the boundaries 		if (dist > 0 && newDist > maxDistUpper) {			outsideDist = size / (6 / (newDist / speed * deceleration));			maxDistUpper = maxDistUpper + outsideDist;			speed = speed * maxDistUpper / newDist;			newDist = maxDistUpper;		} else if (dist < 0 && newDist > maxDistLower) {			outsideDist = size / (6 / (newDist / speed * deceleration));			maxDistLower = maxDistLower + outsideDist;			speed = speed * maxDistLower / newDist;			newDist = maxDistLower;		}		newDist = newDist * (dist < 0 ? -1 : 1);		newTime = speed / deceleration;		return { dist: newDist, time: mround(newTime) };	},	_offset: function (el) {		var left = -el.offsetLeft,			top = -el.offsetTop;					while (el = el.offsetParent) {			left -= el.offsetLeft;			top -= el.offsetTop;		}				if (el != this.wrapper) {			left *= this.scale;			top *= this.scale;		}		return { left: left, top: top };	},	_snap: function (x, y) {		var that = this,			i, l,			page, time,			sizeX, sizeY;		// Check page X		page = that.pagesX.length - 1;		for (i=0, l=that.pagesX.length; i<l; i++) {			if (x >= that.pagesX[i]) {				page = i;				break;			}		}		if (page == that.currPageX && page > 0 && that.dirX < 0) page--;		x = that.pagesX[page];		sizeX = m.abs(x - that.pagesX[that.currPageX]);		sizeX = sizeX ? m.abs(that.x - x) / sizeX * 500 : 0;		that.currPageX = page;		// Check page Y		page = that.pagesY.length-1;		for (i=0; i<page; i++) {			if (y >= that.pagesY[i]) {				page = i;				break;			}		}		if (page == that.currPageY && page > 0 && that.dirY < 0) page--;		y = that.pagesY[page];		sizeY = m.abs(y - that.pagesY[that.currPageY]);		sizeY = sizeY ? m.abs(that.y - y) / sizeY * 500 : 0;		that.currPageY = page;		// Snap with constant speed (proportional duration)		time = mround(m.max(sizeX, sizeY)) || 200;		return { x: x, y: y, time: time };	},	_bind: function (type, el, bubble) {		(el || this.scroller).addEventListener(type, this, !!bubble);	},	_unbind: function (type, el, bubble) {		(el || this.scroller).removeEventListener(type, this, !!bubble);	},	/**	 *	 * Public methods	 *	 */	destroy: function () {		var that = this;		that.scroller.style[vendor + 'Transform'] = '';		// Remove the scrollbars		that.hScrollbar = false;		that.vScrollbar = false;		that._scrollbar('h');		that._scrollbar('v');		// Remove the event listeners		that._unbind(RESIZE_EV, window);		that._unbind(START_EV);		that._unbind(MOVE_EV);		that._unbind(END_EV);		that._unbind(CANCEL_EV);				if (!that.options.hasTouch) {			that._unbind('mouseout', that.wrapper);			that._unbind(WHEEL_EV);		}				if (that.options.useTransition) that._unbind('webkitTransitionEnd');				if (that.options.checkDOMChanges) clearInterval(that.checkDOMTime);				if (that.options.onDestroy) that.options.onDestroy.call(that);	},	refresh: function () {		var that = this,			offset,			i, l,			els,			pos = 0,			page = 0;		if (that.scale < that.options.zoomMin) that.scale = that.options.zoomMin;		that.wrapperW = that.wrapper.clientWidth || 1;		that.wrapperH = that.wrapper.clientHeight || 1;		that.minScrollY = -that.options.topOffset || 0;		that.scrollerW = mround(that.scroller.offsetWidth * that.scale);		that.scrollerH = mround((that.scroller.offsetHeight + that.minScrollY) * that.scale);		that.maxScrollX = that.wrapperW - that.scrollerW;		that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;		that.dirX = 0;		that.dirY = 0;		if (that.options.onRefresh) that.options.onRefresh.call(that);		that.hScroll = that.options.hScroll && that.maxScrollX < 0;		that.vScroll = that.options.vScroll && (!that.options.bounceLock && !that.hScroll || that.scrollerH > that.wrapperH);		that.hScrollbar = that.hScroll && that.options.hScrollbar;		that.vScrollbar = that.vScroll && that.options.vScrollbar && that.scrollerH > that.wrapperH;		offset = that._offset(that.wrapper);		that.wrapperOffsetLeft = -offset.left;		that.wrapperOffsetTop = -offset.top;		// Prepare snap		if (typeof that.options.snap == 'string') {			that.pagesX = [];			that.pagesY = [];			els = that.scroller.querySelectorAll(that.options.snap);			for (i=0, l=els.length; i<l; i++) {				pos = that._offset(els[i]);				pos.left += that.wrapperOffsetLeft;				pos.top += that.wrapperOffsetTop;				that.pagesX[i] = pos.left < that.maxScrollX ? that.maxScrollX : pos.left * that.scale;				that.pagesY[i] = pos.top < that.maxScrollY ? that.maxScrollY : pos.top * that.scale;			}		} else if (that.options.snap) {			that.pagesX = [];			while (pos >= that.maxScrollX) {				that.pagesX[page] = pos;				pos = pos - that.wrapperW;				page++;			}			if (that.maxScrollX%that.wrapperW) that.pagesX[that.pagesX.length] = that.maxScrollX - that.pagesX[that.pagesX.length-1] + that.pagesX[that.pagesX.length-1];			pos = 0;			page = 0;			that.pagesY = [];			while (pos >= that.maxScrollY) {				that.pagesY[page] = pos;				pos = pos - that.wrapperH;				page++;			}			if (that.maxScrollY%that.wrapperH) that.pagesY[that.pagesY.length] = that.maxScrollY - that.pagesY[that.pagesY.length-1] + that.pagesY[that.pagesY.length-1];		}		// Prepare the scrollbars		that._scrollbar('h');		that._scrollbar('v');		if (!that.zoomed) {			that.scroller.style[vendor + 'TransitionDuration'] = '0';			that._resetPos(200);		}	},	scrollTo: function (x, y, time, relative) {		var that = this,			step = x,			i, l;		that.stop();		if (!step.length) step = [{ x: x, y: y, time: time, relative: relative }];				for (i=0, l=step.length; i<l; i++) {			if (step[i].relative) { step[i].x = that.x - step[i].x; step[i].y = that.y - step[i].y; }			that.steps.push({ x: step[i].x, y: step[i].y, time: step[i].time || 0 });		}		that._startAni();	},	scrollToElement: function (el, time) {		var that = this, pos;		el = el.nodeType ? el : that.scroller.querySelector(el);		if (!el) return;		pos = that._offset(el);		pos.left += that.wrapperOffsetLeft;		pos.top += that.wrapperOffsetTop;		pos.left = pos.left > 0 ? 0 : pos.left < that.maxScrollX ? that.maxScrollX : pos.left;		pos.top = pos.top > that.minScrollY ? that.minScrollY : pos.top < that.maxScrollY ? that.maxScrollY : pos.top;		time = time === undefined ? m.max(m.abs(pos.left)*2, m.abs(pos.top)*2) : time;		that.scrollTo(pos.left, pos.top, time);	},	scrollToPage: function (pageX, pageY, time) {		var that = this, x, y;				time = time === undefined ? 400 : time;		if (that.options.onScrollStart) that.options.onScrollStart.call(that);		if (that.options.snap) {			pageX = pageX == 'next' ? that.currPageX+1 : pageX == 'prev' ? that.currPageX-1 : pageX;			pageY = pageY == 'next' ? that.currPageY+1 : pageY == 'prev' ? that.currPageY-1 : pageY;			pageX = pageX < 0 ? 0 : pageX > that.pagesX.length-1 ? that.pagesX.length-1 : pageX;			pageY = pageY < 0 ? 0 : pageY > that.pagesY.length-1 ? that.pagesY.length-1 : pageY;			that.currPageX = pageX;			that.currPageY = pageY;			x = that.pagesX[pageX];			y = that.pagesY[pageY];		} else {			x = -that.wrapperW * pageX;			y = -that.wrapperH * pageY;			if (x < that.maxScrollX) x = that.maxScrollX;			if (y < that.maxScrollY) y = that.maxScrollY;		}		that.scrollTo(x, y, time);	},	disable: function () {		this.stop();		this._resetPos(0);		this.enabled = false;		// If disabled after touchstart we make sure that there are no left over events		this._unbind(MOVE_EV);		this._unbind(END_EV);		this._unbind(CANCEL_EV);	},		enable: function () {		this.enabled = true;	},		stop: function () {		if (this.options.useTransition) this._unbind('webkitTransitionEnd');		else cancelFrame(this.aniTime);		this.steps = [];		this.moved = false;		this.animating = false;	},		zoom: function (x, y, scale, time) {		var that = this,			relScale = scale / that.scale;		if (!that.options.useTransform) return;		that.zoomed = true;		time = time === undefined ? 200 : time;		x = x - that.wrapperOffsetLeft - that.x;		y = y - that.wrapperOffsetTop - that.y;		that.x = x - x * relScale + that.x;		that.y = y - y * relScale + that.y;		that.scale = scale;		that.refresh();		that.x = that.x > 0 ? 0 : that.x < that.maxScrollX ? that.maxScrollX : that.x;		that.y = that.y > that.minScrollY ? that.minScrollY : that.y < that.maxScrollY ? that.maxScrollY : that.y;		that.scroller.style[vendor + 'TransitionDuration'] = time + 'ms';		that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose + ' scale(' + scale + ')';		that.zoomed = false;	},		isReady: function () {		return !this.moved && !this.zoomed && !this.animating;	}};if (typeof exports !== 'undefined') exports.iScroll = iScroll;else window.iScroll = iScroll;})();
 bb.menuBar = {
 	height: 140,
-	menuOpen: false,
+	visible: false,
 	menu: false,
 	screen: false,
 
@@ -1988,6 +2153,24 @@ bb.menuBar = {
 				bb.menuBar.height = 110;
 			}
 
+			// Handle any press-and-hold events
+			bb10Menu.oncontextmenu = function(contextEvent) {
+				var node = contextEvent.srcElement,
+					parentNode = node.parentNode;
+				// Loop up to the parent node.. if it is this action bar then prevent default
+				if (!parentNode) return;
+				while (parentNode) {
+					if (parentNode == this) {
+						contextEvent.preventDefault();
+						break;
+					}
+					parentNode = parentNode.parentNode;
+				}			
+			};
+			bb10Menu.oncontextmenu = bb10Menu.oncontextmenu.bind(bb10Menu);
+			window.addEventListener('contextmenu', bb10Menu.oncontextmenu);
+			bb.windowListeners.push({name: 'contextmenu', eventHandler: bb10Menu.oncontextmenu});
+			
 			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-dark');
 			items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
 			if(items.length > 0){
@@ -2076,11 +2259,14 @@ bb.menuBar = {
 			}
 
 			// Set the size of the menu bar and assign the lstener
-			bb10Menu.style['-webkit-transform']	= 'translate(0,0)';
 			bb10Menu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
-			screen.appendChild(bb10Menu);
+			screen.parentNode.appendChild(bb10Menu);
 			// Assign the menu
 			bb.menuBar.menu	= bb10Menu;	
+			bb.menuBar.menu.style['z-index'] = '-100';
+			bb.menuBar.menu.style.display = 'none';
+			bb.menuBar.menu.style.height = bb.menuBar.menu.height + 'px';
+
 		} else {
 			var pbMenu = document.createElement('div'), 
 				items, 
@@ -2153,9 +2339,42 @@ bb.menuBar = {
 		bb.menuBar.menu.overlay = bb.screen.overlay;	
 	},
 
+	doEndTransition: function() {
+		if (bb.menuBar.visible) {
+			bb.menuBar.menu.style['z-index'] = '';
+		} else {
+			bb.menuBar.menu.style.display = 'none';
+			bb.menuBar.menu.style.height = '0px';
+			bb.menuBar.screen.removeEventListener('webkitTransitionEnd',bb.menuBar.doEndTransition);
+			bb.menuBar.screen.style['-webkit-transition'] = '';
+			bb.menuBar.screen.style['-webkit-transform'] = '';
+			bb.menuBar.screen.style['-webkit-backface-visibility'] = '';
+		}
+	},
+
+	setDimensions: function() {
+		bb.menuBar.menu.style.display = '';
+		bb.menuBar.menu.style.height = bb.menuBar.height + 'px';
+		// Set our screen's parent to have no overflow so the browser doesn't think it needs to scroll
+		bb.menuBar.screen.parentNode.style.position = 'absolute';
+		bb.menuBar.screen.parentNode.style.left = '0px';
+		bb.menuBar.screen.parentNode.style.top = '0px';
+		bb.menuBar.screen.parentNode.style.bottom = '0px';
+		bb.menuBar.screen.parentNode.style.right = '0px';
+		bb.menuBar.screen.parentNode.style.width = '100%';
+		bb.menuBar.screen.parentNode.style['overflow'] = 'hidden';
+		// Make our overlay visible
+		bb.menuBar.menu.overlay.style.display = 'block';
+		
+		// Slide our screen
+		bb.menuBar.screen.style['-webkit-transition'] = '0.2s ease-out';
+		bb.menuBar.screen.style['-webkit-transform'] = 'translate3d(0px,' + bb.menuBar.height + 'px,0px)';
+		bb.menuBar.screen.style['-webkit-backface-visibility'] = 'hidden';
+	},
+
 	showMenuBar: function(){
-		if(!bb.menuBar.menuOpen){
-			bb.menuBar.menu.overlay.style.display = 'inline';
+		if(!bb.menuBar.visible){
+			bb.menuBar.visible = true;
 			if(bb.device.isPlayBook){
 				blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
 			}else if(bb.device.isBB10){
@@ -2165,21 +2384,21 @@ bb.menuBar = {
 
 			//Use the right transition
 			if(bb.device.isBB10){
-				bb.menuBar.screen.style['-webkit-transition'] = 'all 0.25s ease-in-out';
-				bb.menuBar.screen.style['-webkit-transform'] = 'translate(0, ' + (bb.menuBar.height + 3) + 'px)';
+				bb.menuBar.screen.addEventListener('webkitTransitionEnd',bb.menuBar.doEndTransition);
+				bb.menuBar.setDimensions();					
 			}else if(bb.device.isPlayBook){
 				bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-				bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, ' + (bb.menuBar.height + 3) + 'px)';
-				bb.menuBar.menu.overlay.style.display = 'none';
+				bb.menuBar.menu.style['-webkit-transform'] = 'translate3d(0, ' + (bb.menuBar.height + 3) + 'px,0px)';
 			}
-			bb.menuBar.menuOpen = true;
+			bb.menuBar.visible = true;
 			bb.menuBar.menu.overlay.addEventListener('touchstart', bb.menuBar.overlayTouchHandler, false);
 		}
 	},
 
 	hideMenuBar: function(){
-		if(bb.menuBar.menuOpen){
-			bb.menuBar.menu.overlay.style.display = 'none';
+		if(bb.menuBar.visible){
+			bb.menuBar.visible = false;
+
 			if(bb.device.isPlayBook){
 				blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
 			}else if(bb.device.isBB10){
@@ -2188,14 +2407,13 @@ bb.menuBar = {
 			}
 			//Use the right transition
 			if(bb.device.isBB10){
-				bb.menuBar.screen.style['-webkit-transition'] = 'all 0.25s ease-in-out';
-				bb.menuBar.screen.style['-webkit-transform'] = 'translate(0, 0)';
+				bb.menuBar.menu.style['z-index'] = '-100';
+				bb.menuBar.screen.style['-webkit-transform'] = 'translate3d(0px,0px,0px)';
 				bb.menuBar.menu.overlay.style.display = 'none';
 			}else if(bb.device.isPlayBook){
 				bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-				bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, -' + (bb.menuBar.height + 3) + 'px)';
+				bb.menuBar.menu.style['-webkit-transform'] = 'translate3d(0, -' + (bb.menuBar.height + 3) + 'px,0px)';
 			}
-			bb.menuBar.menuOpen = false;
 			bb.menuBar.menu.overlay.removeEventListener('touchstart', bb.menuBar.overlayTouchHandler, false);
 		}
 	},
@@ -2221,14 +2439,13 @@ bb.menuBar = {
 				}
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
-				bb.menuBar.menuOpen = false;
+				bb.menuBar.visible = false;
 			}else if(blackberry.ui && blackberry.ui.menu){
 				blackberry.ui.menu.clearMenuItems();
 			}
 		}
 	}
 };
-
 _bb_progress = {
 
 	NORMAL : 0,
@@ -2430,7 +2647,7 @@ bb.screen = {
 			//check to see if a menu/menuBar needs to be created
            
             if (bb.device.isBB10) {
-				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]');
+				var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]'),
                 	titleBar = outerElement.querySelectorAll('[data-bb-type=title]'),
 					actionBar = outerElement.querySelectorAll('[data-bb-type=action-bar]'),
 					context = outerElement.querySelectorAll('[data-bb-type=context-menu]'),
@@ -2501,8 +2718,30 @@ bb.screen = {
 						evt = document.createEvent('Events');
 						evt.initEvent('bbuiscrolling', true, true);
 						document.dispatchEvent(evt);
+						/* This is a major hack to fix an issue in webkit where it doesn't always
+						   understand when to re-paint the screen when scrolling a <div> with overflow
+						   and using the inertial scrolling */
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
+						
+						/* ************* END OF THE SCROLLING HACK *******************/
+						
 					},false);
-
+				
+				/* ********** PART OF THE SCROLLING HACK ************/
+				outerScrollArea.resetPadding = function() {
+						this.style['padding-right'] = '0px';
+						this.timeout = null;
+					};
+				outerScrollArea.resetPadding = outerScrollArea.resetPadding.bind(outerScrollArea);
+				/* ********** END OF THE SCROLLING HACK ************/
+				
+				
 				if (outerElement.getAttribute('data-bb-indicator')) { 
 					// Now add our iframe to load the sandboxed content
 					var overlay = document.createElement('div'),
@@ -2969,7 +3208,6 @@ bb.screen = {
 	}
 		
 };
-
 bb.tabOverflow = {
 
 	create : function(screen) {
@@ -3003,6 +3241,24 @@ bb.tabOverflow = {
 		menu.style['z-index'] = '-100';
 		menu.style.display = 'none';
 		menu.style.width = menu.width + 'px';
+		
+		// Handle any press-and-hold events
+		menu.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
+		window.addEventListener('contextmenu', menu.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
 		
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');
@@ -3237,6 +3493,7 @@ bb.tabOverflow = {
 
 				// See if it was selected
 				action.initialSelected = (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true'));
+				action.selected = action.initialSelected;
 				
 				// Trap the old click so that we can call it later
 				action.oldClick = action.onclick;
@@ -3255,6 +3512,13 @@ bb.tabOverflow = {
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
+									this.caption = value;
+									
+									// Update the overflow button if this tab is selected
+									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+									if ((this.visibleTab == tabOverflowBtn) && (this.selected == true)) {
+										tabOverflowBtn.display.innerHTML = this.caption;
+									}
 								};
 				action.setCaption = action.setCaption.bind(action);
 				
@@ -4182,7 +4446,6 @@ _bb10_contextMenu = {
 		var menu = document.createElement('div');
 		menu.style.display = 'none';
 		menu.actions = [];
-		menu.pinnedAction = undefined;
 		
 		// Handle our context open event
 		menu.oncontextmenu = function(contextEvent) {
@@ -4196,7 +4459,8 @@ _bb10_contextMenu = {
 					if (node.hasAttribute) {
 						bbuiType = node.hasAttribute('data-bb-type') ? node.getAttribute('data-bb-type').toLowerCase() : undefined;
 						if (bbuiType == 'item') {
-							found = true;
+							// Make sure it has the webworks attribute
+							found = node.hasAttribute('data-webworks-context');
 							break;
 						} 
 					}
@@ -4212,6 +4476,8 @@ _bb10_contextMenu = {
 							description : data.subheader,
 							selected : node
 						};
+				} else {
+					contextEvent.preventDefault();
 				}
 				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);				
 			};
@@ -4242,15 +4508,14 @@ _bb10_contextMenu = {
 					};
 				// Assign a pointer to the menu item
 				bb.contextMenu.actionIds.push(menuItem.actionId);
+				action.pinned = false;
 				action.menuItem = menuItem;
 				action.menu = this;
 				action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
 				
 				// Check for the pinned item
-				if (!this.pinnedAction) {
-					if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
-						this.pinnedAction = action;
-					}
+				if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
+					action.pinned = true;
 				}
 				// Handle the click of the menu item
 				action.doclick = function(id) {
@@ -4294,15 +4559,20 @@ _bb10_contextMenu = {
 		menu.centerMenuItems = function() {
 				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
 					i,
+					pinnedAction = false,
 					action,
 					options = {
 						includeContextItems: [blackberry.ui.contextmenu.CONTEXT_ALL],
 						includePlatformItems: false,
 						includeMenuServiceItems: false
 					};
+					
 				// See if we have a pinned action
-				if (this.pinnedAction) {
-					options.pinnedItemId = this.pinnedAction.menuItem.actionId;
+				for (i = 0; i < this.actions.length; i++) {
+					action = this.actions[i];
+					if (action.visible && action.pinned) {
+						options.pinnedItemId = action.menuItem.actionId;
+					}
 				}
 				// First clear any items that exist
 				this.clearWWcontextMenu();
@@ -4344,7 +4614,6 @@ _bb10_contextMenu = {
 		return menu;
 	}
 };
-
 _bb10_dropdown = { 
     // Apply our transforms to all dropdowns passed in
     apply: function(elements) {
@@ -5281,8 +5550,8 @@ _bb10_imageList = {
 			outerElement.setAttribute('class','bb-bb10-image-list');
 			outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
 			if (!outerElement.hideImages) {
-				outerElement.imageEffect = outerElement.hasAttribute('data-bb-image-effect') ? outerElement.getAttribute('data-bb-image-effect').toLowerCase() : undefined;
 				outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
+				outerElement.imageLoading = outerElement.hasAttribute('data-bb-image-loading') ? outerElement.getAttribute('data-bb-image-loading') : undefined;
 			}
 			
 			// See what kind of style they want for this list
@@ -5318,6 +5587,8 @@ _bb10_imageList = {
 						btnInner,
 						json;
 					
+					innerChildNode.btn = undefined;
+
 					if (type == 'header') {
 						// Set our normal and highlight styling
 						normal = 'bb-bb10-image-list-header bb-bb10-image-list-header-'+res;
@@ -5351,59 +5622,8 @@ _bb10_imageList = {
 						innerChildNode.highlight = highlight;
 						innerChildNode.setAttribute('class', normal);
 						innerChildNode.innerHTML = '';
-						// Create our image
-						if (!this.hideImages) {
-							img = document.createElement('img');
-							img.outerElement = this;
-							
-							innerChildNode.img = img;
-							if (this.imagePlaceholder) {
-								img.placeholder = this.imagePlaceholder;
-								img.path = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
-							} else {
-								img.path = innerChildNode.getAttribute('data-bb-img');
-							}
-							innerChildNode.appendChild(img);
-							
-							if (this.imageEffect) {
-								img.style.opacity = '0';
-								img.style['-webkit-transition'] = 'opacity 0.5s linear';
-								/*img.style['-webkit-backface-visibility'] = 'hidden';
-								img.style['-webkit-perspective'] = 1000;
-								img.style['-webkit-transform'] = 'translate3d(0,0,0)';*/  // This was causing webkit to crash
-								innerChildNode.imageList = this;
-								// Load our image once bbuilistready 
-								innerChildNode.bbuilistready = function() {
-											// Animate its visibility once loaded
-											this.img.onload = function() {
-												this.style.opacity = '1.0';
-											}
-											this.img.src = this.img.path;
-											
-											if (this.imageList.imagePlaceholder) {
-												this.img.onerror = function() {
-													if (this.src == this.placeholder) return;
-													this.src = this.placeholder;
-												};
-											}
-											document.removeEventListener('bbuilistready', this.bbuilistready,false);
-										};
-								innerChildNode.bbuilistready = innerChildNode.bbuilistready.bind(innerChildNode);
-								document.addEventListener('bbuilistready', innerChildNode.bbuilistready,false);
-							} else {
-								img.src = img.path;
-								// Handle the error scenario
-								if (this.imagePlaceholder) {
-									img.onerror = function() {
-													if (this.src == this.placeholder) return;
-													this.src = this.placeholder;
-													if (this.outerElement.imageEffect) {
-														this.show();
-													}
-												};
-								}
-							}
-						}
+						img = undefined;
+			
 						// Create the details container
 						details = document.createElement('div');
 						details.innerChildNode = innerChildNode;
@@ -5412,7 +5632,50 @@ _bb10_imageList = {
 						detailsClass = 'bb-bb10-image-list-item-details-'+res;
 						if (this.hideImages) {
 							detailsClass = detailsClass + ' bb-bb10-image-list-item-noimage-'+res;
-						} 
+						} else {
+							img = new Image();
+							innerChildNode.img = img;
+							if (this.imagePlaceholder) {
+								img.placeholder = this.imagePlaceholder;
+								img.path = innerChildNode.hasAttribute('data-bb-img') ? innerChildNode.getAttribute('data-bb-img') : this.imagePlaceholder;
+							} else {
+								img.path = innerChildNode.getAttribute('data-bb-img');
+							}
+							// Handle our loaded image
+							innerChildNode.onimageload = function() {
+									this.details.style['background-image'] = 'url("'+this.img.src+'")';
+									innerChildNode.details.style['background-size'] = '';
+									// Unassign this image so that it is removed from memory
+									this.img = null;
+								};
+							innerChildNode.onimageload = innerChildNode.onimageload.bind(innerChildNode);
+							img.onload = innerChildNode.onimageload;
+							
+							if (this.imagePlaceholder) {
+								// Handle our error state
+								innerChildNode.onimageerror = function() {
+									if (this.img.src == this.img.placeholder) return;
+									this.img.src = this.img.placeholder;
+								};
+								innerChildNode.onimageerror = innerChildNode.onimageerror.bind(innerChildNode);
+								img.onerror = innerChildNode.onimageerror;
+							}
+							// Add our loading image
+							if (this.imageLoading) {
+								innerChildNode.details.style['background-image'] = 'url("'+this.imageLoading+'")';
+								// Hack to adjust background sizes for re-paint issues in webkit
+								if (bb.device.is1024x600) {
+									innerChildNode.details.style['background-size'] = '64px 65px';
+								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+									innerChildNode.details.style['background-size'] = '109px 110px';
+								} else if (bb.device.is720x720) {
+									innerChildNode.details.style['background-size'] = '92px 93px';
+								}else {
+									innerChildNode.details.style['background-size'] = '109px 110px';
+								}
+							}
+							img.src = img.path;
+						}
 						
 						// Create our title
 						title = document.createElement('div');
@@ -5530,19 +5793,37 @@ _bb10_imageList = {
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
+							detailsClass = detailsClass + ' bb-bb10-image-list-item-details-nodescription-'+res;
+							
 							// Adjust margins
 							if (bb.device.is1024x600) {
 								title.style['margin-top'] = '16px';
-								overlay.style['margin-top'] = '-72px';
+								title.style['padding-top'] = '28px';
+								overlay.style['margin-top'] = '-94px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-59px';
+								}
 							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 								title.style['margin-top'] = '-7px';
-								overlay.style['margin-top'] = '-121px';
+								title.style['padding-top'] = '20px';
+								overlay.style['margin-top'] = '-140px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-102px';
+								}
 							} else if (bb.device.is720x720) {
 								title.style['margin-top'] = '-14px';
-								overlay.style['margin-top'] = '-108px';
+								title.style['padding-top'] = '20px';
+								overlay.style['margin-top'] = '-133px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-89px';
+								}
 							}else {
 								title.style['margin-top'] = '-7px';
+								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-121px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-102px';
+								}
 							}
 							// Adjust accent text
 							if (accentText) {
@@ -5628,7 +5909,9 @@ _bb10_imageList = {
 							json.id = innerChildNode.guid;
 							json.type = 'bbui-context';
 							json.header = innerChildNode.title;
-							json.subheader = innerChildNode.description;
+							if (innerChildNode.description && (innerChildNode.description != '&nbsp;')) {
+								json.subheader = innerChildNode.description;
+							}
 							innerChildNode.setAttribute('data-webworks-context', JSON.stringify(json));
 						}	
 						
@@ -6030,6 +6313,18 @@ _bb10_pillButtons = {
 				innerChildNode.addEventListener('click',function (e) { 
 							e.stopPropagation();
 						}, true);
+						
+				// setCaption function
+				innerChildNode.setCaption = function(value){ 
+					this.border.innerHTML = value;
+			    };
+				innerChildNode.setCaption = innerChildNode.setCaption.bind(innerChildNode);
+				
+				// getCaption function, returns null if no button
+				innerChildNode.getCaption = function(){ 
+					return this.border.innerHTML;
+			    };
+				innerChildNode.getCaption = innerChildNode.getCaption.bind(innerChildNode); 
 						
 				return innerChildNode;
 			};
@@ -9237,8 +9532,30 @@ _bb_PlayBook_10_scrollPanel = {
 						// Raise an internal event to let the rest of the framework know that content is scrolling
 						evt = document.createEvent('Events');
 						evt.initEvent('bbuiscrolling', true, true);
-						document.dispatchEvent(evt);
+						document.dispatchEvent(evt);	
+
+						/* This is a major hack to fix an issue in webkit where it doesn't always
+						   understand when to re-paint the screen when scrolling a <div> with overflow
+						   and using the inertial scrolling */
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
+						
+						/* ************* END OF THE SCROLLING HACK *******************/
+						
 					},false);
+					
+				/* ********** PART OF THE SCROLLING HACK ************/
+				outerElement.resetPadding = function() {
+						this.style['padding-right'] = '0px';
+						this.timeout = null;
+					};
+				outerElement.resetPadding = outerElement.resetPadding.bind(outerElement);
+				/* ********** END OF THE SCROLLING HACK ************/
 			}
 			
 			// Add show function
@@ -9298,8 +9615,7 @@ _bb_PlayBook_10_scrollPanel = {
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
 			outerElement.setAttribute('class','bb-scroll-panel');
 		}
-	}
-	
+	}	
 };
 // BlackBerry 10 Context Menu for PlayBook
 _PlayBook_contextMenu = {

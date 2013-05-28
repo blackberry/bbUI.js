@@ -32,6 +32,24 @@ bb.tabOverflow = {
 		menu.style.display = 'none';
 		menu.style.width = menu.width + 'px';
 		
+		// Handle any press-and-hold events
+		menu.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
+		window.addEventListener('contextmenu', menu.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
+		
 		if (!bb.screen.tabOverlay) {
 			overlay = document.createElement('div');
 			overlay.menu = menu;
@@ -265,6 +283,7 @@ bb.tabOverflow = {
 
 				// See if it was selected
 				action.initialSelected = (action.hasAttribute('data-bb-selected') && (action.getAttribute('data-bb-selected').toLowerCase() == 'true'));
+				action.selected = action.initialSelected;
 				
 				// Trap the old click so that we can call it later
 				action.oldClick = action.onclick;
@@ -283,6 +302,13 @@ bb.tabOverflow = {
 				// Assign the setCaption function
 				action.setCaption = function(value) {
 									this.display.innerHTML = value;
+									this.caption = value;
+									
+									// Update the overflow button if this tab is selected
+									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+									if ((this.visibleTab == tabOverflowBtn) && (this.selected == true)) {
+										tabOverflowBtn.display.innerHTML = this.caption;
+									}
 								};
 				action.setCaption = action.setCaption.bind(action);
 				

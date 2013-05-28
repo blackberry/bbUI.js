@@ -1,6 +1,6 @@
 bb.menuBar = {
 	height: 140,
-	menuOpen: false,
+	visible: false,
 	menu: false,
 	screen: false,
 
@@ -84,6 +84,24 @@ bb.menuBar = {
 				bb.menuBar.height = 110;
 			}
 
+			// Handle any press-and-hold events
+			bb10Menu.oncontextmenu = function(contextEvent) {
+				var node = contextEvent.srcElement,
+					parentNode = node.parentNode;
+				// Loop up to the parent node.. if it is this action bar then prevent default
+				if (!parentNode) return;
+				while (parentNode) {
+					if (parentNode == this) {
+						contextEvent.preventDefault();
+						break;
+					}
+					parentNode = parentNode.parentNode;
+				}			
+			};
+			bb10Menu.oncontextmenu = bb10Menu.oncontextmenu.bind(bb10Menu);
+			window.addEventListener('contextmenu', bb10Menu.oncontextmenu);
+			bb.windowListeners.push({name: 'contextmenu', eventHandler: bb10Menu.oncontextmenu});
+			
 			bb10Menu.setAttribute('class','bb-bb10-menu-bar-'+res+' bb-bb10-menu-bar-dark');
 			items = menuBar.querySelectorAll('[data-bb-type=menu-item]');
 			if(items.length > 0){
@@ -172,11 +190,14 @@ bb.menuBar = {
 			}
 
 			// Set the size of the menu bar and assign the lstener
-			bb10Menu.style['-webkit-transform']	= 'translate(0,0)';
 			bb10Menu.addEventListener('click', bb.menuBar.onMenuBarClicked, false);
-			screen.appendChild(bb10Menu);
+			screen.parentNode.appendChild(bb10Menu);
 			// Assign the menu
 			bb.menuBar.menu	= bb10Menu;	
+			bb.menuBar.menu.style['z-index'] = '-100';
+			bb.menuBar.menu.style.display = 'none';
+			bb.menuBar.menu.style.height = bb.menuBar.menu.height + 'px';
+
 		} else {
 			var pbMenu = document.createElement('div'), 
 				items, 
@@ -249,9 +270,42 @@ bb.menuBar = {
 		bb.menuBar.menu.overlay = bb.screen.overlay;	
 	},
 
+	doEndTransition: function() {
+		if (bb.menuBar.visible) {
+			bb.menuBar.menu.style['z-index'] = '';
+		} else {
+			bb.menuBar.menu.style.display = 'none';
+			bb.menuBar.menu.style.height = '0px';
+			bb.menuBar.screen.removeEventListener('webkitTransitionEnd',bb.menuBar.doEndTransition);
+			bb.menuBar.screen.style['-webkit-transition'] = '';
+			bb.menuBar.screen.style['-webkit-transform'] = '';
+			bb.menuBar.screen.style['-webkit-backface-visibility'] = '';
+		}
+	},
+
+	setDimensions: function() {
+		bb.menuBar.menu.style.display = '';
+		bb.menuBar.menu.style.height = bb.menuBar.height + 'px';
+		// Set our screen's parent to have no overflow so the browser doesn't think it needs to scroll
+		bb.menuBar.screen.parentNode.style.position = 'absolute';
+		bb.menuBar.screen.parentNode.style.left = '0px';
+		bb.menuBar.screen.parentNode.style.top = '0px';
+		bb.menuBar.screen.parentNode.style.bottom = '0px';
+		bb.menuBar.screen.parentNode.style.right = '0px';
+		bb.menuBar.screen.parentNode.style.width = '100%';
+		bb.menuBar.screen.parentNode.style['overflow'] = 'hidden';
+		// Make our overlay visible
+		bb.menuBar.menu.overlay.style.display = 'block';
+		
+		// Slide our screen
+		bb.menuBar.screen.style['-webkit-transition'] = '0.2s ease-out';
+		bb.menuBar.screen.style['-webkit-transform'] = 'translate3d(0px,' + bb.menuBar.height + 'px,0px)';
+		bb.menuBar.screen.style['-webkit-backface-visibility'] = 'hidden';
+	},
+
 	showMenuBar: function(){
-		if(!bb.menuBar.menuOpen){
-			bb.menuBar.menu.overlay.style.display = 'inline';
+		if(!bb.menuBar.visible){
+			bb.menuBar.visible = true;
 			if(bb.device.isPlayBook){
 				blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
 			}else if(bb.device.isBB10){
@@ -261,21 +315,21 @@ bb.menuBar = {
 
 			//Use the right transition
 			if(bb.device.isBB10){
-				bb.menuBar.screen.style['-webkit-transition'] = 'all 0.25s ease-in-out';
-				bb.menuBar.screen.style['-webkit-transform'] = 'translate(0, ' + (bb.menuBar.height + 3) + 'px)';
+				bb.menuBar.screen.addEventListener('webkitTransitionEnd',bb.menuBar.doEndTransition);
+				bb.menuBar.setDimensions();					
 			}else if(bb.device.isPlayBook){
 				bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-				bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, ' + (bb.menuBar.height + 3) + 'px)';
-				bb.menuBar.menu.overlay.style.display = 'none';
+				bb.menuBar.menu.style['-webkit-transform'] = 'translate3d(0, ' + (bb.menuBar.height + 3) + 'px,0px)';
 			}
-			bb.menuBar.menuOpen = true;
+			bb.menuBar.visible = true;
 			bb.menuBar.menu.overlay.addEventListener('touchstart', bb.menuBar.overlayTouchHandler, false);
 		}
 	},
 
 	hideMenuBar: function(){
-		if(bb.menuBar.menuOpen){
-			bb.menuBar.menu.overlay.style.display = 'none';
+		if(bb.menuBar.visible){
+			bb.menuBar.visible = false;
+
 			if(bb.device.isPlayBook){
 				blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
 			}else if(bb.device.isBB10){
@@ -284,14 +338,13 @@ bb.menuBar = {
 			}
 			//Use the right transition
 			if(bb.device.isBB10){
-				bb.menuBar.screen.style['-webkit-transition'] = 'all 0.25s ease-in-out';
-				bb.menuBar.screen.style['-webkit-transform'] = 'translate(0, 0)';
+				bb.menuBar.menu.style['z-index'] = '-100';
+				bb.menuBar.screen.style['-webkit-transform'] = 'translate3d(0px,0px,0px)';
 				bb.menuBar.menu.overlay.style.display = 'none';
 			}else if(bb.device.isPlayBook){
 				bb.menuBar.menu.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-				bb.menuBar.menu.style['-webkit-transform'] = 'translate(0, -' + (bb.menuBar.height + 3) + 'px)';
+				bb.menuBar.menu.style['-webkit-transform'] = 'translate3d(0, -' + (bb.menuBar.height + 3) + 'px,0px)';
 			}
-			bb.menuBar.menuOpen = false;
 			bb.menuBar.menu.overlay.removeEventListener('touchstart', bb.menuBar.overlayTouchHandler, false);
 		}
 	},
@@ -317,7 +370,7 @@ bb.menuBar = {
 				}
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
-				bb.menuBar.menuOpen = false;
+				bb.menuBar.visible = false;
 			}else if(blackberry.ui && blackberry.ui.menu){
 				blackberry.ui.menu.clearMenuItems();
 			}
