@@ -17,7 +17,10 @@
 <div data-bb-type="screen" data-bb-effect="slide-left">
 	<div data-bb-type="round-panel"> 
 		<div data-bb-type="panel-header">BlackBerry 10 Only</div>
-		<p style="text-align:center;">The below list demonstrates using the built in press and hold context menu for image lists</p>
+		<p style="text-align:center;">
+			The below list demonstrates using the built in press and hold context menu for image lists.<br>
+			Make sure you include the necessary config.xml feature ID.
+		</p>
 	</div>
 	<div data-bb-type="image-list" data-bb-context="true">
 		<div data-bb-type="item" data-bb-img="images/icons/icon7.png" data-bb-title="Superman" onclick="alert('You clicked me instead of press and hold');">Dude from another planet</div> 
@@ -30,7 +33,10 @@
 	</div>
 	<div data-bb-type="round-panel"> 
 		<div data-bb-type="panel-header">BlackBerry 10 Only</div>
-		<p style="text-align:center;">The below grid demonstrates using the built in press and hold context menu for grid lists</p>
+		<p style="text-align:center;">
+			The below list demonstrates using the built in press and hold context menu for image lists.<br>
+			Make sure you include the necessary config.xml feature ID.
+		</p>
 	</div>
 	<div data-bb-type="grid-layout" data-bb-style="square" data-bb-context="true">
 		<div data-bb-type="group">
@@ -47,11 +53,11 @@
 		</div>
 	</div>	
 	<div id="foo" data-bb-type="context-menu">
-		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('foo');">Email Work</div>
-		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="bb.pushScreen('grid.htm', 'grid');">Invite to Meeting</div>
-		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">Call Work</div>
-		<div data-bb-type="action" data-bb-img="images/actionBar/cog_dark_theme.png">View details</div>
-		<div data-bb-type="action" data-bb-pin="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('Your Item is ' + document.getElementById('foo').menu.selected.description+'?');">Delete</div>
+		<div data-bb-type="action" data-bb-img="local:///images/actionBar/cog_dark_theme.png" onclick="alert('foo');">Email Work</div>
+		<div data-bb-type="action" data-bb-img="local:///images/actionBar/cog_dark_theme.png" onclick="bb.pushScreen('grid.htm', 'grid');">Invite to Meeting</div>
+		<div data-bb-type="action" data-bb-img="local:///images/actionBar/cog_dark_theme.png">Call Work</div>
+		<div data-bb-type="action" data-bb-img="local:///images/actionBar/cog_dark_theme.png">View details</div>
+		<div data-bb-type="action" data-bb-pin="true" data-bb-img="local:///images/actionBar/cog_dark_theme.png" onclick="alert('Your Item is ' + document.getElementById('foo').menu.selected.description+'?');">Delete</div>
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>

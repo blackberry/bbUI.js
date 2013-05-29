@@ -27,3 +27,15 @@ function moveSlider() {
 	slider.setValue(value + step);	
 	setTimeout('moveSlider()', 100);    
 }
+
+function colorDiv() {
+document.getElementById('changeColor').style.backgroundColor = 
+	'rgba('+document.getElementById('redslide').value+
+	','+
+	document.getElementById('greenslide').value+
+	','+
+	document.getElementById('blueslide').value+
+	','+
+	document.getElementById('alphaslide').value/100+
+	')'
+}
