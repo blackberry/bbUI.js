@@ -53,7 +53,7 @@ task('build', ['clean'], function () {
 	// Retrieve the version information
 	version = JSON.parse(include("JakeVersion"));
 	version.build++;
-	versionText = '/* VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + '*/\n\n';
+	versionText = '/* bbUI for BBOS VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + '*/\n\n';
 
 	pkg = JSON.parse(include("../../package.json"));
 	pkg.version = version.major + '.' + version.minor + '.' + version.revision;
@@ -83,7 +83,7 @@ task('build', ['clean'], function () {
 	// Minify
 	console.log("Minifying...");
 	// First the JavaScript
-	license = '/*! bbUI VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + ' | github.com/blackberry/bbUI.js/blob/master/LICENSE !*/';
+	license = '/*! bbUI for BBOS VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + ' | github.com/blackberry/bbUI.js/blob/master/LICENSE !*/';
 	minified = UglifyJS.minify("../../pkg/bbos/bbui.js");
 	fs.writeFileSync("../../pkg/bbos/bbui-min.js", license + minified.code);
 	// Then the CSS

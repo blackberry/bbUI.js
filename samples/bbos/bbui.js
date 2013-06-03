@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.150*/
+/* bbUI for BBOS VERSION: 0.9.6.151*/
 
 bb = {
 	scroller: null,  
