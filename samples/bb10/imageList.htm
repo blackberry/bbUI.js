@@ -16,7 +16,8 @@
 -->
 <div data-bb-type="screen" data-bb-effect="slide-left">
 	<div data-bb-type="title" data-bb-caption="Image List" data-bb-back-caption="Back" ></div>
-	
+	<script src="js/imageList.js"></script>
+
 	<div data-bb-type="image-list" data-bb-image-effect="fade" data-bb-image-placeholder="images/imageList/placeholder.jpg" id="myImageList">
 		<div data-bb-type="item" data-bb-img="images/imageList/1.jpg" data-bb-title="The Works" data-bb-accent-text="999 years ago">Item with all the options</div>
 		<div data-bb-type="item" data-bb-img="images/imageList/fibbidyfoo.jpg" data-bb-title="Broken Image URL">A placeholder image example</div> 		
@@ -36,7 +37,9 @@
 		<div data-bb-type="panel-header">Image List Functions</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').hide();" id="hide">Hide Image List</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').show();" id="show">Show Image List</div>
-        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').remove();" id="remove">Remove Image List</div>        
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').remove();" id="remove">Remove Image List</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').appendItem(createHeader());" id="appendHeader">Append Header</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').appendItem(createItem());" id="appendItem">Append Item</div>
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
