@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.160*/
+/* bbUI for BB10 VERSION: 0.9.6.161*/
 
 var LIB_FOLDER = '../../lib/',
 	_bbUI_overlayWebView,
