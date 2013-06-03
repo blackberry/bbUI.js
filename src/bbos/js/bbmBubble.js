@@ -170,6 +170,22 @@ _bb_bbmBubble = {
         };
         outerElement.getItems = outerElement.getItems.bind(outerElement); 
         
+        // Append an item to the end of the bubble
+        outerElement.appendItem = function(item) {
+            this.styleItem(item);
+            this.insidePanel.appendChild(item);
+            bb.refresh();
+        };
+        outerElement.appendItem = outerElement.appendItem.bind(outerElement);
+
+        // Insert an item before another item in the bubble
+        outerElement.insertItemBefore = function(newItem, existingItem) {
+            this.styleItem(newItem);
+            this.insidePanel.insertBefore(newItem,existingItem);
+            bb.refresh();
+        };
+        outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
+        
         return outerElement;
     }
 };
