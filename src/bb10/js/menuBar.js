@@ -333,7 +333,7 @@ bb.menuBar = {
 	},
 
 	showMenuBar: function(){
-		if(!bb.menuBar.visible){
+		if(!bb.menuBar.visible && !bb.screen.animating){
 			bb.menuBar.visible = true;
 			if(bb.device.isPlayBook){
 				blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
