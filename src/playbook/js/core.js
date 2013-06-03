@@ -30,41 +30,9 @@ bb = {
 		if (options) {
 			for (var i in options) bb.options[i] = options[i];
 		}
-		
-		// Assign our back handler if provided otherwise assign the default
-		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {	
-			if (bb.options.onbackkey) {
-				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.options.onbackkey);
-			} else { // Use the default 
-				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.popScreen);
-			}
-		}
-		
+
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
-		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
-		
-		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
-			bb.device.isBB10 = true;
-		} else {
-			bb.device.isBB10 = (navigator.userAgent.indexOf('BB10') >= 0);
-		}
-		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
-		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
-		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
-		
-		// Set our resolution flags
-		bb.device.is1024x600 = bb.device.isPlayBook;
-		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
-		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
-		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
-		
-		// Determine HiRes
-		if (bb.device.isRipple) {
-			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
-		} else {
-			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
-		}
 		
 		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
@@ -80,11 +48,7 @@ bb = {
 		// Set our meta tags for content scaling
 		var meta = document.createElement('meta');
 		meta.setAttribute('name','viewport');
-		if (bb.device.isBB10 && !bb.device.is1024x600) { 
-			meta.setAttribute('content','initial-scale='+ (1/window.devicePixelRatio) +',user-scalable=no');
-		} else {
-			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
-		}
+		meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
 		document.head.appendChild(meta);
 		
 		// Create our shades of colors
@@ -135,47 +99,6 @@ bb = {
 		bb.scrollPanel = _bb_PlayBook_scrollPanel;
 		bb.roundPanel = _bbPlayBook_roundPanel;
 		bb.activityIndicator = _bbPlayBook_activityIndicator;
-		
-		
-		// Add our keyboard listener for BB10
-		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
-			// Hide our action bar when the keyboard is about to pop up
-			blackberry.event.addEventListener('keyboardOpening', function() {
-				if (bb.screen.currentScreen.actionBar) {
-					bb.screen.currentScreen.actionBar.hide();
-				} 
-			});
-			
-			// Scroll to our selected input once the keyboard is opened
-			blackberry.event.addEventListener('keyboardOpened', function() {
-				if (bb.screen.currentScreen.actionBar) {
-					if (bb.screen.focusedInput) {
-						if (bb.screen.focusedInput.container) {
-							bb.screen.focusedInput.container.scrollIntoView(false);
-						} else {
-							bb.screen.focusedInput.scrollIntoView(false);
-						}
-					}
-				} 
-			});
-			
-			// Show our action bar when the keyboard disappears
-			blackberry.event.addEventListener('keyboardClosed', function() {
-				if (bb.screen.currentScreen.actionBar) {
-					bb.screen.currentScreen.actionBar.show();
-				} 
-			});
-		}
-		
-		// Initialize our Context Menu via the bbUI Extension for BB10
-		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple) {
-			if (blackberry.ui && blackberry.ui.contextmenu) {
-				blackberry.ui.contextmenu.enabled = true;
-				if (blackberry.bbui) {
-					blackberry.bbui.initContext({highlightColor : bb.options.highlightColor});
-				}
-			}
-		}	
 	},
 
     doLoad: function(element) {
@@ -183,8 +106,6 @@ bb = {
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
 		bb.style(root);
-        // perform device specific formatting
-        bb.screen.reAdjustHeight();	
     },
 	
 	style: function(root) {
@@ -193,47 +114,33 @@ bb = {
 		if (bb.dropdown)				bb.dropdown.apply(root.querySelectorAll('select'));
         if (bb.roundPanel) 				bb.roundPanel.apply(root.querySelectorAll('[data-bb-type=round-panel]'));
         if (bb.imageList) 				bb.imageList.apply(root.querySelectorAll('[data-bb-type=image-list]'));
-		if (bb.grid)					bb.grid.apply(root.querySelectorAll('[data-bb-type=grid-layout]'));
         if (bb.bbmBubble)				bb.bbmBubble.apply(root.querySelectorAll('[data-bb-type=bbm-bubble]'));
         if (bb.pillButtons)				bb.pillButtons.apply(root.querySelectorAll('[data-bb-type=pill-buttons]'));
         if (bb.labelControlContainers)	bb.labelControlContainers.apply(root.querySelectorAll('[data-bb-type=label-control-container]'));
-        if(bb.button) 					bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
+        if (bb.button) 					bb.button.apply(root.querySelectorAll('[data-bb-type=button]'));
 		if (bb.fileInput) 				bb.fileInput.apply(root.querySelectorAll('input[type=file]'));
 		if (bb.slider)					bb.slider.apply(root.querySelectorAll('input[type=range]'));
 		if (bb.progress)				bb.progress.apply(root.querySelectorAll('progress'));
 		if (bb.radio)					bb.radio.apply(root.querySelectorAll('input[type=radio]'));
 		if (bb.activityIndicator) 		bb.activityIndicator.apply(root.querySelectorAll('[data-bb-type=activity-indicator]'));
 		if (bb.checkbox)				bb.checkbox.apply(root.querySelectorAll('input[type=checkbox]'));
-		if (bb.toggle)					bb.toggle.apply(root.querySelectorAll('[data-bb-type=toggle]'));
 	},
 	getCurScreen : function(){
 		return document.querySelector('[data-bb-type=screen]');
 	},
 	device: {  
-        isHiRes: false, 
-        isBB5: false,
-		isBB6: false,
-		isBB7: false,
-		isBB10: false,
-        isPlayBook: false, 
         isRipple: false,
-		// Resolutions
-		is1024x600: false,
-		is1280x768: false,
-		is720x720: false,
-		is1280x720: false		
+		is1024x600: true
     },
 	
 	// Options for rendering
 	options: {
-		onbackkey: null,
 		onscreenready: null,
 		ondomready: null,  		
 		controlsDark: false, 
 		coloredTitleBar: false,
 		listsDark: false,
-		highlightColor: '#00A8DF',
-		bb10ForPlayBook: false
+		highlightColor: '#00A8DF'
 	},
 	
     loadScreen: function(url, id, popping, guid, params, screenRecord) {
@@ -389,86 +296,64 @@ bb = {
 			animationScreen.popping = popping;
 			if (animationScreen.hasAttribute('data-bb-effect')) {
 				// see if there is a display effect
-				if (!bb.device.isBB5 && !bb.device.isBB6) {
-					effect = animationScreen.getAttribute('data-bb-effect');
-					if (effect) {
-						effect = effect.toLowerCase();
-					
-						if (effect == 'fade') {
-							effectToApply = bb.screen.fadeIn;
-						} else if (effect == 'fade-out') {
-							effectToApply = bb.screen.fadeOut;
-						} else if (!bb.device.isBB7) {
-							switch (effect) {
-							case 'slide-left':
-								effectToApply = bb.screen.slideLeft;
-								break;
-							case 'slide-out-left':
-								effectToApply = bb.screen.slideOutLeft;
-								break;
-							case 'slide-right':
-								effectToApply = bb.screen.slideRight;
-								break;
-							case 'slide-out-right':
-								effectToApply = bb.screen.slideOutRight;
-								break;
-							case 'slide-up':
-								effectToApply = bb.screen.slideUp;
-								break;
-							case 'slide-out-up':
-								effectToApply = bb.screen.slideOutUp;
-								break;
-							case 'slide-down':
-								effectToApply = bb.screen.slideDown;
-								break;
-							case 'slide-out-down':
-								effectToApply = bb.screen.slideOutDown;
-								break;
-							}
+				effect = animationScreen.getAttribute('data-bb-effect');
+				if (effect) {
+					effect = effect.toLowerCase();
+				
+					if (effect == 'fade') {
+						effectToApply = bb.screen.fadeIn;
+					} else if (effect == 'fade-out') {
+						effectToApply = bb.screen.fadeOut;
+					} else {
+						switch (effect) {
+						case 'slide-left':
+							effectToApply = bb.screen.slideLeft;
+							break;
+						case 'slide-out-left':
+							effectToApply = bb.screen.slideOutLeft;
+							break;
+						case 'slide-right':
+							effectToApply = bb.screen.slideRight;
+							break;
+						case 'slide-out-right':
+							effectToApply = bb.screen.slideOutRight;
+							break;
+						case 'slide-up':
+							effectToApply = bb.screen.slideUp;
+							break;
+						case 'slide-out-up':
+							effectToApply = bb.screen.slideOutUp;
+							break;
+						case 'slide-down':
+							effectToApply = bb.screen.slideDown;
+							break;
+						case 'slide-out-down':
+							effectToApply = bb.screen.slideOutDown;
+							break;
 						}
-	
-						animationScreen.style.display = 'inline'; // This is a wierd hack
-						
-						// Listen for when the animation ends so that we can clear the previous screen
-						if (effectToApply) {
-							// Create our overlay
-							overlay = document.createElement('div');
-							animationScreen.overlay = overlay;
-							overlay.setAttribute('class','bb-transition-overlay');
-							document.body.appendChild(overlay);
-							// Add our listener and animation state
-							bb.screen.animating = true;
-							animationScreen.doEndAnimation = function() {
-									var s = this.style;
-									bb.screen.animating = false;	
-									// Remove our overlay
-									document.body.removeChild(this.overlay);
-									this.overlay = null;
-									// Only remove the screen at the end of animation "IF" it isn't the only screen left
-									if (bb.screens.length > 1) {
-										if (!this.popping) {
-											bb.removePreviousScreenFromDom();
-											// Clear style changes that may have been made for the animation
-											s.left = '';
-											s.right = '';
-											s.top = '';
-											s.bottom = '';
-											s.width = '';
-											s.height = '';
-											s['-webkit-animation-name'] = '';
-											s['-webkit-animation-duration'] = '';
-											s['-webkit-animation-timing-function'] = ''; 
-											s['-webkit-transform'] = '';
-										} else {
-											this.style.display = 'none';
-											this.parentNode.parentNode.removeChild(this.parentNode);
-											// Pop it from the stack
-											bb.screens.pop();	
-											screen.style['z-index'] = '';
-											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
-											bb.screens[bb.screens.length-1].container = container;  
-										}
-									} else if (bb.screens.length <= 1) {
+					}
+
+					animationScreen.style.display = 'inline'; // This is a wierd hack
+					
+					// Listen for when the animation ends so that we can clear the previous screen
+					if (effectToApply) {
+						// Create our overlay
+						overlay = document.createElement('div');
+						animationScreen.overlay = overlay;
+						overlay.setAttribute('class','bb-transition-overlay');
+						document.body.appendChild(overlay);
+						// Add our listener and animation state
+						bb.screen.animating = true;
+						animationScreen.doEndAnimation = function() {
+								var s = this.style;
+								bb.screen.animating = false;	
+								// Remove our overlay
+								document.body.removeChild(this.overlay);
+								this.overlay = null;
+								// Only remove the screen at the end of animation "IF" it isn't the only screen left
+								if (bb.screens.length > 1) {
+									if (!this.popping) {
+										bb.removePreviousScreenFromDom();
 										// Clear style changes that may have been made for the animation
 										s.left = '';
 										s.right = '';
@@ -480,18 +365,38 @@ bb = {
 										s['-webkit-animation-duration'] = '';
 										s['-webkit-animation-timing-function'] = ''; 
 										s['-webkit-transform'] = '';
+									} else {
+										this.style.display = 'none';
+										this.parentNode.parentNode.removeChild(this.parentNode);
+										// Pop it from the stack
+										bb.screens.pop();	
+										screen.style['z-index'] = '';
+										// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
+										bb.screens[bb.screens.length-1].container = container;  
 									}
-									
-									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
-									bb.createScreenScroller(screen); 
-								};
-							animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
-							animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
-							
-							effectToApply.call(this, animationScreen);
-						}
-					} 
-				}				
+								} else if (bb.screens.length <= 1) {
+									// Clear style changes that may have been made for the animation
+									s.left = '';
+									s.right = '';
+									s.top = '';
+									s.bottom = '';
+									s.width = '';
+									s.height = '';
+									s['-webkit-animation-name'] = '';
+									s['-webkit-animation-duration'] = '';
+									s['-webkit-animation-timing-function'] = ''; 
+									s['-webkit-transform'] = '';
+								}
+								
+								this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
+								bb.createScreenScroller(screen); 
+							};
+						animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
+						animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
+						
+						effectToApply.call(this, animationScreen);
+					}
+				} 			
 			} 
 		} 
 		
@@ -508,14 +413,11 @@ bb = {
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
 			if (!popping) {
-				if ((bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) && (bb.screens.length > 0)) {
-					bb.removePreviousScreenFromDom();
-				} else if (bb.screens.length > 1) {
+				if (bb.screens.length > 1) {
 					bb.removePreviousScreenFromDom();
 				}
 			} else if (popping) {
 				screen.style['z-index'] = '';
-				
 				var currentScreen = bb.screens[bb.screens.length-1].container;
 				currentScreen.parentNode.removeChild(currentScreen);
 				// Pop it from the stack
@@ -583,68 +485,43 @@ bb = {
 	createScreenScroller : function(screen) {  
 		var scrollWrapper = screen.bbUIscrollWrapper;
 		if (scrollWrapper) {
-			// Only apply iScroll if it is the PlayBook
-			if (bb.device.isPlayBook) {
-				var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
-					var target = e.target;
-					
-					// Don't scroll the screen when touching in our drop downs for BB10
-					if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
-						return;
-					}
-					
-					while (target.nodeType != 1) target = target.parentNode;
+			var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
+				var target = e.target;
+				
+				// Don't scroll the screen when touching in our drop downs for BB10
+				if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
+					return;
+				}
+				
+				while (target.nodeType != 1) target = target.parentNode;
 
-					if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
-						e.preventDefault();
-						// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
-						var activeElement = document.activeElement;
-						if (activeElement) {
-							if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
-								activeElement.blur();
-							}
-						}
-					} 
-					// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
-					/*if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
-						bb.options.screen.onBeforeScrollStart(e);
-					}*/
-				},
-				onScrollEnd: function(e) {
-					// Raise an internal event to let the rest of the framework know that content is scrolling
-					evt = document.createEvent('Events');
-					evt.initEvent('bbuiscrolling', true, true);
-					document.dispatchEvent(evt);
-				},
-				onScrollMove: function(e) {
-					if (screen.onscroll) {
-						screen.onscroll(e);
-					}
-					// Raise an internal event to let the rest of the framework know that content is scrolling
-					evt = document.createEvent('Events');
-					evt.initEvent('bbuiscrolling', true, true);
-					document.dispatchEvent(evt);
-				}};
-				// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
-				/*if (bb.options.screen) {
-					var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
-					for (var i in bb.options.screen) {
-						if (excluded.indexOf(i) === -1) {
-							scrollerOptions[i] = bb.options.screen[i];
+				if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'AUDIO' && target.tagName != 'VIDEO') {
+					e.preventDefault();
+					// ensure we remove focus from a control if they touch outside the control in order to make the virtual keyboard disappear
+					var activeElement = document.activeElement;
+					if (activeElement) {
+						if (activeElement.tagName == 'SELECT' || activeElement.tagName == 'INPUT' || activeElement.tagName == 'TEXTAREA' || activeElement.tagName == 'AUDIO' || activeElement.tagName == 'VIDEO') {
+							activeElement.blur();
 						}
 					}
-				}*/
-				bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
-			} else if (bb.device.isBB10) {
-				// Use the built in inertial scrolling with elastic ends
-				bb.scroller = null;
-				scrollWrapper.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
-				scrollWrapper.onscroll = function(e) {
-						if (screen.onscroll) {
-							screen.onscroll(e);
-						}
-					};
-			}
+				} 
+			},
+			onScrollEnd: function(e) {
+				// Raise an internal event to let the rest of the framework know that content is scrolling
+				evt = document.createEvent('Events');
+				evt.initEvent('bbuiscrolling', true, true);
+				document.dispatchEvent(evt);
+			},
+			onScrollMove: function(e) {
+				if (screen.onscroll) {
+					screen.onscroll(e);
+				}
+				// Raise an internal event to let the rest of the framework know that content is scrolling
+				evt = document.createEvent('Events');
+				evt.initEvent('bbuiscrolling', true, true);
+				document.dispatchEvent(evt);
+			}};
+			bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 	
 		}
 	},  
 
@@ -695,13 +572,6 @@ bb = {
 			if (bb.screen.contextMenu) {
 				bb.screen.contextMenu = null;
 			}
-			
-			// Quirk with displaying with animations
-			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
-				currentScreen = document.getElementById(bb.screens[numItems -1].guid);
-				currentScreen.style.display = 'none';
-				window.scroll(0,0);
-			}
         }
 		
         // Add our screen to the stack
@@ -739,11 +609,6 @@ bb = {
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
-					
-            // Quirky BrowserField2 bug on BBOS
-			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
-				window.scroll(0,0);
-			}
         } else {
             if (blackberry) {
                 blackberry.app.exit();
@@ -776,57 +641,38 @@ bb = {
 	
 	innerHeight: function() {
 		// Orientation is backwards between playbook and BB10 smartphones
-		if (bb.device.isPlayBook) {
-			// Hack for ripple
-			if (!window.orientation) {
-				return window.innerHeight;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 600;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 1024;
-			}
-		} else {
+		// Hack for ripple
+		if (!window.orientation) {
 			return window.innerHeight;
+		} else if (window.orientation == 0 || window.orientation == 180) {
+			return 600;
+		} else if (window.orientation == -90 || window.orientation == 90) {
+			return 1024;
 		}
 	},
 	
 	innerWidth: function() {
 		// Orientation is backwards between playbook and BB10 smartphones
-		if (bb.device.isPlayBook) {
-			// Hack for ripple
-			if (!window.orientation) {
-				return window.innerWidth;
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 1024;
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 600;
-			}
-		} else {
+		// Hack for ripple
+		if (!window.orientation) {
 			return window.innerWidth;
+		} else if (window.orientation == 0 || window.orientation == 180) {
+			return 1024;
+		} else if (window.orientation == -90 || window.orientation == 90) {
+			return 600;
 		}
 	},
 	
 	// returns 'landscape' or 'portrait'
 	getOrientation: function() {
-		if (bb.device.is720x720) return 'portrait';
 		// Orientation is backwards between playbook and BB10 smartphones
-		if (bb.device.isPlayBook) {
-			// Hack for ripple
-			if (!window.orientation) {
-				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'landscape';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'portrait';
-			}
-		} else {
-			if (window.orientation == undefined) {
-				return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
-			} else if (window.orientation == 0 || window.orientation == 180) {
-				return 'portrait';
-			} else if (window.orientation == -90 || window.orientation == 90) {
-				return 'landscape';
-			}
+		// Hack for ripple
+		if (!window.orientation) {
+			return (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+		} else if (window.orientation == 0 || window.orientation == 180) {
+			return 'landscape';
+		} else if (window.orientation == -90 || window.orientation == 90) {
+			return 'portrait';
 		}
 	},
 	
@@ -857,12 +703,10 @@ bb = {
 					offsetTop -= target.scrollTop;
 				}
 				// PlayBook calculation
-				if (bb.device.isPlayBook) {
-					if (target.scroller) {
-						offsetTop += target.scroller.y;
-					} else if (target.bbUIscrollWrapper) {
-						offsetTop += bb.scroller.y;
-					}
+				if (target.scroller) {
+					offsetTop += target.scroller.y;
+				} else if (target.bbUIscrollWrapper) {
+					offsetTop += bb.scroller.y;
 				}
 			} while (target = target.offsetParent);
 		}

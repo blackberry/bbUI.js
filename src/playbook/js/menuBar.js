@@ -6,17 +6,14 @@ bb.menuBar = {
 	screen: false,
 
 	apply: function(menuBar,screen){
-		if (bb.device.isPlayBook) {
-			bb.menuBar.createSwipeMenu(menuBar,screen);
-			menuBar.parentNode.removeChild(menuBar);
-			if (window.blackberry){
-				if(blackberry.app.event) {
-					blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
-				}
+		bb.menuBar.createSwipeMenu(menuBar,screen);
+		menuBar.parentNode.removeChild(menuBar);
+		if (window.blackberry){
+			if(blackberry.app.event) {
+				blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
 			}
-		}else{
-			console.log('Unable to create onSwipeDown menu.');
 		}
+		
 	},
 
 	createSwipeMenu: function(menuBar, screen){
@@ -127,7 +124,7 @@ bb.menuBar = {
 
 	clearMenu: function(){
 		if(window.blackberry){
-			if(bb.menuBar.menu && bb.device.isPlayBook){
+			if(bb.menuBar.menu){
 				if(bb.menuBar.visible){
 					bb.menuBar.hideMenuBar();
 				}

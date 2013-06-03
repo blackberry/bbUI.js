@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for PlayBook VERSION: 0.9.6.165*/
+/* bbUI for PlayBook VERSION: 0.9.6.170*/
 
 body, html {
 	padding:0;
@@ -280,9 +280,18 @@ body, html {
 
 
 /* ================================================= 
-   BB7 Round panels
+   Round panels
    =================================================*/
-.bb-playbook-round-panel {
+.pb-panel-header {
+	border-bottom: solid 1px #DCDBDB; 
+	margin-bottom: 5px; 
+	padding-bottom: 3px; 
+	font-size: 14pt;
+	color: #7C7E80;	
+	font-weight: bold;
+}
+   
+.pb-round-panel {
 	border-radius:3px;
 	border-width: 1px;
 	border-style: solid;

@@ -12,23 +12,13 @@ _bb_progress = {
 	
 	// Style individual item
 	style: function(progress, offdom) {
-		var color,
-			highlightColor,
-			accentColor,
+		var color = 'light',
+			highlightColor = bb.options.highlightColor,
+			accentColor = '#8FB03B',
 			NORMAL = 0,
 			PAUSED = 1,
 			ERROR = 2;
 
-		if (bb.device.isBB10) {
-			color = bb.screen.controlColor;
-			highlightColor = bb.options.highlightColor;
-			accentColor = bb.options.shades.darkHighlight;
-		} else {
-			color = 'light';
-			highlightColor = (bb.device.isPlayBook) ? bb.options.highlightColor : '#92B43B';
-			accentColor = '#8FB03B';
-		}
-		
 		// Create our container div
 		outerElement = document.createElement('div');
 		outerElement.progress = progress;
