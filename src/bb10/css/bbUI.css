@@ -804,7 +804,6 @@ body, html {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	top: -103px;
 	font-size: 100%;
 	z-index:1002;
 	height: 100px;
@@ -826,11 +825,11 @@ body, html {
 }
 
 .bb-bb10-menu-bar-item-1024x600 
-{
+{	border-top: 3px solid transparent;
 	text-align: center;
 	cursor: pointer;
 	float: left;
-	height: 88px;	
+	height: 85px;	
 }
 
  /* ================================================= 
@@ -854,6 +853,7 @@ body, html {
 
 .bb-bb10-menu-bar-item-1280x768-1280x720 
 {
+	border-top: 5px solid transparent;
 	text-align: center;
 	cursor: pointer;
 	float: left;
@@ -894,6 +894,7 @@ body, html {
 
 .bb-bb10-menu-bar-item-720x720 
 {
+	border-top: 1px solid transparent;
 	text-align: center;
 	cursor: pointer;
 	float: left;
