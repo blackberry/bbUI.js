@@ -6,6 +6,7 @@ Below you will find all the different changes that have been added since the fir
 
 * _**Compatibility Changes:**_ 
 	* bbUI has now been broken into 3 different builds in the **pkg** directory.  One for BB10, BBOS and PlayBook
+	* bb10ForPlayBook has now been removed. If you want BB10 styling for PlayBook, simply include the BB10 build of bbUI.js to your application
 	* Context Menus: 
 	    * No longer have the peek() and show() functions.  All functionality is now tied into the framework.  
 	    * You now require the bbUI WebWorks plug-in from the _ext_ directory for the context menu functionality on BlackBerry 10 smartphones

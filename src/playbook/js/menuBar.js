@@ -1,5 +1,6 @@
 bb.menuBar = {
 	height: 140,
+	itemWidth: 143,
 	visible: false,
 	menu: false,
 	screen: false,
@@ -70,18 +71,22 @@ bb.menuBar = {
 				caption,
 				div,
 				width,
+				margin,
 				bb10MenuItem;
 				
 			// Set our 'res' for known resolutions, otherwise use the default
 			if (bb.device.is1024x600) {
 				res = '1024x600';
 				bb.menuBar.height = 100;
+				bb.menuBar.itemWidth = 96; //TODO: need to 
 			} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 				res = '1280x768-1280x720';
 				bb.menuBar.height = 140;
+				bb.menuBar.itemWidth = 143;
 			} else if (bb.device.is720x720) {
 				res = '720x720';
 				bb.menuBar.height = 110;
+				bb.menuBar.itemWidth = 143;
 			}
 
 			// Handle any press-and-hold events
@@ -151,9 +156,8 @@ bb.menuBar = {
 					menuItems.push(pinRight);
 				}
 
-				//we can now figure out the width of each item
-				width = Math.floor(100/menuItems.length);
-
+				width = bb.menuBar.itemWidth + 'px';
+				margin = Math.floor((window.innerWidth - (bb.menuBar.itemWidth  * menuItems.length)) / (menuItems.length-1)) + 'px';
 				for (i = 0, len = menuItems.length; i < len; i++) {
 					item = menuItems[i];
 					caption = item.innerHTML;
@@ -176,13 +180,21 @@ bb.menuBar = {
 					// Assign any click handlers
 					bb10MenuItem.onclick	= item.onclick;
 					//set menu item width
-					if (i == menuItems.length -1) {
-						bb10MenuItem.style.width = width - 1 +'%';
+					bb10MenuItem.style.width = width;
+					if (i == menuItems.length - 1) {
+	                    bb10MenuItem.style.marginRight = 0;
 						bb10MenuItem.style.float = 'right';
 					} else {
-						bb10MenuItem.style.width = width +'%';
-					}				
+	                    bb10MenuItem.style.marginRight = margin;
+					}
 					bb10Menu.appendChild(bb10MenuItem);
+
+					bb10MenuItem.ontouchstart = function() {
+						this.style['border-top-color'] = bb.options.highlightColor;
+					}
+					bb10MenuItem.ontouchend = function() {
+						this.style['border-top-color'] = 'transparent';
+					}
 				}
 			} else {
 				bb10Menu.style.display = 'none';
@@ -198,6 +210,23 @@ bb.menuBar = {
 			bb.menuBar.menu.style.display = 'none';
 			bb.menuBar.menu.style.height = bb.menuBar.menu.height + 'px';
 
+			bb.menuBar.menu.doOrientationChange = function() {
+				var i, len,
+					menuItems = bb.menuBar.menu.getElementsByClassName('bb-bb10-menu-bar-item-'+res),
+					margin = Math.floor((window.innerWidth - (bb.menuBar.itemWidth * menuItems.length)) / (menuItems.length-1)) + 'px';
+				for(i = 0, len = menuItems.length; i < len; i++){
+					if (i == menuItems.length - 1) {
+	                    menuItems[i].style.marginRight = 0;
+						menuItems[i].style.float = 'right';
+					} else {
+	                    menuItems[i].style.marginRight = margin;
+					}
+				}
+			};
+			
+			bb.menuBar.menu.doOrientationChange = bb.menuBar.menu.doOrientationChange.bind(bb.menuBar);
+			window.addEventListener('resize', bb.menuBar.menu.doOrientationChange,false); 
+			bb.windowListeners.push({name: 'resize', eventHandler: bb.menuBar.menu.doOrientationChange});
 		} else {
 			var pbMenu = document.createElement('div'), 
 				items, 
@@ -304,7 +333,7 @@ bb.menuBar = {
 	},
 
 	showMenuBar: function(){
-		if(!bb.menuBar.visible){
+		if(!bb.menuBar.visible && !bb.screen.animating){
 			bb.menuBar.visible = true;
 			if(bb.device.isPlayBook){
 				blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
@@ -362,6 +391,9 @@ bb.menuBar = {
 	clearMenu: function(){
 		if(window.blackberry){
 			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10)){
+				if(bb.menuBar.visible){
+					bb.menuBar.hideMenuBar();
+				}
 				if (bb.device.isPlayBook && blackberry.app.event) {
 					blackberry.app.event.onSwipeDown('');
 				}else if(bb.device.isBB10 && blackberry.app){
