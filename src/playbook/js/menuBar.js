@@ -391,6 +391,9 @@ bb.menuBar = {
 	clearMenu: function(){
 		if(window.blackberry){
 			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10)){
+				if(bb.menuBar.visible){
+					bb.menuBar.hideMenuBar();
+				}
 				if (bb.device.isPlayBook && blackberry.app.event) {
 					blackberry.app.event.onSwipeDown('');
 				}else if(bb.device.isBB10 && blackberry.app){
