@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.156*/
+/* VERSION: 0.9.6.157*/
 
 bb = {
 	scroller: null,  
@@ -49,40 +49,16 @@ bb = {
 			for (var i in options) bb.options[i] = options[i];
 		}
 		
-		// Assign our back handler if provided otherwise assign the default
-		if (window.blackberry && blackberry.system && blackberry.system.event && blackberry.system.event.onHardwareKey) {	
-			if (bb.options.onbackkey) {
-				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.options.onbackkey);
-			} else { // Use the default 
-				blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, bb.popScreen);
-			}
-		}
-		
 		// Initialize our flags once so that we don't have to run logic in-line for decision making
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
-		
-		if (bb.device.isPlayBook && bb.options.bb10ForPlayBook) {
-			bb.device.isBB10 = true;
-		} else {
-			bb.device.isBB10 = (navigator.userAgent.indexOf('BB10') >= 0);
-		}
-		bb.device.isBB7 = (navigator.userAgent.indexOf('7.0.0') >= 0) || (navigator.userAgent.indexOf('7.1.0') >= 0);
-		bb.device.isBB6 = navigator.userAgent.indexOf('6.0.0') >= 0;
-		bb.device.isBB5 = navigator.userAgent.indexOf('5.0.0') >= 0;
+		bb.device.isBB10 = true;
 		
 		// Set our resolution flags
 		bb.device.is1024x600 = bb.device.isPlayBook;
 		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
 		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
 		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
-		
-		// Determine HiRes
-		if (bb.device.isRipple) {
-			bb.device.isHiRes = window.innerHeight > 480 || window.innerWidth > 480; 
-		} else {
-			bb.device.isHiRes = screen.width > 480 || screen.height > 480;
-		}
 		
 		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
@@ -142,60 +118,28 @@ bb = {
 		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
 		
 		// Set up our pointers to objects for each OS version
-		if (bb.device.isBB10) {
-			bb.imageList = _bb10_imageList;
-			bb.activityIndicator = _bb10_activityIndicator;
-			bb.fileInput = _bb10_fileInput;
-			bb.button = _bb10_button;
-			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb10_dropdown;
-			bb.textInput = _bb10_textInput;
-			bb.roundPanel = _bb10_roundPanel;
-			bb.grid = _bb10_grid;
-			bb.pillButtons = _bb10_pillButtons;
-			bb.labelControlContainers = _bb10_labelControlContainers;
-			bb.slider = _bb10_slider;
-			bb.radio = _bb10_radio;
-			bb.progress = _bb_progress;
-			bb.checkbox = _bb10_checkbox;
-			bb.toggle = _bb10_toggle;
-			bb.contextMenu = (bb.device.isPlayBook || bb.device.isRipple) ? _PlayBook_contextMenu : _bb10_contextMenu;
-			bb.actionOverflow = _PlayBook_contextMenu;
-		} else if (bb.device.isBB5) {
-			bb.imageList = _bb_5_6_7_imageList;
-			bb.button = _bb5_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.roundPanel = _bb_5_6_7_roundPanel;
-			bb.pillButtons = _bb5_pillButtons;
-			bb.labelControlContainers = _bb5_labelControlContainers;
-			bb.progress = _bb_progress;
-		} else if (bb.device.isPlayBook) {
-			bb.imageList = _bbPlayBook_imageList;
-			bb.button = _bbPlayBook_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb_6_7_PlayBook_dropdown;
-			bb.textInput = _bbPlayBook_textInput;
-			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
-			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
-			bb.progress = _bb_progress;
-			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-			bb.roundPanel = _bbPlayBook_roundPanel;
-			bb.activityIndicator = _bbPlayBook_activityIndicator;
-		} else { //BB6 & BB7
-			bb.imageList = _bb_5_6_7_imageList;
-			bb.button = _bb_6_7_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb_6_7_PlayBook_dropdown;
-			bb.textInput = _bb_6_7_textInput;
-			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
-			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
-			bb.progress = _bb_progress;
-			bb.roundPanel = _bb_5_6_7_roundPanel;
-		}
-		
+		bb.imageList = _bb10_imageList;
+		bb.activityIndicator = _bb10_activityIndicator;
+		bb.fileInput = _bb10_fileInput;
+		bb.button = _bb10_button;
+		bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
+		bb.bbmBubble = _bb_bbmBubble;
+		bb.dropdown = _bb10_dropdown;
+		bb.textInput = _bb10_textInput;
+		bb.roundPanel = _bb10_roundPanel;
+		bb.grid = _bb10_grid;
+		bb.pillButtons = _bb10_pillButtons;
+		bb.labelControlContainers = _bb10_labelControlContainers;
+		bb.slider = _bb10_slider;
+		bb.radio = _bb10_radio;
+		bb.progress = _bb_progress;
+		bb.checkbox = _bb10_checkbox;
+		bb.toggle = _bb10_toggle;
+		bb.contextMenu = (bb.device.isPlayBook || bb.device.isRipple) ? _PlayBook_contextMenu : _bb10_contextMenu;
+		bb.actionOverflow = _PlayBook_contextMenu;
+			
 		// Add our keyboard listener for BB10
-		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
+		if (!bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
 			// Hide our action bar when the keyboard is about to pop up
 			blackberry.event.addEventListener('keyboardOpening', function() {
 				if (bb.screen.currentScreen.actionBar) {
@@ -225,7 +169,7 @@ bb = {
 		}
 		
 		// Initialize our Context Menu via the bbUI Extension for BB10
-		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple) {
+		if (!bb.device.isPlayBook && !bb.device.isRipple) {
 			if (blackberry.ui && blackberry.ui.contextmenu) {
 				blackberry.ui.contextmenu.enabled = true;
 				if (blackberry.bbui) {
@@ -240,8 +184,6 @@ bb = {
         var root = element || document.body;
         bb.screen.apply(root.querySelectorAll('[data-bb-type=screen]'));
 		bb.style(root);
-        // perform device specific formatting
-        bb.screen.reAdjustHeight();	
     },
 	
 	style: function(root) {
@@ -267,10 +209,6 @@ bb = {
 		return document.querySelector('[data-bb-type=screen]');
 	},
 	device: {  
-        isHiRes: false, 
-        isBB5: false,
-		isBB6: false,
-		isBB7: false,
 		isBB10: false,
         isPlayBook: false, 
         isRipple: false,
@@ -283,14 +221,12 @@ bb = {
 	
 	// Options for rendering
 	options: {
-		onbackkey: null,
 		onscreenready: null,
 		ondomready: null,  		
 		controlsDark: false, 
 		coloredTitleBar: false,
 		listsDark: false,
-		highlightColor: '#00A8DF',
-		bb10ForPlayBook: false
+		highlightColor: '#00A8DF'
 	},
 	
     loadScreen: function(url, id, popping, guid, params, screenRecord) {
@@ -446,86 +382,64 @@ bb = {
 			animationScreen.popping = popping;
 			if (animationScreen.hasAttribute('data-bb-effect')) {
 				// see if there is a display effect
-				if (!bb.device.isBB5 && !bb.device.isBB6) {
-					effect = animationScreen.getAttribute('data-bb-effect');
-					if (effect) {
-						effect = effect.toLowerCase();
-					
-						if (effect == 'fade') {
-							effectToApply = bb.screen.fadeIn;
-						} else if (effect == 'fade-out') {
-							effectToApply = bb.screen.fadeOut;
-						} else if (!bb.device.isBB7) {
-							switch (effect) {
-							case 'slide-left':
-								effectToApply = bb.screen.slideLeft;
-								break;
-							case 'slide-out-left':
-								effectToApply = bb.screen.slideOutLeft;
-								break;
-							case 'slide-right':
-								effectToApply = bb.screen.slideRight;
-								break;
-							case 'slide-out-right':
-								effectToApply = bb.screen.slideOutRight;
-								break;
-							case 'slide-up':
-								effectToApply = bb.screen.slideUp;
-								break;
-							case 'slide-out-up':
-								effectToApply = bb.screen.slideOutUp;
-								break;
-							case 'slide-down':
-								effectToApply = bb.screen.slideDown;
-								break;
-							case 'slide-out-down':
-								effectToApply = bb.screen.slideOutDown;
-								break;
-							}
+				effect = animationScreen.getAttribute('data-bb-effect');
+				if (effect) {
+					effect = effect.toLowerCase();
+				
+					if (effect == 'fade') {
+						effectToApply = bb.screen.fadeIn;
+					} else if (effect == 'fade-out') {
+						effectToApply = bb.screen.fadeOut;
+					} else {
+						switch (effect) {
+						case 'slide-left':
+							effectToApply = bb.screen.slideLeft;
+							break;
+						case 'slide-out-left':
+							effectToApply = bb.screen.slideOutLeft;
+							break;
+						case 'slide-right':
+							effectToApply = bb.screen.slideRight;
+							break;
+						case 'slide-out-right':
+							effectToApply = bb.screen.slideOutRight;
+							break;
+						case 'slide-up':
+							effectToApply = bb.screen.slideUp;
+							break;
+						case 'slide-out-up':
+							effectToApply = bb.screen.slideOutUp;
+							break;
+						case 'slide-down':
+							effectToApply = bb.screen.slideDown;
+							break;
+						case 'slide-out-down':
+							effectToApply = bb.screen.slideOutDown;
+							break;
 						}
-	
-						animationScreen.style.display = 'inline'; // This is a wierd hack
-						
-						// Listen for when the animation ends so that we can clear the previous screen
-						if (effectToApply) {
-							// Create our overlay
-							overlay = document.createElement('div');
-							animationScreen.overlay = overlay;
-							overlay.setAttribute('class','bb-transition-overlay');
-							document.body.appendChild(overlay);
-							// Add our listener and animation state
-							bb.screen.animating = true;
-							animationScreen.doEndAnimation = function() {
-									var s = this.style;
-									bb.screen.animating = false;	
-									// Remove our overlay
-									document.body.removeChild(this.overlay);
-									this.overlay = null;
-									// Only remove the screen at the end of animation "IF" it isn't the only screen left
-									if (bb.screens.length > 1) {
-										if (!this.popping) {
-											bb.removePreviousScreenFromDom();
-											// Clear style changes that may have been made for the animation
-											s.left = '';
-											s.right = '';
-											s.top = '';
-											s.bottom = '';
-											s.width = '';
-											s.height = '';
-											s['-webkit-animation-name'] = '';
-											s['-webkit-animation-duration'] = '';
-											s['-webkit-animation-timing-function'] = ''; 
-											s['-webkit-transform'] = '';
-										} else {
-											this.style.display = 'none';
-											this.parentNode.parentNode.removeChild(this.parentNode);
-											// Pop it from the stack
-											bb.screens.pop();	
-											screen.style['z-index'] = '';
-											// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
-											bb.screens[bb.screens.length-1].container = container;  
-										}
-									} else if (bb.screens.length <= 1) {
+					}
+
+					animationScreen.style.display = 'inline'; // This is a wierd hack
+					
+					// Listen for when the animation ends so that we can clear the previous screen
+					if (effectToApply) {
+						// Create our overlay
+						overlay = document.createElement('div');
+						animationScreen.overlay = overlay;
+						overlay.setAttribute('class','bb-transition-overlay');
+						document.body.appendChild(overlay);
+						// Add our listener and animation state
+						bb.screen.animating = true;
+						animationScreen.doEndAnimation = function() {
+								var s = this.style;
+								bb.screen.animating = false;	
+								// Remove our overlay
+								document.body.removeChild(this.overlay);
+								this.overlay = null;
+								// Only remove the screen at the end of animation "IF" it isn't the only screen left
+								if (bb.screens.length > 1) {
+									if (!this.popping) {
+										bb.removePreviousScreenFromDom();
 										// Clear style changes that may have been made for the animation
 										s.left = '';
 										s.right = '';
@@ -537,18 +451,39 @@ bb = {
 										s['-webkit-animation-duration'] = '';
 										s['-webkit-animation-timing-function'] = ''; 
 										s['-webkit-transform'] = '';
+									} else {
+										this.style.display = 'none';
+										this.parentNode.parentNode.removeChild(this.parentNode);
+										// Pop it from the stack
+										bb.screens.pop();	
+										screen.style['z-index'] = '';
+										// The container of bb.screens might be destroyed because every time re-creating even when the pop-up screen.
+										bb.screens[bb.screens.length-1].container = container;  
 									}
-									
-									this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
-									bb.createScreenScroller(screen); 
-								};
-							animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
-							animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
-							
-							effectToApply.call(this, animationScreen);
-						}
-					} 
-				}				
+								} else if (bb.screens.length <= 1) {
+									// Clear style changes that may have been made for the animation
+									s.left = '';
+									s.right = '';
+									s.top = '';
+									s.bottom = '';
+									s.width = '';
+									s.height = '';
+									s['-webkit-animation-name'] = '';
+									s['-webkit-animation-duration'] = '';
+									s['-webkit-animation-timing-function'] = ''; 
+									s['-webkit-transform'] = '';
+								}
+								
+								this.removeEventListener('webkitAnimationEnd',this.doEndAnimation);
+								bb.createScreenScroller(screen); 
+							};
+						animationScreen.doEndAnimation = animationScreen.doEndAnimation.bind(animationScreen);
+						animationScreen.addEventListener('webkitAnimationEnd',animationScreen.doEndAnimation);
+						
+						effectToApply.call(this, animationScreen);
+					}
+				} 
+								
 			} 
 		} 
 		
@@ -565,9 +500,7 @@ bb = {
 		// If an effect was applied then the popping will be handled at the end of the animation
 		if (!effectToApply) {
 			if (!popping) {
-				if ((bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) && (bb.screens.length > 0)) {
-					bb.removePreviousScreenFromDom();
-				} else if (bb.screens.length > 1) {
+				if (bb.screens.length > 1) {
 					bb.removePreviousScreenFromDom();
 				}
 			} else if (popping) {
@@ -644,7 +577,6 @@ bb = {
 			if (bb.device.isPlayBook) {
 				var scrollerOptions = {hideScrollbar:true,fadeScrollbar:true, onBeforeScrollStart: function (e) {
 					var target = e.target;
-					
 					// Don't scroll the screen when touching in our drop downs for BB10
 					if (target.parentNode && target.parentNode.getAttribute('class') == 'bb-bb10-dropdown-items') {
 						return;
@@ -662,10 +594,6 @@ bb = {
 							}
 						}
 					} 
-					// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
-					/*if (bb.options.screen && bb.options.screen.onBeforeScrollStart) {
-						bb.options.screen.onBeforeScrollStart(e);
-					}*/
 				},
 				onScrollEnd: function(e) {
 					// Raise an internal event to let the rest of the framework know that content is scrolling
@@ -682,17 +610,8 @@ bb = {
 					evt.initEvent('bbuiscrolling', true, true);
 					document.dispatchEvent(evt);
 				}};
-				// LEAVING THESE HERE INCASE WE NEED TO FALL BACK TO ISCROLL OVERRIDES
-				/*if (bb.options.screen) {
-					var excluded = ['onBeforeScrollStart','hideScrollbar','fadeScrollbar'];
-					for (var i in bb.options.screen) {
-						if (excluded.indexOf(i) === -1) {
-							scrollerOptions[i] = bb.options.screen[i];
-						}
-					}
-				}*/
 				bb.scroller = new iScroll(scrollWrapper, scrollerOptions); 
-			} else if (bb.device.isBB10) {
+			} else  {
 				// Use the built in inertial scrolling with elastic ends
 				bb.scroller = null;
 				scrollWrapper.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
@@ -752,13 +671,6 @@ bb = {
 			if (bb.screen.contextMenu) {
 				bb.screen.contextMenu = null;
 			}
-			
-			// Quirk with displaying with animations
-			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
-				currentScreen = document.getElementById(bb.screens[numItems -1].guid);
-				currentScreen.style.display = 'none';
-				window.scroll(0,0);
-			}
         }
 		
         // Add our screen to the stack
@@ -797,10 +709,6 @@ bb = {
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
 					
-            // Quirky BrowserField2 bug on BBOS
-			if (bb.device.isBB5 || bb.device.isBB6 || bb.device.isBB7) {
-				window.scroll(0,0);
-			}
         } else {
             if (blackberry) {
                 blackberry.app.exit();
@@ -3037,20 +2945,6 @@ bb.screen = {
 		s['-webkit-animation-timing-function'] = timing; 
 		s['-webkit-transform'] = 'translate3d(0,0,0)';
 		s['-webkit-backface-visibility'] = 'hidden';
-    },
-	
-    
-    reAdjustHeight: function() {
-        // perform device specific formatting
-        if (bb.device.isBB5) {
-            document.body.style.height = screen.height - 27 + 'px';
-        }
-        else if (bb.device.isBB6) {
-            document.body.style.height = screen.height - 17 + 'px';
-        }
-        else if (bb.device.isBB7 && (navigator.appVersion.indexOf('Ripple') < 0)) {
-            document.body.style.height = screen.height + 'px';
-        }
     },
 	
 	getMenuBarHeight: function() {

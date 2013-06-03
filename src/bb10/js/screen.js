@@ -442,20 +442,6 @@ bb.screen = {
 		s['-webkit-backface-visibility'] = 'hidden';
     },
 	
-    
-    reAdjustHeight: function() {
-        // perform device specific formatting
-        if (bb.device.isBB5) {
-            document.body.style.height = screen.height - 27 + 'px';
-        }
-        else if (bb.device.isBB6) {
-            document.body.style.height = screen.height - 17 + 'px';
-        }
-        else if (bb.device.isBB7 && (navigator.appVersion.indexOf('Ripple') < 0)) {
-            document.body.style.height = screen.height + 'px';
-        }
-    },
-	
 	getMenuBarHeight: function() {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
