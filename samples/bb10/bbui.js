@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.154*/
+/* VERSION: 0.9.6.159*/
 
 bb = {
 	scroller: null,  
@@ -2063,21 +2063,21 @@ _bb_bbmBubble = {
         };
         outerElement.getItems = outerElement.getItems.bind(outerElement); 
         
-        // Append an item to the end of the list control
+        // Append an item to the end of the bubble
         outerElement.appendItem = function(item) {
             this.styleItem(item);
-            this.querySelector('.nogap').appendChild(item);
+            this.insidePanel.appendChild(item);
             bb.refresh();
-            // this.items.push(item);
-            // // Fire our list event
-            // var evt = document.createEvent('Events');
-            // evt.initEvent('bbuilistready', true, true);
-            // document.dispatchEvent(evt);
-            // if (bb.scroller) {
-            //     bb.scroller.refresh();
-            // }
         };
         outerElement.appendItem = outerElement.appendItem.bind(outerElement);
+
+        // Insert an item before another item in the bubble
+        outerElement.insertItemBefore = function(newItem, existingItem) {
+            this.styleItem(newItem);
+            this.insidePanel.insertBefore(newItem,existingItem);
+            bb.refresh();
+        };
+        outerElement.insertItemBefore = outerElement.insertItemBefore.bind(outerElement);
 
         return outerElement;
     }

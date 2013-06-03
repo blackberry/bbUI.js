@@ -63,6 +63,11 @@ function itemToAppend() {
 	var item = document.createElement('div');
 	item.setAttribute('data-bb-type', 'item');
 	item.setAttribute('data-bb-img', 'images/bbmBubbles/bullet.png');
-	item.innerHTML = 'Appended Item';
+	item.innerHTML = 'New Item!';
 	return item;
+}
+
+function insertItem(bubble) {
+	var items = bubble.getItems();
+	bubble.insertItemBefore(itemToAppend(),items[0]);
 }
