@@ -35,18 +35,16 @@
 				// Toggle our coloring for testing 
 				if (darkColoring) {
 					config = {controlsDark: true,
-							listsDark: true,
-							bb10ForPlayBook: true};
+							listsDark: true};
 				} else {
 					config = {controlsDark: false,
 							listsDark: false,
-							coloredTitleBar: true,
-							bb10ForPlayBook: true};
+							coloredTitleBar: true};
 				}
 				
 				// Handle styling of the screen before it is displayed
 				config.onscreenready = function(element, id) {
-											if (darkColoring && bb.device.isBB10) {
+											if (darkColoring) {
 												var screen = element.querySelector('[data-bb-type=screen]');
 												if (screen) {
 													screen.style['background-color'] = darkScreenColor;
@@ -62,7 +60,7 @@
 											} 
 											
 											// Remove all titles "except" input and pill buttons screen if running on BB10
-											if (bb.device.isBB10 && (id != 'input') && (id != 'pillButtons') && (id != 'titlePillButtons')) {
+											if ((id != 'input') && (id != 'pillButtons') && (id != 'titlePillButtons')) {
 												var titles = element.querySelectorAll('[data-bb-type=title]');
 												if (titles.length > 0) {
 													titles[0].parentNode.removeChild(titles[0]);
@@ -70,7 +68,7 @@
 											} 
 											
 											// Initialize our title pill buttons screen
-											if (bb.device.isBB10 && (id == 'titlePillButtons')) {
+											if (id == 'titlePillButtons') {
 												titlePillButtons_Init(element);
 											}
 											
@@ -85,7 +83,7 @@
 				// You must call init on bbUI before any other code loads.  
 				// If you want default functionality simply don't pass any parameters.. bb.init();
 				bb.init(config);
-				if (darkColoring && bb.device.isBB10) {
+				if (darkColoring) {
 					document.body.style['background-color'] = darkScreenColor;
 					document.body.style['color'] = 'white';
 				}
