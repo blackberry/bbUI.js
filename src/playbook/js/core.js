@@ -124,57 +124,18 @@ bb = {
 		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
 		
 		// Set up our pointers to objects for each OS version
-		if (bb.device.isBB10) {
-			bb.imageList = _bb10_imageList;
-			bb.activityIndicator = _bb10_activityIndicator;
-			bb.fileInput = _bb10_fileInput;
-			bb.button = _bb10_button;
-			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb10_dropdown;
-			bb.textInput = _bb10_textInput;
-			bb.roundPanel = _bb10_roundPanel;
-			bb.grid = _bb10_grid;
-			bb.pillButtons = _bb10_pillButtons;
-			bb.labelControlContainers = _bb10_labelControlContainers;
-			bb.slider = _bb10_slider;
-			bb.radio = _bb10_radio;
-			bb.progress = _bb_progress;
-			bb.checkbox = _bb10_checkbox;
-			bb.toggle = _bb10_toggle;
-			bb.contextMenu = (bb.device.isPlayBook || bb.device.isRipple) ? _PlayBook_contextMenu : _bb10_contextMenu;
-			bb.actionOverflow = _PlayBook_contextMenu;
-		} else if (bb.device.isBB5) {
-			bb.imageList = _bb_5_6_7_imageList;
-			bb.button = _bb5_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.roundPanel = _bb_5_6_7_roundPanel;
-			bb.pillButtons = _bb5_pillButtons;
-			bb.labelControlContainers = _bb5_labelControlContainers;
-			bb.progress = _bb_progress;
-		} else if (bb.device.isPlayBook) {
-			bb.imageList = _bbPlayBook_imageList;
-			bb.button = _bbPlayBook_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb_6_7_PlayBook_dropdown;
-			bb.textInput = _bbPlayBook_textInput;
-			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
-			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
-			bb.progress = _bb_progress;
-			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-			bb.roundPanel = _bbPlayBook_roundPanel;
-			bb.activityIndicator = _bbPlayBook_activityIndicator;
-		} else { //BB6 & BB7
-			bb.imageList = _bb_5_6_7_imageList;
-			bb.button = _bb_6_7_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb_6_7_PlayBook_dropdown;
-			bb.textInput = _bb_6_7_textInput;
-			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
-			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
-			bb.progress = _bb_progress;
-			bb.roundPanel = _bb_5_6_7_roundPanel;
-		}
+		bb.imageList = _bbPlayBook_imageList;
+		bb.button = _bbPlayBook_button;
+		bb.bbmBubble = _bb_bbmBubble;
+		bb.dropdown = _bbPlayBook_dropdown;
+		bb.textInput = _bbPlayBook_textInput;
+		bb.pillButtons = _bb_PlayBook_pillButtons;
+		bb.labelControlContainers = _bb_PlayBook_labelControlContainers;
+		bb.progress = _bb_progress;
+		bb.scrollPanel = _bb_PlayBook_scrollPanel;
+		bb.roundPanel = _bbPlayBook_roundPanel;
+		bb.activityIndicator = _bbPlayBook_activityIndicator;
+		
 		
 		// Add our keyboard listener for BB10
 		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {

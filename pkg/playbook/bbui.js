@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for PlayBook VERSION: 0.9.6.157*/
+/* bbUI for PlayBook VERSION: 0.9.6.165*/
 
 bb = {
 	scroller: null,  
@@ -142,57 +142,18 @@ bb = {
 		bb.screen.listColor = (bb.options.listsDark) ? 'dark' : 'light';
 		
 		// Set up our pointers to objects for each OS version
-		if (bb.device.isBB10) {
-			bb.imageList = _bb10_imageList;
-			bb.activityIndicator = _bb10_activityIndicator;
-			bb.fileInput = _bb10_fileInput;
-			bb.button = _bb10_button;
-			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb10_dropdown;
-			bb.textInput = _bb10_textInput;
-			bb.roundPanel = _bb10_roundPanel;
-			bb.grid = _bb10_grid;
-			bb.pillButtons = _bb10_pillButtons;
-			bb.labelControlContainers = _bb10_labelControlContainers;
-			bb.slider = _bb10_slider;
-			bb.radio = _bb10_radio;
-			bb.progress = _bb_progress;
-			bb.checkbox = _bb10_checkbox;
-			bb.toggle = _bb10_toggle;
-			bb.contextMenu = (bb.device.isPlayBook || bb.device.isRipple) ? _PlayBook_contextMenu : _bb10_contextMenu;
-			bb.actionOverflow = _PlayBook_contextMenu;
-		} else if (bb.device.isBB5) {
-			bb.imageList = _bb_5_6_7_imageList;
-			bb.button = _bb5_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.roundPanel = _bb_5_6_7_roundPanel;
-			bb.pillButtons = _bb5_pillButtons;
-			bb.labelControlContainers = _bb5_labelControlContainers;
-			bb.progress = _bb_progress;
-		} else if (bb.device.isPlayBook) {
-			bb.imageList = _bbPlayBook_imageList;
-			bb.button = _bbPlayBook_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb_6_7_PlayBook_dropdown;
-			bb.textInput = _bbPlayBook_textInput;
-			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
-			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
-			bb.progress = _bb_progress;
-			bb.scrollPanel = _bb_PlayBook_10_scrollPanel;
-			bb.roundPanel = _bbPlayBook_roundPanel;
-			bb.activityIndicator = _bbPlayBook_activityIndicator;
-		} else { //BB6 & BB7
-			bb.imageList = _bb_5_6_7_imageList;
-			bb.button = _bb_6_7_button;
-			bb.bbmBubble = _bb_bbmBubble;
-			bb.dropdown = _bb_6_7_PlayBook_dropdown;
-			bb.textInput = _bb_6_7_textInput;
-			bb.pillButtons = _bb_6_7_PlayBook_pillButtons;
-			bb.labelControlContainers = _bb_6_7_PlayBook_labelControlContainers;
-			bb.progress = _bb_progress;
-			bb.roundPanel = _bb_5_6_7_roundPanel;
-		}
+		bb.imageList = _bbPlayBook_imageList;
+		bb.button = _bbPlayBook_button;
+		bb.bbmBubble = _bb_bbmBubble;
+		bb.dropdown = _bbPlayBook_dropdown;
+		bb.textInput = _bbPlayBook_textInput;
+		bb.pillButtons = _bb_PlayBook_pillButtons;
+		bb.labelControlContainers = _bb_PlayBook_labelControlContainers;
+		bb.progress = _bb_progress;
+		bb.scrollPanel = _bb_PlayBook_scrollPanel;
+		bb.roundPanel = _bbPlayBook_roundPanel;
+		bb.activityIndicator = _bbPlayBook_activityIndicator;
+		
 		
 		// Add our keyboard listener for BB10
 		if (bb.device.isBB10 && !bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
@@ -2690,6 +2651,267 @@ _bbPlayBook_button = {
 		return outerElement;
     }
 };
+_bbPlayBook_dropdown = { 
+    // Style a list of items
+	apply: function(elements) {
+		for (var i = 0; i < elements.length; i++) {
+			bb.dropdown.style(elements[i]);
+		}
+	},
+	// Style an individual item
+	style: function(select) {
+		var options = select.getElementsByTagName('option'),
+			caption = '',
+			inEvent = 'ontouchstart',
+			outEvent = 'ontouchend',
+			enabled = !select.hasAttribute('disabled');
+	
+		select.style.display = 'none';
+		select.stretch = false;
+		select.enabled = enabled;
+		
+		// Get our selected item
+		if (options.length > 0) {
+			caption = options[0].innerHTML;
+		}
+		for (var j = 0; j < options.length; j++) {
+			if (options[j].hasAttribute('selected')) {
+				caption = options[j].innerHTML;
+				break;
+			}
+		}
+
+		// Create our new dropdown button
+		var dropdown = document.createElement('div');
+		dropdown.innerHTML = '<div data-bb-type="caption"><span>' + caption + '</span></div>';
+		select.dropdown = dropdown;
+
+		var normal = 'pb-dropdown',
+			highlight = 'pb-dropdown-highlight pb-dropdown';
+	
+		if (select.hasAttribute('data-bb-style')) {
+			var style = select.getAttribute('data-bb-style');
+			if (style == 'stretch') {
+				select.stretch = true;
+				normal = normal + ' dropdown-stretch';
+				highlight = highlight + ' dropdown-stretch';
+			}
+		}
+		dropdown.setAttribute('data-bb-type','dropdown');
+		if (select.enabled) {
+			dropdown.setAttribute('class',normal);
+		} else {
+			dropdown.setAttribute('class',normal + ' pb-dropdown-disabled');
+		}
+		dropdown.inEvent = "this.setAttribute('class','" + highlight +"')";
+		dropdown.outEvent = "this.setAttribute('class','" + normal + "')"
+		
+		if (select.parentNode) {
+			select.parentNode.insertBefore(dropdown, select);
+		}
+		dropdown.appendChild(select);
+
+		// Set our click handler
+		dropdown.doclick = function() {
+				var select = this.getElementsByTagName('select')[0];
+
+				// Create the overlay to trap clicks on the screen
+				var overlay = document.createElement('div');
+				overlay.setAttribute('id', 'ripple-dropdown-overlay');
+				overlay.style['position'] = 'absolute';
+				overlay.style['left'] = '0px';	
+				overlay.style['top'] = document.body.scrollTop + 'px';
+				overlay.style['width'] = '100%';
+				overlay.style['height'] = '100%';
+				overlay.style['z-index'] = '1000000';
+				// Close the overlay if they click outside of the select box
+				overlay.onclick = function () {
+					if (this.parentNode !== null) {
+						this.parentNode.removeChild(this);
+					}
+				};
+
+				// Create our dialog
+				var dialog = document.createElement('div');
+				dialog.setAttribute('class', 'ripple-dropdown-dialog bb-hires-screen');
+				overlay.appendChild(dialog);
+				dialog.onclick = function() {
+					this.parentNode.parentNode.removeChild(this.parentNode);
+				};
+
+				// Add our options
+				for (var i = 0; i < select.options.length; i++) {
+					var item = select.options[i],
+						highlight = document.createElement('div');
+
+					dialog.appendChild(highlight);
+					var option = document.createElement('div');
+					if (item.selected) {
+						option.setAttribute('class', 'item selected');
+						highlight.setAttribute('class','backgroundHighlight backgroundSelected');
+					} else {
+						option.setAttribute('class', 'item');
+						highlight.setAttribute('class','backgroundHighlight');
+					}
+
+					option.innerHTML = '<span>' + item.text + '</span>';
+					option.setAttribute('x-blackberry-focusable','true');
+					option.setAttribute('data-bb-index', i);
+					// Assign our dropdown for when the item is clicked
+					option.dropdown = this;
+					option.onclick = function() {
+						var index = this.getAttribute('data-bb-index');
+						// Retrieve our select
+						var select = this.dropdown.getElementsByTagName('select')[0];
+						if (select) {
+							select.setSelectedItem(index);
+						}
+					};
+					// Add to the DOM
+					highlight.appendChild(option);
+				}
+
+				var height = (select.options.length * 45) + 20,
+					maxHeight = window.innerHeight - 80;
+				if (height > maxHeight) {
+					height = maxHeight;
+					dialog.style.height = maxHeight + 'px';
+				}
+
+				var top = (window.innerHeight/2) - (height/2);
+				dialog.style.top = top + 'px';
+
+				// Add the overlay to the DOM now that we are done
+				document.body.appendChild(overlay);
+			};
+			
+		// Enable the clicking of the control if it is enabled
+		if (select.enabled) {
+			dropdown.onclick = dropdown.doclick;
+			dropdown.setAttribute(inEvent, dropdown.inEvent);
+			dropdown.setAttribute(outEvent,dropdown.outEvent);
+		}
+		
+		// Assign our setSelectedItem function
+		select.setSelectedItem = function(index) {
+			var select = this.dropdown.getElementsByTagName('select')[0];
+			if (select && select.selectedIndex != index) {
+				select.selectedIndex = index;
+				// Change our button caption
+				var caption = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
+				if (caption) {
+					caption.innerHTML = '<span>' + select.options[index].text + '</span>';
+				}
+				// Raise the DOM event
+				var evObj = document.createEvent('HTMLEvents');
+				evObj.initEvent('change', false, true );
+				select.dispatchEvent(evObj);
+			}
+		};
+		
+		// Assign our setSelectedText function
+		select.setSelectedText = function(text) {
+			for (var i = 0; i < this.options.length; i++) {
+				if (this.options[i].text == text) {
+					this.setSelectedItem(i);
+					return;
+				}
+			}
+		};
+		select.setSelectedText = select.setSelectedText.bind(select);
+		
+		// Have this function so we can asynchronously fire the change event
+		select.fireEvent = function() {
+							// Raise the DOM event
+							var evObj = document.createEvent('HTMLEvents');
+							evObj.initEvent('change', false, true );
+							this.dispatchEvent(evObj);
+						};
+		select.fireEvent = select.fireEvent.bind(select);
+		
+		// Assign our enable function
+		select.enable = function(){ 
+				if (this.enabled) return;
+				this.dropdown.onclick = this.dropdown.doclick;
+				this.dropdown.setAttribute(inEvent, dropdown.inEvent);
+				this.dropdown.setAttribute(outEvent,dropdown.outEvent);
+				this.dropdown.setAttribute('class',normal);
+				this.removeAttribute('disabled');
+				this.enabled = true;
+			};
+		select.enable = select.enable.bind(select);
+		
+		// Assign our disable function
+		select.disable = function(){ 
+				if (!select.enabled) return;
+				//this.dropdown.internalHide();
+				this.dropdown.onclick = null;
+				this.dropdown.removeAttribute(inEvent);
+				this.dropdown.removeAttribute(outEvent);
+				this.dropdown.setAttribute('class',normal + ' pb-dropdown-disabled');
+				this.enabled = false;
+				this.setAttribute('disabled','disabled');
+			};
+		select.disable = select.disable.bind(select);
+		
+			
+		// Assign our show function
+		select.show = function(){ 
+				this.dropdown.style.display = this.stretch ? 'block' : 'table-cell';
+				bb.refresh();
+			};
+		select.show = select.show.bind(select);
+		
+		// Assign our hide function
+		select.hide = function(){ 
+				this.dropdown.style.display = 'none';
+				bb.refresh();
+			};
+		select.hide = select.hide.bind(select);	
+		
+		// Assign our remove function
+		select.remove = function(){ 
+				this.dropdown.parentNode.removeChild(this.dropdown);
+				bb.refresh();
+			};
+		select.remove = select.remove.bind(select);
+		
+		// Assign our refresh function
+		select.refresh = function(){ 
+				var options = this.getElementsByTagName('option'),
+					captionElement,
+					caption = '';
+					
+				if (options.length > 0) {
+					caption = options[0].innerHTML;
+				}
+				for (var j = 0; j < options.length; j++) {
+					if (options[j].hasAttribute('selected')) {
+						caption = options[j].innerHTML;
+						break;
+					}
+				}
+				// Change our button caption
+				 captionElement = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
+				if (captionElement) {
+					captionElement.innerHTML = '<span>' + caption + '</span>';
+				}
+			};
+		select.refresh = select.refresh.bind(select);
+	  
+		// Assign our setCaption function
+		select.setCaption = function(value){ 
+				if (console) {
+					console.log('WARNING: setCaption is not supported on BlackBerry 5/6/7/PlayBook');
+				}
+			};
+		select.setCaption = select.setCaption.bind(select);
+
+		// Need to return the dropdown instead of the select for dynamic styling
+		return dropdown;
+    }
+};
+
 _bbPlayBook_imageList = {  
     apply: function(elements) {
 		var i,j,
@@ -3099,378 +3321,7 @@ _bbPlayBook_textInput = {
 		}
     }
 };
-_bb_5_6_7_roundPanel = {  
-    apply: function(elements) {
-		// Apply our transforms to all the panels
-		for (var i = 0; i < elements.length; i++) {
-			var outerElement = elements[i];
-			outerElement.setAttribute('class','bb-round-panel');
-			if (outerElement.hasChildNodes()) {
-				var innerElements = [],
-					innerCount = outerElement.childNodes.length;
-				// Grab the internal contents so that we can add them
-				// back to the massaged version of this div
-				for (var j = 0; j < innerCount; j++) {
-					innerElements.push(outerElement.childNodes[j]);
-				}
-				for (var j = innerCount - 1; j >= 0; j--) {
-					outerElement.removeChild(outerElement.childNodes[j]);
-				}
-				// Create our new <div>'s
-				var placeholder = document.createElement('div');
-				placeholder.setAttribute('class','bb-round-panel-top-left bb-round-panel-background ');
-				outerElement.appendChild(placeholder);
-				placeholder = document.createElement('div');
-				placeholder.setAttribute('class','bb-round-panel-top-right bb-round-panel-background ');
-				outerElement.appendChild(placeholder);
-				var insidePanel = document.createElement('div');
-				insidePanel.setAttribute('class','bb-round-panel-inside');
-				outerElement.appendChild(insidePanel);
-				placeholder = document.createElement('div');
-				placeholder.setAttribute('class','bb-round-panel-bottom-left bb-round-panel-background ');
-				outerElement.appendChild(placeholder);
-				placeholder = document.createElement('div');
-				placeholder.setAttribute('class','bb-round-panel-bottom-right bb-round-panel-background ');
-				outerElement.appendChild(placeholder);
-				// Add our previous children back to the insidePanel
-				for (var j = 0; j < innerElements.length; j++) {
-					insidePanel.appendChild(innerElements[j]); 
-				}
-			}
-			// Handle the headers
-			var items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
-			for (var j = 0; j < items.length; j++) {
-				items[j].setAttribute('class','bb-lowres-panel-header');
-			}
-			// Add our show function
-			outerElement.show = function() {
-				this.style.display = 'block';
-				bb.refresh();
-					};
-			outerElement.show = outerElement.show.bind(outerElement);
-			
-			// Add our hide function
-			outerElement.hide = function() {
-				this.style.display = 'none';
-				bb.refresh();
-					};
-			outerElement.hide = outerElement.hide.bind(outerElement);
-			
-			// Add remove function
-			outerElement.remove = function() {
-				this.parentNode.removeChild(this);
-				bb.refresh();
-					};
-			outerElement.remove = outerElement.remove.bind(outerElement);
-		}  
-    }
-};
-_bb_6_7_PlayBook_dropdown = { 
-    // Style a list of items
-	apply: function(elements) {
-		for (var i = 0; i < elements.length; i++) {
-			bb.dropdown.style(elements[i]);
-		}
-	},
-	// Style an individual item
-	style: function(select) {
-		var options = select.getElementsByTagName('option'),
-			caption = '',
-			inEvent,
-			outEvent,
-			enabled = !select.hasAttribute('disabled');
-			
-		// Set our highlight events
-		if (bb.device.isPlayBook) {
-			inEvent = 'ontouchstart';
-			outEvent = 'ontouchend';
-		} else {
-			inEvent = 'onmouseover';
-			outEvent = 'onmouseout';
-		}
-
-		select.style.display = 'none';
-		select.stretch = false;
-		select.enabled = enabled;
-		
-		// Get our selected item
-		if (options.length > 0) {
-			caption = options[0].innerHTML;
-		}
-		for (var j = 0; j < options.length; j++) {
-			if (options[j].hasAttribute('selected')) {
-				caption = options[j].innerHTML;
-				break;
-			}
-		}
-
-		// Create our new dropdown button
-		var dropdown = document.createElement('div');
-		dropdown.innerHTML = '<div data-bb-type="caption"><span>' + caption + '</span></div>';
-		select.dropdown = dropdown;
-
-		var normal = 'bb-bb7-dropdown',
-			highlight = 'bb-bb7-dropdown-highlight';
-
-		if (bb.device.isHiRes) {
-			normal = normal + ' bb-bb7-dropdown-hires';
-			highlight = highlight + ' bb-bb7-dropdown-hires';
-		} else {
-			normal = normal + ' bb-bb7-dropdown-lowres';
-			highlight = highlight + ' bb-bb7-dropdown-lowres';
-		}
-
-		if (select.hasAttribute('data-bb-style')) {
-			var style = select.getAttribute('data-bb-style');
-			if (style == 'stretch') {
-				select.stretch = true;
-				normal = normal + ' dropdown-stretch';
-				highlight = highlight + ' dropdown-stretch';
-			}
-		}
-		dropdown.setAttribute('data-bb-type','dropdown');
-		if (select.enabled) {
-			dropdown.setAttribute('class',normal);
-		} else {
-			dropdown.setAttribute('class',normal + ' bb-bb7-dropdown-disabled');
-		}
-		dropdown.setAttribute('x-blackberry-focusable','true');
-		dropdown.inEvent = "this.setAttribute('class','" + highlight +"')";
-		dropdown.outEvent = "this.setAttribute('class','" + normal + "')"
-		
-		if (select.parentNode) {
-			select.parentNode.insertBefore(dropdown, select);
-		}
-		dropdown.appendChild(select);
-
-		// Set our click handler
-		dropdown.doclick = function() {
-				var select = this.getElementsByTagName('select')[0];
-				// Add our emulation for Ripple
-				if (bb.device.isPlayBook || bb.device.isRipple) {
-					// Create the overlay to trap clicks on the screen
-					var overlay = document.createElement('div');
-					overlay.setAttribute('id', 'ripple-dropdown-overlay');
-					overlay.style['position'] = 'absolute';
-			        overlay.style['left'] = '0px';	
-			        overlay.style['top'] = document.body.scrollTop + 'px';
-			        overlay.style['width'] = '100%';
-			        overlay.style['height'] = '100%';
-			        overlay.style['z-index'] = '1000000';
-					// Close the overlay if they click outside of the select box
-					overlay.onclick = function () {
-						if (this.parentNode !== null) {
-							this.parentNode.removeChild(this);
-						}
-					};
-
-					// Create our dialog
-					var dialog = document.createElement('div');
-					if (bb.device.isHiRes) {
-						dialog.setAttribute('class', 'ripple-dropdown-dialog bb-hires-screen');
-					} else {
-						dialog.setAttribute('class', 'ripple-dropdown-dialog');
-					}
-					overlay.appendChild(dialog);
-					dialog.onclick = function() {
-						this.parentNode.parentNode.removeChild(this.parentNode);
-					};
-
-					// Add our options
-					for (var i = 0; i < select.options.length; i++) {
-						var item = select.options[i],
-							highlight = document.createElement('div');
-
-						dialog.appendChild(highlight);
-						var option = document.createElement('div');
-						if (item.selected) {
-							option.setAttribute('class', 'item selected');
-							highlight.setAttribute('class','backgroundHighlight backgroundSelected');
-						} else {
-							option.setAttribute('class', 'item');
-							highlight.setAttribute('class','backgroundHighlight');
-						}
-
-						option.innerHTML = '<span>' + item.text + '</span>';
-						option.setAttribute('x-blackberry-focusable','true');
-						option.setAttribute('data-bb-index', i);
-						// Assign our dropdown for when the item is clicked
-						option.dropdown = this;
-						option.onclick = function() {
-							var index = this.getAttribute('data-bb-index');
-							// Retrieve our select
-							var select = this.dropdown.getElementsByTagName('select')[0];
-							if (select) {
-								select.setSelectedItem(index);
-							}
-						};
-						// Add to the DOM
-						highlight.appendChild(option);
-					}
-
-					var height = (select.options.length * 45) + 20,
-						maxHeight = window.innerHeight - 80;
-					if (height > maxHeight) {
-						height = maxHeight;
-						dialog.style.height = maxHeight + 'px';
-					}
-
-					var top = (window.innerHeight/2) - (height/2);
-					dialog.style.top = top + 'px';
-
-					// Add the overlay to the DOM now that we are done
-					document.body.appendChild(overlay);
-				} else {
-					//On Smartphones, use the new Select Asynch dialog in blackberry.ui.dialog
-					var inputs = [];
-					for (var i = 0; i < select.options.length; i++) {
-						inputs[i] = { label : select.options[i].text, selected : i == select.selectedIndex, enabled : true, type : "option"};
-					}
-					try {
-						blackberry.ui.dialog.selectAsync(false, inputs,
-							function (indices) {
-								if (indices.length > 0 && indices[0] < select.options.length) {
-									select.setSelectedItem(indices[0]);
-								}
-							}
-						);
-					} catch (e) {
-						console.log("Exception in selectAsync: " + e);
-					}
-				}
-			};
-			
-		// Enable the clicking of the control if it is enabled
-		if (select.enabled) {
-			dropdown.onclick = dropdown.doclick;
-			dropdown.setAttribute(inEvent, dropdown.inEvent);
-			dropdown.setAttribute(outEvent,dropdown.outEvent);
-		}
-		
-		// Assign our setSelectedItem function
-		select.setSelectedItem = function(index) {
-			var select = this.dropdown.getElementsByTagName('select')[0];
-			if (select && select.selectedIndex != index) {
-				select.selectedIndex = index;
-				// Change our button caption
-				var caption = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
-				if (caption) {
-					caption.innerHTML = '<span>' + select.options[index].text + '</span>';
-				}
-				// Raise the DOM event
-				var evObj = document.createEvent('HTMLEvents');
-				evObj.initEvent('change', false, true );
-				select.dispatchEvent(evObj);
-			}
-		};
-		
-		// Assign our setSelectedText function
-		select.setSelectedText = function(text) {
-			for (var i = 0; i < this.options.length; i++) {
-				if (this.options[i].text == text) {
-					this.setSelectedItem(i);
-					return;
-				}
-			}
-		};
-		select.setSelectedText = select.setSelectedText.bind(select);
-		
-		// Have this function so we can asynchronously fire the change event
-		select.fireEvent = function() {
-							// Raise the DOM event
-							var evObj = document.createEvent('HTMLEvents');
-							evObj.initEvent('change', false, true );
-							this.dispatchEvent(evObj);
-						};
-		select.fireEvent = select.fireEvent.bind(select);
-		
-		// Assign our enable function
-		select.enable = function(){ 
-				if (this.enabled) return;
-				this.dropdown.onclick = this.dropdown.doclick;
-				this.dropdown.setAttribute(inEvent, dropdown.inEvent);
-				this.dropdown.setAttribute(outEvent,dropdown.outEvent);
-				this.dropdown.setAttribute('class',normal);
-				this.removeAttribute('disabled');
-				this.enabled = true;
-			};
-		select.enable = select.enable.bind(select);
-		
-		// Assign our disable function
-		select.disable = function(){ 
-				if (!select.enabled) return;
-				//this.dropdown.internalHide();
-				this.dropdown.onclick = null;
-				this.dropdown.removeAttribute(inEvent);
-				this.dropdown.removeAttribute(outEvent);
-				this.dropdown.setAttribute('class',normal + ' bb-bb7-dropdown-disabled');
-				this.enabled = false;
-				this.setAttribute('disabled','disabled');
-			};
-		select.disable = select.disable.bind(select);
-		
-			
-		// Assign our show function
-		select.show = function(){ 
-				this.dropdown.style.display = this.stretch ? 'block' : 'table-cell';
-				bb.refresh();
-			};
-		select.show = select.show.bind(select);
-		
-		// Assign our hide function
-		select.hide = function(){ 
-				this.dropdown.style.display = 'none';
-				bb.refresh();
-			};
-		select.hide = select.hide.bind(select);	
-		
-		// Assign our remove function
-		select.remove = function(){ 
-				this.dropdown.parentNode.removeChild(this.dropdown);
-				bb.refresh();
-			};
-		select.remove = select.remove.bind(select);
-		
-		// Assign our refresh function
-		select.refresh = function(){ 
-				//this.dropdown.internalHide();
-				//this.dropdown.refreshOptions();
-				var options = this.getElementsByTagName('option'),
-					captionElement,
-					caption = '';
-					
-				if (options.length > 0) {
-					caption = options[0].innerHTML;
-				}
-				for (var j = 0; j < options.length; j++) {
-					if (options[j].hasAttribute('selected')) {
-						caption = options[j].innerHTML;
-						break;
-					}
-				}
-				
-				// Change our button caption
-				 captionElement = this.dropdown.querySelectorAll('[data-bb-type=caption]')[0];
-				if (captionElement) {
-					captionElement.innerHTML = '<span>' + caption + '</span>';
-				}
-			};
-		select.refresh = select.refresh.bind(select);
-	  
-		// Assign our setCaption function
-		select.setCaption = function(value){ 
-				if (console) {
-					console.log('WARNING: setCaption is not supported on BlackBerry 5/6/7/PlayBook');
-				}
-			};
-		select.setCaption = select.setCaption.bind(select);
-
-		// Need to return the dropdown instead of the select for dynamic styling
-		return dropdown;
-    }
-};
-
-_bb_6_7_PlayBook_labelControlContainers = {
+_bb_PlayBook_labelControlContainers = {
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i];
@@ -3480,7 +3331,7 @@ _bb_6_7_PlayBook_labelControlContainers = {
 			if (items.length > 0 ) {
 				// Create our containing table
 				var table = document.createElement('table');
-				table.setAttribute('class','bb-bb7-label-control-rows');
+				table.setAttribute('class','pb-label-control-rows');
 				outerElement.insertBefore(table,items[0]);
 				
 				for (var j = 0; j < items.length; j++) {
@@ -3531,112 +3382,90 @@ _bb_6_7_PlayBook_labelControlContainers = {
 		}
     }
 };
-_bb_6_7_PlayBook_pillButtons = {  
+_bb_PlayBook_pillButtons = {  
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i],
-				containerStyle = 'bb-bb7-pill-buttons',
-				buttonStyle = '';	
-			// Set our container style
-			if (bb.device.isHiRes) {
-				containerStyle = containerStyle + ' bb-bb7-pill-buttons-hires';
-				buttonStyle = 'bb-bb7-pill-button-hires';
-			} else {
-				containerStyle = containerStyle + ' bb-bb7-pill-buttons-lowres';
-				buttonStyle = 'bb-bb7-pill-button-lowres';
-			}
+				containerStyle = 'pb-pill-buttons pb-pill-buttons',
+				buttonStyle = 'pb-pill-button';	
+			
 			outerElement.setAttribute('class',containerStyle);	
 			// Gather our inner items
-			var inEvent, 
-				outEvent, 
+			var inEvent = 'ontouchstart', 
+				outEvent = 'ontouchend', 
 				items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
 				percentWidth = Math.floor(98 / items.length),
 				sidePadding = 102-(percentWidth * items.length);
-				
-			if (bb.device.isPlayBook) {
-				inEvent = 'ontouchstart';
-				outEvent = 'ontouchend';
-			} else {
-				inEvent = 'onmouseover';
-				outEvent = 'onmouseout';
-			}
-				
+
 			outerElement.style['padding-left'] = sidePadding + '%';
 			outerElement.style['padding-right'] = sidePadding + '%';
 			for (var j = 0; j < items.length; j++) {
 				var innerChildNode = items[j];
-				innerChildNode.setAttribute('x-blackberry-focusable','true');
 				if (j === 0) {  // First button
 					if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
-						innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
+						innerChildNode.setAttribute('class','pb-pill-button-highlight pb-pill-button-left '+ buttonStyle);
 					} else {
-						innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
-						innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
-						innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
+						innerChildNode.setAttribute('class','pb-pill-button pb-pill-button-left '+ buttonStyle);
+						innerChildNode.setAttribute(inEvent,"this.setAttribute('class','pb-pill-button-highlight pb-pill-button-left " + buttonStyle +"')");
+						innerChildNode.setAttribute(outEvent,"this.setAttribute('class','pb-pill-button pb-pill-button-left " + buttonStyle +"')");
 					}
 				} else if (j == items.length -1) { // Right button
 					if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
-						innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right '+ buttonStyle);
+						innerChildNode.setAttribute('class','pb-pill-button-highlight pb-pill-button-right '+ buttonStyle);
 					} else {
-						innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
-						innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
-						innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
+						innerChildNode.setAttribute('class','pb-pill-button pb-pill-button-right ' + buttonStyle);
+						innerChildNode.setAttribute(inEvent,"this.setAttribute('class','pb-pill-button-highlight pb-pill-button-right " + buttonStyle +"')");
+						innerChildNode.setAttribute(outEvent,"this.setAttribute('class','pb-pill-button pb-pill-button-right " + buttonStyle +"')");
 					}
 				} else { // Middle Buttons
 					if (innerChildNode.getAttribute('data-bb-selected') == 'true') {
-						innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight '+ buttonStyle);
+						innerChildNode.setAttribute('class','pb-pill-button-highlight '+ buttonStyle);
 					} else {
-						innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
-						innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
-						innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
+						innerChildNode.setAttribute('class','pb-pill-button ' + buttonStyle);
+						innerChildNode.setAttribute(inEvent,"this.setAttribute('class','pb-pill-button-highlight " + buttonStyle +"')");
+						innerChildNode.setAttribute(outEvent,"this.setAttribute('class','pb-pill-button " + buttonStyle +"')");
 					}
 				}
 				// Set our width
 				innerChildNode.style.width = percentWidth + '%';
 				// Add our subscription for click events to change highlighting
 				innerChildNode.addEventListener('click',function (e) {
-						var inEvent, outEvent, items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
-						
-						if (bb.device.isPlayBook) {
-							inEvent = 'ontouchstart';
-							outEvent = 'ontouchend';
-						} else {
-							inEvent = 'onmouseover';
-							outEvent = 'onmouseout';
-						}
+						var inEvent = 'ontouchstart', 
+							outEvent = 'ontouchend', 
+							items = this.parentNode.querySelectorAll('[data-bb-type=pill-button]');
 						
 						for (var j = 0; j < items.length; j++) {
 							var innerChildNode = items[j];
 							
 							if (j === 0) {  // First button
 								if (innerChildNode == this) {
-									innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left '+ buttonStyle);
+									innerChildNode.setAttribute('class','pb-pill-button-highlight pb-pill-button-left '+ buttonStyle);
 									innerChildNode.onmouseover = null;
 									innerChildNode.onmouseout = null;
 								} else {
-									innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left '+ buttonStyle);
-									innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-left " + buttonStyle +"')");
-									innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-left " + buttonStyle +"')");
+									innerChildNode.setAttribute('class','pb-pill-button pb-pill-button-left '+ buttonStyle);
+									innerChildNode.setAttribute(inEvent,"this.setAttribute('class','pb-pill-button-highlight pb-pill-button-left " + buttonStyle +"')");
+									innerChildNode.setAttribute(outEvent,"this.setAttribute('class','pb-pill-button pb-pill-button-left " + buttonStyle +"')");
 								}
 							} else if (j == items.length -1) { // Right button
 								if (innerChildNode == this) {
-									innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right '+ buttonStyle);
+									innerChildNode.setAttribute('class','pb-pill-button-highlight pb-pill-button-right '+ buttonStyle);
 									innerChildNode.onmouseover = null;
 									innerChildNode.onmouseout = null;
 								} else {
-									innerChildNode.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right ' + buttonStyle);
-									innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight bb-bb7-pill-button-right " + buttonStyle +"')");
-									innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button bb-bb7-pill-button-right " + buttonStyle +"')");
+									innerChildNode.setAttribute('class','pb-pill-button pb-pill-button-right ' + buttonStyle);
+									innerChildNode.setAttribute(inEvent,"this.setAttribute('class','pb-pill-button-highlight pb-pill-button-right " + buttonStyle +"')");
+									innerChildNode.setAttribute(outEvent,"this.setAttribute('class','pb-pill-button pb-pill-button-right " + buttonStyle +"')");
 								}
 							} else { // Middle Buttons
 								if (innerChildNode == this) {
-									innerChildNode.setAttribute('class','bb-bb7-pill-button-highlight '+ buttonStyle);
+									innerChildNode.setAttribute('class','pb-pill-button-highlight '+ buttonStyle);
 									innerChildNode.onmouseover = null;
 									innerChildNode.onmouseout = null;
 								} else {
-									innerChildNode.setAttribute('class','bb-bb7-pill-button ' + buttonStyle);
-									innerChildNode.setAttribute(inEvent,"this.setAttribute('class','bb-bb7-pill-button-highlight " + buttonStyle +"')");
-									innerChildNode.setAttribute(outEvent,"this.setAttribute('class','bb-bb7-pill-button " + buttonStyle +"')");
+									innerChildNode.setAttribute('class','pb-pill-button ' + buttonStyle);
+									innerChildNode.setAttribute(inEvent,"this.setAttribute('class','pb-pill-button-highlight " + buttonStyle +"')");
+									innerChildNode.setAttribute(outEvent,"this.setAttribute('class','pb-pill-button " + buttonStyle +"')");
 								}
 							}
 						}
@@ -3645,41 +3474,40 @@ _bb_6_7_PlayBook_pillButtons = {
 			}
 			// Add our show function
 			outerElement.show = function() {
-				this.style.display = 'block';
-				bb.refresh();
+						this.style.display = 'block';
+						bb.refresh();
 					};
 			outerElement.show = outerElement.show.bind(outerElement);
 			
 			// Add our hide function
 			outerElement.hide = function() {
-				this.style.display = 'none';
-				bb.refresh();
+						this.style.display = 'none';
+						bb.refresh();
 					};
 			outerElement.hide = outerElement.hide.bind(outerElement);
 			
 			// Add remove function
 			outerElement.remove = function() {
-				this.parentNode.removeChild(this);
-				bb.refresh();
+						this.parentNode.removeChild(this);
+						bb.refresh();
 					};
 			outerElement.remove = outerElement.remove.bind(outerElement);
 			
 			// Add getButtons function
 			outerElement.getButtons = function() {
-				var items = this.querySelectorAll('[data-bb-type=pill-button]');
-				var buttonArray = new Array();
-				for (var j = 0; j < items.length; j++) {
-					buttonArray[j] = items[j].innerHTML;					
-				}				
-				return buttonArray;
+						var items = this.querySelectorAll('[data-bb-type=pill-button]');
+						var buttonArray = new Array();
+						for (var j = 0; j < items.length; j++) {
+							buttonArray[j] = items[j].innerHTML;					
+						}				
+						return buttonArray;
 					};
 			outerElement.getButtons = outerElement.getButtons.bind(outerElement);
-
 		}
     } 
 };
 
-_bb_PlayBook_10_scrollPanel = {
+_bb_PlayBook_scrollPanel = {
 	apply: function(elements) {
 		var i,j,
 			outerElement,
@@ -3702,68 +3530,36 @@ _bb_PlayBook_10_scrollPanel = {
 			for (j = 0; j < tempHolder.length; j++) {
 				scrollArea.appendChild(tempHolder[j]);
 			}
-			
-			if (bb.device.isPlayBook) {
-				outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
-									onBeforeScrollStart: function (e) {
-										if (bb.scroller) {
-											bb.scroller.disable();
-										}
-										e.preventDefault();
-									}, 
-									onBeforeScrollEnd: function(e) {
-										if (bb.scroller) {
-											bb.scroller.enable();
-										}
-									},
-									onScrollEnd : function(e) {
-										// Raise an internal event to let the rest of the framework know that content is scrolling
-										evt = document.createEvent('Events');
-										evt.initEvent('bbuiscrolling', true, true);
-										document.dispatchEvent(evt);
-									},
-									onScrollMove: function(e) {
-										if (outerElement.onscroll) {
-											outerElement.onscroll(e);
-										}
-										// Raise an internal event to let the rest of the framework know that content is scrolling
-										evt = document.createEvent('Events');
-										evt.initEvent('bbuiscrolling', true, true);
-										document.dispatchEvent(evt);
-									}
-									});
-			} else {
-				outerElement.scroller = null;
-				outerElement.style['-webkit-overflow-scrolling'] = '-blackberry-touch';
-				outerElement.addEventListener('scroll', function() {
-						// Raise an internal event to let the rest of the framework know that content is scrolling
-						evt = document.createEvent('Events');
-						evt.initEvent('bbuiscrolling', true, true);
-						document.dispatchEvent(evt);	
 
-						/* This is a major hack to fix an issue in webkit where it doesn't always
-						   understand when to re-paint the screen when scrolling a <div> with overflow
-						   and using the inertial scrolling */
-						if (this.timeout) {
-							clearTimeout(this.timeout);
-						} else {
-							this.style['padding-right'] = '1px';
-						}
-						// Set our new timeout for resetting
-						this.timeout = setTimeout(this.resetPadding,20);
-						
-						/* ************* END OF THE SCROLLING HACK *******************/
-						
-					},false);
-					
-				/* ********** PART OF THE SCROLLING HACK ************/
-				outerElement.resetPadding = function() {
-						this.style['padding-right'] = '0px';
-						this.timeout = null;
-					};
-				outerElement.resetPadding = outerElement.resetPadding.bind(outerElement);
-				/* ********** END OF THE SCROLLING HACK ************/
-			}
+			outerElement.scroller = new iScroll(outerElement, {vScrollbar: true,hideScrollbar:true,fadeScrollbar:true,
+								onBeforeScrollStart: function (e) {
+									if (bb.scroller) {
+										bb.scroller.disable();
+									}
+									e.preventDefault();
+								}, 
+								onBeforeScrollEnd: function(e) {
+									if (bb.scroller) {
+										bb.scroller.enable();
+									}
+								},
+								onScrollEnd : function(e) {
+									// Raise an internal event to let the rest of the framework know that content is scrolling
+									evt = document.createEvent('Events');
+									evt.initEvent('bbuiscrolling', true, true);
+									document.dispatchEvent(evt);
+								},
+								onScrollMove: function(e) {
+									if (outerElement.onscroll) {
+										outerElement.onscroll(e);
+									}
+									// Raise an internal event to let the rest of the framework know that content is scrolling
+									evt = document.createEvent('Events');
+									evt.initEvent('bbuiscrolling', true, true);
+									document.dispatchEvent(evt);
+								}
+								});
+			
 			
 			// Add show function
 			outerElement.show = function() {
@@ -3788,36 +3584,18 @@ _bb_PlayBook_10_scrollPanel = {
 			
 			// Set refresh
 			outerElement.refresh = function() {
-					if (this.scroller) {
-						this.scroller.refresh();
-					}
+					this.scroller.refresh();
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			setTimeout(outerElement.refresh,0);
 			// Set ScrollTo
 			outerElement.scrollTo = function(x, y) {
-					if (this.scroller) {
-						this.scroller.scrollTo(x, y);
-					} else {
-						this.scrollTop = x;
-					}
+					this.scroller.scrollTo(x, y);
 				};
 			outerElement.scrollTo = outerElement.scrollTo.bind(outerElement);
 			// Set ScrollToElement
 			outerElement.scrollToElement = function(element) {
-					if (this.scroller) {
-						this.scroller.scrollToElement(element);
-					} else {
-						if (!element) return;
-						var offsetTop = 0,
-							target = element;
-						if (target.offsetParent) {
-							do {
-								offsetTop  += target.offsetTop;
-							} while (target = target.offsetParent);
-						}
-						this.scrollTo(offsetTop,0);
-					}
+					this.scroller.scrollToElement(element);
 				};
 			outerElement.scrollToElement = outerElement.scrollToElement.bind(outerElement);
 			outerElement.setAttribute('class','bb-scroll-panel');
