@@ -40,6 +40,8 @@
         <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').remove();" id="remove">Remove Image List</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').appendItem(createHeader());" id="appendHeader">Append Header</div>
         <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').appendItem(createItem());" id="appendItem">Append Item</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').insertItemBefore(createHeader(),document.getElementById('myImageList').getItems()[0]);" id="appendItem">Insert Header</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myImageList').insertItemBefore(createItem(),document.getElementById('myImageList').getItems()[0]);" id="appendItem">Insert Item</div>
 	</div>
 	
 	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
