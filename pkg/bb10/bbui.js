@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.159*/
+/* VERSION: 0.9.6.160*/
 
 bb = {
 	scroller: null,  
@@ -2310,7 +2310,7 @@ bb.menuBar = {
 	},
 
 	showMenuBar: function(){
-		if(!bb.menuBar.visible){
+		if(!bb.menuBar.visible && !bb.screen.animating){
 			bb.menuBar.visible = true;
 			if(bb.device.isPlayBook){
 				blackberry.app.event.onSwipeDown(bb.menuBar.hideMenuBar);
@@ -2368,6 +2368,9 @@ bb.menuBar = {
 	clearMenu: function(){
 		if(window.blackberry){
 			if(bb.menuBar.menu && (bb.device.isPlayBook || bb.device.isBB10)){
+				if(bb.menuBar.visible){
+					bb.menuBar.hideMenuBar();
+				}
 				if (bb.device.isPlayBook && blackberry.app.event) {
 					blackberry.app.event.onSwipeDown('');
 				}else if(bb.device.isBB10 && blackberry.app){
