@@ -12,23 +12,13 @@ _bb_progress = {
 	
 	// Style individual item
 	style: function(progress, offdom) {
-		var color,
-			highlightColor,
-			accentColor,
+		var color = bb.screen.controlColor,
+			highlightColor = bb.options.highlightColor,
+			accentColor = bb.options.shades.darkHighlight,
 			NORMAL = 0,
 			PAUSED = 1,
 			ERROR = 2;
-
-		if (bb.device.isBB10) {
-			color = bb.screen.controlColor;
-			highlightColor = bb.options.highlightColor;
-			accentColor = bb.options.shades.darkHighlight;
-		} else {
-			color = 'light';
-			highlightColor = (bb.device.isPlayBook) ? bb.options.highlightColor : '#92B43B';
-			accentColor = '#8FB03B';
-		}
-		
+	
 		// Create our container div
 		outerElement = document.createElement('div');
 		outerElement.progress = progress;
@@ -47,11 +37,7 @@ _bb_progress = {
 		outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
-		if (bb.device.isBB10) {
-			outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
-		} else {
-			outerElement.fill.normal = 'bb-progress-fill bbProgressHighlight';
-		}
+		outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
 		outerElement.fill.setAttribute('class',outerElement.fill.normal);
 		outerElement.outer.appendChild(outerElement.fill);
 		outerElement.inner = document.createElement('div');
@@ -157,8 +143,7 @@ _bb_progress = {
 		window.addEventListener('resize', outerElement.doOrientationChange,false); 
 		// Add listener for removal on popScreen
 		bb.windowListeners.push({name: 'resize', eventHandler: outerElement.doOrientationChange});
-		
-		
+			
 		return outerElement;
 	}
 };

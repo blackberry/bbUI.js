@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* VERSION: 0.9.6.151*/
+/* VERSION: 0.9.6.154*/
 
 var _self = {},
     _ID = require("./manifest.json").namespace;
