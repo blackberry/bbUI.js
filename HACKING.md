@@ -16,7 +16,7 @@ Next, ensure you're in the root directory of the project then install developmen
 
     npm install
     
-Finally, build bbUI.js:
+Finally, build bbUI.js by navigating to the **src** directory of your choosing and:
 
     jake
 
@@ -38,17 +38,7 @@ Contains code for managing screens and managing the styling.
 
 Contains all of the css rules for bbUI.
 
-### plugins/
-
-Contains all of the UI plugins.  Each plugin should be in the format of:
-
-#### pluginName.js:
-    bb.pluginName = {
-        apply: function (elements) {
-            //code to apply styling to the elements
-        }
-    };
-
+## Plugins
 
   [1]: http://www.nodejs.org
   [2]: http://joyeur.com/2010/12/10/installing-node-and-npm/
