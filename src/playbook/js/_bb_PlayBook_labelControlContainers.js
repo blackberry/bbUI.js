@@ -1,4 +1,4 @@
-_bb_6_7_PlayBook_labelControlContainers = {
+_bb_PlayBook_labelControlContainers = {
     apply: function(elements) {
 		for (var i = 0; i < elements.length; i++) {
 			var outerElement = elements[i];
@@ -8,7 +8,7 @@ _bb_6_7_PlayBook_labelControlContainers = {
 			if (items.length > 0 ) {
 				// Create our containing table
 				var table = document.createElement('table');
-				table.setAttribute('class','bb-bb7-label-control-rows');
+				table.setAttribute('class','pb-label-control-rows');
 				outerElement.insertBefore(table,items[0]);
 				
 				for (var j = 0; j < items.length; j++) {
