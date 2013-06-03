@@ -38,12 +38,6 @@ Contains code for managing screens and managing the styling.
 
 Contains all of the css rules for bbUI.
 
-## Plugins
-
-  [1]: http://www.nodejs.org
-  [2]: http://joyeur.com/2010/12/10/installing-node-and-npm/
-  [3]: https://github.com/mde/jake
-
 ## screenshots/
 
 Example screenshots for use in README.md
