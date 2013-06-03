@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-up">
+	<div data-bb-type="title" data-bb-caption="Toggle Buttons" data-bb-back-caption="Back" ></div>
+	<style>
+		.cell {
+			line-height: 100px;
+			height: 100px;
+			vertical-align: middle;
+		}
+		.first {
+			width: 350px;
+		}
+	</style>
+	<div style="margin:15px;">
+		<table>
+			<tr>
+				<td class="cell first" style="padding-top:7px;">Choice One: <span id="one">true</span></td>
+				<td  class="cell">
+					<div data-bb-type="toggle" data-bb-checked="true" data-bb-on="Yes" data-bb-off="No" onchange="document.getElementById('one').innerHTML = this.checked" id="choiceOne"/></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="cell" style="padding-top:7px;">Choice Two: <span id="two">true</span></td>
+				<td class="cell">
+					<div data-bb-type="toggle" data-bb-checked="false" data-bb-on="On" data-bb-off="Off" onchange="document.getElementById('two').innerHTML = this.checked" id="choiceTwo"/></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="cell" style="padding-top:7px;">Choice Three: <span id="three">true</span></td>
+				<td class="cell">
+					<div data-bb-type="toggle" data-bb-checked="true" data-bb-on="Oui" data-bb-off="Non" onchange="document.getElementById('three').innerHTML = this.checked" id="choiceThree"></div>
+				</td>
+			</tr>
+		</table>		
+	</div>
+
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

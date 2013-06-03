@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-title="Screen Display" data-bb-effect="fade" >
+	<div data-bb-type="title" data-bb-caption="Screen Display" data-bb-back-caption="Back"></div>
+	<div data-bb-type="round-panel" id="fontPanel"> 
+		<div data-bb-type="panel-header">Font</div>
+		<div style="margin:3px;">
+		   <div data-bb-type="label">Font Family:</div>
+		   <select data-bb-style="stretch" data-bb-label="Font Family" onchange="alert('Changed to value ' + this.options[this.selectedIndex].text)" id="fontFamily">
+				<option value="bbalphasans" selected="true">BBAlpha Sans</option>
+				<option value="arial">Arial</option>
+				<option value="andalemono">Andale Mono</option>
+		   </select>
+	   </div>
+	   <div data-bb-type="label-control-container" id="mylabelContainer">
+		   <div data-bb-type="row">
+			   <div data-bb-type="label">Font Size:</div>
+			   <select>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option selected="true" value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+			   </select>
+		   </div>
+			<div data-bb-type="row">
+			   <div data-bb-type="label">Font Style:</div>
+			   <div id="fontstyle" data-bb-type="button" data-bb-disabled="true" onclick="alert('clicked Plain');">Plain</div>
+		   </div>
+		   <div data-bb-type="row">
+			   <div data-bb-type="label">Font Smoothing:</div>
+			   <select>
+					<option value="on" selected="true">On</option>
+					<option value="off">Off</option>
+			   </select>
+		   </div>
+	   </div>
+	   <div style="margin:3px;">
+		   <div data-bb-type="label">Sample:</div>
+		   <div style="margin-left:10px;margin-right:10px;font-size:15pt">The quick brown fox jumps over the lazy dog.</div>
+		   <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontstyle').enable();">Restore Default</div>
+	   </div>
+	</div>
+
+	<div data-bb-type="round-panel" id="backlightPanel"> 
+		<div data-bb-type="panel-header">Backlight</div>
+		<div data-bb-type="label-control-container" id="mylabelContainer1">
+			<div data-bb-type="row">
+			   <div data-bb-type="label">Backlight Brightness:</div>
+			   <div data-bb-type="button">Cancel</div>
+		   </div>
+		   <div data-bb-type="row">
+			   <div data-bb-type="label">Backlight Timeout:</div>
+			   <div data-bb-type="button">30 Sec.</div>
+		   </div>    
+			<div data-bb-type="row">
+			   <div data-bb-type="label">Automatically Dim Backlight:</div>
+			   <div data-bb-type="button">Yes</div>
+		   </div>   
+		   <div data-bb-type="row">
+			   <div data-bb-type="label">LED Coverage Indicator:</div>
+			   <div data-bb-type="button">No</div>
+		   </div> 	   
+		</div>
+	</div>
+            <div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Round Panel Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').hide();document.getElementById('backlightPanel').hide();" id="hide">Hide Round Panels</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').show();document.getElementById('backlightPanel').show();" id="show">Show Round Panels</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('fontPanel').remove();document.getElementById('backlightPanel').remove();" id="remove">Remove Round Panels</div>        
+		</div>
+        <div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Label Control Container Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('mylabelContainer').hide();document.getElementById('mylabelContainer1').hide();" id="hide1">Hide Label Control Containers</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('mylabelContainer').show();document.getElementById('mylabelContainer1').show();" id="show1">Show Label Control Containers</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('mylabelContainer').remove();document.getElementById('mylabelContainer1').remove();" id="remove1">Remove Label Control Containers</div>        
+		</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

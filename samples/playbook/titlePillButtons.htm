@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left" data-bb-scroll-effect="off">
+	<div data-bb-type="title" data-bb-caption="Tim Neil" data-bb-img="images/avatars/tim.png" data-bb-accent-text="Available"></div>
+	<script src="js/titlePillButtons.js" onunload="titlePillButtons_UnInit()"></script>
+	<style type="text/css">
+		.selectionHeader {
+			left:0px;
+			right:0px;
+			padding-top: 3px;
+			padding-bottom: 10px;
+			border-bottom-width: 1px;
+			border-bottom-style: solid;
+			border-bottom-color: #5C5C5C;
+		}
+	</style>
+	
+	<div id="header" class="selectionHeader">
+		<div data-bb-type="pill-buttons">
+		  <div data-bb-type="pill-button" data-bb-selected="true" onclick="titlePillButtons_showList('received')">Recieved (12)</div>
+		  <div data-bb-type="pill-button" onclick="titlePillButtons_showList('sent')">Sent(3)</div>
+	  </div>
+	</div>
+	
+	<div id="myScroller" data-bb-type="scroll-panel" style="height:600px">
+		<div id="received" data-bb-type="image-list" data-bb-image-effect="fade" data-bb-image-placeholder="images/imageList/placeholder.jpg">
+			<div data-bb-type="item" data-bb-img="images/imageList/1.jpg" data-bb-title="The Works" data-bb-accent-text="999 years ago">Item with all the options</div>
+			<div data-bb-type="item" data-bb-img="images/imageList/fibbidyfoo.jpg" data-bb-title="Broken Image URL">A placeholder image example</div> 		
+			<div data-bb-type="item" data-bb-img="images/imageList/2.jpg" data-bb-title="No Accent Text">Item with no accent text</div>		
+			<div data-bb-type="item" data-bb-title="Oh Oh, no image" data-bb-accent-text="Nadda">A placeholder image example</div>	
+			<div data-bb-type="item" data-bb-img="images/imageList/5.jpg" data-bb-title="Title Only"></div>	
+			<div data-bb-type="item" data-bb-img="images/imageList/5.jpg" data-bb-title="Title &amp; Accent" data-bb-accent-text="999 years ago"></div>
+			<div data-bb-type="item" data-bb-img="images/imageList/3.jpg" data-bb-title="Old School">A little bit of flair for the trunk</div> 
+			<div data-bb-type="item" data-bb-img="images/imageList/4.jpg" data-bb-title="Looking Angry">I really like this picture</div> 
+			<div data-bb-type="item" data-bb-img="images/imageList/6.jpg" data-bb-title="Racing Brakes">Need to stop!</div> 
+			<div data-bb-type="item" data-bb-img="images/imageList/7.jpg" data-bb-title="Fisheye">Cool camera lense</div> 
+			<div data-bb-type="item" data-bb-img="images/imageList/8.jpg" data-bb-title="Shiny Engine">Like a jewel in a case</div> 
+			<div data-bb-type="item" data-bb-img="images/imageList/9.jpg" data-bb-title="Custom Touch">Did I mention I like orange?</div> 
+		</div>
+		
+		<div id="sent" data-bb-type="image-list" data-bb-image-effect="fade" data-bb-header-justify="left" style="display:none">
+			<div data-bb-type="item" data-bb-img="images/avatars/alec.png" data-bb-title="Alec Saunders" data-bb-accent-text="4:59 PM">Waiting for a response</div>	
+			<div data-bb-type="item" data-bb-img="images/avatars/anders.png" data-bb-title="Anders Larsson" data-bb-accent-text="4:59 PM">Waiting for a response</div>
+			<div data-bb-type="item" data-bb-img="images/avatars/brian.png" data-bb-title="Brian Zubert" data-bb-accent-text="11:30 AM">Waiting for a response</div>
+		</div>
+	</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

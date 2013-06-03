@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="fade" >
+	<script id="dynamicPillButtonsJS" src="js/dynamicPillButtons.js" ></script>
+	
+	<div data-bb-type="pill-buttons" id="myPillButtons">
+		<div data-bb-type="pill-button" data-bb-selected="true" id="button1">Contact</div>
+		<div data-bb-type="pill-button" id="button2">Address</div>
+		<div data-bb-type="pill-button" id="button3">Phone</div>
+	</div>
+	
+    <div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Pill Button Functions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPillButtons').hide();" id="hide">Hide Pill Buttons</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPillButtons').show();" id="show">Show Pill Buttons</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="removePillButtons()" id="remove">Remove Pill Buttons</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="alert(document.getElementById('myPillButtons').getButtons());" id="get">Get Pill Buttons</div>             
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myPillButtons').clear();" id="clear">Clear Pill Buttons</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="appendButton()" id="append">appendButton()</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('button3').setCaption(document.getElementById('button1').getCaption());" id="title">Change Button Title</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Create/Remove Pill Buttons</div>
+		<div id="addRemove" data-bb-type="button" data-bb-style="stretch" onclick="addRemovePillButtons()">Add Pill Buttons</div>
+		<div id="pillButtonContainer">
+		</div>
+	</div>
+
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>
+
