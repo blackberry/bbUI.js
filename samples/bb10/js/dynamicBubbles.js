@@ -58,3 +58,11 @@ function addRemoveBubble() {
 function getBubbles() {
 	alert("BBM Bubble 1 direction: " + document.getElementById('myBBMBubble').getStyle() + "\nBBM Bubble 2 direction: " + document.getElementById('myBBMBubble1').getStyle());	
 }
+
+function itemToAppend() {
+	var item = document.createElement('div');
+	item.setAttribute('data-bb-type', 'item');
+	item.setAttribute('data-bb-img', 'images/bbmBubbles/bullet.png');
+	item.innerHTML = 'Appended Item';
+	return item;
+}

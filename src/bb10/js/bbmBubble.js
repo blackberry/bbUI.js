@@ -170,6 +170,22 @@ _bb_bbmBubble = {
         };
         outerElement.getItems = outerElement.getItems.bind(outerElement); 
         
+        // Append an item to the end of the list control
+        outerElement.appendItem = function(item) {
+            this.styleItem(item);
+            this.querySelector('.nogap').appendChild(item);
+            bb.refresh();
+            // this.items.push(item);
+            // // Fire our list event
+            // var evt = document.createEvent('Events');
+            // evt.initEvent('bbuilistready', true, true);
+            // document.dispatchEvent(evt);
+            // if (bb.scroller) {
+            //     bb.scroller.refresh();
+            // }
+        };
+        outerElement.appendItem = outerElement.appendItem.bind(outerElement);
+
         return outerElement;
     }
 };
