@@ -150,7 +150,7 @@ bb.menuBar = {
 					bb10MenuItem.onclick	= item.onclick;
 					//set menu item width
 					bb10MenuItem.style.width = width;
-					if (i == menuItems.length - 1) {
+					if ((i == menuItems.length - 1 && menuItems.length > 1 ) || (menuItems.length === 1 && !pinLeft))  {
 	                    bb10MenuItem.style.marginRight = 0;
 						bb10MenuItem.style.float = 'right';
 					} else {
