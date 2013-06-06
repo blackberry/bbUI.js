@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.162*/
+/* bbUI for BB10 VERSION: 0.9.6.163*/
 
 bb = {
 	scroller: null,  
@@ -1993,40 +1993,9 @@ bb.menuBar = {
 					blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
 				}
 			}
-		}else if(window.blackberry && blackberry.ui.menu){
-			bb.menuBar.createBlackberryMenu(menuBar);
-			menuBar.parentNode.removeChild(menuBar);
 		}else{
-			console.log('Unable to create Blackberry/onSwipeDown menu.');
+			console.log('Unable to create Application/onSwipeDown menu.');
 		}
-	},
-
-	createBlackberryMenu: function(menuBar){
-		var items, 
-			item, 
-			title,
-			div;
-		items = menuBar.getElementsByTagName('div');
-		for (var j = 0; j < items.length; j++) {
-			div = items[j];
-			if(div.getAttribute('data-bb-type') === "menu-item"){
-				title = div.innerHTML;
-				if(title){
-					item = new blackberry.ui.menu.MenuItem(false, j, title, div.onclick);
-					blackberry.ui.menu.addMenuItem(item);
-					if(div.hasAttribute('data-bb-selected') && div.getAttribute('data-bb-selected') === "true"){
-						blackberry.ui.menu.setDefaultMenuItem(item);
-					}
-				}else{
-					console.log("can't add menu item without data-bb-caption");
-				}
-			}else if(div.getAttribute('data-bb-type') === "menu-separator"){
-				item = new blackberry.ui.menu.MenuItem(true, j);
-				blackberry.ui.menu.addMenuItem(item);
-			}else{
-				console.log('invalid menu item type');
-			}
-		}		
 	},
 	
 	createSwipeMenu: function(menuBar, screen){
@@ -2050,7 +2019,7 @@ bb.menuBar = {
 				width,
 				margin,
 				bb10MenuItem;
-				
+
 			// Set our 'res' for known resolutions, otherwise use the default
 			if (bb.device.is1024x600) {
 				res = '1024x600';
@@ -2158,7 +2127,7 @@ bb.menuBar = {
 					bb10MenuItem.onclick	= item.onclick;
 					//set menu item width
 					bb10MenuItem.style.width = width;
-					if (i == menuItems.length - 1) {
+					if ((i == menuItems.length - 1 && menuItems.length > 1 ) || (menuItems.length === 1 && !pinLeft))  {
 	                    bb10MenuItem.style.marginRight = 0;
 						bb10MenuItem.style.float = 'right';
 					} else {
@@ -2380,8 +2349,6 @@ bb.menuBar = {
 				bb.menuBar.menu.parentNode.removeChild(bb.menuBar.menu);
 				bb.menuBar.menu = false;
 				bb.menuBar.visible = false;
-			}else if(blackberry.ui && blackberry.ui.menu){
-				blackberry.ui.menu.clearMenuItems();
 			}
 		}
 	}
