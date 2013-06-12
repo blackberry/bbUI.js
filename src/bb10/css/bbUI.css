@@ -815,6 +815,9 @@ body, html {
 {
 	font-size: 16pt;
 	padding-top: 10px;
+	height: 25px;
+	overflow: hidden;
+	text-overflow: -blackberry-fade;
 }
 
 .bb-bb10-menu-bar-item-1024x600 img 
@@ -871,6 +874,9 @@ body, html {
 {
 	font-size: 20pt;
 	padding-top: 10px;
+	height: 31px;
+	overflow: hidden;
+	text-overflow: -blackberry-fade;
 }
 
 /* ================================================= 
@@ -912,6 +918,9 @@ body, html {
 {
 	font-size: 18pt;
 	padding-top: 0px;
+	height: 31px;
+	overflow: hidden;
+	text-overflow: -blackberry-fade;
 }
 
 /* ================================================= 
