@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.164*/
+/* bbUI for BB10 VERSION: 0.9.6.165*/
 
 bb = {
 	scroller: null,  
@@ -2249,8 +2249,10 @@ bb.menuBar = {
 		if (bb.menuBar.visible) {
 			bb.menuBar.menu.style['z-index'] = '';
 		} else {
-			bb.menuBar.menu.style.display = 'none';
-			bb.menuBar.menu.style.height = '0px';
+			if(typeof bb.menuBar.menu.style !== "undefined"){ //bb.menuBar.menu.style is undefined when new screen is pushed from a menu item
+				bb.menuBar.menu.style.display = 'none';
+				bb.menuBar.menu.style.height = '0px';
+			}
 			bb.menuBar.screen.removeEventListener('webkitTransitionEnd',bb.menuBar.doEndTransition);
 			bb.menuBar.screen.style['-webkit-transition'] = '';
 			bb.menuBar.screen.style['-webkit-transform'] = '';
