@@ -42,6 +42,7 @@ desc("package everything for a release");
 task('build', ['clean'], function () {
     var output = "",
         css = "",
+		media = "",
 		ext = "",
 		license = "",
 		minified,
@@ -77,6 +78,8 @@ task('build', ['clean'], function () {
 
 	// Grab our CSS information
 	css = include("css/bbUI.css");
+	media = include("css/media.css");
+	css += media;
 	fs.writeFileSync("../../pkg/bb10/bbui.css", license + css);
     fs.writeFileSync("../../samples/bb10/bbui.css", license + css);
 	

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.165*/
+/* bbUI for BB10 VERSION: 0.9.6.169*/
 
 body, html {
 	padding:0;
@@ -91,28 +91,8 @@ body, html {
     height: 0px;
 }
 
-.bb-bb10-1024x600-screen {
-	font-size: 16pt;
-	position:absolute;
-	top:0px;
-	left:0px;
-	bottom:0px;
-	right: 0px;
-	background-color: white;
-}
-
-.bb-bb10-1280x768-1280x720-screen {
+.bb-screen {
 	font-size: 30pt;
-	position:absolute;
-	top:0px;
-	left:0px;
-	bottom:0px;
-	right: 0px;
-	background-color: white;
-}
-
-.bb-bb10-720x720-screen {
-	font-size: 28pt;
 	position:absolute;
 	top:0px;
 	left:0px;
@@ -5061,4 +5041,29 @@ body, html {
 	margin-top:5px;
 	margin-left:8px;
 }
+
+@media screen and (width: 768px) and (height: 1280px), (width: 1280px) and (height: 768px){
+    .bb-screen {
+		font-size: 30pt;
+    }
+}
+
+@media screen and (width: 720px) and (height: 1280px), (width: 1280px) and (height: 720px){
+    .bb-screen {
+		font-size: 30pt;
+    }
+}
+
+@media screen and (width: 720px) and (height: 720px){
+    .bb-screen {
+		font-size: 28pt;
+    }
+}
+
+@media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
+    .bb-screen {
+		font-size: 16pt;
+    }
+}
+
 

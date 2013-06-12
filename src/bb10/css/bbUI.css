@@ -73,28 +73,8 @@ body, html {
     height: 0px;
 }
 
-.bb-bb10-1024x600-screen {
-	font-size: 16pt;
-	position:absolute;
-	top:0px;
-	left:0px;
-	bottom:0px;
-	right: 0px;
-	background-color: white;
-}
-
-.bb-bb10-1280x768-1280x720-screen {
+.bb-screen {
 	font-size: 30pt;
-	position:absolute;
-	top:0px;
-	left:0px;
-	bottom:0px;
-	right: 0px;
-	background-color: white;
-}
-
-.bb-bb10-720x720-screen {
-	font-size: 28pt;
 	position:absolute;
 	top:0px;
 	left:0px;

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.165*/
+/* bbUI for BB10 VERSION: 0.9.6.169*/
 
 bb = {
 	scroller: null,  
@@ -2518,24 +2518,15 @@ bb.screen = {
 	animating : false,
     
     apply: function(elements) {
-		var screenRes,
-			outerElement;
+		var outerElement;
 		// Reset our context Menu
 		bb.screen.contextMenu = null;
-		
-		if (bb.device.isBB10 && bb.device.isPlayBook) {
-			screenRes = 'bb-bb10-1024x600-screen';
-		} else if (bb.device.isBB10 && (bb.device.is1280x768 || bb.device.is1280x720)) {
-			screenRes = 'bb-bb10-1280x768-1280x720-screen';
-		} else if (bb.device.isBB10 && bb.device.is720x720) {
-			screenRes = 'bb-bb10-720x720-screen';
-		} 
 		
         for (var i = 0; i < elements.length; i++) {
             outerElement = elements[i];
             bb.screen.currentScreen = outerElement;
 			// Set our screen resolution
-			outerElement.setAttribute('class', screenRes);
+			outerElement.setAttribute('class', 'bb-screen');
             		
 			//check to see if a menu/menuBar needs to be created
 			var menuBar = outerElement.querySelectorAll('[data-bb-type=menu]'),
