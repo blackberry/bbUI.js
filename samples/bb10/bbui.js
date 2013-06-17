@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.176*/
+/* bbUI for BB10 VERSION: 0.9.6.178*/
 
 bb = {
 	scroller: null,  
@@ -4747,19 +4747,11 @@ _bb10_fileInput = {
 		var i,
 			outerElement,
 			btn,
-			span,
-			res = '1280x768-1280x720';
-		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		}
+			span;
 		
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
-			outerElement.setAttribute('class','bb-bb10-file-button-'+res);
+			outerElement.setAttribute('class','bb-file-button');
 			btn = document.createElement('div');
 			btn.setAttribute('data-bb-type','button');
 			btn.innerHTML = outerElement.hasAttribute('data-bb-caption') ? outerElement.getAttribute('data-bb-caption') : 'Choose File';

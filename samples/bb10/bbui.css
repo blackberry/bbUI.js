@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.176*/
+/* bbUI for BB10 VERSION: 0.9.6.178*/
 
 body, html {
 	padding:0;
@@ -1269,7 +1269,7 @@ body, html {
 }
 
 /* ================================================= 
-   BB10 Checkboxes
+   Checkboxes
    =================================================*/
 .bb-checkbox-check-image
 {
@@ -1376,10 +1376,10 @@ body, html {
 
 
 /* ================================================= 
-   BB10 File Input buttons 1280x768 and 1280x720
+   File Input buttons 
    =================================================*/
 
-.bb-bb10-file-button-1280x768-1280x720 {
+.bb-file-button {
 	position : relative;
 	width : 100%;
 	height : 87px;
@@ -1389,22 +1389,9 @@ body, html {
 	opacity: 0.0;
 }   
 
-/* ================================================= 
-   BB10 File Input buttons 1024x600
-   =================================================*/
-.bb-bb10-file-button-1024x600 {
-	position : relative;
-	width : 100%;
-	height : 51px;
-	display :block;
-	z-index : 100;
-	margin-top : -50px;
-	opacity: 0.0;
-} 
-
 
 /* ================================================= 
-   BB10 Buttons
+   Buttons
    =================================================*/
 
 .bb-button-container-light
@@ -5008,6 +4995,13 @@ body, html {
 		width: 18px;
 		margin-left: 1px;
 		margin-top: 2px;
+	}
+	
+	/* File input button */
+	
+	.bb-file-button {
+		height : 51px;
+		margin-top : -50px;
 	}
 }
 

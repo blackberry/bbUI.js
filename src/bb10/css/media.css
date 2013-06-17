@@ -130,5 +130,12 @@
 		margin-left: 1px;
 		margin-top: 2px;
 	}
+	
+	/* File input button */
+	
+	.bb-file-button {
+		height : 51px;
+		margin-top : -50px;
+	}
 }
 

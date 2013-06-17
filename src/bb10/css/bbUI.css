@@ -1251,7 +1251,7 @@ body, html {
 }
 
 /* ================================================= 
-   BB10 Checkboxes
+   Checkboxes
    =================================================*/
 .bb-checkbox-check-image
 {
@@ -1358,10 +1358,10 @@ body, html {
 
 
 /* ================================================= 
-   BB10 File Input buttons 1280x768 and 1280x720
+   File Input buttons 
    =================================================*/
 
-.bb-bb10-file-button-1280x768-1280x720 {
+.bb-file-button {
 	position : relative;
 	width : 100%;
 	height : 87px;
@@ -1371,22 +1371,9 @@ body, html {
 	opacity: 0.0;
 }   
 
-/* ================================================= 
-   BB10 File Input buttons 1024x600
-   =================================================*/
-.bb-bb10-file-button-1024x600 {
-	position : relative;
-	width : 100%;
-	height : 51px;
-	display :block;
-	z-index : 100;
-	margin-top : -50px;
-	opacity: 0.0;
-} 
-
 
 /* ================================================= 
-   BB10 Buttons
+   Buttons
    =================================================*/
 
 .bb-button-container-light
