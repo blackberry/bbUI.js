@@ -172,5 +172,33 @@
 		width: 93px;
 		background-size: 93px 93px;
 	}
+	
+	/* Control Groups (aka Round Panels) */
+	.bb-round-panel {
+		margin-bottom: 3px;
+		padding: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	.bb-panel-header {
+		padding-top:9px;
+		padding-left: 10px;
+		margin-bottom: 5px; 
+		padding-bottom: 3px; 
+		font-size: 12pt;
+		font-weight: bold;
+		margin-left: -10px;
+		margin-right: -10px;
+		margin-top: -5px;
+	}
+	
+	.bb-panel-header-light {
+		border-bottom-width: 2px; 
+	}
+	
+	.bb-panel-header-dark {
+		border-bottom-width: 2px; 
+	}
 }
 

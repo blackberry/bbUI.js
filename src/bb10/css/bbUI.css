@@ -1067,55 +1067,19 @@ body, html {
 	right: 30px;
 }
  
-/* ================================================= 
-   BB10 Round panels for 1024x600
-   =================================================*/
-   
-.bb-bb10-round-panel-1024x600 {
-	margin-bottom: 3px;
-	padding: 5px;
-}
-
-.bb-bb10-panel-header-1024x600
-{
-	padding-top:9px;
-	padding-left: 5px;
-	margin-bottom: 5px; 
-	padding-bottom: 3px; 
-	font-size: 12pt;
-	font-weight: bold;
-	margin-left: -5px;
-	margin-right: -5px;
-	margin-top: -5px;
-}
-
-.bb-bb10-panel-header-1024x600-light {
-	border-bottom-style: solid;
-	border-bottom-width: 2px; 
-	border-top: solid 1px #DCDBDB;
-	color: black;	
-}
-
-.bb-bb10-panel-header-1024x600-dark {
-	border-bottom-style: solid;
-	border-bottom-width: 2px;
-	border-top: solid 1px #3A3A3A;
-	color: white;	
-}
 
 /* ================================================= 
-   BB10 Round panels for 1280x768 and 1280x720
+   Round panels
    =================================================*/
 
-.bb-bb10-round-panel-1280x768-1280x720 {
+.bb-round-panel {
 	margin-bottom: 8px;
 	padding: 10px;
 	padding-left: 20px;
 	padding-right: 20px;
 }
 
-.bb-bb10-panel-header-1280x768-1280x720
-{
+.bb-panel-header {
 	padding-top:2px;
 	padding-left: 10px; 
 	margin-bottom: 10px; 
@@ -1127,14 +1091,14 @@ body, html {
 	margin-top: -10px;
 }
 
-.bb-bb10-panel-header-1280x768-1280x720-light {
+.bb-panel-header-light {
 	border-bottom-style: solid;
 	border-bottom-width: 4px; 
 	border-top: solid 1px #DCDBDB;
 	color: black;	
 }
 
-.bb-bb10-panel-header-1280x768-1280x720-dark {
+.bb-panel-header-dark {
 	border-bottom-style: solid;
 	border-bottom-width: 4px;
 	border-top: solid 1px #3A3A3A;
