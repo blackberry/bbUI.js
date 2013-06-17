@@ -352,5 +352,50 @@
 	.bb-pill-button-selected-dark{
 		border-width:1px;
 	}
+	
+	/* Grid List */
+	.bb-grid-header {
+		height:28px;
+		line-height:28px;
+		padding-left: 0px;
+		border-bottom-width: 4px;
+	}
+	
+	.bb-grid-header p {
+		font-size: 13pt;
+		line-height:28px;
+	}
+	
+	.bb-grid-header-left {
+		padding-left: 10px;
+	}
+	
+	.bb-grid-header-right {
+		padding-right: 10px;
+	}
+	
+	.bb-grid-item-overlay-two-rows {
+		height: 40px;
+		top:-40px;
+	}
+	
+	.bb-grid-item-overlay-one-row {
+		height: 24px;
+		top:-24px;
+	}
+	
+	.bb-grid-item-overlay .title {
+		padding-top: 3px;
+		line-height:20px;
+		font-size: 13pt;
+	}
+	
+	.bb-grid-item-overlay .title-two-rows {
+		height: 37px;
+	}
+	
+	.bb-grid-item-overlay .title-one-row {
+		height: 21px;
+	}
 }
 

@@ -1,16 +1,8 @@
 _bb10_grid = {  
     apply: function(elements) {
-		var res = '1280x768-1280x720',
-			solidHeader = false,
+		var solidHeader = false,
 			headerJustify;
-		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		}
-				
+	
 		// Apply our transforms to all grids
 		for (var i = 0; i < elements.length; i++) {
 			var j,
@@ -21,7 +13,7 @@ _bb10_grid = {
 				contextMenu,
 				outerElement = elements[i];
 				
-			outerElement.setAttribute('class','bb-bb10-grid-'+res);	
+			outerElement.setAttribute('class','bb-grid');	
 			// See if it is square or landscape layout
 			outerElement.isSquare = (outerElement.hasAttribute('data-bb-style') && outerElement.getAttribute('data-bb-style').toLowerCase() == 'square');
 			
@@ -44,7 +36,7 @@ _bb10_grid = {
 					type = innerChildNode.getAttribute('data-bb-type').toLowerCase();
 					if (type == 'group' && innerChildNode.hasAttribute('data-bb-title')) {
 						title = document.createElement('div');
-						title.normal = 'bb-bb10-grid-header-'+res;
+						title.normal = 'bb-grid-header';
 						title.innerHTML = '<p>'+ innerChildNode.getAttribute('data-bb-title') +'</p>';
 						
 						// Style our header for appearance
@@ -53,17 +45,17 @@ _bb10_grid = {
 							title.style.color = 'white';
 							title.style['border-bottom-color'] = 'transparent';
 						} else {
-							title.normal = title.normal + ' bb-bb10-grid-header-normal-'+bb.screen.listColor;
+							title.normal = title.normal + ' bb-grid-header-normal-'+bb.screen.listColor;
 							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
 						}
 						
 						// Style our header for text justification
 						if (headerJustify == 'left') {
-							title.normal = title.normal + ' bb-bb10-grid-header-left-'+res;
+							title.normal = title.normal + ' bb-grid-header-left';
 						} else if (headerJustify == 'right') {
-							title.normal = title.normal + ' bb-bb10-grid-header-right-'+res;
+							title.normal = title.normal + ' bb-grid-header-right';
 						} else {
-							title.normal = title.normal + ' bb-bb10-grid-header-center';
+							title.normal = title.normal + ' bb-grid-header-center';
 						}
 						
 						title.setAttribute('class', title.normal);
@@ -204,13 +196,13 @@ _bb10_grid = {
 							if (hasOverlay) {
 								overlay = document.createElement('div');
 								if (title && subtitle) {
-									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-two-rows-'+res);
+									overlay.setAttribute('class','bb-grid-item-overlay bb-grid-item-overlay-two-rows');
 									overlay.innerHTML = '<div><p class="title title-two-rows">' + title + '<br/>' + subtitle +'</p></div>';	
 								} else if (title){
-									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
+									overlay.setAttribute('class','bb-grid-item-overlay bb-grid-item-overlay-one-row');
 									overlay.innerHTML = '<div><p class="title title-one-row">' + title + '</p></div>';
 								} else if (subtitle) {
-									overlay.setAttribute('class','bb-bb10-grid-item-overlay-'+res+ ' bb-bb10-grid-item-overlay-one-row-'+res);
+									overlay.setAttribute('class','bb-grid-item-overlay bb-grid-item-overlay-one-row');
 									overlay.innerHTML = '<div><p class="title title-one-row">' + subtitle + '</p></div>';
 								}
 								itemNode.appendChild(overlay);

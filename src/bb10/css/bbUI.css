@@ -3058,121 +3058,33 @@ body, html {
 }
 
 /* ================================================= 
-   BB10 Grid
+   Grid List
    =================================================*/
-.bb-bb10-grid-header-normal-light {
+.bb-grid-header-normal-light {
 	font-weight: normal;
 	color: black;
 }
 
-.bb-bb10-grid-header-normal-dark {
+.bb-grid-header-normal-dark {
 	font-weight: normal;
 	color: white;
 }
 
-.bb-bb10-grid-header-center
+.bb-grid-header-center
 {
 	text-align:center;
 }
 
-/* ================================================= 
-   BB10 Grid for 1024x600
-   =================================================*/
-
-.bb-bb10-grid-1024x600
-{
-	margin:0px;
-	padding:0px;	
-}
-
-.bb-bb10-grid-header-1024x600
-{
-	height:28px;
-	line-height:28px;
-	vertical-align:middle;
-	border-bottom-width: 3px;
-	border-bottom-style: solid;
-}
-
-.bb-bb10-grid-header-1024x600 p
-{
-	font-size: 13pt;
-	line-height:28px;
-	margin:0px;
-	padding:0px;
-	padding-top:4px;
-	margin-left: 10px;
-}
-
-.bb-bb10-grid-header-left-1024x600
-{
-	text-align:left;
-	padding-left: 10px;
-}
-
-.bb-bb10-grid-header-right-1024x600
-{
-	text-align:right;
-	padding-right: 10px;
-}
-
-.bb-bb10-grid-item-overlay-1024x600
-{
-	position:relative;
-	right:0px;
-	left: 0px;
-	background-color: black;
-	opacity: 0.7;	
-}
-
-.bb-bb10-grid-item-overlay-two-rows-1024x600
-{
-	height: 40px;
-	top:-40px;
-}
-
-.bb-bb10-grid-item-overlay-one-row-1024x600
-{
-	height: 24px;
-	top:-24px;
-}
-
-.bb-bb10-grid-item-overlay-1024x600 .title
-{
-	text-align:center;
-	right:0px;
-	left:0px;
-	padding:0px;
-	margin:0px;
-	padding-top: 3px;
-	line-height:20px;
-	opacity:1.0;
-	color:white;
-	font-size: 13pt;
-	overflow: hidden;
-}
-
-.bb-bb10-grid-item-overlay-1024x600 .title-two-rows
-{
-	height: 37px;
-}
-
-.bb-bb10-grid-item-overlay-1024x600 .title-one-row
-{
-	height: 21px;
-}
 
 /* ================================================= 
    BB10 Grid for 1280x768 and 1280x720
    =================================================*/
-.bb-bb10-grid-1280x768-1280x720
-{
+.bb-grid {
 	margin:0px;
 	padding:0px;	
 }
 
-.bb-bb10-grid-header-1280x768-1280x720
-{
+.bb-grid-header {
 	height:46px;
 	line-height:46px;
 	vertical-align:middle;
@@ -3181,8 +3093,7 @@ body, html {
 	border-bottom-style: solid;
 }
 
-.bb-bb10-grid-header-1280x768-1280x720 p
-{
+.bb-grid-header p {
 	font-size: 22pt;
 	line-height:44px;
 	margin:0px;
@@ -3190,20 +3101,17 @@ body, html {
 	margin-left: 10px;
 }
 
-.bb-bb10-grid-header-left-1280x768-1280x720
-{
+.bb-grid-header-left {
 	text-align:left;
 	padding-left: 5px;
 }
 
-.bb-bb10-grid-header-right-1280x768-1280x720
-{
+.bb-grid-header-right {
 	text-align:right;
 	padding-right: 5px;
 }
 
-.bb-bb10-grid-item-overlay-1280x768-1280x720
-{
+.bb-grid-item-overlay {
 	position:relative;
 	right:0px;
 	left: 0px;
@@ -3211,20 +3119,17 @@ body, html {
 	opacity: 0.7;	
 }
 
-.bb-bb10-grid-item-overlay-two-rows-1280x768-1280x720
-{
+.bb-grid-item-overlay-two-rows {
 	height: 70px;
 	top:-70px;
 }
 
-.bb-bb10-grid-item-overlay-one-row-1280x768-1280x720
-{
+.bb-grid-item-overlay-one-row {
 	height: 40px;
 	top:-40px;
 }
 
-.bb-bb10-grid-item-overlay-1280x768-1280x720 .title
-{
+.bb-grid-item-overlay .title {
 	text-align:center;
 	right:0px;
 	left:0px;
@@ -3238,13 +3143,11 @@ body, html {
 	overflow: hidden;
 }
 
-.bb-bb10-grid-item-overlay-1280x768-1280x720 .title-two-rows
-{
+.bb-grid-item-overlay .title-two-rows {
 	height: 66px;
 }
 
-.bb-bb10-grid-item-overlay-1280x768-1280x720 .title-one-row
-{
+.bb-grid-item-overlay .title-one-row {
 	height: 36px;
 }
 
