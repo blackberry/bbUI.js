@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.193*/
+/* bbUI for BB10 VERSION: 0.9.6.195*/
 
 bb = {
 	scroller: null,  
@@ -5820,18 +5820,9 @@ _bb10_pillButtons = {
 	},
 	
 	style: function(outerElement, offdom) {
-		var res = '1280x768-1280x720';
-		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} 
-		
 		var i,
-			containerStyle = 'bb-bb10-pill-buttons-container-'+res+' bb-bb10-pill-buttons-container-' + bb.screen.controlColor,
-			buttonStyle = 'bb-bb10-pill-button-'+res,
+			containerStyle = 'bb-pill-buttons-container bb-pill-buttons-container-' + bb.screen.controlColor,
+			buttonStyle = 'bb-pill-button',
 			containerDiv,
 			innerBorder,
 			items = outerElement.querySelectorAll('[data-bb-type=pill-button]'),
@@ -5844,7 +5835,7 @@ _bb10_pillButtons = {
 			j;
 		
 		outerElement.sidePadding = sidePadding;
-		outerElement.setAttribute('class','bb-bb10-pill-buttons-'+res);
+		outerElement.setAttribute('class','bb-pill-buttons');
 		containerDiv = document.createElement('div');
 		outerElement.appendChild(containerDiv);
 		containerDiv.setAttribute('class',containerStyle);
@@ -5855,8 +5846,8 @@ _bb10_pillButtons = {
 		pill = document.createElement('div');
 		pillInner = document.createElement('div');
 		pill.appendChild(pillInner);
-		pill.setAttribute('class',buttonStyle + ' bb-bb10-pill-button-selected-'+res+'-'+ bb.screen.controlColor + ' bb-bb10-pill-buttons-pill');
-		pillInner.setAttribute('class','bb-bb10-pill-button-inner-'+res +' bb-bb10-pill-button-inner-selected-'+res+'-'+bb.screen.controlColor);
+		pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + ' bb-pill-buttons-pill');
+		pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor);
 		pill.style.opacity = '0';
 		outerElement.pill = pill;
 		containerDiv.appendChild(pill);
@@ -5871,7 +5862,7 @@ _bb10_pillButtons = {
 		tr = document.createElement('tr');
 		table.tr = tr;
 		table.appendChild(tr);
-		table.setAttribute('class','bb-bb10-pill-buttons-table');
+		table.setAttribute('class','bb-pill-buttons-table');
 		table.style.opacity = '0';
 		containerDiv.appendChild(table);				
 		
@@ -5893,7 +5884,7 @@ _bb10_pillButtons = {
 				} 
 				// Set our styling
 				innerChildNode.setAttribute('class',buttonStyle);
-				innerBorder.setAttribute('class','bb-bb10-pill-button-inner-'+res);
+				innerBorder.setAttribute('class','bb-pill-button-inner');
 				innerChildNode.style['z-index'] = 4;
 				innerChildNode.style.width = '100%';
 				// Set our touch start					

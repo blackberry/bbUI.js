@@ -320,5 +320,37 @@
 		padding-right: 15px;
 		font-size:14pt;
 	}
+	
+	/* Pill Buttons */
+	.bb-pill-buttons {
+		padding-top:5px;
+	}
+	
+	.bb-pill-buttons-container {
+		border-width:1px;
+		border-radius:3px;
+		font-size: 14pt;
+		height:37px;
+	}
+	
+	.bb-pill-button  {
+		border-width: 1px;
+		height:35px;
+		border-radius: 3px;
+	}
+	
+	.bb-pill-button-inner {
+		border-radius: 3px;
+		height:28px;
+		line-height:28px;
+	}
+	
+	.bb-pill-button-selected-light{
+		border-width:1px;
+	}
+	
+	.bb-pill-button-selected-dark{
+		border-width:1px;
+	}
 }
 
