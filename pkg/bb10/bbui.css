@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.169*/
+/* bbUI for BB10 VERSION: 0.9.6.174*/
 
 body, html {
 	padding:0;
@@ -1457,7 +1457,7 @@ body, html {
    BB10 Buttons
    =================================================*/
 
-.bb-bb10-button-container-light
+.bb-button-container-light
 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#BDBDBD), to(#D4D4D4));
 	color: black;
@@ -1467,7 +1467,7 @@ body, html {
 	border-right-color: #C4C4C4;
 }
 
-.bb-bb10-button-container-dark
+.bb-button-container-dark
 {
 	background-color: #0B0B0B;
 	color: white;
@@ -1475,7 +1475,7 @@ body, html {
 	display:inline-block;
 }
 
-.bb-bb10-button {
+.bb-button {
 	border-style: solid;
 	text-align:center;
 	white-space:nowrap;
@@ -1484,7 +1484,7 @@ body, html {
 	background-clip: padding-box;	
 }
 
-.bb-bb10-button-light {
+.bb-button-light {
 	border-top-color: #B4B4B4;
 	border-left-color: #C2C2C2;
 	border-bottom-color: #B4B4B4;
@@ -1492,37 +1492,37 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 }
 
-.bb-bb10-button-dark {
+.bb-button-dark {
 	border-color:#5C5C5C;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 }
 
-.bb-bb10-button-disabled-dark {
+.bb-button-disabled-dark {
 	border-color:#262626;
 	background-color: #262626;
 	color: #666666;
 }
 
-.bb-bb10-button-disabled-light {
+.bb-button-disabled-light {
 	border-color: #D4D4D4;
 	background-color: #C1C1C1;
 	color: #838383;
 }
 
-.bb-bb10-button-stretch{
+.bb-button-stretch{
 	display:block;
 }
 /* ================================================= 
    BB10 Buttons for 1280x768 and 1280x720
    =================================================*/
-.bb-bb10-button-caption-with-image-1280x768-1280x720
+.bb-button-caption-with-image
 {
 	float:left;
 	text-align:left;
 	margin-left: 14px;
 }
 
-.bb-bb10-button-image-1280x768-1280x720
+.bb-button-image
 {
 	height: 71px;
 	width: 71px;
@@ -1533,7 +1533,7 @@ body, html {
 	background-size: cover;
 }
 
-.bb-bb10-button-caption-with-image-only-1280x768-1280x720
+.bb-button-caption-with-image-only
 {
 	height:71px;
 	width:71px;
@@ -1543,12 +1543,12 @@ body, html {
 	margin-left: -27px;
 }
 
-.bb-bb10-button-container-image-only-1280x768-1280x720
+.bb-button-container-image-only
 {
 	width: 89px;
 }
 
-.bb-bb10-button-container-1280x768-1280x720
+.bb-button-container
 {
 	border-width:4px;
 	border-style: solid;
@@ -1557,7 +1557,7 @@ body, html {
 	margin: 20px;
 } 
 
-.bb-bb10-button-1280x768-1280x720 {
+.bb-button {
 	border-width:1px;
 	border-radius:5px;
 	line-height:60px;
@@ -1566,119 +1566,6 @@ body, html {
 	padding-left: 35px;
 	padding-right: 35px;
 	font-size:28pt;
-}
-
-/* ================================================= 
-   BB10 Buttons for 720x720
-   =================================================*/
-.bb-bb10-button-caption-with-image-720x720
-{
-	float:left;
-	text-align:left;
-	margin-left: 14px;
-}
-
-.bb-bb10-button-image-720x720
-{
-	height: 65px;
-	width: 65px;
-	float: left;
-	margin-left: -27px;
-	margin-top: -7px;
-	background-position: center center;
-	background-size: cover;
-}
-
-.bb-bb10-button-caption-with-image-only-720x720
-{
-	height:65px;
-	width:65px;
-	background-position: center center;
-	background-size: cover;
-	margin-top: -7px;
-	margin-left: -27px;
-}
-
-.bb-bb10-button-container-image-only-720x720
-{
-	width: 83px;
-}
-
-.bb-bb10-button-container-720x720
-{
-	border-width:2px;
-	border-style: solid;
-	border-radius:10px;
-	padding: 4px;
-	margin: 10px;
-} 
-
-.bb-bb10-button-720x720 {
-	border-width:1px;
-	border-radius:5px;
-	line-height:50px;
-	height:60px;
-	padding-top:7px;
-	padding-left: 35px;
-	padding-right: 35px;
-	font-size:24pt;
-}
-
-/* ================================================= 
-   BB10 Buttons for 1024x600
-   =================================================*/
-
-.bb-bb10-button-caption-with-image-1024x600
-{
-	float:left;
-	text-align:left;
-	margin-left: 7px;
-}
-
-.bb-bb10-button-image-1024x600
-{
-	height: 29px;
-	width: 29px;
-	float: left;
-	margin-left: -12px;
-	margin-top: -2px;
-	background-position: center center;
-	background-size: cover;
-}
-
-.bb-bb10-button-caption-with-image-only-1024x600
-{
-	height:29px;
-	width:29px;
-	background-position: center center;
-	background-size: cover;
-	margin-top: -2px;
-	margin-left: -12px;
-}
-
-.bb-bb10-button-container-image-only-1024x600
-{
-	width: 37px;
-} 
-
-.bb-bb10-button-container-1024x600
-{
-	border-width:2px;
-	border-style: solid;
-	border-radius:4px;
-	padding: 1px;
-	margin: 16px;
-}
-
-.bb-bb10-button-1024x600 {
-	border-width:1px;
-	border-radius:2px;
-	line-height:30px;
-	height:30px;
-	padding-top:5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	font-size:14pt;
 }
 
 /* ================================================= 
@@ -5042,11 +4929,16 @@ body, html {
 	margin-left:8px;
 }
 
-@media screen and (width: 768px) and (height: 1280px), (width: 1280px) and (height: 768px){
-    .bb-screen {
-		font-size: 30pt;
-    }
-}
+/* 
+   1280x768 is considered the baseline sizing for controls. It was the first resolution
+   for BlackBerry 10 and by keeping the main classes using the sizing for this resolution
+   it will ensure that if other resolutions come, the application will at least continue
+   to display content on that new resolution until a tweaked version of the CSS with the 
+   proper media query can be provided 
+   
+   All other screen resolutions simply augment what is needed from the base 1280x720 
+   resolution sizing
+*/
 
 @media screen and (width: 720px) and (height: 1280px), (width: 1280px) and (height: 720px){
     .bb-screen {
@@ -5058,12 +4950,80 @@ body, html {
     .bb-screen {
 		font-size: 28pt;
     }
+	
+	.bb-button-image {
+		height: 65px;
+		width: 65px;
+		margin-top: -7px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		height:65px;
+		width:65px;
+		margin-top: -7px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 83px;
+	}
+	
+	.bb-button-container {
+		border-width:2px;
+		padding: 4px;
+		margin: 10px;
+	}
+	
+	.bb-button {
+		line-height:50px;
+		height:60px;
+		padding-top:7px;
+		font-size:24pt;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
     .bb-screen {
 		font-size: 16pt;
     }
+	
+	.bb-button-caption-with-image {
+		margin-left: 7px;
+	}
+	
+	.bb-button-image {
+		height: 29px;
+		width: 29px;
+		margin-left: -12px;
+		margin-top: -2px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		height:29px;
+		width:29px;
+		margin-top: -2px;
+		margin-left: -12px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 37px;
+	}
+	
+	.bb-button-container {
+		border-width:2px;
+		border-radius:4px;
+		padding: 1px;
+		margin: 16px;
+	}
+	
+	.bb-button {
+		border-radius:2px;
+		line-height:30px;
+		height:30px;
+		padding-top:5px;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size:14pt;
+	}
 }
 
 

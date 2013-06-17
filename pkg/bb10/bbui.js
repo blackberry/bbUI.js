@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.169*/
+/* bbUI for BB10 VERSION: 0.9.6.174*/
 
 bb = {
 	scroller: null,  
@@ -3739,17 +3739,6 @@ _bb10_button = {
 	},
 	// Style an individual button
 	style: function(outerElement) {
-		var res = '1280x768-1280x720';
-		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
-
 		var disabledStyle,
 			imgSrc,
 			caption,
@@ -3757,9 +3746,9 @@ _bb10_button = {
 			captionElement = document.createElement('div'),
 			innerElement = document.createElement('div');
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
-			normal = 'bb-bb10-button bb-bb10-button-'+res,
-			highlight = 'bb-bb10-button bb-bb10-button-'+res+' bb10-button-highlight',
-			outerNormal = 'bb-bb10-button-container-'+res+' bb-bb10-button-container-' + bb.screen.controlColor,
+			normal = 'bb-button bb-button',
+			highlight = 'bb-button bb-button bb10-button-highlight',
+			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor,
 			outerNormalWithoutImageOnly = outerNormal;
 
 		outerElement.isImageOnly = false;
@@ -3775,7 +3764,7 @@ _bb10_button = {
 		if (outerElement.hasAttribute('data-bb-style')) {
 			var style = outerElement.getAttribute('data-bb-style');
 			if (style == 'stretch') {
-				outerNormal = outerNormal + ' bb-bb10-button-stretch';
+				outerNormal = outerNormal + ' bb-button-stretch';
 				outerElement.stretched = true;
 			}
 		}
@@ -3783,17 +3772,17 @@ _bb10_button = {
 		imgSrc = outerElement.hasAttribute('data-bb-img') ? outerElement.getAttribute('data-bb-img') : undefined;
 		if (imgSrc) {
 			if (!caption || caption.length == 0) {
-				outerNormal = outerNormal + ' bb-bb10-button-container-image-only-'+res;
+				outerNormal = outerNormal + ' bb-button-container-image-only';
 				captionElement.style['background-image'] = 'url("'+imgSrc+'")';
 				outerElement.style['line-height'] = '0px';
-				captionElement.setAttribute('class','bb-bb10-button-caption-with-image-only-'+res);
+				captionElement.setAttribute('class','bb-button-caption-with-image-only');
 				outerElement.isImageOnly = true;
 			} else {
 				// Configure our caption element
-				captionElement.setAttribute('class','bb-bb10-button-caption-with-image-'+res);
+				captionElement.setAttribute('class','bb-button-caption-with-image');
 				imgElement = document.createElement('div');
 				outerElement.imgElement = imgElement;
-				imgElement.setAttribute('class','bb-bb10-button-image-'+res);
+				imgElement.setAttribute('class','bb-button-image');
 				imgElement.style['background-image'] = 'url("'+imgSrc+'")';
 				innerElement.appendChild(imgElement);
 			}
@@ -3802,8 +3791,8 @@ _bb10_button = {
 		innerElement.appendChild(captionElement);
 	
 		// Set our styles
-		disabledStyle = normal + ' bb-bb10-button-disabled-'+bb.screen.controlColor;
-		normal = normal + ' bb-bb10-button-' + bb.screen.controlColor;
+		disabledStyle = normal + ' bb-button-disabled-'+bb.screen.controlColor;
+		normal = normal + ' bb-button-' + bb.screen.controlColor;
 		
 		if (disabled) {
 			outerElement.removeAttribute('data-bb-disabled');
@@ -3844,10 +3833,10 @@ _bb10_button = {
 		outerElement.setCaption = function(value) {
 				if (this.isImageOnly && (value.length > 0)) {
 					// Configure our caption element
-					this.captionElement.setAttribute('class','bb-bb10-button-caption-with-image-'+res);
+					this.captionElement.setAttribute('class','bb-button-caption-with-image');
 					var imgElement = document.createElement('div');
 					this.imgElement = imgElement;
-					imgElement.setAttribute('class','bb-bb10-button-image-'+res);
+					imgElement.setAttribute('class','bb-button-image');
 					imgElement.style['background-image'] = this.captionElement.style['background-image'];
 					// Remove and re-order the caption element
 					this.innerElement.removeChild(this.captionElement);
@@ -3858,9 +3847,9 @@ _bb10_button = {
 					this.captionElement.style['background-image'] = '';
 					this.isImageOnly = false;
 				} else if ((value.length == 0) && this.imgElement) {
-					this.captionElement.setAttribute('class','bb-bb10-button-caption-with-image-only-'+res);
+					this.captionElement.setAttribute('class','bb-button-caption-with-image-only');
 					// Reset our image only styling
-					this.setAttribute('class',this.outerNormalWithoutImageOnly + ' bb-bb10-button-container-image-only-'+res);
+					this.setAttribute('class',this.outerNormalWithoutImageOnly + ' bb-button-container-image-only');
 					this.captionElement.style['background-image'] = this.imgElement.style['background-image'];
 					this.isImageOnly = true;
 					// Remove the image div
@@ -3884,10 +3873,10 @@ _bb10_button = {
 					this.imgElement.style['background-image'] = 'url("'+value+'")';
 				} else if (value.length > 0){
 					// Configure our caption element
-					this.captionElement.setAttribute('class','bb-bb10-button-caption-with-image-'+res);
+					this.captionElement.setAttribute('class','bb-button-caption-with-image');
 					var imgElement = document.createElement('div');
 					this.imgElement = imgElement;
-					imgElement.setAttribute('class','bb-bb10-button-image-'+res);
+					imgElement.setAttribute('class','bb-button-image');
 					imgElement.style['background-image'] = 'url("'+value+'")';
 					// Remove and re-order the caption element
 					this.innerElement.removeChild(this.captionElement);

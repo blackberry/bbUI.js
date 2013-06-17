@@ -1,8 +1,13 @@
-@media screen and (width: 768px) and (height: 1280px), (width: 1280px) and (height: 768px){
-    .bb-screen {
-		font-size: 30pt;
-    }
-}
+/* 
+   1280x768 is considered the baseline sizing for controls. It was the first resolution
+   for BlackBerry 10 and by keeping the main classes using the sizing for this resolution
+   it will ensure that if other resolutions come, the application will at least continue
+   to display content on that new resolution until a tweaked version of the CSS with the 
+   proper media query can be provided 
+   
+   All other screen resolutions simply augment what is needed from the base 1280x720 
+   resolution sizing
+*/
 
 @media screen and (width: 720px) and (height: 1280px), (width: 1280px) and (height: 720px){
     .bb-screen {
@@ -14,11 +19,79 @@
     .bb-screen {
 		font-size: 28pt;
     }
+	
+	.bb-button-image {
+		height: 65px;
+		width: 65px;
+		margin-top: -7px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		height:65px;
+		width:65px;
+		margin-top: -7px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 83px;
+	}
+	
+	.bb-button-container {
+		border-width:2px;
+		padding: 4px;
+		margin: 10px;
+	}
+	
+	.bb-button {
+		line-height:50px;
+		height:60px;
+		padding-top:7px;
+		font-size:24pt;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
     .bb-screen {
 		font-size: 16pt;
     }
+	
+	.bb-button-caption-with-image {
+		margin-left: 7px;
+	}
+	
+	.bb-button-image {
+		height: 29px;
+		width: 29px;
+		margin-left: -12px;
+		margin-top: -2px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		height:29px;
+		width:29px;
+		margin-top: -2px;
+		margin-left: -12px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 37px;
+	}
+	
+	.bb-button-container {
+		border-width:2px;
+		border-radius:4px;
+		padding: 1px;
+		margin: 16px;
+	}
+	
+	.bb-button {
+		border-radius:2px;
+		line-height:30px;
+		height:30px;
+		padding-top:5px;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size:14pt;
+	}
 }
 
