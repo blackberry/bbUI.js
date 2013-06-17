@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.197*/
+/* bbUI for BB10 VERSION: 0.9.6.198*/
 
 bb = {
 	scroller: null,  
@@ -4182,9 +4182,10 @@ _bb10_contextMenu = {
 							description : data.subheader,
 							selected : element
 						};
-						if (action.onclick) {
-							action.onclick();
-						}
+						var evt = document.createEvent('MouseEvents'); 
+                        evt.initMouseEvent('click', true, true, window,
+                            0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                        action.dispatchEvent(evt);
 					}
 				};
 				action.doclick = action.doclick.bind(action);
