@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.178*/
+/* bbUI for BB10 VERSION: 0.9.6.179*/
 
 bb = {
 	scroller: null,  
@@ -3608,20 +3608,10 @@ _bb10_activityIndicator = {
 			innerElement,
 			indicator, 
 			color = bb.screen.controlColor,
-			res = '1280x768-1280x720',
 			size,
 			width,
 			swirl;
-		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
-		
+
 		if (elements.length > 0) {
 			var canvas = document.createElement('canvas'),
 				ctx,
@@ -3692,10 +3682,10 @@ _bb10_activityIndicator = {
 			outerElement.style.width = width;
 			// Add another div so that the developers styling on the original div is left untouched
 			indicator = document.createElement('div');
-			indicator.setAttribute('class',  'bb-bb10-activity-margin-'+res+' bb-bb10-activity-'+size+'-'+res+' bb-activity-'+color);
+			indicator.setAttribute('class',  'bb-activity-margin bb-activity-'+size+' bb-activity-'+color);
 			outerElement.appendChild(indicator);
 			innerElement = document.createElement('div');
-			innerElement.setAttribute('class','bb-bb10-activity-'+size+'-'+res);
+			innerElement.setAttribute('class','bb-activity-'+size);
 			innerElement.style['background-image'] = 'url("'+ swirl +'")';
 			indicator.appendChild(innerElement);
 			

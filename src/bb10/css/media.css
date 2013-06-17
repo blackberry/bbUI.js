@@ -20,6 +20,7 @@
 		font-size: 28pt;
     }
 	
+	/* Buttons */
 	.bb-button-image {
 		height: 65px;
 		width: 65px;
@@ -48,6 +49,19 @@
 		padding-top:7px;
 		font-size:24pt;
 	}
+	
+	/* Activity Indicator */
+	.bb-activity-medium {
+		height: 88px;
+		width: 88px;
+		background-size: 88px 88px;
+	}
+	
+	.bb-activity-large {
+		height: 170px;
+		width: 170px;
+		background-size: 170px 170px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -56,7 +70,6 @@
     }
 	
 	/* Buttons */
-	
 	.bb-button-caption-with-image {
 		margin-left: 7px;
 	}
@@ -132,10 +145,32 @@
 	}
 	
 	/* File input button */
-	
 	.bb-file-button {
 		height : 51px;
 		margin-top : -50px;
+	}
+	
+	/* Activity Indicator */
+	.bb-activity-margin {
+		margin: 5px;
+	}
+	
+	.bb-activity-small {
+		height: 21px;
+		width: 21px;
+		background-size: 21px 21px;
+	}
+	
+	.bb-activity-medium {
+		height: 46px;
+		width: 46px;
+		background-size: 46px 46px;
+	}
+	
+	.bb-activity-large {
+		height: 93px;
+		width: 93px;
+		background-size: 93px 93px;
 	}
 }
 
