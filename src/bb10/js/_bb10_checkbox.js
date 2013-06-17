@@ -10,19 +10,11 @@ _bb10_checkbox = {
 			outerElement,
 			innerElement,
 			checkElement,
-			res = '1280x768-1280x720',
 			color = bb.screen.controlColor;
-			
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		}
 			
 		// Outside touch target
 		touchTarget = document.createElement('div');
-		touchTarget.setAttribute('class','bb-bb10-checkbox-target-'+res);
+		touchTarget.setAttribute('class','bb-checkbox-target');
 		if (input.parentNode) {
 			input.parentNode.insertBefore(touchTarget, input);
 		}
@@ -32,17 +24,17 @@ _bb10_checkbox = {
 		input.touchTarget = touchTarget;
 		// Main outer border of the control
 		outerElement = document.createElement('div');
-		outerElement.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
+		outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
 		touchTarget.appendChild(outerElement);
 		// Inner check area
 		innerElement = document.createElement('div');
-		innerElement.normal = 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-'+color;
+		innerElement.normal = 'bb-checkbox-inner bb-checkbox-inner-'+color;
 		innerElement.setAttribute('class', innerElement.normal);
 		outerElement.appendChild(innerElement);
 		// Create our check element with the image
 		checkElement = document.createElement('div');
-		checkElement.hiddenClass = 'bb-bb10-checkbox-check-hidden-'+res+' bb-bb10-checkbox-check-image';
-		checkElement.displayClass = 'bb-bb10-checkbox-check-display-'+res+' bb-bb10-checkbox-check-image';
+		checkElement.hiddenClass = 'bb-checkbox-check-hidden bb-checkbox-check-image';
+		checkElement.displayClass = 'bb-checkbox-check-display bb-checkbox-check-image';
 		checkElement.setAttribute('class',checkElement.hiddenClass);
 		checkElement.style['-webkit-transition-property'] = 'all';
 		checkElement.style['-webkit-transition-duration'] = '0.1s';
@@ -84,12 +76,12 @@ _bb10_checkbox = {
 							this.innerElement.style['background-image'] = '';
 						}
 						if (this.input.disabled){
-							this.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-disabled-'+color);
-							this.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-disabled-'+color);
+							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-disabled-'+color);
+							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-disabled-'+color);
 							this.innerElement.style.background = '#c0c0c0';
 						} else{
-							this.innerElement.parentNode.setAttribute('class', 'bb-bb10-checkbox-outer-'+res+' bb-bb10-checkbox-outer-'+color);
-							this.innerElement.setAttribute('class', 'bb-bb10-checkbox-inner-'+res+' bb-bb10-checkbox-inner-'+color);
+							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-'+color);
 						}				
 					};
 		touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
