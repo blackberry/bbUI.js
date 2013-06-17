@@ -62,6 +62,50 @@
 		width: 170px;
 		background-size: 170px 170px;
 	}
+	
+	/* Dropdowns */
+	.bb-dropdown-item {
+		height: 78px;
+		font-size: 24pt;
+	}
+	
+	.bb-dropdown-selected-image-dark {
+		margin-top:25px;
+	}
+	
+	.bb-dropdown-selected-image-light {
+		margin-top:25px;
+	}
+	
+	.bb-dropdown-container {
+		height: 77px;
+	}
+	
+	.bb-dropdown-caption {
+		font-size: 24pt;
+		margin-right:-55px;
+	}
+	
+	.bb-dropdown-label {
+		font-size: 24pt;
+	}
+	
+	.bb-dropdown-arrow-dark {
+		top:4px;
+	}
+	
+	.bb-dropdown-arrow-light {
+		top:4px;
+	}
+	
+	.bb-dropdown-inner {
+		line-height:42px;
+		height:55px;
+		padding-top:10px;
+		padding-left: 29px;
+		padding-right: 29px;
+		font-size:24pt;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -199,6 +243,82 @@
 	
 	.bb-panel-header-dark {
 		border-bottom-width: 2px; 
+	}
+	
+	/* Dropdowns */
+	.bb-dropdown {
+		border-width:1px;
+		border-radius:2px;
+	}
+	
+	.bb-dropdown-item {
+		height: 40px;
+		line-height: 48px;
+		border-bottom-width: 1px;
+		font-size: 14pt;
+		padding-left: 12px;
+		padding-top: 3px;
+	}
+	
+	.bb-dropdown-selected-image-dark {
+		height:17px;
+		width:20px;
+		margin-top:10px;
+		margin-right: 0px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-selected-image-light {
+		height:17px;
+		width:20px;
+		margin-top:10px;
+		margin-right: 0px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-container {
+		border-width:1px;
+		height: 42px;
+	}
+	
+	.bb-dropdown-container-inner {
+		border-width: 1px;
+		padding: 1px;
+	}
+	
+	.bb-dropdown-caption {
+		margin-right:-22px;
+		font-size: 14pt;
+	}
+	
+	.bb-dropdown-label {
+		margin-left: -5px;
+		font-size: 14pt;
+	}
+	
+	.bb-dropdown-arrow-dark {
+		top: 3px;
+		height:16px;
+		width:16px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-arrow-light {
+		top: 3px;
+		height:16px;
+		width:16px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-inner {
+		border-width:1px;
+		border-radius:2px;
+		line-height:30px;
+		height:30px;
+		padding-top:5px;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size:14pt;
 	}
 }
 

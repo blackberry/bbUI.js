@@ -7,16 +7,6 @@ _bb10_dropdown = {
 	},
 	// Apply our styling to an individual dropdown
 	style: function(select) {
-		var res = '1280x768-1280x720';
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
-		
 		var img,
 			i,j,
 			innerElement,
@@ -27,11 +17,11 @@ _bb10_dropdown = {
 			captionElement,
 			itemsElement,
 			enabled = !select.hasAttribute('disabled'),
-			normal = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb-bb10-dropdown-' + bb.screen.controlColor + ' bb-bb10-dropdown-'+res,
-			highlight = 'bb-bb10-dropdown bb-bb10-dropdown-'+res+' bb-bb10-dropdown-highlight-'+ bb.screen.controlColor+ ' bb10Highlight bb-bb10-dropdown-'+res,  
-			outerContainerStyle = 'bb-bb10-dropdown-container-'+res+' bb-bb10-dropdown-container-' + bb.screen.controlColor + ' bb-bb10-dropdown-container-'+res,
-			innerContainerStyle = 'bb-bb10-dropdown-container-inner-'+res+' bb-bb10-dropdown-container-inner-'+bb.screen.controlColor,
-			innerButtonStyle = 'bb-bb10-dropdown-inner-'+res+' bb-bb10-dropdown-inner-'+bb.screen.controlColor;
+			normal = 'bb-dropdown bb-dropdown-' + bb.screen.controlColor,
+			highlight = 'bb-dropdown bb-dropdown-highlight-'+ bb.screen.controlColor+ ' bb10Highlight',  
+			outerContainerStyle = 'bb-dropdown-container bb-dropdown-container-' + bb.screen.controlColor,
+			innerContainerStyle = 'bb-dropdown-container-inner bb-dropdown-container-inner-'+bb.screen.controlColor,
+			innerButtonStyle = 'bb-dropdown-inner bb-dropdown-inner-'+bb.screen.controlColor;
 
 		// Make the existing <select> invisible so that we can hide it and create our own display
 		select.style.display = 'none';
@@ -57,8 +47,8 @@ _bb10_dropdown = {
 		if (select.hasAttribute('data-bb-style')) {
 			var style = select.getAttribute('data-bb-style');
 			if (style == 'stretch') {
-				normal = normal + ' bb-bb10-dropdown-stretch';
-				highlight = highlight + ' bb-bb10-dropdown-stretch';
+				normal = normal + ' bb-dropdown-stretch';
+				highlight = highlight + ' bb-dropdown-stretch';
 			}
 		}
 		
@@ -67,7 +57,7 @@ _bb10_dropdown = {
 		if (select.enabled) {
 			buttonOuter.setAttribute('class',normal);
 		} else {
-			buttonOuter.setAttribute('class',normal + ' bb-bb10-dropdown-disabled-'+bb.screen.controlColor);
+			buttonOuter.setAttribute('class',normal + ' bb-dropdown-disabled-'+bb.screen.controlColor);
 		}
 		innerContainer.appendChild(buttonOuter);
 		
@@ -79,7 +69,7 @@ _bb10_dropdown = {
 		// Create the optinal label for the dropdown
 		labelElement = document.createElement('div');
 		dropdown.labelElement = labelElement;
-		labelElement.setAttribute('class','bb-bb10-dropdown-label-'+res);
+		labelElement.setAttribute('class','bb-dropdown-label');
 		if (select.hasAttribute('data-bb-label')) {
 			labelElement.innerHTML = select.getAttribute('data-bb-label');
 		}
@@ -87,14 +77,14 @@ _bb10_dropdown = {
 		
 		// Create our dropdown arrow
 		img = document.createElement('div');
-		img.setAttribute('class','bb-bb10-dropdown-arrow-'+res+'-'+bb.screen.controlColor);
+		img.setAttribute('class','bb-dropdown-arrow-'+bb.screen.controlColor);
 		innerElement.appendChild(img);
 		dropdown.img = img;
 		
 		// Create the caption for the dropdown
 		captionElement = document.createElement('div');
 		dropdown.captionElement = captionElement;
-		captionElement.setAttribute('class','bb-bb10-dropdown-caption-'+res);
+		captionElement.setAttribute('class','bb-dropdown-caption');
 		innerElement.appendChild(captionElement);
 		
 		// Create the scrolling area
@@ -109,7 +99,7 @@ _bb10_dropdown = {
 		// Create our drop down items
 		itemsElement = document.createElement('div');
 		dropdown.itemsElement = itemsElement;
-		itemsElement.setAttribute('class','bb-bb10-dropdown-items');
+		itemsElement.setAttribute('class','bb-dropdown-items');
 		innerScroller.appendChild(itemsElement);
 		
 		dropdown.refreshOptions = function() {
@@ -129,8 +119,8 @@ _bb10_dropdown = {
 						option = options[j];
 						item = document.createElement('div');
 						this.items.push(item);
-						item.selectedStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor+' bb-bb10-dropdown-item-selected-'+ bb.screen.controlColor;
-						item.normalStyle = 'bb-bb10-dropdown-item-'+res+' bb-bb10-dropdown-item-'+bb.screen.controlColor;
+						item.selectedStyle = 'bb-dropdown-item bb-dropdown-item-'+bb.screen.controlColor+' bb-dropdown-item-selected-'+ bb.screen.controlColor;
+						item.normalStyle = 'bb-dropdown-item bb-dropdown-item-'+bb.screen.controlColor;
 						item.index = j;
 						item.select = this.select;
 						item.dropdown = this;
@@ -164,7 +154,7 @@ _bb10_dropdown = {
 						
 						// Create the image
 						img = document.createElement('div');
-						img.setAttribute('class','bb-bb10-dropdown-selected-image-'+res+'-'+bb.screen.controlColor);
+						img.setAttribute('class','bb-dropdown-selected-image-'+bb.screen.controlColor);
 						item.img = img;
 						item.appendChild(img);
 						
@@ -409,7 +399,7 @@ _bb10_dropdown = {
 				this.dropdown.buttonOuter.ontouchstart = null;
 				this.dropdown.buttonOuter.ontouchend = null;
 				this.dropdown.buttonOuter.onclick = null;
-				this.dropdown.buttonOuter.setAttribute('class',normal + ' bb-bb10-dropdown-disabled-'+bb.screen.controlColor);
+				this.dropdown.buttonOuter.setAttribute('class',normal + ' bb-dropdown-disabled-'+bb.screen.controlColor);
 				this.enabled = false;
 				this.setAttribute('disabled','disabled');
 			};
