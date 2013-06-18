@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.202*/
+/* bbUI for BB10 VERSION: 0.9.6.210*/
 
 bb = {
 	scroller: null,  
@@ -6490,16 +6490,7 @@ _bb10_slider = {
 	apply: function(elements) {
 		var i, 
 			range,
-			res,
-			color = bb.screen.controlColor,
-			res = '1280x768-1280x720';
-
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		}
+			color = bb.screen.controlColor;
 			
 		for (i = 0; i < elements.length; i++) {
 			range = elements[i];
@@ -6519,9 +6510,9 @@ _bb10_slider = {
 			outerElement.currentXPos = 0;
 			outerElement.transientXPos = 0;
 			// Set our styling and create the inner divs
-			outerElement.className = 'bb-bb10-slider-'+res;
+			outerElement.className = 'bb-slider';
 			outerElement.outer = document.createElement('div');
-			outerElement.outer.setAttribute('class','outer bb-bb10-slider-outer-' + color);
+			outerElement.outer.setAttribute('class','outer bb-slider-outer-' + color);
 			outerElement.appendChild(outerElement.outer);
 			outerElement.fill = document.createElement('div');
 			outerElement.fill.className = 'fill';
@@ -6538,7 +6529,7 @@ _bb10_slider = {
 			outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
 			outerElement.inner.appendChild(outerElement.halo);
 			outerElement.indicator = document.createElement('div');
-			outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);
+			outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);
 			outerElement.inner.appendChild(outerElement.indicator);
 			// Assign our function to set the value for the control
 			range.outerElement = outerElement;
@@ -6576,7 +6567,7 @@ _bb10_slider = {
 										this.outerElement.initialXPos = event.touches[0].pageX;	
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color+ ' indicator-hover-'+color);
+										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color+ ' indicator-hover-'+color);
 										this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
 										this.outerElement.fill.style.background = this.outerElement.fill.active;
 									}
@@ -6590,7 +6581,7 @@ _bb10_slider = {
 										this.outerElement.value = parseInt(this.outerElement.range.value);
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-bb10-slider-indicator-' + color);   
+										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);   
 										this.outerElement.indicator.style.background = '';	
 										this.outerElement.fill.style.background = this.outerElement.fill.dormant;
 									}
