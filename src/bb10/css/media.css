@@ -106,6 +106,19 @@
 		padding-right: 29px;
 		font-size:24pt;
 	}
+	
+	/* Input */
+	.bb-input-container {
+		height:69px;
+	}
+	
+	.bb-input {
+		height:66px;
+	}
+	
+	.bb-input-focused {
+		height:66px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -396,6 +409,33 @@
 	
 	.bb-grid-item-overlay .title-one-row {
 		height: 21px;
+	}
+	
+	/* Input */
+	.bb-input-container {
+		height:32px;
+		border-width: 1px;
+		padding: 3px;
+	}
+	
+	.bb-input-container-focused {
+		border-width: 2px;
+		background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QEIEDoSUJaoTwAAA75JREFUWMPtV99rW2UYfr6TLfUXrpsgbLqrwbwbuxhNGpI2VtI0p016IdssrhdeeSEMQf8C77wR0StBhqwbFIVJT9L8aupaU9IEBS92MxHBi87NgVZxs3X0PI8334EQZUubIoJ5b5LzPu/7ned93u/XAfrWt779z8zsNmF6ehoLCwvB/+cAPAvgaQCSdBfAt57n6V8jBAC5XC4L4DKAQetSx1jXAFz0PO9WLpeD53n7SyibzSKfzyObzb4A4GYb9DuA28aY+5IeA/AUgONt+Hv5fP6tIH9fFZqamhoFsGIf7xhjXsnn86vthNti8wCmrHLfkzzpOI4KhcIj3+N0Q2ZycvKkpBVJkFQqFApHJa0GeGf1hUIhC+AZSduSThhjrhcKBbiu25tCmUwGAIwxhtb1abFYPO+67iEA9yXtlEqlv+W5rnvEGLO5uLgo13W3AQwAmCwWi8WeFLIvO0sSJH8qFovnM5nMIMlfSd4D4KTT6c4iZkn+7Pu+BwAkz9n8xUwm40xMTPTWMpJXbasuZDIZkLwnaUfSAMktSU4qlQIApNPpCyQv2/hLAFAulz1JtySB5Jlyubx3QqlU6hjJAyR/q1QqtVKpBEk7vu8PkPRJhiVtG2Oc8fHxV0nOWTVmKpXK55YkSH5k/W/01DJJx2y1dwNftVqF4ziUFJZESQdJPiB5xcbOLC0tzQfxlUoFkj62WLYnQiQft5X90e6vVquQRJIHLR4KlKnVavOd49RqtdsWP9zrsvftb6gTWF5eBoCZDvfc2NiYk0wm93yWPUqhTVvZYCeWTCYvkLwSKENSdr5tA3BGRkbaY1+0cV/3SugH2/vn2/2jo6OzkubsyplZWVmZJ3kgmFOStowxoUQiEczFd+w4n/R8dCQSieAY+Mz3/XOhUOgwgF8sPFOv1+ctSUhyJD2wLf6iXq+/ZMf4E0AYwPFwOLxh273nfehNW91Zx3GesJviNZLTARkAWF1dDSb6AMk1kq8DQDwe/8quyC/r9fpDyXR9uMZisfcBXASw1Wg0nnxYbDwex9raWpB3CcBrFjrSaDQ2e25ZLBZDo9HA8PDwdwBOAPAlvdxsNr1oNIpms/mPecPDw98AOG0fT62vr9/Yt+tHNBpFKBSC7/sVAOPW/aOkq8aYD5rN5kY0Gj0E4AyAdy2RYKs41Ww2b3S77Lu+DwVqRCKRNIByFymLAGZbrdbmbvahXV1hI5EIWq0WIpGII+k0gLcBJAEctbfHmwA+NMZcb7VaG/+ZL4ehoaH+51Pf+ta3bu0vFeNkmZjZKKwAAAAASUVORK5CYII="); 
+		padding: 2px;
+	}
+	
+	.bb-input {
+		height:30px;
+		font-size: 14pt;
+		left: 7px;
+		right: 7px;
+	}
+	
+	.bb-input-focused {
+		height:30px;
+		font-size: 14pt;
+		left: 6px;
+		right: 30px;
 	}
 }
 

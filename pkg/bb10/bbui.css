@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.198*/
+/* bbUI for BB10 VERSION: 0.9.6.202*/
 
 body, html {
 	padding:0;
@@ -934,10 +934,10 @@ body, html {
 
 
 /* ================================================= 
-   BB10 Input Box
+   Input Box
    =================================================*/
 
-.bb-bb10-input-container {
+.bb-input-container {
 	position:relative;
 	color: black;
 	border-style: solid;
@@ -947,9 +947,13 @@ body, html {
 	border-left-color: #BEBEBE;
 	border-right-color: #BDBDBD;
 	border-bottom-color:#C7C7C7;
+	height:82px;
+	border-radius:4px;
+	border-width: 2px;
+	padding: 2px;
 }
 
-.bb-bb10-input-container-disabled {
+.bb-input-container-disabled {
 	background-color: #B9B9B9;
 	border-top-color: #838383;
 	border-left-color: #8C8C8C;
@@ -957,7 +961,7 @@ body, html {
 	border-bottom-color:#919191;
 }
    
-.bb-bb10-input {
+.bb-input {
 	border-style: none;	
 	position: absolute;
 	display:block;
@@ -965,35 +969,26 @@ body, html {
 	border-width: 0px;
 	border-color: transparent;
 	background-color:#F9F9F9;
+	font-size: 30pt;	
+	height:79px;
+	left: 10px;
+	right: 10px;
 }
 
-.bb-bb10-input-disabled {
+.bb-input-disabled {
 	background-color: #B9B9B9;
 }
 
-.bb-bb10-input::-webkit-input-placeholder 
+.bb-input::-webkit-input-placeholder 
 { 
-	/*color:#555555; */
 	color: silver;
 }
 
-.bb-bb10-input-cancel-button {
+.bb-input-cancel-button {
 	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAYAAABVsFofAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyQjRDODEzODZEMjA2ODExQTYxM0YzNEI5Rjg0ODQxOSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxOTNEODcwOUQ5QkQxMUUxOEEzQkQwRUE1NzY5NjQyQSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxOTNEODcwOEQ5QkQxMUUxOEEzQkQwRUE1NzY5NjQyQSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjJCNEM4MTM4NkQyMDY4MTFBNjEzRjM0QjlGODQ4NDE5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjJCNEM4MTM4NkQyMDY4MTFBNjEzRjM0QjlGODQ4NDE5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+v+pDjgAABWpJREFUeNrsm39kXWcYx0925xJCCCOUkkq0NqWT2aQii0bpzY+7jDuJUVajNEbptHatTKrRaKUSorM/wphOopfGtWaXGGt+iMZqJdSis1AupYTL5VIi+z7dc3j39L33nnPPOT3n1vvw0Zz3vu97zv3e5zzv8z7ntGF/f98ypre3jARGHCOOEceIY8Qx4hhxjDhGHGNGHCOOESdIe9vrBMPDw6F+gcXFxeiKU6MdBJ+DTtAGjoEYf7YHHoEdsAkWwNO69BwX1gLOg0/B0Qr9YiwakQLXwRa4C2bAbt2I46BY1gQugIv8dy12lKF5JlmkYr0H5BHwDxj3IIwU+ip4wl4VbXHIczTEwA9gHryj+bwEsuAM+AB0gAamg9vOcJ+SZnwruAOmk8lkLChxGrzWkHFxsqkR3AEDmu558B34GZQcnqKRPXCcA7m0LBjNZrOlqHtOjL1lQOMpafaKuTLeUA7q+yM4Ai5pxibpnENDQ7Gox5xpcibR9gz0ciD18uvS2BvguGZpp3NORdlzRsBX4ld9CN4Hmy48pRqPwEc8t9p+fnBwcCSKnkM5zC3R9jdIsOf4bTRnH+c/qt2CQC1R85xx0CLixCfgOR830coCfgUnavCWEzx2mueitgL4DBSVfnQN41ES5wA4K77MBHisHE+R24NT/CVTLoRJ8ZhTPMeU8tk2uCL6n+3v7z8QldvqHIiL5XpGs5eyjfredpjEpbhvvMxcFp8rL+Y/F7o4iUSClu7TGq8pirabYE85joPbVTwoxX3iShvNMaP2W1paesFpgjr2NF1bqOLgIjrBQeWiipyTyC+6DEZdCFROGJojp/bl68iAXaWdrqkzbHFkcM1WSPAyDgWqJExGzkuWy+XonPdkEA875hwTx/er9M9Qqs81G10M0sWYPR6TqTL3cpVre70lC/w6si6z5WCYLdC8UuCyBbJqFIauZUtT5ghVnFZN4md5EMiqRRi+lh3R1Bp2zGkS93nBRf6ii0FVY4wu5ry8p5aX5bmbwo45ftiew7b6qiHT0s37KtuawXOHw3XB19LEIEe3VV9fX7NoKoYtzjMhTrtDccqtSlaZIO0kILdpNqehirONf94VK8RGjcKM8t/ztQikWTkfhx2QZZ3mYwebyEoJXsZlJl0pIX0YdkCWSd8A13zdekzGRaL4ivX29sY1Fcj7UfCcvPJrNXNFUFePcbwlqOJBJzV7q5SoJ9E1bXoVx/PTh56enmv45xulieLQe+KX/8X6/9MIpwleSsQgsntgUDmmz/4UGfHkyspKOgrFru/BC+VXOwwuCk/I15LglfGgvCxuUTBWjulaZqNS7KInAXOi7VtwWDn+Gszy5jDhNHdRYlCCx87yXLbROa6L/nOrq6t5P8TxfFt1d3fbBfYnIuehfdZxF0mhW6Okb1XcTvSSQcfa2tpuJDyHXZkKTWPC3du59tvq42MZ9XHwb+J2Isb8EsbvvRW9RzMh2qga9wf40MfzkKc84LlVm1hfX1/w0zX9fhx8mauBahs9nfidg3SjB2+hsRfAA1GafVmBhDCX/b5vg9iV0xKdE22NHDj/Al9WSBR1Rn2/4LFTmrFZZevhq3kOyF1dXeU+kvmPaiVefe5y9bCgFMraOdjS7UNvgZ2sIObkxsZG2grIgnztLc2bv2mxitnekNSk/E6Ngu4Yx7nALKiXl2x+AofADZevnVR6HWWS51wI+v+nvo5KIN0ylyj/sP57DWWnhjl2eOwh9shC5CuBtuc4tDx/sTTXgFIcV9o4xrQryWOBBdniW2e77sqkHoxi0RUr4mZe7w9yKX+TzXiOEceIY8Qx4hhxjDhGHCOOEceYEceIY8QJ1P4VYABOFMDawslQnQAAAABJRU5ErkJggg=="); 
 }
 
-/* ================================================= 
-   BB10 Input Box for 1280x768 and 1280x720
-   =================================================*/
-
-.bb-bb10-input-container-1280x768-1280x720 {
-	height:82px;
-	border-radius:4px;
-	border-width: 2px;
-	padding: 2px;
-}
-
-.bb-bb10-input-container-focused-1280x768-1280x720
-{
+.bb-input-container-focused {
 	color: black;
 	background-color:#F9F9F9;
 	border-width: 4px;
@@ -1002,89 +997,12 @@ body, html {
 	padding: 0px;
 }
 
-.bb-bb10-input-1280x768-1280x720 {
-	font-size: 30pt;	
-	height:79px;
-	left: 10px;
-	right: 10px;
-}
-
-.bb-bb10-input-focused-1280x768-1280x720 {
+.bb-input-focused {
 	font-size: 30pt;	
 	height:79px;
 	left: 8px;
 	right: 60px;
 }
-/* ================================================= 
-   BB10 Input Box for 720x720
-   =================================================*/
-
-.bb-bb10-input-container-720x720 {
-	height:69px;
-	border-radius:4px;
-	border-width: 2px;
-	padding: 2px;
-}
-
-.bb-bb10-input-container-focused-720x720
-{
-	color: black;
-	background-color:#F9F9F9;
-	border-width: 4px;	
-	background-repeat: no-repeat;
-	background-position: center right;
-	padding: 0px;
-}
-
-.bb-bb10-input-720x720 {
-	font-size: 30pt;	
-	height:66px;
-	left: 10px;
-	right: 10px;
-}
-
-.bb-bb10-input-focused-720x720 {
-	font-size: 30pt;	
-	height:66px;
-	left: 8px;
-	right: 60px;
-}
-/* ================================================= 
-   BB10 Input Box for 1024x600
-   =================================================*/
-
-.bb-bb10-input-container-1024x600 {
-	height:32px;
-	border-radius:4px;
-	border-width: 1px;
-	padding: 3px;
-}
-
-.bb-bb10-input-container-focused-1024x600
-{
-	color: black;
-	background-color:#F9F9F9;
-	border-width: 2px;
-	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QEIEDoSUJaoTwAAA75JREFUWMPtV99rW2UYfr6TLfUXrpsgbLqrwbwbuxhNGpI2VtI0p016IdssrhdeeSEMQf8C77wR0StBhqwbFIVJT9L8aupaU9IEBS92MxHBi87NgVZxs3X0PI8334EQZUubIoJ5b5LzPu/7ned93u/XAfrWt779z8zsNmF6ehoLCwvB/+cAPAvgaQCSdBfAt57n6V8jBAC5XC4L4DKAQetSx1jXAFz0PO9WLpeD53n7SyibzSKfzyObzb4A4GYb9DuA28aY+5IeA/AUgONt+Hv5fP6tIH9fFZqamhoFsGIf7xhjXsnn86vthNti8wCmrHLfkzzpOI4KhcIj3+N0Q2ZycvKkpBVJkFQqFApHJa0GeGf1hUIhC+AZSduSThhjrhcKBbiu25tCmUwGAIwxhtb1abFYPO+67iEA9yXtlEqlv+W5rnvEGLO5uLgo13W3AQwAmCwWi8WeFLIvO0sSJH8qFovnM5nMIMlfSd4D4KTT6c4iZkn+7Pu+BwAkz9n8xUwm40xMTPTWMpJXbasuZDIZkLwnaUfSAMktSU4qlQIApNPpCyQv2/hLAFAulz1JtySB5Jlyubx3QqlU6hjJAyR/q1QqtVKpBEk7vu8PkPRJhiVtG2Oc8fHxV0nOWTVmKpXK55YkSH5k/W/01DJJx2y1dwNftVqF4ziUFJZESQdJPiB5xcbOLC0tzQfxlUoFkj62WLYnQiQft5X90e6vVquQRJIHLR4KlKnVavOd49RqtdsWP9zrsvftb6gTWF5eBoCZDvfc2NiYk0wm93yWPUqhTVvZYCeWTCYvkLwSKENSdr5tA3BGRkbaY1+0cV/3SugH2/vn2/2jo6OzkubsyplZWVmZJ3kgmFOStowxoUQiEczFd+w4n/R8dCQSieAY+Mz3/XOhUOgwgF8sPFOv1+ctSUhyJD2wLf6iXq+/ZMf4E0AYwPFwOLxh273nfehNW91Zx3GesJviNZLTARkAWF1dDSb6AMk1kq8DQDwe/8quyC/r9fpDyXR9uMZisfcBXASw1Wg0nnxYbDwex9raWpB3CcBrFjrSaDQ2e25ZLBZDo9HA8PDwdwBOAPAlvdxsNr1oNIpms/mPecPDw98AOG0fT62vr9/Yt+tHNBpFKBSC7/sVAOPW/aOkq8aYD5rN5kY0Gj0E4AyAdy2RYKs41Ww2b3S77Lu+DwVqRCKRNIByFymLAGZbrdbmbvahXV1hI5EIWq0WIpGII+k0gLcBJAEctbfHmwA+NMZcb7VaG/+ZL4ehoaH+51Pf+ta3bu0vFeNkmZjZKKwAAAAASUVORK5CYII="); 
-	background-repeat: no-repeat;
-	background-position: center right;
-	padding: 2px;
-}
-
-.bb-bb10-input-1024x600 {
-	height:30px;
-	font-size: 14pt;
-	left: 7px;
-	right: 7px;
-}
-
-.bb-bb10-input-focused-1024x600 {
-	height:30px;
-	font-size: 14pt;
-	left: 6px;
-	right: 30px;
-}
- 
 
 /* ================================================= 
    Round panels/Control Groups
@@ -3093,10 +3011,6 @@ body, html {
 	text-align:center;
 }
 
-
-/* ================================================= 
-   BB10 Grid for 1280x768 and 1280x720
-   =================================================*/
 .bb-grid {
 	margin:0px;
 	padding:0px;	
@@ -4434,6 +4348,19 @@ body, html {
 		padding-right: 29px;
 		font-size:24pt;
 	}
+	
+	/* Input */
+	.bb-input-container {
+		height:69px;
+	}
+	
+	.bb-input {
+		height:66px;
+	}
+	
+	.bb-input-focused {
+		height:66px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -4724,6 +4651,33 @@ body, html {
 	
 	.bb-grid-item-overlay .title-one-row {
 		height: 21px;
+	}
+	
+	/* Input */
+	.bb-input-container {
+		height:32px;
+		border-width: 1px;
+		padding: 3px;
+	}
+	
+	.bb-input-container-focused {
+		border-width: 2px;
+		background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QEIEDoSUJaoTwAAA75JREFUWMPtV99rW2UYfr6TLfUXrpsgbLqrwbwbuxhNGpI2VtI0p016IdssrhdeeSEMQf8C77wR0StBhqwbFIVJT9L8aupaU9IEBS92MxHBi87NgVZxs3X0PI8334EQZUubIoJ5b5LzPu/7ned93u/XAfrWt779z8zsNmF6ehoLCwvB/+cAPAvgaQCSdBfAt57n6V8jBAC5XC4L4DKAQetSx1jXAFz0PO9WLpeD53n7SyibzSKfzyObzb4A4GYb9DuA28aY+5IeA/AUgONt+Hv5fP6tIH9fFZqamhoFsGIf7xhjXsnn86vthNti8wCmrHLfkzzpOI4KhcIj3+N0Q2ZycvKkpBVJkFQqFApHJa0GeGf1hUIhC+AZSduSThhjrhcKBbiu25tCmUwGAIwxhtb1abFYPO+67iEA9yXtlEqlv+W5rnvEGLO5uLgo13W3AQwAmCwWi8WeFLIvO0sSJH8qFovnM5nMIMlfSd4D4KTT6c4iZkn+7Pu+BwAkz9n8xUwm40xMTPTWMpJXbasuZDIZkLwnaUfSAMktSU4qlQIApNPpCyQv2/hLAFAulz1JtySB5Jlyubx3QqlU6hjJAyR/q1QqtVKpBEk7vu8PkPRJhiVtG2Oc8fHxV0nOWTVmKpXK55YkSH5k/W/01DJJx2y1dwNftVqF4ziUFJZESQdJPiB5xcbOLC0tzQfxlUoFkj62WLYnQiQft5X90e6vVquQRJIHLR4KlKnVavOd49RqtdsWP9zrsvftb6gTWF5eBoCZDvfc2NiYk0wm93yWPUqhTVvZYCeWTCYvkLwSKENSdr5tA3BGRkbaY1+0cV/3SugH2/vn2/2jo6OzkubsyplZWVmZJ3kgmFOStowxoUQiEczFd+w4n/R8dCQSieAY+Mz3/XOhUOgwgF8sPFOv1+ctSUhyJD2wLf6iXq+/ZMf4E0AYwPFwOLxh273nfehNW91Zx3GesJviNZLTARkAWF1dDSb6AMk1kq8DQDwe/8quyC/r9fpDyXR9uMZisfcBXASw1Wg0nnxYbDwex9raWpB3CcBrFjrSaDQ2e25ZLBZDo9HA8PDwdwBOAPAlvdxsNr1oNIpms/mPecPDw98AOG0fT62vr9/Yt+tHNBpFKBSC7/sVAOPW/aOkq8aYD5rN5kY0Gj0E4AyAdy2RYKs41Ww2b3S77Lu+DwVqRCKRNIByFymLAGZbrdbmbvahXV1hI5EIWq0WIpGII+k0gLcBJAEctbfHmwA+NMZcb7VaG/+ZL4ehoaH+51Pf+ta3bu0vFeNkmZjZKKwAAAAASUVORK5CYII="); 
+		padding: 2px;
+	}
+	
+	.bb-input {
+		height:30px;
+		font-size: 14pt;
+		left: 7px;
+		right: 7px;
+	}
+	
+	.bb-input-focused {
+		height:30px;
+		font-size: 14pt;
+		left: 6px;
+		right: 30px;
 	}
 }
 

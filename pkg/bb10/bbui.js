@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.198*/
+/* bbUI for BB10 VERSION: 0.9.6.202*/
 
 bb = {
 	scroller: null,  
@@ -6647,18 +6647,8 @@ _bb10_textInput = {
 	},
 	
 	style: function(outerElement) {
-		var res = '1280x768-1280x720',
-			css = '',
+		var css = '',
 			container = document.createElement('div');
-		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
 		
 		// Keep the developers existing styling
 		if (outerElement.hasAttribute('class')) {
@@ -6672,13 +6662,13 @@ _bb10_textInput = {
 		container.appendChild(outerElement);
 		container.input = outerElement;
 		container.setAttribute('data-bb-type','input');
-		container.normal = 'bb-bb10-input-container bb-bb10-input-container-'+ res;
+		container.normal = 'bb-input-container';
 		
 		// Set our input styling
-		outerElement.normal = css + ' bb-bb10-input bb-bb10-input-'+res;
-		outerElement.focused = css + ' bb-bb10-input bb-bb10-input-focused-'+res;
+		outerElement.normal = css + ' bb-input';
+		outerElement.focused = css + ' bb-input bb-input-focused';
 		if (outerElement.disabled) {
-			outerElement.setAttribute('class', outerElement.normal + ' bb-bb10-input-disabled');
+			outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled');
 		} else {
 			outerElement.setAttribute('class', outerElement.normal);
 		}
@@ -6698,14 +6688,14 @@ _bb10_textInput = {
 		
 		// Set our container class
 		if (outerElement.disabled) {
-			container.setAttribute('class',container.normal + ' bb-bb10-input-container-disabled');
+			container.setAttribute('class',container.normal + ' bb-input-container-disabled');
 		} else {
 			container.setAttribute('class',container.normal);
 		}
 		
 		outerElement.doFocus = function() {
 								if(this.readOnly == false) {
-									this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-cancel-button bb-bb10-input-container-focused-'+res);
+									this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button bb-input-container-focused');
 									if (this.clearBtn && this.value) {
 										this.setAttribute('class', this.focused);
 										this.hasClearBtn = true;
@@ -6789,8 +6779,8 @@ _bb10_textInput = {
 		outerElement.disable = function() {
 					if (this.disabled) return;
 					this.disabled = true;
-					this.container.setAttribute('class',this.container.normal + ' bb-bb10-input-container-disabled');
-					this.setAttribute('class', this.normal + ' bb-bb10-input-disabled');
+					this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled');
+					this.setAttribute('class', this.normal + ' bb-input-disabled');
 				};
 		outerElement.disable = outerElement.disable.bind(outerElement);
 		

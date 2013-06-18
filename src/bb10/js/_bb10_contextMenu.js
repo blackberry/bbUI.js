@@ -94,9 +94,10 @@ _bb10_contextMenu = {
 							description : data.subheader,
 							selected : element
 						};
-						if (action.onclick) {
-							action.onclick();
-						}
+						var evt = document.createEvent('MouseEvents'); 
+                        evt.initMouseEvent('click', true, true, window,
+                            0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                        action.dispatchEvent(evt);
 					}
 				};
 				action.doclick = action.doclick.bind(action);
