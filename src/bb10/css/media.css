@@ -119,6 +119,27 @@
 	.bb-input-focused {
 		height:66px;
 	}
+	
+	/* Swipe Down Menu */
+	.bb-menu-bar {
+		height: 110px;
+	}
+	
+	.bb-menu-bar-item {
+		border-top-width: 1px;
+	}
+	
+	.bb-menu-bar-item img {
+		height: 75px;
+		width: 75px;
+		margin-top: 2px;
+	}
+	
+	.bb-menu-bar-item-caption {
+		font-size: 18pt;
+		padding-top: 0px;
+	}
+	
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -568,6 +589,27 @@
 	
 	.bb-toggle .center {
 		width: 69px;
+	}
+	
+	/* Swipe Down Menu */
+	.bb-menu-bar {
+		height: 100px;
+	}
+	
+	.bb-menu-bar-item {
+		border-top-width: 3px;
+		height: 85px;
+	}
+	
+	.bb-menu-bar-item img {
+		height: 40px;
+		width: 40px;
+		margin-top: 15px;
+	}
+	
+	.bb-menu-bar-item-caption {
+		font-size: 16pt;
+		height: 25px;
 	}
 }
 
