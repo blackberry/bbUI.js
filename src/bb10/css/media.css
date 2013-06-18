@@ -477,5 +477,97 @@
 	.bb-slider .indicator-hover-light   {
 		border-width: 1px;
 	}
+	
+	/* Toggle */
+	.bb-toggle {
+		padding:10px;
+		height: 34px;
+		width: 105px;
+	}
+	
+	.bb-toggle .outer {
+		height: 34px;
+		border-radius: 18px;
+		width:105px;
+	}
+	
+	.bb-toggle .bb-toggle-outer-dark {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .bb-toggle-outer-light {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .halo {
+		margin: 12px;
+		border-radius: 30px;
+		width: 60px;
+		height: 60px;
+	}
+	
+	.bb-toggle .indicator { 
+		margin: 26px;
+		width: 28px;
+		height: 28px;
+		border-radius: 15px;
+	}
+	
+	.bb-toggle .bb-toggle-indicator-enabled-dark {
+		box-shadow: 0px 0px 0.2em #030303;
+	}
+	
+	.bb-toggle .bb-toggle-indicator-enabled-light {
+		box-shadow: 0px 0px 0.2em #030303;
+	}
+	
+	.bb-toggle .indicator-hover-dark   {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .indicator-hover-light   {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .fill {
+		height: 34px;
+		width: 105px;
+		border-radius: 18px;
+	}
+	
+	.bb-toggle .inner {
+		width: 155px;
+		height: 34px;
+		left: -65px;
+	}
+	
+	.bb-toggle .yes {
+		height: 34px;
+		line-height: 44px;
+		width: 43px;
+	}
+	
+	.bb-toggle .no {
+		height: 34px;
+		line-height: 44px;
+		width: 43px;
+	}
+	
+	.bb-toggle .indicator-container {
+		margin-top: -60px;
+		margin-left: -23px;	
+	}
+	
+	.bb-toggle .right {
+		width: 43px;
+	}
+	
+	.bb-toggle .left {
+		width: 43px;
+	}
+	
+	.bb-toggle .center {
+		width: 69px;
+	}
 }
 
