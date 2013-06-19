@@ -140,6 +140,60 @@
 		padding-top: 0px;
 	}
 	
+	/* Image List */
+	.bb-image-list-item {
+		height: 86px;
+		border-bottom-width: 1px;
+	}
+	
+	.bb-image-list-item-overlay {
+		margin-top: -127px;
+		height: 84px;
+	}
+	
+	.bb-image-list-item-details {
+		padding-left: 105px;
+		background-size: 92px 92px;
+		background-position: 0px 13px;
+	}
+	
+	.bb-image-list-item-details-nodescription {
+		background-position: 0px 7px;
+	}
+	
+	.bb-image-list-item-noimage {
+		padding-left:10px;
+	}
+	
+	.bb-image-list-item .title {
+		font-size: 33pt;
+		margin-top: -36px;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 24pt;	
+		margin-top:-4px;
+	}
+	
+	.bb-image-list-item .accent-text {
+		font-size:24pt;
+		margin-top:-84px;
+	}
+	
+	.bb-image-list-item-button-border {
+		width: 36px;
+		height: 36px;
+		border-radius: 19px;
+	}
+	
+	.bb-image-list-item .button {
+		margin-top: -92px;
+	}
+	
+	.bb-image-list-item-button-inner {
+		width: 36px;
+		height: 36px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -610,6 +664,94 @@
 	.bb-menu-bar-item-caption {
 		font-size: 16pt;
 		height: 25px;
+	}
+	
+	/* Image List */
+	.bb-image-list-header {
+		height:28px;
+		line-height:35px;
+		font-size: 13pt;
+		border-bottom-width: 3px;
+		margin-bottom: 1px;
+	}
+	
+	.bb-image-list-header-left {
+		padding-left: 10px;
+	}
+	
+	.bb-image-list-header-right {
+		padding-right: 10px;
+	}
+	
+	.bb-image-list-item {
+		padding-top: 3px;	
+		padding-left: 5px;
+		height: 54px;
+		border-bottom-width: 1px;
+	}
+	
+	.bb-image-list-item-overlay {
+		border-width: 2px;
+		margin-top: -97px;
+		margin-left: -5px;
+		height: 53px;	
+	}
+	
+	.bb-image-list-item-details {
+		margin-top:-6px;
+		height: 100px;
+		padding-left: 70px;
+		background-size: 64px 64px;
+		background-position: 0px 0px;
+	}
+	
+	.bb-image-list-item-details-nodescription {
+		margin-top: -25px;
+	}
+	
+	.bb-image-list-item-noimage {
+		padding-left:5px;
+	}
+	
+	.bb-image-list-item .title {
+		font-size: 20pt;
+		line-height:20px;	
+		padding-top:15px;
+		margin-top: 0px;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 14pt;
+		margin-top: 2px;
+	}
+	
+	.bb-image-list-item .accent-text {
+		font-size:14pt;
+		margin-right: 5px;
+		margin-top:-50px;
+	}
+	
+	.bb-image-list-item-button-border {
+		width: 23px;
+		height: 23px;
+		border-radius: 12px;
+		margin-top: 17px;
+	}
+	
+	.bb-image-list-item .button {
+		width:34px;
+		height:59px;
+		margin-top: -59px;
+		padding-left: 10px;
+	}
+	
+	.bb-image-list-item-button-inner {
+		width: 23px;
+		height: 23px;
+	}
+	
+	.bb-image-list-item .details-button-margin {
+		margin-right: 34px;
 	}
 }
 

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.219*/
+/* bbUI for BB10 VERSION: 0.9.6.224*/
 
 bb = {
 	scroller: null,  
@@ -5089,25 +5089,15 @@ _bb10_grid = {
 };
 _bb10_imageList = {  
     apply: function(elements) {
-		var res = '1280x768-1280x720',
-			i,j,
+		var i,j,
 			outerElement,
 			items;
-	
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
-		
+
 		// Apply our transforms to all Image Lists
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
 			outerElement.items = [];
-			outerElement.setAttribute('class','bb-bb10-image-list');
+			outerElement.setAttribute('class','bb-image-list');
 			outerElement.hideImages = outerElement.hasAttribute('data-bb-images') ? (outerElement.getAttribute('data-bb-images').toLowerCase() == 'none') : false;
 			if (!outerElement.hideImages) {
 				outerElement.imagePlaceholder = outerElement.hasAttribute('data-bb-image-placeholder') ? outerElement.getAttribute('data-bb-image-placeholder') : undefined;
@@ -5151,23 +5141,23 @@ _bb10_imageList = {
 
 					if (type == 'header') {
 						// Set our normal and highlight styling
-						normal = 'bb-bb10-image-list-header bb-bb10-image-list-header-'+res;
+						normal = 'bb-image-list-header';
 						if (this.solidHeader) {
 							normal = normal +' bb10Accent';
 							innerChildNode.style.color = 'white';
 							innerChildNode.style['border-bottom-color'] = 'transparent';
 						} else {
-							normal = normal + ' bb-bb10-image-list-header-normal-'+bb.screen.listColor;
+							normal = normal + ' bb-image-list-header-normal-'+bb.screen.listColor;
 							innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
 						}
 						
 						// Check for alignment
 						if (this.headerJustify == 'left') {
-							normal = normal + ' bb-bb10-image-list-header-left-'+res;
+							normal = normal + ' bb-image-list-header-left';
 						} else if (this.headerJustify == 'right') {
-							normal = normal + ' bb-bb10-image-list-header-right-'+res;
+							normal = normal + ' bb-image-list-header-right';
 						} else {
-							normal = normal + ' bb-bb10-image-list-header-center';
+							normal = normal + ' bb-image-list-header-center';
 						}
 						
 						// Set our styling
@@ -5176,8 +5166,8 @@ _bb10_imageList = {
 						innerChildNode.setAttribute('class', normal);
 					}
 					else if (type == 'item') {
-						normal = 'bb-bb10-image-list-item bb-bb10-image-list-item-' + bb.screen.listColor + ' bb-bb10-image-list-item-' + res;
-						highlight = normal + ' bb-bb10-image-list-item-hover bb10Highlight';
+						normal = 'bb-image-list-item bb-image-list-item-' + bb.screen.listColor;
+						highlight = normal + ' bb-image-list-item-hover bb10Highlight';
 						innerChildNode.normal = normal;
 						innerChildNode.highlight = highlight;
 						innerChildNode.setAttribute('class', normal);
@@ -5189,9 +5179,9 @@ _bb10_imageList = {
 						details.innerChildNode = innerChildNode;
 						innerChildNode.details = details;
 						innerChildNode.appendChild(details);
-						detailsClass = 'bb-bb10-image-list-item-details-'+res;
+						detailsClass = 'bb-image-list-item-details';
 						if (this.hideImages) {
-							detailsClass = detailsClass + ' bb-bb10-image-list-item-noimage-'+res;
+							detailsClass = detailsClass + ' bb-image-list-item-noimage';
 						} else {
 							img = new Image();
 							innerChildNode.img = img;
@@ -5249,13 +5239,13 @@ _bb10_imageList = {
 						
 						// Create our description
 						descriptionDiv = document.createElement('div');
-						descriptionDiv.setAttribute('class','description bb-bb10-image-list-description-'+bb.screen.listColor);
+						descriptionDiv.setAttribute('class','description bb-image-list-description-'+bb.screen.listColor);
 						details.description = descriptionDiv;
 						details.appendChild(descriptionDiv);
 						
 						// Add our highlight overlay
 						overlay = document.createElement('div');
-						overlay.setAttribute('class','bb-bb10-image-list-item-overlay-'+res);
+						overlay.setAttribute('class','bb-image-list-item-overlay');
 						innerChildNode.appendChild(overlay);
 						
 						// See if we need the button area
@@ -5282,13 +5272,13 @@ _bb10_imageList = {
 							btn.setAttribute('class','button');
 							// Create the button border
 							btnBorder = document.createElement('div');
-							btnBorder.normal = 'bb-bb10-image-list-item-button-border-'+res+' bb-bb10-image-list-item-button-'+ bb.screen.listColor;
+							btnBorder.normal = 'bb-image-list-item-button-border bb-image-list-item-button-'+ bb.screen.listColor;
 							btnBorder.setAttribute('class',btnBorder.normal);
 							btn.btnBorder = btnBorder;
 							btn.appendChild(btnBorder);
 							// Create the inner button that has the image
 							btnInner = document.createElement('div');
-							btnInner.normal = 'bb-bb10-image-list-item-button-inner-'+res;
+							btnInner.normal = 'bb-image-list-item-button-inner';
 							btnInner.highlight = btnInner.normal;
 							btn.btnInner = btnInner;
 							btnBorder.appendChild(btnInner);
@@ -5342,7 +5332,7 @@ _bb10_imageList = {
 							// Create the accent text
 							if (innerChildNode.hasAttribute('data-bb-accent-text')) {
 								accentText = document.createElement('div');
-								accentText.setAttribute('class','accent-text bb-bb10-image-list-accent-text-'+bb.screen.listColor);
+								accentText.setAttribute('class','accent-text bb-image-list-accent-text-'+bb.screen.listColor);
 								accentText.innerHTML = innerChildNode.getAttribute('data-bb-accent-text');
 								details.appendChild(accentText);
 								details.accentText = accentText;
@@ -5353,7 +5343,7 @@ _bb10_imageList = {
 						if (description.length == 0) {
 							description = '&nbsp;';
 							descriptionDiv.style.visibilty = 'hidden';
-							detailsClass = detailsClass + ' bb-bb10-image-list-item-details-nodescription-'+res;
+							detailsClass = detailsClass + ' bb-image-list-item-details-nodescription';
 							
 							// Adjust margins
 							if (bb.device.is1024x600) {
