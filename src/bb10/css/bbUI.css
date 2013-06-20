@@ -1645,11 +1645,10 @@ body, html {
 
 
 /* ================================================= 
-   Radio button BB10 for 1280x768 and 1280x720
+   Radio Buttons
    =================================================*/
 
-.bb-bb10-radio-container-1280x768-1280x720-dark
-{
+.bb-radio-container-dark {
 	height: 76px;
 	width: 76px;
 	margin:0px;
@@ -1659,8 +1658,7 @@ body, html {
 }
 
 
-.bb-bb10-radio-container-1280x768-1280x720-light
-{
+.bb-radio-container-light {
 	height: 76px;
 	width: 76px;
 	margin:0px;
@@ -1670,8 +1668,7 @@ body, html {
 }
 
 
-.bb-bb10-radio-dot-1280x768-1280x720
-{
+.bb-radio-dot {
 	height: 40px;
 	width: 40px;
 	border-radius: 20px;	
@@ -1682,8 +1679,7 @@ body, html {
 	display:block;
 }
 
-.bb-bb10-radio-dot-1280x768-1280x720-disabled
-{
+.bb-radio-dot-disabled {
 	background-image: -webkit-linear-gradient(top, rgba(89,89,89,0.5) 0%, rgba(89,89,89,0.5) 100%) !important;
 	background: rgba(89,89,89,0.5);
 	height: 40px;
@@ -1696,8 +1692,7 @@ body, html {
 	display:block;
 }
 
-.bb-bb10-radio-dot-center-1280x768-1280x720
-{
+.bb-radio-dot-center {
 	height: 18px;
 	width: 18px;
 	border-radius: 9px;
@@ -1708,69 +1703,6 @@ body, html {
 	display:block;
 }
 
-/* ================================================= 
-   Radio button BB10 for 1024x600
-   =================================================*/
-
-.bb-bb10-radio-container-1024x600-dark
-{
-	height: 38px;
-	width: 38px;
-	margin:0px;
-	background-image: url("data:image/png;base64,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");		
-	background-position: 5px 5px;
-	background-repeat:no-repeat;
-}
-
-
-.bb-bb10-radio-container-1024x600-light
-{
-	height: 38px;
-	width: 38px;
-	margin:0px;
-	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAYAAABWk2cPAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3AUZFDkCt3wGqwAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAEmUlEQVRIx+WWz2/bZBzGn9d2/DqO4yxeEi1tsmiJ1mzr0Lrd2GFUgNiOCDFx48KBG0e4gbgU8ScgxIXrEOK6TXCoJo3b2m60abtEWpIma1q3SZol9mv7fTmgRB1Z1a7dAQlLX8m2XvvzPu+P532A/8tFDmuwvraO81PnUavWPm9ttdKc82/6/T5c1wWlFLquQ5Kkb1PJVDN7NvvDsP2xoM1mE+l0GqVS6eOtra07tVpN9Pt9oqoqCCHgnEOSJAgh4LouIpGIyGazJJVK3S4Wi78Mvz8ydHV1FYlE4mypVPrt6dOnVwghkiRJCIVCoJSCUgpN0+C6LhzHgeu68DwPQRCAEMLz+fzixYsXP9ze3q4Wi8XDoct/LSNqRk+tr6/vPnv2DJRSqKqKQqGATCaDWCw2UkgIgRACnU4HGxsbKJfLo07kcjkUCoV4r9trT781fTC00WggdioWezD/oG3v2FAUBWfOnMHMzAwopeCcHzhPkiTB8zwsLi5iY2MDvu/DsizceOfGqfZuuzMxMXGw0rt37/5u2/a7lFKcO3cOly9fhud5R16ZoVAIpVIJa2trYIzBsqw/bt269d5LHRzePH78GKurq3PPnz+f1XUdExMTmJ6eBmMMQogjF2MMxWIRuVwO4XAYm5ubsysrK3NLS0uvVnrv3j3hui5kWcbs7CyCIDj2XgyFQpifn4fjOKCU4ubNm2RMaaVSmbNtW8iyjKmpKfi+D875sct1XVy4cAGSJGFnZ0dUKpW5IUvZN7ySZVnE932k02kwxk7sPIlEArIsIxaLkaWlJXlMaTQa/UpRFFiWBc75a83jQeV5HlKpFCilME3zyzGlg8EAhmHANE24rvtGPJZzjmg0ik6nA8dxMAYVQoBzDlVVwTkHIeTEUCHE6H/7F+UISggZOc2bhA6dS5blcSilFIqigDH2RqGMMSiK8tL70ZNhGBBCoN1uI5lMwvf9E0MlSUK73YaiKKCUjjsSY+w7Qghs+x/PDYLgRPuUcw5KKVqtFgDAcZzvx6D5fL7JGIOu62g2m6MT5LjFOX9JQKFQGLzSBh89eiRc18Xm5iauX7+OXq93rLkVQsA0TTx8+BCWZUHTNFy7dm3cBsvlMizL+iIIAkQiETx58gSRSARCiNcG6rqOlZWV4XEoLMv6ulwuH3y0LSws3BkMBh/t7u5K8XgchUIBe3t7R1IshIBhGKhWq2i1WojH4zwcDv969erV24fGlYWFhbrrupO2bUNVVRSLRXDO4XneK+FCCIRCIciyjHK5jF6vh9OnT0PTtN7MzEz00LhSr9chy3Jme3u7/OLFC6XX60ndbheTk5NIJpNQVXUEGnaAMQbbtlGr1RCNRmEYhjAMgyQSiUnf9xvZbPbwYFav15HJZLC8vHy/2+2+zzlHt9uF4zgghEDX9dGq7Pf7I7szTROyLMM0zfuXLl36oFar4d/AI+XearX69t7e3o+DwWDacRwhyzJxHAdBEECSJGiaBs650DSNhMPhqmEYn+RyuT9PFLaH+TUIglilUvmMMXYFwKf7hvdnVVUX8/n8T7IsdxqNBvaHsP/M9Tf+WgzVINhodQAAAABJRU5ErkJggg==");			
-	background-position: 5px 5px;
-	background-repeat:no-repeat;
-}
-
-
-.bb-bb10-radio-dot-1024x600
-{
-	height: 20px;
-	width: 20px;
-	border-radius: 10px;	
-	z-index:0;
-	top: 10px;
-	left: 9px;
-	position:relative;
-	display:block;
-}
-
-.bb-bb10-radio-dot-1024x600-disabled
-{
-	background-image: -webkit-linear-gradient(top, rgba(89,89,89,0.5) 0%, rgba(89,89,89,0.5) 100%) !important;
-	background: rgba(89,89,89,0.5);
-	height: 20px;
-	width: 20px;
-	border-radius: 10px;	
-	z-index:0;
-	top: 10px;
-	left: 9px;
-	position:relative;
-	display:block;
-}
-
-.bb-bb10-radio-dot-center-1024x600
-{
-	height: 10px;
-	width: 10px;
-	border-radius: 5px;
-	background-color: white;
-	top: 5px;
-	left: 5px;
-	position:relative;
-	display:block;
-}
 
 /* ================================================= 
    Image List

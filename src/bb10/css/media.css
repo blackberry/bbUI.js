@@ -753,5 +753,45 @@
 	.bb-image-list-item .details-button-margin {
 		margin-right: 34px;
 	}
+	
+	/* Radio Buttons */
+	.bb-radio-container-dark {
+		height: 38px;
+		width: 38px;
+		background-position: 4px 4px;
+		background-size: 29px 29px;
+	}
+	
+	.bb-radio-container-light {
+		height: 38px;
+		width: 38px;
+		background-position: 4px 4px;
+		background-size: 29px 29px;
+	}
+	
+	.bb-radio-dot {
+		height: 20px;
+		width: 20px;
+		border-radius: 10px;
+		top: 10px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-disabled {
+		height: 20px;
+		width: 20px;
+		border-radius: 10px;	
+		top: 10px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-center {
+		height: 10px;
+		width: 10px;
+		border-radius: 5px;
+		top: 5px;
+		left: 5px;
+	}
+	
 }
 

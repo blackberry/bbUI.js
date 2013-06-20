@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.224*/
+/* bbUI for BB10 VERSION: 0.9.6.230*/
 
 bb = {
 	scroller: null,  
@@ -6019,8 +6019,7 @@ _bb10_radio = {
 	},
 	
 	style: function(outerElement) {
-		var res = '1280x768-1280x720',
-			outerElement,
+		var outerElement,
 			containerDiv,
 			dotDiv,
 			centerDotDiv,
@@ -6028,18 +6027,10 @@ _bb10_radio = {
 			color = bb.screen.controlColor,	
 			input = outerElement;
 		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		}
-				
 		outerElement = document.createElement('div');
-		outerElement.setAttribute('class','bb-bb10-radio-container-'+res + '-'+color);
+		outerElement.setAttribute('class','bb-radio-container-'+color);
 		outerElement.input = input;
 		input.outerElement = outerElement;
-		input.res = res;
 
 		// Make the existing <input[type=radio]> invisible so that we can hide it and create our own display
 		input.style.display = 'none';
@@ -6054,7 +6045,7 @@ _bb10_radio = {
 		
 		// Create our colored dot
 		dotDiv = document.createElement('div');
-		dotDiv.setAttribute('class','bb-bb10-radio-dot-'+res);
+		dotDiv.setAttribute('class','bb-radio-dot');
 		dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
 		dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
 		if (input.checked) {
@@ -6065,7 +6056,7 @@ _bb10_radio = {
 		
 		// Set up our center dot
 		centerDotDiv = document.createElement('div');
-		centerDotDiv.setAttribute('class','bb-bb10-radio-dot-center-'+res);
+		centerDotDiv.setAttribute('class','bb-radio-dot-center');
 		if (!input.checked) {
 			bb.radio.resetDot(centerDotDiv);
 		}
@@ -6293,7 +6284,7 @@ _bb10_radio = {
 		input.enable = function() {
 				if (!this.disabled) return;
 				this.disabled = false;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-bb10-radio-dot-'+this.res);
+				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot');
 			};
 		input.enable = input.enable.bind(input);
 			
@@ -6301,7 +6292,7 @@ _bb10_radio = {
 		input.disable = function() {
 				if (this.disabled) return;
 				this.disabled = true;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-bb10-radio-dot-'+this.res+'-disabled');
+				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled');
 			};
 		input.disable = input.disable.bind(input);
 		
