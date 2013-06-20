@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.234*/
+/* bbUI for BB10 VERSION: 0.9.6.237*/
 
 body, html {
 	padding:0;
@@ -925,37 +925,33 @@ body, html {
 }
 
 /* ================================================= 
-   BB10 Title Bar
+   Title Bar
    =================================================*/
-.bb-bb10-title-bar-dark
-{
+.bb-title-bar-dark {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#414141), to(#131313));
 	border-bottom-color:#272727;
 	color:white;	
 	text-shadow: 0px 2px black;
 }
 
-.bb-bb10-title-bar-light
-{
+.bb-title-bar-light {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#FAFAFA), to(#D5D5D5));
 	border-bottom-color: #AAAAAA;
 	color:#262626;
 	text-shadow: 0px 2px white;
 }
 
-.bb-bb10-titlebar-button-container-light
-{
+.bb-titlebar-button-container-light {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#D3D3D3), to(#ACACAC));
 	border-color: #B0B0B0;
 }
 
-.bb-bb10-titlebar-button-container-dark
-{
+.bb-titlebar-button-container-dark {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#2D2D2D), to(#131313));
 	border-color: #4E4D4E;
 }
 
-.bb-bb10-titlebar-button {
+.bb-titlebar-button {
 	border-style: solid;
 	text-align:center;
 	white-space:nowrap;
@@ -965,48 +961,52 @@ body, html {
 	max-width: 240px;
 	overflow: hidden;
     text-overflow: ellipsis;
-	text-overflow: -blackberry-fade;	
+	text-overflow: -blackberry-fade;
+	border-width:1px;
+	border-radius:5px;
+	line-height:40px;
+	height:55px;
+	padding-top:12px;
+	padding-left: 35px;
+	padding-right: 35px;
+	font-size:28pt;	
 }
 
-.bb-bb10-titlebar-button-light {
+.bb-titlebar-button-light {
 	border-color: #898989;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#FAFAFA), to(#E1E1E1));
 }
 
-.bb-bb10-titlebar-button-dark {
+.bb-titlebar-button-dark {
 	border-color:#828282;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#5C5C5C), to(#363636));
 }
 
-.bb-bb10-titlebar-button-disabled-dark {
+.bb-titlebar-button-disabled-dark {
 	border-color:#262626;
 	background-color: #262626;
 	color: #666666;
 }
 
-.bb-bb10-titlebar-button-disabled-light {
+.bb-titlebar-button-disabled-light {
 	border-color: #D4D4D4;
 	background-color: #C1C1C1;
 	color: #838383;
 }
 
-.bb-bb10-titlebar-button-highlight-light {
+.bb-titlebar-button-highlight-light {
 	border-color: #5A5A5A;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#636363), to(#878787));
 	color: white;
 	text-shadow: 0px 2px black;
 }
 
-.bb-bb10-titlebar-button-highlight-dark {
+.bb-titlebar-button-highlight-dark {
 	border-color:#181818;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#252525), to(#171717));
 }
-
-/* ================================================= 
-   BB10 Title Bar for 1280x768 and 1280x720
-   =================================================*/
    
-.bb-bb10-title-bar-1280x768-1280x720 {
+.bb-title-bar {
 	position:absolute;
 	top:0px;
 	left:0px;
@@ -1017,15 +1017,13 @@ body, html {
 	z-index:1000;
 }
 
-.bb-bb10-title-bar-portrait-1280x768-1280x720 {
+.bb-title-bar-portrait,
+.bb-title-bar-landscape {
 	height:110px;
 }
 
-.bb-bb10-title-bar-landscape-1280x768-1280x720 {
-	height:110px;
-}
 
-.bb-bb10-title-bar-caption-1280x768-1280x720 {
+.bb-title-bar-caption {
 	text-align:center;
 	height:100%;
 	padding:0px;
@@ -1036,19 +1034,17 @@ body, html {
 	text-overflow: -blackberry-fade;
 }
 
-.bb-bb10-title-bar-caption-portrait-1280x768-1280x720 {
+.bb-title-bar-caption-portrait,
+.bb-title-bar-caption-landscape {
 	line-height:110px;
 }
 
-.bb-bb10-title-bar-caption-landscape-1280x768-1280x720 {
-	line-height:110px;
-}
 
-.bb-bb10-title-bar-caption-details-img-1280x768-1280x720 {
+.bb-title-bar-caption-details-img {
 	margin-left: 130px;
 }
 
-.bb-bb10-title-bar-caption-left-1280x768-1280x720 {
+.bb-title-bar-caption-left {
 	text-align:left;
 	line-height:110px;
 	height:100%;
@@ -1060,7 +1056,8 @@ body, html {
 	text-overflow: ellipsis;
 	text-overflow: -blackberry-fade;
 }
-.bb-bb10-title-bar-accent-text-1280x768-1280x720 {
+
+.bb-title-bar-accent-text {
 	color:#606060;
 	text-align:left;
 	padding-top:2px;
@@ -1073,8 +1070,7 @@ body, html {
 	text-overflow: -blackberry-fade;
 }
 
-.bb-bb10-title-bar-1280x768-1280x720 img
-{
+.bb-title-bar img {
 	position:relative;
 	float:left;
 	margin-top: -2px;
@@ -1082,8 +1078,7 @@ body, html {
 	width:112px;
 }
 
-.bb-bb10-titlebar-button-container-1280x768-1280x720
-{
+.bb-titlebar-button-container {
 	position: absolute;
 	top: 0px;
 	border-width:2px;
@@ -1092,217 +1087,6 @@ body, html {
 	padding: 4px;
 	margin: 15px;
 }  
-
-.bb-bb10-titlebar-button-1280x768-1280x720 {
-	border-width:1px;
-	border-radius:5px;
-	line-height:40px;
-	height:55px;
-	padding-top:12px;
-	padding-left: 35px;
-	padding-right: 35px;
-	font-size:28pt;
-}
-
-/* ================================================= 
-   BB10 Title Bar for 720x720
-   =================================================*/
-   
-.bb-bb10-title-bar-1280x768-720x720 {
-	position:absolute;
-	top:0px;
-	left:0px;
-	right:0px;
-	border-bottom-width: 2px;
-	border-bottom-style: solid;
-	font-size: 39pt;
-	z-index:1000;
-}
-
-.bb-bb10-title-bar-portrait-720x720 {
-	height:95px;
-}
-
-.bb-bb10-title-bar-landscape-720x720 {
-	height:95px;
-}
-
-.bb-bb10-title-bar-caption-720x720 {
-	text-align:center;
-	height:100%;
-	padding:0px;
-	margin:0px;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-	text-overflow: -blackberry-fade;
-}
-
-.bb-bb10-title-bar-caption-portrait-720x720 {
-	line-height:95px;
-}
-
-.bb-bb10-title-bar-caption-landscape-720x720 {
-	line-height:95px;
-}
-
-.bb-bb10-title-bar-caption-details-img-720x720 {
-	margin-left: 105px;
-}
-
-.bb-bb10-title-bar-caption-left-720x720 {
-	text-align:left;
-	line-height:95px;
-	height:100%;
-	padding:0px;
-	padding-left: 10px;
-	margin:0px;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-	text-overflow: -blackberry-fade;
-}
-.bb-bb10-title-bar-accent-text-720x720 {
-	color:#606060;
-	text-align:left;
-	padding-top:2px;
-	padding-left: 10px;
-	margin-top:-13px;
-	font-size: 29pt;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-	text-overflow: -blackberry-fade;
-}
-
-.bb-bb10-title-bar-720x720 img
-{
-	position:relative;
-	float:left;
-	margin-top: 0px;
-	height:95px;
-	width:95px;
-}
-
-.bb-bb10-titlebar-button-container-720x720
-{
-	position: absolute;
-	top: 0px;
-	border-width:2px;
-	border-style: solid;
-	border-radius:10px;
-	padding: 4px;
-	margin: 6px;
-}  
-
-.bb-bb10-titlebar-button-720x720 {
-	border-width:1px;
-	border-radius:5px;
-	line-height:40px;
-	height:55px;
-	padding-top:12px;
-	padding-left: 35px;
-	padding-right: 35px;
-	font-size:28pt;
-}
-
-
-/* ================================================= 
-   BB10 Title Bar for 1024x600
-   =================================================*/
-
-.bb-bb10-title-bar-1024x600 {
-	position:absolute;
-	top:0px;
-	left:0px;
-	right:0px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	font-size: 20pt;
-	z-index:1000;
-}
-
-.bb-bb10-title-bar-portrait-1024x600 {
-	height:64px;
-}
-
-.bb-bb10-title-bar-landscape-1024x600 {
-	height:64px;
-}
-
-.bb-bb10-title-bar-caption-1024x600 {
-	text-align:center;
-	height:100%;
-	padding:0px;
-	margin:0px;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-
-.bb-bb10-title-bar-caption-portrait-1024x600 {
-	line-height:76px;
-}
-
-.bb-bb10-title-bar-caption-landscape-1024x600 {
-	line-height:76px;
-}
-
-.bb-bb10-title-bar-caption-details-img-1024x600 {
-	margin-left: 75px;
-}
-
-.bb-bb10-title-bar-caption-left-1024x600 {
-	text-align:left;
-	line-height:76px;
-	height:100%;
-	padding:0px;
-	padding-left: 5px;
-	margin:0px;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-.bb-bb10-title-bar-accent-text-1024x600 {
-	color:#606060;
-	text-align:left;
-	margin:0px;
-	padding-left: 5px;
-	font-size: 16pt;
-	overflow: hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-
-.bb-bb10-title-bar-1024x600 img
-{
-	position:relative;
-	float:left;
-	height:64px;
-	width:64px;
-}
-
-.bb-bb10-titlebar-button-1024x600 {
-	border-width:1px;
-	border-radius:2px;
-	line-height:34px;
-	height:34px;
-	padding-top:5px;
-	padding-left: 15px;
-	padding-right: 15px;
-	font-size:14pt;
-}
-
-.bb-bb10-titlebar-button-container-1024x600
-{
-	position: absolute;
-	top: 0px;
-	border-width:2px;
-	border-style: solid;
-	border-radius:4px;
-	padding: 1px;
-	margin: 9px;
-}   
 
 /* ================================================= 
    DropDown
@@ -3607,6 +3391,36 @@ body, html {
 		top: 0px;
 		font-size: 28pt;
 	}
+	
+	/* Title Bar */
+	.bb-title-bar-portrait,
+	.bb-title-bar-landscape {
+		height:95px;
+	}
+	
+	.bb-title-bar-caption-portrait,
+	.bb-title-bar-caption-landscape,
+	.bb-title-bar-caption-left {
+		line-height:95px;
+	}
+	
+	.bb-title-bar-caption-details-img {
+		margin-left: 105px;
+	}
+	
+	.bb-title-bar-accent-text {
+		margin-top:-13px;
+	}
+	
+	.bb-title-bar img {
+		margin-top: 0px;
+		height:95px;
+		width:95px;
+	}
+	
+	.bb-titlebar-button-container {
+		margin: 6px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -4217,6 +4031,60 @@ body, html {
 		height:15px;
 	}
 	
+	/* Title Bar */
+	.bb-titlebar-button {
+		border-radius:2px;
+		line-height:34px;
+		height:34px;
+		padding-top:5px;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size:14pt;
+	}
+	
+	.bb-title-bar {
+		border-bottom-width: 1px;
+		font-size: 20pt;
+	}
+	
+	.bb-title-bar-portrait,
+	.bb-title-bar-landscape {
+		height:64px;
+	}
+	
+	.bb-title-bar-caption-portrait,
+	.bb-title-bar-caption-landscape {
+		line-height:76px;
+	}
+	
+	.bb-title-bar-caption-details-img {
+		margin-left: 75px;
+	}
+	
+	.bb-title-bar-caption-left {
+		line-height:76px;
+		padding-left: 5px;
+	}
+	
+	.bb-title-bar-accent-text {
+		margin:0px;
+		padding-top:0px;
+		padding-left: 5px;
+		font-size: 16pt;
+		margin-top:0px;
+	}
+	
+	.bb-title-bar img {
+		height:64px;
+		width:64px;
+		margin-top: 0px;
+	}
+	
+	.bb-titlebar-button-container {
+		border-radius:4px;
+		padding: 1px;
+		margin: 9px;
+	}
 }
 
 

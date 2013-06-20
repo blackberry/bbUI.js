@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.234*/
+/* bbUI for BB10 VERSION: 0.9.6.237*/
 
 bb = {
 	scroller: null,  
@@ -3272,8 +3272,7 @@ bb.tabOverflow = {
 bb.titleBar = {
 
 	apply: function(titleBar) {	
-		var res = '1280x768-1280x720',
-			orientation = bb.getOrientation(),
+		var orientation = bb.getOrientation(),
 			button,
 			caption,
 			titleBarClass,
@@ -3282,15 +3281,6 @@ bb.titleBar = {
 			img,
 			accentText;
 		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
-		
 		// Insert our title area
 		titleBar.topTitleArea = topTitleArea;
 		titleBar.appendChild(topTitleArea);
@@ -3298,16 +3288,16 @@ bb.titleBar = {
 		// Style our title bar
 		
 		if (bb.options.coloredTitleBar) {
-			titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb10-title-colored';
+			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
 		} else {
-			titleBarClass = 'bb-bb10-title-bar-'+res +' bb-bb10-title-bar-'+ orientation + '-' +res +' bb-bb10-title-bar-' + bb.screen.controlColor;
+			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb-title-bar-' + bb.screen.controlColor;
 		}
 		topTitleArea.setAttribute('class', titleBarClass);
 		
 		// Set our caption
 		caption = document.createElement('div');
 		titleBar.caption = caption;
-		caption.setAttribute('class','bb-bb10-title-bar-caption-'+res+ ' bb-bb10-title-bar-caption-'+ orientation+ '-'+res);
+		caption.setAttribute('class','bb-title-bar-caption bb-title-bar-caption-'+ orientation);
 		caption.innerHTML = titleBar.getAttribute('data-bb-caption');
 		topTitleArea.appendChild(caption);
 		
@@ -3371,7 +3361,7 @@ bb.titleBar = {
 		
 		// Display our image ONLY if there are no title bar images
 		if ((!titleBar.actionButton && !titleBar.backButton) && (titleBar.hasAttribute('data-bb-img') || titleBar.hasAttribute('data-bb-accent-text'))){
-			caption.setAttribute('class','bb-bb10-title-bar-caption-left-'+res);
+			caption.setAttribute('class','bb-title-bar-caption-left');
 			details = document.createElement('div');
 			titleBar.details = details;
 			topTitleArea.appendChild(details);
@@ -3383,7 +3373,7 @@ bb.titleBar = {
 				//img.src = titleBar.getAttribute('data-bb-img');
 				titleBar.img = img;
 				topTitleArea.insertBefore(img, details);
-				details.setAttribute('class', 'bb-bb10-title-bar-caption-details-img-'+res);
+				details.setAttribute('class', 'bb-title-bar-caption-details-img');
 				
 				// Create our display image
 				img.style.opacity = '0';
@@ -3416,7 +3406,7 @@ bb.titleBar = {
 					caption.style['line-height'] = '70px';
 				}
 				accentText = document.createElement('div');
-				accentText.setAttribute('class','bb-bb10-title-bar-accent-text-'+ res);
+				accentText.setAttribute('class','bb-title-bar-accent-text');
 				if (bb.options.coloredTitleBar) {
 					accentText.style.color = 'silver';
 				}
@@ -3473,29 +3463,19 @@ bb.titleBar = {
 	},
 	
 	styleBB10Button: function(outerElement) {
-		var res = '1280x768-1280x720',
-			innerElement = document.createElement('div'),
+		var innerElement = document.createElement('div'),
 			normal,
 			highlight, 
 			outerNormal;
 		
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
-		
 		if (bb.options.coloredTitleBar) {
-			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored';
-			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb10-title-button-colored-highlight';
-			outerNormal = 'bb-bb10-titlebar-button-container-'+res+' bb10-title-button-container-colored';
+			normal = 'bb-titlebar-button bb10-title-button-colored';
+			highlight = 'bb-titlebar-button bb10-title-button-colored-highlight';
+			outerNormal = 'bb-titlebar-button-container bb10-title-button-container-colored';
 		} else {
-			normal = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-' + bb.screen.controlColor;
-			highlight = 'bb-bb10-titlebar-button bb-bb10-titlebar-button-'+res+' bb-bb10-titlebar-button-highlight-'+ bb.screen.controlColor;
-			outerNormal = 'bb-bb10-titlebar-button-container-'+res+' bb-bb10-titlebar-button-container-' + bb.screen.controlColor;
+			normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
+			highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
+			outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
 		}
 
 		//outerElement.enabled = !disabled;
