@@ -1571,27 +1571,21 @@ body, html {
 }
 
 /* ================================================= 
-   BB10 Label Control Rows 
+   Label Control Container 
    =================================================*/
 
-.bb-bb10-label-control-rows {
+.bb-label-control-rows {
 	margin:0px;
 	padding:0px;
 	width:100%;
 }
 
-/* ================================================= 
-   BB10 Label Control Rows for 1280x768 and 1280x720
-   =================================================*/
-
-.bb-bb10-label-control-label-row-1280x768-1280x720
-{
+.bb-label-control-label-row {
 	vertical-align: text-bottom;
 	height:57px;
 }
 
-.bb-bb10-label-control-label-1280x768-1280x720
-{
+.bb-label-control-label {
 	position:relative;
 	top: 10px;
 	bottom:0px;
@@ -1600,49 +1594,6 @@ body, html {
 	height:30px;
 	vertical-align: text-bottom;
 }
-
-/* ================================================= 
-   BB10 Label Control Rows for 720x720
-   =================================================*/
-
-.bb-bb10-label-control-label-row-720x720
-{
-	vertical-align: text-bottom;
-	height:44px;
-}
-
-.bb-bb10-label-control-label-720x720
-{
-	position:relative;
-	top: 0px;
-	bottom:0px;
-	left:0px;
-	font-size: 28pt;
-	height:30px;
-	vertical-align: text-bottom;
-}
-
-/* ================================================= 
-   BB10 Label Control Rows for 1024x600
-   =================================================*/
-   
-.bb-bb10-label-control-label-row-1024x600
-{
-	vertical-align: text-bottom;
-	height:28px;
-}
-
-.bb-bb10-label-control-label-1024x600
-{
-	position:relative;
-	top: 7px;
-	bottom:0px;
-	left:0px;
-	font-size: 14pt;
-	height:15px;
-	vertical-align: text-bottom;
-}
-
 
 /* ================================================= 
    Radio Buttons

@@ -11,17 +11,7 @@ _bb10_labelControlContainers = {
 			label,
 			tdControl,
 			control,
-			bbType,
-			res = '1280x768-1280x720';
-			
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
+			bbType;
 		
 		for (i = 0; i < elements.length; i++) {
 			outerElement = elements[i];
@@ -30,20 +20,20 @@ _bb10_labelControlContainers = {
 			if (items.length > 0 ) {
 				// Create our containing table
 				table = document.createElement('table');
-				table.setAttribute('class','bb-bb10-label-control-rows');
+				table.setAttribute('class','bb-label-control-rows');
 				outerElement.insertBefore(table,items[0]);
 				
 				for (j = 0; j < items.length; j++) {
 					row = items[j];
 					tr = document.createElement('tr');
-					tr.setAttribute('class','bb-bb10-label-control-label-row-'+res);
+					tr.setAttribute('class','bb-label-control-label-row');
 					table.appendChild(tr);
 					
 					// Get the label
 					tdLabel = document.createElement('td');
 					tr.appendChild(tdLabel);
 					label = row.querySelectorAll('[data-bb-type=label]')[0];
-					label.setAttribute('class','bb-bb10-label-control-label-'+res);
+					label.setAttribute('class','bb-label-control-label');
 					row.removeChild(label);
 					tdLabel.appendChild(label);
 					
