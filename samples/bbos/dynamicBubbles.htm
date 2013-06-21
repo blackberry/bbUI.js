@@ -1,0 +1,64 @@
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+
+<div data-bb-type="screen" data-bb-effect="fade">
+	<div data-bb-type="title" data-bb-caption="BBM Bubble Interface" data-bb-back-caption="Back" ></div>
+	<script src="js/dynamicBubbles.js"></script>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Create/Remove BBM Bubbles</div>
+		<div id="addRemove" data-bb-type="button" data-bb-style="stretch" onclick="addRemoveBubble()">Add BBM Bubble</div>
+		<div id="bubbleContainer">
+		</div>
+	</div>
+	
+	<div data-bb-type="round-panel">
+		<div data-bb-type="panel-header">BBM Bubble Functions</div>
+		
+		<div>
+			<div data-bb-type="bbm-bubble" data-bb-style="right" id="myBBMBubble">
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png" id="item1">My car just broke down and I have one million things to do!!</div>
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png" id="item2">Why can&apos;t groceries just come to you?</div>
+			</div>
+			<div data-bb-type="bbm-bubble" data-bb-style="left" id="myBBMBubble1">
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/read.png" id="item3">The big island was fun.. We were there for our honeymoon.  One side of the island is pretty much desert grass and volcano ash, and the other side is rainforest</div> 
+			</div>
+		</div>
+
+		<div data-bb-type="button" data-bb-style="stretch" onclick="swapBubbles();" id="swap">Swap BBM Bubble Directions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="getBubbles();" id="getstyle">Get BBM Bubble Directions</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="hideBubbles()" id="hide">Hide BBM Bubbles</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="showBubbles();" id="show">Show BBM Bubbles</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myBBMBubble').clear();" id="clear">Clear Bubble 1 Items</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('myBBMBubble').getItems();" id="getItems">Get Bubble 1 Items</div>
+	</div>
+	
+	<div data-bb-type="round-panel">
+		<div data-bb-type="panel-header">BBM Bubble Item Functions</div>
+		
+		<div>
+			<div data-bb-type="bbm-bubble" data-bb-style="right" id="myBBMBubble2">
+				<div data-bb-type="item" data-bb-img="images/bbmBubbles/bullet.png" id="item4">The big island was fun.. We were there for our honeymoon!</div>
+			</div>
+		</div>
+
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('item4').setCaption(document.getElementById('item3').getCaption());" id="setGetCaption">Set Caption</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('item4').setImage(document.getElementById('item3').getImage());" id="setGetImage">Set Image</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('item4').remove();" id="remove">Remove Item</div>
+	</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

@@ -1,0 +1,57 @@
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left" >
+	<div data-bb-type="title" data-bb-caption="Toggle Interface" data-bb-back-caption="Back" ></div>
+	<script src="js/dynamicToggle.js"></script>
+	<style>
+		.cell {
+			line-height: 100px;
+			height: 100px;
+			vertical-align: middle;
+		}
+		.first {
+			width: 350px;
+		}
+	</style>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Create/Remove Toggle Buttons</div>
+		<div id="addRemove" data-bb-type="button" data-bb-style="stretch" onclick="addRemoveToggle()">Add Toggle Button</div>
+		<div id="toggleContainer">
+		</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Manipulate Toggle States </div>
+		<table>
+			<tr>
+				<td class="cell first" style="padding-top:7px;">Toggle Value: <span id="one">false</span></td>
+				<td  class="cell">
+					<div data-bb-type="toggle" data-bb-checked="true" data-bb-on="Yes" data-bb-off="No" onchange="document.getElementById('one').innerHTML = this.checked" id="choiceOne"/></div>
+				</td>
+			</tr>
+		</table>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="checkToggle(true)">"Check" Toggle</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="checkToggle(false)">"Uncheck" Toggle</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="changeCaptions()">Set On/Off Caption</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="disableToggle()">Disable Toggle</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="enableToggle()">Enable Toggle</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="hideToggle()">Hide Toggle</div>
+        <div data-bb-type="button" data-bb-style="stretch" onclick="showToggle()">Show Toggle</div>
+	</div>
+
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

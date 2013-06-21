@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left">
+	<div data-bb-type="title" data-bb-caption="Input Interface" data-bb-back-caption="Back" ></div>
+	<script src="js/dynamicInputs.js"></script>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Manipulate Input States  </div>
+		<table width="100%">
+			<tr>
+				<td width="50%">
+					<input id="visibility" type="text" value="Visibility Example" />
+				</td>
+				<td width="50%">
+					<table style="float:right">
+						<tr>
+							<td>Visible:</td>
+							<td><input type="checkbox" checked="true" onchange="if (this.checked){ document.getElementById('visibility').show();} else { document.getElementById('visibility').hide();}" /></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="50%">
+					<input id="state" type="text" value="Enabled Example" data-bb-clear="none"/>
+				</td>
+				<td width="50%">
+					<table style="float:right">
+						<tr>
+							<td>Enabled:</td>
+							<td><input type="checkbox" checked="true" onchange="if (this.checked){ document.getElementById('state').enable();} else { document.getElementById('state').disable();}" /></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Add/Remove Input</div>
+		<div id="addRemoveBtn" data-bb-type="button" data-bb-style="stretch" onclick="addRemoveTextInput()">Add Text Input</div>
+		<div id="inputContainer">
+		</div>
+	</div>
+
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

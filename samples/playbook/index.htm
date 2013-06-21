@@ -1,0 +1,77 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<html> 
+	<head>
+		<link  rel="stylesheet" type="text/css" href="bbui.css"></link>
+		<script type="text/javascript" src="bbui.js"></script>
+		<script type="text/javascript" src="local:///chrome/webworks.js"></script>
+		<script type="text/javascript">
+			var webworksreadyFired = false,
+				darkColoring = false;
+				
+			document.addEventListener('webworksready', function(e) {
+				// This is code to ensure that if webworksready is fired multiple times we still only init() one time
+				if (webworksreadyFired) return;
+				webworksreadyFired = true;
+
+				var config;
+				// Toggle our coloring for testing 
+				if (darkColoring) {
+					config = {controlsDark: true,
+							listsDark: true};
+				} else {
+					config = {controlsDark: false,
+							listsDark: false,
+							coloredTitleBar: true};
+				}
+				
+				// Handle styling of the screen before it is displayed
+				config.onscreenready = function(element, id) {
+											if (id == 'dataOnLoad') {
+												dataOnLoad_initialLoad(element);
+											} else if (id == 'masterDetail') {
+												masterDetail_initialLoad(element);
+											} else if (id == 'dataOnTheFly') {
+												dataOnTheFly_onScreenReady(element);
+											} 
+											
+										};
+				// Handle styling of the screen after it is displayed
+				config.ondomready = function(element, id, params) {
+											if (id == 'dataOnTheFly') {
+												dataOnTheFly_initialLoad(element);
+											} 
+										};
+				
+				// You must call init on bbUI before any other code loads.  
+				// If you want default functionality simply don't pass any parameters.. bb.init();
+				bb.init(config);
+				bb.pushScreen('menu.htm', 'menu');
+			}, false);
+			
+			// Fire the webworksready event for PlayBook and BBOS
+			window.addEventListener('load',function() {
+					var evt = document.createEvent('Events');
+					evt.initEvent('webworksready', true, true);
+					document.dispatchEvent(evt);
+				});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

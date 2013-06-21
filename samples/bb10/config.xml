@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<widget xmlns:rim="http://www.blackberry.com/ns/widgets" id="bbUISamples" version="0.9.1.25" rim:header="RIM-Widget:rim/widget" xmlns="http://www.w3.org/ns/widgets">
+  <name>bbUI Samples</name>
+  <description>An example of how to use different BlackBerry UI layouts and controls</description>
+  <author href="https://github.com/tneil">Tim Neil</author>
+  <icon src="images\icon.png" />
+  <icon src="images\icon.png" rim:hover="true" />
+  <rim:splash src="images\bb10-splash-landscape.png" />
+  <rim:splash src="images\bb10-splash-portrait.png" />
+  <content src="index.htm" />
+  <feature id="blackberry.ui.menu" />
+  <feature id="blackberry.ui.dialog"/>
+  <feature id="blackberry.identity" />
+  <feature id="blackberry.system.event" />
+  <feature id="blackberry.app" />
+  <feature id="blackberry.app.event"/>
+  <feature id="blackberry.ui.contextmenu"/>
+</widget>

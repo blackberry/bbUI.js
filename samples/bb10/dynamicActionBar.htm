@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left">
+	<div data-bb-type="title" data-bb-caption="Action Bar Interface" data-bb-back-caption="Back" ></div>
+	<script id="dynamicActionBarJS" src="js/dynamicActionBar.js"></script>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Go back to menu</div>
+		<div id="image" data-bb-type="button" data-bb-style="stretch" onclick="bb.popScreen()" >Go Back</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Change Action captions</div>
+		<table width="100%;">
+			<tr>
+				<td style="padding-left:20px;width:70%;"><input id="caption" type="text" placeholder="Enter action caption"/></td>
+				<td><div data-bb-type="button" data-bb-style="stretch" onclick="setActionCaptions(document.getElementById('caption').value);">Apply</div></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Show/Hide Action</div>
+		<div id="Action" data-bb-type="button" data-bb-style="stretch" onclick="toggleActionVisibility('findAction','Action');">Hide Action</div>
+		<div id="Tab" data-bb-type="button" data-bb-style="stretch" onclick="toggleActionVisibility('tabAction','Tab');">Hide Tab</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Change Action images</div>
+		<div id="image" data-bb-type="button" data-bb-style="stretch" onclick="setActionImages('images/actionBar/cog_dark_red.png');">Change Images</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Select Tab</div>
+		<div id="image" data-bb-type="button" data-bb-style="stretch" onclick="setTab(document.getElementById('tabOverflowAction'));">Select 'Overflow' Tab</div>
+	</div>
+	
+	<div id="myActionBar" data-bb-type="action-bar">
+		<div id="tabAction" data-bb-type="action" data-bb-style="tab" data-bb-selected="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Find');">Find</div>
+		<div id="tabOverflowAction" data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Overflow');">Overflow</div>
+		<div id="hiddenTabOverflow" data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-visible="false" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Overflow');">Hidden Overflow</div>
+		<div id="findAction" data-bb-type="action" data-bb-style="button"  data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Find');">Find</div>
+		<div id="actionOverflowAction" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('Overflow Action');">Overflow Action</div>
+		<div id="hideMe" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="document.getElementById('hideMe').hide();document.getElementById('showMe').show();">Hide Action Overflow</div>
+		<div id="showMe" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-visible="false" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="document.getElementById('hideMe').show();document.getElementById('showMe').hide();">Show Action Overflow</div>
+		<div id="hideTabOverflow" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="document.getElementById('tabOverflowAction').hide();document.getElementById('showTabOverflow').show();document.getElementById('hideTabOverflow').hide();">Hide Tab Overflow</div>
+		<div id="showTabOverflow" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-visible="false" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="document.getElementById('tabOverflowAction').show();document.getElementById('showTabOverflow').hide();document.getElementById('hideTabOverflow').show();">Show Tab Overflow</div>
+		<div id="hideMe" data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" data-bb-pin="true">Pinned</div>
+	</div>
+</div>

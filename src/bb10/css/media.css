@@ -1,0 +1,902 @@
+/* 
+   1280x768 is considered the baseline sizing for controls. It was the first resolution
+   for BlackBerry 10 and by keeping the main classes using the sizing for this resolution
+   it will ensure that if other resolutions come, the application will at least continue
+   to display content on that new resolution until a tweaked version of the CSS with the 
+   proper media query can be provided 
+   
+   All other screen resolutions simply augment what is needed from the base 1280x720 
+   resolution sizing
+*/
+
+@media screen and (width: 720px) and (height: 1280px), (width: 1280px) and (height: 720px){
+    .bb-screen {
+		font-size: 30pt;
+    }
+}
+
+@media screen and (width: 720px) and (height: 720px){
+    .bb-screen {
+		font-size: 28pt;
+    }
+	
+	/* Buttons */
+	.bb-button-image {
+		height: 65px;
+		width: 65px;
+		margin-top: -7px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		height:65px;
+		width:65px;
+		margin-top: -7px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 83px;
+	}
+	
+	.bb-button-container {
+		border-width:2px;
+		padding: 4px;
+		margin: 10px;
+	}
+	
+	.bb-button {
+		line-height:50px;
+		height:60px;
+		padding-top:7px;
+		font-size:24pt;
+	}
+	
+	/* Activity Indicator */
+	.bb-activity-medium {
+		height: 88px;
+		width: 88px;
+		background-size: 88px 88px;
+	}
+	
+	.bb-activity-large {
+		height: 170px;
+		width: 170px;
+		background-size: 170px 170px;
+	}
+	
+	/* Dropdowns */
+	.bb-dropdown-item {
+		height: 78px;
+		font-size: 24pt;
+	}
+	
+	.bb-dropdown-selected-image-dark {
+		margin-top:25px;
+	}
+	
+	.bb-dropdown-selected-image-light {
+		margin-top:25px;
+	}
+	
+	.bb-dropdown-container {
+		height: 77px;
+	}
+	
+	.bb-dropdown-caption {
+		font-size: 24pt;
+		margin-right:-55px;
+	}
+	
+	.bb-dropdown-label {
+		font-size: 24pt;
+	}
+	
+	.bb-dropdown-arrow-dark {
+		top:4px;
+	}
+	
+	.bb-dropdown-arrow-light {
+		top:4px;
+	}
+	
+	.bb-dropdown-inner {
+		line-height:42px;
+		height:55px;
+		padding-top:10px;
+		padding-left: 29px;
+		padding-right: 29px;
+		font-size:24pt;
+	}
+	
+	/* Input */
+	.bb-input-container {
+		height:69px;
+	}
+	
+	.bb-input {
+		height:66px;
+	}
+	
+	.bb-input-focused {
+		height:66px;
+	}
+	
+	/* Swipe Down Menu */
+	.bb-menu-bar {
+		height: 110px;
+	}
+	
+	.bb-menu-bar-item {
+		border-top-width: 1px;
+	}
+	
+	.bb-menu-bar-item img {
+		height: 75px;
+		width: 75px;
+		margin-top: 2px;
+	}
+	
+	.bb-menu-bar-item-caption {
+		font-size: 18pt;
+		padding-top: 0px;
+	}
+	
+	/* Image List */
+	.bb-image-list-item {
+		height: 86px;
+		border-bottom-width: 1px;
+	}
+	
+	.bb-image-list-item-overlay {
+		margin-top: -127px;
+		height: 84px;
+	}
+	
+	.bb-image-list-item-details {
+		padding-left: 105px;
+		background-size: 92px 92px;
+		background-position: 0px 13px;
+	}
+	
+	.bb-image-list-item-details-nodescription {
+		background-position: 0px 7px;
+	}
+	
+	.bb-image-list-item-noimage {
+		padding-left:10px;
+	}
+	
+	.bb-image-list-item .title {
+		font-size: 33pt;
+		margin-top: -36px;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 24pt;	
+		margin-top:-4px;
+	}
+	
+	.bb-image-list-item .accent-text {
+		font-size:24pt;
+		margin-top:-84px;
+	}
+	
+	.bb-image-list-item-button-border {
+		width: 36px;
+		height: 36px;
+		border-radius: 19px;
+	}
+	
+	.bb-image-list-item .button {
+		margin-top: -92px;
+	}
+	
+	.bb-image-list-item-button-inner {
+		width: 36px;
+		height: 36px;
+	}
+	
+	/* Label Control Container  */
+	.bb-label-control-label-row {
+		height:44px;
+	}
+	
+	.bb-label-control-label {
+		top: 0px;
+		font-size: 28pt;
+	}
+	
+	/* Title Bar */
+	.bb-title-bar-portrait,
+	.bb-title-bar-landscape {
+		height:95px;
+	}
+	
+	.bb-title-bar-caption-portrait,
+	.bb-title-bar-caption-landscape,
+	.bb-title-bar-caption-left {
+		line-height:95px;
+	}
+	
+	.bb-title-bar-caption-details-img {
+		margin-left: 105px;
+	}
+	
+	.bb-title-bar-accent-text {
+		margin-top:-13px;
+	}
+	
+	.bb-title-bar img {
+		margin-top: 0px;
+		height:95px;
+		width:95px;
+	}
+	
+	.bb-titlebar-button-container {
+		margin: 6px;
+	}
+}
+
+@media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
+    .bb-screen {
+		font-size: 16pt;
+    }
+	
+	/* Buttons */
+	.bb-button-caption-with-image {
+		margin-left: 7px;
+	}
+	
+	.bb-button-image {
+		height: 29px;
+		width: 29px;
+		margin-left: -12px;
+		margin-top: -2px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		height:29px;
+		width:29px;
+		margin-top: -2px;
+		margin-left: -12px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 37px;
+	}
+	
+	.bb-button-container {
+		border-width:2px;
+		border-radius:4px;
+		padding: 1px;
+		margin: 16px;
+	}
+	
+	.bb-button {
+		border-radius:2px;
+		line-height:30px;
+		height:30px;
+		padding-top:5px;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size:14pt;
+	}
+	
+	/* Checkboxes */
+	.bb-checkbox-target {
+		padding: 10px;
+		height: 27px;
+		width: 27px;
+	}
+	
+	.bb-checkbox-outer {
+		height: 26px;
+		width: 26px;
+		border-width: 1px;
+		border-radius: 3px;
+	}
+	
+	.bb-checkbox-inner {
+		height: 20px;
+		width: 20px;
+		margin: 2px;
+		border-radius: 1px;
+	}
+	
+	.bb-checkbox-check-hidden {
+		height: 7px;
+		width: 9px;
+		margin-left: 5px;
+		margin-top: 5px;
+	}
+	
+	.bb-checkbox-check-display {
+		height: 15px;
+		width: 18px;
+		margin-left: 1px;
+		margin-top: 2px;
+	}
+	
+	/* File input button */
+	.bb-file-button {
+		height : 51px;
+		margin-top : -50px;
+	}
+	
+	/* Activity Indicator */
+	.bb-activity-margin {
+		margin: 5px;
+	}
+	
+	.bb-activity-small {
+		height: 21px;
+		width: 21px;
+		background-size: 21px 21px;
+	}
+	
+	.bb-activity-medium {
+		height: 46px;
+		width: 46px;
+		background-size: 46px 46px;
+	}
+	
+	.bb-activity-large {
+		height: 93px;
+		width: 93px;
+		background-size: 93px 93px;
+	}
+	
+	/* Control Groups (aka Round Panels) */
+	.bb-round-panel {
+		margin-bottom: 3px;
+		padding: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	.bb-panel-header {
+		padding-top:9px;
+		padding-left: 10px;
+		margin-bottom: 5px; 
+		padding-bottom: 3px; 
+		font-size: 12pt;
+		font-weight: bold;
+		margin-left: -10px;
+		margin-right: -10px;
+		margin-top: -5px;
+	}
+	
+	.bb-panel-header-light {
+		border-bottom-width: 2px; 
+	}
+	
+	.bb-panel-header-dark {
+		border-bottom-width: 2px; 
+	}
+	
+	/* Dropdowns */
+	.bb-dropdown {
+		border-width:1px;
+		border-radius:2px;
+	}
+	
+	.bb-dropdown-item {
+		height: 40px;
+		line-height: 48px;
+		border-bottom-width: 1px;
+		font-size: 14pt;
+		padding-left: 12px;
+		padding-top: 3px;
+	}
+	
+	.bb-dropdown-selected-image-dark {
+		height:17px;
+		width:20px;
+		margin-top:10px;
+		margin-right: 0px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-selected-image-light {
+		height:17px;
+		width:20px;
+		margin-top:10px;
+		margin-right: 0px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-container {
+		border-width:1px;
+		height: 42px;
+	}
+	
+	.bb-dropdown-container-inner {
+		border-width: 1px;
+		padding: 1px;
+	}
+	
+	.bb-dropdown-caption {
+		margin-right:-22px;
+		font-size: 14pt;
+	}
+	
+	.bb-dropdown-label {
+		margin-left: -5px;
+		font-size: 14pt;
+	}
+	
+	.bb-dropdown-arrow-dark {
+		top: 3px;
+		height:16px;
+		width:16px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-arrow-light {
+		top: 3px;
+		height:16px;
+		width:16px;
+		background-size: cover;
+	}
+	
+	.bb-dropdown-inner {
+		border-width:1px;
+		border-radius:2px;
+		line-height:30px;
+		height:30px;
+		padding-top:5px;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size:14pt;
+	}
+	
+	/* Pill Buttons */
+	.bb-pill-buttons {
+		padding-top:5px;
+	}
+	
+	.bb-pill-buttons-container {
+		border-width:1px;
+		border-radius:3px;
+		font-size: 14pt;
+		height:37px;
+	}
+	
+	.bb-pill-button  {
+		border-width: 1px;
+		height:35px;
+		border-radius: 3px;
+	}
+	
+	.bb-pill-button-inner {
+		border-radius: 3px;
+		height:28px;
+		line-height:28px;
+	}
+	
+	.bb-pill-button-selected-light{
+		border-width:1px;
+	}
+	
+	.bb-pill-button-selected-dark{
+		border-width:1px;
+	}
+	
+	/* Grid List */
+	.bb-grid-header {
+		height:28px;
+		line-height:28px;
+		padding-left: 0px;
+		border-bottom-width: 4px;
+	}
+	
+	.bb-grid-header p {
+		font-size: 13pt;
+		line-height:28px;
+	}
+	
+	.bb-grid-header-left {
+		padding-left: 10px;
+	}
+	
+	.bb-grid-header-right {
+		padding-right: 10px;
+	}
+	
+	.bb-grid-item-overlay-two-rows {
+		height: 40px;
+		top:-40px;
+	}
+	
+	.bb-grid-item-overlay-one-row {
+		height: 24px;
+		top:-24px;
+	}
+	
+	.bb-grid-item-overlay .title {
+		padding-top: 3px;
+		line-height:20px;
+		font-size: 13pt;
+	}
+	
+	.bb-grid-item-overlay .title-two-rows {
+		height: 37px;
+	}
+	
+	.bb-grid-item-overlay .title-one-row {
+		height: 21px;
+	}
+	
+	/* Input */
+	.bb-input-container {
+		height:32px;
+		border-width: 1px;
+		padding: 3px;
+	}
+	
+	.bb-input-container-focused {
+		border-width: 2px;
+		background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QEIEDoSUJaoTwAAA75JREFUWMPtV99rW2UYfr6TLfUXrpsgbLqrwbwbuxhNGpI2VtI0p016IdssrhdeeSEMQf8C77wR0StBhqwbFIVJT9L8aupaU9IEBS92MxHBi87NgVZxs3X0PI8334EQZUubIoJ5b5LzPu/7ned93u/XAfrWt779z8zsNmF6ehoLCwvB/+cAPAvgaQCSdBfAt57n6V8jBAC5XC4L4DKAQetSx1jXAFz0PO9WLpeD53n7SyibzSKfzyObzb4A4GYb9DuA28aY+5IeA/AUgONt+Hv5fP6tIH9fFZqamhoFsGIf7xhjXsnn86vthNti8wCmrHLfkzzpOI4KhcIj3+N0Q2ZycvKkpBVJkFQqFApHJa0GeGf1hUIhC+AZSduSThhjrhcKBbiu25tCmUwGAIwxhtb1abFYPO+67iEA9yXtlEqlv+W5rnvEGLO5uLgo13W3AQwAmCwWi8WeFLIvO0sSJH8qFovnM5nMIMlfSd4D4KTT6c4iZkn+7Pu+BwAkz9n8xUwm40xMTPTWMpJXbasuZDIZkLwnaUfSAMktSU4qlQIApNPpCyQv2/hLAFAulz1JtySB5Jlyubx3QqlU6hjJAyR/q1QqtVKpBEk7vu8PkPRJhiVtG2Oc8fHxV0nOWTVmKpXK55YkSH5k/W/01DJJx2y1dwNftVqF4ziUFJZESQdJPiB5xcbOLC0tzQfxlUoFkj62WLYnQiQft5X90e6vVquQRJIHLR4KlKnVavOd49RqtdsWP9zrsvftb6gTWF5eBoCZDvfc2NiYk0wm93yWPUqhTVvZYCeWTCYvkLwSKENSdr5tA3BGRkbaY1+0cV/3SugH2/vn2/2jo6OzkubsyplZWVmZJ3kgmFOStowxoUQiEczFd+w4n/R8dCQSieAY+Mz3/XOhUOgwgF8sPFOv1+ctSUhyJD2wLf6iXq+/ZMf4E0AYwPFwOLxh273nfehNW91Zx3GesJviNZLTARkAWF1dDSb6AMk1kq8DQDwe/8quyC/r9fpDyXR9uMZisfcBXASw1Wg0nnxYbDwex9raWpB3CcBrFjrSaDQ2e25ZLBZDo9HA8PDwdwBOAPAlvdxsNr1oNIpms/mPecPDw98AOG0fT62vr9/Yt+tHNBpFKBSC7/sVAOPW/aOkq8aYD5rN5kY0Gj0E4AyAdy2RYKs41Ww2b3S77Lu+DwVqRCKRNIByFymLAGZbrdbmbvahXV1hI5EIWq0WIpGII+k0gLcBJAEctbfHmwA+NMZcb7VaG/+ZL4ehoaH+51Pf+ta3bu0vFeNkmZjZKKwAAAAASUVORK5CYII="); 
+		padding: 2px;
+	}
+	
+	.bb-input {
+		height:30px;
+		font-size: 14pt;
+		left: 7px;
+		right: 7px;
+	}
+	
+	.bb-input-focused {
+		height:30px;
+		font-size: 14pt;
+		left: 6px;
+		right: 30px;
+	}
+	
+	/* Slider */
+	.bb-slider .outer {
+		padding: 0.2em;
+		height: 0.4em;
+	}
+	
+	.bb-slider .bb-slider-outer-dark {
+		border-width: 1px;
+	}
+	
+	.bb-slider .bb-slider-outer-light {
+		border-width: 1px;
+	}
+	
+	.bb-slider .halo {
+		margin: 12px;
+		border-radius: 30px;
+		width: 60px;
+		height: 60px;
+	}
+	
+	.bb-slider .indicator { 
+		margin: 27px;
+		width: 28px;
+		height: 28px;
+		border-radius: 15px;
+	}
+	
+	.bb-slider .bb-slider-indicator-dark {
+		box-shadow: 0px 0px 0.2em #030303;
+	}
+	
+	.bb-slider .bb-slider-indicator-light {
+		box-shadow: 0px 0px 0.2em #030303;
+	}
+	
+	.bb-slider .indicator-hover-light   {
+		border-width: 1px;
+	}
+	
+	/* Toggle */
+	.bb-toggle {
+		padding:10px;
+		height: 34px;
+		width: 105px;
+	}
+	
+	.bb-toggle .outer {
+		height: 34px;
+		border-radius: 18px;
+		width:105px;
+	}
+	
+	.bb-toggle .bb-toggle-outer-dark {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .bb-toggle-outer-light {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .halo {
+		margin: 12px;
+		border-radius: 30px;
+		width: 60px;
+		height: 60px;
+	}
+	
+	.bb-toggle .indicator { 
+		margin: 26px;
+		width: 28px;
+		height: 28px;
+		border-radius: 15px;
+	}
+	
+	.bb-toggle .bb-toggle-indicator-enabled-dark {
+		box-shadow: 0px 0px 0.2em #030303;
+	}
+	
+	.bb-toggle .bb-toggle-indicator-enabled-light {
+		box-shadow: 0px 0px 0.2em #030303;
+	}
+	
+	.bb-toggle .indicator-hover-dark   {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .indicator-hover-light   {
+		border-width: 1px;
+	}
+	
+	.bb-toggle .fill {
+		height: 34px;
+		width: 105px;
+		border-radius: 18px;
+	}
+	
+	.bb-toggle .inner {
+		width: 155px;
+		height: 34px;
+		left: -65px;
+	}
+	
+	.bb-toggle .yes {
+		height: 34px;
+		line-height: 44px;
+		width: 43px;
+	}
+	
+	.bb-toggle .no {
+		height: 34px;
+		line-height: 44px;
+		width: 43px;
+	}
+	
+	.bb-toggle .indicator-container {
+		margin-top: -60px;
+		margin-left: -23px;	
+	}
+	
+	.bb-toggle .right {
+		width: 43px;
+	}
+	
+	.bb-toggle .left {
+		width: 43px;
+	}
+	
+	.bb-toggle .center {
+		width: 69px;
+	}
+	
+	/* Swipe Down Menu */
+	.bb-menu-bar {
+		height: 100px;
+	}
+	
+	.bb-menu-bar-item {
+		border-top-width: 3px;
+		height: 85px;
+	}
+	
+	.bb-menu-bar-item img {
+		height: 40px;
+		width: 40px;
+		margin-top: 15px;
+	}
+	
+	.bb-menu-bar-item-caption {
+		font-size: 16pt;
+		height: 25px;
+	}
+	
+	/* Image List */
+	.bb-image-list-header {
+		height:28px;
+		line-height:35px;
+		font-size: 13pt;
+		border-bottom-width: 3px;
+		margin-bottom: 1px;
+	}
+	
+	.bb-image-list-header-left {
+		padding-left: 10px;
+	}
+	
+	.bb-image-list-header-right {
+		padding-right: 10px;
+	}
+	
+	.bb-image-list-item {
+		padding-top: 3px;	
+		padding-left: 5px;
+		height: 54px;
+		border-bottom-width: 1px;
+	}
+	
+	.bb-image-list-item-overlay {
+		border-width: 2px;
+		margin-top: -97px;
+		margin-left: -5px;
+		height: 53px;	
+	}
+	
+	.bb-image-list-item-details {
+		margin-top:-6px;
+		height: 100px;
+		padding-left: 70px;
+		background-size: 64px 64px;
+		background-position: 0px 0px;
+	}
+	
+	.bb-image-list-item-details-nodescription {
+		margin-top: -25px;
+	}
+	
+	.bb-image-list-item-noimage {
+		padding-left:5px;
+	}
+	
+	.bb-image-list-item .title {
+		font-size: 20pt;
+		line-height:20px;	
+		padding-top:15px;
+		margin-top: 0px;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 14pt;
+		margin-top: 2px;
+	}
+	
+	.bb-image-list-item .accent-text {
+		font-size:14pt;
+		margin-right: 5px;
+		margin-top:-50px;
+	}
+	
+	.bb-image-list-item-button-border {
+		width: 23px;
+		height: 23px;
+		border-radius: 12px;
+		margin-top: 17px;
+	}
+	
+	.bb-image-list-item .button {
+		width:34px;
+		height:59px;
+		margin-top: -59px;
+		padding-left: 10px;
+	}
+	
+	.bb-image-list-item-button-inner {
+		width: 23px;
+		height: 23px;
+	}
+	
+	.bb-image-list-item .details-button-margin {
+		margin-right: 34px;
+	}
+	
+	/* Radio Buttons */
+	.bb-radio-container-dark {
+		height: 38px;
+		width: 38px;
+		background-position: 4px 4px;
+		background-size: 29px 29px;
+	}
+	
+	.bb-radio-container-light {
+		height: 38px;
+		width: 38px;
+		background-position: 4px 4px;
+		background-size: 29px 29px;
+	}
+	
+	.bb-radio-dot {
+		height: 20px;
+		width: 20px;
+		border-radius: 10px;
+		top: 10px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-disabled {
+		height: 20px;
+		width: 20px;
+		border-radius: 10px;	
+		top: 10px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-center {
+		height: 10px;
+		width: 10px;
+		border-radius: 5px;
+		top: 5px;
+		left: 5px;
+	}
+	
+	/* Label Control Container  */
+	.bb-label-control-label-row {
+		height:28px;
+	}
+	
+	.bb-label-control-label {
+		top: 7px;
+		font-size: 14pt;
+		height:15px;
+	}
+	
+	/* Title Bar */
+	.bb-titlebar-button {
+		border-radius:2px;
+		line-height:34px;
+		height:34px;
+		padding-top:5px;
+		padding-left: 15px;
+		padding-right: 15px;
+		font-size:14pt;
+	}
+	
+	.bb-title-bar {
+		border-bottom-width: 1px;
+		font-size: 20pt;
+	}
+	
+	.bb-title-bar-portrait,
+	.bb-title-bar-landscape {
+		height:64px;
+	}
+	
+	.bb-title-bar-caption-portrait,
+	.bb-title-bar-caption-landscape {
+		line-height:76px;
+	}
+	
+	.bb-title-bar-caption-details-img {
+		margin-left: 75px;
+	}
+	
+	.bb-title-bar-caption-left {
+		line-height:76px;
+		padding-left: 5px;
+	}
+	
+	.bb-title-bar-accent-text {
+		margin:0px;
+		padding-top:0px;
+		padding-left: 5px;
+		font-size: 16pt;
+		margin-top:0px;
+	}
+	
+	.bb-title-bar img {
+		height:64px;
+		width:64px;
+		margin-top: 0px;
+	}
+	
+	.bb-titlebar-button-container {
+		border-radius:4px;
+		padding: 1px;
+		margin: 9px;
+	}
+}
+

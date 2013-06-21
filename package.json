@@ -1,0 +1,18 @@
+{
+  "name": "bbUI.js",
+  "description": "Common HTML5/Javascript UI constructs for BlackBerry WebWorks applications",
+  "version": "0.9.6",
+  "author": {
+    "name": "Tim Neil",
+    "email": "tneil@rim.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blackberry/bbUI.js.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "clean-css": "0.9.x",
+    "uglify-js": "2.2.x"
+  }
+}

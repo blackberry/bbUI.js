@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left">
+	<div data-bb-type="title" data-bb-caption="Button Interface" data-bb-back-caption="Back" ></div>
+	<script id="dynamicButtonsJS" src="js/dynamicButtons.js"></script>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Manipulate Button states  </div>
+		<table width="100%">
+			<tr>
+				<td width="50%">
+					<div id="visibility" data-bb-type="button" data-bb-style="stretch">Visibility</div>
+				</td>
+				<td width="50%">
+					<table style="float:right">
+						<tr>
+							<td>Visible:</td>
+							<td><input type="checkbox" checked="true" onchange="if (this.checked){ document.getElementById('visibility').show();} else { document.getElementById('visibility').hide();}" /></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="50%">
+					<div id="state" data-bb-type="button" data-bb-style="stretch">State</div>
+				</td>
+				<td width="50%">
+					<table style="float:right">
+						<tr>
+							<td>Enabled:</td>
+							<td><input type="checkbox" checked="true" onchange="if (this.checked){ document.getElementById('state').enable();} else { document.getElementById('state').disable();}" /></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Change button captions</div>
+		<table width="100%;">
+			<tr>
+				<td style="padding-left:20px;width:70%;"><input id="caption" type="text" placeholder="Enter button caption"/></td>
+				<td><div data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('captionTarget').setCaption(document.getElementById('caption').value);">Apply</div></td>
+			</tr>
+		</table>
+		<div id="captionTarget" data-bb-type="button" data-bb-style="stretch">My Caption</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Create/Remove Buttons</div>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="addButton()">Add Button</div>
+		<div id="buttonContainer">
+		</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Change Button image</div>
+		<table width="100%">
+			<tr>
+				<td width="50%">
+					<div id="image" data-bb-type="button" data-bb-style="stretch">Image</div>
+				</td>
+				<td width="50%">
+					<table style="float:right">
+						<tr>
+							<td>Has Image:</td>
+							<td><input type="checkbox" onchange="if (this.checked){ document.getElementById('image').setImage('images/actionBar/cog_dark_theme.png');} else { document.getElementById('image').setImage('');}" /></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Get and Set Button Caption</div>
+		<div id="getCaption" data-bb-type="button" data-bb-style="stretch" onclick="document.getElementById('getCaption').setCaption(document.getElementById('visibility').getCaption());">Get Caption of Visibility Button</div>
+	</div>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">Get and Set Button Image</div>
+		
+		<table width="100%">
+			<tr>
+				<td width="15%">
+					<div id="imageOnly" data-bb-type="button" data-bb-img="images/actionBar/cog_dark_red.png" onclick="document.getElementById('getImage').setImage(document.getElementById('imageOnly').getImage());"></div>
+				</td>
+				<td width="33%">
+					<div id="imageElement" data-bb-type="button" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="document.getElementById('getImage').setImage(document.getElementById('imageElement').getImage());">Image</div>
+				</td>
+				<td width="33%">
+					<div id="noImage" data-bb-type="button" onclick="document.getElementById('getImage').setImage(document.getElementById('noImage').getImage());">No Image</div>
+				</td>
+			</tr>
+		</table>
+		
+		<div id="getImage" data-bb-type="button" data-bb-style="stretch">Get Button Image</div>
+	</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

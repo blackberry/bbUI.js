@@ -1,0 +1,111 @@
+var DEPLOY = __dirname + "../../pkg/",
+    _path = require('path'),
+	UglifyJS = require('uglify-js'),
+	cleanCSS = require('clean-css'),
+    fs = require('fs');
+
+function include(files, transform) { 
+    files = files.map ? files : [files];
+    return files.map(function (file) {
+        var str = fs.readFileSync(file, "utf-8") + "\n";
+        return transform ? transform(str, file) : str;
+    }).join('\n');
+}
+
+function collect(path, files, matches) {
+    matches = matches || function (path) {
+        return path.match(/\.js$/);
+    };
+
+    if (fs.statSync(path).isDirectory()) {
+        fs.readdirSync(path).forEach(function (item) {
+            collect(_path.join(path, item), files, matches);
+        });
+    } else if (matches(path)) {
+        files.push(path);
+    }
+}
+
+desc("runs jake build");
+task('default', ['build'], function () {});
+
+desc("clean");
+task('clean', [], function () {
+    var childProcess = require('child_process'),
+        cmd = 'rm -rf ' + DEPLOY + ' && ' +
+              'mkdir ' + DEPLOY;
+
+    childProcess.exec(cmd, complete);
+}, true);
+
+desc("package everything for a release");
+task('build', ['clean'], function () {
+    var output = "",
+        css = "",
+		media = "",
+		ext = "",
+		license = "",
+		minified,
+		version,
+		versionText = "",
+        plugins = [];
+
+	console.log("Gathering Files...");
+	// Retrieve the version information
+	version = JSON.parse(include("JakeVersion"));
+	version.build++;
+	versionText = '/* bbUI for BB10 VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + '*/\n\n';
+
+	pkg = JSON.parse(include("../../package.json"));
+	pkg.version = version.major + '.' + version.minor + '.' + version.revision;
+	
+	// Retrieve our license information
+	license = include("../../JakeLicense");
+	license += versionText;
+	
+	// Gather our core JS files
+    output = include("js/core.js");
+    collect(__dirname + "/js", plugins);
+    plugins.forEach(function (plugin) {
+		if (plugin.indexOf('core.js') < 0) {
+			output += include(plugin);
+		}
+    });
+	
+	// Write our our JS files
+    fs.writeFileSync("../../pkg/bb10/bbui.js", license + output);
+    fs.writeFileSync("../../samples/bb10/bbui.js", license + output);
+
+	// Grab our CSS information
+	css = include("css/bbUI.css");
+	media = include("css/media.css");
+	css += media;
+	fs.writeFileSync("../../pkg/bb10/bbui.css", license + css);
+    fs.writeFileSync("../../samples/bb10/bbui.css", license + css);
+	
+	// Version our Extensions
+	ext = include("ext/client.js");
+	fs.writeFileSync("../../pkg/bb10/ext/client.js", license + ext);
+	ext = include("ext/index.js");
+	fs.writeFileSync("../../pkg/bb10/ext/index.js", license + ext);
+	ext = include("ext/manifest.json");
+	fs.writeFileSync("../../pkg/bb10/ext/manifest.json", ext);
+    
+	// Minify
+	console.log("Minifying...");
+	// First the JavaScript
+	license = '/*! bbUI for BB10 VERSION: ' + version.major + '.' + version.minor + '.' + version.revision + '.' + version.build + ' | github.com/blackberry/bbUI.js/blob/master/LICENSE !*/';
+	minified = UglifyJS.minify("../../pkg/bb10/bbui.js");
+	fs.writeFileSync("../../pkg/bb10/bbui-min.js", license + minified.code);
+	// Then the CSS
+	minified = cleanCSS.process(include("../../pkg/bb10/bbui.css"));
+	fs.writeFileSync("../../pkg/bb10/bbui-min.css", license + minified);
+	
+	// Update our build version
+	fs.writeFileSync("JakeVersion", JSON.stringify(version, undefined, 2));
+
+	// Update the build version in the npm package.json
+	fs.writeFileSync("package.json", JSON.stringify(pkg, undefined, 2));
+
+    console.log("Holy Chetara Batman, That was fast!");
+});
