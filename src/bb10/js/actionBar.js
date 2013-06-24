@@ -18,25 +18,14 @@ bb.actionBar = {
 			backBtn,
 			actionContainer = actionBar,
 			btnWidth,
-			res = '1280x768-1280x720',
 			icon,
 			j,
 			orientation = bb.getOrientation(),
 			slideLabel = document.createElement('div'),
 			slideText = document.createElement('div');
 			
-		// Set our 'res' for known resolutions, otherwise use the default
-		if (bb.device.is1024x600) {
-			res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			res = '720x720';
-		}
-			
-		actionBar.res = res;
 		actionBar.isVisible = true;
-		actionBar.setAttribute('class','bb-bb10-action-bar-'+res+' bb-bb10-action-bar-'+orientation+'-'+res+' bb-bb10-action-bar-dark');
+		actionBar.setAttribute('class','bb-action-bar bb-action-bar-'+orientation+' bb-action-bar-dark');
 		actionBar.mainBarTabs = mainBarTabs;
 		actionBar.mainBarButtons = mainBarButtons;
 		actionBar.overflowButtons = overflowButtons;
@@ -61,9 +50,9 @@ bb.actionBar = {
 		bb.windowListeners.push({name: 'contextmenu', eventHandler: actionBar.oncontextmenu});
 		
 		// Create our sliding label area for Q10
-		slideLabel.setAttribute('class','bb-bb10-action-bar-slide-label-'+res);
+		slideLabel.setAttribute('class','bb-action-bar-slide-label');
 		actionBar.slideLabel = slideLabel;
-		slideText.setAttribute('class','bb-bb10-action-bar-slide-label-text-'+res);
+		slideText.setAttribute('class','bb-action-bar-slide-label-text');
 		actionBar.slideText = slideText;
 		actionBar.parentNode.appendChild(slideLabel);
 		actionBar.parentNode.appendChild(slideText);
@@ -129,24 +118,24 @@ bb.actionBar = {
 				backslash,
 				backHighlight;
 			backBtn = document.createElement('div');
-			backBtn.setAttribute('class','bb-bb10-action-bar-back-button-'+res+' bb-bb10-action-bar-back-button-'+res+'-dark bb-bb10-action-bar-back-button-'+orientation+'-'+res);
+			backBtn.setAttribute('class','bb-action-bar-back-button bb-action-bar-back-button-dark bb-action-bar-back-button-'+orientation);
 			backBtn.onclick = function () {
 					window.setTimeout(bb.popScreen,0);
 				};
 			actionBar.backBtn = backBtn;
 			// Create and add the chevron to the back button
 			chevron = document.createElement('div');
-			chevron.setAttribute('class','bb-bb10-action-bar-back-chevron-'+res+'-dark');
+			chevron.setAttribute('class','bb-action-bar-back-chevron-dark');
 			backBtn.appendChild(chevron);
 			// Create and add our back caption to the back button
 			backCaption = document.createElement('div');
-			backCaption.setAttribute('class','bb-bb10-action-bar-back-text-'+res+' bb-bb10-action-bar-back-text-'+orientation+'-'+res);
+			backCaption.setAttribute('class','bb-action-bar-back-text bb-action-bar-back-text-'+orientation);
 			backCaption.innerHTML = actionBar.getAttribute('data-bb-back-caption');
 			backBtn.backCaption = backCaption;
 			backBtn.appendChild(backCaption);
 			// Create our highlight for touch
 			backHighlight = document.createElement('div');
-			backHighlight.setAttribute('class','bb-bb10-action-bar-back-button-highlight');
+			backHighlight.setAttribute('class','bb-action-bar-back-button-highlight');
 			backHighlight.style['position'] = 'absolute';
 			backHighlight.style['width'] = bb.device.is1024x600 ? '4px' : '8px';
 			backHighlight.style['background-color'] = 'transparent';
@@ -156,14 +145,11 @@ bb.actionBar = {
 						if (bb.device.is1024x600) {
 							backHighlight.style['height'] = orientation == 'portrait' ? '57px' : '57px';
 							backHighlight.style['top'] = '8px';
-						} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '70px';
-							backHighlight.style['top'] = '15px';
 						} else if (bb.device.is720x720) {
 							backHighlight.style['height'] = '78px';
 							backHighlight.style['top'] = '15px';
 						} else {
-							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '110px';
+							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '70px';
 							backHighlight.style['top'] = '15px';
 						}				
 					};
@@ -181,7 +167,7 @@ bb.actionBar = {
 			
 			// Create our backslash
 			backslash = document.createElement('div');
-			backslash.setAttribute('class','bb-bb10-action-bar-back-slash-'+res+'-dark bb-bb10-action-bar-back-slash-'+orientation+'-'+res); 
+			backslash.setAttribute('class','bb-action-bar-back-slash-dark bb-action-bar-back-slash-'+orientation); 
 			backBtn.backslash = backslash;
 			
 			// Create a table to hold the back button and our actions
@@ -190,7 +176,7 @@ bb.actionBar = {
 				td = document.createElement('td');
 			actionBar.appendChild(table);
 			table.appendChild(tr);
-			table.setAttribute('class','bb-bb10-action-bar-table');
+			table.setAttribute('class','bb-action-bar-table');
 			// Set Back Button widths
 			if (bb.device.is1024x600) {
 				td.style.width = (bb.actionBar.getBackBtnWidth(backBtn) - 16)+'px';
@@ -394,9 +380,9 @@ bb.actionBar = {
 										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 										// If the last action is a tab then add our shading
 										if (lastActionType == 'tab') {
-											action.normal = 'bb-bb10-action-bar-action-'+action.res+' bb-bb10-action-bar-action-' + orientation + '-' + action.res + ' bb-bb10-action-bar-button-dark bb-bb10-action-bar-button-tab-left-'+action.res+'-dark';
+											action.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark bb-action-bar-button-tab-left-dark';
 										} else {
-											action.normal = 'bb-bb10-action-bar-action-'+action.res+' bb-bb10-action-bar-action-' + orientation + '-' + action.res + ' bb-bb10-action-bar-button-dark';
+											action.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark';
 										}
 										action.setAttribute('class',action.normal);
 										// Update button orientation
@@ -416,9 +402,9 @@ bb.actionBar = {
 								// Adjust our action overflow button
 								if (this.actionOverflowBtn) {
 									if (lastActionType == 'tab') {
-										this.actionOverflowBtn.normal = 'bb-bb10-action-bar-action-'+this.actionOverflowBtn.res+' bb-bb10-action-bar-action-' + orientation + '-' + this.actionOverflowBtn.res +' bb-bb10-action-bar-button-dark bb-bb10-action-bar-button-tab-left-'+this.actionOverflowBtn.res+'-dark';
+										this.actionOverflowBtn.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark bb-action-bar-button-tab-left-dark';
 									} else {
-										this.actionOverflowBtn.normal = 'bb-bb10-action-bar-action-'+this.actionOverflowBtn.res+' bb-bb10-action-bar-action-' + orientation + '-' + this.actionOverflowBtn.res + ' bb-bb10-action-bar-button-dark';
+										this.actionOverflowBtn.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark';
 									}	
 									this.actionOverflowBtn.style.width = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) - 1 ) + 'px'; // 1 represents the button margins
 									this.actionOverflowBtn.highlight.style['width'] = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) * 0.6) + 'px';
@@ -517,7 +503,6 @@ bb.actionBar = {
 				if (action.getAttribute('data-bb-img') != 'overflow') {
 					clone = action.cloneNode(true);					
 					clone.visibleTab = action;
-					clone.res = res;
 					clone.actionBar = actionBar;
 					actionBar.tabOverflowMenu.add(clone);
 				}
@@ -525,7 +510,6 @@ bb.actionBar = {
 			// Now add all our tabs marked as overflow
 			for (j = 0; j < overflowTabs.length; j++) {
 				action = overflowTabs[j];
-				action.res = res;
 				action.actionBar = actionBar;
 				actionBar.tabOverflowMenu.add(action);
 			}
@@ -534,7 +518,6 @@ bb.actionBar = {
 		// Add all of our overflow button actions
 		for (j = 0; j < overflowButtons.length; j++) {
 			action = overflowButtons[j];
-			action.res = res;
 			actionBar.menu.add(action);
 		}
 		
@@ -542,13 +525,12 @@ bb.actionBar = {
 		var tab;
 		for (j = 0; j < mainBarTabs.length; j++) {
 			tab = mainBarTabs[j];
-			tab.res = res;
 			caption = tab.innerHTML;
 			tab.actionBar = actionBar;
 			tab.visible = true;
 			tab.innerHTML = '';
-			tab.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-tab-dark bb-bb10-action-bar-tab-normal-dark';
-			tab.highlight = tab.normal + ' bb-bb10-action-bar-tab-selected-dark';
+			tab.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-tab-dark bb-action-bar-tab-normal-dark';
+			tab.highlight = tab.normal + ' bb-action-bar-tab-selected-dark';
 			tab.setAttribute('class',tab.normal);
 			// Tab initial visibility
 			tab.visible = true;
@@ -557,13 +539,13 @@ bb.actionBar = {
 			} 
 			// Add the icon
 			icon = document.createElement('img');
-			icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
+			icon.setAttribute('class','bb-action-bar-icon');
 			icon.setAttribute('src',tab.getAttribute('data-bb-img'));
 			tab.icon = icon;
 			tab.appendChild(icon);
 			// Set our caption
 			display = document.createElement('div');
-			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res+' bb-bb10-action-bar-action-display-'+orientation+'-'+res);
+			display.setAttribute('class','bb-action-bar-action-display bb-action-bar-action-display-'+orientation);
 			display.innerHTML = caption;
 			tab.display = display;
 			tab.appendChild(display);
@@ -644,26 +626,25 @@ bb.actionBar = {
 		var tabOverflow;
 		if (actionBar.tabOverflowBtn) {
 			tabOverflow = actionBar.tabOverflowBtn;
-			tabOverflow.res = res;
 			caption = tabOverflow.innerHTML;
 			tabOverflow.actionBar = actionBar;
 			tabOverflow.visible = true;
 			tabOverflow.innerHTML = '';
-			tabOverflow.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-tab-dark bb-bb10-action-bar-tab-normal-dark';
-			tabOverflow.highlight = tabOverflow.normal + ' bb-bb10-action-bar-tab-selected-dark';
+			tabOverflow.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation +' bb-action-bar-tab-dark bb-action-bar-tab-normal-dark';
+			tabOverflow.highlight = tabOverflow.normal + ' bb-action-bar-tab-selected-dark';
 			tabOverflow.setAttribute('class',tabOverflow.normal);
 			// Add the icon
 			icon = document.createElement('img');
-			icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
+			icon.setAttribute('class','bb-action-bar-icon');
 			// Set our transparent pixel
 			icon.setAttribute('src',bb.transparentPixel);
-			icon.normal = 'bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-tab-overflow-'+res+'-dark bb-bb10-action-bar-tab-overflow-'+orientation+'-'+res;
-			icon.highlight = 'bb-bb10-action-bar-icon-'+res;
+			icon.normal = 'bb-action-bar-icon bb-action-bar-tab-overflow-dark bb-action-bar-tab-overflow-'+orientation;
+			icon.highlight = 'bb-action-bar-icon';
 			icon.setAttribute('class',icon.normal);
 			tabOverflow.appendChild(icon);
 			// Set our caption
 			display = document.createElement('div');
-			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res+' bb-bb10-action-bar-action-display-'+orientation+'-'+res);
+			display.setAttribute('class','bb-action-bar-action-display bb-action-bar-action-display-'+orientation);
 			display.innerHTML = caption;
 			tabOverflow.display = display;
 			tabOverflow.appendChild(display);
@@ -672,7 +653,7 @@ bb.actionBar = {
 			tabOverflow.display = display;
 			// Create our tab highlight div
 			tabOverflow.tabHighlight = document.createElement('div');
-			tabOverflow.tabHighlight.setAttribute('class','bb-bb10-action-bar-tab-overflow-'+res+'-dark bb-bb10-action-bar-tab-overflow-highlight-'+res+' bb-bb10-action-bar-tab-overflow-highlight-'+ orientation +'-'+res);
+			tabOverflow.tabHighlight.setAttribute('class','bb-action-bar-tab-overflow-dark bb-action-bar-tab-overflow-highlight bb-action-bar-tab-overflow-highlight-'+ orientation);
 			tabOverflow.appendChild(tabOverflow.tabHighlight);
 			tabOverflow.style.width = (bb.actionBar.getTabOverflowBtnWidth(tabOverflow) - 1) + 'px';
 			// Set our reset function
@@ -699,14 +680,13 @@ bb.actionBar = {
 		var button;
 		for (j = 0; j < mainBarButtons.length; j++) {
 			button = mainBarButtons[j];
-			button.res = res;
 			button.actionBar = actionBar;
 			caption = button.innerHTML;
 			// Add the icon
 			icon = document.createElement('img');
 			icon.setAttribute('src',button.getAttribute('data-bb-img'));
-			icon.setAttribute('class','bb-bb10-action-bar-icon-'+res);
-			button.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-button-dark';
+			icon.setAttribute('class','bb-action-bar-icon');
+			button.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark';
 			// Button initial visibility
 			button.visible = true;
 			if (button.hasAttribute('data-bb-visible') && (button.getAttribute('data-bb-visible').toLowerCase() == 'false')) {
@@ -719,13 +699,13 @@ bb.actionBar = {
 			button.appendChild(icon);	
 			// Set our caption
 			display = document.createElement('div');
-			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
+			display.setAttribute('class','bb-action-bar-action-display');
 			display.innerHTML = caption;
 			button.display = display;
 			button.appendChild(display);
 			// Set our highlight
 			button.highlight = document.createElement('div');
-			button.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
+			button.highlight.setAttribute('class','bb-action-bar-action-highlight');
 			button.highlight.style['height'] = bb.device.is1024x600 ? '4px' : '8px';
 			button.highlight.style['background-color'] = 'transparent';
 			button.appendChild(button.highlight);			
@@ -771,29 +751,28 @@ bb.actionBar = {
 		// Style our action overflow button
 		if (actionBar.actionOverflowBtn) {
 			actionOverflow = actionBar.actionOverflowBtn;
-			actionOverflow.res = res;
 			actionOverflow.actionBar = actionBar;
 			actionOverflow.visible = true;
 			caption = actionOverflow.innerHTML;
 			// Set our transparent icon
 			icon = document.createElement('img');
 			icon.setAttribute('src',bb.transparentPixel);
-			icon.setAttribute('class','bb-bb10-action-bar-icon-'+res+' bb-bb10-action-bar-overflow-button-'+res+'-dark bb-bb10-action-bar-overflow-button-'+orientation+'-'+res);
+			icon.setAttribute('class','bb-action-bar-icon bb-action-bar-overflow-button-dark bb-action-bar-overflow-button-'+orientation);
 			actionOverflow.icon = icon;
 			// Default settings
-			actionOverflow.normal = 'bb-bb10-action-bar-action-'+res+' bb-bb10-action-bar-action-' + orientation + '-' + res + ' bb-bb10-action-bar-button-dark';
+			actionOverflow.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark';
 			actionOverflow.innerHTML = '';
 			actionOverflow.setAttribute('class',actionOverflow.normal);
 			actionOverflow.appendChild(icon);
 			// Set our caption
 			var display = document.createElement('div');
-			display.setAttribute('class','bb-bb10-action-bar-action-display-'+res);
+			display.setAttribute('class','bb-action-bar-action-display');
 			display.innerHTML = caption;
 			actionOverflow.display = display;
 			actionOverflow.appendChild(display);
 			// Set our highlight
 			actionOverflow.highlight = document.createElement('div');
-			actionOverflow.highlight.setAttribute('class','bb-bb10-action-bar-action-highlight');
+			actionOverflow.highlight.setAttribute('class','bb-action-bar-action-highlight');
 			actionOverflow.highlight.style['height'] = bb.device.is1024x600 ? '4px' : '8px';
 			actionOverflow.highlight.style['background-color'] = 'transparent';
 			actionOverflow.appendChild(actionOverflow.highlight);
@@ -842,8 +821,6 @@ bb.actionBar = {
 		
 		if (bb.device.is1024x600) {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		} else if (bb.device.is720x720) {
 			return 144;
 		} else {
@@ -857,8 +834,6 @@ bb.actionBar = {
 		
 		if (bb.device.is1024x600) {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return bb.getOrientation() == 'portrait' ? 154 : 256;
 		} else if (bb.device.is720x720) {
 			return 144;
 		} else {
@@ -872,8 +847,6 @@ bb.actionBar = {
 		
 		if (bb.device.is1024x600) {
 			return bb.getOrientation() == 'portrait' ? 93 : 150;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return bb.getOrientation() == 'portrait' ? 187 : 300;
 		} else if (bb.device.is720x720) {
 			return 174;
 		}else {

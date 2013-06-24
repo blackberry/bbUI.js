@@ -249,6 +249,121 @@
 		margin-top:5px;
 		margin-left:8px;
 	}
+	
+	/* Action Bar */
+	.bb-action-bar-portrait {
+		height: 109px;
+	}
+	
+	.bb-action-bar-landscape {
+		height: 109px;
+	}
+	
+	.bb-action-bar-icon {
+		margin-top: 10px;
+	}
+	
+	.bb-action-bar-action-portrait,
+	.bb-action-bar-action-landscape	{
+		height:101px;
+	}
+	
+	.bb-action-bar-action-display-portrait {
+		display: none;
+	}
+	
+	.bb-action-bar-back-button-portrait,
+	.bb-action-bar-back-button-landscape {
+		height:108px;
+		width:141px;
+	}
+	
+	.bb-action-bar-back-text-portrait {
+		display:none;
+	}
+	
+	.bb-action-bar-back-slash-portrait,
+	.bb-action-bar-back-slash-landscape {
+		height: 108px;
+	}
+	
+	.bb-action-bar-tab-overflow-dark {
+		background-position: center -18px;
+	}
+
+	.bb-action-bar-tab-overflow-highlight-portrait,
+	.bb-action-bar-tab-overflow-highlight-landscape {
+		margin-top: -80px;
+	}
+	
+	.bb-action-bar-overflow-button-dark {
+		margin-top: 5px;
+	}
+	
+	.bb-action-bar-slide-label {
+		display:block;
+		position:fixed;
+		height: 0px;
+		width: 100%;
+		bottom: 108px;
+		opacity: 0.4;
+		background-color: black;
+		border-top: 1px solid #464646;
+		-webkit-transition: height 0.1s linear;
+		-webkit-backface-visibility: hidden;
+	}
+
+	.bb-action-bar-slide-label-text {
+		display:block;
+		position:fixed;
+		height: 0px;
+		line-height: 48px;
+		text-align: center;
+		color: white;
+		font-size:20pt;
+		width: 200px;
+		bottom: 108px;
+		visibility: hidden;
+		-webkit-transition-property: height, visibility;
+		-webkit-transition-duration: 0.1s, 0.3;
+		-webkit-transition-timing-function: linear, linear;
+		-webkit-backface-visibility: hidden;
+	}
+	
+	/* Tab Overflow */
+	.bb-tab-overflow-menu-item {
+		font-size:29pt;
+		padding-left: 0px;
+	}
+	
+	.bb-tab-overflow-menu-item-single {
+		height: 85px;
+		line-height: 75px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+	
+	.bb-tab-overflow-menu-item-double {
+		height: 85px;
+		line-height: 46px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+	
+	.bb-tab-overflow-menu-item-inner {
+		padding-left: 5px;
+	}
+	
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		padding-left: 5px;
+		font-size: 19pt;
+		height: 40px;
+		margin-top: -40px;
+	}
+	
+	.bb-tab-overflow-menu-item-image {
+		margin-left:9px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -958,6 +1073,159 @@
 		width: 42px;
 		margin-top:3px;
 		margin-left: 5px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-portrait,
+	.bb-action-bar-landscape {
+		height: 73px;
+	}
+	
+	.bb-action-bar-icon {
+		height: 40px;
+		width: 40px;
+		margin-top: 3px;
+	}
+	
+	.bb-action-bar-button-tab-left-dark 	{
+		background-position:left -4px;
+		background-repeat:no-repeat;
+		background-size: 14px 73px;
+	}
+	
+	.bb-action-bar-action {
+		border-top-width: 4px;
+	}
+	
+	.bb-action-bar-action-portrait,
+	.bb-action-bar-action-landscape	{
+		height:69px;
+	}
+	
+	.bb-action-bar-action-display {
+		font-size:12pt;
+		line-height:18px;
+	}
+	
+	.bb-action-bar-action-display-landscape {
+		display: block;
+	}
+	
+	.bb-action-bar-back-button {
+		font-size:12pt;
+		line-height:20px;
+	}
+	
+	.bb-action-bar-back-button-portrait {
+		height:71px;
+		width:77px;
+	}
+	
+	.bb-action-bar-back-button-landscape {
+		height:71px;
+		width:134px;
+	}
+	
+	.bb-action-bar-back-text {
+		height: 20px;
+		top: 25px;
+	}
+	
+	.bb-action-bar-back-text-landscape {
+		display:block;
+	}
+	
+	.bb-action-bar-back-button-dark {
+		background-size: 1px 72px;
+	}
+	
+	.bb-action-bar-back-chevron-dark {
+		background-size: 14px 22px;
+		width:14px;
+		height:22px;
+		top: 15px;
+	}
+	
+	.bb-action-bar-back-slash-dark {
+		background-size: 18px 73px;
+		width:16px;	
+	}
+	
+	.bb-action-bar-back-slash-portrait,
+	.bb-action-bar-back-slash-landscape	{
+		height: 71px;
+	}
+	
+	.bb-action-bar-tab-overflow-landscape {
+		margin-top: 0px;
+	}
+	
+	.bb-action-bar-tab-overflow-dark {
+		background-size: 40px 40px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight {
+		background-position: -28px center;
+		height: 43px;
+		width: 8px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-portrait,
+	.bb-action-bar-tab-overflow-highlight-landscape {
+		margin-top: -63px;
+	}
+	
+	.bb-action-bar-overflow-button-dark {
+		margin-top: 5px;
+		background-position: center center;
+		background-size: 42px 42px;	
+	}
+	
+	.bb-action-bar-overflow-button-landscape {
+		margin-top: 0px;
+	}
+	
+	/* Tab Overflow */
+	.bb-tab-overflow-menu-item {
+		padding-left: 5px;
+		font-size:20pt;
+	}
+	
+	.bb-tab-overflow-menu-item-single {
+		padding-top: 7px;		
+		height: 52px;
+		line-height: 52px;
+	}
+	
+	.bb-tab-overflow-menu-item-double {
+		padding-bottom: 0px;		
+		height: 27px;
+		line-height: 27px;
+	}
+	
+	.bb-tab-overflow-menu-item-inner {
+		padding-left: 5px;
+	}
+	
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		padding-left: 5px;
+		font-size: 16pt;
+		height: 25px;
+	}
+	
+	.bb-tab-overflow-menu-item-dark {
+		border-bottom-width: 1px;
+	}
+	
+	.bb-tab-overflow-menu-item-first-dark {
+		border-top-width: 2px;	
+	}
+	
+	.bb-tab-overflow-menu-item-image {
+		height: 42px;
+		width: 42px;
+		margin-top:-2px;
+		margin-left: 0px;
 	}
 }
 
