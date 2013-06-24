@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.237*/
+/* bbUI for BB10 VERSION: 0.9.6.242*/
 
 body, html {
 	padding:0;
@@ -2911,11 +2911,10 @@ body, html {
 }
 
 /* ================================================= 
-  BB10 Context Menu
+  Context Menu
 =================================================*/
  
-.bb-bb10-context-menu
-{
+.bb-context-menu {
 	z-index: 1002;
 	position:fixed;
 	height: 100%;
@@ -2926,8 +2925,7 @@ body, html {
 	box-shadow: rgba(50, 50, 50, 0.447059) -10px 0px 20px;
 }
 
-.bb-bb10-context-menu-overlay
-{
+.bb-context-menu-overlay {
 	z-index: 1000;
 	position: fixed;
 	top: 0px;
@@ -2937,112 +2935,28 @@ body, html {
 	display:none;
 }
 
-.bb-bb10-context-menu-scroller {
+.bb-context-menu-scroller {
 	position: absolute;
 	left : 0px;
 	bottom : 0px;
 	right : 0px;
 }
 
-.bb-bb10-context-menu-header-dark
-{
+.bb-context-menu-header-dark {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
 	border-bottom: solid 1px #404040;
 }
 
-.bb-bb10-context-menu-header-title-dark
-{
+.bb-context-menu-header-title-dark {
 	color: white;
 }
 
-/* ================================================= 
-  BB10 Context Menu 1024x600
-=================================================*/
-
-.bb-bb10-context-menu-1024x600-dark
-{
-	background-color: #121212;
-	border-left: solid 1px #161616;
-}
-
-.bb-bb10-context-menu-item-1024x600
-{
-	padding-top: 7px;
-	padding-bottom: 3px;	
-	padding-left: 0px;
-	border-left: solid 5px;
-	border-left-color: transparent;
-	height: 52px;
-	line-height: 52px;
-	vertical-align: center;
-	font-size:16pt;
-}
-
-.bb-bb10-context-menu-item-inner-1024x600
-{
-	padding-left: 5px;
-	position:relative;
-	float:left;
-}
-
-.bb-bb10-context-menu-header-title-1024x600
-{
-	font-size: 18pt;
-	height:30px;
-	line-height:30px;
-	padding-left: 15px;
-	margin:0px;
-	overflow:hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-
-.bb-bb10-context-menu-header-description-1024x600
-{
-	color: #737173;
-	font-size: 14pt;
-	height:30px;
-	line-height:30px;
-	padding-left: 15px;
-	margin:0px;
-	margin-top:-10px;
-	overflow:hidden;
-	white-space:nowrap;
-	text-overflow: ellipsis;
-}
-
-.bb-bb10-context-menu-item-1024x600-dark
-{
-	color:White;
-	border-bottom: solid 1px #404040	
-}
-
-.bb-bb10-context-menu-item-first-1024x600-dark
-{
-	border-top: solid 1px #404040	
-}
-
-.bb-bb10-context-menu-item-image-1024x600
-{
-	position:relative;
-	float:left;
-	height: 42px;
-	width: 42px;
-	margin-top:3px;
-}
-
-/* ================================================= 
-  BB10 Context Menu 1280x768 and 1280x720
-=================================================*/
-
-.bb-bb10-context-menu-1280x768-1280x720-dark
-{
+.bb-context-menu-dark {
 	background-color: #121212;
 	border-left: solid 2px #161616;
 }
 
-.bb-bb10-context-menu-item-1280x768-1280x720
-{
+.bb-context-menu-item {
 	padding-top: 14px;
 	padding-bottom: 3px;	
 	padding-left: 10px;
@@ -3053,15 +2967,13 @@ body, html {
 	font-size:30pt;
 }
 
-.bb-bb10-context-menu-item-inner-1280x768-1280x720
-{
+.bb-context-menu-item-inner {
 	padding-left: 15px;
 	position:relative;
 	float:left;
 }
 
-.bb-bb10-context-menu-header-title-1280x768-1280x720
-{
+.bb-context-menu-header-title {
 	font-size:30pt;
 	height:36px;
 	line-height:30px;
@@ -3070,11 +2982,11 @@ body, html {
 	padding-top:15px;
 	overflow:hidden;
 	white-space:nowrap;
+	text-overflow: ellipsis;
 	text-overflow: -blackberry-fade;
 }
 
-.bb-bb10-context-menu-header-description-1280x768-1280x720
-{
+.bb-context-menu-header-description {
 	color: #737173;
 	font-size: 24pt;
 	height:30px;
@@ -3085,22 +2997,20 @@ body, html {
 	padding-top:0px;
 	overflow:hidden;
 	white-space:nowrap;
+	text-overflow: ellipsis;
 	text-overflow: -blackberry-fade;
 }
 
-.bb-bb10-context-menu-item-1280x768-1280x720-dark
-{
+.bb-context-menu-item-dark {
 	color:White;
 	border-bottom: solid 2px #404040	
 }
 
-.bb-bb10-context-menu-item-first-1280x768-1280x720-dark
-{
+.bb-context-menu-item-first-dark {
 	border-top: solid 2px #404040	
 }
 
-.bb-bb10-context-menu-item-image-1280x768-1280x720
-{
+.bb-context-menu-item-image {
 	position:relative;
 	float:left;
 	height: 80px;
@@ -3109,81 +3019,6 @@ body, html {
 	margin-left:12px;
 }
 
-/* ================================================= 
-  BB10 Context Menu 720x720
-=================================================*/
-
-.bb-bb10-context-menu-720x720-dark
-{
-	background-color: #121212;
-	border-left: solid 2px #161616;
-}
-
-.bb-bb10-context-menu-item-720x720
-{
-	padding-left: 4px;
-	border-left-color: transparent;
-	height: 90px;
-	line-height: 85px;
-	vertical-align: center;
-	font-size:28pt;
-}
-
-.bb-bb10-context-menu-item-inner-720x720
-{
-	padding-left: 15px;
-	position:relative;
-	float:left;
-}
-
-.bb-bb10-context-menu-header-title-720x720
-{
-	font-size:30pt;
-	height:36px;
-	line-height:30px;
-	padding-left: 18px;
-	margin:0px;
-	padding-top:15px;
-	overflow:hidden;
-	white-space:nowrap;
-	text-overflow: -blackberry-fade;
-}
-
-.bb-bb10-context-menu-header-description-720x720
-{
-	color: #737173;
-	font-size: 24pt;
-	height:30px;
-	line-height:30px;
-	padding-left: 18px;
-	margin:0px;
-	margin-top:5px;
-	padding-top:0px;
-	overflow:hidden;
-	white-space:nowrap;
-	text-overflow: -blackberry-fade;
-}
-
-.bb-bb10-context-menu-item-720x720-dark
-{
-	color:White;
-	border-bottom: solid 3px #404040	
-}
-
-.bb-bb10-context-menu-item-first-720x720-dark
-{
-	border-top: solid 3px #404040	
-}
-
-.bb-bb10-context-menu-item-image-720x720
-{
-	position:relative;
-	float:left;
-	height: 80px;
-	width: 80px;
-	margin-top:5px;
-	margin-left:8px;
-}
 
 /* 
    1280x768 is considered the baseline sizing for controls. It was the first resolution
@@ -3420,6 +3255,21 @@ body, html {
 	
 	.bb-titlebar-button-container {
 		margin: 6px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-item {
+		padding-top: 0px;
+		padding-bottom: 0px;
+		padding-left: 4px;
+		height: 90px;
+		line-height: 85px;
+		font-size:28pt;
+	}
+	
+	.bb-context-menu-item-image {
+		margin-top:5px;
+		margin-left:8px;
 	}
 }
 
@@ -4084,6 +3934,52 @@ body, html {
 		border-radius:4px;
 		padding: 1px;
 		margin: 9px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-dark {
+		border-left-width: 1px;
+	}
+	
+	.bb-context-menu-item {
+		padding-top: 7px;
+		padding-left: 0px;
+		height: 52px;
+		line-height: 52px;
+		font-size:16pt;
+	}
+	
+	.bb-context-menu-item-inner {
+		padding-left: 5px;
+	}
+	
+	.bb-context-menu-header-title {
+		font-size: 18pt;
+		height:30px;
+		line-height:30px;
+		padding-left: 15px;
+		padding-top: 0px;
+	}
+	
+	.bb-context-menu-header-description {
+		font-size: 14pt;
+		padding-left: 15px;
+		margin-top:-10px;
+	}
+	
+	.bb-context-menu-item-dark {
+		border-bottom-width: 1px;
+	}
+	
+	.bb-context-menu-item-first-dark {
+		border-top-width: 1px;
+	}
+	
+	.bb-context-menu-item-image {
+		height: 42px;
+		width: 42px;
+		margin-top:3px;
+		margin-left: 5px;
 	}
 }
 

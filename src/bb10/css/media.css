@@ -234,6 +234,21 @@
 	.bb-titlebar-button-container {
 		margin: 6px;
 	}
+	
+	/* Context Menu */
+	.bb-context-menu-item {
+		padding-top: 0px;
+		padding-bottom: 0px;
+		padding-left: 4px;
+		height: 90px;
+		line-height: 85px;
+		font-size:28pt;
+	}
+	
+	.bb-context-menu-item-image {
+		margin-top:5px;
+		margin-left:8px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
@@ -897,6 +912,52 @@
 		border-radius:4px;
 		padding: 1px;
 		margin: 9px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-dark {
+		border-left-width: 1px;
+	}
+	
+	.bb-context-menu-item {
+		padding-top: 7px;
+		padding-left: 0px;
+		height: 52px;
+		line-height: 52px;
+		font-size:16pt;
+	}
+	
+	.bb-context-menu-item-inner {
+		padding-left: 5px;
+	}
+	
+	.bb-context-menu-header-title {
+		font-size: 18pt;
+		height:30px;
+		line-height:30px;
+		padding-left: 15px;
+		padding-top: 0px;
+	}
+	
+	.bb-context-menu-header-description {
+		font-size: 14pt;
+		padding-left: 15px;
+		margin-top:-10px;
+	}
+	
+	.bb-context-menu-item-dark {
+		border-bottom-width: 1px;
+	}
+	
+	.bb-context-menu-item-first-dark {
+		border-top-width: 1px;
+	}
+	
+	.bb-context-menu-item-image {
+		height: 42px;
+		width: 42px;
+		margin-top:3px;
+		margin-left: 5px;
 	}
 }
 
