@@ -564,17 +564,35 @@ bb = {
 	},
 	
     // Add a new screen to the stack
-    pushScreen: function (url, id, params) {
-		// Remove our old screen
+   pushScreen: function (url, id, params) {
+		var i,
+			listener;
+			
+		// Remove our old screen scripts
         bb.removeLoadedScripts();
+		
+		// Clear any window listeners
+		for (i = 0 ; i < bb.windowListeners.length; i++) {
+			listener = bb.windowListeners[i];
+			window.removeEventListener(listener.name, listener.eventHandler, false);
+		}
+		bb.windowListeners = [];
+		
+		// Clear any document listeners
+		for (i = 0 ; i < bb.documentListeners.length; i++) {
+			listener = bb.documentListeners[i];
+			document.removeEventListener(listener.name, listener.eventHandler, false);
+		}
+		bb.documentListeners = [];
+		
+		// Clear other screen items
 		bb.menuBar.clearMenu();
         var numItems = bb.screens.length,
 			currentScreen;
         if (numItems > 0) {
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-			bb.clearScrollers();
-			
+			bb.clearScrollers();			
 			if (bb.screen.contextMenu) {
 				bb.screen.contextMenu = null;
 			}
@@ -603,7 +621,7 @@ bb = {
 				listener = bb.windowListeners[i];
 				window.removeEventListener(listener.name, listener.eventHandler, false);
 			}
-			bb.windowListners = [];
+			bb.windowListeners = [];
 			
 			// Clear any document listeners
 			for (i = 0 ; i < bb.documentListeners.length; i++) {
@@ -615,6 +633,7 @@ bb = {
             // Retrieve our new screen
             var display = bb.screens[numItems-2],
                 newScreen = bb.loadScreen(display.url, display.id, true, display.guid, display.params, display);
+					
         } else {
             if (blackberry) {
                 blackberry.app.exit();

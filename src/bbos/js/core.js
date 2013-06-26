@@ -723,6 +723,21 @@ bb = {
     pushScreen: function (url, id, params) {
 		// Remove our old screen
         bb.removeLoadedScripts();
+		
+		// Clear any window listeners
+		for (i = 0 ; i < bb.windowListeners.length; i++) {
+			listener = bb.windowListeners[i];
+			window.removeEventListener(listener.name, listener.eventHandler, false);
+		}
+		bb.windowListeners = [];
+		
+		// Clear any document listeners
+		for (i = 0 ; i < bb.documentListeners.length; i++) {
+			listener = bb.documentListeners[i];
+			document.removeEventListener(listener.name, listener.eventHandler, false);
+		}
+		bb.documentListeners = [];
+		
 		bb.menuBar.clearMenu();
         var numItems = bb.screens.length,
 			currentScreen;
@@ -766,7 +781,7 @@ bb = {
 				listener = bb.windowListeners[i];
 				window.removeEventListener(listener.name, listener.eventHandler, false);
 			}
-			bb.windowListners = [];
+			bb.windowListeners = [];
 			
 			// Clear any document listeners
 			for (i = 0 ; i < bb.documentListeners.length; i++) {

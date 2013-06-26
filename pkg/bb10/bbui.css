@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.300*/
+/* bbUI for BB10 VERSION: 0.9.6.303*/
 
 body, html {
 	padding:0;
@@ -2266,7 +2266,7 @@ body, html {
 }
 
 .bb-tab-overflow-menu-item-single {
-	padding-top: 18px; /*14px;*/
+	padding-top: 19px; 
 	padding-bottom: 3px;		
 	height: 109px;
 	line-height: 85px;
