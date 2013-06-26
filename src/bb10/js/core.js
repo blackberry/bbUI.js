@@ -225,7 +225,7 @@ bb = {
             },
             whereScript = function (result, el) {
                 if (el.nodeName === "SCRIPT") {
-                    result.push(el);
+					result.push(el);
                 }
 
                 return _reduce(el.childNodes, whereScript, result);
@@ -255,11 +255,6 @@ bb = {
 			
 			// First check the type. If the type isn't specified or if it isn't "text/javascript" then skip the script
 			if (!type || type.toLowerCase() == 'text/javascript') {
-				if (script.text) {
-					//if there is text, just eval it since they probably don't have a src.
-					eval(script.text);
-					return;
-				}
 				var scriptGuid = bb.guidGenerator();
 				// Either update the old screen in the stack record or add to the new one
 				if (screenRecord) {
@@ -268,7 +263,12 @@ bb = {
 					container.scriptIds.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
 				}
 				scriptTag.setAttribute('type','text/javascript');
-				scriptTag.setAttribute('src', script.getAttribute('src'));
+				if (script.text) {
+					scriptTag.innerHTML = script.text;
+					scriptTag.inline = true;
+				} else {
+					scriptTag.setAttribute('src', script.getAttribute('src'));
+				}
 				scriptTag.setAttribute('id', scriptGuid);
 				newScriptTags.push(scriptTag);
 				// Remove script tag from container because we are going to add it to <head>
@@ -299,14 +299,20 @@ bb = {
         // Special handling for inserting script tags
         bb.screen.scriptCounter = 0;
         bb.screen.totalScripts = newScriptTags.length;
+		var script;
         for (var i = 0; i < newScriptTags.length; i++) {
-                document.body.appendChild(newScriptTags[i]);
-                newScriptTags[i].onload = function() {
-                    bb.screen.scriptCounter++;
-                    if(bb.screen.scriptCounter == bb.screen.totalScripts) {
-						bb.initContainer(container, id, popping, params);
-                    }
-                };
+			script = newScriptTags[i];
+			document.body.appendChild(script);
+			script.onload = function() {
+				bb.screen.scriptCounter++;
+				if(bb.screen.scriptCounter == bb.screen.totalScripts) {
+					bb.initContainer(container, id, popping, params);
+				}
+			};
+			// Fire the onload for an inline script
+			if (script.inline == true) {
+				setTimeout(script.onload, 0);
+			}
         }
 
         // In case there are no scripts at all we simply doLoad().  We do this in

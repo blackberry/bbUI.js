@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.280*/
+/* bbUI for BB10 VERSION: 0.9.6.294*/
 
 body, html {
 	padding:0;
@@ -1859,10 +1859,6 @@ body, html {
 	-webkit-transition: 0.2s ease-in-out;
 	-webkit-backface-visibility: hidden;
 }
-
-/* ================================================= 
-   BB10 Pill Buttons for 1280x768 and 1280x720
-   =================================================*/
    
 .bb-pill-buttons {
 	padding-top:10px;
@@ -1950,8 +1946,7 @@ body, html {
 	color: white;
 }
 
-.bb-grid-header-center
-{
+.bb-grid-header-center {
 	text-align:center;
 }
 
@@ -2031,8 +2026,7 @@ body, html {
    Action Bar
    =================================================*/
 
-.bb-action-bar-table
-{
+.bb-action-bar-table {
 	margin:0px;
 	margin-top:0px;
 	padding:0px;
@@ -2040,8 +2034,7 @@ body, html {
 	border-collapse:collapse;
 }
 
-.bb-action-bar-table tr td
-{
+.bb-action-bar-table tr td {
 	padding:0px;
 	margin:0px;
 	border-collapse:collapse;
