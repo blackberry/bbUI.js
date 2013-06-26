@@ -106,8 +106,8 @@ _bb10_imageList = {
 							innerChildNode.onimageload = function() {
 									this.details.style['background-image'] = 'url("'+this.img.src+'")';
 									innerChildNode.details.style['background-size'] = '';
-									// Unassign this image so that it is removed from memory
-									this.img = null;
+									// Unassign this image so that it is removed from memory and replace it with its path
+									this.img = this.img.src;
 								};
 							innerChildNode.onimageload = innerChildNode.onimageload.bind(innerChildNode);
 							img.onload = innerChildNode.onimageload;
@@ -436,7 +436,7 @@ _bb10_imageList = {
 							}
 						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
 						innerChildNode.getImage = function() {
-								return (this.img) ? this.img.getAttribute('src') : undefined;
+								return this.img;
 							}
 						innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
 					}
