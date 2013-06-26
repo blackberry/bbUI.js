@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.314*/
+/* bbUI for BB10 VERSION: 0.9.6.319*/
 
 bb = {
 	scroller: null,  
@@ -5515,6 +5515,13 @@ _bb10_imageList = {
 				};
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
 			
+			// This is a hack function to do with a 10.0 repaint issue for divs in an overflow with touch scroll
+			outerElement.resetPadding = function() {
+					this.style['padding-right'] = '0px';
+					this.timeout = null;
+				};
+			outerElement.resetPadding = outerElement.resetPadding.bind(outerElement);
+			
 			// Refresh all the items in the list control
 			outerElement.refresh = function(listItems) {
 					if (!listItems || !listItems.length || (listItems.length <=0)) return;
@@ -5536,6 +5543,20 @@ _bb10_imageList = {
 					var evt = document.createEvent('Events');
 					evt.initEvent('bbuilistready', true, true);
 					document.dispatchEvent(evt);
+					
+					/* This is a major hack to fix an issue in webkit where it doesn't always
+					   understand when to re-paint the screen when scrolling a <div> with overflow
+					   and using the inertial scrolling for 10.0*/
+					if (bb.device.requiresScrollingHack) {
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}			
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
+					}
+					/* ********** END OF THE SCROLLING HACK ************/
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			
