@@ -35,6 +35,7 @@ bb = {
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		bb.device.isBB10 = true;
+		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Set our resolution flags
 		bb.device.is1024x600 = bb.device.isPlayBook;
@@ -198,7 +199,8 @@ bb = {
 		is1024x600: false,
 		is1280x768: false,
 		is720x720: false,
-		is1280x720: false		
+		is1280x720: false,
+		requiresScrollingHack: false
     },
 	
 	// Options for rendering

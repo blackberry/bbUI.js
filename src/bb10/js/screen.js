@@ -95,17 +95,17 @@ bb.screen = {
 					document.dispatchEvent(evt);
 					/* This is a major hack to fix an issue in webkit where it doesn't always
 					   understand when to re-paint the screen when scrolling a <div> with overflow
-					   and using the inertial scrolling */
-					if (this.timeout) {
-						clearTimeout(this.timeout);
-					} else {
-						this.style['padding-right'] = '1px';
+					   and using the inertial scrolling for 10.0*/
+					if (bb.device.requiresScrollingHack) {
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
 					}
-					// Set our new timeout for resetting
-					this.timeout = setTimeout(this.resetPadding,20);
-					
 					/* ************* END OF THE SCROLLING HACK *******************/
-					
 				},false);
 			
 			/* ********** PART OF THE SCROLLING HACK ************/

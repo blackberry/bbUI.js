@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.303*/
+/* bbUI for BB10 VERSION: 0.9.6.314*/
 
 bb = {
 	scroller: null,  
@@ -53,6 +53,7 @@ bb = {
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		bb.device.isBB10 = true;
+		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Set our resolution flags
 		bb.device.is1024x600 = bb.device.isPlayBook;
@@ -216,7 +217,8 @@ bb = {
 		is1024x600: false,
 		is1280x768: false,
 		is720x720: false,
-		is1280x720: false		
+		is1280x720: false,
+		requiresScrollingHack: false
     },
 	
 	// Options for rendering
@@ -2532,17 +2534,17 @@ bb.screen = {
 					document.dispatchEvent(evt);
 					/* This is a major hack to fix an issue in webkit where it doesn't always
 					   understand when to re-paint the screen when scrolling a <div> with overflow
-					   and using the inertial scrolling */
-					if (this.timeout) {
-						clearTimeout(this.timeout);
-					} else {
-						this.style['padding-right'] = '1px';
+					   and using the inertial scrolling for 10.0*/
+					if (bb.device.requiresScrollingHack) {
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
 					}
-					// Set our new timeout for resetting
-					this.timeout = setTimeout(this.resetPadding,20);
-					
 					/* ************* END OF THE SCROLLING HACK *******************/
-					
 				},false);
 			
 			/* ********** PART OF THE SCROLLING HACK ************/
