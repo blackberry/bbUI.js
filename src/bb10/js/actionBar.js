@@ -348,14 +348,14 @@ bb.actionBar = {
 								for (i = 0; i < this.mainBarTabs.length; i++) {
 									tab = this.mainBarTabs[i];
 									if ((count < max) && (tab.visible == true)){
-										totalUsedWidth += calculatedWidth;
+										totalUsedWidth += calculatedWidth + 2;
 										tab.style.width = calculatedWidth + 'px'; 
 										// Update tab orientation
 										tab.normal = this.switchOrientationCSS(tab.normal);
 										tab.highlight = this.switchOrientationCSS(tab.highlight);
-										temp = tab.getAttribute('class');
+										temp = tab.tabInner.getAttribute('class');
 										temp = this.switchOrientationCSS(temp);
-										tab.setAttribute('class',temp);
+										tab.tabInner.setAttribute('class',temp);
 										// Update display text orientation
 										temp = tab.display.getAttribute('class');
 										temp = this.switchOrientationCSS(temp);
@@ -374,11 +374,10 @@ bb.actionBar = {
 								for (i = 0; i < this.mainBarButtons.length; i++) {
 									action = this.mainBarButtons[i];
 									if ((count < max) && (action.visible == true)){
-										totalUsedWidth += calculatedWidth;
+										totalUsedWidth += calculatedWidth + 1;
 										action.style.width = calculatedWidth + 'px'; 
 										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
 										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
-										// If the last action is a tab then add our shading
 										if (lastActionType == 'tab') {
 											action.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark bb-action-bar-button-tab-left-dark';
 										} else {
@@ -399,32 +398,11 @@ bb.actionBar = {
 									};
 								}
 								
-								// Adjust our action overflow button
-								if (this.actionOverflowBtn) {
-									if (lastActionType == 'tab') {
-										this.actionOverflowBtn.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark bb-action-bar-button-tab-left-dark';
-									} else {
-										this.actionOverflowBtn.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark';
-									}	
-									this.actionOverflowBtn.style.width = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) - 1 ) + 'px'; // 1 represents the button margins
-									this.actionOverflowBtn.highlight.style['width'] = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) * 0.6) + 'px';
-									this.actionOverflowBtn.highlight.style['margin-left'] = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) * 0.2) + 'px';
-									this.actionOverflowBtn.style.float = 'right';
-									this.actionOverflowBtn.setAttribute('class',this.actionOverflowBtn.normal);
-									// Update the action
-									this.actionOverflowBtn.normal = this.switchOrientationCSS(this.actionOverflowBtn.normal);
-									temp = this.actionOverflowBtn.getAttribute('class');
-									temp = this.switchOrientationCSS(temp);
-									this.actionOverflowBtn.setAttribute('class',temp);
-									// Update the icon
-									temp = this.actionOverflowBtn.icon.getAttribute('class');
-									temp = this.switchOrientationCSS(temp);
-									this.actionOverflowBtn.icon.setAttribute('class',temp);
-								}
-								
 								// Adjust our tab overflow button
 								if (this.tabOverflowBtn) {
-									this.tabOverflowBtn.style.width = (bb.actionBar.getTabOverflowBtnWidth(this.tabOverflowBtn) -1) + 'px';
+									var tempWidth = bb.actionBar.getTabOverflowBtnWidth(this.tabOverflowBtn) -1;
+									totalUsedWidth += tempWidth + 2;
+									this.tabOverflowBtn.style.width = (tempWidth) + 'px';
 									// Update our tab
 									this.tabOverflowBtn.normal = this.switchOrientationCSS(this.tabOverflowBtn.normal);
 									this.tabOverflowBtn.highlight = this.switchOrientationCSS(this.tabOverflowBtn.highlight);
@@ -443,6 +421,31 @@ bb.actionBar = {
 									temp = this.tabOverflowBtn.icon.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
 									this.tabOverflowBtn.icon.setAttribute('class',temp);
+								}
+								
+								// Adjust our action overflow button
+								if (this.actionOverflowBtn) {
+									if (lastActionType == 'tab') {
+										this.actionOverflowBtn.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark bb-action-bar-button-tab-left-dark';
+										this.actionOverflowBtn.style.width = (bb.innerWidth() - totalUsedWidth ) + 'px'; // 1 represents the button margins
+									} else {
+										this.actionOverflowBtn.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark';
+										this.actionOverflowBtn.style.width = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) - 1 ) + 'px'; // 1 represents the button margins
+									}	
+									
+									this.actionOverflowBtn.highlight.style['width'] = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) * 0.6) + 'px';
+									this.actionOverflowBtn.highlight.style['margin-left'] = (bb.actionBar.getActionOverflowBtnWidth(this.actionOverflowBtn) * 0.2) + 'px';
+									this.actionOverflowBtn.style.float = 'right';
+									this.actionOverflowBtn.setAttribute('class',this.actionOverflowBtn.normal);
+									// Update the action
+									this.actionOverflowBtn.normal = this.switchOrientationCSS(this.actionOverflowBtn.normal);
+									temp = this.actionOverflowBtn.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.actionOverflowBtn.setAttribute('class',temp);
+									// Update the icon
+									temp = this.actionOverflowBtn.icon.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.actionOverflowBtn.icon.setAttribute('class',temp);
 								}
 							};
 		actionBar.reLayoutActionBar = actionBar.reLayoutActionBar.bind(actionBar);	
@@ -522,16 +525,21 @@ bb.actionBar = {
 		}
 		
 		// Apply all our tab styling
-		var tab;
+		var tab,
+			tabInner;
 		for (j = 0; j < mainBarTabs.length; j++) {
 			tab = mainBarTabs[j];
 			caption = tab.innerHTML;
 			tab.actionBar = actionBar;
 			tab.visible = true;
 			tab.innerHTML = '';
+			tabInner = document.createElement('div');
+			tab.tabInner = tabInner;
+			tab.appendChild(tabInner);
+			tab.setAttribute('class','bb-action-bar-tab-outer' );
 			tab.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-tab-dark bb-action-bar-tab-normal-dark';
 			tab.highlight = tab.normal + ' bb-action-bar-tab-selected-dark';
-			tab.setAttribute('class',tab.normal);
+			tabInner.setAttribute('class',tab.normal);
 			// Tab initial visibility
 			tab.visible = true;
 			if (tab.hasAttribute('data-bb-visible') && (tab.getAttribute('data-bb-visible').toLowerCase() == 'false')) {
@@ -542,13 +550,13 @@ bb.actionBar = {
 			icon.setAttribute('class','bb-action-bar-icon');
 			icon.setAttribute('src',tab.getAttribute('data-bb-img'));
 			tab.icon = icon;
-			tab.appendChild(icon);
+			tabInner.appendChild(icon);
 			// Set our caption
 			display = document.createElement('div');
 			display.setAttribute('class','bb-action-bar-action-display bb-action-bar-action-display-'+orientation);
 			display.innerHTML = caption;
 			tab.display = display;
-			tab.appendChild(display);
+			tabInner.appendChild(display);
 		
 			// Get our selected state			
 			if (tab.hasAttribute('data-bb-selected') && (tab.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
@@ -630,9 +638,13 @@ bb.actionBar = {
 			tabOverflow.actionBar = actionBar;
 			tabOverflow.visible = true;
 			tabOverflow.innerHTML = '';
+			tabInner = document.createElement('div');
+			tabOverflow.tabInner = tabInner;
+			tabOverflow.appendChild(tabInner);
+			tabOverflow.setAttribute('class','bb-action-bar-tab-outer' );
 			tabOverflow.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation +' bb-action-bar-tab-dark bb-action-bar-tab-normal-dark';
 			tabOverflow.highlight = tabOverflow.normal + ' bb-action-bar-tab-selected-dark';
-			tabOverflow.setAttribute('class',tabOverflow.normal);
+			tabInner.setAttribute('class',tabOverflow.normal);
 			// Add the icon
 			icon = document.createElement('img');
 			icon.setAttribute('class','bb-action-bar-icon');
@@ -641,20 +653,20 @@ bb.actionBar = {
 			icon.normal = 'bb-action-bar-icon bb-action-bar-tab-overflow-dark bb-action-bar-tab-overflow-'+orientation;
 			icon.highlight = 'bb-action-bar-icon';
 			icon.setAttribute('class',icon.normal);
-			tabOverflow.appendChild(icon);
+			tabInner.appendChild(icon);
 			// Set our caption
 			display = document.createElement('div');
 			display.setAttribute('class','bb-action-bar-action-display bb-action-bar-action-display-'+orientation);
 			display.innerHTML = caption;
 			tabOverflow.display = display;
-			tabOverflow.appendChild(display);
+			tabInner.appendChild(display);
 			tabOverflow.icon = icon;
 			display.innerHTML = '&nbsp;';
 			tabOverflow.display = display;
 			// Create our tab highlight div
 			tabOverflow.tabHighlight = document.createElement('div');
 			tabOverflow.tabHighlight.setAttribute('class','bb-action-bar-tab-overflow-dark bb-action-bar-tab-overflow-highlight bb-action-bar-tab-overflow-highlight-'+ orientation);
-			tabOverflow.appendChild(tabOverflow.tabHighlight);
+			tabInner.appendChild(tabOverflow.tabHighlight);
 			tabOverflow.style.width = (bb.actionBar.getTabOverflowBtnWidth(tabOverflow) - 1) + 'px';
 			// Set our reset function
 			tabOverflow.reset = function() {
@@ -878,13 +890,20 @@ bb.actionBar = {
 				} 
 			}
 			// Reset the overflow button
-			action.actionBar.tabOverflowBtn.style['border-top-color'] = '';
-			action.actionBar.tabOverflowBtn.setAttribute('class',action.actionBar.tabOverflowBtn.normal);
+			if (action.actionBar.tabOverflowBtn.tabInner) {
+				action.actionBar.tabOverflowBtn.tabInner.style['border-top-color'] = '';
+				action.actionBar.tabOverflowBtn.tabInner.setAttribute('class',action.actionBar.tabOverflowBtn.normal);
+			}
 		}
 		
 		// Now highlight this action
-		action.style['border-top-color'] = bb.options.highlightColor;
-		action.setAttribute('class',action.highlight);
+		if (action.tabInner) {
+			action.tabInner.style['border-top-color'] = bb.options.highlightColor;
+			action.tabInner.setAttribute('class',action.highlight);
+		} else {
+			action.style['border-top-color'] = bb.options.highlightColor;
+			action.setAttribute('class',action.highlight);
+		}
 		action.selected = true;
 		
 		if (overflowAction) {
@@ -916,14 +935,24 @@ bb.actionBar = {
 	// Apply the proper styling for an action that is no longer highlighted
 	unhighlightAction: function(action) {
 		var target;
-		action.style['border-top-color'] = '';
-		action.setAttribute('class',action.normal);
+		// Check if it is a tab
+		if (action.tabInner) {
+			action.tabInner.style['border-top-color'] = '';
+			action.tabInner.setAttribute('class',action.normal);
+		} else {
+			action.style['border-top-color'] = '';
+			action.setAttribute('class',action.normal);
+		}
 		// See if there was a tab overflow
 		if (action.actionBar && action.actionBar.tabOverflowMenu) {
 			tabs = action.actionBar.tabOverflowMenu.actions;
 			for (i = 0; i < tabs.length; i++) {
 				target = tabs[i];
-				target.setAttribute('class', target.normal);
+				if (target.tabInner) {
+					target.tabInner.setAttribute('class', target.normal);
+				} else {
+					target.setAttribute('class', target.normal);
+				}
 				target.selected = false;
 			}
 		}
