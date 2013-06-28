@@ -31,6 +31,11 @@ bb.actionBar = {
 		actionBar.overflowButtons = overflowButtons;
 		actionBar.overflowTabs = overflowTabs;
 		
+		// Create our box shadow above the action bar
+		actionBar.dropShadow = document.createElement('div');
+		actionBar.dropShadow.setAttribute('class','bb-action-bar-drop-shadow');
+		screen.appendChild(actionBar.dropShadow);
+		
 		// Handle any press-and-hold events
 		actionBar.oncontextmenu = function(contextEvent) {
 			var node = contextEvent.srcElement,
@@ -280,12 +285,19 @@ bb.actionBar = {
 									totalUsedWidth = 0,
 									calculatedWidth = 0,
 									orientation = bb.getOrientation();
-									
+								
+								// Re-adjust dropshadow
+								this.dropShadow.style.bottom = (bb.screen.getActionBarHeight() - 1) + 'px';
+								this.dropShadow.style.display = actionBar.isVisible ? 'block' : '';
 									
 								// First calculate how many slots on the action bar are shown
 								if (this.actionOverflowBtn) max--;
 								if (this.backBtn) max--;
-								if (this.tabOverflowBtn) max--;
+								if (this.tabOverflowBtn) {
+									max--;
+									this.tabOverflowBtn.dropShadow.style.display = '';
+									this.tabOverflowBtn.dropShadow.style.height = bb.screen.getActionBarHeight() + 'px';
+								}
 								// Count our tabs that take priority
 								for (i = 0; i < this.mainBarTabs.length; i++) {
 									if (count == max) break;
@@ -421,6 +433,10 @@ bb.actionBar = {
 									temp = this.tabOverflowBtn.icon.getAttribute('class');
 									temp = this.switchOrientationCSS(temp);
 									this.tabOverflowBtn.icon.setAttribute('class',temp);
+									// See if this is the only tab on the action bar
+									if ((this.mainBarTabs.length == 0) && (this.mainBarButtons == 0)) {
+										this.tabOverflowBtn.dropShadow.style.display = 'block'
+									}
 								}
 								
 								// Adjust our action overflow button
@@ -645,6 +661,10 @@ bb.actionBar = {
 			tabOverflow.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation +' bb-action-bar-tab-dark bb-action-bar-tab-normal-dark';
 			tabOverflow.highlight = tabOverflow.normal + ' bb-action-bar-tab-selected-dark';
 			tabInner.setAttribute('class',tabOverflow.normal);
+			// Add our drop shadow to show if only the tab Overflow is shown on the action bar
+			tabOverflow.dropShadow = document.createElement('div');
+			tabOverflow.dropShadow.setAttribute('class','bb-action-bar-button-tab-left-dark bb-action-bar-button-tab-overflow-only-shadow');
+			tabOverflow.parentNode.appendChild(tabOverflow.dropShadow);
 			// Add the icon
 			icon = document.createElement('img');
 			icon.setAttribute('class','bb-action-bar-icon');
@@ -816,6 +836,7 @@ bb.actionBar = {
 	actionShow: function() {
 		if (this.visible) return;
 		this.style.display = '';
+		this.actionBar.dropShadow.style.display = 'block';
 		this.visible = true;
 		this.actionBar.reLayoutActionBar();
 	},
@@ -823,6 +844,7 @@ bb.actionBar = {
 	actionHide: function() {
 		if (!this.visible) return;
 		this.style.display = 'none';
+		this.actionBar.dropShadow.style.display = '';
 		this.visible = false;
 		this.actionBar.reLayoutActionBar();
 	},

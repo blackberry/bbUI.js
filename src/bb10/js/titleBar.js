@@ -14,8 +14,15 @@ bb.titleBar = {
 		titleBar.topTitleArea = topTitleArea;
 		titleBar.appendChild(topTitleArea);
 		
-		// Style our title bar
+		// Create our box shadow below the title bar
+		if (titleBar.parentNode) {
+			titleBar.dropShadow = document.createElement('div');
+			titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
+			titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
+			titleBar.parentNode.appendChild(titleBar.dropShadow);
+		}
 		
+		// Style our title bar
 		if (bb.options.coloredTitleBar) {
 			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
 		} else {
