@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.458*/
+/* bbUI for BB10 VERSION: 0.9.6.481*/
 
 bb = {
 	scroller: null,  
@@ -140,7 +140,7 @@ bb = {
 		bb.actionOverflow = _PlayBook_contextMenu;
 			
 		// Add our keyboard listener for BB10
-		if (!bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
+		if (!bb.device.isPlayBook && !bb.device.isRipple) {
 			// Hide our action bar when the keyboard is about to pop up
 			blackberry.event.addEventListener('keyboardOpening', function() {
 				if (bb.screen.currentScreen.actionBar) {
@@ -1359,6 +1359,8 @@ bb.actionBar = {
 		actionBar.hide = function(tab) {
 					if (!this.isVisible) return;
 					this.style.display = 'none';
+					this.dropShadow.style.display = 'none';
+					this.slideLabel.style.display = 'none';
 					// Make the scroll area go right to the bottom of the displayed content
 					bb.screen.currentScreen.outerScrollArea.style['bottom'] = '0px';
 					this.isVisible = false;
@@ -1372,6 +1374,8 @@ bb.actionBar = {
 		actionBar.show = function(tab) {
 					if (this.isVisible) return;
 					this.style.display = '';
+					this.dropShadow.style.display = 'block';
+					this.slideLabel.style.display = '';
 					// Resize the screen scrolling area to stop at the top of the action bar
 					bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.getActionBarHeight() + 'px';
 					this.isVisible = true;
@@ -1705,7 +1709,6 @@ bb.actionBar = {
 	actionShow: function() {
 		if (this.visible) return;
 		this.style.display = '';
-		this.actionBar.dropShadow.style.display = 'block';
 		this.visible = true;
 		this.actionBar.reLayoutActionBar();
 	},
@@ -1713,7 +1716,6 @@ bb.actionBar = {
 	actionHide: function() {
 		if (!this.visible) return;
 		this.style.display = 'none';
-		this.actionBar.dropShadow.style.display = '';
 		this.visible = false;
 		this.actionBar.reLayoutActionBar();
 	},
@@ -2805,8 +2807,7 @@ bb.screen = {
 	
 	slideLeft: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.2,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -2820,8 +2821,7 @@ bb.screen = {
 	
 	slideOutLeft: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -2835,8 +2835,7 @@ bb.screen = {
 	
 	slideRight: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -2850,8 +2849,7 @@ bb.screen = {
 	
 	slideOutRight: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -2865,8 +2863,7 @@ bb.screen = {
 	
 	slideUp: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -2880,8 +2877,7 @@ bb.screen = {
 	
 	slideOutUp: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -2895,8 +2891,7 @@ bb.screen = {
 	
 	slideDown: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -2910,8 +2905,7 @@ bb.screen = {
 	
 	slideOutDown: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			

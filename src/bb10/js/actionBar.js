@@ -490,6 +490,8 @@ bb.actionBar = {
 		actionBar.hide = function(tab) {
 					if (!this.isVisible) return;
 					this.style.display = 'none';
+					this.dropShadow.style.display = 'none';
+					this.slideLabel.style.display = 'none';
 					// Make the scroll area go right to the bottom of the displayed content
 					bb.screen.currentScreen.outerScrollArea.style['bottom'] = '0px';
 					this.isVisible = false;
@@ -503,6 +505,8 @@ bb.actionBar = {
 		actionBar.show = function(tab) {
 					if (this.isVisible) return;
 					this.style.display = '';
+					this.dropShadow.style.display = 'block';
+					this.slideLabel.style.display = '';
 					// Resize the screen scrolling area to stop at the top of the action bar
 					bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.getActionBarHeight() + 'px';
 					this.isVisible = true;
@@ -836,7 +840,6 @@ bb.actionBar = {
 	actionShow: function() {
 		if (this.visible) return;
 		this.style.display = '';
-		this.actionBar.dropShadow.style.display = 'block';
 		this.visible = true;
 		this.actionBar.reLayoutActionBar();
 	},
@@ -844,7 +847,6 @@ bb.actionBar = {
 	actionHide: function() {
 		if (!this.visible) return;
 		this.style.display = 'none';
-		this.actionBar.dropShadow.style.display = '';
 		this.visible = false;
 		this.actionBar.reLayoutActionBar();
 	},

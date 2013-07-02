@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.458*/
+/* bbUI for BB10 VERSION: 0.9.6.481*/
 
 body, html {
 	padding:0;
@@ -2495,7 +2495,7 @@ body, html {
     }
 }
 
-@media screen and (width: 720px) and (height: 720px){
+@media screen and (width: 720px) and (max-height: 720px){
     .bb-screen {
 		font-size: 28pt;
     }

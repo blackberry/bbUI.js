@@ -122,7 +122,7 @@ bb = {
 		bb.actionOverflow = _PlayBook_contextMenu;
 			
 		// Add our keyboard listener for BB10
-		if (!bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
+		if (!bb.device.isPlayBook && !bb.device.isRipple) {
 			// Hide our action bar when the keyboard is about to pop up
 			blackberry.event.addEventListener('keyboardOpening', function() {
 				if (bb.screen.currentScreen.actionBar) {

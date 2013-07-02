@@ -315,8 +315,7 @@ bb.screen = {
 	
 	slideLeft: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.2,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -330,8 +329,7 @@ bb.screen = {
 	
 	slideOutLeft: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -345,8 +343,7 @@ bb.screen = {
 	
 	slideRight: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -360,8 +357,7 @@ bb.screen = {
 	
 	slideOutRight: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -375,8 +371,7 @@ bb.screen = {
 	
 	slideUp: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -390,8 +385,7 @@ bb.screen = {
 	
 	slideOutUp: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -405,8 +399,7 @@ bb.screen = {
 	
 	slideDown: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -420,8 +413,7 @@ bb.screen = {
 	
 	slideOutDown: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
