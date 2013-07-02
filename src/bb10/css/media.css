@@ -206,15 +206,23 @@
 	}
 	
 	/* Title Bar */
+	.bb-title-bar {
+		font-size: 33pt;
+	}
+	
+	.bb-titlebar-button {
+		font-size:25pt;
+	}
+	
 	.bb-title-bar-portrait,
 	.bb-title-bar-landscape {
-		height:95px;
+		height:92px;
 	}
 	
 	.bb-title-bar-caption-portrait,
 	.bb-title-bar-caption-landscape,
 	.bb-title-bar-caption-left {
-		line-height:95px;
+		line-height:88px;
 	}
 	
 	.bb-title-bar-caption-details-img {
@@ -227,8 +235,8 @@
 	
 	.bb-title-bar img {
 		margin-top: 0px;
-		height:95px;
-		width:95px;
+		height:92px;
+		width:92px;
 	}
 	
 	.bb-titlebar-button-container {

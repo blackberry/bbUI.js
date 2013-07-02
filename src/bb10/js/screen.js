@@ -456,7 +456,7 @@ bb.screen = {
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return 111;
 		} else if (bb.device.is720x720) {
-			return 95;
+			return 92;
 		}else {
 			return 111;
 		}

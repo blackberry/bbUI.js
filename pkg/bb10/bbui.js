@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.481*/
+/* bbUI for BB10 VERSION: 0.9.6.487*/
 
 bb = {
 	scroller: null,  
@@ -2948,7 +2948,7 @@ bb.screen = {
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return 111;
 		} else if (bb.device.is720x720) {
-			return 95;
+			return 92;
 		}else {
 			return 111;
 		}
