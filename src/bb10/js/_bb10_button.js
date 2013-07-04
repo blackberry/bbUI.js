@@ -12,17 +12,19 @@ _bb10_button = {
 			caption,
 			imgElement,
 			outerNormalWithoutImageOnly,
+			highlight,
 			captionElement = document.createElement('div'),
 			innerElement = document.createElement('div');
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
-			normal = 'bb-button bb-button',
-			highlight = 'bb-button bb-button bb10-button-highlight',
+			normal = 'bb-button',
 			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor;
 
 		if (bb.device.newerThan10dot1) {
 			normal += ' bb-button-10dot2';
-			highlight += ' bb-button-10dot2';
 			outerNormal += ' bb-button-container-10dot2';
+			highlight = 'bb-button bb-button-10dot2 bb-button-'+ bb.screen.controlColor + ' bb-button-'+ bb.screen.controlColor + '-highlight-10dot2';
+		} else {
+			highlight = 'bb-button bb10-button-highlight';
 		}
 		outerNormalWithoutImageOnly = outerNormal;	
 		outerElement.isImageOnly = false;
@@ -46,17 +48,28 @@ _bb10_button = {
 		imgSrc = outerElement.hasAttribute('data-bb-img') ? outerElement.getAttribute('data-bb-img') : undefined;
 		if (imgSrc) {
 			if (!caption || caption.length == 0) {
-				outerNormal = outerNormal + ' bb-button-container-image-only';
+				if (bb.device.newerThan10dot1) {
+					outerNormal = outerNormal + ' bb-button-container-image-only bb-button-caption-with-image-only_10dot2';
+					captionElement.setAttribute('class','bb-button-caption-with-image-only bb-button-caption-with-image-only_10dot2');
+				} else {
+					outerNormal = outerNormal + ' bb-button-container-image-only';
+					captionElement.setAttribute('class','bb-button-caption-with-image-only');
+				}
 				captionElement.style['background-image'] = 'url("'+imgSrc+'")';
 				outerElement.style['line-height'] = '0px';
-				captionElement.setAttribute('class','bb-button-caption-with-image-only');
+				
 				outerElement.isImageOnly = true;
 			} else {
 				// Configure our caption element
 				captionElement.setAttribute('class','bb-button-caption-with-image');
 				imgElement = document.createElement('div');
 				outerElement.imgElement = imgElement;
-				imgElement.setAttribute('class','bb-button-image');
+				if (bb.device.newerThan10dot1) {
+					imgElement.setAttribute('class','bb-button-image bb-button-image-10dot2');
+				} else {
+					imgElement.setAttribute('class','bb-button-image');
+				}
+				
 				imgElement.style['background-image'] = 'url("'+imgSrc+'")';
 				innerElement.appendChild(imgElement);
 			}
