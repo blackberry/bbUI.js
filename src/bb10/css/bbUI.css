@@ -853,15 +853,13 @@ body, html {
 	display:block;
 }
 
-.bb-button-caption-with-image
-{
+.bb-button-caption-with-image {
 	float:left;
 	text-align:left;
 	margin-left: 14px;
 }
 
-.bb-button-image
-{
+.bb-button-image {
 	height: 71px;
 	width: 71px;
 	float: left;
@@ -871,8 +869,7 @@ body, html {
 	background-size: cover;
 }
 
-.bb-button-caption-with-image-only
-{
+.bb-button-caption-with-image-only {
 	height:71px;
 	width:71px;
 	background-position: center center;
@@ -881,19 +878,23 @@ body, html {
 	margin-left: -27px;
 }
 
-.bb-button-container-image-only
-{
+.bb-button-container-image-only {
 	width: 89px;
 }
 
-.bb-button-container
-{
+.bb-button-container {
 	border-width:4px;
 	border-style: solid;
 	border-radius:10px;
 	padding: 2px;
 	margin: 20px;
 } 
+
+.bb-button-container-10dot2 {
+	border-style: none;
+	padding: 0px;
+	background: none;
+}
 
 .bb-button {
 	border-width:1px;
@@ -904,6 +905,10 @@ body, html {
 	padding-left: 35px;
 	padding-right: 35px;
 	font-size:28pt;
+}
+
+.bb-button-10dot2 {
+	border-width:2px;
 }
 
 /* ================================================= 
@@ -1295,12 +1300,24 @@ body, html {
 	overflow:hidden;
 }  
 
+.bb-dropdown-container-10dot2 {
+	border: none;
+	background: none;
+	height: 88px;
+}
+
 .bb-dropdown-container-inner {
 	z-index: 10;
 	border-style: solid;
 	border-width: 2px;
 	border-radius: 4px;
 	padding: 2px;
+}
+
+.bb-dropdown-container-inner-10dot2 {
+	padding: 0px;
+	border-radius: 5px;
+	border-width: 1px;
 }
 
 .bb-dropdown-caption {
@@ -1358,6 +1375,11 @@ body, html {
 	padding-left: 35px;
 	padding-right: 35px;
 	font-size:28pt;
+}
+
+.bb-dropdown-inner-10dot2 {
+	border-width:1px;
+	line-height: 55px;
 }
 
 /* ================================================= 
@@ -1493,6 +1515,7 @@ body, html {
 	margin-top: -133px;
 	margin-left: -5px;
 	height: 101px;
+	visibility:hidden;
 }
 
 .bb-image-list-item-details {
@@ -1561,7 +1584,6 @@ body, html {
 	height:108px;
 	margin-top: -105px;
 	padding-left: 20px;
-	z-index: 100;
 }
 
 .bb-image-list-item-button-inner {

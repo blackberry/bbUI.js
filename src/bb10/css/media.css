@@ -9,10 +9,135 @@
    resolution sizing
 */
 
-@media screen and (width: 720px) and (height: 1280px), (width: 1280px) and (height: 720px){
+@media screen and (width: 720px) and (height: 1280px) and (-webkit-max-device-pixel-ratio:1.9), (width: 1280px) and (height: 720px) and (-webkit-max-device-pixel-ratio:1.9){
     .bb-screen {
-		font-size: 30pt;
+		font-size: 25pt;
     }
+	
+	/* Title Bar */
+	.bb-title-bar {
+		font-size: 29pt;
+	}
+	
+	.bb-titlebar-button {
+		font-size:23pt;
+	}
+	
+	/* Image List */
+	.bb-image-list-item .title {
+		font-size: 29pt;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 22pt;	
+		margin-top:2px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-action-display {
+		font-size:16pt;
+		margin-top:5px;
+	}
+	
+	/* Input */
+	.bb-input-container {
+		height:77px;
+	}
+	
+	.bb-input {
+		font-size: 25pt;
+		height:74px;		
+	}
+	
+	/* Tab Overflow */
+	.bb-tab-overflow-menu-item {
+		font-size:28pt;
+	}
+	
+	.bb-tab-overflow-menu-item-single {
+		height: 90px;
+		line-height: 70px;
+	}
+	
+	.bb-tab-overflow-menu-item-double {
+		height: 95px;
+		line-height: 65px;
+	}
+	
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		font-size: 22pt;
+		margin-top: -40px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-item {
+		height: 101px;
+		font-size:25pt;
+		line-height: 85px;
+	}
+	
+	.bb-context-menu-item-image {
+		margin-top:5px;
+	}
+	
+	/* Label Control Container */
+	.bb-label-control-label {
+		font-size: 25pt;
+	}
+	
+	.bb-label-control-label-row {
+		height:50px;
+	}
+	
+	/* Button */
+	.bb-button {
+		font-size:23pt;
+		height:59px;
+		line-height:44px;
+	}
+	
+	.bb-button-image {
+		margin-top: -12px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		margin-top: -12px;
+		margin-left: -32px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 81px;
+	}
+	
+	/* Drop Down */
+	.bb-dropdown-inner {
+		font-size:23pt;
+		height:59px;
+		line-height:42px;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		line-height:42px;
+	}
+	
+	.bb-dropdown-container {
+		height: 76px;
+	}
+	
+	.bb-dropdown-label,
+	.bb-dropdown-caption {
+		font-size:23pt;
+	}
+	
+	.bb-dropdown-arrow-dark, 
+	.bb-dropdown-arrow-light {
+		top:7px;
+	}
+	
+	.bb-dropdown-item {
+		font-size: 23pt;
+	}
+	
 }
 
 @media screen and (width: 720px) and (max-height: 720px){
@@ -81,6 +206,10 @@
 		height: 77px;
 	}
 	
+	.bb-dropdown-container-10dot2 {
+		height: 70px;
+	}
+	
 	.bb-dropdown-caption {
 		font-size: 24pt;
 		margin-right:-55px;
@@ -106,6 +235,8 @@
 		padding-right: 29px;
 		font-size:24pt;
 	}
+	
+	
 	
 	/* Input */
 	.bb-input-container {

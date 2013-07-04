@@ -318,6 +318,7 @@ _bb10_imageList = {
 															if (!innerChildNode.trappedClick && !this.contextMenu) return;
 															innerChildNode.fingerDown = true;
 															innerChildNode.contextShown = false;
+															this.overlay.style['visibility'] = 'visible';
 															if (innerChildNode.contextMenu) {
 																window.setTimeout(this.touchTimer, 667);
 																var scr = bb.getCurScreen();
@@ -328,7 +329,7 @@ _bb10_imageList = {
 						innerChildNode.ontouchend = function (event) {
 														if (bb.device.isPlayBook) {
 															if (!innerChildNode.trappedClick && !this.contextMenu) return;
-															this.overlay.style['border-color'] = 'transparent';
+															this.overlay.style['visibility'] = 'hidden';
 															innerChildNode.fingerDown = false;
 															if (innerChildNode.contextShown) {
 																event.preventDefault();
@@ -352,12 +353,14 @@ _bb10_imageList = {
 						// Draw the selected state for the context menu
 						innerChildNode.drawSelected = function() {
 														this.setAttribute('class',this.highlight);
+														this.overlay.style['visibility'] = 'visible';
 														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 													};
 						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
 						// Draw the unselected state for the context menu
 						innerChildNode.drawUnselected = function() {
 														this.setAttribute('class',this.normal);
+														this.overlay.style['visibility'] = 'hidden';
 														this.overlay.style['border-color'] =  'transparent';
 													};
 						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);

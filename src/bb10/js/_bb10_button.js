@@ -11,14 +11,20 @@ _bb10_button = {
 			imgSrc,
 			caption,
 			imgElement,
+			outerNormalWithoutImageOnly,
 			captionElement = document.createElement('div'),
 			innerElement = document.createElement('div');
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-button bb-button',
 			highlight = 'bb-button bb-button bb10-button-highlight',
-			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor,
-			outerNormalWithoutImageOnly = outerNormal;
+			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor;
 
+		if (bb.device.newerThan10dot1) {
+			normal += ' bb-button-10dot2';
+			highlight += ' bb-button-10dot2';
+			outerNormal += ' bb-button-container-10dot2';
+		}
+		outerNormalWithoutImageOnly = outerNormal;	
 		outerElement.isImageOnly = false;
 		outerElement.enabled = !disabled;
 		caption = outerElement.innerHTML;

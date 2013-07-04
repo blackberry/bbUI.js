@@ -37,6 +37,14 @@ bb = {
 		bb.device.isBB10 = true;
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
+		// Get our OS version as a convenience
+		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
+		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
+		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
+		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2;
+		bb.device.newerThan10dot1 = bb.device.is10dot2;
+		bb.device.newerThan10dot2 = false;
+		
 		// Set our resolution flags
 		bb.device.is1024x600 = bb.device.isPlayBook;
 		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
@@ -192,15 +200,23 @@ bb = {
 		return document.querySelector('[data-bb-type=screen]');
 	},
 	device: {  
+		// Flags
 		isBB10: false,
         isPlayBook: false, 
         isRipple: false,
+		requiresScrollingHack: false,
 		// Resolutions
 		is1024x600: false,
 		is1280x768: false,
 		is720x720: false,
 		is1280x720: false,
-		requiresScrollingHack: false
+		// OS versions
+		is10dot2: false,
+		is10dot1: false,
+		is10dot0: false,
+		newerThan10dot0: false,
+		newerThan10dot1 : false,
+		newerThan10dot2: false
     },
 	
 	// Options for rendering

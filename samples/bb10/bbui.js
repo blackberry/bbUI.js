@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.487*/
+/* bbUI for BB10 VERSION: 0.9.6.608*/
 
 bb = {
 	scroller: null,  
@@ -54,6 +54,14 @@ bb = {
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		bb.device.isBB10 = true;
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
+		
+		// Get our OS version as a convenience
+		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
+		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
+		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
+		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2;
+		bb.device.newerThan10dot1 = bb.device.is10dot2;
+		bb.device.newerThan10dot2 = false;
 		
 		// Set our resolution flags
 		bb.device.is1024x600 = bb.device.isPlayBook;
@@ -210,15 +218,23 @@ bb = {
 		return document.querySelector('[data-bb-type=screen]');
 	},
 	device: {  
+		// Flags
 		isBB10: false,
         isPlayBook: false, 
         isRipple: false,
+		requiresScrollingHack: false,
 		// Resolutions
 		is1024x600: false,
 		is1280x768: false,
 		is720x720: false,
 		is1280x720: false,
-		requiresScrollingHack: false
+		// OS versions
+		is10dot2: false,
+		is10dot1: false,
+		is10dot0: false,
+		newerThan10dot0: false,
+		newerThan10dot1 : false,
+		newerThan10dot2: false
     },
 	
 	// Options for rendering
@@ -3685,14 +3701,20 @@ _bb10_button = {
 			imgSrc,
 			caption,
 			imgElement,
+			outerNormalWithoutImageOnly,
 			captionElement = document.createElement('div'),
 			innerElement = document.createElement('div');
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-button bb-button',
 			highlight = 'bb-button bb-button bb10-button-highlight',
-			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor,
-			outerNormalWithoutImageOnly = outerNormal;
+			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor;
 
+		if (bb.device.newerThan10dot1) {
+			normal += ' bb-button-10dot2';
+			highlight += ' bb-button-10dot2';
+			outerNormal += ' bb-button-container-10dot2';
+		}
+		outerNormalWithoutImageOnly = outerNormal;	
 		outerElement.isImageOnly = false;
 		outerElement.enabled = !disabled;
 		caption = outerElement.innerHTML;
@@ -4244,6 +4266,12 @@ _bb10_dropdown = {
 			innerContainerStyle = 'bb-dropdown-container-inner bb-dropdown-container-inner-'+bb.screen.controlColor,
 			innerButtonStyle = 'bb-dropdown-inner bb-dropdown-inner-'+bb.screen.controlColor;
 
+		if (bb.device.newerThan10dot1) {
+			outerContainerStyle += ' bb-dropdown-container-10dot2';
+			innerContainerStyle += ' bb-dropdown-container-inner-10dot2';
+			innerButtonStyle += ' bb-dropdown-inner-10dot2';
+		}
+			
 		// Make the existing <select> invisible so that we can hide it and create our own display
 		select.style.display = 'none';
 		select.enabled = enabled;
@@ -4533,10 +4561,12 @@ _bb10_dropdown = {
 								
 								if (bb.device.is1024x600) {
 									this.style.height = '43px';
-								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-									this.style.height = '95px';
+								} else if (bb.device.is1280x768) {
+									this.style.height = bb.device.newerThan10dot1 ? '88px' : '95px';
 								} else if (bb.device.is720x720) {
-									this.style.height = '77px';
+									this.style.height = bb.device.newerThan10dot1 ? '70px' : '77px';
+								} else if (bb.device.is1280x720 && bb.device.newerThan10dot1 && (window.devicePixelRatio < 1.9)) {
+									this.style.height = '76px';
 								}else {
 									this.style.height = '95px';
 								}
@@ -5426,6 +5456,7 @@ _bb10_imageList = {
 															if (!innerChildNode.trappedClick && !this.contextMenu) return;
 															innerChildNode.fingerDown = true;
 															innerChildNode.contextShown = false;
+															this.overlay.style['visibility'] = 'visible';
 															if (innerChildNode.contextMenu) {
 																window.setTimeout(this.touchTimer, 667);
 																var scr = bb.getCurScreen();
@@ -5436,7 +5467,7 @@ _bb10_imageList = {
 						innerChildNode.ontouchend = function (event) {
 														if (bb.device.isPlayBook) {
 															if (!innerChildNode.trappedClick && !this.contextMenu) return;
-															this.overlay.style['border-color'] = 'transparent';
+															this.overlay.style['visibility'] = 'hidden';
 															innerChildNode.fingerDown = false;
 															if (innerChildNode.contextShown) {
 																event.preventDefault();
@@ -5460,12 +5491,14 @@ _bb10_imageList = {
 						// Draw the selected state for the context menu
 						innerChildNode.drawSelected = function() {
 														this.setAttribute('class',this.highlight);
+														this.overlay.style['visibility'] = 'visible';
 														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 													};
 						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
 						// Draw the unselected state for the context menu
 						innerChildNode.drawUnselected = function() {
 														this.setAttribute('class',this.normal);
+														this.overlay.style['visibility'] = 'hidden';
 														this.overlay.style['border-color'] =  'transparent';
 													};
 						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);

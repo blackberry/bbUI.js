@@ -23,6 +23,12 @@ _bb10_dropdown = {
 			innerContainerStyle = 'bb-dropdown-container-inner bb-dropdown-container-inner-'+bb.screen.controlColor,
 			innerButtonStyle = 'bb-dropdown-inner bb-dropdown-inner-'+bb.screen.controlColor;
 
+		if (bb.device.newerThan10dot1) {
+			outerContainerStyle += ' bb-dropdown-container-10dot2';
+			innerContainerStyle += ' bb-dropdown-container-inner-10dot2';
+			innerButtonStyle += ' bb-dropdown-inner-10dot2';
+		}
+			
 		// Make the existing <select> invisible so that we can hide it and create our own display
 		select.style.display = 'none';
 		select.enabled = enabled;
@@ -312,10 +318,12 @@ _bb10_dropdown = {
 								
 								if (bb.device.is1024x600) {
 									this.style.height = '43px';
-								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-									this.style.height = '95px';
+								} else if (bb.device.is1280x768) {
+									this.style.height = bb.device.newerThan10dot1 ? '88px' : '95px';
 								} else if (bb.device.is720x720) {
-									this.style.height = '77px';
+									this.style.height = bb.device.newerThan10dot1 ? '70px' : '77px';
+								} else if (bb.device.is1280x720 && bb.device.newerThan10dot1 && (window.devicePixelRatio < 1.9)) {
+									this.style.height = '76px';
 								}else {
 									this.style.height = '95px';
 								}
