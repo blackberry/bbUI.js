@@ -254,9 +254,19 @@ body, html {
 	border: 2px solid #404040;
 }
 
+.bb-toggle .bb-toggle-outer-dark-10dot2 {
+	background: #070707;
+	border: 2px solid #404040;
+}
+
 .bb-toggle .bb-toggle-outer-light {
-	background: -webkit-linear-gradient(top, #D7D7D7 0%, #D2D2D2 100%);
+	background: -webkit-linear-gradient(top, #D7D7D7 0%, #D2D2D2 100%);	
 	border: 2px solid #9B9B9B;
+}
+
+.bb-toggle .bb-toggle-outer-light-10dot2 {
+	background: -webkit-linear-gradient(top, #FAFAFA 0%, #FDFDFD 100%);	
+	border: 2px solid #DEDEDE;
 }
 
 .bb-toggle .halo {

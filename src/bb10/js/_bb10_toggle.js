@@ -31,7 +31,11 @@ _bb10_toggle = {
 		outerElement.className = 'bb-toggle';
 		outerElement.outer = document.createElement('div');
 		if (outerElement.enabled) {
-			outerElement.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+			if (bb.device.newerThan10dot1) {
+				outerElement.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+			} else {
+				outerElement.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+			}
 		} else {
 			outerElement.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-disabled';
 		}
@@ -266,7 +270,11 @@ _bb10_toggle = {
 				// change our styles
 				this.indicator.normal = 'indicator bb-toggle-indicator-enabled-' + color;
 				this.indicator.setAttribute('class',this.indicator.normal);
-				this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+				if (bb.device.newerThan10dot1) {
+					this.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+				} else {
+					this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+				}
 				this.outer.setAttribute('class',this.normal);
 				// update the button
 				this.positionButton();
