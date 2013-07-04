@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.650*/
+/* bbUI for BB10 VERSION: 0.9.6.684*/
 
 body, html {
 	padding:0;
@@ -1155,7 +1155,8 @@ body, html {
 
 .bb-dropdown-container-inner-dark
 {
-	border-color: #070707;
+	/*border-color: #070707;*/
+	border-color: #333333;
 }
 
 .bb-dropdown-container-inner-light
@@ -1371,7 +1372,11 @@ body, html {
 	float: right;
 	font-size: 29pt;
 	z-index:1;
-	margin-right:-38px;
+	margin-right:-38px;	
+}
+
+.bb-dropdown-caption-10dot2 {
+	margin-right: 4px;
 }
 
 .bb-dropdown-label {
@@ -1411,6 +1416,11 @@ body, html {
 	opacity:0.0;
 }
 
+.bb-dropdown-arrow-10dot2 {
+	opacity: 1.0;
+	-webkit-transform: rotate(-180deg);
+}
+
 .bb-dropdown-inner {
 	border-width:2px;
 	border-radius:5px;
@@ -1425,6 +1435,16 @@ body, html {
 .bb-dropdown-inner-10dot2 {
 	border-width:1px;
 	line-height: 55px;
+	padding-right: 17px;
+}
+
+.bb-dropdown-light-highlight-10dot2 {
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#B4B4B4), to(#E0E0E0));
+}
+
+.bb-dropdown-dark-highlight-10dot2 {
+	border-color: #0B0B0B;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#242424), to(#212121));
 }
 
 /* ================================================= 
@@ -2658,6 +2678,10 @@ body, html {
 		font-size:23pt;
 	}
 	
+	.bb-dropdown-caption-10dot2 {
+		margin-right: 4px;
+	}
+	
 	.bb-dropdown-arrow-dark, 
 	.bb-dropdown-arrow-light {
 		top:7px;
@@ -2665,6 +2689,11 @@ body, html {
 	
 	.bb-dropdown-item {
 		font-size: 23pt;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		border-width:1px;
+		padding-right: 17px;
 	}
 	
 }
@@ -2744,6 +2773,10 @@ body, html {
 		margin-right:-55px;
 	}
 	
+	.bb-dropdown-caption-10dot2 {
+		margin-right: 4px;
+	}
+	
 	.bb-dropdown-label {
 		font-size: 24pt;
 	}
@@ -2763,6 +2796,11 @@ body, html {
 		padding-left: 29px;
 		padding-right: 29px;
 		font-size:24pt;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		border-width:1px;
+		padding-right: 17px;
 	}
 	
 	/* Input */

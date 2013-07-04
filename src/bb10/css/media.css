@@ -129,6 +129,10 @@
 		font-size:23pt;
 	}
 	
+	.bb-dropdown-caption-10dot2 {
+		margin-right: 4px;
+	}
+	
 	.bb-dropdown-arrow-dark, 
 	.bb-dropdown-arrow-light {
 		top:7px;
@@ -136,6 +140,11 @@
 	
 	.bb-dropdown-item {
 		font-size: 23pt;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		border-width:1px;
+		padding-right: 17px;
 	}
 	
 }
@@ -215,6 +224,10 @@
 		margin-right:-55px;
 	}
 	
+	.bb-dropdown-caption-10dot2 {
+		margin-right: 4px;
+	}
+	
 	.bb-dropdown-label {
 		font-size: 24pt;
 	}
@@ -234,6 +247,11 @@
 		padding-left: 29px;
 		padding-right: 29px;
 		font-size:24pt;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		border-width:1px;
+		padding-right: 17px;
 	}
 	
 	/* Input */

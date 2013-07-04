@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.650*/
+/* bbUI for BB10 VERSION: 0.9.6.684*/
 
 var _self = {},
     _ID = require("./manifest.json").namespace;
