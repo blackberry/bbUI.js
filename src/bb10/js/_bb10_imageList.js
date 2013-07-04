@@ -293,7 +293,7 @@ _bb10_imageList = {
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									accentText.style['margin-top'] = '-82px';
 								} else if (bb.device.is720x720) {
-									accentText.style['margin-top'] = '-82px';
+									accentText.style['margin-top'] = '-75px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
 								}

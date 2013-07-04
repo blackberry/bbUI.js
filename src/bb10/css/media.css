@@ -236,8 +236,6 @@
 		font-size:24pt;
 	}
 	
-	
-	
 	/* Input */
 	.bb-input-container {
 		height:69px;
@@ -278,14 +276,14 @@
 	}
 	
 	.bb-image-list-item-overlay {
-		margin-top: -127px;
+		margin-top: -132px;
 		height: 84px;
 	}
 	
 	.bb-image-list-item-details {
 		padding-left: 105px;
 		background-size: 92px 92px;
-		background-position: 0px 13px;
+		background-position: 0px 8px;
 	}
 	
 	.bb-image-list-item-details-nodescription {
@@ -297,18 +295,18 @@
 	}
 	
 	.bb-image-list-item .title {
-		font-size: 33pt;
-		margin-top: -36px;
+		font-size: 29pt;
+		margin-top: -31px;
 	}
 	
 	.bb-image-list-item .description {
-		font-size: 24pt;	
-		margin-top:-4px;
+		font-size: 22pt;	
+		margin-top:-10px;
 	}
 	
 	.bb-image-list-item .accent-text {
-		font-size:24pt;
-		margin-top:-84px;
+		font-size:22pt;
+		margin-top:-70px;
 	}
 	
 	.bb-image-list-item-button-border {

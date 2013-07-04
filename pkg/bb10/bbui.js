@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.608*/
+/* bbUI for BB10 VERSION: 0.9.6.624*/
 
 bb = {
 	scroller: null,  
@@ -5431,7 +5431,7 @@ _bb10_imageList = {
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									accentText.style['margin-top'] = '-82px';
 								} else if (bb.device.is720x720) {
-									accentText.style['margin-top'] = '-82px';
+									accentText.style['margin-top'] = '-75px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
 								}
