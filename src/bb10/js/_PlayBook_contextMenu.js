@@ -1,4 +1,5 @@
 // BlackBerry 10 Context Menu for PlayBook
+// Also acts as the action overflow menu for BlackBerry 10 Action Bar
 _PlayBook_contextMenu = {
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
@@ -260,7 +261,9 @@ _PlayBook_contextMenu = {
 									margin,
 									numActions = 0,
 									headerHeight = 0,
-									i;
+									i,
+									isFirst = true,
+									action;
 									
 								if (bb.device.isPlayBook) {
 									itemHeight = 53;
@@ -270,9 +273,18 @@ _PlayBook_contextMenu = {
 								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
 							
 								// See how many actions to use for calculations
+								
 								for (i = 0; i < this.actions.length; i++) {
-									if (this.actions[i].visible == true) {
+									action = this.actions[i];
+									if (action.visible == true) {
 										numActions++;
+										if (isFirst && (this.pinnedAction != action)) {
+											isFirst = false;
+											action.setAttribute('class',action.normal + ' bb-context-menu-item-first-dark');
+											action.isFirst = true;
+										} else if (this.pinnedAction != action){
+											action.setAttribute('class',action.normal);
+										}
 									}
 								}
 								numActions = (this.pinnedAction) ? numActions - 1 : numActions;
@@ -318,8 +330,8 @@ _PlayBook_contextMenu = {
 					action.style.display = 'none';
 				} else {
 					action.visible = true;
-					this.actions.push(action);
 				}
+				this.actions.push(action);
 				
 				// See if this item should be pinned to the bottom
 				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
@@ -340,10 +352,7 @@ _PlayBook_contextMenu = {
 				} else {
 					this.scrollContainer.appendChild(action);
 				}
-				// If it is the top item it needs a top border
-				if (this.actions.length == 1) {
-					normal = normal + ' bb-context-menu-item-first-dark';
-				}
+
 				highlight = normal + ' bb-context-menu-item-hover';
 				action.normal = normal;
 				action.highlight = highlight;
@@ -407,9 +416,6 @@ _PlayBook_contextMenu = {
 				action.hide = function() {
 									if (!this.visible) return;
 									this.visible = false;
-									// Remove from the actions list
-									var index = this.menu.actions.indexOf(this);
-									this.menu.actions.splice(index,1);
 									// Change style
 									this.style.display = 'none';
 									this.menu.centerMenuItems();
@@ -419,9 +425,7 @@ _PlayBook_contextMenu = {
 				// Assign the show function
 				action.show = function() {
 									if (this.visible) return;
-									this.visible = true;
-									// Add to the actions list
-									this.menu.actions.push(this);
+									this.visible = true;   
 									// Change style
 									this.style.display = '';
 									this.menu.centerMenuItems();
