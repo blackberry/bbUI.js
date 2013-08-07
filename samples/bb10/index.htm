@@ -25,7 +25,7 @@
 				darkColoring = false,
 				darkScreenColor = 'black';
 			
-			window.onload = function () {
+			window.addEventListener('load',function() {
 				document.addEventListener('webworksready', function(e) {
 					// This is code to ensure that if webworksready is fired multiple times we still only init() one time
 					if (webworksreadyFired) return;
@@ -89,16 +89,14 @@
 					}
 					bb.pushScreen('menu.htm', 'menu');
 				}, false);
-			}
-			
-			// Fire the webworksready event for PlayBook and BBOS
-			window.addEventListener('load',function() {
-					if (navigator.userAgent.indexOf('BB10') < 0) {
-						var evt = document.createEvent('Events');
-						evt.initEvent('webworksready', true, true);
-						document.dispatchEvent(evt);
-					}
-				});
+				
+				// Fire the webworksready event for PlayBook
+				if (navigator.userAgent.indexOf('BB10') < 0) {
+					var evt = document.createEvent('Events');
+					evt.initEvent('webworksready', true, true);
+					document.dispatchEvent(evt);
+				}
+			}, false);
 		</script>
 	</head>
 	<body>
