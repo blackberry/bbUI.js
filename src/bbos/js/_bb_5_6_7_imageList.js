@@ -162,9 +162,12 @@ _bb_5_6_7_imageList = {
 						}
 						descriptionDiv.innerHTML = description;
 						
+						//saved for remove
+						innerChildNode.parentList = this;
+						
 						// Add the remove function for the item
 						innerChildNode.remove = function() {
-								var listControl = this.parentNode,
+								var listControl = this.parentList,
 									index = listControl.items.indexOf(this);
 								this.parentNode.removeChild(this);
 								listControl.items.splice(index,1);	
@@ -240,7 +243,7 @@ _bb_5_6_7_imageList = {
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
-					this.insertBefore(newItem,existingItem);
+					existingItem.parentNode.insertBefore(newItem,existingItem);
 					this.items.splice(this.items.indexOf(existingItem),0,newItem);
 					if (bb.scroller) {
 						bb.scroller.refresh();
