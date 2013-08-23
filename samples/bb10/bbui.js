@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.689*/
+/* bbUI for BB10 VERSION: 0.9.6.740*/
 
 bb = {
 	scroller: null,  
@@ -1678,7 +1678,13 @@ bb.actionBar = {
 			// Set our transparent icon
 			icon = document.createElement('img');
 			icon.setAttribute('src',bb.transparentPixel);
-			icon.setAttribute('class','bb-action-bar-icon bb-action-bar-overflow-button-dark bb-action-bar-overflow-button-'+orientation);
+			var tempOrientation;
+			if (bb.device.is10dot2 && orientation.toLowerCase() == 'portrait') {
+				tempOrientation = 'portait-10dot2';
+			} else {
+				tempOrientation = orientation;
+			}
+			icon.setAttribute('class','bb-action-bar-icon bb-action-bar-overflow-button-dark bb-action-bar-overflow-button-'+tempOrientation);
 			actionOverflow.icon = icon;
 			// Default settings
 			actionOverflow.normal = 'bb-action-bar-action bb-action-bar-action-' + orientation + ' bb-action-bar-button-dark';
@@ -1688,7 +1694,7 @@ bb.actionBar = {
 			// Set our caption
 			var display = document.createElement('div');
 			display.setAttribute('class','bb-action-bar-action-display');
-			display.innerHTML = caption;
+			display.innerHTML = bb.device.is10dot2 ? 'More' : caption;
 			actionOverflow.display = display;
 			actionOverflow.appendChild(display);
 			// Set our highlight

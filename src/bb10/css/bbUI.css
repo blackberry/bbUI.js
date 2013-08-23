@@ -2325,6 +2325,10 @@ body, html {
 	/*place holder for no changes*/
 }
 
+.bb-action-bar-overflow-button-portait-10dot2 {
+	margin-top: 4px;
+}
+
 .bb-action-bar-overflow-button-landscape {
 	margin-top: -3px;
 }

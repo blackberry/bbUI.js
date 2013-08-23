@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.689*/
+/* bbUI for BB10 VERSION: 0.9.6.740*/
 
 body, html {
 	padding:0;
@@ -2343,6 +2343,10 @@ body, html {
 	/*place holder for no changes*/
 }
 
+.bb-action-bar-overflow-button-portait-10dot2 {
+	margin-top: 4px;
+}
+
 .bb-action-bar-overflow-button-landscape {
 	margin-top: -3px;
 }
@@ -2574,12 +2578,33 @@ body, html {
 	
 	/* Image List */
 	.bb-image-list-item .title {
-		font-size: 29pt;
+		font-size: 27pt;
+		margin-top: -30px;
+		line-height:49px;
 	}
 	
 	.bb-image-list-item .description {
 		font-size: 22pt;	
-		margin-top:2px;
+		margin-top:-5px;
+	}
+	
+	.bb-image-list-item {
+		height: 86px;
+	}
+	
+	.bb-image-list-item-overlay {
+		margin-top: -116px;
+		height: 84px;
+	}
+	
+	.bb-image-list-item-details {
+		height: 123px;
+		padding-left: 105px;
+		background-size: 92px 92px;
+	}
+	
+	.bb-image-list-item .button {
+		margin-top: -97px;
 	}
 	
 	/* Action Bar */
@@ -2972,6 +2997,10 @@ body, html {
 		height:101px;
 	}
 	
+	.bb-action-bar-action-display {
+		display:none;
+	}
+	
 	.bb-action-bar-action-display-portrait {
 		display: none;
 	}
@@ -3001,6 +3030,10 @@ body, html {
 	}
 	
 	.bb-action-bar-overflow-button-dark {
+		margin-top: 5px;
+	}
+	
+	.bb-action-bar-overflow-button-portait-10dot2 {
 		margin-top: 5px;
 	}
 	
