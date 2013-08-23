@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.740*/
+/* bbUI for BB10 VERSION: 0.9.6.746*/
 
 body, html {
 	padding:0;
@@ -1126,6 +1126,13 @@ body, html {
 	padding: 4px;
 	margin: 15px;
 }  
+
+.bb-titlebar-button-container-10dot2 {
+	border-width: 0px;
+	border-style: none;
+	padding: 0px;
+	margin-top: 20px;
+}
 
 /* ================================================= 
    DropDown
@@ -2928,11 +2935,11 @@ body, html {
 	
 	/* Title Bar */
 	.bb-title-bar {
-		font-size: 33pt;
+		font-size: 30pt;
 	}
 	
 	.bb-titlebar-button {
-		font-size:25pt;
+		font-size:23pt;
 	}
 	
 	.bb-title-bar-portrait,
@@ -2962,6 +2969,10 @@ body, html {
 	
 	.bb-titlebar-button-container {
 		margin: 6px;
+	}
+	
+	.bb-titlebar-button-container-10dot2 {
+		margin-top: 10px;
 	}
 	
 	/* Context Menu */

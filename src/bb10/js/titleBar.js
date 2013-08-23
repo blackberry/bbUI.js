@@ -213,6 +213,11 @@ bb.titleBar = {
 			highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
 			outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
 		}
+		
+		// Remove the moats on 10.2
+		if (bb.device.is10dot2) {
+			outerNormal += ' bb-titlebar-button-container-10dot2';
+		}
 
 		//outerElement.enabled = !disabled;
 		outerElement.enabled = true;

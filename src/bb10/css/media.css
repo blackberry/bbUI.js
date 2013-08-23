@@ -375,11 +375,11 @@
 	
 	/* Title Bar */
 	.bb-title-bar {
-		font-size: 33pt;
+		font-size: 30pt;
 	}
 	
 	.bb-titlebar-button {
-		font-size:25pt;
+		font-size:23pt;
 	}
 	
 	.bb-title-bar-portrait,
@@ -409,6 +409,10 @@
 	
 	.bb-titlebar-button-container {
 		margin: 6px;
+	}
+	
+	.bb-titlebar-button-container-10dot2 {
+		margin-top: 10px;
 	}
 	
 	/* Context Menu */
