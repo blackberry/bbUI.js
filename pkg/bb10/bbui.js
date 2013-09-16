@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.863*/
+/* bbUI for BB10 VERSION: 0.9.6.866*/
 
 bb = {
 	scroller: null,  
@@ -6741,13 +6741,7 @@ _bb10_textInput = {
 					container.style.padding = '0px';
 					container.style['border-width'] = '0px';
 					container.style['background-color'] = 'transparent';
-					//outerElement.style.visibility = 'hidden';
 				}
-			}
-			
-			if (type == 'color') {
-				outerElement.style.left = '0px';
-				outerElement.style.right = '0px';
 			}
 		}
 		

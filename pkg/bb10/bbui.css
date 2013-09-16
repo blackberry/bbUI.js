@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.863*/
+/* bbUI for BB10 VERSION: 0.9.6.866*/
 
 body, html {
 	padding:0;
@@ -2579,275 +2579,7 @@ body, html {
    resolution sizing
 */
 
-@media screen and (width: 720px) and (height: 1280px) and (-webkit-max-device-pixel-ratio:1.9), (width: 1280px) and (height: 720px) and (-webkit-max-device-pixel-ratio:1.9){
-    .bb-screen {
-		font-size: 25pt;
-    }
-	
-	/* Title Bar */
-	.bb-title-bar {
-		font-size: 29pt;
-	}
-	
-	.bb-titlebar-button {
-		font-size:23pt;
-	}
-	
-	.bb-activity-small {
-		height: 35px;
-		width: 35px;
-		background-size: 35px 35px;
-	}
-	
-	.bb-activity-medium {
-		height: 69px;
-		width: 69px;
-		background-size: 69px 69px;
-	}
-	
-	.bb-activity-large {
-		height: 135px;
-		width: 135px;
-		background-size: 135px 135px;
-	}
-	
-	/* Action Bar */
-	.bb-action-bar-portrait {
-		height: 116px;
-	}
 
-	.bb-action-bar-landscape {
-		height: 92px;
-	}
-	
-	.bb-action-bar-back-text {
-		font-size:16pt;
-		top: 48px;
-	}
-	
-	.bb-action-bar-back-button-portrait {
-		width:146px;
-	}
-
-	.bb-action-bar-back-button-landscape {
-		width:267px;
-	}
-	
-	.bb-action-bar-back-chevron-dark {
-		background-size: 22px 35px;
-		background-repeat: no-repeat;
-	}
-	
-	.bb-action-bar-icon {
-		height: 66px;
-		width: 66px;
-		margin-top: 4px;
-	}
-	
-	.bb-action-bar-tab-overflow-landscape {
-		margin-top: -6px;
-	}
-	
-	.bb-action-bar-tab-overflow-dark {
-		background-position: center -10px;
-		height: 75px;
-	}
-	
-	.bb-action-bar-tab-overflow-highlight-portrait {
-		margin-top: -101px;
-	}
-	
-	.bb-action-bar-tab-overflow-highlight-landscape {
-		margin-top: -76px;
-	}
-	
-	.bb-action-bar-overflow-button-dark {
-		background-size: 66px 66px;
-	}
-	
-	.bb-action-bar-overflow-button-landscape {
-		margin-top: -7px;
-	}
-	
-	/* Grid List */
-	.bb-grid-header {
-		height:36px;
-		line-height:36px;
-	}
-	
-	.bb-grid-header p {
-		font-size: 18pt;
-		font-weight: 600;
-		line-height:36px;
-	}
-	
-	/* Image List */
-	.bb-image-list-header {
-		height:36px;
-		line-height:36px;
-		font-size: 18pt;
-		font-weight: 600;
-	}
-	
-	.bb-image-list-item .title {
-		font-size: 27pt;
-		margin-top: -30px;
-		line-height:49px;
-	}
-	
-	.bb-image-list-item .description {
-		font-size: 22pt;	
-		margin-top:-5px;
-	}
-	
-	.bb-image-list-item {
-		height: 86px;
-	}
-	
-	.bb-image-list-item-overlay {
-		margin-top: -116px;
-		height: 84px;
-	}
-	
-	.bb-image-list-item-details {
-		height: 123px;
-		padding-left: 105px;
-		background-size: 92px 92px;
-	}
-	
-	.bb-image-list-item .button {
-		margin-top: -97px;
-	}
-	
-	/* Action Bar */
-	.bb-action-bar-action-display {
-		font-size:16pt;
-		margin-top:5px;
-	}
-	
-	/* Input */
-	.bb-input-container {
-		height:77px;
-	}
-	
-	.bb-input {
-		font-size: 25pt;
-		height:74px;		
-	}
-	
-	/* Tab Overflow */
-	.bb-tab-overflow-menu-item {
-		font-size:24pt;
-	}
-	
-	.bb-tab-overflow-menu-item-single {
-		height: 70px;
-		line-height: 57px;
-		padding-top: 12px; 
-	}
-	
-	.bb-tab-overflow-menu-item-double {
-		height: 58px;
-		line-height: 35px;
-		padding-top: 4px; 
-		padding-bottom: 19px;
-	}
-	
-	.bb-tab-overflow-menu-item .tab-accent-text {
-		font-size: 22pt;
-		margin-top: -40px;
-		height: 44px;
-	}
-	
-	.bb-tab-overflow-menu-item-image {
-		height: 66px;
-		width: 66px;
-		margin-left:4px;
-	}
-	
-	/* Context Menu */
-	.bb-context-menu-item {
-		height: 74px;
-		font-size:25pt;
-		line-height: 65px;
-		padding-top: 10px;
-	}
-	
-	.bb-context-menu-item-image {
-		margin-top:0px;
-		height: 66px;
-		width: 66px;
-		margin-left:8px;
-	}
-	
-	/* Label Control Container */
-	.bb-label-control-label {
-		font-size: 25pt;
-	}
-	
-	.bb-label-control-label-row {
-		height:50px;
-	}
-	
-	/* Button */
-	.bb-button {
-		font-size:23pt;
-		height:59px;
-		line-height:44px;
-	}
-	
-	.bb-button-image {
-		margin-top: -12px;
-	}
-	
-	.bb-button-caption-with-image-only {
-		margin-top: -12px;
-		margin-left: -32px;
-	}
-	
-	.bb-button-container-image-only {
-		width: 81px;
-	}
-	
-	/* Drop Down */
-	.bb-dropdown-inner {
-		font-size:23pt;
-		height:59px;
-		line-height:42px;
-	}
-	
-	.bb-dropdown-inner-10dot2 {
-		line-height:42px;
-	}
-	
-	.bb-dropdown-container {
-		height: 76px;
-	}
-	
-	.bb-dropdown-label,
-	.bb-dropdown-caption {
-		font-size:23pt;
-	}
-	
-	.bb-dropdown-caption-10dot2 {
-		margin-right: 4px;
-	}
-	
-	.bb-dropdown-arrow-dark, 
-	.bb-dropdown-arrow-light {
-		top:7px;
-	}
-	
-	.bb-dropdown-item {
-		font-size: 23pt;
-	}
-	
-	.bb-dropdown-inner-10dot2 {
-		border-width:1px;
-		padding-right: 17px;
-	}
-	
-}
 
 @media screen and (width: 720px) and (max-height: 720px){
     .bb-screen {
@@ -3231,6 +2963,276 @@ body, html {
 	.bb-tab-overflow-menu-item-image {
 		margin-left:9px;
 	}
+}
+
+@media screen and (width: 720px) and (height: 1280px) and (-webkit-max-device-pixel-ratio:1.9), (width: 1280px) and (height: 720px) and (-webkit-max-device-pixel-ratio:1.9), (-webkit-max-device-pixel-ratio:1.9) {
+    .bb-screen {
+		font-size: 25pt;
+    }
+	
+	/* Title Bar */
+	.bb-title-bar {
+		font-size: 29pt;
+	}
+	
+	.bb-titlebar-button {
+		font-size:23pt;
+	}
+	
+	.bb-activity-small {
+		height: 35px;
+		width: 35px;
+		background-size: 35px 35px;
+	}
+	
+	.bb-activity-medium {
+		height: 69px;
+		width: 69px;
+		background-size: 69px 69px;
+	}
+	
+	.bb-activity-large {
+		height: 135px;
+		width: 135px;
+		background-size: 135px 135px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-portrait {
+		height: 116px;
+	}
+
+	.bb-action-bar-landscape {
+		height: 92px;
+	}
+	
+	.bb-action-bar-back-text {
+		font-size:16pt;
+		top: 48px;
+	}
+	
+	.bb-action-bar-back-button-portrait {
+		width:146px;
+	}
+
+	.bb-action-bar-back-button-landscape {
+		width:267px;
+	}
+	
+	.bb-action-bar-back-chevron-dark {
+		background-size: 22px 35px;
+		background-repeat: no-repeat;
+	}
+	
+	.bb-action-bar-icon {
+		height: 66px;
+		width: 66px;
+		margin-top: 4px;
+	}
+	
+	.bb-action-bar-tab-overflow-landscape {
+		margin-top: -6px;
+	}
+	
+	.bb-action-bar-tab-overflow-dark {
+		background-position: center -10px;
+		height: 75px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-portrait {
+		margin-top: -101px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-landscape {
+		margin-top: -76px;
+	}
+	
+	.bb-action-bar-overflow-button-dark {
+		background-size: 66px 66px;
+	}
+	
+	.bb-action-bar-overflow-button-landscape {
+		margin-top: -7px;
+	}
+	
+	/* Grid List */
+	.bb-grid-header {
+		height:36px;
+		line-height:36px;
+	}
+	
+	.bb-grid-header p {
+		font-size: 18pt;
+		font-weight: 600;
+		line-height:36px;
+	}
+	
+	/* Image List */
+	.bb-image-list-header {
+		height:36px;
+		line-height:36px;
+		font-size: 18pt;
+		font-weight: 600;
+	}
+	
+	.bb-image-list-item .title {
+		font-size: 27pt;
+		margin-top: -30px;
+		line-height:49px;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 22pt;	
+		margin-top:-5px;
+	}
+	
+	.bb-image-list-item {
+		height: 86px;
+	}
+	
+	.bb-image-list-item-overlay {
+		margin-top: -116px;
+		height: 84px;
+	}
+	
+	.bb-image-list-item-details {
+		height: 123px;
+		padding-left: 105px;
+		background-size: 92px 92px;
+	}
+	
+	.bb-image-list-item .button {
+		margin-top: -97px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-action-display {
+		font-size:16pt;
+		margin-top:5px;
+	}
+	
+	/* Input */
+	.bb-input-container {
+		height:77px;
+	}
+	
+	.bb-input {
+		font-size: 25pt;
+		height:74px;		
+	}
+	
+	/* Tab Overflow */
+	.bb-tab-overflow-menu-item {
+		font-size:24pt;
+	}
+	
+	.bb-tab-overflow-menu-item-single {
+		height: 70px;
+		line-height: 57px;
+		padding-top: 12px; 
+	}
+	
+	.bb-tab-overflow-menu-item-double {
+		height: 58px;
+		line-height: 35px;
+		padding-top: 4px; 
+		padding-bottom: 19px;
+	}
+	
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		font-size: 22pt;
+		margin-top: -40px;
+		height: 44px;
+	}
+	
+	.bb-tab-overflow-menu-item-image {
+		height: 66px;
+		width: 66px;
+		margin-left:4px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-item {
+		height: 74px;
+		font-size:25pt;
+		line-height: 65px;
+		padding-top: 10px;
+	}
+	
+	.bb-context-menu-item-image {
+		margin-top:0px;
+		height: 66px;
+		width: 66px;
+		margin-left:8px;
+	}
+	
+	/* Label Control Container */
+	.bb-label-control-label {
+		font-size: 25pt;
+	}
+	
+	.bb-label-control-label-row {
+		height:50px;
+	}
+	
+	/* Button */
+	.bb-button {
+		font-size:23pt;
+		height:59px;
+		line-height:44px;
+	}
+	
+	.bb-button-image {
+		margin-top: -12px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		margin-top: -12px;
+		margin-left: -32px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 81px;
+	}
+	
+	/* Drop Down */
+	.bb-dropdown-inner {
+		font-size:23pt;
+		height:59px;
+		line-height:42px;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		line-height:42px;
+	}
+	
+	.bb-dropdown-container {
+		height: 76px;
+	}
+	
+	.bb-dropdown-label,
+	.bb-dropdown-caption {
+		font-size:23pt;
+	}
+	
+	.bb-dropdown-caption-10dot2 {
+		margin-right: 4px;
+	}
+	
+	.bb-dropdown-arrow-dark, 
+	.bb-dropdown-arrow-light {
+		top:7px;
+	}
+	
+	.bb-dropdown-item {
+		font-size: 23pt;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		border-width:1px;
+		padding-right: 17px;
+	}
+	
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
