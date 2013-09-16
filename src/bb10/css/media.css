@@ -31,7 +31,25 @@
 	.bb-action-bar-landscape {
 		height: 92px;
 	}
+	
+	.bb-action-bar-back-text {
+		font-size:16pt;
+		top: 48px;
+	}
+	
+	.bb-action-bar-back-button-portrait {
+		width:146px;
+	}
 
+	.bb-action-bar-back-button-landscape {
+		width:267px;
+	}
+	
+	.bb-action-bar-back-chevron-dark {
+		background-size: 22px 35px;
+		background-repeat: no-repeat;
+	}
+	
 	.bb-action-bar-icon {
 		height: 66px;
 		width: 66px;

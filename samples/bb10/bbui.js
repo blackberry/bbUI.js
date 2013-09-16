@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.829*/
+/* bbUI for BB10 VERSION: 0.9.6.847*/
 
 bb = {
 	scroller: null,  
@@ -1038,6 +1038,9 @@ bb.actionBar = {
 						} else if (bb.device.is720x720) {
 							backHighlight.style['height'] = '78px';
 							backHighlight.style['top'] = '15px';
+						} else if (bb.device.is1280x720) {
+							backHighlight.style['height'] = orientation == 'portrait' ? '84px' : '70px';
+							backHighlight.style['top'] = '15px';
 						} else {
 							backHighlight.style['height'] = orientation == 'portrait' ? '110px' : '70px';
 							backHighlight.style['top'] = '15px';
@@ -1776,6 +1779,8 @@ bb.actionBar = {
 			return bb.getOrientation() == 'portrait' ? 93 : 150;
 		} else if (bb.device.is720x720) {
 			return 174;
+		} else if (bb.device.is1280x720) {
+			return bb.getOrientation() == 'portrait' ? 179 : 300;
 		}else {
 			return bb.getOrientation() == 'portrait' ? 187 : 300;
 		}
