@@ -42,6 +42,11 @@ _bb10_textInput = {
 			var type = outerElement.type.toLowerCase();
 			if ((type == 'date') || (type == 'time') || (type == 'datetime') || (type == 'month') || (type == 'datetime-local') || (type == 'color') || (type == 'search')) {
 				outerElement.clearBtn = false;
+				if (bb.device.newerThan10dot1) {
+					container.style.padding = '0px';
+					container.style['border-width'] = '0px';
+					container.style['background-color'] = 'transparent';
+				}
 			}
 		}
 		
