@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.747*/
+/* bbUI for BB10 VERSION: 0.9.6.754*/
 
 body, html {
 	padding:0;
@@ -2583,7 +2583,26 @@ body, html {
 		font-size:23pt;
 	}
 	
+	/* Grid List */
+	.bb-grid-header {
+		height:36px;
+		line-height:36px;
+	}
+	
+	.bb-grid-header p {
+		font-size: 18pt;
+		font-weight: 600;
+		line-height:36px;
+	}
+	
 	/* Image List */
+	.bb-image-list-header {
+		height:36px;
+		line-height:36px;
+		font-size: 18pt;
+		font-weight: 600;
+	}
+	
 	.bb-image-list-item .title {
 		font-size: 27pt;
 		margin-top: -30px;
