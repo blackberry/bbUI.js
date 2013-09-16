@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.754*/
+/* bbUI for BB10 VERSION: 0.9.6.793*/
 
 bb = {
 	scroller: null,  
@@ -2954,8 +2954,10 @@ bb.screen = {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+		} else if (bb.device.is1280x768) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+		} else if (bb.device.is1280x720) {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92; 
 		} else if (bb.device.is720x720) {
 			return 109;
 		} else {

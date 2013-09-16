@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.754*/
+/* bbUI for BB10 VERSION: 0.9.6.793*/
 
 body, html {
 	padding:0;
@@ -2581,6 +2581,46 @@ body, html {
 	
 	.bb-titlebar-button {
 		font-size:23pt;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-portrait {
+		height: 116px;
+	}
+
+	.bb-action-bar-landscape {
+		height: 92px;
+	}
+
+	.bb-action-bar-icon {
+		height: 66px;
+		width: 66px;
+		margin-top: 4px;
+	}
+	
+	.bb-action-bar-tab-overflow-landscape {
+		margin-top: -6px;
+	}
+	
+	.bb-action-bar-tab-overflow-dark {
+		background-position: center -10px;
+		height: 75px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-portrait {
+		margin-top: -101px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-landscape {
+		margin-top: -76px;
+	}
+	
+	.bb-action-bar-overflow-button-dark {
+		background-size: 66px 66px;
+	}
+	
+	.bb-action-bar-overflow-button-landscape {
+		margin-top: -7px;
 	}
 	
 	/* Grid List */
