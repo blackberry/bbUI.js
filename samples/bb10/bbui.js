@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.746*/
+/* bbUI for BB10 VERSION: 0.9.6.747*/
 
 bb = {
 	scroller: null,  
@@ -5594,8 +5594,11 @@ _bb10_imageList = {
 														this.setAttribute('class',this.normal);
 													}
 												};
-						innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);	
-
+						innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);
+						
+						//saved for remove
+						innerChildNode.parentList = this;
+						
 						// Add the remove function for the item
 						innerChildNode.remove = function() {
 								this.style.height = '0px';
@@ -5613,9 +5616,10 @@ _bb10_imageList = {
 						
 						// Perform the final remove after the transition effect
 						details.performRemove = function() {
-								var listControl = this.innerChildNode.parentNode,
-									index = listControl.items.indexOf(this.innerChildNode);
-								listControl.removeChild(this.innerChildNode);
+								var listControl = this.innerChildNode.parentList,
+									index = listControl.items.indexOf(this.innerChildNode),
+									parentNode = this.innerChildNode.parentNode;
+								parentNode.removeChild(this.innerChildNode);
 								listControl.items.splice(index,1);									
 						}
 						details.performRemove = details.performRemove.bind(details);	
@@ -5705,7 +5709,7 @@ _bb10_imageList = {
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
-					this.insertBefore(newItem,existingItem);
+					existingItem.parentNode.insertBefore(newItem,existingItem);
 					this.items.splice(this.items.indexOf(existingItem),0,newItem);
 					// Fire our list event
 					var evt = document.createEvent('Events');
