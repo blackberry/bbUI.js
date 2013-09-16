@@ -23,6 +23,24 @@
 		font-size:23pt;
 	}
 	
+	.bb-activity-small {
+		height: 35px;
+		width: 35px;
+		background-size: 35px 35px;
+	}
+	
+	.bb-activity-medium {
+		height: 69px;
+		width: 69px;
+		background-size: 69px 69px;
+	}
+	
+	.bb-activity-large {
+		height: 135px;
+		width: 135px;
+		background-size: 135px 135px;
+	}
+	
 	/* Action Bar */
 	.bb-action-bar-portrait {
 		height: 116px;
