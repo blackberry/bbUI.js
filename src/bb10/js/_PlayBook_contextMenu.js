@@ -269,7 +269,9 @@ _PlayBook_contextMenu = {
 									itemHeight = 53;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
-								} 								
+								} else if (bb.device.is1280x720) {
+									itemHeight = 91;
+								} 							
 								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
 							
 								// See how many actions to use for calculations

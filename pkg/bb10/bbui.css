@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.793*/
+/* bbUI for BB10 VERSION: 0.9.6.829*/
 
 body, html {
 	padding:0;
@@ -2691,33 +2691,47 @@ body, html {
 	
 	/* Tab Overflow */
 	.bb-tab-overflow-menu-item {
-		font-size:28pt;
+		font-size:24pt;
 	}
 	
 	.bb-tab-overflow-menu-item-single {
-		height: 90px;
-		line-height: 70px;
+		height: 70px;
+		line-height: 57px;
+		padding-top: 12px; 
 	}
 	
 	.bb-tab-overflow-menu-item-double {
-		height: 95px;
-		line-height: 65px;
+		height: 58px;
+		line-height: 35px;
+		padding-top: 4px; 
+		padding-bottom: 19px;
 	}
 	
 	.bb-tab-overflow-menu-item .tab-accent-text {
 		font-size: 22pt;
 		margin-top: -40px;
+		height: 44px;
+	}
+	
+	.bb-tab-overflow-menu-item-image {
+		height: 66px;
+		width: 66px;
+		margin-left:4px;
 	}
 	
 	/* Context Menu */
 	.bb-context-menu-item {
-		height: 101px;
+		height: 74px;
 		font-size:25pt;
-		line-height: 85px;
+		line-height: 65px;
+		padding-top: 10px;
 	}
 	
 	.bb-context-menu-item-image {
-		margin-top:5px;
+		margin-top:0px;
+		height: 66px;
+		width: 66px;
+		margin-left:8px;
 	}
 	
 	/* Label Control Container */

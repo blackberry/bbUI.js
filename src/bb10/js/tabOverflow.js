@@ -152,6 +152,8 @@ bb.tabOverflow = {
 									itemHeight = 53;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
+								} else if (bb.device.is1280x720) {
+									itemHeight = 91;
 								} else {
 									itemHeight = 111;
 								}

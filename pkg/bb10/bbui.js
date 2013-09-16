@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.793*/
+/* bbUI for BB10 VERSION: 0.9.6.829*/
 
 bb = {
 	scroller: null,  
@@ -3133,6 +3133,8 @@ bb.tabOverflow = {
 									itemHeight = 53;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
+								} else if (bb.device.is1280x720) {
+									itemHeight = 91;
 								} else {
 									itemHeight = 111;
 								}
@@ -7559,7 +7561,9 @@ _PlayBook_contextMenu = {
 									itemHeight = 53;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
-								} 								
+								} else if (bb.device.is1280x720) {
+									itemHeight = 91;
+								} 							
 								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
 							
 								// See how many actions to use for calculations
