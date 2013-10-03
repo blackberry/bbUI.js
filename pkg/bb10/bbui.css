@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.866*/
+/* bbUI for BB10 VERSION: 0.9.6.889*/
 
 body, html {
 	padding:0;
@@ -2888,7 +2888,7 @@ body, html {
 
 	.bb-action-bar-tab-overflow-highlight-portrait,
 	.bb-action-bar-tab-overflow-highlight-landscape {
-		margin-top: -80px;
+		margin-top: -10px;
 	}
 	
 	.bb-action-bar-overflow-button-dark {
@@ -2928,6 +2928,7 @@ body, html {
 		-webkit-transition-timing-function: linear, linear;
 		-webkit-backface-visibility: hidden;
 	}
+
 	
 	/* Tab Overflow */
 	.bb-tab-overflow-menu-item {
@@ -3037,6 +3038,10 @@ body, html {
 	.bb-action-bar-tab-overflow-dark {
 		background-position: center -10px;
 		height: 75px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight {
+		background-position: -56px -10px;
 	}
 	
 	.bb-action-bar-tab-overflow-highlight-portrait {

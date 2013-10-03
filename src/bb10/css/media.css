@@ -318,7 +318,7 @@
 
 	.bb-action-bar-tab-overflow-highlight-portrait,
 	.bb-action-bar-tab-overflow-highlight-landscape {
-		margin-top: -80px;
+		margin-top: -10px;
 	}
 	
 	.bb-action-bar-overflow-button-dark {
@@ -358,6 +358,7 @@
 		-webkit-transition-timing-function: linear, linear;
 		-webkit-backface-visibility: hidden;
 	}
+
 	
 	/* Tab Overflow */
 	.bb-tab-overflow-menu-item {
@@ -467,6 +468,10 @@
 	.bb-action-bar-tab-overflow-dark {
 		background-position: center -10px;
 		height: 75px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight {
+		background-position: -56px -10px;
 	}
 	
 	.bb-action-bar-tab-overflow-highlight-portrait {
