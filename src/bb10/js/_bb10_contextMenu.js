@@ -30,6 +30,7 @@ _bb10_contextMenu = {
 					}
 					node = node.parentNode;
 				}
+				
 				// If we found our item then we highlight it
 				if (found) {
 					node.drawSelected();
@@ -43,7 +44,7 @@ _bb10_contextMenu = {
 				} else {
 					contextEvent.preventDefault();
 				}
-				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);				
+				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);	
 			};
 		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
 		window.addEventListener('contextmenu', menu.oncontextmenu);

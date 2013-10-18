@@ -1560,13 +1560,22 @@ body, html {
 	padding-top: 6px;	
 	padding-left: 5px;
 	height: 103px;
+	position: relative;
 	border-top-width: 0px;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	-webkit-transition: background 0.3s;
     -transition: background 0.1s;
 	padding-bottom: 0px;
-	overflow:hidden;
+	overflow:hidden;	
+}
+.bb-image-list-item :after{
+	content:"";
+	position: absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
 }
 
 .bb-image-list-item-overlay {
