@@ -237,6 +237,8 @@ bb.actionBar = {
 		if (overflowButtons.length > 0) {
 			actionBar.menu = bb.actionOverflow.create(screen);
 			actionBar.appendChild(actionBar.menu);
+			actionBar.moreCaption = actionBar.hasAttribute('data-bb-more-caption') ? actionBar.getAttribute('data-bb-more-caption') : 'More';
+				
 			// Create our action bar overflow button
 			action = document.createElement('div');
 			action.menu = actionBar.menu;
@@ -706,7 +708,7 @@ bb.actionBar = {
 			
 			// Handle press-and-hold on Q10
 			tabOverflow.ontouchstart = function() {
-					var text = ((this.display.innerHTML == '') || (this.display.innerHTML == '&nbsp;')) ? 'More' : this.display.innerHTML;
+					var text = ((this.display.innerHTML == '') || (this.display.innerHTML == '&nbsp;')) ? this.actionBar.moreCaption : this.display.innerHTML;
 					this.actionBar.showLabel(this,text);				
 			}
 			// Remove highlight when touch ends
@@ -812,7 +814,7 @@ bb.actionBar = {
 			// Set our caption
 			var display = document.createElement('div');
 			display.setAttribute('class','bb-action-bar-action-display');
-			display.innerHTML = bb.device.is10dot2 ? 'More' : caption;
+			display.innerHTML = bb.device.is10dot2 ? actionBar.moreCaption : caption;
 			actionOverflow.display = display;
 			actionOverflow.appendChild(display);
 			// Set our highlight
@@ -824,7 +826,7 @@ bb.actionBar = {
 			// Highlight on touch
 			actionOverflow.ontouchstart = function() {
 					this.highlight.style['background-color'] = bb.options.highlightColor;	
-					this.actionBar.showLabel(this,'More');						
+					this.actionBar.showLabel(this,this.actionBar.moreCaption);						
 			}
 			// Remove highlight when touch ends
 			actionOverflow.ontouchend = function() {
