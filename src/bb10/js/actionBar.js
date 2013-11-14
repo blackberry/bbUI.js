@@ -121,9 +121,13 @@ bb.actionBar = {
 			var chevron,
 				backCaption,
 				backslash,
-				backHighlight;
+				backHighlight,
+				versionStyling = 'bb-action-bar-back-button-dark';
+			if (bb.device.is10dot2) {
+				versionStyling += '-10dot2';
+			} 
 			backBtn = document.createElement('div');
-			backBtn.setAttribute('class','bb-action-bar-back-button bb-action-bar-back-button-dark bb-action-bar-back-button-'+orientation);
+			backBtn.setAttribute('class','bb-action-bar-back-button '+ versionStyling +' bb-action-bar-back-button-'+orientation);
 			backBtn.onclick = function () {
 					window.setTimeout(bb.popScreen,0);
 				};
@@ -175,7 +179,11 @@ bb.actionBar = {
 			
 			// Create our backslash
 			backslash = document.createElement('div');
-			backslash.setAttribute('class','bb-action-bar-back-slash-dark bb-action-bar-back-slash-'+orientation); 
+			versionStyling = 'bb-action-bar-back-slash-dark';
+			if (bb.device.is10dot2) {
+				versionStyling += '-10dot2';
+			}
+			backslash.setAttribute('class',versionStyling + ' bb-action-bar-back-slash-'+orientation); 
 			backBtn.backslash = backslash;
 			
 			// Create a table to hold the back button and our actions
