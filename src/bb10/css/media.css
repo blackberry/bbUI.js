@@ -318,7 +318,8 @@
 
 	.bb-action-bar-tab-overflow-highlight-portrait,
 	.bb-action-bar-tab-overflow-highlight-landscape {
-		margin-top: -10px;
+		margin-top: -80px;
+		background-position: -53px -18px;
 	}
 	
 	.bb-action-bar-overflow-button-dark {
