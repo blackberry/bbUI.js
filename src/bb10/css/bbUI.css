@@ -2263,7 +2263,8 @@ body, html {
 .bb-action-bar-back-text {
 	position:relative;
 	height: 25px;
-	top: 61px;
+	padding-top: 3px;
+	top: 58px;
 	overflow:hidden;
 	white-space:nowrap;
 	text-overflow: ellipsis;

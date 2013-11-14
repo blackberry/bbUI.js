@@ -441,6 +441,7 @@
 	.bb-action-bar-back-text {
 		font-size:16pt;
 		top: 48px;
+		padding-top: 0px;
 	}
 	
 	.bb-action-bar-back-button-portrait {

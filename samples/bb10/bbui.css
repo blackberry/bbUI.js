@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.920*/
+/* bbUI for BB10 VERSION: 0.9.6.926*/
 
 body, html {
 	padding:0;
@@ -2281,7 +2281,8 @@ body, html {
 .bb-action-bar-back-text {
 	position:relative;
 	height: 25px;
-	top: 61px;
+	padding-top: 3px;
+	top: 58px;
 	overflow:hidden;
 	white-space:nowrap;
 	text-overflow: ellipsis;
@@ -3020,6 +3021,7 @@ body, html {
 	.bb-action-bar-back-text {
 		font-size:16pt;
 		top: 48px;
+		padding-top: 0px;
 	}
 	
 	.bb-action-bar-back-button-portrait {
