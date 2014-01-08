@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.940*/
+/* bbUI for BB10 VERSION: 0.9.6.941*/
 
 body, html {
 	padding:0;
@@ -843,6 +843,7 @@ body, html {
 	border-bottom-color: #CECECE;
 	border-left-color: #C3C3C3;
 	border-right-color: #C4C4C4;
+	display:inline-block;
 }
 
 .bb-button-container-dark

@@ -825,6 +825,7 @@ body, html {
 	border-bottom-color: #CECECE;
 	border-left-color: #C3C3C3;
 	border-right-color: #C4C4C4;
+	display:inline-block;
 }
 
 .bb-button-container-dark
