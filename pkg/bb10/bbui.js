@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.932*/
+/* bbUI for BB10 VERSION: 0.9.6.935*/
 
 bb = {
 	scroller: null,  
@@ -6812,6 +6812,10 @@ _bb10_textInput = {
 										event.stopPropagation();
 										this.input.value = '';
 										outerElement.doFocus();
+										// fire the onchange event
+										var evObj = document.createEvent('HTMLEvents');
+										evObj.initEvent('change', false, true );
+										this.input.dispatchEvent(evObj);
 									}
 								};
 		}
