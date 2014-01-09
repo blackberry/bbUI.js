@@ -85,10 +85,12 @@ bb.titleBar = {
 										this.caption.style['margin-right'] = (commonWidth + 24) +'px';
 									} else if (this.actionButton) {
 										this.caption.style['margin-left'] = '0px';
+										this.caption.style['margin-left'] = (actionWidth + 24) +'px';
 										this.caption.style['margin-right'] = (actionWidth + 24) +'px';
 									} else if (this.backButton) {
 										this.caption.style['margin-right'] = '0px';
 										this.caption.style['margin-left'] = (backWidth + 24) +'px';
+										this.caption.style['margin-right'] = (backWidth + 24) +'px';
 									}
 								};
 			titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
