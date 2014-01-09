@@ -129,11 +129,10 @@ body, html {
 
 .bb-slider .outer {
     display: inline-block;
-    padding: 1px;
 	position: relative;
     padding: 0px;
-    height: 17px;
-	border-radius: 0.2em;
+    height: 12px;
+	border-radius: 10px;
 	width:100%;
 }
 
@@ -208,14 +207,12 @@ body, html {
     position: absolute;
     height: 100%;
     width: 0px;
-    border-radius: 0.2em;
-	margin-top: -4px;
-	margin-left: -4px;
+    border-radius: 10px;
 }
 
 .bb-slider .inner {
-    top: -1.7em;
-    left: -1.9em;
+    top: -76px;
+    left: -76px;
     position: absolute;
     width: 4em;
     height: 4em;
