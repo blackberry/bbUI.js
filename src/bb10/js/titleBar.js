@@ -14,8 +14,15 @@ bb.titleBar = {
 		titleBar.topTitleArea = topTitleArea;
 		titleBar.appendChild(topTitleArea);
 		
-		// Style our title bar
+		// Create our box shadow below the title bar
+		if (titleBar.parentNode) {
+			titleBar.dropShadow = document.createElement('div');
+			titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
+			titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
+			titleBar.parentNode.appendChild(titleBar.dropShadow);
+		}
 		
+		// Style our title bar
 		if (bb.options.coloredTitleBar) {
 			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
 		} else {
@@ -78,10 +85,12 @@ bb.titleBar = {
 										this.caption.style['margin-right'] = (commonWidth + 24) +'px';
 									} else if (this.actionButton) {
 										this.caption.style['margin-left'] = '0px';
+										this.caption.style['margin-left'] = (actionWidth + 24) +'px';
 										this.caption.style['margin-right'] = (actionWidth + 24) +'px';
 									} else if (this.backButton) {
 										this.caption.style['margin-right'] = '0px';
 										this.caption.style['margin-left'] = (backWidth + 24) +'px';
+										this.caption.style['margin-right'] = (backWidth + 24) +'px';
 									}
 								};
 			titleBar.evenButtonWidths = titleBar.evenButtonWidths.bind(titleBar);
@@ -205,6 +214,11 @@ bb.titleBar = {
 			normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
 			highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
 			outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
+		}
+		
+		// Remove the moats on 10.2
+		if (bb.device.is10dot2) {
+			outerNormal += ' bb-titlebar-button-container-10dot2';
 		}
 
 		//outerElement.enabled = !disabled;

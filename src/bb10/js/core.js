@@ -35,6 +35,15 @@ bb = {
 		bb.device.isRipple = (navigator.userAgent.indexOf('Ripple') >= 0) || window.tinyHippos;
 		bb.device.isPlayBook = (navigator.userAgent.indexOf('PlayBook') >= 0) || ((window.innerWidth == 1024 && window.innerHeight == 600) || (window.innerWidth == 600 && window.innerHeight == 1024));
 		bb.device.isBB10 = true;
+		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
+		
+		// Get our OS version as a convenience
+		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
+		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
+		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
+		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2;
+		bb.device.newerThan10dot1 = bb.device.is10dot2;
+		bb.device.newerThan10dot2 = false;
 		
 		// Set our resolution flags
 		bb.device.is1024x600 = bb.device.isPlayBook;
@@ -86,7 +95,7 @@ bb = {
 				document.styleSheets[0].insertRule('.pb-button-light-highlight {color:'+bb.options.shades.darkHighlight+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.pb-button-dark-highlight {color:'+bb.options.highlightColor+';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10Accent {background-color:'+ bb.options.shades.darkHighlight +';}', 0);
-				document.styleSheets[0].insertRule('.bb10-title-colored {color:white;border-color: '+bb.options.shades.darkHighlight+';text-shadow: 0px 2px black;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-colored {color:white;border-color: '+bb.options.shades.mediumHighlight+';text-shadow: 0px 2px black;background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.darkHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
@@ -121,7 +130,7 @@ bb = {
 		bb.actionOverflow = _PlayBook_contextMenu;
 			
 		// Add our keyboard listener for BB10
-		if (!bb.device.isPlayBook && !bb.device.isRipple && !bb.device.is720x720) {
+		if (!bb.device.isPlayBook && !bb.device.isRipple) {
 			// Hide our action bar when the keyboard is about to pop up
 			blackberry.event.addEventListener('keyboardOpening', function() {
 				if (bb.screen.currentScreen.actionBar) {
@@ -191,14 +200,23 @@ bb = {
 		return document.querySelector('[data-bb-type=screen]');
 	},
 	device: {  
+		// Flags
 		isBB10: false,
         isPlayBook: false, 
         isRipple: false,
+		requiresScrollingHack: false,
 		// Resolutions
 		is1024x600: false,
 		is1280x768: false,
 		is720x720: false,
-		is1280x720: false		
+		is1280x720: false,
+		// OS versions
+		is10dot2: false,
+		is10dot1: false,
+		is10dot0: false,
+		newerThan10dot0: false,
+		newerThan10dot1 : false,
+		newerThan10dot2: false
     },
 	
 	// Options for rendering
@@ -225,7 +243,7 @@ bb = {
             },
             whereScript = function (result, el) {
                 if (el.nodeName === "SCRIPT") {
-                    result.push(el);
+					result.push(el);
                 }
 
                 return _reduce(el.childNodes, whereScript, result);
@@ -255,11 +273,6 @@ bb = {
 			
 			// First check the type. If the type isn't specified or if it isn't "text/javascript" then skip the script
 			if (!type || type.toLowerCase() == 'text/javascript') {
-				if (script.text) {
-					//if there is text, just eval it since they probably don't have a src.
-					eval(script.text);
-					return;
-				}
 				var scriptGuid = bb.guidGenerator();
 				// Either update the old screen in the stack record or add to the new one
 				if (screenRecord) {
@@ -268,7 +281,12 @@ bb = {
 					container.scriptIds.push({'id' : scriptGuid, 'onunload': script.getAttribute('onunload')});
 				}
 				scriptTag.setAttribute('type','text/javascript');
-				scriptTag.setAttribute('src', script.getAttribute('src'));
+				if (script.text) {
+					scriptTag.innerHTML = script.text;
+					scriptTag.inline = true;
+				} else {
+					scriptTag.setAttribute('src', script.getAttribute('src'));
+				}
 				scriptTag.setAttribute('id', scriptGuid);
 				newScriptTags.push(scriptTag);
 				// Remove script tag from container because we are going to add it to <head>
@@ -299,14 +317,20 @@ bb = {
         // Special handling for inserting script tags
         bb.screen.scriptCounter = 0;
         bb.screen.totalScripts = newScriptTags.length;
+		var script;
         for (var i = 0; i < newScriptTags.length; i++) {
-                document.body.appendChild(newScriptTags[i]);
-                newScriptTags[i].onload = function() {
-                    bb.screen.scriptCounter++;
-                    if(bb.screen.scriptCounter == bb.screen.totalScripts) {
-						bb.initContainer(container, id, popping, params);
-                    }
-                };
+			script = newScriptTags[i];
+			document.body.appendChild(script);
+			script.onload = function() {
+				bb.screen.scriptCounter++;
+				if(bb.screen.scriptCounter == bb.screen.totalScripts) {
+					bb.initContainer(container, id, popping, params);
+				}
+			};
+			// Fire the onload for an inline script
+			if (script.inline == true) {
+				setTimeout(script.onload, 0);
+			}
         }
 
         // In case there are no scripts at all we simply doLoad().  We do this in
@@ -640,16 +664,34 @@ bb = {
 	
     // Add a new screen to the stack
     pushScreen: function (url, id, params) {
-		// Remove our old screen
+		var i,
+			listener;
+			
+		// Remove our old screen scripts
         bb.removeLoadedScripts();
+		
+		// Clear any window listeners
+		for (i = 0 ; i < bb.windowListeners.length; i++) {
+			listener = bb.windowListeners[i];
+			window.removeEventListener(listener.name, listener.eventHandler, false);
+		}
+		bb.windowListeners = [];
+		
+		// Clear any document listeners
+		for (i = 0 ; i < bb.documentListeners.length; i++) {
+			listener = bb.documentListeners[i];
+			document.removeEventListener(listener.name, listener.eventHandler, false);
+		}
+		bb.documentListeners = [];
+		
+		// Clear other screen items
 		bb.menuBar.clearMenu();
         var numItems = bb.screens.length,
 			currentScreen;
         if (numItems > 0) {
 			bb.screen.overlay = null;
 			bb.screen.tabOverlay = null;
-			bb.clearScrollers();
-			
+			bb.clearScrollers();			
 			if (bb.screen.contextMenu) {
 				bb.screen.contextMenu = null;
 			}
@@ -678,7 +720,7 @@ bb = {
 				listener = bb.windowListeners[i];
 				window.removeEventListener(listener.name, listener.eventHandler, false);
 			}
-			bb.windowListners = [];
+			bb.windowListeners = [];
 			
 			// Clear any document listeners
 			for (i = 0 ; i < bb.documentListeners.length; i++) {

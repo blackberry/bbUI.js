@@ -1,19 +1,14 @@
 // BlackBerry 10 Context Menu for PlayBook
+// Also acts as the action overflow menu for BlackBerry 10 Action Bar
 _PlayBook_contextMenu = {
 	// Create an instance of the menu and pass it back to the caller
 	create : function(screen) {
-		var res = '1280x768-1280x720',
-			swipeThreshold;
+		var swipeThreshold = 300;
 				
-		// Set our 'res' for known resolutions, otherwise use the default
+		// Set our swipeThreshold for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
-			res = '1024x600';
 			swipeThreshold = 100;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			res = '1280x768-1280x720';
-			swipeThreshold = 300;
 		} else if (bb.device.is720x720) {
-			res = '720x720';
 			swipeThreshold = 300;
 		}
 		
@@ -22,18 +17,17 @@ _PlayBook_contextMenu = {
 			title = document.createElement('div'),
 			description = document.createElement('div'),
 			header;
-		menu.setAttribute('class','bb-bb10-context-menu bb-bb10-context-menu-' + res + '-dark');
+		menu.setAttribute('class','bb-context-menu bb-context-menu-dark');
 	
 		menu.actions = [];
 		menu.hideEvents = [];
-		menu.res = res;
 		menu.threshold = swipeThreshold;
 		menu.visible = false;
 		
 		// Create our overlay for touch events
 		menu.overlay = document.createElement('div');
 		menu.overlay.threshold = swipeThreshold;
-		menu.overlay.setAttribute('class','bb-bb10-context-menu-overlay');
+		menu.overlay.setAttribute('class','bb-context-menu-overlay');
 		menu.overlay.menu = menu;
 		screen.appendChild(menu.overlay);
 		
@@ -65,25 +59,25 @@ _PlayBook_contextMenu = {
 		
 		// Create the menu header
 		header = document.createElement('div');
-		header.setAttribute('class','bb-bb10-context-menu-item-'+res+' bb-bb10-context-menu-header-dark');
+		header.setAttribute('class','bb-context-menu-item bb-context-menu-header-dark');
 		menu.header = header;
 		menu.appendChild(header);
 		
 		// Create our title container
-		title.setAttribute('class','bb-bb10-context-menu-header-title-'+res+' bb-bb10-context-menu-header-title-dark');
+		title.setAttribute('class','bb-context-menu-header-title bb-context-menu-header-title-dark');
 		title.style.width = _PlayBook_contextMenu.getWidth() - 20 + 'px';
 		menu.topTitle = title;
 		header.appendChild(title);
 		
 		// Create our description container
-		description.setAttribute('class','bb-bb10-context-menu-header-description-'+res);
+		description.setAttribute('class','bb-context-menu-header-description');
 		description.style.width = _PlayBook_contextMenu.getWidth() - 20 + 'px';
 		menu.description = description;
 		header.appendChild(description);
 		
 		// Create our scrolling container
 		menu.scrollContainer = document.createElement('div');
-		menu.scrollContainer.setAttribute('class', 'bb-bb10-context-menu-scroller');
+		menu.scrollContainer.setAttribute('class', 'bb-context-menu-scroller');
 		menu.appendChild(menu.scrollContainer);
 
 		// Set our first left position
@@ -263,26 +257,36 @@ _PlayBook_contextMenu = {
 		// Center the items in the list
 		menu.centerMenuItems = function() {
 								var windowHeight = bb.innerHeight(),
-									itemHeight = 11,
+									itemHeight = 111,
 									margin,
 									numActions = 0,
 									headerHeight = 0,
-									i;
+									i,
+									isFirst = true,
+									action;
 									
 								if (bb.device.isPlayBook) {
 									itemHeight = 53;
-								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-									itemHeight = 111;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
-								}
-								
+								} else if (bb.device.is1280x720) {
+									itemHeight = 91;
+								} 							
 								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
 							
 								// See how many actions to use for calculations
+								
 								for (i = 0; i < this.actions.length; i++) {
-									if (this.actions[i].visible == true) {
+									action = this.actions[i];
+									if (action.visible == true) {
 										numActions++;
+										if (isFirst && (this.pinnedAction != action)) {
+											isFirst = false;
+											action.setAttribute('class',action.normal + ' bb-context-menu-item-first-dark');
+											action.isFirst = true;
+										} else if (this.pinnedAction != action){
+											action.setAttribute('class',action.normal);
+										}
 									}
 								}
 								numActions = (this.pinnedAction) ? numActions - 1 : numActions;
@@ -320,7 +324,7 @@ _PlayBook_contextMenu = {
 					pin = false;
 				
 				// set our styling
-				normal = 'bb-bb10-context-menu-item-'+this.res+' bb-bb10-context-menu-item-'+this.res+'-dark';
+				normal = 'bb-context-menu-item bb-context-menu-item-dark';
 
 				// Check for our visibility
 				if (action.hasAttribute('data-bb-visible') && action.getAttribute('data-bb-visible').toLowerCase() == 'false') {
@@ -328,13 +332,13 @@ _PlayBook_contextMenu = {
 					action.style.display = 'none';
 				} else {
 					action.visible = true;
-					this.actions.push(action);
 				}
+				this.actions.push(action);
 				
 				// See if this item should be pinned to the bottom
 				pin = (action.hasAttribute('data-bb-pin') && action.getAttribute('data-bb-pin').toLowerCase() == 'true');
 				if (pin && !this.pinnedAction) {
-					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-dark';
+					normal = normal + ' bb-context-menu-item-first-dark';
 					action.style['bottom'] = '-2px';
 					action.style.position = 'absolute';
 					action.style.width = '100%';
@@ -342,8 +346,6 @@ _PlayBook_contextMenu = {
 					this.appendChild(action);
 					if (bb.device.isPlayBook) {
 						this.scrollContainer.style.bottom = '64px';
-					} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-						this.scrollContainer.style.bottom = '130px';
 					} else if (bb.device.is720x720) {
 						this.scrollContainer.style.bottom = '95px';
 					} else {
@@ -352,11 +354,8 @@ _PlayBook_contextMenu = {
 				} else {
 					this.scrollContainer.appendChild(action);
 				}
-				// If it is the top item it needs a top border
-				if (this.actions.length == 1) {
-					normal = normal + ' bb-bb10-context-menu-item-first-' + this.res + '-dark';
-				}
-				highlight = normal + ' bb-bb10-context-menu-item-hover-'+this.res;
+
+				highlight = normal + ' bb-context-menu-item-hover';
 				action.normal = normal;
 				action.highlight = highlight;
 				// Set our inner information
@@ -364,10 +363,10 @@ _PlayBook_contextMenu = {
 				var inner = document.createElement('div'),
 					img = document.createElement('img');
 				img.setAttribute('src', action.getAttribute('data-bb-img'));
-				img.setAttribute('class','bb-bb10-context-menu-item-image-'+this.res);
+				img.setAttribute('class','bb-context-menu-item-image');
 				action.img = img;
 				action.appendChild(img);
-				inner.setAttribute('class','bb-bb10-context-menu-item-inner-'+this.res);
+				inner.setAttribute('class','bb-context-menu-item-inner');
 				action.appendChild(inner);
 				inner.innerHTML = caption;
 				action.display = inner;
@@ -419,9 +418,6 @@ _PlayBook_contextMenu = {
 				action.hide = function() {
 									if (!this.visible) return;
 									this.visible = false;
-									// Remove from the actions list
-									var index = this.menu.actions.indexOf(this);
-									this.menu.actions.splice(index,1);
 									// Change style
 									this.style.display = 'none';
 									this.menu.centerMenuItems();
@@ -431,9 +427,7 @@ _PlayBook_contextMenu = {
 				// Assign the show function
 				action.show = function() {
 									if (this.visible) return;
-									this.visible = true;
-									// Add to the actions list
-									this.menu.actions.push(this);
+									this.visible = true;   
 									// Change style
 									this.style.display = '';
 									this.menu.centerMenuItems();

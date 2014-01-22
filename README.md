@@ -113,8 +113,9 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry Z10 10.0.10.672 (software release 10.0.10.85)
-* BlackBerry Q10 10.1.x Beta
+* BlackBerry 10.2.0.339 (Beta SDK OS)
+* BlackBerry 10.1.0.273
+* BlackBerry 10.0.10.672
 * BlackBerry PlayBook v2.1.x.x
 * BlackBerry Torch 9860 v7.0.0.x
 * BlackBerry Curve 9360 v7.0.0.x

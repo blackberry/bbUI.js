@@ -14,17 +14,7 @@ bb.tabOverflow = {
 			caption : undefined
 		};
 		
-		if (bb.device.is1024x600) {
-			menu.res = '1024x600';
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			menu.res = '1280x768-1280x720';
-		} else if (bb.device.is720x720) {
-			menu.res = '720x720';
-		} else {
-			menu.res = '1280x768-1280x720';
-		}
-		
-		menu.setAttribute('class','bb-bb10-tab-overflow-menu bb-bb10-tab-overflow-menu-dark');
+		menu.setAttribute('class','bb-tab-overflow-menu bb-tab-overflow-menu-dark');
 		screen.parentNode.appendChild(menu);
 		
 		// Set our initial styling
@@ -54,7 +44,7 @@ bb.tabOverflow = {
 			overlay = document.createElement('div');
 			overlay.menu = menu;
 			bb.screen.tabOverlay = overlay;
-			overlay.setAttribute('class','bb-bb10-tab-overflow-menu-overlay ');
+			overlay.setAttribute('class','bb-tab-overflow-menu-overlay ');
 			screen.appendChild(overlay);
 			
 			// Hide the menu on touch
@@ -160,10 +150,12 @@ bb.tabOverflow = {
 									
 								if (bb.device.is1024x600) {
 									itemHeight = 53;
-								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-									itemHeight = 111;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
+								} else if (bb.device.is1280x720) {
+									itemHeight = 91;
+								} else {
+									itemHeight = 111;
 								}
 								
 								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
@@ -205,12 +197,12 @@ bb.tabOverflow = {
 					caption = action.innerHTML,
 					accentTextValue = action.getAttribute('data-bb-accent-text'),
 					inner = document.createElement('div'),
-					innerClass = 'bb-bb10-tab-overflow-menu-item-inner-'+this.res,
+					innerClass = 'bb-tab-overflow-menu-item-inner',
 					img = document.createElement('img'),
 					table, tr, td;
 				
 				// set our styling
-				normal = 'bb-bb10-tab-overflow-menu-item-'+this.res+' bb-bb10-tab-overflow-menu-item-'+this.res+'-dark';
+				normal = 'bb-tab-overflow-menu-item bb-tab-overflow-menu-item-dark';
 				this.appendChild(action);
 				
 				// Check for our visibility
@@ -223,7 +215,7 @@ bb.tabOverflow = {
 				}
 				// If it is the top item it needs a top border
 				if (this.actions.length == 1) {
-					normal = normal + ' bb-bb10-tab-overflow-menu-item-first-' + this.res + '-dark';
+					normal = normal + ' bb-tab-overflow-menu-item-first-dark';
 				}
 				// Set our inner information
 				action.normal = normal;
@@ -243,7 +235,7 @@ bb.tabOverflow = {
 				// Add our image
 				td = document.createElement('td');
 				img.setAttribute('src', action.getAttribute('data-bb-img'));
-				img.setAttribute('class','bb-bb10-tab-overflow-menu-item-image-'+this.res);
+				img.setAttribute('class','bb-tab-overflow-menu-item-image');
 				action.img = img;
 				td.appendChild(img);
 				tr.appendChild(td);
@@ -258,9 +250,9 @@ bb.tabOverflow = {
 					action.accentText.innerHTML = accentTextValue;
 					action.accentText.setAttribute('class','tab-accent-text');
 					td.appendChild(action.accentText);	
-					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-double-' + this.res;
+					innerClass = innerClass + ' bb-tab-overflow-menu-item-double';
 				} else {
-					innerClass = innerClass + ' bb-bb10-tab-overflow-menu-item-single-' + this.res;
+					innerClass = innerClass + ' bb-tab-overflow-menu-item-single';
 				}
 				// Set our styling
 				inner.setAttribute('class',innerClass);
@@ -347,8 +339,6 @@ bb.tabOverflow = {
 	getWidth: function() {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
 		} else if (bb.device.is720x720) {
 			return bb.innerWidth() - 143;
 		} else {

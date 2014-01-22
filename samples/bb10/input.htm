@@ -17,7 +17,11 @@
 
 <div data-bb-type="screen" data-bb-effect="slide-left">
 	<div id="foo" data-bb-type="title" data-bb-caption="Edit Contact" data-bb-back-caption="Cancel" data-bb-action-caption="Save" onactionclick="alert('Save Clicked')"></div>
-	
+	<script type="text/javascript">
+		function test() {
+			alert('You clicked me');
+		}
+	</script>
 	<div data-bb-type="round-panel"> 
 		<div data-bb-type="panel-header">Dropdown Buttons</div>
 		<div data-bb-type="label-control-container">
@@ -49,7 +53,7 @@
 		   </div>
 		   <div data-bb-type="row">
 			   <div data-bb-type="label">BB10 button with image + text</div>
-			   <div data-bb-type="button" data-bb-img="images/actionBar/cog_dark_theme.png">My Button</div>
+			   <div data-bb-type="button" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="test()">My Button</div>
 		   </div>
 		</div>
 	</div>
@@ -66,7 +70,7 @@
 		<div data-bb-type="label-control-container">
 			<div data-bb-type="row">
 			   <div data-bb-type="label">Sample Text</div>
-			   <input type="text" value="This is long text to test the clear button overlap" />
+			   <input type="text" value="This is long text to test the clear button overlap"/>
 		   </div>
 		   <div data-bb-type="row">
 			   <div data-bb-type="label">Sample Placeholder text</div>

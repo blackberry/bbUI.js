@@ -16,13 +16,24 @@ _bb10_dropdown = {
 			labelElement,
 			captionElement,
 			itemsElement,
+			focusedHighlight,
 			enabled = !select.hasAttribute('disabled'),
 			normal = 'bb-dropdown bb-dropdown-' + bb.screen.controlColor,
-			highlight = 'bb-dropdown bb-dropdown-highlight-'+ bb.screen.controlColor+ ' bb10Highlight',  
+			highlight = 'bb-dropdown bb-dropdown-highlight-'+ bb.screen.controlColor,  
 			outerContainerStyle = 'bb-dropdown-container bb-dropdown-container-' + bb.screen.controlColor,
 			innerContainerStyle = 'bb-dropdown-container-inner bb-dropdown-container-inner-'+bb.screen.controlColor,
 			innerButtonStyle = 'bb-dropdown-inner bb-dropdown-inner-'+bb.screen.controlColor;
 
+		if (bb.device.newerThan10dot1) {
+			outerContainerStyle += ' bb-dropdown-container-10dot2';
+			innerContainerStyle += ' bb-dropdown-container-inner-10dot2';
+			innerButtonStyle += ' bb-dropdown-inner-10dot2';
+			focusedHighlight = highlight + ' bb10Highlight';
+			highlight += ' bb-dropdown-' + bb.screen.controlColor + '-highlight-10dot2';
+		} else {
+			highlight += ' bb10Highlight';
+		}
+			
 		// Make the existing <select> invisible so that we can hide it and create our own display
 		select.style.display = 'none';
 		select.enabled = enabled;
@@ -77,14 +88,24 @@ _bb10_dropdown = {
 		
 		// Create our dropdown arrow
 		img = document.createElement('div');
-		img.setAttribute('class','bb-dropdown-arrow-'+bb.screen.controlColor);
+		if (bb.device.newerThan10dot1) {
+			img.normal = 'bb-dropdown-arrow-'+bb.screen.controlColor + ' bb-dropdown-arrow-10dot2';
+			img.highlight = 'bb-dropdown-arrow-dark bb-dropdown-arrow-10dot2';
+		} else {
+			img.normal = 'bb-dropdown-arrow-'+bb.screen.controlColor;
+		}
+		img.setAttribute('class',img.normal);
 		innerElement.appendChild(img);
 		dropdown.img = img;
 		
 		// Create the caption for the dropdown
 		captionElement = document.createElement('div');
 		dropdown.captionElement = captionElement;
-		captionElement.setAttribute('class','bb-dropdown-caption');
+		if (bb.device.newerThan10dot1) {
+			captionElement.setAttribute('class','bb-dropdown-caption bb-dropdown-caption-10dot2');
+		} else {
+			captionElement.setAttribute('class','bb-dropdown-caption');
+		}
 		innerElement.appendChild(captionElement);
 		
 		// Create the scrolling area
@@ -211,6 +232,7 @@ _bb10_dropdown = {
 		dropdown.open = false;
 		buttonOuter.normal = normal;
 		buttonOuter.highlight = highlight;
+		buttonOuter.focusedHighlight = focusedHighlight;
 
 		// Create our scroller
 		dropdown.scroller = new iScroll(scrollArea, {vScrollbar: false,
@@ -293,8 +315,16 @@ _bb10_dropdown = {
 								  
 								// Animate our arrow
 								this.img.style.opacity = '1.0';
-								this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-								this.img.style['-webkit-transform'] = 'rotate(-360deg)';
+								if (bb.device.newerThan10dot1) {
+									this.img.setAttribute('class',this.img.highlight);
+									this.img.style['-webkit-transition'] = 'all 0.2s linear';
+									this.img.style['-webkit-transform'] = 'rotate(-360deg)';
+									this.buttonOuter.setAttribute('class',this.buttonOuter.focusedHighlight);
+									this.buttonOuter.style.color = 'white';
+								} else {
+									this.img.style['-webkit-transform'] = 'rotate(-360deg)';
+									this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
+								}
 								
 								// Refresh our screen srolling height
 								if (bb.scroller) {
@@ -312,10 +342,12 @@ _bb10_dropdown = {
 								
 								if (bb.device.is1024x600) {
 									this.style.height = '43px';
-								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-									this.style.height = '95px';
+								} else if (bb.device.is1280x768) {
+									this.style.height = bb.device.newerThan10dot1 ? '88px' : '95px';
 								} else if (bb.device.is720x720) {
-									this.style.height = '77px';
+									this.style.height = bb.device.newerThan10dot1 ? '70px' : '77px';
+								} else if (bb.device.is1280x720 && bb.device.newerThan10dot1 && (window.devicePixelRatio < 1.9)) {
+									this.style.height = '76px';
 								}else {
 									this.style.height = '95px';
 								}
@@ -327,9 +359,18 @@ _bb10_dropdown = {
 								this.caption.style['-webkit-perspective'] = 1000;
 								
 								// Animate our arrow
-								this.img.style.opacity = '0.0';
-								this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
-								this.img.style['-webkit-transform'] = 'rotate(0deg)';
+								if (bb.device.newerThan10dot1) {
+									this.img.setAttribute('class',this.img.normal);
+									this.img.style['-webkit-transform'] = 'rotate(-180deg)';
+									this.img.style['-webkit-transition'] = 'all 0.2s linear';
+									this.buttonOuter.setAttribute('class',this.buttonOuter.normal);
+									this.buttonOuter.style.color = '';
+								} else {
+									this.img.style.opacity = '0.0';
+									this.img.style['-webkit-transform'] = 'rotate(0deg)';
+									this.img.style['-webkit-transition'] = 'all 0.5s ease-in-out';
+								}
+																
 								// Refresh our screen srolling height
 								if (bb.scroller) {
 									bb.scroller.refresh();

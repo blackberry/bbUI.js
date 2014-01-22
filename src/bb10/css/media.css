@@ -9,13 +9,9 @@
    resolution sizing
 */
 
-@media screen and (width: 720px) and (height: 1280px), (width: 1280px) and (height: 720px){
-    .bb-screen {
-		font-size: 30pt;
-    }
-}
 
-@media screen and (width: 720px) and (height: 720px){
+
+@media screen and (width: 720px) and (max-height: 720px){
     .bb-screen {
 		font-size: 28pt;
     }
@@ -81,9 +77,17 @@
 		height: 77px;
 	}
 	
+	.bb-dropdown-container-10dot2 {
+		height: 70px;
+	}
+	
 	.bb-dropdown-caption {
 		font-size: 24pt;
 		margin-right:-55px;
+	}
+	
+	.bb-dropdown-caption-10dot2 {
+		margin-right: 4px;
 	}
 	
 	.bb-dropdown-label {
@@ -105,6 +109,11 @@
 		padding-left: 29px;
 		padding-right: 29px;
 		font-size:24pt;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		border-width:1px;
+		padding-right: 17px;
 	}
 	
 	/* Input */
@@ -147,14 +156,14 @@
 	}
 	
 	.bb-image-list-item-overlay {
-		margin-top: -127px;
+		margin-top: -132px;
 		height: 84px;
 	}
 	
 	.bb-image-list-item-details {
 		padding-left: 105px;
 		background-size: 92px 92px;
-		background-position: 0px 13px;
+		background-position: 0px 8px;
 	}
 	
 	.bb-image-list-item-details-nodescription {
@@ -166,18 +175,18 @@
 	}
 	
 	.bb-image-list-item .title {
-		font-size: 33pt;
-		margin-top: -36px;
+		font-size: 29pt;
+		margin-top: -31px;
 	}
 	
 	.bb-image-list-item .description {
-		font-size: 24pt;	
-		margin-top:-4px;
+		font-size: 22pt;	
+		margin-top:-10px;
 	}
 	
 	.bb-image-list-item .accent-text {
-		font-size:24pt;
-		margin-top:-84px;
+		font-size:22pt;
+		margin-top:-70px;
 	}
 	
 	.bb-image-list-item-button-border {
@@ -206,15 +215,23 @@
 	}
 	
 	/* Title Bar */
+	.bb-title-bar {
+		font-size: 30pt;
+	}
+	
+	.bb-titlebar-button {
+		font-size:23pt;
+	}
+	
 	.bb-title-bar-portrait,
 	.bb-title-bar-landscape {
-		height:95px;
+		height:92px;
 	}
 	
 	.bb-title-bar-caption-portrait,
 	.bb-title-bar-caption-landscape,
 	.bb-title-bar-caption-left {
-		line-height:95px;
+		line-height:88px;
 	}
 	
 	.bb-title-bar-caption-details-img {
@@ -227,12 +244,451 @@
 	
 	.bb-title-bar img {
 		margin-top: 0px;
-		height:95px;
-		width:95px;
+		height:92px;
+		width:92px;
 	}
 	
 	.bb-titlebar-button-container {
 		margin: 6px;
+	}
+	
+	.bb-titlebar-button-container-10dot2 {
+		margin-top: 10px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-item {
+		padding-top: 0px;
+		padding-bottom: 0px;
+		padding-left: 4px;
+		height: 90px;
+		line-height: 85px;
+		font-size:28pt;
+	}
+	
+	.bb-context-menu-item-image {
+		margin-top:5px;
+		margin-left:8px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-portrait {
+		height: 109px;
+	}
+	
+	.bb-action-bar-landscape {
+		height: 109px;
+	}
+	
+	.bb-action-bar-icon {
+		margin-top: 10px;
+	}
+	
+	.bb-action-bar-action-portrait,
+	.bb-action-bar-action-landscape	{
+		height:101px;
+	}
+	
+	.bb-action-bar-action-display {
+		display:none;
+	}
+	
+	.bb-action-bar-action-display-portrait {
+		display: none;
+	}
+	
+	.bb-action-bar-back-button-portrait,
+	.bb-action-bar-back-button-landscape {
+		height:108px;
+		width:141px;
+	}
+	
+	.bb-action-bar-back-text-portrait {
+		display:none;
+	}
+	
+	.bb-action-bar-back-slash-portrait,
+	.bb-action-bar-back-slash-landscape {
+		height: 108px;
+	}
+	
+	.bb-action-bar-tab-overflow-dark {
+		background-position: center -18px;
+	}
+
+	.bb-action-bar-tab-overflow-highlight-portrait,
+	.bb-action-bar-tab-overflow-highlight-landscape {
+		margin-top: -80px;
+		background-position: -53px -18px;
+	}
+	
+	.bb-action-bar-overflow-button-dark {
+		margin-top: 5px;
+	}
+	
+	.bb-action-bar-overflow-button-portait-10dot2 {
+		margin-top: 5px;
+	}
+	
+	.bb-action-bar-slide-label {
+		display:block;
+		position:fixed;
+		height: 0px;
+		width: 100%;
+		bottom: 108px;
+		opacity: 0.4;
+		background-color: black;
+		border-top: 1px solid #464646;
+		-webkit-transition: height 0.1s linear;
+		-webkit-backface-visibility: hidden;
+	}
+
+	.bb-action-bar-slide-label-text {
+		display:block;
+		position:fixed;
+		height: 0px;
+		line-height: 48px;
+		text-align: center;
+		color: white;
+		font-size:20pt;
+		width: 200px;
+		bottom: 108px;
+		visibility: hidden;
+		-webkit-transition-property: height, visibility;
+		-webkit-transition-duration: 0.1s, 0.3;
+		-webkit-transition-timing-function: linear, linear;
+		-webkit-backface-visibility: hidden;
+	}
+
+	
+	/* Tab Overflow */
+	.bb-tab-overflow-menu-item {
+		font-size:29pt;
+		padding-left: 0px;
+	}
+	
+	.bb-tab-overflow-menu-item-single {
+		height: 85px;
+		line-height: 75px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+	
+	.bb-tab-overflow-menu-item-double {
+		height: 85px;
+		line-height: 46px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+	
+	.bb-tab-overflow-menu-item-inner {
+		padding-left: 5px;
+	}
+	
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		padding-left: 5px;
+		font-size: 19pt;
+		height: 40px;
+		margin-top: -40px;
+	}
+	
+	.bb-tab-overflow-menu-item-image {
+		margin-left:9px;
+	}
+}
+
+@media screen and (width: 720px) and (height: 1280px) and (-webkit-max-device-pixel-ratio:1.9), (width: 1280px) and (height: 720px) and (-webkit-max-device-pixel-ratio:1.9), (-webkit-max-device-pixel-ratio:1.9) {
+    .bb-screen {
+		font-size: 25pt;
+    }
+	
+	/* Title Bar */
+	.bb-title-bar {
+		font-size: 29pt;
+	}
+	
+	.bb-titlebar-button {
+		font-size:23pt;
+	}
+	
+	.bb-activity-small {
+		height: 35px;
+		width: 35px;
+		background-size: 35px 35px;
+	}
+	
+	.bb-activity-medium {
+		height: 69px;
+		width: 69px;
+		background-size: 69px 69px;
+	}
+	
+	.bb-activity-large {
+		height: 135px;
+		width: 135px;
+		background-size: 135px 135px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-portrait {
+		height: 116px;
+	}
+
+	.bb-action-bar-landscape {
+		height: 92px;
+	}
+	
+	.bb-action-bar-back-text {
+		font-size:16pt;
+		top: 48px;
+		padding-top: 0px;
+	}
+	
+	.bb-action-bar-back-button-portrait {
+		width:146px;
+	}
+
+	.bb-action-bar-back-button-landscape {
+		width:267px;
+	}
+	
+	.bb-action-bar-back-chevron-dark {
+		background-size: 22px 35px;
+		background-repeat: no-repeat;
+	}
+	
+	.bb-action-bar-icon {
+		height: 66px;
+		width: 66px;
+		margin-top: 4px;
+	}
+	
+	.bb-action-bar-tab-overflow-landscape {
+		margin-top: -6px;
+	}
+	
+	.bb-action-bar-tab-overflow-dark {
+		background-position: center -10px;
+		height: 75px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight {
+		background-position: -56px -10px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-portrait {
+		margin-top: -101px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-landscape {
+		margin-top: -76px;
+	}
+	
+	.bb-action-bar-overflow-button-dark {
+		background-size: 66px 66px;
+	}
+	
+	.bb-action-bar-overflow-button-landscape {
+		margin-top: -7px;
+	}
+	
+	/* Grid List */
+	.bb-grid-header {
+		height:36px;
+		line-height:36px;
+	}
+	
+	.bb-grid-header p {
+		font-size: 18pt;
+		font-weight: 600;
+		line-height:36px;
+	}
+	
+	/* Image List */
+	.bb-image-list-header {
+		height:36px;
+		line-height:36px;
+		font-size: 18pt;
+		font-weight: 600;
+	}
+	
+	.bb-image-list-item .title {
+		font-size: 27pt;
+		margin-top: -30px;
+		line-height:49px;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 22pt;	
+		margin-top:-5px;
+	}
+	
+	.bb-image-list-item {
+		height: 86px;
+	}
+	
+	.bb-image-list-item-overlay {
+		margin-top: -116px;
+		height: 84px;
+	}
+	
+	.bb-image-list-item-details {
+		height: 123px;
+		padding-left: 105px;
+		background-size: 92px 92px;
+	}
+	
+	.bb-image-list-item .button {
+		margin-top: -97px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-action-display {
+		font-size:16pt;
+		margin-top:5px;
+	}
+	
+	/* Input */
+	.bb-input-container {
+		height:77px;
+	}
+	
+	.bb-input {
+		font-size: 25pt;
+		height:74px;		
+	}
+	
+	/* Tab Overflow */
+	.bb-tab-overflow-menu-item {
+		font-size:24pt;
+	}
+	
+	.bb-tab-overflow-menu-item-single {
+		height: 70px;
+		line-height: 57px;
+		padding-top: 12px; 
+	}
+	
+	.bb-tab-overflow-menu-item-double {
+		height: 58px;
+		line-height: 35px;
+		padding-top: 4px; 
+		padding-bottom: 19px;
+	}
+	
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		font-size: 22pt;
+		margin-top: -40px;
+		height: 44px;
+	}
+	
+	.bb-tab-overflow-menu-item-image {
+		height: 66px;
+		width: 66px;
+		margin-left:4px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-item {
+		height: 74px;
+		font-size:25pt;
+		line-height: 65px;
+		padding-top: 10px;
+	}
+	
+	.bb-context-menu-item-image {
+		margin-top:0px;
+		height: 66px;
+		width: 66px;
+		margin-left:8px;
+	}
+	
+	/* Label Control Container */
+	.bb-label-control-label {
+		font-size: 25pt;
+	}
+	
+	.bb-label-control-label-row {
+		height:50px;
+	}
+	
+	/* Button */
+	.bb-button {
+		font-size:23pt;
+		height:59px;
+		line-height:44px;
+	}
+	
+	.bb-button-image {
+		margin-top: -12px;
+	}
+	
+	.bb-button-caption-with-image-only {
+		margin-top: -12px;
+		margin-left: -32px;
+	}
+	
+	.bb-button-container-image-only {
+		width: 81px;
+	}
+	
+	/* Drop Down */
+	.bb-dropdown-inner {
+		font-size:23pt;
+		height:59px;
+		line-height:42px;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		line-height:42px;
+	}
+	
+	.bb-dropdown-container {
+		height: 76px;
+	}
+	
+	.bb-dropdown-label,
+	.bb-dropdown-caption {
+		font-size:23pt;
+	}
+	
+	.bb-dropdown-caption-10dot2 {
+		margin-right: 4px;
+	}
+	
+	.bb-dropdown-arrow-dark, 
+	.bb-dropdown-arrow-light {
+		top:7px;
+	}
+	
+	.bb-dropdown-item {
+		font-size: 23pt;
+	}
+	
+	.bb-dropdown-inner-10dot2 {
+		border-width:1px;
+		padding-right: 17px;
+	}
+	
+	/* Menu Bar */
+	.bb-menu-bar-dark {
+		background-image: none;
+		background-color: black;
+	}
+	
+	.bb-menu-bar {
+		height: 116px;
+	}
+	
+	.bb-menu-bar-item img {
+		height: 60px;
+		width: 60px;
+	}
+	
+	.bb-menu-bar-item-caption {
+		font-size:16pt;
+		padding-top: 5px;
+		height: 50px;
 	}
 }
 
@@ -897,6 +1353,205 @@
 		border-radius:4px;
 		padding: 1px;
 		margin: 9px;
+	}
+	
+	/* Context Menu */
+	.bb-context-menu-dark {
+		border-left-width: 1px;
+	}
+	
+	.bb-context-menu-item {
+		padding-top: 7px;
+		padding-left: 0px;
+		height: 52px;
+		line-height: 52px;
+		font-size:16pt;
+	}
+	
+	.bb-context-menu-item-inner {
+		padding-left: 5px;
+	}
+	
+	.bb-context-menu-header-title {
+		font-size: 18pt;
+		height:30px;
+		line-height:30px;
+		padding-left: 15px;
+		padding-top: 0px;
+	}
+	
+	.bb-context-menu-header-description {
+		font-size: 14pt;
+		padding-left: 15px;
+		margin-top:-10px;
+	}
+	
+	.bb-context-menu-item-dark {
+		border-bottom-width: 1px;
+	}
+	
+	.bb-context-menu-item-first-dark {
+		border-top-width: 1px;
+	}
+	
+	.bb-context-menu-item-image {
+		height: 42px;
+		width: 42px;
+		margin-top:3px;
+		margin-left: 5px;
+	}
+	
+	/* Action Bar */
+	.bb-action-bar-portrait,
+	.bb-action-bar-landscape {
+		height: 73px;
+	}
+	
+	.bb-action-bar-icon {
+		height: 40px;
+		width: 40px;
+		margin-top: 3px;
+	}
+	
+	.bb-action-bar-button-tab-left-dark 	{
+		background-position:left -4px;
+		background-repeat:no-repeat;
+		background-size: 14px 73px;
+	}
+	
+	.bb-action-bar-action {
+		border-top-width: 4px;
+	}
+	
+	.bb-action-bar-action-portrait,
+	.bb-action-bar-action-landscape	{
+		height:69px;
+	}
+	
+	.bb-action-bar-action-display {
+		font-size:12pt;
+		line-height:18px;
+	}
+	
+	.bb-action-bar-action-display-landscape {
+		display: block;
+	}
+	
+	.bb-action-bar-back-button {
+		font-size:12pt;
+		line-height:20px;
+	}
+	
+	.bb-action-bar-back-button-portrait {
+		height:71px;
+		width:77px;
+	}
+	
+	.bb-action-bar-back-button-landscape {
+		height:71px;
+		width:134px;
+	}
+	
+	.bb-action-bar-back-text {
+		height: 20px;
+		top: 25px;
+	}
+	
+	.bb-action-bar-back-text-landscape {
+		display:block;
+	}
+	
+	.bb-action-bar-back-button-dark {
+		background-size: 1px 72px;
+	}
+	
+	.bb-action-bar-back-chevron-dark {
+		background-size: 14px 22px;
+		width:14px;
+		height:22px;
+		top: 15px;
+	}
+	
+	.bb-action-bar-back-slash-dark {
+		background-size: 18px 73px;
+		width:16px;	
+	}
+	
+	.bb-action-bar-back-slash-portrait,
+	.bb-action-bar-back-slash-landscape	{
+		height: 71px;
+	}
+	
+	.bb-action-bar-tab-overflow-landscape {
+		margin-top: 0px;
+	}
+	
+	.bb-action-bar-tab-overflow-dark {
+		background-size: 40px 40px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight {
+		background-position: -28px center;
+		height: 43px;
+		width: 8px;
+	}
+	
+	.bb-action-bar-tab-overflow-highlight-portrait,
+	.bb-action-bar-tab-overflow-highlight-landscape {
+		margin-top: -63px;
+	}
+	
+	.bb-action-bar-overflow-button-dark {
+		margin-top: 5px;
+		background-position: center center;
+		background-size: 42px 42px;	
+	}
+	
+	.bb-action-bar-overflow-button-landscape {
+		margin-top: 0px;
+	}
+	
+	/* Tab Overflow */
+	.bb-tab-overflow-menu-item {
+		padding-left: 5px;
+		font-size:20pt;
+	}
+	
+	.bb-tab-overflow-menu-item-single {
+		padding-top: 7px;		
+		height: 52px;
+		line-height: 52px;
+	}
+	
+	.bb-tab-overflow-menu-item-double {
+		padding-bottom: 0px;		
+		height: 27px;
+		line-height: 27px;
+	}
+	
+	.bb-tab-overflow-menu-item-inner {
+		padding-left: 5px;
+	}
+	
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		padding-left: 5px;
+		font-size: 16pt;
+		height: 25px;
+	}
+	
+	.bb-tab-overflow-menu-item-dark {
+		border-bottom-width: 1px;
+	}
+	
+	.bb-tab-overflow-menu-item-first-dark {
+		border-top-width: 2px;	
+	}
+	
+	.bb-tab-overflow-menu-item-image {
+		height: 42px;
+		width: 42px;
+		margin-top:-2px;
+		margin-left: 0px;
 	}
 }
 

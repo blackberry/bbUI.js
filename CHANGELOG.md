@@ -24,6 +24,7 @@ Below you will find all the different changes that have been added since the fir
 	* Improved screen transition animation speeds when using BB10 grids, image lists and title bars with images
 	* Added the _data-bb-indicator_ attribute to a BB10 screen that will show the indicator while your content loads
 * BlackBerry 10 Styling
+	* Various styling updates to render controls with updated UX when running on 10.2
 	* Screen Resolution adjustments are now applied with CSS media queries to reduce the size of bbUI.css
 	* Updated sizing for all controls for BlackBerry Q10 720x720 screen resolution
 	* Updated Pill Button styling

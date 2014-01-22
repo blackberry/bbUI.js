@@ -95,17 +95,17 @@ bb.screen = {
 					document.dispatchEvent(evt);
 					/* This is a major hack to fix an issue in webkit where it doesn't always
 					   understand when to re-paint the screen when scrolling a <div> with overflow
-					   and using the inertial scrolling */
-					if (this.timeout) {
-						clearTimeout(this.timeout);
-					} else {
-						this.style['padding-right'] = '1px';
+					   and using the inertial scrolling for 10.0*/
+					if (bb.device.requiresScrollingHack) {
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
 					}
-					// Set our new timeout for resetting
-					this.timeout = setTimeout(this.resetPadding,20);
-					
 					/* ************* END OF THE SCROLLING HACK *******************/
-					
 				},false);
 			
 			/* ********** PART OF THE SCROLLING HACK ************/
@@ -315,8 +315,7 @@ bb.screen = {
 	
 	slideLeft: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.2,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -330,8 +329,7 @@ bb.screen = {
 	
 	slideOutLeft: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -345,8 +343,7 @@ bb.screen = {
 	
 	slideRight: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -360,8 +357,7 @@ bb.screen = {
 	
 	slideOutRight: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -375,8 +371,7 @@ bb.screen = {
 	
 	slideUp: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -390,8 +385,7 @@ bb.screen = {
 	
 	slideOutUp: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -405,8 +399,7 @@ bb.screen = {
 	
 	slideDown: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -420,8 +413,7 @@ bb.screen = {
 	
 	slideOutDown: function (screen) {
         // set default values
-        var r = 0,
-            duration = 0.3,
+        var duration = 0.3,
             timing = 'ease-out',
 			s = screen.style;
 			
@@ -448,8 +440,10 @@ bb.screen = {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+		} else if (bb.device.is1280x768) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+		} else if (bb.device.is1280x720) {
+			return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92; 
 		} else if (bb.device.is720x720) {
 			return 109;
 		} else {
@@ -464,7 +458,7 @@ bb.screen = {
 		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 			return 111;
 		} else if (bb.device.is720x720) {
-			return 95;
+			return 92;
 		}else {
 			return 111;
 		}

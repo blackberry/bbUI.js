@@ -106,8 +106,8 @@ _bb10_imageList = {
 							innerChildNode.onimageload = function() {
 									this.details.style['background-image'] = 'url("'+this.img.src+'")';
 									innerChildNode.details.style['background-size'] = '';
-									// Unassign this image so that it is removed from memory
-									this.img = null;
+									// Unassign this image so that it is removed from memory and replace it with its path
+									this.img = this.img.src;
 								};
 							innerChildNode.onimageload = innerChildNode.onimageload.bind(innerChildNode);
 							img.onload = innerChildNode.onimageload;
@@ -293,7 +293,7 @@ _bb10_imageList = {
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
 									accentText.style['margin-top'] = '-82px';
 								} else if (bb.device.is720x720) {
-									accentText.style['margin-top'] = '-82px';
+									accentText.style['margin-top'] = '-75px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
 								}
@@ -318,6 +318,7 @@ _bb10_imageList = {
 															if (!innerChildNode.trappedClick && !this.contextMenu) return;
 															innerChildNode.fingerDown = true;
 															innerChildNode.contextShown = false;
+															this.overlay.style['visibility'] = 'visible';
 															if (innerChildNode.contextMenu) {
 																window.setTimeout(this.touchTimer, 667);
 																var scr = bb.getCurScreen();
@@ -328,7 +329,7 @@ _bb10_imageList = {
 						innerChildNode.ontouchend = function (event) {
 														if (bb.device.isPlayBook) {
 															if (!innerChildNode.trappedClick && !this.contextMenu) return;
-															this.overlay.style['border-color'] = 'transparent';
+															this.overlay.style['visibility'] = 'hidden';
 															innerChildNode.fingerDown = false;
 															if (innerChildNode.contextShown) {
 																event.preventDefault();
@@ -352,12 +353,14 @@ _bb10_imageList = {
 						// Draw the selected state for the context menu
 						innerChildNode.drawSelected = function() {
 														this.setAttribute('class',this.highlight);
+														this.overlay.style['visibility'] = 'visible';
 														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
 													};
 						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
 						// Draw the unselected state for the context menu
 						innerChildNode.drawUnselected = function() {
 														this.setAttribute('class',this.normal);
+														this.overlay.style['visibility'] = 'hidden';
 														this.overlay.style['border-color'] =  'transparent';
 													};
 						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);
@@ -396,8 +399,11 @@ _bb10_imageList = {
 														this.setAttribute('class',this.normal);
 													}
 												};
-						innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);	
-
+						innerChildNode.finishHighlight = innerChildNode.finishHighlight.bind(innerChildNode);
+						
+						//saved for remove
+						innerChildNode.parentList = this;
+						
 						// Add the remove function for the item
 						innerChildNode.remove = function() {
 								this.style.height = '0px';
@@ -415,9 +421,10 @@ _bb10_imageList = {
 						
 						// Perform the final remove after the transition effect
 						details.performRemove = function() {
-								var listControl = this.innerChildNode.parentNode,
-									index = listControl.items.indexOf(this.innerChildNode);
-								listControl.removeChild(this.innerChildNode);
+								var listControl = this.innerChildNode.parentList,
+									index = listControl.items.indexOf(this.innerChildNode),
+									parentNode = this.innerChildNode.parentNode;
+								parentNode.removeChild(this.innerChildNode);
 								listControl.items.splice(index,1);									
 						}
 						details.performRemove = details.performRemove.bind(details);	
@@ -436,7 +443,7 @@ _bb10_imageList = {
 							}
 						innerChildNode.getAccentText = innerChildNode.getAccentText.bind(innerChildNode);	
 						innerChildNode.getImage = function() {
-								return (this.img) ? this.img.getAttribute('src') : undefined;
+								return this.img;
 							}
 						innerChildNode.getImage = innerChildNode.getImage.bind(innerChildNode);
 					}
@@ -459,6 +466,13 @@ _bb10_imageList = {
 				};
 			outerElement.appendItem = outerElement.appendItem.bind(outerElement);
 			
+			// This is a hack function to do with a 10.0 repaint issue for divs in an overflow with touch scroll
+			outerElement.resetPadding = function() {
+					this.style['padding-right'] = '0px';
+					this.timeout = null;
+				};
+			outerElement.resetPadding = outerElement.resetPadding.bind(outerElement);
+			
 			// Refresh all the items in the list control
 			outerElement.refresh = function(listItems) {
 					if (!listItems || !listItems.length || (listItems.length <=0)) return;
@@ -480,13 +494,27 @@ _bb10_imageList = {
 					var evt = document.createEvent('Events');
 					evt.initEvent('bbuilistready', true, true);
 					document.dispatchEvent(evt);
+					
+					/* This is a major hack to fix an issue in webkit where it doesn't always
+					   understand when to re-paint the screen when scrolling a <div> with overflow
+					   and using the inertial scrolling for 10.0*/
+					if (bb.device.requiresScrollingHack) {
+						if (this.timeout) {
+							clearTimeout(this.timeout);
+						} else {
+							this.style['padding-right'] = '1px';
+						}			
+						// Set our new timeout for resetting
+						this.timeout = setTimeout(this.resetPadding,20);
+					}
+					/* ********** END OF THE SCROLLING HACK ************/
 				};
 			outerElement.refresh = outerElement.refresh.bind(outerElement);
 			
 			// Insert an item before another item in the list
 			outerElement.insertItemBefore = function(newItem, existingItem) {
 					this.styleItem(newItem);
-					this.insertBefore(newItem,existingItem);
+					existingItem.parentNode.insertBefore(newItem,existingItem);
 					this.items.splice(this.items.indexOf(existingItem),0,newItem);
 					// Fire our list event
 					var evt = document.createEvent('Events');
