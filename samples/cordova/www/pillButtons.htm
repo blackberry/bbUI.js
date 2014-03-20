@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left">
+	<div data-bb-type="title" data-bb-caption="Pill Buttons" data-bb-back-caption="Back" data-bb-action-caption="Save"></div>
+	<script id="pillButtonsJS" src="js/pillButtons.js" ></script>
+	
+	 <div data-bb-type="pill-buttons" id="myPillButtons">
+		<div data-bb-type="pill-button" data-bb-selected="true" onclick="selectContact()">Contact</div>
+		<div data-bb-type="pill-button" onclick="selectAddress()">Address</div>
+		<div data-bb-type="pill-button" onclick="selectPhone()">Phone</div>
+	 </div>
+	
+	<div data-bb-type="round-panel" id="contact"> 
+		<div data-bb-type="panel-header">Contact</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+				<div data-bb-type="label">Title</div>       
+				<input type="text" value="Mr." />
+			</div>  
+			<div data-bb-type="row">
+				<div data-bb-type="label">First Name</div>       
+				<input type="text" value="John" />
+			</div>  
+			<div data-bb-type="row">
+				<div data-bb-type="label">Last Name</div>       
+				<input type="text" value="Doe" />
+			</div>
+			<div data-bb-type="row">
+				<div data-bb-type="label">Email</div>       
+				<input type="text" value="jdoe@foo.com" />
+			</div>
+		</div>
+	</div>
+	
+	<div data-bb-type="round-panel" id="phone" style="display:none">  
+		<div data-bb-type="panel-header">Phone</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+				<div data-bb-type="label">Home:</div>    
+				<input type="text" value="555-555-8987" onfocus="resetImages()" />
+			</div>
+			<div data-bb-type="row">
+				<div data-bb-type="label">Mobile:</div>       
+				<input type="text" value="555-555-2569" onfocus="resetImages()" />
+			</div>
+			<div data-bb-type="row">
+				<div data-bb-type="label">Fax:</div>       
+				<input type="text" value="Hello World" onfocus="resetImages()" />
+			</div>  
+			<div data-bb-type="row">
+				<div data-bb-type="label">PIN:</div>       
+				<input type="text" value="XYZ123XYZ" onfocus="resetImages()" />
+			</div>
+		</div>
+	</div>
+	
+	<div data-bb-type="round-panel" id="address" style="display:none">  
+		<div data-bb-type="panel-header">Address</div>
+		<div data-bb-type="label-control-container">
+			<div data-bb-type="row">
+				<div data-bb-type="label">Address 1:</div>       
+				<input type="text" value="555 Foo St." onfocus="resetImages()"/>
+			</div>  
+			<div data-bb-type="row">
+				<div data-bb-type="label">City:</div>       
+				<input type="text" value="Toronto" onfocus="resetImages()"/>
+			</div>  
+			<div data-bb-type="row">
+				<div data-bb-type="label">Province:</div>       
+				<input type="text" value="Ontario" onfocus="resetImages()" />
+			</div> 
+			<div data-bb-type="row">
+				<div data-bb-type="label">Country:</div>       
+				<input type="text" value="Canada" onfocus="resetImages()" />
+			</div>   
+			<div data-bb-type="row">
+				<div data-bb-type="label">Postal Code:</div>       
+				<input type="text" value="L5G 2H9" onfocus="resetImages()" />
+			</div>
+		</div>
+	</div>
+</div>
+

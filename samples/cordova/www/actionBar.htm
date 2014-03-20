@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left">
+	<script id="actionBarJS" src="js/actionBar.js"></script>
+	
+	<div data-bb-type="round-panel"> 
+		<div data-bb-type="panel-header">General</div>
+		<div>Action bars allow you to create a set of buttons/tabs on a fixed toolbar at the bottom of the screen. You can add a &quot;Back&quot; button by assigning
+		the data-bb-back-caption=&quot;Back&quot; attribute<br/><br/>
+		Action bars do not allow you to combine a back button with tabs<br/>
+		<div data-bb-type="button" data-bb-style="stretch" onclick="bb.popScreen()">Press me to go Back</div>
+		</div>
+	</div>
+	
+	<div id="buttons">
+		<div data-bb-type="round-panel"> 
+			<div data-bb-type="panel-header">Buttons</div>
+			<div>To create a button simply define an action of data-bb-type=&quot;button&quot; with an image and a caption.</div>	
+		</div>
+	
+		<div data-bb-type="round-panel"> 
+			<div data-bb-type="panel-header">Action Overflow Menu</div>
+			<div>You can mark a button with data-bb-overflow=&quot;true&quot; to make it appear in the overflow on the far right of the action bar</div>
+		</div>
+	</div>
+	
+	<div id="tabs" style="display:none">
+		<div data-bb-type="round-panel"> 
+			<div data-bb-type="panel-header">Tabs</div>
+			<div>To separate different views on your screen add one or more tabs.  Tabs should be positioned at the beginning of your action bar. Simply
+			define an action of data-bb-style=&quot;tab&quot; with an image and a caption.</div>	
+		</div>
+	</div>
+	
+	<div id="tabOverflow" style="display:none;">
+		<div data-bb-type="round-panel"> 
+			<div data-bb-type="panel-header">Tab Overflow Menu</div>
+			<div>You can mark a tab with data-bb-overflow=&quot;true&quot; to make it appear in the overflow on the far left of the action bar</div>
+		</div>
+	</div>
+	<div data-bb-type="action-bar">
+		<div data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-accent-text="Accent Text" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="showTab('tabOverflow');">Tab 1</div>
+		<div data-bb-type="action" data-bb-style="tab" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="showTab('tabOverflow');">Tab 2</div>
+		<div data-bb-type="action" data-bb-style="tab" data-bb-selected="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="showTab('buttons');">Buttons</div>
+		<div data-bb-type="action" data-bb-style="tab" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="showTab('tabs');">Tabs</div>
+		<div data-bb-type="action" data-bb-style="button"  data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Find');">Find</div>
+		<div data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked More');">More</div>
+		<div data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Extra Action');">Extra Action</div>
+		<div data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Another Action');">Another Action</div>	
+		<div data-bb-type="action" data-bb-style="button" data-bb-overflow="true" data-bb-pin="true" data-bb-img="images/actionBar/cog_dark_theme.png" onclick="alert('You clicked Delete');">Delete</div>
+	</div>
+</div>

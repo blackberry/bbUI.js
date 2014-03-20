@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="fade" data-bb-scroll-effect="off">
+	<div data-bb-type="title" data-bb-caption="Master Detail" data-bb-back-caption="Back" ></div>
+	<script id="masterDetailJS" src="js/masterDetail.js" onunload="masterDetail_onUnload()"></script>
+	<style type="text/css">
+		.leftPanel {
+			width:40%;
+			padding:0px;
+			border-right: solid 2px #D9DCDE;
+		}
+		.rightPanel {
+			width:60%;
+			padding:0px;
+		}
+		.topPanel {
+			background-color:black;
+			color:white;
+		}
+	</style>
+	<table style="padding:0px;border-collapse:collapse;margin:0px;">
+		<tr>
+			<td class="leftPanel">
+				<div id="master" style="height:526px;" data-bb-type="scroll-panel">
+					<div id="imageList" data-bb-type="image-list" data-bb-image-effect="fade" data-bb-image-placeholder="images/imageList/placeholder.jpg">
+						<div data-bb-type="header">My List Items</div>
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/1.jpg" data-bb-title="The Works">Item with all the options</div>
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/fibbidyfoo.jpg" data-bb-title="Broken Image URL">A placeholder image example</div> 		
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/2.jpg" data-bb-title="No Accent Text">Item with no accent text</div>		
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-title="Oh Oh, no image">A placeholder image example</div>	
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/5.jpg" data-bb-title="Title Only"></div>	
+						<div data-bb-type="header">More List Items</div>
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/3.jpg" data-bb-title="Old School">A little bit of flair for the trunk</div> 
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/4.jpg" data-bb-title="Looking Angry">I really like this picture</div> 
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/6.jpg" data-bb-title="Racing Brakes">Need to stop!</div> 
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/7.jpg" data-bb-title="Fisheye">Cool camera lense</div> 
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/8.jpg" data-bb-title="Shiny Engine">Like a jewel in a case</div> 
+						<div data-bb-type="item" onclick="doMasterDetailClick()" data-bb-img="images/imageList/9.jpg" data-bb-title="Custom Touch">Did I mention I like orange?</div> 
+					</div>
+				</div>
+			</td>
+			<td class="rightPanel">
+				<div id="details" style="height:526px;" data-bb-type="scroll-panel">
+					<div class="topPanel">
+						<table style="padding:0px;border-collapse:collapse;margin:0px;">
+							<tr>
+								<td style="padding:0px;">
+									<img id="imgHolder" src="images/imageList/1.jpg" style="height:80px;width:80px;" />
+								</td>
+								<td style="padding-left:15px">
+									<span id="title">The Works</span><br/>
+									<span id="description">Item with all the options</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div style="padding:10px;display:block;">
+						<p style="text-align:center;font-weight:bold;">Typically a Master Detail view is seen on PlayBook when in Landscape</p>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget mi ut dui vestibulum mattis. Sed laoreet adipiscing scelerisque. Pellentesque tincidunt lorem a ipsum gravida condimentum. Aliquam mollis, risus sed laoreet aliquet, nisl mi consectetur magna, sed suscipit est lorem elementum mi. Etiam at orci sem, in varius orci. Nulla accumsan justo et metus consequat placerat. Phasellus quam ipsum, elementum at euismod at, elementum quis dui.</p>
+
+						<p>Maecenas velit magna, convallis ut suscipit sed, aliquam ut libero. Suspendisse consectetur aliquet purus et egestas. Praesent quis felis nulla. Nulla facilisi. Proin non nisi metus. Phasellus sagittis fringilla orci, et interdum leo tincidunt eget. Nam bibendum, magna ac gravida pellentesque, justo nulla dapibus urna, nec auctor arcu tortor et mi. Ut vitae leo et risus mattis gravida a non turpis. Vivamus et consequat mauris. Phasellus a velit eu augue aliquam auctor rutrum porta urna.</p>
+
+						<p>Maecenas laoreet suscipit est, non auctor mauris dignissim sed. Pellentesque blandit neque ac quam congue vitae egestas ante aliquam. Mauris rhoncus facilisis eros sit amet hendrerit. Suspendisse quis tincidunt diam. Aliquam blandit nunc non odio tincidunt convallis. Nam tempus massa suscipit justo placerat gravida. Sed eget quam mauris, ac pharetra lacus. Aliquam nec facilisis nunc. Fusce ornare neque sed nulla vestibulum nec fermentum magna euismod. Morbi pellentesque nisi et nisi imperdiet iaculis. Nunc semper rutrum scelerisque. Cras euismod arcu nec risus rhoncus mattis. Nullam quam risus, posuere consectetur auctor quis, dignissim sed odio.</p>
+
+						<p>Nam venenatis pellentesque aliquet. Cras vulputate rhoncus mauris suscipit venenatis. Cras faucibus lectus in turpis semper commodo. Fusce sagittis tincidunt ultrices. Proin cursus augue non velit tincidunt eu vestibulum dui lacinia. Nullam ut ligula lorem. Suspendisse id accumsan velit. Morbi metus ante, venenatis non varius nec, volutpat eget turpis. Quisque convallis, arcu et ornare consectetur, nibh diam congue orci, nec tincidunt velit ipsum sed felis. Sed tortor tellus, porttitor sed vehicula et, convallis et metus.</p>
+
+						<p>Nullam neque velit, euismod vitae elementum ut, sollicitudin non mi. In elit neque, condimentum ac pretium sed, posuere et lectus. Sed et dictum dolor. Nunc ultrices sapien lorem, sit amet ultricies odio. Aliquam at arcu enim. Suspendisse faucibus massa ac mi condimentum accumsan. Praesent tincidunt ultricies placerat. Cras sapien enim, ullamcorper vitae bibendum in, vehicula ut ante. Aenean justo sapien, facilisis at tristique vitae, eleifend sed lorem.</p>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>
+	
