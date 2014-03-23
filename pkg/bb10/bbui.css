@@ -3274,12 +3274,12 @@ body, html {
 	}
 	
 	.bb-menu-bar-item img {
-		height: 60px;
-		width: 60px;
+		height: 67px;
+		width: 67px;
 	}
 	
 	.bb-menu-bar-item-caption {
-		font-size:16pt;
+		font-size:12pt;
 		padding-top: 5px;
 		height: 50px;
 	}
