@@ -3138,7 +3138,7 @@ body, html {
 	/* Action Bar */
 	.bb-action-bar-action-display {
 		font-size:16pt;
-		margin-top:5px;
+		margin-top:-5px;
 	}
 	
 	/* Input */
