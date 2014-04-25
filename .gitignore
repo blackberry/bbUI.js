@@ -9,3 +9,5 @@ nbproject/project.properties
 nbproject/project.xml
 
 node_modules/
+/nbproject/private/
+/nbproject/
