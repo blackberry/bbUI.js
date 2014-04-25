@@ -1,1 +1,1 @@
-{"prepare_queue":{"installed":[],"uninstalled":[]},"config_munge":{},"installed_plugins":{},"dependent_plugins":{}}
+{"prepare_queue":{"installed":[],"uninstalled":[]},"config_munge":{"www/config.xml":{"/widget":{"<feature name=\"com.blackberry.app\" value=\"com.blackberry.app\" />":1}}},"installed_plugins":{"com.blackberry.app":{"PACKAGE_NAME":"bbui.sample"}},"dependent_plugins":{}}
