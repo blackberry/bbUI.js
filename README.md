@@ -117,7 +117,8 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry 10.2.0.339 (Beta SDK OS)
+* BlackBerry 10.2.1.2102 
+* BlackBerry 10.2.0.339 
 * BlackBerry 10.1.0.273
 * BlackBerry 10.0.10.672
 * BlackBerry PlayBook v2.1.x.x
