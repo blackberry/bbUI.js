@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.blackberry.bbuisample" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets">
+<widget id="bbui.sample" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets">
     <name>bbUI Samples</name>
-    <description>An example of how to use different BlackBerry UI layouts and controls</description>
+    <access origin="*" />
     <author href="https://github.com/tneil">Tim Neil</author>
     <content src="index.htm" />
     <icon src="images\icon.png" />
     <rim:splash src="images\bb10-splash-landscape.png" />
     <rim:splash src="images\bb10-splash-portrait.png" />
-    <access origin="*" />
+    <description>An example of how to use different BlackBerry UI layouts and controls</description>
 </widget>
