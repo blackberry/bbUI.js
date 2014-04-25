@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+<<COMMENT
+       Licensed to the Apache Software Foundation (ASF) under one
+       or more contributor license agreements.  See the NOTICE file
+       distributed with this work for additional information
+       regarding copyright ownership.  The ASF licenses this file
+       to you under the Apache License, Version 2.0 (the
+       "License"); you may not use this file except in compliance
+       with the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing,
+       software distributed under the License is distributed on an
+       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+       KIND, either express or implied.  See the License for the
+       specific language governing permissions and limitations
+       under the License.
+COMMENT
+CURRENT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+CORDOVA_HOME_DIR=$HOME/.cordova/lib/blackberry10/cordova/$(cat "$CURRENT_DIR/../VERSION")
+LOCAL_NODE_BIN=$CORDOVA_HOME_DIR/bin/dependencies/node/bin
+LOCAL_BBTOOLS=$CORDOVA_HOME_DIR/bin/dependencies/bb-tools/bin
+
+#Skip all logic if init has already been run (env variable have been set already...)
+if [ -z "$CORDOVA_NODE" ] || [ -z "$CORDOVA_BBTOOLS" ]; then
+
+    #set CORDOVA_NODE
+    if [ -x "$LOCAL_NODE_BIN" ]; then
+        #set CORDOVA_NODE to local node version, if exists
+        CORDOVA_NODE=$LOCAL_NODE_BIN
+    else
+        #set CORDOVA_NODE to whichever node is on path, if exists
+        NODE_PATH=$(command -v node)
+        if [ ! -z "$NODE_PATH" ]; then
+            CORDOVA_NODE=$(dirname "$NODE_PATH")
+        fi
+    fi
+    export CORDOVA_NODE=$CORDOVA_NODE
+
+    #set CORDOVA_BBTOOLS
+    if [ -x "$LOCAL_BBTOOLS" ]; then
+        #set CORDOVA_BBTOOLS to local bbtools, if exists
+        CORDOVA_BBTOOLS=$LOCAL_BBTOOLS
+    else
+        #set CORDOVA_BBTOOLS to whichever bbtools is on path, if exists
+        BBTOOLS_PATH=$(command -v blackberry-nativepackager)
+        if [ ! -z "$BBTOOLS_PATH" ]; then
+            CORDOVA_BBTOOLS=$(dirname "$BBTOOLS_PATH")
+        fi
+    fi
+    export CORDOVA_BBTOOLS=$CORDOVA_BBTOOLS
+
+fi
+
+#-------------check reqs---------------#
+NODE="$CORDOVA_NODE/node"
+NPM="$CORDOVA_NODE/npm"
+JAVA=$(command -v java)
+PACKAGER="$CORDOVA_BBTOOLS/blackberry-nativepackager"
+DEPLOYER="$CORDOVA_BBTOOLS/blackberry-deploy"
+SIGNER="$CORDOVA_BBTOOLS/blackberry-signer"
+DEBUGTOKENREQUEST="$CORDOVA_BBTOOLS/blackberry-debugtokenrequest"
+NPM_PACKAGE_JSON="$BIN_DIR"/../package.json
+
+if [ ! -x "$NODE" ]; then
+    echo node cannot be found on the path. Aborting.
+    EXIT_CODE=2
+elif [ ! -x "$LOCAL_NODE_BIN" ] && [ ! -x "$NPM" ] && [ -e "$NPM_PACKAGE_JSON" ]; then
+    echo npm cannot be found on the path. Aborting.
+    EXIT_CODE=2
+elif [ ! -x "$JAVA" ]; then
+    echo java cannot be found on the path. Aborting.
+    EXIT_CODE=2
+elif [ ! -x "$PACKAGER" ]; then
+    echo blackberry-nativepackager cannot be found on the path. Aborting.
+    EXIT_CODE=2
+elif [ ! -x "$DEPLOYER" ]; then
+    echo blackberry-deploy cannot be found on the path. Aborting.
+    EXIT_CODE=2
+elif [ ! -x "$SIGNER" ]; then
+    echo blackberry-signer cannot be found on the path. Aborting.
+    EXIT_CODE=2
+elif [ ! -x "$DEBUGTOKENREQUEST" ]; then
+    echo blackberry-debugtokenrequest cannot be found on the path. Aborting.
+    EXIT_CODE=2
+else
+    "$NODE" "$CURRENT_DIR/check_reqs.js" "$@"
+fi
+
+if [ ! -z "$EXIT_CODE" ]; then
+    exit $EXIT_CODE
+fi
+

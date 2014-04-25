@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+/*
+ *  Copyright 2012 Research In Motion Limited.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var path = require("path"),
+    utils = require("./utils"),
+    options = require('commander'),
+    runUtils = require("./run-utils"),
+    logger = require("./logger");
+
+options
+    .usage('[--target=id]')
+    .option('--target <id>', 'specifies the target to run the application')
+    .option('-k, --keystorepass <password>', 'the password of signing key; needed for creating debug token')
+    .option('--query', 'query on the commandline when a password is needed')
+    .option('--devicepass <password>', 'device password')
+    .option('--no-uninstall', 'does not uninstall application from device')
+    .option('--no-launch', 'do not launch the application on device')
+    .on('--help', function() {
+        console.log('  Examples:');
+        console.log('');
+        console.log("  Deploying to a predefined target");
+        console.log('    $ run --target=Z10');
+        console.log('');
+    });
+process.argv.forEach(function (argument, index, args) {
+    if (argument.match(/^--target=/)) {
+        args.splice(index, 1, "--target", argument.substr("--target=".length));
+    }
+});
+
+options.parse(process.argv);
+
+options.device = true;
+utils.waterfall(
+    [
+        runUtils.getValidatedTarget.bind(this, options),
+        runUtils.checkBuild,
+        runUtils.uninstall.bind(this, options),
+        runUtils.deployToTarget.bind(this, options)
+    ]
+);

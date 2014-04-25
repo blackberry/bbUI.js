@@ -313,7 +313,7 @@ bb = {
                 }
                 return result;
             };
-
+		
         // Special handling for inserting script tags
         bb.screen.scriptCounter = 0;
         bb.screen.totalScripts = newScriptTags.length;
@@ -350,6 +350,7 @@ bb = {
 			bb.options.onscreenready(container, id, params);
 		}
 		bb.doLoad(container);
+		
 		// Load in the new content
 		document.body.appendChild(container);
 		
