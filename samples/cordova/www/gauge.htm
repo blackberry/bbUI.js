@@ -1,0 +1,36 @@
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-left">
+	<div data-bb-type="title" data-bb-caption="Progress Bar" data-bb-back-caption="Back" ></div>
+	<script src="js/gauge.js"></script>
+	<div style="margin:15px;color:Gray;">
+		<p align="center">
+		Below you will find an example of how to use the progress bar<br />       
+		</p>
+	</div>
+	<div style="margin:15px">
+		<div id="watch" data-bb-type="button" data-bb-style="stretch" onclick="watchProgress()" style="margin-bottom:10px">Watch Progress</div>
+		<div id="pause" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').setState(bb.progress.PAUSED);">Pause</div>
+		<div id="error" data-bb-type="button" data-bb-style="stretch" data-bb-disabled="true" style="margin-bottom:10px" onclick="paused=true;document.getElementById('progress').setState(bb.progress.ERROR);">Simulate Error</div>
+		<div id="reset" data-bb-type="button" data-bb-style="stretch" style="margin-bottom:10px" onclick="percent=4;document.getElementById('progress').setValue(0);">Reset</div>
+	</div>
+	
+	<div style="margin:20px;">
+		<progress id="progress" value="0" max="100"></progress>
+	</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>

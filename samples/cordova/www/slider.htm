@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2012 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="slide-down">
+	<div data-bb-type="title" data-bb-caption="Slider" data-bb-back-caption="Back" ></div>
+	<script id="sliderJS" src="js/slider.js"></script>
+	<div style="text-align:center;margin-right:15px;margin-left:15px;margin-top:50px;">
+	    <div style="width:550px;margin: 0px auto 0px auto;">
+			<img src="images/slider/sunshine.png" style="width:550px;"/>
+			<img id="lightning" src="images/slider/lightning.png" style="width:552px;margin-top:-312px;"/>
+		</div>
+	</div>
+	<table style="margin:15px;">
+		<tr>
+			<td style="width:100px;"><img src="images/slider/moon.png"/></td>
+			<td style="width:100%"><input id="myslider" type="range" min="0" max="100" value="0" step="10" style="width:100%" onchange="document.getElementById('lightning').style.opacity = 1 - (parseInt(this.value)/100);"/></td>
+			<td style="width:100px;"><img src="images/slider/sun.png"/></td>
+		</tr>
+	</table>
+	<div style="padding-top:50px">
+		<div data-bb-type="button" data-bb-style="stretch" onclick="moveSlider()">Slide with a Timer</div>
+	</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>
+	

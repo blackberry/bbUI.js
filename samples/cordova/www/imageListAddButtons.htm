@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<!--
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<div data-bb-type="screen" data-bb-effect="fade">
+	<div data-bb-type="title" data-bb-caption="Image List" data-bb-back-caption="Back" ></div>
+	<script id="listButtons" src="js/imageListAddButtons.js"></script>
+	<style type="text/css">
+		.panel {
+			text-align:center;
+			border: solid 1px gray;
+			border-radius:10px;
+			margin:15px;
+			padding:15px
+		}
+	</style>
+	<div class="panel"> 
+		Move items from the top list to the bottom list by clicking the (+) button
+	</div>
+	<div id="topList" data-bb-type="image-list" data-bb-style="addbuttons" data-bb-image-effect="fade">
+		<div data-bb-type="item" data-bb-img="images/imageList/1.jpg" onbtnclick="prependItem()" data-bb-title="The Works">Item with all the options</div>	
+		<div data-bb-type="item" data-bb-img="images/imageList/2.jpg" onbtnclick="prependItem()" data-bb-title="Mmmm.. Orange">My favorite color</div>	
+		<div data-bb-type="item" data-bb-img="images/imageList/5.jpg" onbtnclick="prependItem()" data-bb-title="Graffiti">A nice backdrop</div>	
+	</div>
+	<div class="panel"> 
+		Move items from the bottom list to the top list by clicking the (-) button
+	</div>
+	<div id="bottomList" data-bb-type="image-list" data-bb-style="removebuttons" data-bb-image-effect="fade">	
+		<div data-bb-type="item" data-bb-img="images/imageList/3.jpg" onbtnclick="removeItem()" data-bb-title="Old School">A little bit of flair for the trunk</div> 
+		<div data-bb-type="item" data-bb-img="images/imageList/4.jpg" onbtnclick="removeItem()" data-bb-title="Looking Angry">I really like this picture</div> 
+		<div data-bb-type="item" data-bb-img="images/imageList/6.jpg" onbtnclick="removeItem()" data-bb-title="Racing Brakes">Need to stop!</div> 
+		<div data-bb-type="item" data-bb-img="images/imageList/7.jpg" onbtnclick="removeItem()" data-bb-title="Fisheye">Cool camera lense</div> 
+		<div data-bb-type="item" data-bb-img="images/imageList/8.jpg" onbtnclick="removeItem()" data-bb-title="Shiny Engine">Like a jewel in a case</div> 
+		<div data-bb-type="item" data-bb-img="images/imageList/9.jpg" onbtnclick="removeItem()" data-bb-title="Custom Touch">Did I mention I like orange?</div> 
+	</div>
+	
+	<div data-bb-type="action-bar" data-bb-back-caption="Back"></div>
+</div>
+	
