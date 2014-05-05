@@ -198,6 +198,16 @@ bb.titleBar = {
 				return this.accentText.innerHTML;
 			};
 		titleBar.getAccentText = titleBar.getAccentText.bind(titleBar);
+
+		titleBar.setAccentText = function(atext) {
+				this.accentText.innerHTML=atext;
+			};
+		titleBar.setAccentText = titleBar.setAccentText.bind(titleBar);
+
+		titleBar.setImage = function(img) {
+			this.img.src=img;
+			};
+		titleBar.setImage = titleBar.setImage.bind(titleBar);
 	},
 	
 	styleBB10Button: function(outerElement) {
