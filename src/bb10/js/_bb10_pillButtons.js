@@ -23,20 +23,33 @@ _bb10_pillButtons = {
 			td,
 			j;
 		
+		// Running 10.3 or higher
+		if (bb.device.newerThan10dot2) {
+			containerStyle = containerStyle + ' bb-pill-buttons-container-' + bb.screen.controlColor + '-10dot3';
+		}
 		outerElement.sidePadding = sidePadding;
 		outerElement.setAttribute('class','bb-pill-buttons');
 		containerDiv = document.createElement('div');
 		outerElement.appendChild(containerDiv);
 		containerDiv.setAttribute('class',containerStyle);
 		// Set our selected color
-		outerElement.selectedColor = (bb.screen.controlColor == 'dark') ? '#909090' : '#555555';
+		if (bb.device.newerThan10dot2) {
+			outerElement.selectedColor = bb.options.highlightColor;
+		} else {
+			outerElement.selectedColor = (bb.screen.controlColor == 'dark') ? '#909090' : '#555555';
+		}
 		
 		// Create our selection pill
 		pill = document.createElement('div');
 		pillInner = document.createElement('div');
 		pill.appendChild(pillInner);
-		pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + ' bb-pill-buttons-pill');
-		pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor);
+		if (bb.device.newerThan10dot2) {
+			pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + '-10dot3 bb-pill-buttons-pill-10dot3');
+			pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor+'-10dot3');
+		} else {
+			pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + ' bb-pill-buttons-pill');
+			pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor);
+		}
 		pill.style.opacity = '0';
 		outerElement.pill = pill;
 		containerDiv.appendChild(pill);
@@ -54,6 +67,35 @@ _bb10_pillButtons = {
 		table.setAttribute('class','bb-pill-buttons-table');
 		table.style.opacity = '0';
 		containerDiv.appendChild(table);				
+		
+		// This is used for 10.3 styling
+		outerElement.redrawBorders = function() {
+			if (bb.device.newerThan10dot2 === false) return;
+			
+			var items = this.table.querySelectorAll('td'),
+				i, 
+				adjacentIndex = 0,
+				innerChildNode;
+			for (i = 0; i < items.length; i++) {
+				innerChildNode = items[i].innerChildNode;
+				if (this.selected == innerChildNode) {
+					innerChildNode.style['border-left'] = 'solid 2px transparent';
+					innerChildNode.style['border-radius'] = '0px';
+					adjacentIndex = i + 1;
+				} else if (adjacentIndex == i) {
+					innerChildNode.style['border-left'] = 'solid 2px transparent';
+					innerChildNode.style['border-radius'] = '0px';
+				} else {
+					if (bb.screen.controlColor == 'light') {
+						innerChildNode.style['border-left'] = 'solid 2px #DCDCDC';
+					} else {
+						innerChildNode.style['border-left'] = 'solid 2px #484848';
+					}
+					innerChildNode.style['border-radius'] = '0px';
+				}
+			}
+		}
+		outerElement.redrawBorders = outerElement.redrawBorders.bind(outerElement);
 		
 		// Style an indiviual button
 		outerElement.styleButton = function(innerChildNode) {
@@ -76,6 +118,7 @@ _bb10_pillButtons = {
 				innerBorder.setAttribute('class','bb-pill-button-inner');
 				innerChildNode.style['z-index'] = 4;
 				innerChildNode.style.width = '100%';
+
 				// Set our touch start					
 				innerChildNode.dotouchstart = function(e) {
 											if (this.isSelected) return;
@@ -101,11 +144,13 @@ _bb10_pillButtons = {
 											this.isSelected = true;
 											this.outerElement.selected = this;
 											this.style.color = this.outerElement.selectedColor;
-											
+
 											// Remove color styling from pill if light
 											if (bb.screen.controlColor == 'light') {
 												this.outerElement.pill.style['background-color'] = '';
 											}
+											
+											this.outerElement.redrawBorders();
 											
 											// Raise the click event. Need to do it this way to match the
 											// Cascades selection style in pill buttons
@@ -152,7 +197,12 @@ _bb10_pillButtons = {
 			td = document.createElement('td');
 			tr.appendChild(td);
 			td.appendChild(innerChildNode);
+			td.innerChildNode = innerChildNode;
 			td.style.width = percentWidth + '%';
+		}
+		// Reset all of the borders for 10.3 look and feel
+		if (bb.device.newerThan10dot2) {
+			outerElement.redrawBorders();
 		}
 		// Determine our pill widths based on size
 		outerElement.recalculateSize = function() {
@@ -266,6 +316,7 @@ _bb10_pillButtons = {
 			this.table.tr.appendChild(td);
 			td.appendChild(button);
 			this.initialize();
+			this.redrawBorders();
 		};
 		outerElement.appendButton = outerElement.appendButton.bind(outerElement);
 		

@@ -1963,8 +1963,7 @@ body, html {
 /* ================================================= 
    Pill Buttons
    =================================================*/
-.bb-pill-buttons-container-light
-{
+.bb-pill-buttons-container-light {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F4F4F4), to(#FCFCFC));
 	color: #262626;
 	border-top-color: #B2B2B2;
@@ -1973,8 +1972,15 @@ body, html {
 	border-right-color: #CDCDCD;
 }
 
-.bb-pill-buttons-container-dark
-{
+.bb-pill-buttons-container-light-10dot3 {
+	background-image: none;
+	background-color: #F4F4F4;
+	color: #323232;
+	font-weight: 600;
+	border-color: #F4F4F4;
+}
+
+.bb-pill-buttons-container-dark {
 	color: white;
 	border-top-color: #4B4B4B;
 	border-left-color: #4B4B4B;
@@ -1982,9 +1988,16 @@ body, html {
 	border-bottom-color: #474747;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#333333), to(#181818));	
 }
+
+.bb-pill-buttons-container-dark-10dot3 {
+	background-image: none;
+	background-color: #282828;
+	color: #F0F0F0;
+	font-weight: 600;
+	border-color: #282828;
+}
  
-.bb-pill-buttons-table 
-{
+.bb-pill-buttons-table {
 	border-collapse: collapse;
 	padding: 0px;
 	margin: 0px;
@@ -1992,12 +2005,15 @@ body, html {
 	position: absolute;
 }
 
-.bb-pill-buttons-pill 
-{
+.bb-pill-buttons-pill {
 	position: relative;
 	z-index: 3;
 	-webkit-transition: 0.2s ease-in-out;
 	-webkit-backface-visibility: hidden;
+}
+
+.bb-pill-buttons-pill-10dot3 {
+	-webkit-transition: none;
 }
    
 .bb-pill-buttons {
@@ -2043,17 +2059,20 @@ body, html {
 	background-color: transparent;
 }
 
-.bb-pill-button-inner-selected-dark
-{
+.bb-pill-button-inner-selected-dark {
 	border-color: #7E7E7E;
 }
 
-.bb-pill-button-inner-selected-light
-{
+.bb-pill-button-inner-selected-dark-10dot3 {
 	border-color: transparent;
 }
 
-.bb-pill-button-selected-light{
+.bb-pill-button-inner-selected-light,
+.bb-pill-button-inner-selected-light-10dot3 {
+	border-color: transparent;
+}
+
+.bb-pill-button-selected-light {
 	color: #555555;
 	border-width:2px;	
 	border-style: solid;
@@ -2062,6 +2081,14 @@ body, html {
 	border-bottom-color: #CCCCCC;
 	border-right-color: #CACACA;
 	background-color: transparent;
+}
+
+.bb-pill-button-selected-light-10dot3 {
+	background-color: #FEFEFE;
+}
+
+.bb-pill-button-selected-dark-10dot3 {
+	background-color: black;
 }
 
 .bb-pill-button-selected-dark
