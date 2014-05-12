@@ -46,7 +46,11 @@ _bb10_grid = {
 							title.style['border-bottom-color'] = 'transparent';
 						} else {
 							title.normal = title.normal + ' bb-grid-header-normal-'+bb.screen.listColor;
-							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							if (bb.device.newerThan10dot2) {
+								title.normal = title.normal + ' bb-grid-header-10dot3 bb-grid-header-normal-'+bb.screen.listColor + '-10dot3';
+							} else {
+								title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							}
 						}
 						
 						// Style our header for text justification

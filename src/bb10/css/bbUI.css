@@ -1587,12 +1587,7 @@ body, html {
 }
 
 .bb-image-list-header-10dot3 {
-	height:46px;
-	line-height:46px;
-	font-size: 22pt;
 	border-bottom-width: 3px;
-	border-bottom-style: solid;
-	margin-bottom: 3px;
 }
 
 .bb-image-list-header-left {
@@ -2086,9 +2081,21 @@ body, html {
 	color: black;
 }
 
+.bb-grid-header-normal-light-10dot3 {
+	font-weight: 600;
+	color: #646464;
+	border-bottom-color: #CCCCCC;
+}
+
 .bb-grid-header-normal-dark {
 	font-weight: normal;
 	color: white;
+}
+
+.bb-grid-header-normal-dark-10dot3 {
+	font-weight: 600;
+	color: #949494;
+	border-bottom-color: #3F3F3F;
 }
 
 .bb-grid-header-center {
@@ -2107,6 +2114,10 @@ body, html {
 	padding-left: 10px;
 	border-bottom-width: 4px;
 	border-bottom-style: solid;
+}
+
+.bb-grid-header-10dot3 {
+	border-bottom-width: 3px;
 }
 
 .bb-grid-header p {
