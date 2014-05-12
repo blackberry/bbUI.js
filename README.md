@@ -17,6 +17,10 @@
 </tr>
 </table> 
 
+## BlackBerry 10 Support Requires WebWorks 2.0
+
+[You can download WebWorks 2.0 here](https://developer.blackberry.com/html5/download/)
+
 You can find both of the necessary JavaScript and CSS files for your application in the _**pkg**_ directory. If you are using BlackBerry 10 [Context Menus](https://github.com/blackberry/bbUI.js/wiki/Context-Menus) you
 will also need to include the WebWorks extension outlined in the [extension README](pkg/bb10/). As of v0.9.5 this includes both the full version and minified versions of the bbUI files.  The **samples** directory will 
 give you examples of how to use the bbUI toolkit. You can also [download other previous releases as a zip or tar.gz](https://github.com/blackberry/bbUI.js/tags)
@@ -113,7 +117,8 @@ These common controls and layouts are supported across BB6/BB7/PlayBook/BB10
 
 ## Tested On
 
-* BlackBerry 10.2.0.339 (Beta SDK OS)
+* BlackBerry 10.2.1.2102 
+* BlackBerry 10.2.0.339 
 * BlackBerry 10.1.0.273
 * BlackBerry 10.0.10.672
 * BlackBerry PlayBook v2.1.x.x

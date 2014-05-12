@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.957*/
+/* bbUI for BB10 VERSION: 0.9.6.966*/
 
 bb = {
 	scroller: null,  
@@ -331,7 +331,7 @@ bb = {
                 }
                 return result;
             };
-
+		
         // Special handling for inserting script tags
         bb.screen.scriptCounter = 0;
         bb.screen.totalScripts = newScriptTags.length;
@@ -368,6 +368,7 @@ bb = {
 			bb.options.onscreenready(container, id, params);
 		}
 		bb.doLoad(container);
+		
 		// Load in the new content
 		document.body.appendChild(container);
 		
@@ -4139,50 +4140,50 @@ _bb10_contextMenu = {
 		
 		// Handle our context open event
 		menu.oncontextmenu = function(contextEvent) {
-				this.centerMenuItems();
-				
-				var node = contextEvent.srcElement,
-					found = false,
-					bbuiType = '',
-					data;
-				while (node) {
-					if (node.hasAttribute) {
-						bbuiType = node.hasAttribute('data-bb-type') ? node.getAttribute('data-bb-type').toLowerCase() : undefined;
-						if (bbuiType == 'item') {
-							// Make sure it has the webworks attribute
-							found = node.hasAttribute('data-webworks-context');
-							break;
-						} 
-					}
-					node = node.parentNode;
+			this.centerMenuItems();
+			
+			var node = contextEvent.srcElement,
+				found = false,
+				bbuiType = '',
+				data;
+			while (node) {
+				if (node.hasAttribute) {
+					bbuiType = node.hasAttribute('data-bb-type') ? node.getAttribute('data-bb-type').toLowerCase() : undefined;
+					if (bbuiType == 'item') {
+						// Make sure it has the webworks attribute
+						found = node.hasAttribute('data-webworks-context');
+						break;
+					} 
 				}
-				
-				// If we found our item then we highlight it
-				if (found) {
-					node.drawSelected();
-					data = node.getAttribute('data-webworks-context');
-					data = JSON.parse(data);
-					this.selected = {
-							title : data.header,
-							description : data.subheader,
-							selected : node
-						};
-				} else {
-					contextEvent.preventDefault();
-				}
-				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);	
-			};
+				node = node.parentNode;
+			}
+			
+			// If we found our item then we highlight it
+			if (found) {
+				node.drawSelected();
+				data = node.getAttribute('data-webworks-context');
+				data = JSON.parse(data);
+				this.selected = {
+						title : data.header,
+						description : data.subheader,
+						selected : node
+					};
+			} else {
+				contextEvent.preventDefault();
+			}
+			blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);	
+		};
 		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
 		window.addEventListener('contextmenu', menu.oncontextmenu);
 		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
 
 		// Handle our context closed event
 		menu.oncontextmenuclosed = function(contextEvent) {
-				if (this.selected && this.selected.selected) {
-					this.selected.selected.drawUnselected();
-				}
-				blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
-			};
+			if (this.selected && this.selected.selected) {
+				this.selected.selected.drawUnselected();
+			}
+			blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
+		};
 		menu.oncontextmenuclosed = menu.oncontextmenuclosed.bind(menu);
 		document.addEventListener('bbui.contextClosed', menu.oncontextmenuclosed);
 		bb.documentListeners.push({name: 'bbui.contextClosed', eventHandler: menu.oncontextmenuclosed});
@@ -4190,107 +4191,111 @@ _bb10_contextMenu = {
 		
 		// Add a menu item
 		menu.add = function(action) {
-				this.actions.push(action);
-				this.appendChild(action);
-				var menuItem = {
-						actionId: bb.guidGenerator(),
-						label: action.innerHTML,
-						icon: action.getAttribute('data-bb-img')
-					};
-				// Assign a pointer to the menu item
-				bb.contextMenu.actionIds.push(menuItem.actionId);
-				action.pinned = false;
-				action.menuItem = menuItem;
-				action.menu = this;
-				action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
-				
-				// Check for the pinned item
-				if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
-					action.pinned = true;
-				}
-				// Handle the click of the menu item
-				action.doclick = function(id) {
-					var element = document.querySelectorAll('[data-bb-context-menu-id='+ id +']'),
-							data;
-					if (element.length > 0) {
-						element = element[0];
-						data = element.getAttribute('data-webworks-context');
-						data = JSON.parse(data);
-						this.menu.selected = {
-							title : data.header,
-							description : data.subheader,
-							selected : element
-						};
-						var evt = document.createEvent('MouseEvents'); 
-                        evt.initMouseEvent('click', true, true, window,
-                            0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                        action.dispatchEvent(evt);
-					}
+			alert('add: START');
+			this.actions.push(action);
+			this.appendChild(action);
+			var menuItem = {
+					actionId: bb.guidGenerator(),
+					label: action.innerHTML,
+					icon: action.getAttribute('data-bb-img')
 				};
-				action.doclick = action.doclick.bind(action);
-				
-				// Handle the show
-				action.show = function() {
-					if (this.visible) return;
-					this.visible = true;
-					this.removeAttribute('data-bb-visible');
+			// Assign a pointer to the menu item
+			bb.contextMenu.actionIds.push(menuItem.actionId);
+			action.pinned = false;
+			action.menuItem = menuItem;
+			action.menu = this;
+			action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
+			
+			// Check for the pinned item
+			if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
+				action.pinned = true;
+			}
+			// Handle the click of the menu item
+			action.doclick = function(id) {
+				var element = document.querySelectorAll('[data-bb-context-menu-id='+ id +']'),
+						data;
+				if (element.length > 0) {
+					element = element[0];
+					data = element.getAttribute('data-webworks-context');
+					data = JSON.parse(data);
+					this.menu.selected = {
+						title : data.header,
+						description : data.subheader,
+						selected : element
+					};
+					var evt = document.createEvent('MouseEvents'); 
+					evt.initMouseEvent('click', true, true, window,
+						0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					action.dispatchEvent(evt);
 				}
-				action.show = action.show.bind(action);
-				
-				// Handle the hide
-				action.hide = function() {
-					if (!this.visible) return;
-					this.visible = false;
-					this.setAttribute('data-bb-visible','false');
-				}
-				action.hide = action.hide.bind(action);
 			};
+			action.doclick = action.doclick.bind(action);
+			
+			// Handle the show
+			action.show = function() {
+				if (this.visible) return;
+				this.visible = true;
+				this.removeAttribute('data-bb-visible');
+			}
+			action.show = action.show.bind(action);
+			
+			// Handle the hide
+			action.hide = function() {
+				if (!this.visible) return;
+				this.visible = false;
+				this.setAttribute('data-bb-visible','false');
+			}
+			action.hide = action.hide.bind(action);
+			alert('add: END');
+		};
 		menu.add = menu.add.bind(menu);
 		
 		// This function refreshes the menu witht the current state
 		menu.centerMenuItems = function() {
-				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
-					i,
-					pinnedAction = false,
-					action,
-					options = {
-						includeContextItems: [blackberry.ui.contextmenu.CONTEXT_ALL],
-						includePlatformItems: false,
-						includeMenuServiceItems: false
-					};
-					
-				// See if we have a pinned action
-				for (i = 0; i < this.actions.length; i++) {
-					action = this.actions[i];
-					if (action.visible && action.pinned) {
-						options.pinnedItemId = action.menuItem.actionId;
-					}
-				}
-				// First clear any items that exist
-				this.clearWWcontextMenu();
-				// Define our custom context
-				blackberry.ui.contextmenu.defineCustomContext('bbui-context',options);
+			var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
+				i,
+				pinnedAction = false,
+				action,
+				options = {
+					includeContextItems: [blackberry.ui.contextmenu.CONTEXT_ALL],
+					includePlatformItems: false,
+					includeMenuServiceItems: false
+				};
 				
-				// Add our visible context menu items
-				for (i = this.actions.length -1; i >= 0;i--) {
-					action = this.actions[i];
-					if (action.visible) {
-						blackberry.ui.contextmenu.addItem(contexts, action.menuItem, action.doclick);
-					}
+			// See if we have a pinned action
+			for (i = 0; i < this.actions.length; i++) {
+				action = this.actions[i];
+				if (action.visible && action.pinned) {
+					options.pinnedItemId = action.menuItem.actionId;
 				}
-			};
+			}
+			// First clear any items that exist
+			this.clearWWcontextMenu();
+			// Define our custom context
+			blackberry.ui.contextmenu.defineCustomContext('bbui-context',options);
+			
+			// Add our visible context menu items
+			for (i = this.actions.length -1; i >= 0;i--) {
+				action = this.actions[i];
+				if (action.visible) {
+					blackberry.ui.contextmenu.addItem(contexts, action.menuItem, action.doclick);
+				}
+			}
+		};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
 		// This function clears all the items from the context menu.  Typically
 		// called internally when the screen is popped
 		menu.clearWWcontextMenu = function() {
-				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
-					i,
-					actionId;
-				for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
-					blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
-				}
-			};
+			alert('clearWWcontextMenu: START');
+			var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
+				i,
+				actionId;
+			for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
+				blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
+			}
+			alert('clearWWcontextMenu: END');
+		};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
 		menu.show = function() {
