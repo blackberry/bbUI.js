@@ -18,8 +18,11 @@ _bb10_button = {
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-button',
 			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor;
-
-		if (bb.device.newerThan10dot1) {
+		if (bb.device.newerThan10dot2) {
+			normal += ' bb-button-10dot3 bb-button-' + bb.screen.controlColor+'-10dot3';
+			outerNormal += ' bb-button-container-10dot3';
+			highlight = 'bb-button bb-button-10dot3 bb-button-'+ bb.screen.controlColor + ' bb-button-'+ bb.screen.controlColor + '-highlight-10dot3';
+		} else if (bb.device.newerThan10dot1) {
 			normal += ' bb-button-10dot2';
 			outerNormal += ' bb-button-container-10dot2';
 			highlight = 'bb-button bb-button-10dot2 bb-button-'+ bb.screen.controlColor + ' bb-button-'+ bb.screen.controlColor + '-highlight-10dot2';
@@ -79,6 +82,9 @@ _bb10_button = {
 	
 		// Set our styles
 		disabledStyle = normal + ' bb-button-disabled-'+bb.screen.controlColor;
+		if (bb.device.newerThan10dot2) {
+			disabledStyle += ' bb-button-disabled-'+bb.screen.controlColor+'-10dot3';
+		}
 		normal = normal + ' bb-button-' + bb.screen.controlColor;
 		
 		if (disabled) {
@@ -163,7 +169,12 @@ _bb10_button = {
 					this.captionElement.setAttribute('class','bb-button-caption-with-image');
 					var imgElement = document.createElement('div');
 					this.imgElement = imgElement;
-					imgElement.setAttribute('class','bb-button-image');
+					if (bb.device.newerThan10dot1) {
+						imgElement.setAttribute('class','bb-button-image bb-button-image-10dot2');
+					} else {
+						imgElement.setAttribute('class','bb-button-image');
+					}
+					//imgElement.setAttribute('class','bb-button-image');
 					imgElement.style['background-image'] = 'url("'+value+'")';
 					// Remove and re-order the caption element
 					this.innerElement.removeChild(this.captionElement);

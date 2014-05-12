@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.970*/
+/* bbUI for BB10 VERSION: 0.9.6.983*/
 
 body, html {
 	padding:0;
@@ -868,8 +868,17 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#F9F9F9), to(#DDDDDD));
 }
 
+.bb-button-light-10dot3 {
+	color: #323232;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#EFEFEF), to(#E4E4E4));
+}
+
 .bb-button-light-highlight-10dot2 {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#B4B4B4), to(#E0E0E0));
+}
+
+.bb-button-light-highlight-10dot3 {
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#CDCDCD), to(#C2C2C2));
 }
 
 .bb-button-dark {
@@ -877,9 +886,18 @@ body, html {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#3F3F3F), to(#262626));
 }
 
+.bb-button-dark-10dot3 {
+	color: #F0F0F0;
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#282828));
+}
+
 .bb-button-dark-highlight-10dot2 {
 	border-color: #0B0B0B;
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#242424), to(#212121));
+}
+
+.bb-button-dark-highlight-10dot3 {
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#242424), to(#1D1D1D));
 }
 
 .bb-button-disabled-dark {
@@ -888,10 +906,20 @@ body, html {
 	color: #666666;
 }
 
+.bb-button-disabled-dark-10dot3 {
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#1E1E1E), to(#181818));
+	color: #898989;
+}
+
 .bb-button-disabled-light {
 	border-color: #D4D4D4;
 	background-color: #C1C1C1;
 	color: #838383;
+}
+
+.bb-button-disabled-light-10dot3 {
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#F7F7F7), to(#F2F2F2));
+	color: #A7A7A7;
 }
 
 .bb-button-stretch{
@@ -946,6 +974,12 @@ body, html {
 	background: none;
 }
 
+.bb-button-container-10dot3 {
+	border-style: none;
+	padding: 0px;
+	background: none;
+}
+
 .bb-button {
 	border-width:1px;
 	border-radius:5px;
@@ -962,6 +996,14 @@ body, html {
 	height: 63px;
 	font-size:27pt;
 	line-height:48px;
+}
+
+.bb-button-10dot3 {
+	border-width:0px;
+	height: 67px;
+	font-size:26pt;
+	line-height:50px;
+	font-weight: 600;
 }
 
 /* ================================================= 
