@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.966*/
+/* bbUI for BB10 VERSION: 0.9.6.970*/
 
 bb = {
 	scroller: null,  
@@ -56,18 +56,13 @@ bb = {
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Get our OS version as a convenience
+		bb.device.is10dot3 = (navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
 		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
 		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
-		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2;
-		bb.device.newerThan10dot1 = bb.device.is10dot2;
-		bb.device.newerThan10dot2 = false;
-		
-		// Set our resolution flags
-		bb.device.is1024x600 = bb.device.isPlayBook;
-		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
-		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
-		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot1 = bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot2 = bb.device.is10dot3;
 		
 		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
@@ -89,6 +84,12 @@ bb = {
 			meta.setAttribute('content','initial-scale=1.0,width=device-width,user-scalable=no,target-densitydpi=device-dpi');
 		}
 		document.head.appendChild(meta);
+		
+		// Set our resolution flags
+		bb.device.is1024x600 = bb.device.isPlayBook;
+		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
+		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
+		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
 		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
@@ -229,12 +230,14 @@ bb = {
 		is720x720: false,
 		is1280x720: false,
 		// OS versions
+		is10dot3: false,
 		is10dot2: false,
 		is10dot1: false,
 		is10dot0: false,
 		newerThan10dot0: false,
 		newerThan10dot1 : false,
-		newerThan10dot2: false
+		newerThan10dot2: false,
+		newerThan10dot3: false
     },
 	
 	// Options for rendering
