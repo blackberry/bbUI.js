@@ -14,13 +14,15 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.964*/
+/* VERSION: 0.9.6.130*/
 
 var _self = {},
-    _ID = require("./manifest.json").namespace;
+    exec = cordova.require("cordova/exec"),
+    noop = function () {},
+    _ID = "com.blackberry.bbui";
 
 _self.initContext = function (value) {
-    window.webworks.execAsync(_ID, "initContext", {value : value});
+    exec(noop, noop, _ID, "initContext", {value : value}, false);
 }
 
 module.exports = _self;
