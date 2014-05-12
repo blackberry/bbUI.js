@@ -1586,6 +1586,15 @@ body, html {
 	font-weight: bold;
 }
 
+.bb-image-list-header-10dot3 {
+	height:46px;
+	line-height:46px;
+	font-size: 22pt;
+	border-bottom-width: 3px;
+	border-bottom-style: solid;
+	margin-bottom: 3px;
+}
+
 .bb-image-list-header-left {
 	text-align:left;
 	padding-left: 20px;
@@ -1720,9 +1729,21 @@ body, html {
 	color: black;
 }
 
+.bb-image-list-header-normal-light-10dot3 {
+	font-weight: 600;
+	color: #646464;
+	border-bottom-color: #CCCCCC;
+}
+
 .bb-image-list-header-normal-dark {
 	font-weight: normal;
 	color: white;
+}
+
+.bb-image-list-header-normal-dark-10dot3 {
+	font-weight: 600;
+	color: #949494;
+	border-bottom-color: #3F3F3F;
 }
 
 .bb-image-list-header p {
