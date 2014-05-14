@@ -498,6 +498,11 @@
 		line-height:36px;
 	}
 	
+	.bb-grid-header-10dot3 {
+		font-size: 19pt;
+		line-height:32px;
+	}
+	
 	.bb-grid-header p {
 		font-size: 18pt;
 		font-weight: 600;
