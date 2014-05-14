@@ -646,6 +646,24 @@
 		width: 81px;
 	}
 	
+	/* Pill Button */
+	.bb-pill-buttons-container {
+		font-size: 22pt;
+		height:56px;
+		padding: 0px;
+	}
+	
+	.bb-pill-button  {
+		height: 52px;
+	}
+	
+	.bb-pill-button-inner {
+		margin:0px;
+		height:52px;
+		line-height:47px;
+		padding-top: 0px;
+	}
+	
 	/* Drop Down */
 	.bb-dropdown-inner {
 		font-size:23pt;

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1020*/
+/* bbUI for BB10 VERSION: 0.9.6.1024*/
 
 body, html {
 	padding:0;
@@ -3338,6 +3338,24 @@ body, html {
 	
 	.bb-button-container-image-only {
 		width: 81px;
+	}
+	
+	/* Pill Button */
+	.bb-pill-buttons-container {
+		font-size: 22pt;
+		height:56px;
+		padding: 0px;
+	}
+	
+	.bb-pill-button  {
+		height: 52px;
+	}
+	
+	.bb-pill-button-inner {
+		margin:0px;
+		height:52px;
+		line-height:47px;
+		padding-top: 0px;
 	}
 	
 	/* Drop Down */
