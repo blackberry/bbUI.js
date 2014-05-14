@@ -512,6 +512,11 @@
 		font-weight: 600;
 	}
 	
+	.bb-image-list-header-10dot3 {
+		font-size: 19pt;
+		line-height:32px;
+	}
+	
 	.bb-image-list-item .title {
 		font-size: 27pt;
 		margin-top: -30px;
