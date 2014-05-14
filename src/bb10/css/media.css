@@ -563,9 +563,21 @@
 		height:77px;
 	}
 	
+	.bb-input-container-10dot3 {
+		height: 64px;
+	}
+	
 	.bb-input {
 		font-size: 25pt;
 		height:74px;		
+	}
+	
+	.bb-input-10dot3 {
+		height: 61px;
+	}
+	
+	.bb-input-container-focused-10dot3 {
+		background-size: 50px 50px;
 	}
 	
 	/* Tab Overflow */
