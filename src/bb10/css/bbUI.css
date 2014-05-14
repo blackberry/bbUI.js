@@ -616,6 +616,10 @@ body, html {
 	margin-top: -10px;
 }
 
+.bb-panel-header-10dot3 {
+	border-bottom-width: 3px;
+}
+
 .bb-panel-header-light {
 	border-bottom-style: solid;
 	border-bottom-width: 4px; 
@@ -623,11 +627,23 @@ body, html {
 	color: black;	
 }
 
+.bb-panel-header-light-10dot3 {
+	font-weight: 600;
+	color: #646464;
+	border-bottom-color: #CCCCCC;
+}
+
 .bb-panel-header-dark {
 	border-bottom-style: solid;
 	border-bottom-width: 4px;
 	border-top: solid 1px #3A3A3A;
 	color: white;	
+}
+
+.bb-panel-header-dark-10dot3 {
+	font-weight: 600;
+	color: #949494;
+	border-bottom-color: #3F3F3F;
 }
 
 /* ================================================= 
