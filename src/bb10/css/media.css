@@ -614,18 +614,22 @@
 	
 	/* Button */
 	.bb-button {
-		font-size:23pt;
-		height:59px;
-		line-height:44px;
+		font-size:22pt;
+		height:52px;
+		line-height:36px;
 	}
 	
 	.bb-button-image {
 		margin-top: -12px;
+		height: 62px;
+		width: 62px;
 	}
 	
 	.bb-button-caption-with-image-only {
 		margin-top: -12px;
-		margin-left: -32px;
+		margin-left: -27px;
+		height: 62px;
+		width: 62px;
 	}
 	
 	.bb-button-container-image-only {
