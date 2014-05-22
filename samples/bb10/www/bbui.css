@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1105*/
+/* bbUI for BB10 VERSION: 0.9.6.1111*/
 
 body, html {
 	padding:0;
@@ -3638,6 +3638,43 @@ body, html {
 		height: 40px;
 		width: 40px;
 		background-size: 30px 24px;
+	}
+	
+	/* Radio button */
+	.bb-radio-container-10dot3-dark {
+		padding: 8px;
+		height: 56px;
+		width: 56px;
+	}
+	
+	.bb-radio-container-10dot3-light {
+		padding: 8px;
+		height: 56px;
+		width: 56px;
+	}
+	
+	.bb-radio-dot-10dot3 {
+		height: 40px;
+		width: 40px;
+		border-radius: 20px;
+		top: 9px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-disabled-10dot3 {
+		height: 40px;
+		width: 40px;
+		border-radius: 20px;
+		top: 9px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-center-10dot3 {
+		height: 14px;
+		width: 14px;
+		border-radius: 7px;
+		top: 13px;
+		left: 13px;
 	}
 }
 
