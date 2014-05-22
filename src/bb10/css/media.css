@@ -397,6 +397,7 @@
 	}
 }
 
+/* Z30 & Z3 */
 @media screen and (width: 720px) and (height: 1280px) and (-webkit-max-device-pixel-ratio:1.9), (width: 1280px) and (height: 720px) and (-webkit-max-device-pixel-ratio:1.9), (-webkit-max-device-pixel-ratio:1.9) {
     .bb-screen {
 		font-size: 25pt;
@@ -739,6 +740,29 @@
 	.bb-panel-header-10dot3 {
 		font-size: 19pt;
 		line-height:32px;
+	}
+	
+	/* CheckBox */
+	.bb-checkbox-outer-10dot3 {
+		height: 40px;
+		width: 40px;
+	}
+	
+	.bb-checkbox-inner-10dot3 {
+		height: 40px;
+		width: 40px;
+	}
+	
+	.bb-checkbox-check-hidden-10dot3 {
+		height: 40px;
+		width: 40px;
+		background-size: 30px 24px;
+	}
+	
+	.bb-checkbox-check-display-10dot3 {
+		height: 40px;
+		width: 40px;
+		background-size: 30px 24px;
 	}
 }
 

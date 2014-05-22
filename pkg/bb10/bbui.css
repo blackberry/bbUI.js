@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1073*/
+/* bbUI for BB10 VERSION: 0.9.6.1079*/
 
 body, html {
 	padding:0;
@@ -810,6 +810,10 @@ body, html {
 	background-size: cover;
 }
 
+.bb-checkbox-check-image-10dot3 {
+	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAeCAYAAABE4bxTAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gUWECAo5WV/5AAAAvVJREFUWMPFlj9rG0kYh5+ZWdVXCX+BVIF8gLiQZLGJ/wq3xiGQ1iFFPkEgRfqocUgIBAIXrnDhOri56uDgGtuxkWM7tiVw5MWBgHdGa2l200hCtrTyyicpL0yxszPDs7/39+68Yn19nd8Zi4uLV56d3wiSBu4DP4B/AAvgCCHGCiKEoFAoLAOrwB/N6S3gIfBdjhNGSkmhUHgCfOyAAbgHvB2rQkIIFhYWngDvAdVjyfzYPCSlZH5+vh8MwM+xKCSlZG5u7iYYgOLIgaSUzM7OJoFZA16NFEhKyczMzOOEMEsjLXshRAvmwyAwIzG1lJLp6elbwTT3S4Y1HMcZCGZzc9NefzG0lEkpcV03MczW1pbVWjMSICHEQDDb29tWa00QBP2BXNe92/yN/7uxsfEtqTL5fD4xzM7OjjXGcHl5ibW2+7zm1ynXdf8EvgB/AV9d130ppUQIETuUUgPB7O7uWq01tVqNRqNBFEXdQEopgGfAcse8Al7k8/lVpVRPAyulmJqaSgxTKpXaaWopI2X33S4dxwGYiTlsJZfLrV7fKKUkl8stJ4XZ29uzvu8TBEGsMu2zU6kUzSYpLlay2WxbKaUU2Wx2udlC3AqmM+1xKXt3g3dXMpnMaiqVIpPJJIbZ39+3xpiuNHWOnqYulUp/A89vgpqcnPycFObg4KDLwL0KowsoDEOstZTL5WICqAdJYA4PD2+splgPhWFIvV4nCAJOT0+TQPWFOTo66llNcSMWyBiDMYZqtXobqDVg6fj4uK+Bk6TMAbDWEgRBe1G1Wi1OTEwAvE4Kc3JyYn3f7/LMwHciQMtHQRCgtcYYw9nZWRKl1oClcrl8BSYMw1vfi+27LIqiLqU8zyum0+k4pdaApUqlMhRlrijUijAMaTQa1Go1fN9Ha43neUXgKWA6ln4CHlUqFXtxcYExhnq9/r+UiW0/risF4Hnem3Q6/Qm4A/w4Pz//prWmVU3DUKZvC9upVBRFNCvxp1Lqv+tVOSxlWvELvlHnt0aPmFkAAAAASUVORK5CYII=");
+}
+
 .bb-checkbox-outer-dark {
 	border-top-color: #333333;
 	border-left-color: #333333;
@@ -829,7 +833,7 @@ body, html {
 }
 
 .bb-checkbox-inner-10dot3-dark {
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#282828));
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#3C3C3C), to(#3C3C3C));
 }
 
 .bb-checkbox-inner-light {
@@ -849,7 +853,7 @@ body, html {
 .bb-checkbox-outer-disabled-10dot3-dark {
 	border-color: transparent;
 	background-image: none;
-	background-color: #DBDBDB;
+	background-color: #1E1E1E;
 }
 
 .bb-checkbox-outer-disabled-light {
@@ -870,7 +874,7 @@ body, html {
 
 .bb-checkbox-inner-disabled-10dot3-dark {
 	border-color: transparent;
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#1E1E1E), to(#181818));
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#1E1E1E), to(#1E1E1E));
 }
 
 .bb-checkbox-inner-disabled-light {
@@ -3230,6 +3234,7 @@ body, html {
 	}
 }
 
+/* Z30 & Z3 */
 @media screen and (width: 720px) and (height: 1280px) and (-webkit-max-device-pixel-ratio:1.9), (width: 1280px) and (height: 720px) and (-webkit-max-device-pixel-ratio:1.9), (-webkit-max-device-pixel-ratio:1.9) {
     .bb-screen {
 		font-size: 25pt;
@@ -3572,6 +3577,29 @@ body, html {
 	.bb-panel-header-10dot3 {
 		font-size: 19pt;
 		line-height:32px;
+	}
+	
+	/* CheckBox */
+	.bb-checkbox-outer-10dot3 {
+		height: 40px;
+		width: 40px;
+	}
+	
+	.bb-checkbox-inner-10dot3 {
+		height: 40px;
+		width: 40px;
+	}
+	
+	.bb-checkbox-check-hidden-10dot3 {
+		height: 40px;
+		width: 40px;
+		background-size: 30px 24px;
+	}
+	
+	.bb-checkbox-check-display-10dot3 {
+		height: 40px;
+		width: 40px;
+		background-size: 30px 24px;
 	}
 }
 

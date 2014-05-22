@@ -43,8 +43,8 @@ _bb10_checkbox = {
 		checkElement.hiddenClass = 'bb-checkbox-check-hidden bb-checkbox-check-image';
 		checkElement.displayClass = 'bb-checkbox-check-display bb-checkbox-check-image';
 		if (bb.device.newerThan10dot2) {
-			checkElement.hiddenClass += ' bb-checkbox-check-hidden-10dot3';
-			checkElement.displayClass += ' bb-checkbox-check-display-10dot3';
+			checkElement.hiddenClass += ' bb-checkbox-check-hidden-10dot3 bb-checkbox-check-image-10dot3';
+			checkElement.displayClass += ' bb-checkbox-check-display-10dot3 bb-checkbox-check-image-10dot3';
 		}
 		checkElement.setAttribute('class',checkElement.hiddenClass);
 		if (bb.device.newerThan10dot2) {
