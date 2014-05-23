@@ -81,6 +81,7 @@ bb = {
 			R : R,
 			G : G,
 			B : B,
+			lightHighlight: 'rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +')',
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
 			mediumHighlight: 'rgb('+ (R - 60) +', '+ (G - 60) +', '+ (B - 60) +')',
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
@@ -100,6 +101,10 @@ bb = {
 				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-10dot3-colored {color:white;background-color: '+ bb.options.highlightColor+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-container-10dot3-colored {color:white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored {background: transparent;	border-style: none;	border-width: 0px; border-left-color: white; border-right-color: white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored-highlight {background-color: '+bb.options.shades.lightHighlight+';}', 0);
 			}
 			catch (ex) {
 				console.log(ex.message);

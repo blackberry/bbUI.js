@@ -460,7 +460,11 @@ bb.screen = {
 		} else if (bb.device.is720x720) {
 			return 92;
 		}else {
-			return 111;
+			if (bb.device.newerThan10dot2) {
+				return 110;
+			} else {
+				return 111;
+			}
 		}
 	}
 		

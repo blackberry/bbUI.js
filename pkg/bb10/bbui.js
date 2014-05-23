@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1143*/
+/* bbUI for BB10 VERSION: 0.9.6.1189*/
 
 bb = {
 	scroller: null,  
@@ -99,6 +99,7 @@ bb = {
 			R : R,
 			G : G,
 			B : B,
+			lightHighlight: 'rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +')',
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
 			mediumHighlight: 'rgb('+ (R - 60) +', '+ (G - 60) +', '+ (B - 60) +')',
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
@@ -118,6 +119,10 @@ bb = {
 				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-10dot3-colored {color:white;background-color: '+ bb.options.highlightColor+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-container-10dot3-colored {color:white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored {background: transparent;	border-style: none;	border-width: 0px; border-left-color: white; border-right-color: white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored-highlight {background-color: '+bb.options.shades.lightHighlight+';}', 0);
 			}
 			catch (ex) {
 				console.log(ex.message);
@@ -3012,7 +3017,11 @@ bb.screen = {
 		} else if (bb.device.is720x720) {
 			return 92;
 		}else {
-			return 111;
+			if (bb.device.newerThan10dot2) {
+				return 110;
+			} else {
+				return 111;
+			}
 		}
 	}
 		
@@ -3382,18 +3391,30 @@ bb.titleBar = {
 		titleBar.appendChild(topTitleArea);
 		
 		// Create our box shadow below the title bar
-		if (titleBar.parentNode) {
-			titleBar.dropShadow = document.createElement('div');
-			titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
-			titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
-			titleBar.parentNode.appendChild(titleBar.dropShadow);
+		if (bb.device.newerThan10dot2 === false) {
+			if (titleBar.parentNode) {
+				titleBar.dropShadow = document.createElement('div');
+				titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
+				titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
+				titleBar.parentNode.appendChild(titleBar.dropShadow);
+			}
 		}
 		
 		// Style our title bar
 		if (bb.options.coloredTitleBar) {
-			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
+			if (bb.device.newerThan10dot2 === true) {
+				titleBarClass = 'bb-title-bar bb-title-bar-10dot3 bb-title-bar-10dot3-'+ orientation + ' bb10-title-10dot3-colored';
+				topTitleArea.style['border-bottom-color'] = bb.options.highlightColor;
+			} else {
+				titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
+			}
 		} else {
-			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb-title-bar-' + bb.screen.controlColor;
+			if (bb.device.newerThan10dot2 === true) {
+				titleBarClass = 'bb-title-bar bb-title-bar-10dot3 bb-title-bar-10dot3-'+ orientation + ' bb-title-bar-10dot3-' + bb.screen.controlColor;
+				topTitleArea.style['border-bottom-color'] = bb.options.highlightColor;
+			} else {
+				titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb-title-bar-' + bb.screen.controlColor;
+			}
 		}
 		topTitleArea.setAttribute('class', titleBarClass);
 		
@@ -3413,6 +3434,12 @@ bb.titleBar = {
 			button.onclick = bb.popScreen;
 			bb.titleBar.styleBB10Button(button);
 			button.style.left = '0px';
+			button.innerElement.style['border-right-width'] = '2px';
+			button.innerElement.style['border-right-style'] = 'solid';
+			button.borderSide = 'right';
+			if (!bb.options.coloredTitleBar) {
+				button.innerElement.style.color = bb.options.highlightColor;
+			}
 		}
 		// Get our action button if provided
 		if (titleBar.hasAttribute('data-bb-action-caption')) {
@@ -3436,6 +3463,12 @@ bb.titleBar = {
 			button.style.right = '0px';
 			topTitleArea.appendChild(button);
 			titleBar.actionButton = button;
+			button.innerElement.style['border-left-width'] = '2px ';
+			button.innerElement.style['border-left-style'] = 'solid';
+			button.borderSide = 'left';
+			if (!bb.options.coloredTitleBar) {
+				button.innerElement.style.color = bb.options.highlightColor;
+			}
 		}
 		// Create an adjustment function for the widths
 		if (titleBar.actionButton || titleBar.backButton) {
@@ -3478,7 +3511,11 @@ bb.titleBar = {
 				//img.src = titleBar.getAttribute('data-bb-img');
 				titleBar.img = img;
 				topTitleArea.insertBefore(img, details);
-				details.setAttribute('class', 'bb-title-bar-caption-details-img');
+				if (bb.device.newerThan10dot2 === true) {
+					details.setAttribute('class', 'bb-title-bar-caption-details-img-10dot3');
+				} else {
+					details.setAttribute('class', 'bb-title-bar-caption-details-img');
+				}
 				
 				// Create our display image
 				img.style.opacity = '0';
@@ -3508,10 +3545,18 @@ bb.titleBar = {
 				} else if (bb.device.is720x720) {
 					caption.style['line-height'] = '55px';
 				}else {
-					caption.style['line-height'] = '70px';
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '54px';
+					} else {
+						caption.style['line-height'] = '70px';
+					}
 				}
 				accentText = document.createElement('div');
-				accentText.setAttribute('class','bb-title-bar-accent-text');
+				if (bb.device.newerThan10dot2 === true) {
+					accentText.setAttribute('class','bb-title-bar-accent-text bb-title-bar-accent-text-10dot3');
+				} else {
+					accentText.setAttribute('class','bb-title-bar-accent-text');
+				}
 				if (bb.options.coloredTitleBar) {
 					accentText.style.color = 'silver';
 				}
@@ -3574,13 +3619,26 @@ bb.titleBar = {
 			outerNormal;
 		
 		if (bb.options.coloredTitleBar) {
-			normal = 'bb-titlebar-button bb10-title-button-colored';
-			highlight = 'bb-titlebar-button bb10-title-button-colored-highlight';
-			outerNormal = 'bb-titlebar-button-container bb10-title-button-container-colored';
+			if (bb.device.newerThan10dot2 === true) {
+				normal = 'bb-titlebar-button bb-titlebar-button-10dot3 bb10-title-button-10dot3-colored';
+				highlight = 'bb-titlebar-button-container-10dot3 bb10-title-button-10dot3-colored-highlight';
+				outerNormal = 'bb-titlebar-button-container-10dot3 bb10-title-button-container-10dot3-colored';
+				innerElement.style['border-style'] = 'none';
+			} else {
+				normal = 'bb-titlebar-button bb10-title-button-colored';
+				highlight = 'bb-titlebar-button bb10-title-button-colored-highlight';
+				outerNormal = 'bb-titlebar-button-container bb10-title-button-container-colored';
+			}
 		} else {
-			normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
-			highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
-			outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
+			if (bb.device.newerThan10dot2 === true) {
+				normal = 'bb-titlebar-button bb-titlebar-button-10dot3 bb-titlebar-button-10dot3-' + bb.screen.controlColor;
+				highlight = 'bb-titlebar-button-container-10dot3 bb-titlebar-button-container-10dot3-' + bb.screen.controlColor + ' bb-titlebar-button-highlight-10dot3-'+ bb.screen.controlColor;
+				outerNormal = 'bb-titlebar-button-container-10dot3 bb-titlebar-button-container-10dot3-' + bb.screen.controlColor;
+			} else {
+				normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
+				highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
+				outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
+			}
 		}
 		
 		// Remove the moats on 10.2
@@ -3603,10 +3661,20 @@ bb.titleBar = {
 		innerElement.highlight = highlight;
 
 		outerElement.ontouchstart = function() {
-								this.innerElement.setAttribute('class', this.innerElement.highlight);
+								if (bb.device.newerThan10dot2 === true) {
+									this.setAttribute('class', this.innerElement.highlight);
+									this.innerElement.style['border-' + this.borderSide + '-width'] = '0px';
+								} else {
+									this.innerElement.setAttribute('class', this.innerElement.highlight);
+								}
 							};
 		outerElement.ontouchend = function() {
-								this.innerElement.setAttribute('class', this.innerElement.normal);
+								if (bb.device.newerThan10dot2 === true) {
+									this.setAttribute('class', this.outerNormal);
+									this.innerElement.style['border-' + this.borderSide + '-width'] = '2px';
+								} else {
+									this.innerElement.setAttribute('class', this.innerElement.normal);
+								}
 							};
 
 						
