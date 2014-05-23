@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1127*/
+/* bbUI for BB10 VERSION: 0.9.6.1133*/
 
 body, html {
 	padding:0;
@@ -3717,6 +3717,25 @@ body, html {
 		border-radius: 7px;
 		top: 13px;
 		left: 13px;
+	}
+	
+	/* Slider */
+	.bb-slider .outer-10dot3 {
+		height: 4px;
+	}
+	
+	.bb-slider .halo-10dot3 {
+		margin: 42px;
+		border-radius: 35px;
+		width: 70px;
+		height: 70px;
+	}
+	
+	.bb-slider .indicator-10dot3 {
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		margin: 57px;
 	}
 }
 
