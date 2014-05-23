@@ -446,11 +446,9 @@ body, html {
 	/*margin: 1.8em;*/
 }
 
-.bb-progress .outer
-{
+.bb-progress .outer {
     display: inline-block;
     padding: 0.2em;
-    border-radius: 0.4em;
 	position: relative;
     padding: 0px;
     height: 0.4em;
@@ -459,8 +457,13 @@ body, html {
 	width:100%;
 }
 
-.bb-progress-outer-dark
-{
+.bb-progress .outer-10dot3 {
+	border-radius: 0px;
+	height: 8px;
+	padding: 0px;
+}
+
+.bb-progress-outer-dark {
 	background: #070707;
 	border-top: 1px solid rgba(255,255,255,0.05);
     border-right: 1px solid rgba(255,255,255,0.1);
@@ -468,25 +471,32 @@ body, html {
     border-bottom: 1px solid rgba(255,255,255,0.4); 
 }
 
-.bb-progress-outer-idle-background-dark
-{
+.bb-progress-outer-10dot3-dark {
+	border-width: 0px;
+	background: #282828;
+}
+
+.bb-progress-outer-idle-background-dark {
 	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEcSURBVDhPnZLZCoMwEEWTuK/gi///ke6iqWfoSEr7IA2kwtzM3JOb2r7v/XmeZhxHs22bKYpCNstaK99pmsyyLCZJElNVldQdPxRprutadhRFsp1zZl3Xe2DbtiaOY9Fs13Uep7IsTZ7nxnv/5ZRlmTihKYm9pnjQaMRV8UDHLU3TG0+6rgWhY5JyKx7Cvu9yV/C0zpc6Ax1OuOie51kEsHWgatTRCcmF6f1qUp0m0iUcBkqqLJpAJIiQQpPVJk1dGkMnBA7LW72fA52QmqYRR9GGYZBGBMIgcjYJ44JOKEpxHIecd7CHeHon3vbjTm8KrTucnuJpqvTIczzB40yIfd1fXuROFjzQlQJBQwrrkurTZPW/yiBHev8k+wJ1EPgBOoEmxwAAAABJRU5ErkJggg=="); 
 	background-repeat:  repeat-x;
 }
 
-.bb-progress-outer-idle-background-light
-{
+.bb-progress-outer-idle-background-light {
 	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAIAAACp9tltAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAEDSURBVChTdZFLjoNADERp8ycgxP2XHINLsOUYSED4k9dxlBkFYNFSF8+ustuUZRlFURzHxhjHcTiHYXg+n77vPx4PEVFxmiZTVVWSJMdxqATEFwQBHFd05ag3dV3rHfTM0XUcx77vPc8zTdMoSh3quR+c67ppmgo4v5dlWdeVJHmek1LFfd/neWaSoig4cbAWpOGSZRkNcEAEIg81iJzEsxxfGIbW4j0v9JlDFErhvnuB1nk136efCPFE+/HDWrx94Yj75yuybRvDiS6Viy6r6zoK9EW+Ytu22sjmu/P9H+bDXfr+iBa98/0Jcz3v5RKEUp2XuDyPvvBZZPd2WT9Lvdv0C8pH7m3sNOD0AAAAAElFTkSuQmCC"); 
 	background-repeat:  repeat-x;
 }
 
-.bb-progress-outer-light
-{
+.bb-progress-outer-light {
 	background-color: #DEDEDE;
 	border-top: 1px solid #9B9B9B;
     border-right: 1px solid #9B9B9B;
     border-left: 1px solid #9B9B9B;
     border-bottom: 1px solid #C8C8C8; 
+}
+
+.bb-progress-outer-10dot3-light {
+	border-width: 0px;
+	background: #E5E5E5;
 }
 
 .bb-progress-fill {
@@ -498,6 +508,10 @@ body, html {
 	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABJ0AAASdAHeZh94AAAAB3RJTUUH3AUSDTMT49XRLQAAAShJREFUKM+FkbFqwzAURS8tlNKUfEG/zAR9nb1mCYEoUz4gD20x2j14sYMgGJNn6XWpXDtYyarL1T06gohARBBCgNYaSikhInjvEUJAzP8yJiJcLheMpdPpBKWUGGNmBRGJ2WCMWXVdB2YGhmEYl6y1YOZZab/fQynF1tovZkbbthARzJb6vk/hrZxz6Pt+zMal6eEEzxtjvpkZt9ttzHa7HVCWJbz3s9LhcIBSyltrP6qqwvV6HUmKokCWZZKyF4hozcyzPJa22y2W8IIx5t17PyvleY4sy+R8PqNpmv/i8XiM7/283++Ia7G02WxEa426ruGcwxRPiOgtgS5EhCn69DvWj5KmX/WIvnhbFPEsAxH9pOwtLUVJyUBrjWeSkiJeSUqKeCXpF6EYTkZf/qpKAAAAAElFTkSuQmCC"); 
 }
 
+.bb-progress-fill-10dot3 {
+	border-radius: 0px;
+}
+
 .bb-progress .inner {
     top: -1.9em;
     left: -1.9em;
@@ -506,6 +520,7 @@ body, html {
     height: 4em;
     display: inline-block;
 }
+
 
 /* ================================================= 
    Swipe Down Menu 
