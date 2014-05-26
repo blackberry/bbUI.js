@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1203*/
+/* bbUI for BB10 VERSION: 0.9.6.1236*/
 
 bb = {
 	scroller: null,  
@@ -7209,10 +7209,16 @@ _bb10_toggle = {
 		}
 		
 		// Set our styling and create the inner divs
-		outerElement.className = 'bb-toggle';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.className = 'bb-toggle bb-toggle-10dot3';
+		} else {
+			outerElement.className = 'bb-toggle';
+		}
 		outerElement.outer = document.createElement('div');
 		if (outerElement.enabled) {
-			if (bb.device.newerThan10dot1) {
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.normal = 'outer outer-10dot3 bb-toggle-outer-enabled-'+color;
+			} else if (bb.device.newerThan10dot1 === true) {
 				outerElement.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
 			} else {
 				outerElement.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
@@ -7223,7 +7229,11 @@ _bb10_toggle = {
 		outerElement.outer.setAttribute('class',outerElement.normal);
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
-		outerElement.fill.className = 'fill';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.fill.className = 'fill fill-10dot3-'+color;
+		} else {
+			outerElement.fill.className = 'fill';
+		}
 		outerElement.fill.style.background = outerElement.fill.dormant;
 		outerElement.outer.appendChild(outerElement.fill);
 		// Our inner area that will contain the text
@@ -7263,8 +7273,17 @@ _bb10_toggle = {
 		outerElement.appendChild(outerElement.container);
 		// Create the Halo
 		outerElement.halo = document.createElement('div');
-		outerElement.halo.className = 'halo';
-		outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+		if (bb.device.newerThan10dot2 === true) {
+				if (color == 'light') {
+					outerElement.halo.style.background = '#C3C3C3';
+				} else {
+					outerElement.halo.style.background = '#484848';
+				}
+				outerElement.halo.className = 'halo halo-10dot3';
+			} else {
+				outerElement.halo.className = 'halo';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+			}
 		outerElement.container.appendChild(outerElement.halo);
 		// Create the indicator
 		outerElement.indicator = document.createElement('div');
@@ -7275,6 +7294,14 @@ _bb10_toggle = {
 		}
 		outerElement.indicator.setAttribute('class',outerElement.indicator.normal);
 		outerElement.container.appendChild(outerElement.indicator);
+		
+		// Add our internal switch for 10.3+
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.onoff = document.createElement('div');
+			outerElement.onoff.className = 'switch-off-'+color;
+			outerElement.indicator.appendChild(outerElement.onoff);		
+		}
+		
 		// Get our onchange event if any
 		if (outerElement.hasAttribute('onchange')) {
 			outerElement.onchangeEval = outerElement.getAttribute('onchange');
@@ -7293,8 +7320,12 @@ _bb10_toggle = {
 									this.outerElement.initialXPos = event.touches[0].pageX;	
 									this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 									this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-									this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
-									this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+									if (bb.device.newerThan10dot2 == true) {
+										this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
+									} else {
+										this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
+										this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+									}
 								}
 							};
 		outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
@@ -7372,9 +7403,27 @@ _bb10_toggle = {
 							});
 							
 					if (this.checked && this.enabled) {
-						this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+						if (bb.device.newerThan10dot2) {
+							this.indicator.style.background = '#FEFEFE';
+							this.indicator.style['border'] = '1px solid #FEFEFE';
+							this.fill.style.background = bb.options.highlightColor;
+							this.onoff.className = 'switch-on';
+							this.onoff.style['background-color'] = bb.options.highlightColor;
+						} else {
+							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+						}
 					} else {
-						this.indicator.style['background-image'] = '';
+						if (bb.device.newerThan10dot2) {
+							if (this.checked === false) {
+								this.fill.style.background = '';
+								this.onoff.className = 'switch-off-'+bb.screen.controlColor;
+								this.onoff.style['background-color'] = '';
+								this.indicator.style.background = '';
+								this.indicator.style['border'] = '';
+							} 
+						} else {
+							this.indicator.style['background-image'] = '';
+						}
 					}
 					
 					this.currentXPos = location;
@@ -7449,14 +7498,18 @@ _bb10_toggle = {
 				if (this.enabled) return;
 				this.enabled = true;
 				// change our styles
-				this.indicator.normal = 'indicator bb-toggle-indicator-enabled-' + color;
-				this.indicator.setAttribute('class',this.indicator.normal);
-				if (bb.device.newerThan10dot1) {
-					this.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+				if (bb.device.newerThan10dot2 === true) {
+					this.style.opacity = '';
 				} else {
-					this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+					this.indicator.normal = 'indicator bb-toggle-indicator-enabled-' + color;
+					this.indicator.setAttribute('class',this.indicator.normal);
+					if (bb.device.newerThan10dot1) {
+						this.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+					} else {
+						this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+					}
+					this.outer.setAttribute('class',this.normal);
 				}
-				this.outer.setAttribute('class',this.normal);
 				// update the button
 				this.positionButton();
 			};
@@ -7467,10 +7520,14 @@ _bb10_toggle = {
 				if (!this.enabled) return;
 				this.enabled = false;
 				// change our styles
-				this.indicator.normal = 'indicator bb-toggle-indicator-disabled-' + color;
-				this.indicator.setAttribute('class',this.indicator.normal);
-				this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-disabled';
-				this.outer.setAttribute('class',this.normal);
+				if (bb.device.newerThan10dot2 === true) {
+					this.style.opacity = '0.45';
+				} else {
+					this.indicator.normal = 'indicator bb-toggle-indicator-disabled-' + color;
+					this.indicator.setAttribute('class',this.indicator.normal);
+					this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-disabled';
+					this.outer.setAttribute('class',this.normal);
+				}
 				// Update the button
 				this.positionButton();
 			};

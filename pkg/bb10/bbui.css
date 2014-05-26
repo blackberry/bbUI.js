@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1203*/
+/* bbUI for BB10 VERSION: 0.9.6.1236*/
 
 body, html {
 	padding:0;
@@ -300,10 +300,22 @@ body, html {
 	width: 210px;
 }
 
+.bb-toggle-10dot3 {
+	width: 120px;
+	height: 70px;
+	padding: 0px;
+}
+
 .bb-toggle .outer {
     height: 68px;
 	border-radius: 36px;
 	width:210px;
+}
+
+.bb-toggle .outer-10dot3 {
+    height: 70px;
+	border-radius: 36px;
+	width:120px;
 }
 
 .bb-toggle .bb-toggle-outer-dark {
@@ -340,6 +352,10 @@ body, html {
     -webkit-transform: scale(0);
 }
 
+.bb-toggle .halo-10dot3 {
+	opacity: 0.6;
+}
+
 .bb-toggle .indicator { 
     display: inline-block;
     padding: 0.5em 1.8em;
@@ -353,10 +369,46 @@ body, html {
     border: 0px;
 }
 
+.bb-toggle-10dot3 .indicator {
+	width: 57px;
+    height: 57px;
+    border-radius: 29px;
+}
+
+.bb-toggle-10dot3 .indicator .switch-on {
+	width: 2px;
+	height: 21px;
+	margin-top: 17px;
+	margin-left: 28px;
+}
+
+.bb-toggle-10dot3 .indicator .switch-off-light {
+	width: 20px;
+	height: 20px;
+	border-radius: 11px;
+	margin-top: 17px;
+	margin-left: 17px;
+	border: 2px solid #CBCBCB;
+}
+
+.bb-toggle-10dot3 .indicator .switch-off-dark {
+	width: 20px;
+	height: 20px;
+	border-radius: 11px;
+	margin-top: 17px;
+	margin-left: 17px;
+	border: 2px solid #1E1E1E;
+}
+
 .bb-toggle .bb-toggle-indicator-enabled-dark {
 	background: -webkit-linear-gradient(top, #3F3F3F 0%, #252525 100%);
 	border: 1px solid #595959;
    /* box-shadow: 0px 0px 0.2em #030303;*/
+}
+
+.bb-toggle-10dot3 .bb-toggle-indicator-enabled-dark { 
+	background: #4A4A4A;
+	border: 1px solid #4A4A4A;
 }
 
 .bb-toggle .bb-toggle-indicator-disabled-dark {
@@ -370,10 +422,16 @@ body, html {
   /*  box-shadow: 0px 0px 0.2em #030303;*/
 }
 
+.bb-toggle-10dot3 .bb-toggle-indicator-enabled-light { 
+	background: #FEFEFE;
+	border: 1px solid #FEFEFE;
+}
+
 .bb-toggle .bb-toggle-indicator-disabled-light {
 	background-color: #C1C1C1;
 	border: 1px solid #B8B8B8;
 }
+
 
 .bb-toggle .indicator-hover-dark   {
     border-top: 2px solid #555;
@@ -395,6 +453,18 @@ body, html {
 	border-radius: 36px;
 }
 
+.bb-toggle .fill-10dot3-light {
+	background-color: #EAEAEA;
+	width: 120px;
+	height: 70px;
+}
+
+.bb-toggle .fill-10dot3-dark {
+	background-color: #2D2D2D;
+	width: 120px;
+	height: 70px;
+}
+
 .bb-toggle .inner {
     position: relative;
     width: 310px;
@@ -414,6 +484,10 @@ body, html {
 	text-align:right;
 }
 
+.bb-toggle-10dot3 .yes {
+	visibility: hidden;
+}
+
 .bb-toggle .no {
 	height: 68px;
 	line-height: 65px;
@@ -424,6 +498,10 @@ body, html {
 	white-space:nowrap;
 	overflow: hidden;
 	text-align:left;
+}
+
+.bb-toggle-10dot3 .no {
+	visibility: hidden;
 }
 
 .bb-toggle .indicator-container {
