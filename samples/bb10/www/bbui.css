@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1189*/
+/* bbUI for BB10 VERSION: 0.9.6.1203*/
 
 body, html {
 	padding:0;
@@ -1282,7 +1282,7 @@ body, html {
 }
 
 .bb-titlebar-button-10dot3 {
-	font-size: 26;
+	font-size: 26pt;
 	font-weight: 600;
 	border-radius: 0px;
 	margin-top: 15px;
@@ -3423,10 +3423,45 @@ body, html {
 		font-size: 29pt;
 	}
 	
+	.bb-title-bar-10dot3 {
+		border-bottom-width: 4px;
+		font-size: 29pt;
+	}
+	
+	.bb-titlebar-button-10dot3 {
+		margin-top: 4px;
+	}
+	
+	.bb-title-bar-10dot3-portrait,
+	.bb-title-bar-10dot3-landscape {
+		height: 84px;
+	} 
+	
+	.bb-title-bar-10dot3 .bb-title-bar-caption-portrait,
+	.bb-title-bar-10dot3 .bb-title-bar-caption-landscape {
+		line-height:88px;
+	}
+	
+	.bb-title-bar-10dot3 img {
+		margin-top: 0px;
+		height:84px;
+		width:84px;
+	}
+	
+	.bb-title-bar-caption-details-img-10dot3 {
+		margin-left: 95px;
+	}
+	
+	.bb-title-bar-accent-text-10dot3 {
+		margin-top: -16px;
+		font-size: 20pt;
+	}
+	
 	.bb-titlebar-button {
 		font-size:23pt;
 	}
 	
+	/* Activity Indicator */
 	.bb-activity-small {
 		height: 35px;
 		width: 35px;

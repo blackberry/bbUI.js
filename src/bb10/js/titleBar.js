@@ -164,8 +164,14 @@ bb.titleBar = {
 			if (titleBar.hasAttribute('data-bb-accent-text')) {
 				if (bb.device.is1024x600) {
 					caption.style['line-height'] = '40px';
-				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+				} else if (bb.device.is1280x768) {
 					caption.style['line-height'] = '70px';
+				} else if(bb.device.is1280x720) {
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '55px';
+					} else {
+						caption.style['line-height'] = '70px';
+					}
 				} else if (bb.device.is720x720) {
 					caption.style['line-height'] = '55px';
 				}else {

@@ -455,8 +455,14 @@ bb.screen = {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			return 65;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+		} else if (bb.device.is1280x768) {
 			return 111;
+		} else if (bb.device.is1280x720) {
+			if (bb.device.newerThan10dot2) {
+				return 88;
+			} else {
+				return 111;
+			}
 		} else if (bb.device.is720x720) {
 			return 92;
 		}else {
