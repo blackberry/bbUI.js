@@ -5,6 +5,7 @@ Below you will find all the different changes that have been added since the fir
 ## Latest Working Version 0.9.6
 
 * _**Compatibility Changes:**_ 
+	* Everything for BlackBerry 10 has now been converted over to use WebWorks 2.0
 	* bbUI has now been broken into 3 different builds in the **pkg** directory.  One for BB10, BBOS and PlayBook
 	* bb10ForPlayBook has now been removed. If you want BB10 styling for PlayBook, simply include the BB10 build of bbUI.js to your application
 	* Context Menus: 
