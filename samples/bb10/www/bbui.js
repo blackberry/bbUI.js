@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.957*/
+/* bbUI for BB10 VERSION: 0.9.6.1236*/
 
 bb = {
 	scroller: null,  
@@ -56,18 +56,13 @@ bb = {
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Get our OS version as a convenience
+		bb.device.is10dot3 = (navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
 		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
 		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
-		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2;
-		bb.device.newerThan10dot1 = bb.device.is10dot2;
-		bb.device.newerThan10dot2 = false;
-		
-		// Set our resolution flags
-		bb.device.is1024x600 = bb.device.isPlayBook;
-		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
-		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
-		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot1 = bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot2 = bb.device.is10dot3;
 		
 		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
@@ -90,6 +85,12 @@ bb = {
 		}
 		document.head.appendChild(meta);
 		
+		// Set our resolution flags
+		bb.device.is1024x600 = bb.device.isPlayBook;
+		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
+		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
+		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
 			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
@@ -98,6 +99,7 @@ bb = {
 			R : R,
 			G : G,
 			B : B,
+			lightHighlight: 'rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +')',
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
 			mediumHighlight: 'rgb('+ (R - 60) +', '+ (G - 60) +', '+ (B - 60) +')',
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
@@ -117,6 +119,10 @@ bb = {
 				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-10dot3-colored {color:white;background-color: '+ bb.options.highlightColor+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-container-10dot3-colored {color:white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored {background: transparent;	border-style: none;	border-width: 0px; border-left-color: white; border-right-color: white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored-highlight {background-color: '+bb.options.shades.lightHighlight+';}', 0);
 			}
 			catch (ex) {
 				console.log(ex.message);
@@ -229,12 +235,14 @@ bb = {
 		is720x720: false,
 		is1280x720: false,
 		// OS versions
+		is10dot3: false,
 		is10dot2: false,
 		is10dot1: false,
 		is10dot0: false,
 		newerThan10dot0: false,
 		newerThan10dot1 : false,
-		newerThan10dot2: false
+		newerThan10dot2: false,
+		newerThan10dot3: false
     },
 	
 	// Options for rendering
@@ -331,7 +339,7 @@ bb = {
                 }
                 return result;
             };
-
+		
         // Special handling for inserting script tags
         bb.screen.scriptCounter = 0;
         bb.screen.totalScripts = newScriptTags.length;
@@ -368,6 +376,7 @@ bb = {
 			bb.options.onscreenready(container, id, params);
 		}
 		bb.doLoad(container);
+		
 		// Load in the new content
 		document.body.appendChild(container);
 		
@@ -2417,10 +2426,18 @@ _bb_progress = {
 		// Set our styling and create the inner divs
 		outerElement.className = 'bb-progress';
 		outerElement.outer = document.createElement('div');
-		outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color + ' bb-progress-outer-idle-background-' + color);
+		} else {
+			outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+		}
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
-		outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.fill.normal = 'bb-progress-fill bb-progress-fill-10dot3 bb10Highlight';
+		} else {
+			outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
+		}
 		outerElement.fill.setAttribute('class',outerElement.fill.normal);
 		outerElement.outer.appendChild(outerElement.fill);
 		outerElement.inner = document.createElement('div');
@@ -2450,14 +2467,22 @@ _bb_progress = {
 							this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(' + accentColor+ '), to('+highlightColor+'))';
 							percent = 1;
 						} else if (value == 0) {
-							this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+							if (bb.device.newerThan10dot2 === true) {
+								this.outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color + ' bb-progress-outer-idle-background-' + color);
+							} else {
+								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+							}
 						} else {
 							if (this.outerElement.state == bb.progress.PAUSED) {
 								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(#EDC842), to(#BA991E))';
 							} else if (this.outerElement.state == bb.progress.ERROR) {
 								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from( #E04242), to(#D91111))';
 							} else {
-								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+								if (bb.device.newerThan10dot2 === true) {
+									this.outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color);
+								} else {
+									this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+								}
 								this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
 								this.outerElement.fill.style.background ='';	
 							} 
@@ -2987,12 +3012,22 @@ bb.screen = {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			return 65;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+		} else if (bb.device.is1280x768) {
 			return 111;
+		} else if (bb.device.is1280x720) {
+			if (bb.device.newerThan10dot2) {
+				return 88;
+			} else {
+				return 111;
+			}
 		} else if (bb.device.is720x720) {
 			return 92;
 		}else {
-			return 111;
+			if (bb.device.newerThan10dot2) {
+				return 110;
+			} else {
+				return 111;
+			}
 		}
 	}
 		
@@ -3362,18 +3397,30 @@ bb.titleBar = {
 		titleBar.appendChild(topTitleArea);
 		
 		// Create our box shadow below the title bar
-		if (titleBar.parentNode) {
-			titleBar.dropShadow = document.createElement('div');
-			titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
-			titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
-			titleBar.parentNode.appendChild(titleBar.dropShadow);
+		if (bb.device.newerThan10dot2 === false) {
+			if (titleBar.parentNode) {
+				titleBar.dropShadow = document.createElement('div');
+				titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
+				titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
+				titleBar.parentNode.appendChild(titleBar.dropShadow);
+			}
 		}
 		
 		// Style our title bar
 		if (bb.options.coloredTitleBar) {
-			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
+			if (bb.device.newerThan10dot2 === true) {
+				titleBarClass = 'bb-title-bar bb-title-bar-10dot3 bb-title-bar-10dot3-'+ orientation + ' bb10-title-10dot3-colored';
+				topTitleArea.style['border-bottom-color'] = bb.options.highlightColor;
+			} else {
+				titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
+			}
 		} else {
-			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb-title-bar-' + bb.screen.controlColor;
+			if (bb.device.newerThan10dot2 === true) {
+				titleBarClass = 'bb-title-bar bb-title-bar-10dot3 bb-title-bar-10dot3-'+ orientation + ' bb-title-bar-10dot3-' + bb.screen.controlColor;
+				topTitleArea.style['border-bottom-color'] = bb.options.highlightColor;
+			} else {
+				titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb-title-bar-' + bb.screen.controlColor;
+			}
 		}
 		topTitleArea.setAttribute('class', titleBarClass);
 		
@@ -3393,6 +3440,12 @@ bb.titleBar = {
 			button.onclick = bb.popScreen;
 			bb.titleBar.styleBB10Button(button);
 			button.style.left = '0px';
+			button.innerElement.style['border-right-width'] = '2px';
+			button.innerElement.style['border-right-style'] = 'solid';
+			button.borderSide = 'right';
+			if (!bb.options.coloredTitleBar) {
+				button.innerElement.style.color = bb.options.highlightColor;
+			}
 		}
 		// Get our action button if provided
 		if (titleBar.hasAttribute('data-bb-action-caption')) {
@@ -3416,6 +3469,12 @@ bb.titleBar = {
 			button.style.right = '0px';
 			topTitleArea.appendChild(button);
 			titleBar.actionButton = button;
+			button.innerElement.style['border-left-width'] = '2px ';
+			button.innerElement.style['border-left-style'] = 'solid';
+			button.borderSide = 'left';
+			if (!bb.options.coloredTitleBar) {
+				button.innerElement.style.color = bb.options.highlightColor;
+			}
 		}
 		// Create an adjustment function for the widths
 		if (titleBar.actionButton || titleBar.backButton) {
@@ -3458,7 +3517,11 @@ bb.titleBar = {
 				//img.src = titleBar.getAttribute('data-bb-img');
 				titleBar.img = img;
 				topTitleArea.insertBefore(img, details);
-				details.setAttribute('class', 'bb-title-bar-caption-details-img');
+				if (bb.device.newerThan10dot2 === true) {
+					details.setAttribute('class', 'bb-title-bar-caption-details-img-10dot3');
+				} else {
+					details.setAttribute('class', 'bb-title-bar-caption-details-img');
+				}
 				
 				// Create our display image
 				img.style.opacity = '0';
@@ -3483,15 +3546,29 @@ bb.titleBar = {
 			if (titleBar.hasAttribute('data-bb-accent-text')) {
 				if (bb.device.is1024x600) {
 					caption.style['line-height'] = '40px';
-				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+				} else if (bb.device.is1280x768) {
 					caption.style['line-height'] = '70px';
+				} else if(bb.device.is1280x720) {
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '55px';
+					} else {
+						caption.style['line-height'] = '70px';
+					}
 				} else if (bb.device.is720x720) {
 					caption.style['line-height'] = '55px';
 				}else {
-					caption.style['line-height'] = '70px';
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '54px';
+					} else {
+						caption.style['line-height'] = '70px';
+					}
 				}
 				accentText = document.createElement('div');
-				accentText.setAttribute('class','bb-title-bar-accent-text');
+				if (bb.device.newerThan10dot2 === true) {
+					accentText.setAttribute('class','bb-title-bar-accent-text bb-title-bar-accent-text-10dot3');
+				} else {
+					accentText.setAttribute('class','bb-title-bar-accent-text');
+				}
 				if (bb.options.coloredTitleBar) {
 					accentText.style.color = 'silver';
 				}
@@ -3554,13 +3631,26 @@ bb.titleBar = {
 			outerNormal;
 		
 		if (bb.options.coloredTitleBar) {
-			normal = 'bb-titlebar-button bb10-title-button-colored';
-			highlight = 'bb-titlebar-button bb10-title-button-colored-highlight';
-			outerNormal = 'bb-titlebar-button-container bb10-title-button-container-colored';
+			if (bb.device.newerThan10dot2 === true) {
+				normal = 'bb-titlebar-button bb-titlebar-button-10dot3 bb10-title-button-10dot3-colored';
+				highlight = 'bb-titlebar-button-container-10dot3 bb10-title-button-10dot3-colored-highlight';
+				outerNormal = 'bb-titlebar-button-container-10dot3 bb10-title-button-container-10dot3-colored';
+				innerElement.style['border-style'] = 'none';
+			} else {
+				normal = 'bb-titlebar-button bb10-title-button-colored';
+				highlight = 'bb-titlebar-button bb10-title-button-colored-highlight';
+				outerNormal = 'bb-titlebar-button-container bb10-title-button-container-colored';
+			}
 		} else {
-			normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
-			highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
-			outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
+			if (bb.device.newerThan10dot2 === true) {
+				normal = 'bb-titlebar-button bb-titlebar-button-10dot3 bb-titlebar-button-10dot3-' + bb.screen.controlColor;
+				highlight = 'bb-titlebar-button-container-10dot3 bb-titlebar-button-container-10dot3-' + bb.screen.controlColor + ' bb-titlebar-button-highlight-10dot3-'+ bb.screen.controlColor;
+				outerNormal = 'bb-titlebar-button-container-10dot3 bb-titlebar-button-container-10dot3-' + bb.screen.controlColor;
+			} else {
+				normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
+				highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
+				outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
+			}
 		}
 		
 		// Remove the moats on 10.2
@@ -3583,10 +3673,20 @@ bb.titleBar = {
 		innerElement.highlight = highlight;
 
 		outerElement.ontouchstart = function() {
-								this.innerElement.setAttribute('class', this.innerElement.highlight);
+								if (bb.device.newerThan10dot2 === true) {
+									this.setAttribute('class', this.innerElement.highlight);
+									this.innerElement.style['border-' + this.borderSide + '-width'] = '0px';
+								} else {
+									this.innerElement.setAttribute('class', this.innerElement.highlight);
+								}
 							};
 		outerElement.ontouchend = function() {
-								this.innerElement.setAttribute('class', this.innerElement.normal);
+								if (bb.device.newerThan10dot2 === true) {
+									this.setAttribute('class', this.outerNormal);
+									this.innerElement.style['border-' + this.borderSide + '-width'] = '2px';
+								} else {
+									this.innerElement.setAttribute('class', this.innerElement.normal);
+								}
 							};
 
 						
@@ -3759,8 +3859,11 @@ _bb10_button = {
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-button',
 			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor;
-
-		if (bb.device.newerThan10dot1) {
+		if (bb.device.newerThan10dot2) {
+			normal += ' bb-button-10dot3 bb-button-' + bb.screen.controlColor+'-10dot3';
+			outerNormal += ' bb-button-container-10dot3';
+			highlight = 'bb-button bb-button-10dot3 bb-button-'+ bb.screen.controlColor + ' bb-button-'+ bb.screen.controlColor + '-highlight-10dot3';
+		} else if (bb.device.newerThan10dot1) {
 			normal += ' bb-button-10dot2';
 			outerNormal += ' bb-button-container-10dot2';
 			highlight = 'bb-button bb-button-10dot2 bb-button-'+ bb.screen.controlColor + ' bb-button-'+ bb.screen.controlColor + '-highlight-10dot2';
@@ -3820,6 +3923,9 @@ _bb10_button = {
 	
 		// Set our styles
 		disabledStyle = normal + ' bb-button-disabled-'+bb.screen.controlColor;
+		if (bb.device.newerThan10dot2) {
+			disabledStyle += ' bb-button-disabled-'+bb.screen.controlColor+'-10dot3';
+		}
 		normal = normal + ' bb-button-' + bb.screen.controlColor;
 		
 		if (disabled) {
@@ -3904,7 +4010,12 @@ _bb10_button = {
 					this.captionElement.setAttribute('class','bb-button-caption-with-image');
 					var imgElement = document.createElement('div');
 					this.imgElement = imgElement;
-					imgElement.setAttribute('class','bb-button-image');
+					if (bb.device.newerThan10dot1) {
+						imgElement.setAttribute('class','bb-button-image bb-button-image-10dot2');
+					} else {
+						imgElement.setAttribute('class','bb-button-image');
+					}
+					//imgElement.setAttribute('class','bb-button-image');
 					imgElement.style['background-image'] = 'url("'+value+'")';
 					// Remove and re-order the caption element
 					this.innerElement.removeChild(this.captionElement);
@@ -4005,27 +4116,47 @@ _bb10_checkbox = {
 		input.touchTarget = touchTarget;
 		// Main outer border of the control
 		outerElement = document.createElement('div');
-		outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+		if (bb.device.newerThan10dot2) {
+			outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-'+color);
+		} else {
+			outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+		}
 		touchTarget.appendChild(outerElement);
 		// Inner check area
 		innerElement = document.createElement('div');
 		innerElement.normal = 'bb-checkbox-inner bb-checkbox-inner-'+color;
+		if (bb.device.newerThan10dot2) {
+			innerElement.normal += ' bb-checkbox-inner-10dot3';
+		}
 		innerElement.setAttribute('class', innerElement.normal);
 		outerElement.appendChild(innerElement);
 		// Create our check element with the image
 		checkElement = document.createElement('div');
 		checkElement.hiddenClass = 'bb-checkbox-check-hidden bb-checkbox-check-image';
 		checkElement.displayClass = 'bb-checkbox-check-display bb-checkbox-check-image';
+		if (bb.device.newerThan10dot2) {
+			checkElement.hiddenClass += ' bb-checkbox-check-hidden-10dot3 bb-checkbox-check-image-10dot3';
+			checkElement.displayClass += ' bb-checkbox-check-display-10dot3 bb-checkbox-check-image-10dot3';
+		}
 		checkElement.setAttribute('class',checkElement.hiddenClass);
-		checkElement.style['-webkit-transition-property'] = 'all';
+		if (bb.device.newerThan10dot2) {
+			checkElement.style['-webkit-transition-property'] = 'opacity';
+		} else {
+			checkElement.style['-webkit-transition-property'] = 'all';
+		}
 		checkElement.style['-webkit-transition-duration'] = '0.1s';
 		innerElement.appendChild(checkElement);
 		touchTarget.checkElement = checkElement;
 		
 		// Set our coloring for later
 		touchTarget.innerElement = innerElement;
-		touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
-		touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		if (bb.device.newerThan10dot2) {
+			touchTarget.highlight = '-webkit-linear-gradient(top,  '+ bb.options.highlightColor +', ' + bb.options.highlightColor + ')';
+			touchTarget.touchHighlight = '-webkit-linear-gradient(top, #C6C6C6 ,#C6C6C6)';
+		} else {
+			touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+			touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		}
 
 		touchTarget.ontouchstart = function() {
 						if (!this.input.checked && !this.input.disabled) {	
@@ -4057,12 +4188,26 @@ _bb10_checkbox = {
 							this.innerElement.style['background-image'] = '';
 						}
 						if (this.input.disabled){
-							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-disabled-'+color);
-							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-disabled-'+color);
-							this.innerElement.style.background = '#c0c0c0';
+							if (bb.device.newerThan10dot2) {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-disabled-10dot3-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-10dot3 bb-checkbox-inner-disabled-10dot3-'+color);
+								this.innerElement.style['background-image'] = '';
+							} else {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-disabled-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-disabled-'+color);
+								this.innerElement.style.background = '#c0c0c0';
+							}
 						} else{
-							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
-							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-'+color);
+							if (bb.device.newerThan10dot2) {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-10dot3 bb-checkbox-inner-10dot3-'+color);
+								if (this.input.checked) {
+									this.innerElement.style['background-image'] = touchTarget.highlight;
+								}
+							} else {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-'+color);
+							}
 						}				
 					};
 		touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
@@ -4139,50 +4284,50 @@ _bb10_contextMenu = {
 		
 		// Handle our context open event
 		menu.oncontextmenu = function(contextEvent) {
-				this.centerMenuItems();
-				
-				var node = contextEvent.srcElement,
-					found = false,
-					bbuiType = '',
-					data;
-				while (node) {
-					if (node.hasAttribute) {
-						bbuiType = node.hasAttribute('data-bb-type') ? node.getAttribute('data-bb-type').toLowerCase() : undefined;
-						if (bbuiType == 'item') {
-							// Make sure it has the webworks attribute
-							found = node.hasAttribute('data-webworks-context');
-							break;
-						} 
-					}
-					node = node.parentNode;
+			this.centerMenuItems();
+			
+			var node = contextEvent.srcElement,
+				found = false,
+				bbuiType = '',
+				data;
+			while (node) {
+				if (node.hasAttribute) {
+					bbuiType = node.hasAttribute('data-bb-type') ? node.getAttribute('data-bb-type').toLowerCase() : undefined;
+					if (bbuiType == 'item') {
+						// Make sure it has the webworks attribute
+						found = node.hasAttribute('data-webworks-context');
+						break;
+					} 
 				}
-				
-				// If we found our item then we highlight it
-				if (found) {
-					node.drawSelected();
-					data = node.getAttribute('data-webworks-context');
-					data = JSON.parse(data);
-					this.selected = {
-							title : data.header,
-							description : data.subheader,
-							selected : node
-						};
-				} else {
-					contextEvent.preventDefault();
-				}
-				blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);	
-			};
+				node = node.parentNode;
+			}
+			
+			// If we found our item then we highlight it
+			if (found) {
+				node.drawSelected();
+				data = node.getAttribute('data-webworks-context');
+				data = JSON.parse(data);
+				this.selected = {
+						title : data.header,
+						description : data.subheader,
+						selected : node
+					};
+			} else {
+				contextEvent.preventDefault();
+			}
+			blackberry.event.removeEventListener("swipedown", bb.menuBar.showMenuBar);	
+		};
 		menu.oncontextmenu = menu.oncontextmenu.bind(menu);
 		window.addEventListener('contextmenu', menu.oncontextmenu);
 		bb.windowListeners.push({name: 'contextmenu', eventHandler: menu.oncontextmenu});
 
 		// Handle our context closed event
 		menu.oncontextmenuclosed = function(contextEvent) {
-				if (this.selected && this.selected.selected) {
-					this.selected.selected.drawUnselected();
-				}
-				blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
-			};
+			if (this.selected && this.selected.selected) {
+				this.selected.selected.drawUnselected();
+			}
+			blackberry.event.addEventListener("swipedown", bb.menuBar.showMenuBar);
+		};
 		menu.oncontextmenuclosed = menu.oncontextmenuclosed.bind(menu);
 		document.addEventListener('bbui.contextClosed', menu.oncontextmenuclosed);
 		bb.documentListeners.push({name: 'bbui.contextClosed', eventHandler: menu.oncontextmenuclosed});
@@ -4190,107 +4335,111 @@ _bb10_contextMenu = {
 		
 		// Add a menu item
 		menu.add = function(action) {
-				this.actions.push(action);
-				this.appendChild(action);
-				var menuItem = {
-						actionId: bb.guidGenerator(),
-						label: action.innerHTML,
-						icon: action.getAttribute('data-bb-img')
-					};
-				// Assign a pointer to the menu item
-				bb.contextMenu.actionIds.push(menuItem.actionId);
-				action.pinned = false;
-				action.menuItem = menuItem;
-				action.menu = this;
-				action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
-				
-				// Check for the pinned item
-				if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
-					action.pinned = true;
-				}
-				// Handle the click of the menu item
-				action.doclick = function(id) {
-					var element = document.querySelectorAll('[data-bb-context-menu-id='+ id +']'),
-							data;
-					if (element.length > 0) {
-						element = element[0];
-						data = element.getAttribute('data-webworks-context');
-						data = JSON.parse(data);
-						this.menu.selected = {
-							title : data.header,
-							description : data.subheader,
-							selected : element
-						};
-						var evt = document.createEvent('MouseEvents'); 
-                        evt.initMouseEvent('click', true, true, window,
-                            0, 0, 0, 0, 0, false, false, false, false, 0, null);
-                        action.dispatchEvent(evt);
-					}
+			alert('add: START');
+			this.actions.push(action);
+			this.appendChild(action);
+			var menuItem = {
+					actionId: bb.guidGenerator(),
+					label: action.innerHTML,
+					icon: action.getAttribute('data-bb-img')
 				};
-				action.doclick = action.doclick.bind(action);
-				
-				// Handle the show
-				action.show = function() {
-					if (this.visible) return;
-					this.visible = true;
-					this.removeAttribute('data-bb-visible');
+			// Assign a pointer to the menu item
+			bb.contextMenu.actionIds.push(menuItem.actionId);
+			action.pinned = false;
+			action.menuItem = menuItem;
+			action.menu = this;
+			action.visible = action.hasAttribute('data-bb-visible') ? (action.getAttribute('data-bb-visible').toLowerCase() != 'false') : true;
+			
+			// Check for the pinned item
+			if (action.hasAttribute('data-bb-pin') && (action.getAttribute('data-bb-pin').toLowerCase() == 'true')) {
+				action.pinned = true;
+			}
+			// Handle the click of the menu item
+			action.doclick = function(id) {
+				var element = document.querySelectorAll('[data-bb-context-menu-id='+ id +']'),
+						data;
+				if (element.length > 0) {
+					element = element[0];
+					data = element.getAttribute('data-webworks-context');
+					data = JSON.parse(data);
+					this.menu.selected = {
+						title : data.header,
+						description : data.subheader,
+						selected : element
+					};
+					var evt = document.createEvent('MouseEvents'); 
+					evt.initMouseEvent('click', true, true, window,
+						0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					action.dispatchEvent(evt);
 				}
-				action.show = action.show.bind(action);
-				
-				// Handle the hide
-				action.hide = function() {
-					if (!this.visible) return;
-					this.visible = false;
-					this.setAttribute('data-bb-visible','false');
-				}
-				action.hide = action.hide.bind(action);
 			};
+			action.doclick = action.doclick.bind(action);
+			
+			// Handle the show
+			action.show = function() {
+				if (this.visible) return;
+				this.visible = true;
+				this.removeAttribute('data-bb-visible');
+			}
+			action.show = action.show.bind(action);
+			
+			// Handle the hide
+			action.hide = function() {
+				if (!this.visible) return;
+				this.visible = false;
+				this.setAttribute('data-bb-visible','false');
+			}
+			action.hide = action.hide.bind(action);
+			alert('add: END');
+		};
 		menu.add = menu.add.bind(menu);
 		
 		// This function refreshes the menu witht the current state
 		menu.centerMenuItems = function() {
-				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
-					i,
-					pinnedAction = false,
-					action,
-					options = {
-						includeContextItems: [blackberry.ui.contextmenu.CONTEXT_ALL],
-						includePlatformItems: false,
-						includeMenuServiceItems: false
-					};
-					
-				// See if we have a pinned action
-				for (i = 0; i < this.actions.length; i++) {
-					action = this.actions[i];
-					if (action.visible && action.pinned) {
-						options.pinnedItemId = action.menuItem.actionId;
-					}
-				}
-				// First clear any items that exist
-				this.clearWWcontextMenu();
-				// Define our custom context
-				blackberry.ui.contextmenu.defineCustomContext('bbui-context',options);
+			var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
+				i,
+				pinnedAction = false,
+				action,
+				options = {
+					includeContextItems: [blackberry.ui.contextmenu.CONTEXT_ALL],
+					includePlatformItems: false,
+					includeMenuServiceItems: false
+				};
 				
-				// Add our visible context menu items
-				for (i = this.actions.length -1; i >= 0;i--) {
-					action = this.actions[i];
-					if (action.visible) {
-						blackberry.ui.contextmenu.addItem(contexts, action.menuItem, action.doclick);
-					}
+			// See if we have a pinned action
+			for (i = 0; i < this.actions.length; i++) {
+				action = this.actions[i];
+				if (action.visible && action.pinned) {
+					options.pinnedItemId = action.menuItem.actionId;
 				}
-			};
+			}
+			// First clear any items that exist
+			this.clearWWcontextMenu();
+			// Define our custom context
+			blackberry.ui.contextmenu.defineCustomContext('bbui-context',options);
+			
+			// Add our visible context menu items
+			for (i = this.actions.length -1; i >= 0;i--) {
+				action = this.actions[i];
+				if (action.visible) {
+					blackberry.ui.contextmenu.addItem(contexts, action.menuItem, action.doclick);
+				}
+			}
+		};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
 		// This function clears all the items from the context menu.  Typically
 		// called internally when the screen is popped
 		menu.clearWWcontextMenu = function() {
-				var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
-					i,
-					actionId;
-				for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
-					blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
-				}
-			};
+			alert('clearWWcontextMenu: START');
+			var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
+				i,
+				actionId;
+			for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
+				blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
+			}
+			alert('clearWWcontextMenu: END');
+		};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
 		menu.show = function() {
@@ -4886,7 +5035,11 @@ _bb10_grid = {
 							title.style['border-bottom-color'] = 'transparent';
 						} else {
 							title.normal = title.normal + ' bb-grid-header-normal-'+bb.screen.listColor;
-							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							if (bb.device.newerThan10dot2) {
+								title.normal = title.normal + ' bb-grid-header-10dot3 bb-grid-header-normal-'+bb.screen.listColor + '-10dot3';
+							} else {
+								title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							}
 						}
 						
 						// Style our header for text justification
@@ -5295,7 +5448,11 @@ _bb10_imageList = {
 							innerChildNode.style['border-bottom-color'] = 'transparent';
 						} else {
 							normal = normal + ' bb-image-list-header-normal-'+bb.screen.listColor;
-							innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							if (bb.device.newerThan10dot2) {
+								normal = normal + ' bb-image-list-header-10dot3 bb-image-list-header-normal-'+bb.screen.listColor + '-10dot3';
+							} else {
+								innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							}
 						}
 						
 						// Check for alignment
@@ -5915,20 +6072,33 @@ _bb10_pillButtons = {
 			td,
 			j;
 		
+		// Running 10.3 or higher
+		if (bb.device.newerThan10dot2) {
+			containerStyle = containerStyle + ' bb-pill-buttons-container-' + bb.screen.controlColor + '-10dot3';
+		}
 		outerElement.sidePadding = sidePadding;
 		outerElement.setAttribute('class','bb-pill-buttons');
 		containerDiv = document.createElement('div');
 		outerElement.appendChild(containerDiv);
 		containerDiv.setAttribute('class',containerStyle);
 		// Set our selected color
-		outerElement.selectedColor = (bb.screen.controlColor == 'dark') ? '#909090' : '#555555';
+		if (bb.device.newerThan10dot2) {
+			outerElement.selectedColor = bb.options.highlightColor;
+		} else {
+			outerElement.selectedColor = (bb.screen.controlColor == 'dark') ? '#909090' : '#555555';
+		}
 		
 		// Create our selection pill
 		pill = document.createElement('div');
 		pillInner = document.createElement('div');
 		pill.appendChild(pillInner);
-		pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + ' bb-pill-buttons-pill');
-		pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor);
+		if (bb.device.newerThan10dot2) {
+			pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + '-10dot3 bb-pill-buttons-pill-10dot3');
+			pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor+'-10dot3');
+		} else {
+			pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + ' bb-pill-buttons-pill');
+			pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor);
+		}
 		pill.style.opacity = '0';
 		outerElement.pill = pill;
 		containerDiv.appendChild(pill);
@@ -5946,6 +6116,35 @@ _bb10_pillButtons = {
 		table.setAttribute('class','bb-pill-buttons-table');
 		table.style.opacity = '0';
 		containerDiv.appendChild(table);				
+		
+		// This is used for 10.3 styling
+		outerElement.redrawBorders = function() {
+			if (bb.device.newerThan10dot2 === false) return;
+			
+			var items = this.table.querySelectorAll('td'),
+				i, 
+				adjacentIndex = 0,
+				innerChildNode;
+			for (i = 0; i < items.length; i++) {
+				innerChildNode = items[i].innerChildNode;
+				if (this.selected == innerChildNode) {
+					innerChildNode.style['border-left'] = 'solid 2px transparent';
+					innerChildNode.style['border-radius'] = '0px';
+					adjacentIndex = i + 1;
+				} else if (adjacentIndex == i) {
+					innerChildNode.style['border-left'] = 'solid 2px transparent';
+					innerChildNode.style['border-radius'] = '0px';
+				} else {
+					if (bb.screen.controlColor == 'light') {
+						innerChildNode.style['border-left'] = 'solid 2px #DCDCDC';
+					} else {
+						innerChildNode.style['border-left'] = 'solid 2px #484848';
+					}
+					innerChildNode.style['border-radius'] = '0px';
+				}
+			}
+		}
+		outerElement.redrawBorders = outerElement.redrawBorders.bind(outerElement);
 		
 		// Style an indiviual button
 		outerElement.styleButton = function(innerChildNode) {
@@ -5968,6 +6167,7 @@ _bb10_pillButtons = {
 				innerBorder.setAttribute('class','bb-pill-button-inner');
 				innerChildNode.style['z-index'] = 4;
 				innerChildNode.style.width = '100%';
+
 				// Set our touch start					
 				innerChildNode.dotouchstart = function(e) {
 											if (this.isSelected) return;
@@ -5993,11 +6193,13 @@ _bb10_pillButtons = {
 											this.isSelected = true;
 											this.outerElement.selected = this;
 											this.style.color = this.outerElement.selectedColor;
-											
+
 											// Remove color styling from pill if light
 											if (bb.screen.controlColor == 'light') {
 												this.outerElement.pill.style['background-color'] = '';
 											}
+											
+											this.outerElement.redrawBorders();
 											
 											// Raise the click event. Need to do it this way to match the
 											// Cascades selection style in pill buttons
@@ -6044,7 +6246,12 @@ _bb10_pillButtons = {
 			td = document.createElement('td');
 			tr.appendChild(td);
 			td.appendChild(innerChildNode);
+			td.innerChildNode = innerChildNode;
 			td.style.width = percentWidth + '%';
+		}
+		// Reset all of the borders for 10.3 look and feel
+		if (bb.device.newerThan10dot2) {
+			outerElement.redrawBorders();
 		}
 		// Determine our pill widths based on size
 		outerElement.recalculateSize = function() {
@@ -6158,6 +6365,7 @@ _bb10_pillButtons = {
 			this.table.tr.appendChild(td);
 			td.appendChild(button);
 			this.initialize();
+			this.redrawBorders();
 		};
 		outerElement.appendButton = outerElement.appendButton.bind(outerElement);
 		
@@ -6194,6 +6402,9 @@ _bb10_radio = {
 		
 		outerElement = document.createElement('div');
 		outerElement.setAttribute('class','bb-radio-container-'+color);
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.setAttribute('class','bb-radio-container-'+color + ' bb-radio-container-10dot3-' + color);
+		}
 		outerElement.input = input;
 		input.outerElement = outerElement;
 
@@ -6210,9 +6421,19 @@ _bb10_radio = {
 		
 		// Create our colored dot
 		dotDiv = document.createElement('div');
-		dotDiv.setAttribute('class','bb-radio-dot');
-		dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
-		dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		if (bb.device.newerThan10dot2 === true) {
+			dotDiv.setAttribute('class','bb-radio-dot bb-radio-dot-10dot3 bb-radio-dot-10dot3-'+color);
+			dotDiv.highlight = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' , '+ bb.options.highlightColor+')';
+			if (color == 'light') {
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top, #C6C6C6 , #C6C6C6)';
+			} else {
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top, #303030 , #303030)';
+			}
+		} else {
+			dotDiv.setAttribute('class','bb-radio-dot');
+			dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+			dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		}
 		if (input.checked) {
 			dotDiv.style.background = dotDiv.highlight;
 		}
@@ -6221,7 +6442,11 @@ _bb10_radio = {
 		
 		// Set up our center dot
 		centerDotDiv = document.createElement('div');
-		centerDotDiv.setAttribute('class','bb-radio-dot-center');
+		if (bb.device.newerThan10dot2 === true) {
+			centerDotDiv.setAttribute('class','bb-radio-dot-center bb-radio-dot-center-10dot3');
+		} else {
+			centerDotDiv.setAttribute('class','bb-radio-dot-center');
+		}
 		if (!input.checked) {
 			bb.radio.resetDot(centerDotDiv);
 		}
@@ -6229,16 +6454,20 @@ _bb10_radio = {
 		dotDiv.centerDotDiv = centerDotDiv;
 		
 		dotDiv.slideOutUp = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '0px';
-								this.style.width = '10px';
-								this.style.top = '9px';
-								this.style.left = '15px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '0px';
+									this.style.width = '10px';
+									this.style.top = '9px';
+									this.style.left = '15px';
+								} else {
+									this.style.height = '0px';
+									this.style.width = '20px';
+									this.style.top = '18px';
+									this.style.left = '30px';
+								}
 							} else {
-								this.style.height = '0px';
-								this.style.width = '20px';
-								this.style.top = '18px';
-								this.style.left = '30px';
+								this.style.background = '';
 							}
 							bb.radio.resetDot(this.centerDotDiv);
 							this.style['-webkit-transition-property'] = 'all';
@@ -6251,16 +6480,20 @@ _bb10_radio = {
 		dotDiv.slideOutUp = dotDiv.slideOutUp.bind(dotDiv);
 		
 		dotDiv.slideOutDown = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '0px';
-								this.style.width = '10px';
-								this.style.top = '30px';
-								this.style.left = '15px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '0px';
+									this.style.width = '10px';
+									this.style.top = '30px';
+									this.style.left = '15px';
+								} else {
+									this.style.height = '0px';
+									this.style.width = '20px';
+									this.style.top = '60px';
+									this.style.left = '30px';
+								}
 							} else {
-								this.style.height = '0px';
-								this.style.width = '20px';
-								this.style.top = '60px';
-								this.style.left = '30px';
+								this.style.background = '';
 							}
 							bb.radio.resetDot(this.centerDotDiv);
 							this.style['-webkit-transition-property'] = 'all';
@@ -6273,24 +6506,28 @@ _bb10_radio = {
 		dotDiv.slideOutDown = dotDiv.slideOutDown.bind(dotDiv);
 		
 		dotDiv.slideIn = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '20px';
-								this.style.width = '20px';
-								this.style.top = '10px';
-								this.style.left = '9px';
-								this.centerDotDiv.style.height = '10px';
-								this.centerDotDiv.style.width = '10px';
-								this.centerDotDiv.style.top = '5px';
-								this.centerDotDiv.style.left = '5px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '20px';
+									this.style.width = '20px';
+									this.style.top = '10px';
+									this.style.left = '9px';
+									this.centerDotDiv.style.height = '10px';
+									this.centerDotDiv.style.width = '10px';
+									this.centerDotDiv.style.top = '5px';
+									this.centerDotDiv.style.left = '5px';
+								} else {
+									this.style.height = '40px';
+									this.style.width = '40px';
+									this.style.top = '19px';
+									this.style.left = '19px';
+									this.centerDotDiv.style.height = '18px';
+									this.centerDotDiv.style.width = '18px';
+									this.centerDotDiv.style.top = '11px';
+									this.centerDotDiv.style.left = '11px';
+								}
 							} else {
-								this.style.height = '40px';
-								this.style.width = '40px';
-								this.style.top = '19px';
-								this.style.left = '19px';
-								this.centerDotDiv.style.height = '18px';
-								this.centerDotDiv.style.width = '18px';
-								this.centerDotDiv.style.top = '11px';
-								this.centerDotDiv.style.left = '11px';
+								this.centerDotDiv.style.opacity = '1.0';
 							}
 							this.style['-webkit-transition-property'] = 'all';
 							this.style['-webkit-transition-duration'] = '0.1s';
@@ -6324,17 +6561,19 @@ _bb10_radio = {
 											} 
 											// Reset for our highlights
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.is1024x600) {
-												this.dotDiv.style.height = '20px';
-												this.dotDiv.style.width = '20px';
-												this.dotDiv.style.top = '10px';
-												this.dotDiv.style.left = '9px';
-											} else {
-												this.dotDiv.style.height = '40px';
-												this.dotDiv.style.width = '40px';
-												this.dotDiv.style.top = '19px';
-												this.dotDiv.style.left = '19px';
-											}
+											if (bb.device.newerThan10dot2 != true) {
+												if (bb.device.is1024x600) {
+													this.dotDiv.style.height = '20px';
+													this.dotDiv.style.width = '20px';
+													this.dotDiv.style.top = '10px';
+													this.dotDiv.style.left = '9px';
+												} else {
+													this.dotDiv.style.height = '40px';
+													this.dotDiv.style.width = '40px';
+													this.dotDiv.style.top = '19px';
+													this.dotDiv.style.left = '19px';
+												}
+											} 
 											// Reset our center white dot
 											bb.radio.resetDot(this.dotDiv.centerDotDiv);
 											// Do our touch highlight
@@ -6344,22 +6583,25 @@ _bb10_radio = {
 		outerElement.ontouchend = function() {
 										if (!this.input.checked) {
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.is1024x600) {
-												this.dotDiv.style.height = '0px';
-												this.dotDiv.style.width = '9px';
-												this.dotDiv.style.left = '16px';
+											if (bb.device.newerThan10dot2 != true) {
+												if (bb.device.is1024x600) {
+													this.dotDiv.style.height = '0px';
+													this.dotDiv.style.width = '9px';
+													this.dotDiv.style.left = '16px';
+												} else {
+													this.dotDiv.style.height = '0px';
+													this.dotDiv.style.width = '18px';
+													this.dotDiv.style.left = '32px';
+												}
+												// Reset top position
+												if (this.slideFromTop) {
+													this.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
+												} else {
+													this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+												}
 											} else {
-												this.dotDiv.style.height = '0px';
-												this.dotDiv.style.width = '18px';
-												this.dotDiv.style.left = '32px';
+												this.dotDiv.style.background = '';
 											}
-											// Reset top position
-											if (this.slideFromTop) {
-												this.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
-											} else {
-												this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
-											}
-											
 											// Fire our click
 											window.setTimeout(this.doclick,0);
 										}
@@ -6418,20 +6660,25 @@ _bb10_radio = {
 						} 
 						// Emulate TouchEnd
 						this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
-						if (bb.device.is1024x600) {
-							this.outerElement.dotDiv.style.height = '0px';
-							this.outerElement.dotDiv.style.width = '9px';
-							this.outerElement.dotDiv.style.left = '16px';
+						if (bb.device.newerThan10dot2 != true) {
+							if (bb.device.is1024x600) {
+								this.outerElement.dotDiv.style.height = '0px';
+								this.outerElement.dotDiv.style.width = '9px';
+								this.outerElement.dotDiv.style.left = '16px';
+							} else {
+								this.outerElement.dotDiv.style.height = '0px';
+								this.outerElement.dotDiv.style.width = '18px';
+								this.outerElement.dotDiv.style.left = '32px';
+							}
+							// Reset top position
+							if (this.outerElement.slideFromTop) {
+								this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
+							} else {
+								this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+							}
 						} else {
-							this.outerElement.dotDiv.style.height = '0px';
-							this.outerElement.dotDiv.style.width = '18px';
-							this.outerElement.dotDiv.style.left = '32px';
-						}
-						// Reset top position
-						if (this.outerElement.slideFromTop) {
-							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
-						} else {
-							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+							this.outerElement.dotDiv.style.background = '';
+							this.outerElement.dotDiv.centerDotDiv.style.opacity = '0.0';
 						}
 						// Fire our click
 						window.setTimeout(this.outerElement.doclick,0);
@@ -6449,7 +6696,11 @@ _bb10_radio = {
 		input.enable = function() {
 				if (!this.disabled) return;
 				this.disabled = false;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot');
+				if (bb.device.newerThan10dot2 === true) {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot bb-radio-dot-10dot3 bb-radio-dot-10dot3-'+bb.screen.controlColor);
+				} else {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot');
+				}
 			};
 		input.enable = input.enable.bind(input);
 			
@@ -6457,7 +6708,11 @@ _bb10_radio = {
 		input.disable = function() {
 				if (this.disabled) return;
 				this.disabled = true;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled');
+				if (bb.device.newerThan10dot2 === true) {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled bb-radio-dot-disabled-10dot3');
+				} else {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled');
+				}
 			};
 		input.disable = input.disable.bind(input);
 		
@@ -6493,16 +6748,21 @@ _bb10_radio = {
 	
 	resetDot : function(dot) {
 		dot.style['-webkit-transition'] = 'none';
-		if (bb.device.is1024x600) {
-			dot.style.height = '0px';
-			dot.style.width = '0px';
-			dot.style.top = '10px';
-			dot.style.left = '9px';
-		} else {
-			dot.style.height = '0px';
-			dot.style.width = '0px';
-			dot.style.top = '20px';
-			dot.style.left = '20px';
+		
+		if (bb.device.newerThan10dot2 != true) {
+			if (bb.device.is1024x600) {
+				dot.style.height = '0px';
+				dot.style.width = '0px';
+				dot.style.top = '10px';
+				dot.style.left = '9px';
+			} else {
+				dot.style.height = '0px';
+				dot.style.width = '0px';
+				dot.style.top = '20px';
+				dot.style.left = '20px';
+			}
+		}  else {
+			dot.style.opacity = '0.0';
 		}
 	},
 	
@@ -6538,8 +6798,12 @@ _bb10_roundPanel = {
 			items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
 			for (j = 0; j < items.length; j++) {
 				 header = items[j];
-				 header.setAttribute('class','bb-panel-header bb-panel-header-'+color);
-				 header.style['border-bottom-color'] = bb.options.shades.darkOutline;
+				 if (bb.device.newerThan10dot2) {
+					header.setAttribute('class','bb-panel-header bb-panel-header-'+color+' bb-panel-header-10dot3 bb-panel-header-'+color+'-10dot3');
+				 } else {
+					header.setAttribute('class','bb-panel-header bb-panel-header-'+color);
+					header.style['border-bottom-color'] = bb.options.shades.darkOutline;
+				}
 			}
 		// Add our show function
 		outerElement.show = function() {
@@ -6591,12 +6855,21 @@ _bb10_slider = {
 			// Set our styling and create the inner divs
 			outerElement.className = 'bb-slider';
 			outerElement.outer = document.createElement('div');
-			outerElement.outer.setAttribute('class','outer bb-slider-outer-' + color);
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.outer.setAttribute('class','outer outer-10dot3 bb-slider-outer-' + color+ ' bb-slider-outer-10dot3-'+color);
+			} else {
+				outerElement.outer.setAttribute('class','outer bb-slider-outer-' + color);
+			}
 			outerElement.appendChild(outerElement.outer);
 			outerElement.fill = document.createElement('div');
 			outerElement.fill.className = 'fill';
-			outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
-			outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.fill.active = bb.options.highlightColor;
+				outerElement.fill.dormant = bb.options.highlightColor;
+			} else {
+				outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+				outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			}
 			outerElement.fill.style.background = outerElement.fill.dormant;
 			outerElement.outer.appendChild(outerElement.fill);
 			outerElement.inner = document.createElement('div');
@@ -6604,11 +6877,24 @@ _bb10_slider = {
 			outerElement.inner.outerElement = outerElement;
 			outerElement.outer.appendChild(outerElement.inner);
 			outerElement.halo = document.createElement('div');
-			outerElement.halo.className = 'halo';
-			outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+			if (bb.device.newerThan10dot2 === true) {
+				if (color == 'light') {
+					outerElement.halo.style.background = '#C3C3C3';
+				} else {
+					outerElement.halo.style.background = '#484848';
+				}
+				outerElement.halo.className = 'halo halo-10dot3';
+			} else {
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+				outerElement.halo.className = 'halo';
+			}
 			outerElement.inner.appendChild(outerElement.halo);
 			outerElement.indicator = document.createElement('div');
-			outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color);
+			} else {
+				outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);
+			}
 			outerElement.inner.appendChild(outerElement.indicator);
 			// Assign our function to set the value for the control
 			range.outerElement = outerElement;
@@ -6646,8 +6932,13 @@ _bb10_slider = {
 										this.outerElement.initialXPos = event.touches[0].pageX;	
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color+ ' indicator-hover-'+color);
-										this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+										if (bb.device.newerThan10dot2 === true) {
+											this.outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color + ' indicator-hover-10dot3-'+color);
+											this.outerElement.indicator.style.background = '#FEFEFE';
+										} else {
+											this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color+ ' indicator-hover-'+color);
+											this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+										}
 										this.outerElement.fill.style.background = this.outerElement.fill.active;
 									}
 								};
@@ -6660,7 +6951,11 @@ _bb10_slider = {
 										this.outerElement.value = parseInt(this.outerElement.range.value);
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);   
+										if (bb.device.newerThan10dot2 === true) {
+											this.outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color);
+										} else {
+											this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);   
+										}
 										this.outerElement.indicator.style.background = '';	
 										this.outerElement.fill.style.background = this.outerElement.fill.dormant;
 									}
@@ -6737,8 +7032,17 @@ _bb10_textInput = {
 		// Set our input styling
 		outerElement.normal = css + ' bb-input';
 		outerElement.focused = css + ' bb-input bb-input-focused';
+		if (bb.device.newerThan10dot2) {
+			container.normal += ' bb-input-container-10dot3 bb-input-container-10dot3-'+bb.screen.controlColor;
+			outerElement.normal += ' bb-input-10dot3 bb-input-10dot3-'+bb.screen.controlColor;
+			outerElement.focused += ' bb-input-10dot3 bb-input-10dot3-'+bb.screen.controlColor+' bb-input-focused-10dot3';
+		}
 		if (outerElement.disabled) {
-			outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled');
+			if (bb.device.newerThan10dot2) {
+				outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled-10dot3-'+bb.screen.controlColor);
+			} else {
+				outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled');
+			}
 		} else {
 			outerElement.setAttribute('class', outerElement.normal);
 		}
@@ -6770,7 +7074,11 @@ _bb10_textInput = {
 		
 		outerElement.doFocus = function() {
 								if(this.readOnly == false) {
-									this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button bb-input-container-focused');
+									if (bb.device.newerThan10dot2) {
+										this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button-'+ bb.screen.controlColor +' bb-input-container-focused bb-input-container-focused-10dot3 bb-input-container-focused-10dot3-'+ bb.screen.controlColor);
+									} else {
+										this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button-light bb-input-container-focused');
+									}
 									if (this.clearBtn && this.value) {
 										this.setAttribute('class', this.focused);
 										this.hasClearBtn = true;
@@ -6858,8 +7166,13 @@ _bb10_textInput = {
 		outerElement.disable = function() {
 					if (this.disabled) return;
 					this.disabled = true;
-					this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled');
-					this.setAttribute('class', this.normal + ' bb-input-disabled');
+					if (bb.device.newerThan10dot2) {
+						this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled-10dot3-'+bb.screen.controlColor);
+						this.setAttribute('class', this.normal + ' bb-input-disabled-10dot3-'+bb.screen.controlColor);
+					} else {
+						this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled');
+						this.setAttribute('class', this.normal + ' bb-input-disabled');
+					}
 				};
 		outerElement.disable = outerElement.disable.bind(outerElement);
 		
@@ -6896,10 +7209,16 @@ _bb10_toggle = {
 		}
 		
 		// Set our styling and create the inner divs
-		outerElement.className = 'bb-toggle';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.className = 'bb-toggle bb-toggle-10dot3';
+		} else {
+			outerElement.className = 'bb-toggle';
+		}
 		outerElement.outer = document.createElement('div');
 		if (outerElement.enabled) {
-			if (bb.device.newerThan10dot1) {
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.normal = 'outer outer-10dot3 bb-toggle-outer-enabled-'+color;
+			} else if (bb.device.newerThan10dot1 === true) {
 				outerElement.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
 			} else {
 				outerElement.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
@@ -6910,7 +7229,11 @@ _bb10_toggle = {
 		outerElement.outer.setAttribute('class',outerElement.normal);
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
-		outerElement.fill.className = 'fill';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.fill.className = 'fill fill-10dot3-'+color;
+		} else {
+			outerElement.fill.className = 'fill';
+		}
 		outerElement.fill.style.background = outerElement.fill.dormant;
 		outerElement.outer.appendChild(outerElement.fill);
 		// Our inner area that will contain the text
@@ -6950,8 +7273,17 @@ _bb10_toggle = {
 		outerElement.appendChild(outerElement.container);
 		// Create the Halo
 		outerElement.halo = document.createElement('div');
-		outerElement.halo.className = 'halo';
-		outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+		if (bb.device.newerThan10dot2 === true) {
+				if (color == 'light') {
+					outerElement.halo.style.background = '#C3C3C3';
+				} else {
+					outerElement.halo.style.background = '#484848';
+				}
+				outerElement.halo.className = 'halo halo-10dot3';
+			} else {
+				outerElement.halo.className = 'halo';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+			}
 		outerElement.container.appendChild(outerElement.halo);
 		// Create the indicator
 		outerElement.indicator = document.createElement('div');
@@ -6962,6 +7294,14 @@ _bb10_toggle = {
 		}
 		outerElement.indicator.setAttribute('class',outerElement.indicator.normal);
 		outerElement.container.appendChild(outerElement.indicator);
+		
+		// Add our internal switch for 10.3+
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.onoff = document.createElement('div');
+			outerElement.onoff.className = 'switch-off-'+color;
+			outerElement.indicator.appendChild(outerElement.onoff);		
+		}
+		
 		// Get our onchange event if any
 		if (outerElement.hasAttribute('onchange')) {
 			outerElement.onchangeEval = outerElement.getAttribute('onchange');
@@ -6980,8 +7320,12 @@ _bb10_toggle = {
 									this.outerElement.initialXPos = event.touches[0].pageX;	
 									this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 									this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-									this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
-									this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+									if (bb.device.newerThan10dot2 == true) {
+										this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
+									} else {
+										this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
+										this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+									}
 								}
 							};
 		outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
@@ -7059,9 +7403,27 @@ _bb10_toggle = {
 							});
 							
 					if (this.checked && this.enabled) {
-						this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+						if (bb.device.newerThan10dot2) {
+							this.indicator.style.background = '#FEFEFE';
+							this.indicator.style['border'] = '1px solid #FEFEFE';
+							this.fill.style.background = bb.options.highlightColor;
+							this.onoff.className = 'switch-on';
+							this.onoff.style['background-color'] = bb.options.highlightColor;
+						} else {
+							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+						}
 					} else {
-						this.indicator.style['background-image'] = '';
+						if (bb.device.newerThan10dot2) {
+							if (this.checked === false) {
+								this.fill.style.background = '';
+								this.onoff.className = 'switch-off-'+bb.screen.controlColor;
+								this.onoff.style['background-color'] = '';
+								this.indicator.style.background = '';
+								this.indicator.style['border'] = '';
+							} 
+						} else {
+							this.indicator.style['background-image'] = '';
+						}
 					}
 					
 					this.currentXPos = location;
@@ -7136,14 +7498,18 @@ _bb10_toggle = {
 				if (this.enabled) return;
 				this.enabled = true;
 				// change our styles
-				this.indicator.normal = 'indicator bb-toggle-indicator-enabled-' + color;
-				this.indicator.setAttribute('class',this.indicator.normal);
-				if (bb.device.newerThan10dot1) {
-					this.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+				if (bb.device.newerThan10dot2 === true) {
+					this.style.opacity = '';
 				} else {
-					this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+					this.indicator.normal = 'indicator bb-toggle-indicator-enabled-' + color;
+					this.indicator.setAttribute('class',this.indicator.normal);
+					if (bb.device.newerThan10dot1) {
+						this.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+					} else {
+						this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+					}
+					this.outer.setAttribute('class',this.normal);
 				}
-				this.outer.setAttribute('class',this.normal);
 				// update the button
 				this.positionButton();
 			};
@@ -7154,10 +7520,14 @@ _bb10_toggle = {
 				if (!this.enabled) return;
 				this.enabled = false;
 				// change our styles
-				this.indicator.normal = 'indicator bb-toggle-indicator-disabled-' + color;
-				this.indicator.setAttribute('class',this.indicator.normal);
-				this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-disabled';
-				this.outer.setAttribute('class',this.normal);
+				if (bb.device.newerThan10dot2 === true) {
+					this.style.opacity = '0.45';
+				} else {
+					this.indicator.normal = 'indicator bb-toggle-indicator-disabled-' + color;
+					this.indicator.setAttribute('class',this.indicator.normal);
+					this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-disabled';
+					this.outer.setAttribute('class',this.normal);
+				}
 				// Update the button
 				this.positionButton();
 			};

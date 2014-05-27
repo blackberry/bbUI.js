@@ -397,6 +397,7 @@
 	}
 }
 
+/* Z30 & Z3 */
 @media screen and (width: 720px) and (height: 1280px) and (-webkit-max-device-pixel-ratio:1.9), (width: 1280px) and (height: 720px) and (-webkit-max-device-pixel-ratio:1.9), (-webkit-max-device-pixel-ratio:1.9) {
     .bb-screen {
 		font-size: 25pt;
@@ -407,10 +408,45 @@
 		font-size: 29pt;
 	}
 	
+	.bb-title-bar-10dot3 {
+		border-bottom-width: 4px;
+		font-size: 29pt;
+	}
+	
+	.bb-titlebar-button-10dot3 {
+		margin-top: 4px;
+	}
+	
+	.bb-title-bar-10dot3-portrait,
+	.bb-title-bar-10dot3-landscape {
+		height: 84px;
+	} 
+	
+	.bb-title-bar-10dot3 .bb-title-bar-caption-portrait,
+	.bb-title-bar-10dot3 .bb-title-bar-caption-landscape {
+		line-height:88px;
+	}
+	
+	.bb-title-bar-10dot3 img {
+		margin-top: 0px;
+		height:84px;
+		width:84px;
+	}
+	
+	.bb-title-bar-caption-details-img-10dot3 {
+		margin-left: 95px;
+	}
+	
+	.bb-title-bar-accent-text-10dot3 {
+		margin-top: -16px;
+		font-size: 20pt;
+	}
+	
 	.bb-titlebar-button {
 		font-size:23pt;
 	}
 	
+	/* Activity Indicator */
 	.bb-activity-small {
 		height: 35px;
 		width: 35px;
@@ -498,6 +534,11 @@
 		line-height:36px;
 	}
 	
+	.bb-grid-header-10dot3 {
+		font-size: 19pt;
+		line-height:32px;
+	}
+	
 	.bb-grid-header p {
 		font-size: 18pt;
 		font-weight: 600;
@@ -510,6 +551,11 @@
 		line-height:36px;
 		font-size: 18pt;
 		font-weight: 600;
+	}
+	
+	.bb-image-list-header-10dot3 {
+		font-size: 19pt;
+		line-height:32px;
 	}
 	
 	.bb-image-list-item .title {
@@ -553,9 +599,21 @@
 		height:77px;
 	}
 	
+	.bb-input-container-10dot3 {
+		height: 64px;
+	}
+	
 	.bb-input {
 		font-size: 25pt;
 		height:74px;		
+	}
+	
+	.bb-input-10dot3 {
+		height: 61px;
+	}
+	
+	.bb-input-container-focused-10dot3 {
+		background-size: 50px 50px;
 	}
 	
 	/* Tab Overflow */
@@ -614,22 +672,44 @@
 	
 	/* Button */
 	.bb-button {
-		font-size:23pt;
-		height:59px;
-		line-height:44px;
+		font-size:22pt;
+		height:52px;
+		line-height:36px;
 	}
 	
 	.bb-button-image {
 		margin-top: -12px;
+		height: 62px;
+		width: 62px;
 	}
 	
 	.bb-button-caption-with-image-only {
 		margin-top: -12px;
-		margin-left: -32px;
+		margin-left: -27px;
+		height: 62px;
+		width: 62px;
 	}
 	
 	.bb-button-container-image-only {
 		width: 81px;
+	}
+	
+	/* Pill Button */
+	.bb-pill-buttons-container {
+		font-size: 22pt;
+		height:56px;
+		padding: 0px;
+	}
+	
+	.bb-pill-button  {
+		height: 52px;
+	}
+	
+	.bb-pill-button-inner {
+		margin:0px;
+		height:52px;
+		line-height:47px;
+		padding-top: 0px;
 	}
 	
 	/* Drop Down */
@@ -689,6 +769,91 @@
 		font-size:16pt;
 		padding-top: 5px;
 		height: 50px;
+	}
+	
+	/* Round Panel */
+	.bb-panel-header-10dot3 {
+		font-size: 19pt;
+		line-height:32px;
+	}
+	
+	/* CheckBox */
+	.bb-checkbox-outer-10dot3 {
+		height: 40px;
+		width: 40px;
+	}
+	
+	.bb-checkbox-inner-10dot3 {
+		height: 40px;
+		width: 40px;
+	}
+	
+	.bb-checkbox-check-hidden-10dot3 {
+		height: 40px;
+		width: 40px;
+		background-size: 30px 24px;
+	}
+	
+	.bb-checkbox-check-display-10dot3 {
+		height: 40px;
+		width: 40px;
+		background-size: 30px 24px;
+	}
+	
+	/* Radio button */
+	.bb-radio-container-10dot3-dark {
+		padding: 8px;
+		height: 56px;
+		width: 56px;
+	}
+	
+	.bb-radio-container-10dot3-light {
+		padding: 8px;
+		height: 56px;
+		width: 56px;
+	}
+	
+	.bb-radio-dot-10dot3 {
+		height: 40px;
+		width: 40px;
+		border-radius: 20px;
+		top: 9px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-disabled-10dot3 {
+		height: 40px;
+		width: 40px;
+		border-radius: 20px;
+		top: 9px;
+		left: 9px;
+	}
+	
+	.bb-radio-dot-center-10dot3 {
+		height: 14px;
+		width: 14px;
+		border-radius: 7px;
+		top: 13px;
+		left: 13px;
+	}
+	
+	/* Slider */
+	.bb-slider .outer-10dot3 {
+		height: 4px;
+	}
+	
+	.bb-slider .halo-10dot3 {
+		margin: 42px;
+		border-radius: 35px;
+		width: 70px;
+		height: 70px;
+	}
+	
+	.bb-slider .indicator-10dot3 {
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		margin: 57px;
 	}
 }
 

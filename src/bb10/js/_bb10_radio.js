@@ -17,6 +17,9 @@ _bb10_radio = {
 		
 		outerElement = document.createElement('div');
 		outerElement.setAttribute('class','bb-radio-container-'+color);
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.setAttribute('class','bb-radio-container-'+color + ' bb-radio-container-10dot3-' + color);
+		}
 		outerElement.input = input;
 		input.outerElement = outerElement;
 
@@ -33,9 +36,19 @@ _bb10_radio = {
 		
 		// Create our colored dot
 		dotDiv = document.createElement('div');
-		dotDiv.setAttribute('class','bb-radio-dot');
-		dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
-		dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		if (bb.device.newerThan10dot2 === true) {
+			dotDiv.setAttribute('class','bb-radio-dot bb-radio-dot-10dot3 bb-radio-dot-10dot3-'+color);
+			dotDiv.highlight = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' , '+ bb.options.highlightColor+')';
+			if (color == 'light') {
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top, #C6C6C6 , #C6C6C6)';
+			} else {
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top, #303030 , #303030)';
+			}
+		} else {
+			dotDiv.setAttribute('class','bb-radio-dot');
+			dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+			dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		}
 		if (input.checked) {
 			dotDiv.style.background = dotDiv.highlight;
 		}
@@ -44,7 +57,11 @@ _bb10_radio = {
 		
 		// Set up our center dot
 		centerDotDiv = document.createElement('div');
-		centerDotDiv.setAttribute('class','bb-radio-dot-center');
+		if (bb.device.newerThan10dot2 === true) {
+			centerDotDiv.setAttribute('class','bb-radio-dot-center bb-radio-dot-center-10dot3');
+		} else {
+			centerDotDiv.setAttribute('class','bb-radio-dot-center');
+		}
 		if (!input.checked) {
 			bb.radio.resetDot(centerDotDiv);
 		}
@@ -52,16 +69,20 @@ _bb10_radio = {
 		dotDiv.centerDotDiv = centerDotDiv;
 		
 		dotDiv.slideOutUp = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '0px';
-								this.style.width = '10px';
-								this.style.top = '9px';
-								this.style.left = '15px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '0px';
+									this.style.width = '10px';
+									this.style.top = '9px';
+									this.style.left = '15px';
+								} else {
+									this.style.height = '0px';
+									this.style.width = '20px';
+									this.style.top = '18px';
+									this.style.left = '30px';
+								}
 							} else {
-								this.style.height = '0px';
-								this.style.width = '20px';
-								this.style.top = '18px';
-								this.style.left = '30px';
+								this.style.background = '';
 							}
 							bb.radio.resetDot(this.centerDotDiv);
 							this.style['-webkit-transition-property'] = 'all';
@@ -74,16 +95,20 @@ _bb10_radio = {
 		dotDiv.slideOutUp = dotDiv.slideOutUp.bind(dotDiv);
 		
 		dotDiv.slideOutDown = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '0px';
-								this.style.width = '10px';
-								this.style.top = '30px';
-								this.style.left = '15px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '0px';
+									this.style.width = '10px';
+									this.style.top = '30px';
+									this.style.left = '15px';
+								} else {
+									this.style.height = '0px';
+									this.style.width = '20px';
+									this.style.top = '60px';
+									this.style.left = '30px';
+								}
 							} else {
-								this.style.height = '0px';
-								this.style.width = '20px';
-								this.style.top = '60px';
-								this.style.left = '30px';
+								this.style.background = '';
 							}
 							bb.radio.resetDot(this.centerDotDiv);
 							this.style['-webkit-transition-property'] = 'all';
@@ -96,24 +121,28 @@ _bb10_radio = {
 		dotDiv.slideOutDown = dotDiv.slideOutDown.bind(dotDiv);
 		
 		dotDiv.slideIn = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '20px';
-								this.style.width = '20px';
-								this.style.top = '10px';
-								this.style.left = '9px';
-								this.centerDotDiv.style.height = '10px';
-								this.centerDotDiv.style.width = '10px';
-								this.centerDotDiv.style.top = '5px';
-								this.centerDotDiv.style.left = '5px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '20px';
+									this.style.width = '20px';
+									this.style.top = '10px';
+									this.style.left = '9px';
+									this.centerDotDiv.style.height = '10px';
+									this.centerDotDiv.style.width = '10px';
+									this.centerDotDiv.style.top = '5px';
+									this.centerDotDiv.style.left = '5px';
+								} else {
+									this.style.height = '40px';
+									this.style.width = '40px';
+									this.style.top = '19px';
+									this.style.left = '19px';
+									this.centerDotDiv.style.height = '18px';
+									this.centerDotDiv.style.width = '18px';
+									this.centerDotDiv.style.top = '11px';
+									this.centerDotDiv.style.left = '11px';
+								}
 							} else {
-								this.style.height = '40px';
-								this.style.width = '40px';
-								this.style.top = '19px';
-								this.style.left = '19px';
-								this.centerDotDiv.style.height = '18px';
-								this.centerDotDiv.style.width = '18px';
-								this.centerDotDiv.style.top = '11px';
-								this.centerDotDiv.style.left = '11px';
+								this.centerDotDiv.style.opacity = '1.0';
 							}
 							this.style['-webkit-transition-property'] = 'all';
 							this.style['-webkit-transition-duration'] = '0.1s';
@@ -147,17 +176,19 @@ _bb10_radio = {
 											} 
 											// Reset for our highlights
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.is1024x600) {
-												this.dotDiv.style.height = '20px';
-												this.dotDiv.style.width = '20px';
-												this.dotDiv.style.top = '10px';
-												this.dotDiv.style.left = '9px';
-											} else {
-												this.dotDiv.style.height = '40px';
-												this.dotDiv.style.width = '40px';
-												this.dotDiv.style.top = '19px';
-												this.dotDiv.style.left = '19px';
-											}
+											if (bb.device.newerThan10dot2 != true) {
+												if (bb.device.is1024x600) {
+													this.dotDiv.style.height = '20px';
+													this.dotDiv.style.width = '20px';
+													this.dotDiv.style.top = '10px';
+													this.dotDiv.style.left = '9px';
+												} else {
+													this.dotDiv.style.height = '40px';
+													this.dotDiv.style.width = '40px';
+													this.dotDiv.style.top = '19px';
+													this.dotDiv.style.left = '19px';
+												}
+											} 
 											// Reset our center white dot
 											bb.radio.resetDot(this.dotDiv.centerDotDiv);
 											// Do our touch highlight
@@ -167,22 +198,25 @@ _bb10_radio = {
 		outerElement.ontouchend = function() {
 										if (!this.input.checked) {
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.is1024x600) {
-												this.dotDiv.style.height = '0px';
-												this.dotDiv.style.width = '9px';
-												this.dotDiv.style.left = '16px';
+											if (bb.device.newerThan10dot2 != true) {
+												if (bb.device.is1024x600) {
+													this.dotDiv.style.height = '0px';
+													this.dotDiv.style.width = '9px';
+													this.dotDiv.style.left = '16px';
+												} else {
+													this.dotDiv.style.height = '0px';
+													this.dotDiv.style.width = '18px';
+													this.dotDiv.style.left = '32px';
+												}
+												// Reset top position
+												if (this.slideFromTop) {
+													this.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
+												} else {
+													this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+												}
 											} else {
-												this.dotDiv.style.height = '0px';
-												this.dotDiv.style.width = '18px';
-												this.dotDiv.style.left = '32px';
+												this.dotDiv.style.background = '';
 											}
-											// Reset top position
-											if (this.slideFromTop) {
-												this.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
-											} else {
-												this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
-											}
-											
 											// Fire our click
 											window.setTimeout(this.doclick,0);
 										}
@@ -241,20 +275,25 @@ _bb10_radio = {
 						} 
 						// Emulate TouchEnd
 						this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
-						if (bb.device.is1024x600) {
-							this.outerElement.dotDiv.style.height = '0px';
-							this.outerElement.dotDiv.style.width = '9px';
-							this.outerElement.dotDiv.style.left = '16px';
+						if (bb.device.newerThan10dot2 != true) {
+							if (bb.device.is1024x600) {
+								this.outerElement.dotDiv.style.height = '0px';
+								this.outerElement.dotDiv.style.width = '9px';
+								this.outerElement.dotDiv.style.left = '16px';
+							} else {
+								this.outerElement.dotDiv.style.height = '0px';
+								this.outerElement.dotDiv.style.width = '18px';
+								this.outerElement.dotDiv.style.left = '32px';
+							}
+							// Reset top position
+							if (this.outerElement.slideFromTop) {
+								this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
+							} else {
+								this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+							}
 						} else {
-							this.outerElement.dotDiv.style.height = '0px';
-							this.outerElement.dotDiv.style.width = '18px';
-							this.outerElement.dotDiv.style.left = '32px';
-						}
-						// Reset top position
-						if (this.outerElement.slideFromTop) {
-							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
-						} else {
-							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+							this.outerElement.dotDiv.style.background = '';
+							this.outerElement.dotDiv.centerDotDiv.style.opacity = '0.0';
 						}
 						// Fire our click
 						window.setTimeout(this.outerElement.doclick,0);
@@ -272,7 +311,11 @@ _bb10_radio = {
 		input.enable = function() {
 				if (!this.disabled) return;
 				this.disabled = false;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot');
+				if (bb.device.newerThan10dot2 === true) {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot bb-radio-dot-10dot3 bb-radio-dot-10dot3-'+bb.screen.controlColor);
+				} else {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot');
+				}
 			};
 		input.enable = input.enable.bind(input);
 			
@@ -280,7 +323,11 @@ _bb10_radio = {
 		input.disable = function() {
 				if (this.disabled) return;
 				this.disabled = true;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled');
+				if (bb.device.newerThan10dot2 === true) {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled bb-radio-dot-disabled-10dot3');
+				} else {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled');
+				}
 			};
 		input.disable = input.disable.bind(input);
 		
@@ -316,16 +363,21 @@ _bb10_radio = {
 	
 	resetDot : function(dot) {
 		dot.style['-webkit-transition'] = 'none';
-		if (bb.device.is1024x600) {
-			dot.style.height = '0px';
-			dot.style.width = '0px';
-			dot.style.top = '10px';
-			dot.style.left = '9px';
-		} else {
-			dot.style.height = '0px';
-			dot.style.width = '0px';
-			dot.style.top = '20px';
-			dot.style.left = '20px';
+		
+		if (bb.device.newerThan10dot2 != true) {
+			if (bb.device.is1024x600) {
+				dot.style.height = '0px';
+				dot.style.width = '0px';
+				dot.style.top = '10px';
+				dot.style.left = '9px';
+			} else {
+				dot.style.height = '0px';
+				dot.style.width = '0px';
+				dot.style.top = '20px';
+				dot.style.left = '20px';
+			}
+		}  else {
+			dot.style.opacity = '0.0';
 		}
 	},
 	

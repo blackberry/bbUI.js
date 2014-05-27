@@ -34,10 +34,18 @@ _bb_progress = {
 		// Set our styling and create the inner divs
 		outerElement.className = 'bb-progress';
 		outerElement.outer = document.createElement('div');
-		outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color + ' bb-progress-outer-idle-background-' + color);
+		} else {
+			outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+		}
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
-		outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.fill.normal = 'bb-progress-fill bb-progress-fill-10dot3 bb10Highlight';
+		} else {
+			outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
+		}
 		outerElement.fill.setAttribute('class',outerElement.fill.normal);
 		outerElement.outer.appendChild(outerElement.fill);
 		outerElement.inner = document.createElement('div');
@@ -67,14 +75,22 @@ _bb_progress = {
 							this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(' + accentColor+ '), to('+highlightColor+'))';
 							percent = 1;
 						} else if (value == 0) {
-							this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+							if (bb.device.newerThan10dot2 === true) {
+								this.outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color + ' bb-progress-outer-idle-background-' + color);
+							} else {
+								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+							}
 						} else {
 							if (this.outerElement.state == bb.progress.PAUSED) {
 								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(#EDC842), to(#BA991E))';
 							} else if (this.outerElement.state == bb.progress.ERROR) {
 								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from( #E04242), to(#D91111))';
 							} else {
-								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+								if (bb.device.newerThan10dot2 === true) {
+									this.outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color);
+								} else {
+									this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+								}
 								this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
 								this.outerElement.fill.style.background ='';	
 							} 
