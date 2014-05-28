@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1236*/
+/* bbUI for BB10 VERSION: 0.9.6.1262*/
 
 bb = {
 	scroller: null,  
@@ -7196,6 +7196,9 @@ _bb10_toggle = {
 		outerElement.checked = false;
 		outerElement.enabled = true;
 		outerElement.buffer = (bb.device.is1024x600) ? 35 : 70;
+		if ((bb.device.newerThan10dot2 === true) && (bb.device.is1280x720)){
+			outerElement.buffer = 57;		
+		}
 		outerElement.isActivated = false;
 		outerElement.initialXPos = 0;
 		outerElement.currentXPos = 0;

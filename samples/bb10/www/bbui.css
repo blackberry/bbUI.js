@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1236*/
+/* bbUI for BB10 VERSION: 0.9.6.1262*/
 
 body, html {
 	padding:0;
@@ -3947,6 +3947,69 @@ body, html {
 		height: 40px;
 		border-radius: 20px;
 		margin: 57px;
+	}
+	
+	/* Toggle */
+	.bb-toggle-10dot3 {
+		width: 96px;
+		height: 56px;
+		padding: 0px;
+	}
+	
+	.bb-toggle .outer-10dot3 {
+		height: 56px;
+		border-radius: 28px;
+		width:53px;
+	}
+	
+	.bb-toggle-10dot3 .indicator {
+		width: 41px;
+		height: 41px;
+		border-radius: 21px;
+		margin-top: 68px;
+		margin-bottom: 68px;
+		margin-left: 53px;
+	}
+	
+	.bb-toggle .fill-10dot3-light {
+		width: 96px;
+		height: 56px;
+	}
+
+	.bb-toggle .fill-10dot3-dark {
+		width: 96px;
+		height: 56px;
+	}
+	
+	.bb-toggle-10dot3 .indicator .switch-on {
+		width: 2px;
+		height: 16px;
+		margin-top: 12px;
+		margin-left: 20px;
+	}
+
+	.bb-toggle-10dot3 .indicator .switch-off-light {
+		width: 16px;
+		height: 16px;
+		border-radius: 9px;
+		margin-top: 11px;
+		margin-left: 10px;
+	}
+
+	.bb-toggle-10dot3 .indicator .switch-off-dark {
+		width: 16px;
+		height: 16px;
+		border-radius: 9px;
+		margin-top: 11px;
+		margin-left: 10px;
+	}
+	
+	.bb-toggle .halo-10dot3 {
+		margin-left: 35px;
+		margin-top: 51px;
+		border-radius: 41px;
+		width: 80px;
+		height: 80px;
 	}
 }
 
