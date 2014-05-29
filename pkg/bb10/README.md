@@ -26,6 +26,7 @@ plugin
 
 
 Add the plugin to your WebWorks 2.0 project using "webworks plugin add com.blackberry.bbui".
+
 Don't forget to also add the context menu plugin using "webworks plugin add com.blackberry.bbui.contextmenu".
 
 
