@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1262*/
+/* bbUI for BB10 VERSION: 0.9.6.1288*/
 
 bb = {
 	scroller: null,  
@@ -4480,8 +4480,16 @@ _bb10_dropdown = {
 			outerContainerStyle = 'bb-dropdown-container bb-dropdown-container-' + bb.screen.controlColor,
 			innerContainerStyle = 'bb-dropdown-container-inner bb-dropdown-container-inner-'+bb.screen.controlColor,
 			innerButtonStyle = 'bb-dropdown-inner bb-dropdown-inner-'+bb.screen.controlColor;
-
-		if (bb.device.newerThan10dot1) {
+		
+		if (bb.device.newerThan10dot2 === true) {
+			normal = 'bb-dropdown bb-dropdown-10dot3 bb-dropdown-' + bb.screen.controlColor,
+			highlight = 'bb-dropdown bb-dropdown-10dot3 bb-dropdown-highlight-'+ bb.screen.controlColor,
+			outerContainerStyle += ' bb-dropdown-container-10dot3';
+			innerContainerStyle += ' bb-dropdown-container-inner-10dot3';
+			innerButtonStyle += ' bb-dropdown-inner-10dot3';
+			focusedHighlight = highlight + ' bb10Highlight';
+			highlight += ' bb-dropdown-' + bb.screen.controlColor + '-highlight-10dot3';			
+		} else if (bb.device.newerThan10dot1) {
 			outerContainerStyle += ' bb-dropdown-container-10dot2';
 			innerContainerStyle += ' bb-dropdown-container-inner-10dot2';
 			innerButtonStyle += ' bb-dropdown-inner-10dot2';
@@ -4545,7 +4553,10 @@ _bb10_dropdown = {
 		
 		// Create our dropdown arrow
 		img = document.createElement('div');
-		if (bb.device.newerThan10dot1) {
+		if (bb.device.newerThan10dot2 === true) {
+			img.normal = 'bb-dropdown-arrow-'+bb.screen.controlColor + ' bb-dropdown-arrow-10dot3';
+			img.highlight = 'bb-dropdown-arrow-dark bb-dropdown-arrow-10dot3';
+		} else if (bb.device.newerThan10dot1) {
 			img.normal = 'bb-dropdown-arrow-'+bb.screen.controlColor + ' bb-dropdown-arrow-10dot2';
 			img.highlight = 'bb-dropdown-arrow-dark bb-dropdown-arrow-10dot2';
 		} else {
@@ -4558,7 +4569,9 @@ _bb10_dropdown = {
 		// Create the caption for the dropdown
 		captionElement = document.createElement('div');
 		dropdown.captionElement = captionElement;
-		if (bb.device.newerThan10dot1) {
+		if (bb.device.newerThan10dot2 === true) {
+			captionElement.setAttribute('class','bb-dropdown-caption bb-dropdown-caption-10dot3');
+		} else if (bb.device.newerThan10dot1) {
 			captionElement.setAttribute('class','bb-dropdown-caption bb-dropdown-caption-10dot2');
 		} else {
 			captionElement.setAttribute('class','bb-dropdown-caption');
@@ -4568,7 +4581,11 @@ _bb10_dropdown = {
 		// Create the scrolling area
 		var scrollArea = document.createElement('div');
 		scrollArea.style.position = 'relative';
-		scrollArea.style['margin-top'] = '10px';
+		if (bb.device.newerThan10dot2 === true) {
+			scrollArea.style['margin-top'] = '3px';
+		} else {
+			scrollArea.style['margin-top'] = '10px';
+		}
 		scrollArea.style.overflow = 'hidden';
 		innerContainer.appendChild(scrollArea);
 		var innerScroller = document.createElement('div');
@@ -4655,7 +4672,7 @@ _bb10_dropdown = {
 											};
 						
 						item.ontouchend = function(event) {
-												this.style['background-color'] = 'transparent';
+												this.style['background-color'] = '';
 												this.style['color'] = '';
 												if (this.accentText) {
 													this.accentText.style['color'] = '';
@@ -4745,8 +4762,13 @@ _bb10_dropdown = {
 									scrollHeight = (this.numItems * 43);
 									this.style.height = 45 + scrollHeight +'px';
 								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-									scrollHeight = (this.numItems * 99);
-									this.style.height = 95 + scrollHeight +'px';
+									if (bb.device.newerThan10dot2 === true) {
+										scrollHeight = (this.numItems * 99);
+										this.style.height = 80 + scrollHeight +'px';
+									} else {
+										scrollHeight = (this.numItems * 99);
+										this.style.height = 95 + scrollHeight +'px';
+									}
 								} else if (bb.device.is720x720) {
 									scrollHeight = (this.numItems * 85);
 									this.style.height = 77 + scrollHeight +'px';
@@ -4756,7 +4778,11 @@ _bb10_dropdown = {
 								}
 								
 								// Refresh our scroller based on the height only once
-								this.scrollArea.style.height = scrollHeight - 10 + 'px';
+								if (bb.device.newerThan10dot2 === true) {
+									this.scrollArea.style.height = scrollHeight - 3 + 'px';
+								} else {
+									this.scrollArea.style.height = scrollHeight - 10 + 'px';
+								}
 								if (!this.isRefreshed) {
 									this.scroller.refresh();
 									this.isRefreshed = true;
