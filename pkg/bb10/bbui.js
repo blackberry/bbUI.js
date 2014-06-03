@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1301*/
+/* bbUI for BB10 VERSION: 0.9.6.1330*/
 
 bb = {
 	scroller: null,  
@@ -4761,10 +4761,18 @@ _bb10_dropdown = {
 								if (bb.device.is1024x600) {
 									scrollHeight = (this.numItems * 43);
 									this.style.height = 45 + scrollHeight +'px';
-								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+								} else if (bb.device.is1280x768) {
 									if (bb.device.newerThan10dot2 === true) {
 										scrollHeight = (this.numItems * 99);
 										this.style.height = 80 + scrollHeight +'px';
+									} else {
+										scrollHeight = (this.numItems * 99);
+										this.style.height = 95 + scrollHeight +'px';
+									}
+								} else if (bb.device.is1280x720) {
+									if (bb.device.newerThan10dot2 === true) {
+										scrollHeight = (this.numItems * 80);
+										this.style.height = 65 + scrollHeight +'px';
 									} else {
 										scrollHeight = (this.numItems * 99);
 										this.style.height = 95 + scrollHeight +'px';
@@ -4834,7 +4842,11 @@ _bb10_dropdown = {
 								} else if (bb.device.is720x720) {
 									this.style.height = bb.device.newerThan10dot1 ? '70px' : '77px';
 								} else if (bb.device.is1280x720 && bb.device.newerThan10dot1 && (window.devicePixelRatio < 1.9)) {
-									this.style.height = '76px';
+									if (bb.device.newerThan10dot2 === true) {
+										this.style.height = '64px';
+									} else {
+										this.style.height = '76px';
+									}
 								} else {
 									this.style.height = '95px';
 								}
