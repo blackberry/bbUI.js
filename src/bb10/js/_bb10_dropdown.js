@@ -26,7 +26,7 @@ _bb10_dropdown = {
 		
 		if (bb.device.newerThan10dot2 === true) {
 			normal = 'bb-dropdown bb-dropdown-10dot3 bb-dropdown-' + bb.screen.controlColor,
-			highlight = 'bb-dropdown bb-dropdown-10dot3 bb-dropdown-highlight-'+ bb.screen.controlColor,
+			highlight = 'bb-dropdown bb-dropdown-10dot3 bb-dropdown-highlight-10dot3-'+ bb.screen.controlColor,
 			outerContainerStyle += ' bb-dropdown-container-10dot3';
 			innerContainerStyle += ' bb-dropdown-container-inner-10dot3';
 			innerButtonStyle += ' bb-dropdown-inner-10dot3';
@@ -369,12 +369,16 @@ _bb10_dropdown = {
 								if (bb.device.is1024x600) {
 									this.style.height = '43px';
 								} else if (bb.device.is1280x768) {
-									this.style.height = bb.device.newerThan10dot1 ? '88px' : '95px';
+									if (bb.device.newerThan10dot2 === true) {
+										this.style.height = '83px';
+									} else {
+										this.style.height = bb.device.newerThan10dot1 ? '88px' : '95px';
+									}
 								} else if (bb.device.is720x720) {
 									this.style.height = bb.device.newerThan10dot1 ? '70px' : '77px';
 								} else if (bb.device.is1280x720 && bb.device.newerThan10dot1 && (window.devicePixelRatio < 1.9)) {
 									this.style.height = '76px';
-								}else {
+								} else {
 									this.style.height = '95px';
 								}
 								
