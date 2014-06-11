@@ -216,7 +216,11 @@ bb.screen = {
 			
 			// Apply any action Bar styling
 			if (actionBar) {
-				bb.actionBar.apply(actionBar,outerElement);
+				if (bb.device.newerThan10dot2 === true) {
+					bb.actionBar10dot3.apply(actionBar,outerElement);
+				} else {
+					bb.actionBar.apply(actionBar,outerElement);
+				}
 			}
 			
 			// Assign our context
@@ -441,7 +445,11 @@ bb.screen = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+			if (bb.device.newerThan10dot2 === true) {
+				return 120;
+			} else {
+				return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+			}
 		} else if (bb.device.is1280x720) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92; 
 		} else if (bb.device.is720x720) {
