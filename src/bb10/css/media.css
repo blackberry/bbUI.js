@@ -528,6 +528,89 @@
 		margin-top: -7px;
 	}
 	
+	/* Action Bar 10.3+ */
+	.bb-action-bar-10dot3-portrait,
+	.bb-action-bar-10dot3-landscape {
+		height: 96px;
+	}
+
+	.bb-action-bar-10dot3-icon {
+		height: 67px;
+		width: 67px;
+	}
+	
+	.bb-action-bar-10dot3-action {
+		border-top-width: 5px;
+	}
+	
+	.bb-action-bar-10dot3-action-portrait,
+	.bb-action-bar-10dot3-action-landscape {
+		height:96px;
+	}
+
+	.bb-action-bar-10dot3-action-display {
+		font-size:15pt;
+		margin-top:-4px;
+	}
+	
+	.bb-action-bar-10dot3-back-button-portrait,
+	.bb-action-bar-10dot3-back-button-landscape {
+		height:96px;
+		width:83px;
+	}
+
+	.bb-action-bar-10dot3-back-chevron-dark,
+	.bb-action-bar-10dot3-back-chevron-light {
+		width:17px;
+		height:31px;
+		margin-left: 40px;
+		top: 33px;
+		background-size: 16px 31px;
+	}
+	
+	.bb-action-bar-10dot3-colored-slash {
+		width: 2px;
+		height: 80px;
+		top: 5px;
+		left: 12px;
+	}
+	
+	.bb-action-bar-10dot3-back-slash-dark,
+	.bb-action-bar-10dot3-back-slash-light {
+		width:21px;	
+	}
+	
+	.bb-action-bar-10dot3-tab-overflow-portait,
+	.bb-action-bar-10dot3-tab-overflow-landscape {
+		width: 96px;
+	}
+	
+	.bb-action-bar-10dot3-back-slash-portrait,
+	.bb-action-bar-10dot3-back-slash-landscape {
+		height: 96px;
+	}
+
+	.bb-action-bar-10dot3-tab-overflow-dark,
+	.bb-action-bar-10dot3-tab-overflow-light {
+		background-position: center 31px;
+		background-size: 32px 25px;
+	}
+	
+	.bb-action-bar-10dot3-overflow-button-dark,
+	.bb-action-bar-10dot3-overflow-button-light {
+		margin-top: 18px;
+		background-position: center 10px;
+		background-size: 7px 31px;
+	}
+	
+	.bb-action-bar-10dot3-overflow-button-portait,
+	.bb-action-bar-10dot3-overflow-button-landscape {
+		margin-top: 4px;
+		width: 96px;
+		background-color: red;
+	}
+
+	
 	/* Grid List */
 	.bb-grid-header {
 		height:36px;
@@ -618,19 +701,19 @@
 	
 	/* Tab Overflow */
 	.bb-tab-overflow-menu-item {
-		font-size:24pt;
+		font-size:26pt;
 	}
 	
 	.bb-tab-overflow-menu-item-single {
 		height: 70px;
-		line-height: 57px;
+		line-height: 55px;
 		padding-top: 12px; 
 	}
 	
 	.bb-tab-overflow-menu-item-double {
 		height: 58px;
 		line-height: 35px;
-		padding-top: 4px; 
+		padding-top: 6px; 
 		padding-bottom: 19px;
 	}
 	
@@ -648,9 +731,9 @@
 	
 	/* Context Menu */
 	.bb-context-menu-item {
-		height: 74px;
+		height: 76px;
 		font-size:25pt;
-		line-height: 65px;
+		line-height: 62px;
 		padding-top: 10px;
 	}
 	

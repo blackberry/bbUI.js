@@ -2999,7 +2999,7 @@ body, html {
 }
 
 .bb-action-bar-10dot3-tab-light {
-	color: #333333;
+	color: #353535;
 	border-top-color: transparent;
 }
 
@@ -3010,7 +3010,7 @@ body, html {
 }
 
 .bb-action-bar-10dot3-button-light {
-	color: #333333;
+	color: #353535;
 	border-top-color: transparent;
 	border-right-width: 0px;
 }
@@ -3167,30 +3167,25 @@ body, html {
 
 .bb-action-bar-10dot3-tab-overflow-portait {
 	margin-top: 0px;
+	width: 120px;
 }
 
 .bb-action-bar-10dot3-tab-overflow-landscape {
 	margin-top: 0px;
+	width: 120px;
 }
 
 .bb-action-bar-10dot3-tab-overflow-dark {
 	background-repeat: no-repeat;
 	background-position: center 31px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAhCAYAAACr8emlAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gYLExMHXUpsRgAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAPUlEQVRYw+3WQQ0AIAwEQaD4d9qkDsADr4bMKNjf3ayqMxpbozmB3wcC0NzMzNZvZkeELRYIAN6MsyDw1QW0qguNC9fX6gAAAABJRU5ErkJggg==");
+	
 }
 
 .bb-action-bar-10dot3-tab-overflow-light {
 	background-repeat: no-repeat;
 	background-position: center 31px;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAhCAYAAACr8emlAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gYDFBk40TiXmwAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAAUUlEQVRYw+3WwQkAMAhDUa1OJLj/Tt6l3aEnaX8meBCRaERsGZwlwwPweaBW1WigmxkVAwQI8OtHnZmj14x3NxUDZM2wZgACBAiQNcMNArzNAdgbEMOad+RdAAAAAElFTkSuQmCC");
-}
-
-.bb-action-bar-10dot3-tab-overflow-highlight-portrait {
-	margin-top: -117px;
-}
-
-.bb-action-bar-10dot3-tab-overflow-highlight-landscape {
-	margin-top: -100px;
 }
 
 .bb-action-bar-10dot3-overflow-button-dark {

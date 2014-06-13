@@ -443,6 +443,8 @@ _PlayBook_contextMenu = {
 	getWidth : function() {
 		if (bb.device.isPlayBook) {
 			return '300';
+		} if (bb.device.is1280x720) {
+			return '435';
 		} else {
 			return '563';		
 		}

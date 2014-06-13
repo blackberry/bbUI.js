@@ -353,6 +353,8 @@ bb.tabOverflow = {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
 		} else if (bb.device.is720x720) {
 			return bb.innerWidth() - 143;
+		} else if (bb.device.is1280x720) {
+			return 488;
 		} else {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
 		}

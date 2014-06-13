@@ -643,12 +643,18 @@ bb.actionBar10dot3 = {
 			
 			// Handle press-and-hold on Q10
 			tabOverflow.ontouchstart = function() {
-					var text = ((this.display.innerHTML == '') || (this.display.innerHTML == '&nbsp;')) ? this.actionBar.moreCaption : this.display.innerHTML;
-					this.actionBar.showLabel(this,text);				
+				if (bb.screen.controlColor == 'light') {
+					this.tabInner.style['background-color'] = '#DDDDDD';
+				} else {
+					this.tabInner.style['background-color'] = '#3A3A3A';
+				}
+				var text = ((this.display.innerHTML == '') || (this.display.innerHTML == '&nbsp;')) ? this.actionBar.moreCaption : this.display.innerHTML;
+				this.actionBar.showLabel(this,text);				
 			}
 			// Remove highlight when touch ends
 			tabOverflow.ontouchend = function() {
-					this.actionBar.doTouchEnd();
+				this.tabInner.style['background-color'] = '';
+				this.actionBar.doTouchEnd();
 			}			
 		}
 		
@@ -806,8 +812,10 @@ bb.actionBar10dot3 = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is720x720) {
 			return 144;
+		} else if (bb.device.is1280x720) {
+			return 96;
 		} else {
-			return bb.getOrientation() == 'portrait' ? 154 : 256;
+			return 120;
 		}
 	},
 	
@@ -819,6 +827,8 @@ bb.actionBar10dot3 = {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is720x720) {
 			return 144;
+		} else if (bb.device.is1280x720) {
+			return 96;
 		} else {
 			return 120;
 		}
@@ -833,7 +843,7 @@ bb.actionBar10dot3 = {
 		} else if (bb.device.is720x720) {
 			return 174;
 		} else if (bb.device.is1280x720) {
-			return bb.getOrientation() == 'portrait' ? 179 : 300;
+			return 104;
 		}else {
 			return 129;
 		}

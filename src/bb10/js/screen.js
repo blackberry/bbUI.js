@@ -451,7 +451,11 @@ bb.screen = {
 				return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
 			}
 		} else if (bb.device.is1280x720) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92; 
+			if (bb.device.newerThan10dot2 === true) {
+				return 120;
+			} else {
+				return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92;
+			}
 		} else if (bb.device.is720x720) {
 			return 109;
 		} else {
