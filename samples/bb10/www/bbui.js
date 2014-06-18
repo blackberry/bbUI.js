@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1534*/
+/* bbUI for BB10 VERSION: 0.9.6.1536*/
 
 bb = {
 	scroller: null,  
@@ -2274,6 +2274,13 @@ bb.actionBar10dot3 = {
 								for (i = 0; i < this.mainBarButtons.length; i++) {
 									action = this.mainBarButtons[i];
 									if ((count < max) && (action.visible == true)){
+										// If it is the signature action and there are visible tabs then hide it
+										if ((action.isSignatureAction === true) && (noVisibleTabs == false)) {
+											action.visible = false;
+											action.signatureDiv.style.display = 'none';
+											continue;
+										}
+										
 										if (firstAction == undefined) {
 											firstAction = action;
 										}
