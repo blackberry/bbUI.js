@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1477*/
+/* bbUI for BB10 VERSION: 0.9.6.1534*/
 
 bb = {
 	scroller: null,  
@@ -2162,7 +2162,9 @@ bb.actionBar10dot3 = {
 									count = 0,
 									totalUsedWidth = 0,
 									calculatedWidth = 0,
-									orientation = bb.getOrientation();
+									orientation = bb.getOrientation(),
+									signatureActionList = [],
+									noVisibleTabs = false;
 									
 								// First calculate how many slots on the action bar are shown
 								if (this.actionOverflowBtn) max--;
@@ -2178,6 +2180,7 @@ bb.actionBar10dot3 = {
 										count++;
 									}							
 								}
+								noVisibleTabs = (count == 0) ? true : false;
 								// Then count out buttons
 								for (i = 0; i < this.mainBarButtons.length; i++) {
 									if (count == max) break;
@@ -2188,7 +2191,24 @@ bb.actionBar10dot3 = {
 								}
 								// Calculate our action width
 								count = (count == 0) ? 1 : count;
-								actionWidth = Math.floor(this.getUsableWidth()/count);
+								if (noVisibleTabs) {
+									max = 3;
+									if (bb.device.is1280x720) {
+										actionWidth = 96;
+									} else {
+										if (this.signatureAction) {
+											actionWidth = 163;
+										} else if (count >= max) {
+											actionWidth = 163;
+										} else if (count == 2) {
+											actionWidth = 230;
+										} else {
+											actionWidth = 460;
+										}
+									}
+								} else {
+									actionWidth = Math.floor(this.getUsableWidth()/count);
+								}
 								
 								// Set the style for the action bar
 								temp = this.getAttribute('class');
@@ -2250,13 +2270,17 @@ bb.actionBar10dot3 = {
 								
 								// Style our visible buttons
 								calculatedWidth = actionWidth - 1; // 1 represents the button margins
+								var firstAction = undefined;
 								for (i = 0; i < this.mainBarButtons.length; i++) {
 									action = this.mainBarButtons[i];
 									if ((count < max) && (action.visible == true)){
+										if (firstAction == undefined) {
+											firstAction = action;
+										}
+										signatureActionList.push(action);
+										action.style['margin-left'] = '';
 										totalUsedWidth += calculatedWidth + 1;
 										action.style.width = calculatedWidth + 'px'; 
-										action.highlight.style['width'] = (actionWidth * 0.6) + 'px';
-										action.highlight.style['margin-left'] = (actionWidth * 0.2) + 'px';
 										action.normal = 'bb-action-bar-10dot3-action bb-action-bar-10dot3-action-' + orientation + ' bb-action-bar-10dot3-button-'+bb.screen.controlColor;
 										action.setAttribute('class',action.normal);
 										// Update button orientation
@@ -2272,6 +2296,44 @@ bb.actionBar10dot3 = {
 										action.visible = false;
 									};
 								}
+								
+								// Align our actions to be centered if there are now tabs
+								if (noVisibleTabs && firstAction) {
+									if (this.signatureAction) {
+										var signatureWidth,
+											signatureIndex = signatureActionList.indexOf(this.signatureAction),
+											multiplier = (3 - count);
+										// Make sure that our signature action is centered and the first Element is set appropriately
+										if (count == 3) {
+											if (signatureIndex != 1) {
+												if (signatureIndex === 0) {
+													firstAction = signatureActionList[1];
+													this.signatureAction.parentNode.insertBefore(this.signatureAction, signatureActionList[2]);
+												} else {
+													firstAction = signatureActionList[0];
+													this.signatureAction.parentNode.insertBefore(this.signatureAction, signatureActionList[1]);
+												}
+											}
+										} else if (count == 2) {
+											if (signatureIndex != 0) {
+												this.signatureAction.parentNode.insertBefore(this.signatureAction, signatureActionList[0]);
+												firstAction = this.signatureAction;
+											}
+										} 
+										
+										// Determine our circle size based on resolution	
+										if (bb.device.is1280x720) {
+											signatureWidth = 96;
+										} else {
+											signatureWidth = 120;
+										}
+										this.signatureAction.signatureDiv.style['margin-left'] = ((bb.innerWidth()/2) - (signatureWidth/2)) + 'px';
+										// Set our margin to center our actions
+										firstAction.style['margin-left'] = (((this.getUsableWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth))+ 'px';
+									} else {
+										firstAction.style['margin-left'] = ((this.getUsableWidth() - (count * actionWidth))/2) + 'px';
+									}
+								} 
 								
 								// Adjust our tab overflow button
 								if (this.tabOverflowBtn) {
@@ -2498,7 +2560,7 @@ bb.actionBar10dot3 = {
 			}			
 		}
 		
-		// Add our tab overflow buton styling if one exists
+		// Add our tab overflow button styling if one exists
 		var tabOverflow;
 		if (actionBar.tabOverflowBtn) {
 			tabOverflow = actionBar.tabOverflowBtn;
@@ -2562,7 +2624,17 @@ bb.actionBar10dot3 = {
 		for (j = 0; j < mainBarButtons.length; j++) {
 			button = mainBarButtons[j];
 			button.actionBar = actionBar;
+			button.isSignatureAction = false;
 			caption = button.innerHTML;
+			if (actionBar.signatureAction == undefined) {
+				if (button.hasAttribute('data-bb-signature')) {
+					if (button.getAttribute('data-bb-signature').toLowerCase() == 'true') {
+						actionBar.signatureAction = button;
+						button.isSignatureAction = true;
+					}
+				}
+			}
+			
 			// Add the icon
 			icon = document.createElement('img');
 			icon.setAttribute('src',button.getAttribute('data-bb-img'));
@@ -2573,14 +2645,44 @@ bb.actionBar10dot3 = {
 			if (button.hasAttribute('data-bb-visible') && (button.getAttribute('data-bb-visible').toLowerCase() == 'false')) {
 				button.visible = false;
 			} 
+			
 			// Default settings
 			button.icon = icon;
 			button.innerHTML = '';
+			if (button.isSignatureAction === true) {
+				button.signatureDiv = document.createElement('div');
+				button.signatureDiv.setAttribute('class','bb-action-bar-10dot3-signature-icon');
+				button.signatureDiv.style['background-color'] = bb.options.highlightColor;
+				button.signatureDiv.appendChild(icon);
+				screen.appendChild(button.signatureDiv);
+				button.signatureDiv.highlight = function() {
+								this.style['background-color'] = bb.options.shades.darkHighlight;
+							};
+				button.signatureDiv.highlight = button.signatureDiv.highlight.bind(button.signatureDiv);	
+				button.signatureDiv.unhighlight = function() {
+								this.style['background-color'] = bb.options.highlightColor;
+							};
+				button.signatureDiv.unhighlight = button.signatureDiv.unhighlight.bind(button.signatureDiv);	
+				// Set our events
+				button.signatureDiv.ontouchstart = function() {
+					this.highlight();
+				}
+				button.signatureDiv.ontouchend = function() {
+					this.unhighlight();
+				}
+				button.signatureDiv.onclick = button.onclick;
+			} else {
+				button.appendChild(icon);
+			}
 			button.setAttribute('class',button.normal);
-			button.appendChild(icon);	
+			
 			// Set our caption
 			display = document.createElement('div');
-			display.setAttribute('class','bb-action-bar-10dot3-action-display');
+			if (button.isSignatureAction === true) {
+				display.setAttribute('class','bb-action-bar-10dot3-action-display bb-action-bar-10dot3-signature-action-display');
+			} else {
+				display.setAttribute('class','bb-action-bar-10dot3-action-display');
+			}
 			display.innerHTML = caption;
 			button.display = display;
 			button.appendChild(display);
@@ -2619,17 +2721,25 @@ bb.actionBar10dot3 = {
 			
 			// Highlight on touch
 			button.ontouchstart = function() {
-				if (bb.screen.controlColor == 'light') {
-					this.style['background-color'] = '#DDDDDD';
+				if (this.isSignatureAction === true) {
+					this.signatureDiv.style['background-color'] = bb.options.shades.darkHighlight;
 				} else {
-					this.style['background-color'] = '#3A3A3A';
+					if (bb.screen.controlColor == 'light') {
+						this.style['background-color'] = '#DDDDDD';
+					} else {
+						this.style['background-color'] = '#3A3A3A';
+					}
 				}
 				this.actionBar.showLabel(this,this.display.innerHTML);				
 			}
 			// Remove highlight when touch ends
 			button.ontouchend = function() {
-				this.style['background-color'] = 'transparent';
-				this.actionBar.doTouchEnd();
+				if (this.isSignatureAction === true) {
+					this.signatureDiv.style['background-color'] = bb.options.highlightColor;
+				} else {
+					this.style['background-color'] = 'transparent';
+					this.actionBar.doTouchEnd();
+				}
 			}
 		}
 		

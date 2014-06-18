@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1477*/
+/* bbUI for BB10 VERSION: 0.9.6.1534*/
 
 body, html {
 	padding:0;
@@ -3054,7 +3054,7 @@ body, html {
 	bottom:0px;
 	right:0px;
 	left:0px;
-	background-repeat:  repeat-x;
+	background-repeat: repeat-x;
 	overflow:hidden;
 }
 
@@ -3069,7 +3069,15 @@ body, html {
 .bb-action-bar-10dot3-icon {
 	height: 80px;
 	width: 80px;
-	margin-top: 0px;
+}
+
+.bb-action-bar-10dot3-signature-icon {
+	position: absolute;
+	border-radius: 60px;
+	height: 80px;
+	width: 80px;
+	padding: 20px;
+	bottom: 40px;
 }
 
 .bb-action-bar-10dot3-action {
@@ -3096,6 +3104,10 @@ body, html {
 	white-space:nowrap;
 	text-overflow: ellipsis;
 	text-overflow: -blackberry-fade;
+}
+
+.bb-action-bar-10dot3-signature-action-display  {
+	margin-top: 76px;
 }
 
 .bb-action-bar-10dot3-action-display-portrait {
