@@ -437,7 +437,11 @@ bb.actionBar10dot3 = {
 										}
 										this.signatureAction.signatureDiv.style['margin-left'] = ((bb.innerWidth()/2) - (signatureWidth/2)) + 'px';
 										// Set our margin to center our actions
-										firstAction.style['margin-left'] = (((this.getUsableWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth))+ 'px';
+										if (count == 1) {
+											firstAction.style['margin-left'] = ((this.getUsableWidth() - actionWidth)/2) + 'px';
+										} else {
+											firstAction.style['margin-left'] = (((this.getUsableWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth))+ 'px';
+										}
 									} else {
 										firstAction.style['margin-left'] = ((this.getUsableWidth() - (count * actionWidth))/2) + 'px';
 									}
