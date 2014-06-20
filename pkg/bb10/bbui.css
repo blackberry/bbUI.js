@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1570*/
+/* bbUI for BB10 VERSION: 0.9.6.1644*/
 
 body, html {
 	padding:0;
@@ -2264,7 +2264,7 @@ body, html {
 }
 
 .bb-image-list-item-light {
-	color:Black;
+	color:#262626;
 	border-bottom-color: #D9DCDE;
 }
 
@@ -4508,6 +4508,90 @@ body, html {
 		border-radius: 41px;
 		width: 80px;
 		height: 80px;
+	}
+}
+
+/* Z30 & Z3 */
+@media screen and (width: 1440px) and (height: 1440px) {
+    .bb-screen {
+		font-size: 34pt;
+    }
+	
+	/* Image List */
+	.bb-image-list-header-10dot3 {
+		font-size: 28pt;
+		line-height: 52px;
+		height: 56px;
+		font-weight: 600;
+	}
+	
+	.bb-image-list-item .title {
+		font-size: 43pt;
+		line-height:50px;
+		height: 61px;
+	}
+	
+	.bb-image-list-item .description {
+		font-size: 36pt;	
+		height: 44px;
+		line-height: 31px;
+		font-weight: 200;
+		font-family: "Slate Light";
+	}
+	
+	.bb-image-list-item .accent-text {
+		font-size:27pt;
+		margin-right: 28px;
+		margin-top:-93px;
+	}
+	
+	.bb-image-list-item {
+		height: 130px;
+		padding-top: 0px;
+	}
+	
+	.bb-image-list-item-overlay {
+		margin-top: -164px;
+		height: 126px;
+	}
+	
+	.bb-image-list-item-details {
+		height: 123px;
+		padding-left: 141px;
+		background-size: 130px 130px;
+		background-position: 0px 0px;
+		margin-top: 0px;
+		padding-top: 39px;
+	}
+	
+	.bb-image-list-item-noimage {
+		padding-left:20px;
+	}
+	
+	.bb-image-list-item-button-border {
+		width: 60px;
+		height: 60px;
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 30px;
+		margin-top: 26px;
+	}
+
+	.bb-image-list-item .button {
+		position:relative;
+		float:right;
+		width:68px;
+		height:108px;
+		margin-top: -126px;
+		margin-right: 15px;
+		padding-left: 20px;
+	}
+
+	.bb-image-list-item-button-inner {
+		width: 60px;
+		height: 60px;
+		background-position: center center;
+		background-size: cover;
 	}
 }
 

@@ -282,7 +282,13 @@ _bb10_imageList = {
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-89px';
 								}
-							}else {
+							} else if (bb.device.is1440x1440) {
+								title.style['padding-top'] = '28px';
+								overlay.style['margin-top'] = '-164px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-126px';
+								}							
+							} else {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-121px';
@@ -298,6 +304,8 @@ _bb10_imageList = {
 									accentText.style['margin-top'] = '-82px';
 								} else if (bb.device.is720x720) {
 									accentText.style['margin-top'] = '-75px';
+								} else if (bb.device.is1440x1440) {
+									accentText.style['margin-top'] = '-100px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
 								}

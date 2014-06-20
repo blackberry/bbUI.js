@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1570*/
+/* bbUI for BB10 VERSION: 0.9.6.1644*/
 
 bb = {
 	scroller: null,  
@@ -90,6 +90,7 @@ bb = {
 		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
 		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
 		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.is1440x1440 = (window.innerWidth == 1440 && window.innerHeight == 1440);
 		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
@@ -234,6 +235,7 @@ bb = {
 		is1280x768: false,
 		is720x720: false,
 		is1280x720: false,
+		is1440x1440: false,
 		// OS versions
 		is10dot3: false,
 		is10dot2: false,
@@ -4086,7 +4088,7 @@ bb.screen = {
 			}
 		} else if (bb.device.is1280x720) {
 			if (bb.device.newerThan10dot2 === true) {
-				return 120;
+				return 96;
 			} else {
 				return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92;
 			}
@@ -6812,7 +6814,13 @@ _bb10_imageList = {
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-89px';
 								}
-							}else {
+							} else if (bb.device.is1440x1440) {
+								title.style['padding-top'] = '28px';
+								overlay.style['margin-top'] = '-164px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-126px';
+								}							
+							} else {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-121px';
@@ -6828,6 +6836,8 @@ _bb10_imageList = {
 									accentText.style['margin-top'] = '-82px';
 								} else if (bb.device.is720x720) {
 									accentText.style['margin-top'] = '-75px';
+								} else if (bb.device.is1440x1440) {
+									accentText.style['margin-top'] = '-100px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
 								}

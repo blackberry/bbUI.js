@@ -72,6 +72,7 @@ bb = {
 		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
 		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
 		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.is1440x1440 = (window.innerWidth == 1440 && window.innerHeight == 1440);
 		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
@@ -216,6 +217,7 @@ bb = {
 		is1280x768: false,
 		is720x720: false,
 		is1280x720: false,
+		is1440x1440: false,
 		// OS versions
 		is10dot3: false,
 		is10dot2: false,

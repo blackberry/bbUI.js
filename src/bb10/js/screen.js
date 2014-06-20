@@ -452,7 +452,7 @@ bb.screen = {
 			}
 		} else if (bb.device.is1280x720) {
 			if (bb.device.newerThan10dot2 === true) {
-				return 120;
+				return 96;
 			} else {
 				return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92;
 			}
