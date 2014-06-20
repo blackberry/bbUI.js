@@ -535,8 +535,16 @@
 	}
 
 	.bb-action-bar-10dot3-icon {
-		height: 67px;
-		width: 67px;
+		height: 66px;
+		width: 66px;
+	}
+	
+	.bb-action-bar-10dot3-signature-icon {
+		border-radius: 48px;
+		height: 66px;
+		width: 66px;
+		padding: 15px;
+		bottom: 32px;
 	}
 	
 	.bb-action-bar-10dot3-action {
@@ -551,6 +559,10 @@
 	.bb-action-bar-10dot3-action-display {
 		font-size:15pt;
 		margin-top:-4px;
+	}
+	
+	.bb-action-bar-10dot3-signature-action-display  {
+		margin-top: 62px;
 	}
 	
 	.bb-action-bar-10dot3-back-button-portrait,

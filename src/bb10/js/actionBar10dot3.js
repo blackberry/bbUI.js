@@ -295,7 +295,15 @@ bb.actionBar10dot3 = {
 								if (noVisibleTabs) {
 									max = 3;
 									if (bb.device.is1280x720) {
-										actionWidth = 96;
+										if (this.signatureAction) {
+											actionWidth = 133;
+										} else if (count >= max) {
+											actionWidth = 133;
+										} else if (count == 2) {
+											actionWidth = 200;
+										} else {
+											actionWidth = 430;
+										}
 									} else {
 										if (this.signatureAction) {
 											actionWidth = 163;
