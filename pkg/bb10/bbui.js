@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1547*/
+/* bbUI for BB10 VERSION: 0.9.6.1570*/
 
 bb = {
 	scroller: null,  
@@ -2672,7 +2672,8 @@ bb.actionBar10dot3 = {
 				button.signatureDiv = document.createElement('div');
 				button.signatureDiv.setAttribute('class','bb-action-bar-10dot3-signature-icon');
 				button.signatureDiv.style['background-color'] = bb.options.highlightColor;
-				button.signatureDiv.appendChild(icon);
+				button.signatureDiv.style['background-image'] = 'url("'+button.getAttribute('data-bb-img')+'")';
+				//button.signatureDiv.appendChild(icon);
 				screen.appendChild(button.signatureDiv);
 				button.signatureDiv.highlight = function() {
 								this.style['background-color'] = bb.options.shades.darkHighlight;
@@ -2723,12 +2724,17 @@ bb.actionBar10dot3 = {
 			button.getCaption = button.getCaption.bind(button);	
 			// Assign the setImage function
 			button.setImage = function(value) {
-								this.icon.setAttribute('src',value);
+								if (this.isSignatureAction) {
+									this.signatureDiv.style['background-image'] = 'url("'+value+'")';
+								} else {
+									this.icon.setAttribute('src',value);
+								}
+								this.setAttribute('data-bb-img',value);
 							};
 			button.setImage = button.setImage.bind(button);
 			// Assign the setImage function
 			button.getImage = function() {
-								return this.icon.getAttribute('src');
+								return this.getAttribute('data-bb-img');;
 							};
 			button.getImage = button.getImage.bind(button);
 			// Add our hide() function
@@ -5432,7 +5438,6 @@ _bb10_contextMenu = {
 		
 		// Add a menu item
 		menu.add = function(action) {
-			alert('add: START');
 			this.actions.push(action);
 			this.appendChild(action);
 			var menuItem = {
@@ -5487,7 +5492,6 @@ _bb10_contextMenu = {
 				this.setAttribute('data-bb-visible','false');
 			}
 			action.hide = action.hide.bind(action);
-			alert('add: END');
 		};
 		menu.add = menu.add.bind(menu);
 		
@@ -5528,14 +5532,12 @@ _bb10_contextMenu = {
 		// This function clears all the items from the context menu.  Typically
 		// called internally when the screen is popped
 		menu.clearWWcontextMenu = function() {
-			alert('clearWWcontextMenu: START');
 			var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
 				i,
 				actionId;
 			for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
 				blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
 			}
-			alert('clearWWcontextMenu: END');
 		};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		

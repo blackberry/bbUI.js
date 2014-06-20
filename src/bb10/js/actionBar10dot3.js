@@ -773,7 +773,8 @@ bb.actionBar10dot3 = {
 				button.signatureDiv = document.createElement('div');
 				button.signatureDiv.setAttribute('class','bb-action-bar-10dot3-signature-icon');
 				button.signatureDiv.style['background-color'] = bb.options.highlightColor;
-				button.signatureDiv.appendChild(icon);
+				button.signatureDiv.style['background-image'] = 'url("'+button.getAttribute('data-bb-img')+'")';
+				//button.signatureDiv.appendChild(icon);
 				screen.appendChild(button.signatureDiv);
 				button.signatureDiv.highlight = function() {
 								this.style['background-color'] = bb.options.shades.darkHighlight;
@@ -824,12 +825,17 @@ bb.actionBar10dot3 = {
 			button.getCaption = button.getCaption.bind(button);	
 			// Assign the setImage function
 			button.setImage = function(value) {
-								this.icon.setAttribute('src',value);
+								if (this.isSignatureAction) {
+									this.signatureDiv.style['background-image'] = 'url("'+value+'")';
+								} else {
+									this.icon.setAttribute('src',value);
+								}
+								this.setAttribute('data-bb-img',value);
 							};
 			button.setImage = button.setImage.bind(button);
 			// Assign the setImage function
 			button.getImage = function() {
-								return this.icon.getAttribute('src');
+								return this.getAttribute('data-bb-img');;
 							};
 			button.getImage = button.getImage.bind(button);
 			// Add our hide() function

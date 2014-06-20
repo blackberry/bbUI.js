@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1547*/
+/* bbUI for BB10 VERSION: 0.9.6.1570*/
 
 body, html {
 	padding:0;
@@ -3078,6 +3078,9 @@ body, html {
 	width: 80px;
 	padding: 20px;
 	bottom: 40px;
+	background-size: 80px 80px;
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 .bb-action-bar-10dot3-action {
@@ -3984,6 +3987,7 @@ body, html {
 		width: 66px;
 		padding: 15px;
 		bottom: 32px;
+		background-size: 66px 66px;
 	}
 	
 	.bb-action-bar-10dot3-action {
