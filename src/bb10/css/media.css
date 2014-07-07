@@ -1069,11 +1069,26 @@
 	}
 }
 
-/* Z30 & Z3 */
+/* Passport */
 @media screen and (width: 1440px) {
     .bb-screen {
 		font-size: 34pt;
     }
+	
+	/* Round Panels/Control Groups */
+	.bb-panel-header {
+		padding-top:2px;
+		padding-left: 10px; 
+		margin-bottom: 10px; 
+		padding-bottom: 6px; 
+		font-size: 28pt;
+		line-height: 52px;
+		margin-left: -20px;
+		margin-right: -20px;
+		margin-top: -10px;
+		height: 56px;
+		font-weight: 600;
+	}
 	
 	/* Grid List */
 	.bb-grid-header-10dot3 {	
