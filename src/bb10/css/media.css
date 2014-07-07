@@ -1313,6 +1313,45 @@
 		margin-top: 0px;
 		background-size: 43px 37px;
 	}
+	
+	/* Radio Buttons */
+	.bb-radio-container-10dot3-dark {
+		height: 76px;
+		width: 76px;
+		padding: 10px;
+		background-image: none;
+	}
+
+	.bb-radio-container-10dot3-light {
+		padding: 10px;
+		height: 76px;
+		width: 76px;
+		background-image: none;
+	}
+	
+	.bb-radio-dot-10dot3 {
+		height: 60px;
+		width: 60px;
+		border-radius: 30px;
+		top: 8px;
+		left: 8px;
+	}
+	
+	.bb-radio-dot-disabled-10dot3 {
+		height: 60px;
+		width: 60px;
+		border-radius: 30px;
+		top: 8px;
+		left: 8px;
+	}
+
+	.bb-radio-dot-center-10dot3 {
+		height: 20px;
+		width: 20px;
+		border-radius: 10px;
+		top: 20px;
+		left: 20px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
