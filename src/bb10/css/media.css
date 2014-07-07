@@ -1225,6 +1225,25 @@
 		width: 96px;
 	}
 	
+	/* Activity Indicators */
+	.bb-activity-small {
+		height: 60px;
+		width: 60px;
+		background-size: 60px 60px;
+	}
+
+	.bb-activity-medium {
+		height: 150px;
+		width: 150px;
+		background-size: 150px 150px;
+	}
+
+	.bb-activity-large {
+		height: 300px;
+		width: 300px;
+		background-size: 300px 300px;
+	}
+	
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){

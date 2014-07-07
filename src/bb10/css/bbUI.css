@@ -896,22 +896,19 @@ body, html {
 	margin: 10px;
 }  
 
-.bb-activity-small
-{
+.bb-activity-small {
 	height: 41px;
 	width: 41px;
 	background-size: 41px 41px;
 }
 
-.bb-activity-medium
-{
+.bb-activity-medium {
 	height: 93px;
 	width: 93px;
 	background-size: 93px 93px;
 }
 
-.bb-activity-large
-{
+.bb-activity-large {
 	height: 184px;
 	width: 184px;
 	background-size: 184px 184px;

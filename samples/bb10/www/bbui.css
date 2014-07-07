@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1667*/
+/* bbUI for BB10 VERSION: 0.9.6.1669*/
 
 body, html {
 	padding:0;
@@ -914,22 +914,19 @@ body, html {
 	margin: 10px;
 }  
 
-.bb-activity-small
-{
+.bb-activity-small {
 	height: 41px;
 	width: 41px;
 	background-size: 41px 41px;
 }
 
-.bb-activity-medium
-{
+.bb-activity-medium {
 	height: 93px;
 	width: 93px;
 	background-size: 93px 93px;
 }
 
-.bb-activity-large
-{
+.bb-activity-large {
 	height: 184px;
 	width: 184px;
 	background-size: 184px 184px;
@@ -4665,6 +4662,25 @@ body, html {
 	
 	.bb-button-container-image-only {
 		width: 96px;
+	}
+	
+	/* Activity Indicators */
+	.bb-activity-small {
+		height: 60px;
+		width: 60px;
+		background-size: 60px 60px;
+	}
+
+	.bb-activity-medium {
+		height: 150px;
+		width: 150px;
+		background-size: 150px 150px;
+	}
+
+	.bb-activity-large {
+		height: 300px;
+		width: 300px;
+		background-size: 300px 300px;
 	}
 	
 }
