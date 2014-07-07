@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1669*/
+/* bbUI for BB10 VERSION: 0.9.6.1674*/
 
 bb = {
 	scroller: null,  

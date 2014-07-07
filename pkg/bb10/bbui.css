@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1669*/
+/* bbUI for BB10 VERSION: 0.9.6.1674*/
 
 body, html {
 	padding:0;
@@ -4683,6 +4683,26 @@ body, html {
 		background-size: 300px 300px;
 	}
 	
+	/* Pill Buttons */
+	.bb-pill-buttons-container {
+		border-radius:0px;
+		padding: 2px;
+		font-size: 32pt;
+		height:88px;
+	}
+	
+	.bb-pill-button  {
+		height:84px;
+		border-radius: 0px;
+		cursor: pointer;
+	}
+	
+	.bb-pill-button-inner {
+		border-radius: 0px;
+		height:70px;
+		line-height:64px;
+		padding-top: 5px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
