@@ -1276,6 +1276,43 @@
 		height:40px;
 	}
 	
+	/* CheckBoxes */
+	.bb-checkbox-target {
+		padding: 15px;
+		height: 60px;
+		width: 60px;
+	}
+
+	.bb-checkbox-outer {
+		height: 60px;
+		width: 60px;
+		border-width: 0px;
+		border-radius: 6px;
+	}
+
+	.bb-checkbox-inner-10dot3 {
+		height: 60px;
+		width: 60px;
+		border-width: 0px;
+		border-radius: 6px;
+		margin: 0px;
+	}
+
+	.bb-checkbox-check-hidden-10dot3 {
+		height: 60px;
+		width: 60px;
+		margin-left: 0px;
+		margin-top: 0px;
+		background-size: 43px 37px;
+	}
+
+	.bb-checkbox-check-display-10dot3 {
+		height: 60px;
+		width: 60px;
+		margin-left: 0px;
+		margin-top: 0px;
+		background-size: 43px 37px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
