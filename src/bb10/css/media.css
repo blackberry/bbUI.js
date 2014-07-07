@@ -1075,6 +1075,35 @@
 		font-size: 34pt;
     }
 	
+	/* Grid List */
+	.bb-grid-header-10dot3 {	
+		height: 56px;
+		font-weight: 600;
+	}
+	
+	.bb-grid-header-10dot3 p {
+		font-size: 28pt;
+		line-height: 52px;
+		margin-left: 10px;
+	}
+	
+	.bb-grid-item-overlay-two-rows {
+		height: 90px;
+		top:-90px;
+	}
+
+	.bb-grid-item-overlay-one-row {
+		height: 55px;
+		top:-55px;
+	}
+
+	.bb-grid-item-overlay .title {
+		line-height:36px;
+		height: 86px;
+		font-size: 28pt;
+	}
+	
+	
 	/* Image List */
 	.bb-image-list-header-10dot3 {
 		font-size: 28pt;

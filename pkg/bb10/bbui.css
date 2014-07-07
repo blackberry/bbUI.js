@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1644*/
+/* bbUI for BB10 VERSION: 0.9.6.1654*/
 
 body, html {
 	padding:0;
@@ -4516,6 +4516,35 @@ body, html {
     .bb-screen {
 		font-size: 34pt;
     }
+	
+	/* Grid List */
+	.bb-grid-header-10dot3 {	
+		height: 56px;
+		font-weight: 600;
+	}
+	
+	.bb-grid-header-10dot3 p {
+		font-size: 28pt;
+		line-height: 52px;
+		margin-left: 10px;
+	}
+	
+	.bb-grid-item-overlay-two-rows {
+		height: 90px;
+		top:-90px;
+	}
+
+	.bb-grid-item-overlay-one-row {
+		height: 55px;
+		top:-55px;
+	}
+
+	.bb-grid-item-overlay .title {
+		line-height:36px;
+		height: 86px;
+		font-size: 28pt;
+	}
+	
 	
 	/* Image List */
 	.bb-image-list-header-10dot3 {

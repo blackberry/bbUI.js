@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1644*/
+/* bbUI for BB10 VERSION: 0.9.6.1654*/
 
 bb = {
 	scroller: null,  
@@ -6176,6 +6176,9 @@ _bb10_grid = {
 							title.normal = title.normal +' bb10Accent';
 							title.style.color = 'white';
 							title.style['border-bottom-color'] = 'transparent';
+							if (bb.device.newerThan10dot2) {
+								title.normal = title.normal + ' bb-grid-header-10dot3 bb-grid-header-normal-'+bb.screen.listColor + '-10dot3';
+							}
 						} else {
 							title.normal = title.normal + ' bb-grid-header-normal-'+bb.screen.listColor;
 							if (bb.device.newerThan10dot2) {
