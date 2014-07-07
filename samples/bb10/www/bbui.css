@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1674*/
+/* bbUI for BB10 VERSION: 0.9.6.1677*/
 
 body, html {
 	padding:0;
@@ -4703,6 +4703,18 @@ body, html {
 		line-height:64px;
 		padding-top: 5px;
 	}
+	
+	/* Label Control Container */
+	.bb-label-control-label-row {
+		height:65px;
+	}
+
+	.bb-label-control-label {
+		top: 10px;
+		font-size: 34pt;
+		height:40px;
+	}
+	
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
