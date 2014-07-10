@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1753*/
+/* bbUI for BB10 VERSION: 0.9.6.1764*/
 
 bb = {
 	scroller: null,  
@@ -4116,7 +4116,9 @@ bb.screen = {
 			}
 		} else if (bb.device.is720x720) {
 			return 92;
-		}else {
+		} else if (bb.device.is1440x1440) {
+			return 132;
+		} else {
 			if (bb.device.newerThan10dot2) {
 				return 110;
 			} else {
@@ -4664,7 +4666,9 @@ bb.titleBar = {
 					}
 				} else if (bb.device.is720x720) {
 					caption.style['line-height'] = '55px';
-				}else {
+				} else if (bb.device.is1440x1440) {
+					caption.style['line-height'] = '80px';
+				} else {
 					if (bb.device.newerThan10dot2 === true) {
 						caption.style['line-height'] = '54px';
 					} else {

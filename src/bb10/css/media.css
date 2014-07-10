@@ -1593,11 +1593,69 @@
 		font-size:33pt;
 	}
 
-	.bb-dropdown-light-highlight-10dot3,
-	.bb-dropdown-dark-highlight-10dot3 {
-		
+	/* Title Bar */
+	.bb-titlebar-button {
+		max-width: 380px;
+		line-height: 84px;
+		height:84px;
+		padding-top:0px;
+		padding-left: 75px;
+		padding-right: 75px;
 	}
 
+	.bb-titlebar-button-10dot3 {
+		font-size: 33pt;
+		font-weight: 600;
+		margin-top: 15px;
+	}
+
+	.bb-title-bar-10dot3 {
+		border-bottom-width: 6px;
+		font-size: 46pt;
+		font-weight: 600;
+	}
+
+	.bb-title-bar-portrait,
+	.bb-title-bar-landscape {
+		height:126px;
+	}
+
+	.bb-title-bar-10dot3-portrait,
+	.bb-title-bar-10dot3-landscape {
+		height: 126px;
+	} 
+
+	.bb-title-bar-caption-portrait,
+	.bb-title-bar-caption-landscape {
+		line-height:126px;
+	}
+
+	.bb-title-bar-caption-details-img-10dot3 {
+		margin-left: 140px;
+	}
+
+	.bb-title-bar-caption-left {
+		line-height:126px;
+		padding-left: 10px;
+	}
+
+	.bb-title-bar-accent-text {
+		padding-top:2px;
+		padding-left: 10px;
+		font-size: 29pt;
+	}
+
+	.bb-title-bar-accent-text-10dot3 {
+		margin-top: -16px;
+	}
+
+	.bb-title-bar-10dot3 img {
+		position:relative;
+		float:left;
+		margin-top: -2px;
+		height:128px;
+		width:128px;
+	}
 
 }
 
