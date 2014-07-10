@@ -1468,6 +1468,45 @@
 		height: 15px;
 	}
 
+	/* Slider */
+	.bb-slider .outer-10dot3 {
+		height: 6px;
+		border-radius: 0px;
+	}
+	
+	.bb-slider .halo {
+		border-radius: 50px;
+		width: 100px;
+		height: 100px;
+	}
+
+	.bb-slider .halo-10dot3 {
+		opacity: 0.6;
+		margin: 28px;
+	}
+
+	.bb-slider .indicator { 
+		margin: 49px;
+	}
+
+	.bb-slider .indicator-10dot3 {
+		width: 58px;
+		height: 58px;
+		border-radius: 29px;
+	}
+
+	
+	.bb-slider .fill {
+		border-radius: 10px;
+	}
+
+	.bb-slider .inner {
+		top: -76px;
+		left: -76px;
+		width: 4em;
+		height: 4em;
+	}
+	
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
