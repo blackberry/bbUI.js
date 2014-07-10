@@ -1495,18 +1495,33 @@
 		border-radius: 29px;
 	}
 
-	
-	.bb-slider .fill {
-		border-radius: 10px;
+	/* Input */
+	.bb-input-container-10dot3 {
+		border-width: 0px;
+		border-radius: 0px;
+		height: 96px;
+		padding: 0px;
+	}
+	   
+	.bb-input-10dot3 {
+		font-size: 39pt;
+		height: 93px;
 	}
 
-	.bb-slider .inner {
-		top: -76px;
-		left: -76px;
-		width: 4em;
-		height: 4em;
+	.bb-input-focused {
+		font-size: 39pt;	
+		right: 80px;
+	}
+
+	.bb-input-focused-10dot3 {
+		height: 93px;
+		left: 10px;
 	}
 	
+	.bb-input-cancel-button-light,
+	.bb-input-cancel-button-dark {
+		background-size: 82px 82px;
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
