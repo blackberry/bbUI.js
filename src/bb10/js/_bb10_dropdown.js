@@ -320,6 +320,9 @@ _bb10_dropdown = {
 										scrollHeight = (this.numItems * 99);
 										this.style.height = 95 + scrollHeight +'px';
 									}
+								} else if (bb.device.is1440x1440) {
+									scrollHeight = (this.numItems * 120);
+									this.style.height = 96 + scrollHeight +'px';
 								} else if (bb.device.is720x720) {
 									scrollHeight = (this.numItems * 85);
 									this.style.height = 77 + scrollHeight +'px';
@@ -390,6 +393,8 @@ _bb10_dropdown = {
 									} else {
 										this.style.height = '76px';
 									}
+								} else if (bb.device.is1440x1440) {
+									this.style.height = '96px';
 								} else {
 									this.style.height = '95px';
 								}

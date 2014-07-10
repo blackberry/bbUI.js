@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1737*/
+/* bbUI for BB10 VERSION: 0.9.6.1753*/
 
 body, html {
 	padding:0;
@@ -1707,6 +1707,7 @@ body, html {
 
 .bb-dropdown-10dot3.bb-dropdown-light {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#EFEFEF), to(#E4E4E4));
+	color: #323232
 }
 
 .bb-dropdown-dark {
@@ -4961,6 +4962,83 @@ body, html {
 	.bb-input-cancel-button-dark {
 		background-size: 82px 82px;
 	}
+	
+	/* Drop Down */
+	.bb-dropdown-items {
+		margin-top: 5px;
+	}
+
+	.bb-dropdown-container-10dot3 .bb-dropdown-item-light,
+	.bb-dropdown-container-10dot3 .bb-dropdown-item-dark	{	
+		font-size: 33pt;
+	}
+
+	.bb-dropdown-item-dark  .accent-text, 
+	.bb-dropdown-item-light .accent-text{
+		margin-top: -5px;
+		font-size: 75%;
+	}
+
+	.bb-dropdown-item {
+		height: 118px;
+		border-bottom-width: 2px;
+		padding-left: 18px;
+		padding-right: 10px;
+	}
+
+	.bb-dropdown-selected-image-dark,
+	.bb-dropdown-selected-image-light {
+		height:45px;
+		width:50px;	
+		margin-top:35px;
+		margin-right: 20px;
+	}
+
+	.bb-dropdown-container-10dot3 {
+		border: none;
+		background: none;
+		height: 96px;
+	}
+
+	.bb-dropdown-container-inner-10dot3 {
+		padding: 0px;
+		border-radius: 5px;
+		border-width: 0px;
+	}
+
+	.bb-dropdown-caption-10dot3 {
+		margin-right: 10px;
+		font-size:33pt;
+	}
+
+	.bb-dropdown-container-10dot3 .bb-dropdown-label {
+		font-size: 33pt;
+		font-weight: 600;
+		margin-left: -20px;
+	}
+
+	.bb-dropdown-arrow-dark,
+	.bb-dropdown-arrow-light {
+		top:16px;
+		height:40px;
+		width:40px;
+	}
+
+	.bb-dropdown-inner-10dot3 {
+		line-height: 66px;
+		padding-right: 17px;
+		padding-top:12px;
+		padding-left: 35px;
+		height:84px;
+		font-size:33pt;
+	}
+
+	.bb-dropdown-light-highlight-10dot3,
+	.bb-dropdown-dark-highlight-10dot3 {
+		
+	}
+
+
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){

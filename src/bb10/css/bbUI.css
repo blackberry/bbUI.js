@@ -1689,6 +1689,7 @@ body, html {
 
 .bb-dropdown-10dot3.bb-dropdown-light {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#EFEFEF), to(#E4E4E4));
+	color: #323232
 }
 
 .bb-dropdown-dark {
