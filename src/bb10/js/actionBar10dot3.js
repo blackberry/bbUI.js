@@ -304,6 +304,16 @@ bb.actionBar10dot3 = {
 										} else {
 											actionWidth = 430;
 										}
+									} else if (bb.device.is1440x1440) {
+										if (this.signatureAction) {
+											actionWidth = 192;
+										} else if (count >= max) {
+											actionWidth = 192;
+										} else if (count == 2) {
+											actionWidth = 300;
+										} else {
+											actionWidth = 500;
+										}
 									} else {
 										if (this.signatureAction) {
 											actionWidth = 163;
@@ -440,6 +450,8 @@ bb.actionBar10dot3 = {
 										// Determine our circle size based on resolution	
 										if (bb.device.is1280x720) {
 											signatureWidth = 96;
+										} else if (bb.device.is1440x1440) {
+											signatureWidth = 144;
 										} else {
 											signatureWidth = 120;
 										}
@@ -949,6 +961,8 @@ bb.actionBar10dot3 = {
 			return 144;
 		} else if (bb.device.is1280x720) {
 			return 96;
+		} else if (bb.device.is1440x1440) {
+			return 144;
 		} else {
 			return 120;
 		}
@@ -964,6 +978,8 @@ bb.actionBar10dot3 = {
 			return 144;
 		} else if (bb.device.is1280x720) {
 			return 96;
+		} else if (bb.device.is1440x1440) {
+			return 144;
 		} else {
 			return 120;
 		}
