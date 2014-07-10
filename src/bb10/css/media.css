@@ -1352,6 +1352,79 @@
 		top: 20px;
 		left: 20px;
 	}
+	
+	/* Toggle */
+	.bb-toggle-10dot3 {
+		width: 144px;
+		height: 84px;
+		padding: 0px;
+	}
+
+	.bb-toggle .outer-10dot3 {
+		height: 84px;
+		border-radius: 42px;
+		width:144px;
+	}
+	
+	.bb-toggle .halo {
+		margin-left: 38px;
+		margin-top: 28px;
+		border-radius: 50px;
+		width: 100px;
+		height: 100px;
+	}
+
+	.bb-toggle .indicator { 
+		margin-top: 43px;
+		margin-bottom: 43px;
+		margin-left: 53px;
+		padding: 1px;
+	}
+
+	.bb-toggle-10dot3 .indicator {
+		width: 64px;
+		height: 64px;
+		border-radius: 32px;
+	}
+
+	.bb-toggle-10dot3 .indicator .switch-on {
+		width: 3px;
+		height: 24px;
+		margin-top: 20px;
+		margin-left: 30px;
+	}
+
+	.bb-toggle-10dot3 .indicator .switch-off-light,
+	.bb-toggle-10dot3 .indicator .switch-off-dark {
+		width: 18px;
+		height: 18px;
+		border-radius: 12px;
+		border-width: 3px;
+		margin-top: 20px;
+		margin-left: 20px;
+	}
+
+	.bb-toggle .fill {
+		border-radius: 42px;
+	}
+
+	.bb-toggle .fill-10dot3-light,
+	.bb-toggle .fill-10dot3-dark	{
+		width: 134px;
+		height: 84px;
+		padding-right: 10px;
+	}
+
+	.bb-toggle .inner {
+		width: 310px;
+		height: 68px;
+		left: -130px;
+	}
+
+	.bb-toggle .indicator-container {
+		margin-top: -119px;
+		margin-left: -47px;	
+	}
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
