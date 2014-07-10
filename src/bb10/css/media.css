@@ -1453,6 +1453,21 @@
 		padding-top: 3px;
 		height: 31px;
 	}
+	
+	/* Progress Bar */
+	.bb-progress .outer-10dot3 {
+		border-radius: 0px;
+		height: 15px;
+		padding: 0px;
+	}
+
+	.bb-progress .inner {
+		top: -1.9em;
+		left: -1.9em;
+		width: 4em;
+		height: 15px;
+	}
+
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){
