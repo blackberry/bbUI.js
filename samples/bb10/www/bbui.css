@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1719*/
+/* bbUI for BB10 VERSION: 0.9.6.1726*/
 
 body, html {
 	padding:0;
@@ -4863,6 +4863,34 @@ body, html {
 	.bb-toggle .indicator-container {
 		margin-top: -119px;
 		margin-left: -47px;	
+	}
+	
+	/* Menu Bar */
+	.bb-menu-bar-dark {
+		background: black;
+		border-bottom-color: black;
+		color: #F0F0F0;
+	}
+
+	.bb-menu-bar {
+		height: 143px;
+	}   
+
+	.bb-menu-bar-item {
+		border-top: 10px solid transparent;
+		height: 83px;	
+	}
+
+	.bb-menu-bar-item img {
+		height: 90px;
+		width: 90px;
+		margin-top: 1px;
+	}
+
+	.bb-menu-bar-item-caption {
+		font-size: 21pt;
+		padding-top: 3px;
+		height: 31px;
 	}
 }
 

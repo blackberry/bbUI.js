@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1719*/
+/* bbUI for BB10 VERSION: 0.9.6.1726*/
 
 bb = {
 	scroller: null,  
@@ -3204,7 +3204,10 @@ bb.menuBar = {
 		} else if (bb.device.is1280x720) {
 			bb.menuBar.height = 116;
 			bb.menuBar.itemWidth = 113;
-		} else {
+		} else if (bb.device.is1440x1440) {
+			bb.menuBar.height = 144;
+			bb.menuBar.itemWidth = 113;
+		}else {
 			bb.menuBar.height = 140;
 			bb.menuBar.itemWidth = 143;
 		} 
