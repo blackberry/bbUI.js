@@ -1758,6 +1758,40 @@
 		width: 144px;
 	}
 
+	/* Tab Overflow Menu */
+	.bb-tab-overflow-menu-item {
+		font-size:42pt;
+		padding-left: 10px;
+	}
+
+	.bb-tab-overflow-menu-item-single {		
+		height: 124px;
+		line-height: 116px;
+	}
+
+	.bb-tab-overflow-menu-item-double {		
+		height: 88px;
+		line-height: 66px;
+	}
+
+	.bb-tab-overflow-menu-item-inner {
+		padding-left: 15px;
+	}
+
+	.bb-tab-overflow-menu-item .tab-accent-text {
+		padding-left: 15px;
+		font-size: 32pt;
+		height: 56px;
+		margin-top: -20px;
+	}
+
+	.bb-tab-overflow-menu-item-image {
+		height: 100px;
+		width: 100px;
+		margin-top: 0px;
+		margin-left:10px;
+	}
+
 }
 
 @media screen and (width: 1024px) and (height: 600px), (width: 600px) and (height: 1024px){

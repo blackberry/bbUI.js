@@ -157,6 +157,8 @@ bb.tabOverflow = {
 									itemHeight = 80;
 								} else if (bb.device.is1280x720) {
 									itemHeight = 91;
+								} else if (bb.device.is1440x1440) {
+									itemHeight = 132;
 								} else {
 									itemHeight = 111;
 								}
@@ -355,6 +357,8 @@ bb.tabOverflow = {
 			return bb.innerWidth() - 143;
 		} else if (bb.device.is1280x720) {
 			return 488;
+		} else if (bb.device.is1440x1440) {
+			return 732;
 		} else {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
 		}
