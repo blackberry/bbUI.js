@@ -404,6 +404,109 @@
 	.bb-tab-overflow-menu-item-image {
 		margin-left:9px;
 	}
+	
+	/* Action Bar 10.3 */
+	.bb-action-bar-10dot3-portrait,
+	.bb-action-bar-10dot3-landscape  {
+		height: 109px;
+	}
+
+	.bb-action-bar-10dot3-icon {
+		height: 80px;
+		width: 80px;
+	}
+
+	.bb-action-bar-10dot3-signature-icon {
+		border-radius: 54px;
+		height: 80px;
+		width: 80px;
+		padding: 14px;
+		bottom: 36px;
+		background-size: 80px 80px;
+	}
+	
+	.bb-action-bar-10dot3-action-portrait,
+	.bb-action-bar-10dot3-action-landscape {
+		height:109px;
+	}
+
+	.bb-action-bar-10dot3-action-display {
+		font-size:16pt;
+		margin-top:-6px;
+	}
+
+	.bb-action-bar-10dot3-signature-action-display  {
+		margin-top: 74px;
+	}
+	
+	.bb-action-bar-10dot3-action {
+		border-top-width: 4px;
+	}
+
+	.bb-action-bar-10dot3-back-button-portrait,
+	.bb-action-bar-10dot3-back-button-landscape {
+		height:109px;
+		width:109px;
+	}
+	
+	.bb-action-bar-10dot3-back-chevron-dark,
+	.bb-action-bar-10dot3-back-chevron-light {
+		width:20px;
+		height:37px;
+		margin-left: 50px;
+		top: 41px;
+	}
+
+	.bb-action-bar-10dot3-colored-slash {
+		width: 3px;
+		height: 100px;
+		top: 10px;
+		left: 8px;
+	}
+
+	.bb-action-bar-10dot3-back-slash-dark,
+	.bb-action-bar-10dot3-back-slash-light {	
+		width:21px;	
+	}
+
+	.bb-action-bar-10dot3-back-slash-portrait,
+	.bb-action-bar-10dot3-back-slash-landscape {
+		height: 109px;
+	}
+
+
+	.bb-action-bar-10dot3-tab-overflow-portait,
+	.bb-action-bar-10dot3-tab-overflow-landscape  {
+		margin-top: 0px;
+		width: 109px;
+	}
+
+
+	.bb-action-bar-10dot3-tab-overflow-dark,
+	.bb-action-bar-10dot3-tab-overflow-light {
+		background-position: center 34px;
+	}
+
+	.bb-action-bar-10dot3-overflow-button-dark,
+	.bb-action-bar-10dot3-overflow-button-light {
+		margin-top: 18px;
+		background-position: center 13px;
+	}
+
+
+	.bb-action-bar-10dot3-overflow-button-portait,
+	.bb-action-bar-10dot3-overflow-button-landscape {
+		margin-top: 4px;
+		width: 109px;
+	}
+
+	.bb-action-bar-10dot3-slide-label {
+		display:none;
+	}
+
+	.bb-action-bar-10dot3-slide-label-text {
+		display:none;
+	}
 }
 
 /* Z30 & Z3 */

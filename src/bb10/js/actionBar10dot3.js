@@ -314,6 +314,16 @@ bb.actionBar10dot3 = {
 										} else {
 											actionWidth = 500;
 										}
+									} else if (bb.device.is720x720) {
+										if (this.signatureAction) {
+											actionWidth = 144;
+										} else if (count >= max) {
+											actionWidth = 144;
+										} else if (count == 2) {
+											actionWidth = 280;
+										} else {
+											actionWidth = 350;
+										}
 									} else {
 										if (this.signatureAction) {
 											actionWidth = 163;
@@ -958,7 +968,11 @@ bb.actionBar10dot3 = {
 		if (bb.device.is1024x600) {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is720x720) {
-			return 144;
+			if (bb.device.newerThan10dot2) {
+				return 109;
+			} else {
+				return 144;
+			}
 		} else if (bb.device.is1280x720) {
 			return 96;
 		} else if (bb.device.is1440x1440) {
@@ -975,7 +989,11 @@ bb.actionBar10dot3 = {
 		if (bb.device.is1024x600) {
 			return bb.getOrientation() == 'portrait' ? 77 : 123;
 		} else if (bb.device.is720x720) {
-			return 144;
+			if (bb.device.newerThan10dot2) {
+				return 109;
+			} else {
+				return 144;
+			}
 		} else if (bb.device.is1280x720) {
 			return 96;
 		} else if (bb.device.is1440x1440) {
