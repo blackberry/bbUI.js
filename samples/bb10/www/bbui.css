@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1820*/
+/* bbUI for BB10 VERSION: 0.9.6.1836*/
 
 body, html {
 	padding:0;
@@ -1546,8 +1546,7 @@ body, html {
    DropDown
    =================================================*/
 
-.bb-dropdown-container-light
-{
+.bb-dropdown-container-light {
 	background-image: -webkit-gradient(linear, center top, center bottom, from(#C0C0C0), to(#D9D9D9));
 	color: black;
 	border-top-color: #B2B2B2;
@@ -1557,8 +1556,7 @@ body, html {
 	margin:20px;
 }
 
-.bb-dropdown-container-dark
-{
+.bb-dropdown-container-dark {
 	color: white;
 	border-top-color: #232323;
 	border-left-color: #2A2A2A;
@@ -1568,14 +1566,12 @@ body, html {
 	margin:20px;
 }
 
-.bb-dropdown-container-inner-dark
-{
+.bb-dropdown-container-inner-dark {
 	/*border-color: #070707;*/
 	border-color: #333333;
 }
 
-.bb-dropdown-container-inner-light
-{
+.bb-dropdown-container-inner-light {
 	border-color: #CECECE;
 }
 
@@ -1597,8 +1593,7 @@ body, html {
 	color:#606060;
 }
 
-.bb-dropdown-item-dark
-{
+.bb-dropdown-item-dark {
 	border-bottom-color: #373737;
 }
 
@@ -3521,6 +3516,10 @@ body, html {
 		height: 70px;
 	}
 	
+	.bb-dropdown-container-10dot3 {
+		height: 70px;
+	}
+	
 	.bb-dropdown-caption {
 		font-size: 24pt;
 		margin-right:-55px;
@@ -3530,16 +3529,21 @@ body, html {
 		margin-right: 4px;
 	}
 	
+	.bb-dropdown-caption-10dot3 {
+		margin-right: 4px;
+	}
+	
 	.bb-dropdown-label {
 		font-size: 24pt;
 	}
 	
-	.bb-dropdown-arrow-dark {
+	.bb-dropdown-arrow-dark,
+	.bb-dropdown-arrow-light {
 		top:4px;
 	}
 	
-	.bb-dropdown-arrow-light {
-		top:4px;
+	.bb-dropdown-arrow-10dot3 {
+		margin-right: -15px;
 	}
 	
 	.bb-dropdown-inner {
@@ -3555,7 +3559,7 @@ body, html {
 		border-width:1px;
 		padding-right: 17px;
 	}
-	
+		
 	/* Input */
 	.bb-input-container {
 		height:69px;

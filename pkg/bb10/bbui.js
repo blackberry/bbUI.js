@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1820*/
+/* bbUI for BB10 VERSION: 0.9.6.1836*/
 
 bb = {
 	scroller: null,  
@@ -6069,7 +6069,7 @@ _bb10_dropdown = {
 				this.dropdown.buttonOuter.ontouchstart = this.dropdown.buttonOuter.dotouchstart;
 				this.dropdown.buttonOuter.ontouchend = this.dropdown.buttonOuter.dotouchend;
 				this.dropdown.buttonOuter.onclick = this.dropdown.buttonOuter.doclick;
-				this.dropdown.buttonOuter.setAttribute('class',normal);
+				this.dropdown.buttonOuter.setAttribute('class',this.dropdown.buttonOuter.normal);
 				this.removeAttribute('disabled');
 				this.enabled = true;
 			};
@@ -6077,12 +6077,12 @@ _bb10_dropdown = {
 		
 		// Assign our disable function
 		select.disable = function(){ 
-				if (!select.enabled) return;
+				if (!this.enabled) return;
 				this.dropdown.internalHide();
 				this.dropdown.buttonOuter.ontouchstart = null;
 				this.dropdown.buttonOuter.ontouchend = null;
 				this.dropdown.buttonOuter.onclick = null;
-				this.dropdown.buttonOuter.setAttribute('class',normal + ' bb-dropdown-disabled-'+bb.screen.controlColor);
+				this.dropdown.buttonOuter.setAttribute('class',this.dropdown.buttonOuter.normal + ' bb-dropdown-disabled-'+bb.screen.controlColor);
 				this.enabled = false;
 				this.setAttribute('disabled','disabled');
 			};

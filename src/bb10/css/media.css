@@ -81,6 +81,10 @@
 		height: 70px;
 	}
 	
+	.bb-dropdown-container-10dot3 {
+		height: 70px;
+	}
+	
 	.bb-dropdown-caption {
 		font-size: 24pt;
 		margin-right:-55px;
@@ -90,16 +94,21 @@
 		margin-right: 4px;
 	}
 	
+	.bb-dropdown-caption-10dot3 {
+		margin-right: 4px;
+	}
+	
 	.bb-dropdown-label {
 		font-size: 24pt;
 	}
 	
-	.bb-dropdown-arrow-dark {
+	.bb-dropdown-arrow-dark,
+	.bb-dropdown-arrow-light {
 		top:4px;
 	}
 	
-	.bb-dropdown-arrow-light {
-		top:4px;
+	.bb-dropdown-arrow-10dot3 {
+		margin-right: -15px;
 	}
 	
 	.bb-dropdown-inner {
@@ -115,7 +124,7 @@
 		border-width:1px;
 		padding-right: 17px;
 	}
-	
+		
 	/* Input */
 	.bb-input-container {
 		height:69px;
