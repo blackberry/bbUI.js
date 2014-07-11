@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1797*/
+/* bbUI for BB10 VERSION: 0.9.6.1799*/
 
 bb = {
 	scroller: null,  
@@ -9176,6 +9176,8 @@ _PlayBook_contextMenu = {
 									itemHeight = 80;
 								} else if (bb.device.is1280x720) {
 									itemHeight = 91;
+								} else if (bb.device.is1440x1440) {
+									itemHeight = 132;
 								} 							
 								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
 							
@@ -9350,6 +9352,8 @@ _PlayBook_contextMenu = {
 			return '300';
 		} if (bb.device.is1280x720) {
 			return '435';
+		} if (bb.device.is1440x1440) {
+			return '654';
 		} else {
 			return '563';		
 		}
