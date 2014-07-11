@@ -995,7 +995,9 @@ bb.actionBar10dot3 = {
 			return 174;
 		} else if (bb.device.is1280x720) {
 			return 104;
-		}else {
+		} else if (bb.device.is1440x1440) {
+			return 168;
+		} else {
 			return 129;
 		}
 	},
