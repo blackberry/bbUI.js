@@ -74,14 +74,14 @@ task('build', ['clean'], function () {
 	
 	// Write our our JS files
     fs.writeFileSync("../../pkg/bb10/bbui.js", license + output);
-    fs.writeFileSync("../../samples/bb10/bbui.js", license + output);
+    fs.writeFileSync("../../samples/bb10/www/bbui.js", license + output);
 
 	// Grab our CSS information
 	css = include("css/bbUI.css");
 	media = include("css/media.css");
 	css += media;
 	fs.writeFileSync("../../pkg/bb10/bbui.css", license + css);
-    fs.writeFileSync("../../samples/bb10/bbui.css", license + css);
+    fs.writeFileSync("../../samples/bb10/www/bbui.css", license + css);
 	
 	// Version our Extensions
 	ext = include("ext/client.js");

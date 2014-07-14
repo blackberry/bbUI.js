@@ -50,7 +50,10 @@ bb.menuBar = {
 		} else if (bb.device.is1280x720) {
 			bb.menuBar.height = 116;
 			bb.menuBar.itemWidth = 113;
-		} else {
+		} else if (bb.device.is1440x1440) {
+			bb.menuBar.height = 144;
+			bb.menuBar.itemWidth = 113;
+		}else {
 			bb.menuBar.height = 140;
 			bb.menuBar.itemWidth = 143;
 		} 

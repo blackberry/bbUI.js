@@ -64,7 +64,6 @@ _bb10_contextMenu = {
 		
 		// Add a menu item
 		menu.add = function(action) {
-			alert('add: START');
 			this.actions.push(action);
 			this.appendChild(action);
 			var menuItem = {
@@ -119,7 +118,6 @@ _bb10_contextMenu = {
 				this.setAttribute('data-bb-visible','false');
 			}
 			action.hide = action.hide.bind(action);
-			alert('add: END');
 		};
 		menu.add = menu.add.bind(menu);
 		
@@ -160,14 +158,12 @@ _bb10_contextMenu = {
 		// This function clears all the items from the context menu.  Typically
 		// called internally when the screen is popped
 		menu.clearWWcontextMenu = function() {
-			alert('clearWWcontextMenu: START');
 			var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
 				i,
 				actionId;
 			for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
 				blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
 			}
-			alert('clearWWcontextMenu: END');
 		};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		

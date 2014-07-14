@@ -271,6 +271,8 @@ _PlayBook_contextMenu = {
 									itemHeight = 80;
 								} else if (bb.device.is1280x720) {
 									itemHeight = 91;
+								} else if (bb.device.is1440x1440) {
+									itemHeight = 132;
 								} 							
 								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
 							
@@ -443,6 +445,12 @@ _PlayBook_contextMenu = {
 	getWidth : function() {
 		if (bb.device.isPlayBook) {
 			return '300';
+		} else if (bb.device.is1280x720) {
+			return '435';
+		} else if (bb.device.is1440x1440) {
+			return '654';
+		} else if (bb.device.is720x720) {
+			return '490';
 		} else {
 			return '563';		
 		}

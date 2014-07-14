@@ -25,12 +25,21 @@ _bb10_slider = {
 			// Set our styling and create the inner divs
 			outerElement.className = 'bb-slider';
 			outerElement.outer = document.createElement('div');
-			outerElement.outer.setAttribute('class','outer bb-slider-outer-' + color);
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.outer.setAttribute('class','outer outer-10dot3 bb-slider-outer-' + color+ ' bb-slider-outer-10dot3-'+color);
+			} else {
+				outerElement.outer.setAttribute('class','outer bb-slider-outer-' + color);
+			}
 			outerElement.appendChild(outerElement.outer);
 			outerElement.fill = document.createElement('div');
 			outerElement.fill.className = 'fill';
-			outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
-			outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.fill.active = bb.options.highlightColor;
+				outerElement.fill.dormant = bb.options.highlightColor;
+			} else {
+				outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+				outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			}
 			outerElement.fill.style.background = outerElement.fill.dormant;
 			outerElement.outer.appendChild(outerElement.fill);
 			outerElement.inner = document.createElement('div');
@@ -38,11 +47,24 @@ _bb10_slider = {
 			outerElement.inner.outerElement = outerElement;
 			outerElement.outer.appendChild(outerElement.inner);
 			outerElement.halo = document.createElement('div');
-			outerElement.halo.className = 'halo';
-			outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+			if (bb.device.newerThan10dot2 === true) {
+				if (color == 'light') {
+					outerElement.halo.style.background = '#C3C3C3';
+				} else {
+					outerElement.halo.style.background = '#484848';
+				}
+				outerElement.halo.className = 'halo halo-10dot3';
+			} else {
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+				outerElement.halo.className = 'halo';
+			}
 			outerElement.inner.appendChild(outerElement.halo);
 			outerElement.indicator = document.createElement('div');
-			outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color);
+			} else {
+				outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);
+			}
 			outerElement.inner.appendChild(outerElement.indicator);
 			// Assign our function to set the value for the control
 			range.outerElement = outerElement;
@@ -80,8 +102,13 @@ _bb10_slider = {
 										this.outerElement.initialXPos = event.touches[0].pageX;	
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color+ ' indicator-hover-'+color);
-										this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+										if (bb.device.newerThan10dot2 === true) {
+											this.outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color + ' indicator-hover-10dot3-'+color);
+											this.outerElement.indicator.style.background = '#FEFEFE';
+										} else {
+											this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color+ ' indicator-hover-'+color);
+											this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+										}
 										this.outerElement.fill.style.background = this.outerElement.fill.active;
 									}
 								};
@@ -94,7 +121,11 @@ _bb10_slider = {
 										this.outerElement.value = parseInt(this.outerElement.range.value);
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);   
+										if (bb.device.newerThan10dot2 === true) {
+											this.outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color);
+										} else {
+											this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);   
+										}
 										this.outerElement.indicator.style.background = '';	
 										this.outerElement.fill.style.background = this.outerElement.fill.dormant;
 									}

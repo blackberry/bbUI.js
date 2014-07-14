@@ -26,8 +26,17 @@ _bb10_textInput = {
 		// Set our input styling
 		outerElement.normal = css + ' bb-input';
 		outerElement.focused = css + ' bb-input bb-input-focused';
+		if (bb.device.newerThan10dot2) {
+			container.normal += ' bb-input-container-10dot3 bb-input-container-10dot3-'+bb.screen.controlColor;
+			outerElement.normal += ' bb-input-10dot3 bb-input-10dot3-'+bb.screen.controlColor;
+			outerElement.focused += ' bb-input-10dot3 bb-input-10dot3-'+bb.screen.controlColor+' bb-input-focused-10dot3';
+		}
 		if (outerElement.disabled) {
-			outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled');
+			if (bb.device.newerThan10dot2) {
+				outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled-10dot3-'+bb.screen.controlColor);
+			} else {
+				outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled');
+			}
 		} else {
 			outerElement.setAttribute('class', outerElement.normal);
 		}
@@ -59,7 +68,11 @@ _bb10_textInput = {
 		
 		outerElement.doFocus = function() {
 								if(this.readOnly == false) {
-									this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button bb-input-container-focused');
+									if (bb.device.newerThan10dot2) {
+										this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button-'+ bb.screen.controlColor +' bb-input-container-focused bb-input-container-focused-10dot3 bb-input-container-focused-10dot3-'+ bb.screen.controlColor);
+									} else {
+										this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button-light bb-input-container-focused');
+									}
 									if (this.clearBtn && this.value) {
 										this.setAttribute('class', this.focused);
 										this.hasClearBtn = true;
@@ -147,8 +160,13 @@ _bb10_textInput = {
 		outerElement.disable = function() {
 					if (this.disabled) return;
 					this.disabled = true;
-					this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled');
-					this.setAttribute('class', this.normal + ' bb-input-disabled');
+					if (bb.device.newerThan10dot2) {
+						this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled-10dot3-'+bb.screen.controlColor);
+						this.setAttribute('class', this.normal + ' bb-input-disabled-10dot3-'+bb.screen.controlColor);
+					} else {
+						this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled');
+						this.setAttribute('class', this.normal + ' bb-input-disabled');
+					}
 				};
 		outerElement.disable = outerElement.disable.bind(outerElement);
 		

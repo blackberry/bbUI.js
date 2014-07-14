@@ -13,8 +13,12 @@ _bb10_roundPanel = {
 			items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
 			for (j = 0; j < items.length; j++) {
 				 header = items[j];
-				 header.setAttribute('class','bb-panel-header bb-panel-header-'+color);
-				 header.style['border-bottom-color'] = bb.options.shades.darkOutline;
+				 if (bb.device.newerThan10dot2) {
+					header.setAttribute('class','bb-panel-header bb-panel-header-'+color+' bb-panel-header-10dot3 bb-panel-header-'+color+'-10dot3');
+				 } else {
+					header.setAttribute('class','bb-panel-header bb-panel-header-'+color);
+					header.style['border-bottom-color'] = bb.options.shades.darkOutline;
+				}
 			}
 		// Add our show function
 		outerElement.show = function() {

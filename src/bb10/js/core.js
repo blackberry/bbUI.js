@@ -38,18 +38,13 @@ bb = {
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Get our OS version as a convenience
+		bb.device.is10dot3 = (navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
 		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
 		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
-		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2;
-		bb.device.newerThan10dot1 = bb.device.is10dot2;
-		bb.device.newerThan10dot2 = false;
-		
-		// Set our resolution flags
-		bb.device.is1024x600 = bb.device.isPlayBook;
-		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
-		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
-		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot1 = bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot2 = bb.device.is10dot3;
 		
 		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
@@ -72,6 +67,13 @@ bb = {
 		}
 		document.head.appendChild(meta);
 		
+		// Set our resolution flags
+		bb.device.is1024x600 = bb.device.isPlayBook;
+		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
+		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
+		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.is1440x1440 = (window.innerWidth == 1440 && window.innerHeight == 1440);
+		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
 			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
@@ -80,6 +82,7 @@ bb = {
 			R : R,
 			G : G,
 			B : B,
+			lightHighlight: 'rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +')',
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
 			mediumHighlight: 'rgb('+ (R - 60) +', '+ (G - 60) +', '+ (B - 60) +')',
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
@@ -99,6 +102,10 @@ bb = {
 				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-10dot3-colored {color:white;background-color: '+ bb.options.highlightColor+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-container-10dot3-colored {color:white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored {background: transparent;	border-style: none;	border-width: 0px; border-left-color: white; border-right-color: white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored-highlight {background-color: '+bb.options.shades.lightHighlight+';}', 0);
 			}
 			catch (ex) {
 				console.log(ex.message);
@@ -210,13 +217,16 @@ bb = {
 		is1280x768: false,
 		is720x720: false,
 		is1280x720: false,
+		is1440x1440: false,
 		// OS versions
+		is10dot3: false,
 		is10dot2: false,
 		is10dot1: false,
 		is10dot0: false,
 		newerThan10dot0: false,
 		newerThan10dot1 : false,
-		newerThan10dot2: false
+		newerThan10dot2: false,
+		newerThan10dot3: false
     },
 	
 	// Options for rendering

@@ -24,27 +24,47 @@ _bb10_checkbox = {
 		input.touchTarget = touchTarget;
 		// Main outer border of the control
 		outerElement = document.createElement('div');
-		outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+		if (bb.device.newerThan10dot2) {
+			outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-'+color);
+		} else {
+			outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+		}
 		touchTarget.appendChild(outerElement);
 		// Inner check area
 		innerElement = document.createElement('div');
 		innerElement.normal = 'bb-checkbox-inner bb-checkbox-inner-'+color;
+		if (bb.device.newerThan10dot2) {
+			innerElement.normal += ' bb-checkbox-inner-10dot3';
+		}
 		innerElement.setAttribute('class', innerElement.normal);
 		outerElement.appendChild(innerElement);
 		// Create our check element with the image
 		checkElement = document.createElement('div');
 		checkElement.hiddenClass = 'bb-checkbox-check-hidden bb-checkbox-check-image';
 		checkElement.displayClass = 'bb-checkbox-check-display bb-checkbox-check-image';
+		if (bb.device.newerThan10dot2) {
+			checkElement.hiddenClass += ' bb-checkbox-check-hidden-10dot3 bb-checkbox-check-image-10dot3';
+			checkElement.displayClass += ' bb-checkbox-check-display-10dot3 bb-checkbox-check-image-10dot3';
+		}
 		checkElement.setAttribute('class',checkElement.hiddenClass);
-		checkElement.style['-webkit-transition-property'] = 'all';
+		if (bb.device.newerThan10dot2) {
+			checkElement.style['-webkit-transition-property'] = 'opacity';
+		} else {
+			checkElement.style['-webkit-transition-property'] = 'all';
+		}
 		checkElement.style['-webkit-transition-duration'] = '0.1s';
 		innerElement.appendChild(checkElement);
 		touchTarget.checkElement = checkElement;
 		
 		// Set our coloring for later
 		touchTarget.innerElement = innerElement;
-		touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
-		touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		if (bb.device.newerThan10dot2) {
+			touchTarget.highlight = '-webkit-linear-gradient(top,  '+ bb.options.highlightColor +', ' + bb.options.highlightColor + ')';
+			touchTarget.touchHighlight = '-webkit-linear-gradient(top, #C6C6C6 ,#C6C6C6)';
+		} else {
+			touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+			touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		}
 
 		touchTarget.ontouchstart = function() {
 						if (!this.input.checked && !this.input.disabled) {	
@@ -76,12 +96,26 @@ _bb10_checkbox = {
 							this.innerElement.style['background-image'] = '';
 						}
 						if (this.input.disabled){
-							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-disabled-'+color);
-							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-disabled-'+color);
-							this.innerElement.style.background = '#c0c0c0';
+							if (bb.device.newerThan10dot2) {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-disabled-10dot3-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-10dot3 bb-checkbox-inner-disabled-10dot3-'+color);
+								this.innerElement.style['background-image'] = '';
+							} else {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-disabled-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-disabled-'+color);
+								this.innerElement.style.background = '#c0c0c0';
+							}
 						} else{
-							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
-							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-'+color);
+							if (bb.device.newerThan10dot2) {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-10dot3 bb-checkbox-inner-10dot3-'+color);
+								if (this.input.checked) {
+									this.innerElement.style['background-image'] = touchTarget.highlight;
+								}
+							} else {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-'+color);
+							}
 						}				
 					};
 		touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.966*/
+/* bbUI for BB10 VERSION: 0.9.6.1889*/
 
 bb = {
 	scroller: null,  
@@ -56,18 +56,13 @@ bb = {
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Get our OS version as a convenience
+		bb.device.is10dot3 = (navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
 		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
 		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
-		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2;
-		bb.device.newerThan10dot1 = bb.device.is10dot2;
-		bb.device.newerThan10dot2 = false;
-		
-		// Set our resolution flags
-		bb.device.is1024x600 = bb.device.isPlayBook;
-		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
-		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
-		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot1 = bb.device.is10dot2 || bb.device.is10dot3;
+		bb.device.newerThan10dot2 = bb.device.is10dot3;
 		
 		// Check if a viewport tags exist and remove them, We'll add the bbUI friendly one 
 		var viewports = document.head.querySelectorAll('meta[name=viewport]'),
@@ -90,6 +85,13 @@ bb = {
 		}
 		document.head.appendChild(meta);
 		
+		// Set our resolution flags
+		bb.device.is1024x600 = bb.device.isPlayBook;
+		bb.device.is1280x768 = (window.innerWidth == 1280 && window.innerHeight == 768) || (window.innerWidth == 768 && window.innerHeight == 1280);
+		bb.device.is720x720 = (window.innerWidth == 720 && window.innerHeight == 720);
+		bb.device.is1280x720 = (window.innerWidth == 1280 && window.innerHeight == 720) || (window.innerWidth == 720 && window.innerHeight == 1280);
+		bb.device.is1440x1440 = (window.innerWidth == 1440 && window.innerHeight == 1440);
+		
 		// Create our shades of colors
 		var R = parseInt((bb.cutHex(bb.options.highlightColor)).substring(0,2),16),
 			G = parseInt((bb.cutHex(bb.options.highlightColor)).substring(2,4),16),
@@ -98,6 +100,7 @@ bb = {
 			R : R,
 			G : G,
 			B : B,
+			lightHighlight: 'rgb('+ (R + 32) +', '+ (G + 32) +', '+ (B + 32) +')',
 			darkHighlight: 'rgb('+ (R - 120) +', '+ (G - 120) +', '+ (B - 120) +')',
 			mediumHighlight: 'rgb('+ (R - 60) +', '+ (G - 60) +', '+ (B - 60) +')',
 			darkOutline: 'rgb('+ (R - 32) +', '+ (G - 32) +', '+ (B - 32) +')',
@@ -117,6 +120,10 @@ bb = {
 				document.styleSheets[0].insertRule('.bb10-title-button-container-colored {color:white;text-shadow: 0px 2px black;border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored {border-color: ' + bb.options.shades.darkDarkHighlight +';background-image: -webkit-gradient(linear, center top, center bottom, from('+bb.options.highlightColor+'), to('+bb.options.shades.mediumHighlight+'));}', 0);
 				document.styleSheets[0].insertRule('.bb10-title-button-colored-highlight {border-color: ' + bb.options.shades.darkDarkHighlight +';background-color: '+bb.options.shades.darkHighlight+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-10dot3-colored {color:white;background-color: '+ bb.options.highlightColor+';}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-container-10dot3-colored {color:white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored {background: transparent;	border-style: none;	border-width: 0px; border-left-color: white; border-right-color: white;}', 0);
+				document.styleSheets[0].insertRule('.bb10-title-button-10dot3-colored-highlight {background-color: '+bb.options.shades.lightHighlight+';}', 0);
 			}
 			catch (ex) {
 				console.log(ex.message);
@@ -228,13 +235,16 @@ bb = {
 		is1280x768: false,
 		is720x720: false,
 		is1280x720: false,
+		is1440x1440: false,
 		// OS versions
+		is10dot3: false,
 		is10dot2: false,
 		is10dot1: false,
 		is10dot0: false,
 		newerThan10dot0: false,
 		newerThan10dot1 : false,
-		newerThan10dot2: false
+		newerThan10dot2: false,
+		newerThan10dot3: false
     },
 	
 	// Options for rendering
@@ -1889,6 +1899,1123 @@ bb.actionBar = {
 		}
 	}
 };
+// Apply styling to an action bar
+bb.actionBar10dot3 = {
+
+	apply: function(actionBar, screen) {
+		var actions = actionBar.querySelectorAll('[data-bb-type=action]'),
+			mainBarButtons = [],
+			overflowButtons = [],
+			mainBarTabs = [],
+			overflowTabs = [],
+			action,
+			target,
+			caption,
+			display,
+			style,
+			lastStyle,
+			tabRightShading,
+			backBtn,
+			actionContainer = actionBar,
+			btnWidth,
+			icon,
+			j,
+			orientation = bb.getOrientation(),
+			slideLabel = document.createElement('div'),
+			slideText = document.createElement('div');
+			
+		actionBar.isVisible = true;
+		actionBar.setAttribute('class','bb-action-bar-10dot3 bb-action-bar-10dot3-'+orientation+' bb-action-bar-10dot3-'+bb.screen.controlColor);
+		actionBar.mainBarTabs = mainBarTabs;
+		actionBar.mainBarButtons = mainBarButtons;
+		actionBar.overflowButtons = overflowButtons;
+		actionBar.overflowTabs = overflowTabs;
+		
+		// Handle any press-and-hold events
+		actionBar.oncontextmenu = function(contextEvent) {
+			var node = contextEvent.srcElement,
+				parentNode = node.parentNode;
+			// Loop up to the parent node.. if it is this action bar then prevent default
+			if (!parentNode) return;
+			while (parentNode) {
+				if (parentNode == this) {
+					contextEvent.preventDefault();
+					break;
+				}
+				parentNode = parentNode.parentNode;
+			}			
+		};
+		actionBar.oncontextmenu = actionBar.oncontextmenu.bind(actionBar);
+		window.addEventListener('contextmenu', actionBar.oncontextmenu);
+		bb.windowListeners.push({name: 'contextmenu', eventHandler: actionBar.oncontextmenu});
+		
+		// Create our sliding label area for Q10
+		slideLabel.setAttribute('class','bb-action-bar-10dot3-slide-label');
+		actionBar.slideLabel = slideLabel;
+		slideText.setAttribute('class','bb-action-bar-10dot3-slide-label-text');
+		actionBar.slideText = slideText;
+		actionBar.parentNode.appendChild(slideLabel);
+		actionBar.parentNode.appendChild(slideText);
+		actionBar.slideUpShown = false;
+		
+		// Timer for the slide up label for Q10
+		actionBar.doLabelTimer = function() {
+			this.slideUpShown = true;
+			this.slideLabel.style.height = '48px';
+			this.slideText.style.height = '48px';
+			this.slideText.style.visibility = 'visible';
+		};
+		actionBar.doLabelTimer = actionBar.doLabelTimer.bind(actionBar);
+		// Handles the closing of the label bar for Q10
+		actionBar.doTouchEnd = function() {
+			if (this.timer) clearTimeout(this.timer);
+			if (this.slideUpShown) {
+				this.slideUpShown = false;
+				this.slideLabel.style.height = '0px';
+				this.slideText.style.visibility = 'hidden';
+				this.slideText.style.height = '0px';
+			}
+		}
+		actionBar.doTouchEnd = actionBar.doTouchEnd.bind(actionBar);
+		// Make the label appear on the press and hold for Q10
+		actionBar.showLabel = function(actionItem, text) {
+			if (bb.device.is720x720) {
+				var computedStyle = window.getComputedStyle(actionItem);
+				this.slideText.innerHTML = text;
+				this.slideText.style.width = parseInt(computedStyle.width)+'px';
+				this.slideText.style['margin-left'] = (bb.actionBar10dot3.getBackBtnWidth(this.backBtn) + actionItem.offsetLeft) + 'px';
+				this.timer = setTimeout(this.doLabelTimer,1000);	
+			}
+		}
+		actionBar.showLabel = actionBar.showLabel.bind(actionBar);
+		
+					
+		// Gather our action bar and action overflow tabs and buttons
+		for (j = 0; j < actions.length; j++) {
+			action = actions[j];
+			if (action.hasAttribute('data-bb-style')) {
+				style = action.getAttribute('data-bb-style').toLowerCase();
+				if (style == 'button') {
+					if (action.hasAttribute('data-bb-overflow') && (action.getAttribute('data-bb-overflow').toLowerCase() == 'true')) {
+						overflowButtons.push(action);
+					} else {
+						mainBarButtons.push(action);
+					}
+				} else {
+					if (action.hasAttribute('data-bb-overflow') && (action.getAttribute('data-bb-overflow').toLowerCase() == 'true')) {
+						overflowTabs.push(action);
+					} else {
+						mainBarTabs.push(action);
+					}
+				}
+			}
+		}
+					
+		// Create the back button if it has one and there are no tabs in the action bar
+		if (actionBar.hasAttribute('data-bb-back-caption') && actionBar.querySelectorAll('[data-bb-style=tab]').length == 0) {		
+			var chevron,
+				backslash,
+				versionStyling,
+				slash;
+			backBtn = document.createElement('div');
+			backBtn.setAttribute('class','bb-action-bar-10dot3-back-button bb-action-bar-10dot3-back-button-'+orientation);
+			backBtn.onclick = function () {
+					window.setTimeout(bb.popScreen,0);
+				};
+			actionBar.backBtn = backBtn;
+			// Create and add the chevron to the back button
+			chevron = document.createElement('div');
+			chevron.setAttribute('class','bb-action-bar-10dot3-back-chevron-'+bb.screen.controlColor);
+			backBtn.appendChild(chevron);
+			
+			backBtn.ontouchstart = function() {	
+				if (bb.screen.controlColor == 'light') {
+					this.style['background-color'] = '#DDDDDD';
+					this.backslash.style['background-color'] = '#DDDDDD';					
+				} else {
+					this.style['background-color'] = '#3A3A3A';
+					this.backslash.style['background-color'] = '#3A3A3A';	
+				}				
+			}
+			backBtn.ontouchend = function() {
+				this.style['background-color'] = '';	
+				this.backslash.style['background-color'] = '';					
+			}
+			
+			// Create our backslash area
+			backslash = document.createElement('div');
+			versionStyling = 'bb-action-bar-10dot3-back-slash-'+bb.screen.controlColor;
+			backslash.setAttribute('class',versionStyling + ' bb-action-bar-10dot3-back-slash-'+orientation); 
+			backBtn.backslash = backslash;
+			
+			// Create our colored slash
+			slash = document.createElement('div');
+			slash.setAttribute('class', 'bb-action-bar-10dot3-colored-slash');
+			slash.style['background-color'] = bb.options.highlightColor;
+			backslash.appendChild(slash);
+			
+			// Create a table to hold the back button and our actions
+			var table = document.createElement('table'),
+				tr = document.createElement('tr'),
+				td = document.createElement('td');
+			actionBar.appendChild(table);
+			table.appendChild(tr);
+			table.setAttribute('class','bb-action-bar-10dot3-table');
+			// Set Back Button widths
+			if (bb.device.is1024x600) {
+				td.style.width = (bb.actionBar10dot3.getBackBtnWidth(backBtn) - 16)+'px';
+			} else {
+				td.style.width = (bb.actionBar10dot3.getBackBtnWidth(backBtn) - 33)+'px';
+			}
+			tr.appendChild(td);
+			backBtn.innerChevron = td;
+			td.appendChild(backBtn);
+			// Create the container for our backslash
+			td = document.createElement('td');
+			// Set backslash widths
+			td.style.width = bb.device.is1024x600 ? 16 + 'px' : 33+'px';
+			tr.appendChild(td);
+			td.appendChild(backslash);
+			// Create the container for the rest of the actions
+			td = document.createElement('td');
+			td.style.width = '100%';
+			tr.appendChild(td);
+			actionContainer = td;
+			// Add the rest of the actions to the second column
+			for (j = 0; j < actions.length; j++) {
+				action = actions[j];
+				td.appendChild(action);
+			}
+		}
+
+		// If we have "tab" actions marked as overflow we need to show the more tab button
+		if (overflowTabs.length > 0) {
+			actionBar.tabOverflowMenu = bb.tabOverflow.create(screen);
+			actionBar.tabOverflowMenu.actionBar = actionBar;
+			// Create our action bar overflow button
+			action = document.createElement('div');
+			action.actionBar = actionBar;
+			action.tabOverflowMenu = actionBar.tabOverflowMenu;
+			action.setAttribute('data-bb-type','action');
+			action.setAttribute('data-bb-style','tab');
+			action.setAttribute('data-bb-img','overflow');
+			action.onclick = function() {
+							this.tabOverflowMenu.show();
+						}
+			// Assign our tab overflow button
+			actionBar.tabOverflowBtn = action;
+			// Insert our more button
+			actionContainer.insertBefore(action, actionContainer.firstChild);
+		}
+		
+		// If we have "button" actions marked as overflow we need to show the more menu button
+		if (overflowButtons.length > 0) {
+			actionBar.menu = bb.actionOverflow.create(screen);
+			actionBar.appendChild(actionBar.menu);
+			actionBar.moreCaption = actionBar.hasAttribute('data-bb-more-caption') ? actionBar.getAttribute('data-bb-more-caption') : 'More';
+				
+			// Create our action bar overflow button
+			action = document.createElement('div');
+			action.menu = actionBar.menu;
+			action.menu.actionBar = actionBar;
+			
+			action.setAttribute('data-bb-type','action');
+			action.setAttribute('data-bb-style','button');
+			action.setAttribute('data-bb-img','overflow');
+			action.onclick = function() {
+							this.menu.show();
+						}
+			// Assign our action overflow button
+			actionBar.actionOverflowBtn = action;
+			// Insert our action overflow button
+			actionContainer.appendChild(action);
+		}
+		
+		// Determines how much width there is to use not including built in system buttons on the bar
+		actionBar.getUsableWidth = function() {
+				return bb.innerWidth() - bb.actionBar10dot3.getBackBtnWidth(this.backBtn) - bb.actionBar10dot3.getActionOverflowBtnWidth(this.actionOverflowBtn) - bb.actionBar10dot3.getTabOverflowBtnWidth(this.tabOverflowBtn);		
+			}
+		actionBar.getUsableWidth = actionBar.getUsableWidth.bind(actionBar);
+		
+		// This function replaces 'portrait' with 'landscape' or vica-versa
+		actionBar.switchOrientationCSS = function (value) {
+								if (value) {
+									var orientation = bb.getOrientation();
+									if (orientation == 'portrait') {
+										value = value.replace('landscape', 'portrait');
+									} else {
+										value = value.replace('portrait', 'landscape');
+									}
+								}
+								return value;
+							};
+		actionBar.switchOrientationCSS = actionBar.switchOrientationCSS.bind(actionBar);
+		
+		// Make sure we move when the orientation of the device changes
+		actionBar.reLayoutActionBar = function(event) {
+								var i,
+									action,
+									tab,
+									lastActionType = 'button',
+									actionWidth = 0, 
+									margins = 2,
+									temp,
+									max = 5,
+									count = 0,
+									totalUsedWidth = 0,
+									calculatedWidth = 0,
+									orientation = bb.getOrientation(),
+									signatureActionList = [],
+									noVisibleTabs = false;
+									
+								// First calculate how many slots on the action bar are shown
+								if (this.actionOverflowBtn) max--;
+								if (this.backBtn) max--;
+								if (this.tabOverflowBtn) {
+									max--;
+								}
+								// Count our tabs that take priority
+								for (i = 0; i < this.mainBarTabs.length; i++) {
+									if (count == max) break;
+									tab = this.mainBarTabs[i];
+									if (tab.visible == true) {
+										count++;
+									}							
+								}
+								noVisibleTabs = (count == 0) ? true : false;
+								// Then count out buttons
+								for (i = 0; i < this.mainBarButtons.length; i++) {
+									if (count == max) break;
+									action = this.mainBarButtons[i];
+									if (action.visible == true) {
+										count++;
+									}							
+								}
+								// Calculate our action width
+								count = (count == 0) ? 1 : count;
+								if (noVisibleTabs) {
+									max = 3;
+									if (bb.device.is1280x720) {
+										if (this.signatureAction) {
+											actionWidth = 133;
+										} else if (count >= max) {
+											actionWidth = 133;
+										} else if (count == 2) {
+											actionWidth = 200;
+										} else {
+											actionWidth = 430;
+										}
+									} else if (bb.device.is1440x1440) {
+										if (this.signatureAction) {
+											actionWidth = 192;
+										} else if (count >= max) {
+											actionWidth = 192;
+										} else if (count == 2) {
+											actionWidth = 300;
+										} else {
+											actionWidth = 500;
+										}
+									} else if (bb.device.is720x720) {
+										if (this.signatureAction) {
+											actionWidth = 144;
+										} else if (count >= max) {
+											actionWidth = 144;
+										} else if (count == 2) {
+											actionWidth = 280;
+										} else {
+											actionWidth = 350;
+										}
+									} else {
+										if (this.signatureAction) {
+											actionWidth = 163;
+										} else if (count >= max) {
+											actionWidth = 163;
+										} else if (count == 2) {
+											actionWidth = 230;
+										} else {
+											actionWidth = 460;
+										}
+									}
+								} else {
+									actionWidth = Math.floor(this.getUsableWidth()/count);
+								}
+								
+								// Set the style for the action bar
+								temp = this.getAttribute('class');
+								temp = this.switchOrientationCSS(temp);
+								this.setAttribute('class',temp);
+								if (this.isVisible) {
+									bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.getActionBarHeight() + 'px';
+									if (bb.scroller) {
+										bb.scroller.refresh();
+									}
+								}
+								
+								// Update our orientation for the back button
+								if (this.backBtn) {
+									// Back Button
+									temp = this.backBtn.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.backBtn.setAttribute('class',temp);
+									// Back slash
+									temp = this.backBtn.backslash.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.backBtn.backslash.setAttribute('class',temp);
+									// Inner Chevron
+									if (bb.device.is1024x600) {
+										this.backBtn.innerChevron.style.width = (bb.actionBar10dot3.getBackBtnWidth(this.backBtn) - 16)+'px';
+									} else {
+										this.backBtn.innerChevron.style.width = (bb.actionBar10dot3.getBackBtnWidth(this.backBtn) - 33)+'px';
+									}
+								}
+								
+								// Reset our count of available slots
+								count = 0;
+							
+								// Style our visible tabs
+								calculatedWidth = actionWidth - 2; // 2 represents the tab margins
+								for (i = 0; i < this.mainBarTabs.length; i++) {
+									tab = this.mainBarTabs[i];
+									if ((count < max) && (tab.visible == true)){
+										totalUsedWidth += calculatedWidth + 2;
+										tab.style.width = calculatedWidth + 'px'; 
+										// Update tab orientation
+										tab.normal = this.switchOrientationCSS(tab.normal);
+										tab.highlight = this.switchOrientationCSS(tab.highlight);
+										temp = tab.tabInner.getAttribute('class');
+										temp = this.switchOrientationCSS(temp);
+										tab.tabInner.setAttribute('class',temp);
+										// Update display text orientation
+										temp = tab.display.getAttribute('class');
+										temp = this.switchOrientationCSS(temp);
+										tab.display.setAttribute('class',temp);
+										// Update our flags
+										lastActionType = 'tab';
+										count++;
+									} else {
+										tab.style.display = 'none';
+										tab.visible = false;
+									};
+								}
+								
+								// Style our visible buttons
+								calculatedWidth = actionWidth - 1; // 1 represents the button margins
+								var firstAction = undefined;
+								for (i = 0; i < this.mainBarButtons.length; i++) {
+									action = this.mainBarButtons[i];
+									if ((count < max) && (action.visible == true)){
+										// If it is the signature action and there are visible tabs then hide it
+										if ((action.isSignatureAction === true) && (noVisibleTabs == false)) {
+											action.visible = false;
+											action.signatureDiv.style.display = 'none';
+											continue;
+										}
+										
+										if (firstAction == undefined) {
+											firstAction = action;
+										}
+										signatureActionList.push(action);
+										action.style['margin-left'] = '';
+										totalUsedWidth += calculatedWidth + 1;
+										action.style.width = calculatedWidth + 'px'; 
+										action.normal = 'bb-action-bar-10dot3-action bb-action-bar-10dot3-action-' + orientation + ' bb-action-bar-10dot3-button-'+bb.screen.controlColor;
+										action.setAttribute('class',action.normal);
+										// Update button orientation
+										action.normal = this.switchOrientationCSS(action.normal);
+										temp = action.getAttribute('class');
+										temp = this.switchOrientationCSS(temp);
+										action.setAttribute('class',temp);
+										// Update our flags
+										lastActionType = 'button';
+										count++;
+									} else {
+										action.style.display = 'none';
+										action.visible = false;
+									};
+								}
+								
+								// Align our actions to be centered if there are now tabs
+								if (noVisibleTabs && firstAction) {
+									if (this.signatureAction) {
+										var signatureWidth,
+											signatureIndex = signatureActionList.indexOf(this.signatureAction),
+											multiplier = (3 - count);
+										// Make sure that our signature action is centered and the first Element is set appropriately
+										if (count == 3) {
+											if (signatureIndex != 1) {
+												if (signatureIndex === 0) {
+													firstAction = signatureActionList[1];
+													this.signatureAction.parentNode.insertBefore(this.signatureAction, signatureActionList[2]);
+												} else {
+													firstAction = signatureActionList[0];
+													this.signatureAction.parentNode.insertBefore(this.signatureAction, signatureActionList[1]);
+												}
+											}
+										} else if (count == 2) {
+											if (signatureIndex != 0) {
+												this.signatureAction.parentNode.insertBefore(this.signatureAction, signatureActionList[0]);
+												firstAction = this.signatureAction;
+											}
+										} 
+										
+										// Determine our circle size based on resolution	
+										if (bb.device.is1280x720) {
+											signatureWidth = 96;
+										} else if (bb.device.is1440x1440) {
+											signatureWidth = 144;
+										} else {
+											signatureWidth = 120;
+										}
+										this.signatureAction.signatureDiv.style['margin-left'] = ((bb.innerWidth()/2) - (signatureWidth/2)) + 'px';
+										// Set our margin to center our actions
+										if (count == 1) {
+											firstAction.style['margin-left'] = ((this.getUsableWidth() - actionWidth)/2) + 'px';
+										} else {
+											firstAction.style['margin-left'] = (((this.getUsableWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth))+ 'px';
+										}
+									} else {
+										firstAction.style['margin-left'] = ((this.getUsableWidth() - (count * actionWidth))/2) + 'px';
+									}
+								} 
+								
+								// Adjust our tab overflow button
+								if (this.tabOverflowBtn) {
+									var tempWidth = bb.actionBar10dot3.getTabOverflowBtnWidth(this.tabOverflowBtn) -1;
+									totalUsedWidth += tempWidth + 2;
+									this.tabOverflowBtn.style.width = (tempWidth) + 'px';
+									// Update our tab
+									this.tabOverflowBtn.normal = this.switchOrientationCSS(this.tabOverflowBtn.normal);
+									this.tabOverflowBtn.highlight = this.switchOrientationCSS(this.tabOverflowBtn.highlight);
+									temp = this.tabOverflowBtn.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.tabOverflowBtn.setAttribute('class',temp);
+									// Update display text
+									temp = this.tabOverflowBtn.display.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.tabOverflowBtn.display.setAttribute('class',temp);
+									// Update our icon
+									this.tabOverflowBtn.icon.normal = this.switchOrientationCSS(this.tabOverflowBtn.icon.normal);
+									temp = this.tabOverflowBtn.icon.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.tabOverflowBtn.icon.setAttribute('class',temp);
+								}
+								
+								// Adjust our action overflow button
+								if (this.actionOverflowBtn) {
+									this.actionOverflowBtn.normal = 'bb-action-bar-10dot3-action bb-action-bar-10dot3-action-' + orientation + ' bb-action-bar-10dot3-button-'+bb.screen.controlColor;
+									this.actionOverflowBtn.style.width = (bb.actionBar10dot3.getActionOverflowBtnWidth(this.actionOverflowBtn) - 1 ) + 'px'; // 1 represents the button margins
+									
+									this.actionOverflowBtn.highlight.style['width'] = (bb.actionBar10dot3.getActionOverflowBtnWidth(this.actionOverflowBtn) * 0.6) + 'px';
+									this.actionOverflowBtn.highlight.style['margin-left'] = (bb.actionBar10dot3.getActionOverflowBtnWidth(this.actionOverflowBtn) * 0.2) + 'px';
+									this.actionOverflowBtn.style.float = 'right';
+									this.actionOverflowBtn.setAttribute('class',this.actionOverflowBtn.normal);
+									// Update the action
+									this.actionOverflowBtn.normal = this.switchOrientationCSS(this.actionOverflowBtn.normal);
+									temp = this.actionOverflowBtn.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.actionOverflowBtn.setAttribute('class',temp);
+									// Update the icon
+									temp = this.actionOverflowBtn.icon.getAttribute('class');
+									temp = this.switchOrientationCSS(temp);
+									this.actionOverflowBtn.icon.setAttribute('class',temp);
+								}
+							};
+		actionBar.reLayoutActionBar = actionBar.reLayoutActionBar.bind(actionBar);	
+		window.addEventListener('orientationchange', actionBar.reLayoutActionBar,false);
+		// Add listener for removal on popScreen
+		bb.windowListeners.push({name: 'orientationchange', eventHandler: actionBar.reLayoutActionBar});
+				
+		// Add setBackCaption function
+		actionBar.setBackCaption = function(value) {
+					this.setAttribute('data-bb-back-caption',value);
+				};
+		actionBar.setBackCaption = actionBar.setBackCaption.bind(actionBar);  
+		
+		// Add setSelectedTab function
+		actionBar.setSelectedTab = function(tab) {
+					if (tab.getAttribute('data-bb-style') != 'tab') return;
+					bb.actionBar10dot3.highlightAction(tab);
+					if (tab.onclick) {
+						tab.onclick();
+					}
+				};
+		actionBar.setSelectedTab = actionBar.setSelectedTab.bind(actionBar);  
+		
+		// Add our hide function
+		actionBar.hide = function(tab) {
+					if (!this.isVisible) return;
+					this.style.display = 'none';
+					this.slideLabel.style.display = 'none';
+					// Make the scroll area go right to the bottom of the displayed content
+					bb.screen.currentScreen.outerScrollArea.style['bottom'] = '0px';
+					this.isVisible = false;
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+		actionBar.hide = actionBar.hide.bind(actionBar); 
+		
+		// Add our show function
+		actionBar.show = function(tab) {
+					if (this.isVisible) return;
+					this.style.display = '';
+					this.slideLabel.style.display = '';
+					// Resize the screen scrolling area to stop at the top of the action bar
+					bb.screen.currentScreen.outerScrollArea.style['bottom'] = bb.screen.getActionBarHeight() + 'px';
+					this.isVisible = true;
+					if (bb.scroller) {
+						bb.scroller.refresh();
+					}
+				};
+		actionBar.show = actionBar.show.bind(actionBar);
+		
+		// Add all our overflow tab actions
+		if (overflowTabs.length > 0 ) {
+			var clone;
+			// Add all our visible tabs if any so they are at the top of the list
+			for (j = 0; j < mainBarTabs.length; j++) {
+				action = mainBarTabs[j];
+				// Don't add the visible overflow tab
+				if (action.getAttribute('data-bb-img') != 'overflow') {
+					clone = action.cloneNode(true);					
+					clone.visibleTab = action;
+					clone.actionBar = actionBar;
+					actionBar.tabOverflowMenu.add(clone);
+				}
+			}		
+			// Now add all our tabs marked as overflow
+			for (j = 0; j < overflowTabs.length; j++) {
+				action = overflowTabs[j];
+				action.actionBar = actionBar;
+				actionBar.tabOverflowMenu.add(action);
+			}
+		}
+
+		// Add all of our overflow button actions
+		for (j = 0; j < overflowButtons.length; j++) {
+			action = overflowButtons[j];
+			actionBar.menu.add(action);
+		}
+		
+		// Apply all our tab styling
+		var tab,
+			tabInner;
+		for (j = 0; j < mainBarTabs.length; j++) {
+			tab = mainBarTabs[j];
+			caption = tab.innerHTML;
+			tab.actionBar = actionBar;
+			tab.visible = true;
+			tab.innerHTML = '';
+			tabInner = document.createElement('div');
+			tab.tabInner = tabInner;
+			tab.appendChild(tabInner);
+			tab.setAttribute('class','bb-action-bar-10dot3-tab-outer' );
+			tab.normal = 'bb-action-bar-10dot3-action bb-action-bar-10dot3-action-' + orientation + ' bb-action-bar-10dot3-tab-'+bb.screen.controlColor+' bb-action-bar-10dot3-tab-normal-'+bb.screen.controlColor;
+			tab.highlight = tab.normal + ' bb-action-bar-10dot3-tab-selected-'+bb.screen.controlColor;
+			tabInner.setAttribute('class',tab.normal);
+			// Tab initial visibility
+			tab.visible = true;
+			if (tab.hasAttribute('data-bb-visible') && (tab.getAttribute('data-bb-visible').toLowerCase() == 'false')) {
+				tab.visible = false;
+			} 
+			// Add the icon
+			icon = document.createElement('img');
+			icon.setAttribute('class','bb-action-bar-10dot3-icon');
+			icon.setAttribute('src',tab.getAttribute('data-bb-img'));
+			tab.icon = icon;
+			tabInner.appendChild(icon);
+			// Set our caption
+			display = document.createElement('div');
+			display.setAttribute('class','bb-action-bar-10dot3-action-display bb-action-bar-10dot3-action-display-'+orientation);
+			display.innerHTML = caption;
+			tab.display = display;
+			tabInner.appendChild(display);
+		
+			// Get our selected state			
+			if (tab.hasAttribute('data-bb-selected') && (tab.getAttribute('data-bb-selected').toLowerCase() == 'true')) {
+				bb.actionBar10dot3.highlightAction(tab);
+			}
+			// Add our click listener
+			tab.addEventListener('click',function (e) {
+				bb.actionBar10dot3.highlightAction(this);
+			},false);
+			// Assign the setCaption function
+			tab.setCaption = function(value) {
+								this.display.innerHTML = value;
+								// Change the associated overflow item if one exists
+								if (this.actionBar.tabOverflowMenu) {
+									var tabs = this.actionBar.tabOverflowMenu.actions,
+										i,
+										target;
+									for (i = 0; i < tabs.length; i++) {
+										target = tabs[i];
+										if (target.visibleTab == this)  {
+											target.setCaption(value);
+										} 
+									}
+								}
+							};
+			tab.setCaption = tab.setCaption.bind(tab);
+			// Assign the getCaption function
+			tab.getCaption = function() {
+								return this.display.innerHTML;
+							};
+			tab.getCaption = tab.getCaption.bind(tab);	
+			// Assign the setImage function
+			tab.setImage = function(value) {
+								this.icon.setAttribute('src', value);
+								
+								// Change the associated overflow item if one exists
+								if (this.actionBar.tabOverflowMenu) {
+									var tabs = this.actionBar.tabOverflowMenu.actions,
+										i,
+										target;
+									for (i = 0; i < tabs.length; i++) {
+										target = tabs[i];
+										if (target.visibleTab == this)  {
+											target.setImage(value);
+										} 
+									}
+								}
+							};
+			tab.setImage = tab.setImage.bind(tab);
+			// Assign the getImage function
+			tab.getImage = function() {
+								return this.icon.getAttribute('src');
+							};
+			tab.getImage = tab.getImage.bind(tab);	
+			
+			// Add our hide() function
+			tab.hide = bb.actionBar10dot3.actionHide;
+			tab.hide = tab.hide.bind(tab);
+			
+			// Add our show() function
+			tab.show = bb.actionBar10dot3.actionShow;
+			tab.show = tab.show.bind(tab);
+			
+			// Handle press-and-hold on Q10
+			tab.ontouchstart = function() {
+					this.actionBar.showLabel(this,this.display.innerHTML);				
+			}
+			// Remove highlight when touch ends
+			tab.ontouchend = function() {
+					this.actionBar.doTouchEnd();
+			}			
+		}
+		
+		// Add our tab overflow button styling if one exists
+		var tabOverflow;
+		if (actionBar.tabOverflowBtn) {
+			tabOverflow = actionBar.tabOverflowBtn;
+			caption = tabOverflow.innerHTML;
+			tabOverflow.actionBar = actionBar;
+			tabOverflow.visible = true;
+			tabOverflow.innerHTML = '';
+			tabInner = document.createElement('div');
+			tabOverflow.tabInner = tabInner;
+			tabOverflow.appendChild(tabInner);
+			tabOverflow.setAttribute('class','bb-action-bar-10dot3-tab-outer' );
+			tabOverflow.normal = 'bb-action-bar-10dot3-action bb-action-bar-10dot3-action-' + orientation +' bb-action-bar-10dot3-tab-'+bb.screen.controlColor+' bb-action-bar-10dot3-tab-normal-'+bb.screen.controlColor;
+			tabOverflow.highlight = tabOverflow.normal + ' bb-action-bar-10dot3-tab-selected-'+bb.screen.controlColor;
+			tabInner.setAttribute('class',tabOverflow.normal);
+			// Add the icon
+			icon = document.createElement('img');
+			icon.setAttribute('class','bb-action-bar-10dot3-icon');
+			// Set our transparent pixel
+			icon.setAttribute('src',bb.transparentPixel);
+			icon.normal = 'bb-action-bar-10dot3-icon bb-action-bar-10dot3-tab-overflow-'+bb.screen.controlColor+' bb-action-bar-10dot3-tab-overflow-'+orientation;
+			icon.highlight = 'bb-action-bar-10dot3-icon';
+			icon.setAttribute('class',icon.normal);
+			tabInner.appendChild(icon);
+			// Set our caption
+			display = document.createElement('div');
+			display.setAttribute('class','bb-action-bar-10dot3-action-display bb-action-bar-10dot3-action-display-'+orientation);
+			display.innerHTML = caption;
+			tabOverflow.display = display;
+			tabInner.appendChild(display);
+			tabOverflow.icon = icon;
+			display.innerHTML = '&nbsp;';
+			tabOverflow.display = display;
+			tabOverflow.style.width = (bb.actionBar10dot3.getTabOverflowBtnWidth(tabOverflow) - 1) + 'px';
+			// Set our reset function
+			tabOverflow.reset = function() {
+						this.icon.setAttribute('src',bb.transparentPixel);
+						this.icon.setAttribute('class',this.icon.normal);
+						this.display.innerHTML = '&nbsp;';
+					};
+			tabOverflow.reset = tabOverflow.reset.bind(tabOverflow);
+			
+			// Handle press-and-hold on Q10
+			tabOverflow.ontouchstart = function() {
+				if (bb.screen.controlColor == 'light') {
+					this.tabInner.style['background-color'] = '#DDDDDD';
+				} else {
+					this.tabInner.style['background-color'] = '#3A3A3A';
+				}
+				var text = ((this.display.innerHTML == '') || (this.display.innerHTML == '&nbsp;')) ? this.actionBar.moreCaption : this.display.innerHTML;
+				this.actionBar.showLabel(this,text);				
+			}
+			// Remove highlight when touch ends
+			tabOverflow.ontouchend = function() {
+				this.tabInner.style['background-color'] = '';
+				this.actionBar.doTouchEnd();
+			}			
+		}
+		
+		// Apply all our button styling
+		var button;
+		for (j = 0; j < mainBarButtons.length; j++) {
+			button = mainBarButtons[j];
+			button.actionBar = actionBar;
+			button.isSignatureAction = false;
+			caption = button.innerHTML;
+			if (actionBar.signatureAction == undefined) {
+				if (button.hasAttribute('data-bb-signature')) {
+					if (button.getAttribute('data-bb-signature').toLowerCase() == 'true') {
+						actionBar.signatureAction = button;
+						button.isSignatureAction = true;
+					}
+				}
+			}
+			
+			// Add the icon
+			icon = document.createElement('img');
+			icon.setAttribute('src',button.getAttribute('data-bb-img'));
+			icon.setAttribute('class','bb-action-bar-10dot3-icon');
+			button.normal = 'bb-action-bar-10dot3-action bb-action-bar-10dot3-action-' + orientation + ' bb-action-bar-10dot3-button-'+bb.screen.controlColor;
+			// Button initial visibility
+			button.visible = true;
+			if (button.hasAttribute('data-bb-visible') && (button.getAttribute('data-bb-visible').toLowerCase() == 'false')) {
+				button.visible = false;
+			} 
+			
+			// Default settings
+			button.icon = icon;
+			button.innerHTML = '';
+			if (button.isSignatureAction === true) {
+				button.signatureDiv = document.createElement('div');
+				button.signatureDiv.setAttribute('class','bb-action-bar-10dot3-signature-icon');
+				button.signatureDiv.style['background-color'] = bb.options.highlightColor;
+				button.signatureDiv.style['background-image'] = 'url("'+button.getAttribute('data-bb-img')+'")';
+				//button.signatureDiv.appendChild(icon);
+				screen.appendChild(button.signatureDiv);
+				button.signatureDiv.highlight = function() {
+								this.style['background-color'] = bb.options.shades.darkHighlight;
+							};
+				button.signatureDiv.highlight = button.signatureDiv.highlight.bind(button.signatureDiv);	
+				button.signatureDiv.unhighlight = function() {
+								this.style['background-color'] = bb.options.highlightColor;
+							};
+				button.signatureDiv.unhighlight = button.signatureDiv.unhighlight.bind(button.signatureDiv);	
+				// Set our events
+				button.signatureDiv.ontouchstart = function() {
+					this.highlight();
+				}
+				button.signatureDiv.ontouchend = function() {
+					this.unhighlight();
+				}
+				button.signatureDiv.onclick = button.onclick;
+			} else {
+				button.appendChild(icon);
+			}
+			button.setAttribute('class',button.normal);
+			
+			// Set our caption
+			display = document.createElement('div');
+			if (button.isSignatureAction === true) {
+				display.setAttribute('class','bb-action-bar-10dot3-action-display bb-action-bar-10dot3-signature-action-display');
+			} else {
+				display.setAttribute('class','bb-action-bar-10dot3-action-display');
+			}
+			display.innerHTML = caption;
+			button.display = display;
+			button.appendChild(display);
+			// Set our highlight
+			button.highlight = document.createElement('div');
+			button.highlight.setAttribute('class','bb-action-bar-10dot3-action-highlight');
+			button.highlight.style['height'] = bb.device.is1024x600 ? '4px' : '8px';
+			button.highlight.style['background-color'] = 'transparent';
+			button.appendChild(button.highlight);			
+			// Assign the setCaption function
+			button.setCaption = function(value) {
+								this.display.innerHTML = value;
+							};
+			button.setCaption = button.setCaption.bind(button);	
+			// Assign the getCaption function
+			button.getCaption = function() {
+								return this.display.innerHTML;
+							};
+			button.getCaption = button.getCaption.bind(button);	
+			// Assign the setImage function
+			button.setImage = function(value) {
+								if (this.isSignatureAction) {
+									this.signatureDiv.style['background-image'] = 'url("'+value+'")';
+								} else {
+									this.icon.setAttribute('src',value);
+								}
+								this.setAttribute('data-bb-img',value);
+							};
+			button.setImage = button.setImage.bind(button);
+			// Assign the setImage function
+			button.getImage = function() {
+								return this.getAttribute('data-bb-img');;
+							};
+			button.getImage = button.getImage.bind(button);
+			// Add our hide() function
+			button.hide = bb.actionBar10dot3.actionHide;
+			button.hide = button.hide.bind(button);
+			// Add our show() function
+			button.show = bb.actionBar10dot3.actionShow;
+			button.show = button.show.bind(button);
+			
+			// Highlight on touch
+			button.ontouchstart = function() {
+				if (this.isSignatureAction === true) {
+					this.signatureDiv.style['background-color'] = bb.options.shades.darkHighlight;
+				} else {
+					if (bb.screen.controlColor == 'light') {
+						this.style['background-color'] = '#DDDDDD';
+					} else {
+						this.style['background-color'] = '#3A3A3A';
+					}
+				}
+				this.actionBar.showLabel(this,this.display.innerHTML);				
+			}
+			// Remove highlight when touch ends
+			button.ontouchend = function() {
+				if (this.isSignatureAction === true) {
+					this.signatureDiv.style['background-color'] = bb.options.highlightColor;
+				} else {
+					this.style['background-color'] = 'transparent';
+					this.actionBar.doTouchEnd();
+				}
+			}
+		}
+		
+		// Style our action overflow button
+		if (actionBar.actionOverflowBtn) {
+			actionOverflow = actionBar.actionOverflowBtn;
+			actionOverflow.actionBar = actionBar;
+			actionOverflow.visible = true;
+			caption = actionOverflow.innerHTML;
+			// Set our transparent icon
+			icon = document.createElement('img');
+			icon.setAttribute('src',bb.transparentPixel);
+			icon.setAttribute('class','bb-action-bar-10dot3-icon bb-action-bar-10dot3-overflow-button-'+bb.screen.controlColor+' bb-action-bar-10dot3-overflow-button-'+orientation);
+			actionOverflow.icon = icon;
+			// Default settings
+			actionOverflow.normal = 'bb-action-bar-10dot3-action bb-action-bar-10dot3-action-' + orientation + ' bb-action-bar-10dot3-button-'+bb.screen.controlColor;
+			actionOverflow.innerHTML = '';
+			actionOverflow.setAttribute('class',actionOverflow.normal);
+			actionOverflow.appendChild(icon);
+			// Set our caption
+			var display = document.createElement('div');
+			display.setAttribute('class','bb-action-bar-10dot3-action-display');
+			actionOverflow.display = display;
+			actionOverflow.appendChild(display);
+			// Set our highlight
+			actionOverflow.highlight = document.createElement('div');
+			actionOverflow.highlight.setAttribute('class','bb-action-bar-10dot3-action-highlight');
+			actionOverflow.highlight.style['height'] = bb.device.is1024x600 ? '4px' : '8px';
+			actionOverflow.highlight.style['background-color'] = 'transparent';
+			actionOverflow.appendChild(actionOverflow.highlight);
+			// Highlight on touch
+			actionOverflow.ontouchstart = function() {
+				if (bb.screen.controlColor == 'light') {
+					this.style['background-color'] = '#DDDDDD';
+				} else {
+					this.style['background-color'] = '#3A3A3A';
+				}
+				this.actionBar.showLabel(this,this.actionBar.moreCaption);						
+			}
+			// Remove highlight when touch ends
+			actionOverflow.ontouchend = function() {
+				this.style['background-color'] = 'transparent';	
+				this.actionBar.doTouchEnd();					
+			}		
+		}
+		// Center the action overflow items
+		if (actionBar.menu) {
+			actionBar.menu.centerMenuItems();
+		}
+		// Initialize the Tab Overflow
+		if (actionBar.tabOverflowMenu) {
+			actionBar.tabOverflowMenu.centerMenuItems();
+			actionBar.tabOverflowMenu.initSelected();
+		}
+		// Layout the action bar
+		actionBar.reLayoutActionBar();
+	},
+	
+	
+	actionShow: function() {
+		if (this.visible) return;
+		this.style.display = '';
+		this.visible = true;
+		this.actionBar.reLayoutActionBar();
+	},
+	
+	actionHide: function() {
+		if (!this.visible) return;
+		this.style.display = 'none';
+		this.visible = false;
+		this.actionBar.reLayoutActionBar();
+	},
+	
+	// Return the tab overflow button width based on orientation and screen resolution
+	getTabOverflowBtnWidth: function(button) {
+		if (!button) return 0;
+		
+		if (bb.device.is1024x600) {
+			return bb.getOrientation() == 'portrait' ? 77 : 123;
+		} else if (bb.device.is720x720) {
+			if (bb.device.newerThan10dot2) {
+				return 109;
+			} else {
+				return 144;
+			}
+		} else if (bb.device.is1280x720) {
+			return 96;
+		} else if (bb.device.is1440x1440) {
+			return 144;
+		} else {
+			return 120;
+		}
+	},
+	
+	// Return the action overflow button width based on orientation and screen resolution
+	getActionOverflowBtnWidth: function(button) {
+		if (!button) return 0;
+		
+		if (bb.device.is1024x600) {
+			return bb.getOrientation() == 'portrait' ? 77 : 123;
+		} else if (bb.device.is720x720) {
+			if (bb.device.newerThan10dot2) {
+				return 109;
+			} else {
+				return 144;
+			}
+		} else if (bb.device.is1280x720) {
+			return 96;
+		} else if (bb.device.is1440x1440) {
+			return 144;
+		} else {
+			return 120;
+		}
+	},
+	
+	// Return the back button width based on orientation and screen resolution
+	getBackBtnWidth: function(button) {
+		if (!button) return 0;
+		
+		if (bb.device.is1024x600) {
+			return bb.getOrientation() == 'portrait' ? 93 : 150;
+		} else if (bb.device.is720x720) {
+			if (bb.device.newerThan10dot2) {
+				return 121;
+			} else {
+				return 174;
+			}
+		} else if (bb.device.is1280x720) {
+			return 104;
+		} else if (bb.device.is1440x1440) {
+			return 168;
+		} else {
+			return 129;
+		}
+	},
+
+	// Apply the proper highlighting for the action
+	highlightAction: function (action, overflowAction) {
+		var i,
+			target,
+			tabs = action.actionBar.mainBarTabs;
+		
+		// First un-highlight the rest
+		for (i = 0; i < tabs.length; i++) {
+			target = tabs[i];
+			if (target != action) { 
+				bb.actionBar10dot3.unhighlightAction(target);
+			}					
+		}
+
+		// Un-highlight the overflow menu items
+		if (action.actionBar.tabOverflowMenu) {
+			tabs = action.actionBar.tabOverflowMenu.actions;
+			for (i = 0; i < tabs.length; i++) {
+				target = tabs[i];
+				if (target != overflowAction)  {
+					bb.actionBar10dot3.unhighlightAction(target);
+				} 
+			}
+		}
+		
+		// Now highlight this action
+		if (action.tabInner) {
+			if (action.tabInner != action.actionBar.tabOverflowBtn.tabInner) {
+				action.tabInner.style['border-top-color'] = bb.options.highlightColor;
+				action.tabInner.setAttribute('class',action.highlight);
+			}
+		} else {
+			action.style['border-top-color'] = bb.options.highlightColor;
+			action.setAttribute('class',action.highlight);
+		}
+		action.selected = true;
+		
+		
+		if (overflowAction) {
+			overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+			overflowAction.selected = true;
+		}
+		
+		// See if there was a tab overflow
+		if (action.actionBar.tabOverflowMenu && !overflowAction) {
+			if (action.actionBar.tabOverflowBtn && (action == action.actionBar.tabOverflowBtn)) {
+				overflowAction.setAttribute('class', overflowAction.normal + ' bb10Highlight');
+			} else {
+				tabs = action.actionBar.tabOverflowMenu.actions;
+				for (i = 0; i < tabs.length; i++) {
+					target = tabs[i];
+					if (target.visibleTab == action)  {
+						target.setAttribute('class', target.normal + ' bb10Highlight');
+					}
+				}
+			}
+		}
+
+		
+		// Reset the tab overflow
+		if (action.actionBar.tabOverflowBtn && action.actionBar.tabOverflowBtn.reset) {
+			action.actionBar.tabOverflowBtn.reset();
+		}
+	},
+	
+	// Apply the proper styling for an action that is no longer highlighted
+	unhighlightAction: function(action) {
+		var target;
+		// Check if it is a tab
+		if (action.tabInner) {
+			action.tabInner.style['border-top-color'] = '';
+			action.tabInner.setAttribute('class',action.normal);
+		} else {
+			action.style['border-top-color'] = '';
+			action.setAttribute('class',action.normal);
+		}
+		// See if there was a tab overflow
+		if (action.actionBar && action.actionBar.tabOverflowMenu) {
+			tabs = action.actionBar.tabOverflowMenu.actions;
+			for (i = 0; i < tabs.length; i++) {
+				target = tabs[i];
+				if (target.tabInner) {
+					target.tabInner.setAttribute('class', target.normal);
+				} else {
+					target.setAttribute('class', target.normal);
+				}
+				target.selected = false;
+			}
+		}
+	}
+};
 _bb_bbmBubble = {
     // Apply our transforms to all BBM Bubbles
     apply: function(elements) {
@@ -2117,7 +3244,10 @@ bb.menuBar = {
 		} else if (bb.device.is1280x720) {
 			bb.menuBar.height = 116;
 			bb.menuBar.itemWidth = 113;
-		} else {
+		} else if (bb.device.is1440x1440) {
+			bb.menuBar.height = 144;
+			bb.menuBar.itemWidth = 113;
+		}else {
 			bb.menuBar.height = 140;
 			bb.menuBar.itemWidth = 143;
 		} 
@@ -2418,10 +3548,18 @@ _bb_progress = {
 		// Set our styling and create the inner divs
 		outerElement.className = 'bb-progress';
 		outerElement.outer = document.createElement('div');
-		outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color + ' bb-progress-outer-idle-background-' + color);
+		} else {
+			outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+		}
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
-		outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.fill.normal = 'bb-progress-fill bb-progress-fill-10dot3 bb10Highlight';
+		} else {
+			outerElement.fill.normal = 'bb-progress-fill bb10Highlight';
+		}
 		outerElement.fill.setAttribute('class',outerElement.fill.normal);
 		outerElement.outer.appendChild(outerElement.fill);
 		outerElement.inner = document.createElement('div');
@@ -2451,14 +3589,22 @@ _bb_progress = {
 							this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(' + accentColor+ '), to('+highlightColor+'))';
 							percent = 1;
 						} else if (value == 0) {
-							this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+							if (bb.device.newerThan10dot2 === true) {
+								this.outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color + ' bb-progress-outer-idle-background-' + color);
+							} else {
+								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color + ' bb-progress-outer-idle-background-' + color);
+							}
 						} else {
 							if (this.outerElement.state == bb.progress.PAUSED) {
 								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from(#EDC842), to(#BA991E))';
 							} else if (this.outerElement.state == bb.progress.ERROR) {
 								this.outerElement.fill.style.background = '-webkit-gradient(linear, center top, center bottom, from( #E04242), to(#D91111))';
 							} else {
-								this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+								if (bb.device.newerThan10dot2 === true) {
+									this.outerElement.outer.setAttribute('class','outer outer-10dot3 bb-progress-outer-10dot3-' + color);
+								} else {
+									this.outerElement.outer.setAttribute('class','outer bb-progress-outer-' + color);
+								}
 								this.outerElement.fill.setAttribute('class',this.outerElement.fill.normal);
 								this.outerElement.fill.style.background ='';	
 							} 
@@ -2749,7 +3895,11 @@ bb.screen = {
 			
 			// Apply any action Bar styling
 			if (actionBar) {
-				bb.actionBar.apply(actionBar,outerElement);
+				if (bb.device.newerThan10dot2 === true) {
+					bb.actionBar10dot3.apply(actionBar,outerElement);
+				} else {
+					bb.actionBar.apply(actionBar,outerElement);
+				}
 			}
 			
 			// Assign our context
@@ -2974,11 +4124,21 @@ bb.screen = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+			if (bb.device.newerThan10dot2 === true) {
+				return 120;
+			} else {
+				return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+			}
 		} else if (bb.device.is1280x720) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92; 
+			if (bb.device.newerThan10dot2 === true) {
+				return 96;
+			} else {
+				return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92;
+			}
 		} else if (bb.device.is720x720) {
 			return 109;
+		} else if (bb.device.is1440x1440) {
+			return 144;
 		} else {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99;
 		}
@@ -2988,12 +4148,28 @@ bb.screen = {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			return 65;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+		} else if (bb.device.is1280x768) {
 			return 111;
+		} else if (bb.device.is1280x720) {
+			if (bb.device.newerThan10dot2) {
+				return 88;
+			} else {
+				return 111;
+			}
 		} else if (bb.device.is720x720) {
-			return 92;
-		}else {
-			return 111;
+			if (bb.device.newerThan10dot2) {
+				return 90;
+			} else {
+				return 92;
+			}
+		} else if (bb.device.is1440x1440) {
+			return 132;
+		} else {
+			if (bb.device.newerThan10dot2) {
+				return 110;
+			} else {
+				return 111;
+			}
 		}
 	}
 		
@@ -3075,10 +4251,12 @@ bb.tabOverflow = {
 					this.itemClicked = false;
 					this.visible = true;
 					var tabOverflowBtn = this.actionBar.tabOverflowBtn;
-					this.tabOverflowState.display = tabOverflowBtn.tabHighlight.style.display;
-					this.tabOverflowState.img = tabOverflowBtn.icon.src;
-					this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
-					this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					if (bb.device.newerThan10dot2 === false) {
+						this.tabOverflowState.display = tabOverflowBtn.tabHighlight.style.display;
+						this.tabOverflowState.img = tabOverflowBtn.icon.src;
+						this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
+						this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					}
 					this.screen.addEventListener('webkitTransitionEnd',menu.doEndTransition);
 					this.setDimensions();					
 					// Reset our overflow menu button
@@ -3122,12 +4300,14 @@ bb.tabOverflow = {
 					this.overlay.style.display = 'none';
 					
 					// Re-apply the old button styling if needed
-					if (!this.itemClicked) {
-						var tabOverflowBtn = this.actionBar.tabOverflowBtn;
-						tabOverflowBtn.icon.setAttribute('src',this.tabOverflowState.img);
-						tabOverflowBtn.icon.setAttribute('class',this.tabOverflowState.style);
-						tabOverflowBtn.tabHighlight.style.display = this.tabOverflowState.display;
-						tabOverflowBtn.display.innerHTML = this.tabOverflowState.caption;
+					if (bb.device.newerThan10dot2 === false) {
+						if (!this.itemClicked) {
+							var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+							tabOverflowBtn.icon.setAttribute('src',this.tabOverflowState.img);
+							tabOverflowBtn.icon.setAttribute('class',this.tabOverflowState.style);
+							tabOverflowBtn.tabHighlight.style.display = this.tabOverflowState.display;
+							tabOverflowBtn.display.innerHTML = this.tabOverflowState.caption;
+						}
 					}
 					if(bb.device.isPlayBook){
 						blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
@@ -3147,18 +4327,18 @@ bb.tabOverflow = {
 								var windowHeight = bb.innerHeight(),
 									itemHeight = 111,
 									margin;
-									
 								if (bb.device.is1024x600) {
 									itemHeight = 53;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
 								} else if (bb.device.is1280x720) {
 									itemHeight = 91;
+								} else if (bb.device.is1440x1440) {
+									itemHeight = 132;
 								} else {
 									itemHeight = 111;
 								}
-								
-								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2); 
 								if (margin < 0) margin = 0;
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
@@ -3262,13 +4442,19 @@ bb.tabOverflow = {
 				action.setOverflowTab = function(hightlight) {
 							var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 							if (hightlight) {
-								bb.actionBar.highlightAction(this.visibleTab, this);
+								if (bb.device.newerThan10dot2 === true) {
+									bb.actionBar10dot3.highlightAction(this.visibleTab, this);
+								} else {
+									bb.actionBar.highlightAction(this.visibleTab, this);
+								}
 							}
 							if (this.visibleTab == tabOverflowBtn) {
-								tabOverflowBtn.icon.setAttribute('src',this.img.src);
-								tabOverflowBtn.icon.setAttribute('class',tabOverflowBtn.icon.highlight);
-								tabOverflowBtn.tabHighlight.style.display = 'block';
-								tabOverflowBtn.display.innerHTML = this.caption;
+								if (bb.device.newerThan10dot2 === false) {
+									tabOverflowBtn.icon.setAttribute('src',this.img.src);
+									tabOverflowBtn.icon.setAttribute('class',tabOverflowBtn.icon.highlight);
+									tabOverflowBtn.tabHighlight.style.display = 'block';
+									tabOverflowBtn.display.innerHTML = this.caption;
+								}
 							}
 						};
 				action.setOverflowTab = action.setOverflowTab.bind(action);
@@ -3282,7 +4468,11 @@ bb.tabOverflow = {
 				action.onclick = function() {
 									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 									this.menu.itemClicked = true;
-									bb.actionBar.highlightAction(this.visibleTab, this);
+									if (bb.device.newerThan10dot2 === true) {
+										bb.actionBar10dot3.highlightAction(this.visibleTab, this);
+									} else {
+										bb.actionBar.highlightAction(this.visibleTab, this);
+									}
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
 									} 
@@ -3340,7 +4530,11 @@ bb.tabOverflow = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
 		} else if (bb.device.is720x720) {
-			return bb.innerWidth() - 143;
+			return 550;
+		} else if (bb.device.is1280x720) {
+			return 488;
+		} else if (bb.device.is1440x1440) {
+			return 732;
 		} else {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
 		}
@@ -3363,18 +4557,30 @@ bb.titleBar = {
 		titleBar.appendChild(topTitleArea);
 		
 		// Create our box shadow below the title bar
-		if (titleBar.parentNode) {
-			titleBar.dropShadow = document.createElement('div');
-			titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
-			titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
-			titleBar.parentNode.appendChild(titleBar.dropShadow);
+		if (bb.device.newerThan10dot2 === false) {
+			if (titleBar.parentNode) {
+				titleBar.dropShadow = document.createElement('div');
+				titleBar.dropShadow.setAttribute('class','bb-title-bar-drop-shadow');
+				titleBar.dropShadow.style.top = (bb.screen.getTitleBarHeight() - 1) + 'px';
+				titleBar.parentNode.appendChild(titleBar.dropShadow);
+			}
 		}
 		
 		// Style our title bar
 		if (bb.options.coloredTitleBar) {
-			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
+			if (bb.device.newerThan10dot2 === true) {
+				titleBarClass = 'bb-title-bar bb-title-bar-10dot3 bb-title-bar-10dot3-'+ orientation + ' bb10-title-10dot3-colored';
+				topTitleArea.style['border-bottom-color'] = bb.options.highlightColor;
+			} else {
+				titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb10-title-colored';
+			}
 		} else {
-			titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb-title-bar-' + bb.screen.controlColor;
+			if (bb.device.newerThan10dot2 === true) {
+				titleBarClass = 'bb-title-bar bb-title-bar-10dot3 bb-title-bar-10dot3-'+ orientation + ' bb-title-bar-10dot3-' + bb.screen.controlColor;
+				topTitleArea.style['border-bottom-color'] = bb.options.highlightColor;
+			} else {
+				titleBarClass = 'bb-title-bar bb-title-bar-'+ orientation + ' bb-title-bar-' + bb.screen.controlColor;
+			}
 		}
 		topTitleArea.setAttribute('class', titleBarClass);
 		
@@ -3394,6 +4600,12 @@ bb.titleBar = {
 			button.onclick = bb.popScreen;
 			bb.titleBar.styleBB10Button(button);
 			button.style.left = '0px';
+			button.innerElement.style['border-right-width'] = '2px';
+			button.innerElement.style['border-right-style'] = 'solid';
+			button.borderSide = 'right';
+			if (!bb.options.coloredTitleBar) {
+				button.innerElement.style.color = bb.options.highlightColor;
+			}
 		}
 		// Get our action button if provided
 		if (titleBar.hasAttribute('data-bb-action-caption')) {
@@ -3417,6 +4629,12 @@ bb.titleBar = {
 			button.style.right = '0px';
 			topTitleArea.appendChild(button);
 			titleBar.actionButton = button;
+			button.innerElement.style['border-left-width'] = '2px ';
+			button.innerElement.style['border-left-style'] = 'solid';
+			button.borderSide = 'left';
+			if (!bb.options.coloredTitleBar) {
+				button.innerElement.style.color = bb.options.highlightColor;
+			}
 		}
 		// Create an adjustment function for the widths
 		if (titleBar.actionButton || titleBar.backButton) {
@@ -3459,7 +4677,11 @@ bb.titleBar = {
 				//img.src = titleBar.getAttribute('data-bb-img');
 				titleBar.img = img;
 				topTitleArea.insertBefore(img, details);
-				details.setAttribute('class', 'bb-title-bar-caption-details-img');
+				if (bb.device.newerThan10dot2 === true) {
+					details.setAttribute('class', 'bb-title-bar-caption-details-img-10dot3');
+				} else {
+					details.setAttribute('class', 'bb-title-bar-caption-details-img');
+				}
 				
 				// Create our display image
 				img.style.opacity = '0';
@@ -3484,15 +4706,35 @@ bb.titleBar = {
 			if (titleBar.hasAttribute('data-bb-accent-text')) {
 				if (bb.device.is1024x600) {
 					caption.style['line-height'] = '40px';
-				} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+				} else if (bb.device.is1280x768) {
 					caption.style['line-height'] = '70px';
+				} else if(bb.device.is1280x720) {
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '55px';
+					} else {
+						caption.style['line-height'] = '70px';
+					}
 				} else if (bb.device.is720x720) {
-					caption.style['line-height'] = '55px';
-				}else {
-					caption.style['line-height'] = '70px';
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '40px';
+					} else { 
+						caption.style['line-height'] = '55px';
+					}
+				} else if (bb.device.is1440x1440) {
+					caption.style['line-height'] = '80px';
+				} else {
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '54px';
+					} else {
+						caption.style['line-height'] = '70px';
+					}
 				}
 				accentText = document.createElement('div');
-				accentText.setAttribute('class','bb-title-bar-accent-text');
+				if (bb.device.newerThan10dot2 === true) {
+					accentText.setAttribute('class','bb-title-bar-accent-text bb-title-bar-accent-text-10dot3');
+				} else {
+					accentText.setAttribute('class','bb-title-bar-accent-text');
+				}
 				if (bb.options.coloredTitleBar) {
 					accentText.style.color = 'silver';
 				}
@@ -3555,13 +4797,26 @@ bb.titleBar = {
 			outerNormal;
 		
 		if (bb.options.coloredTitleBar) {
-			normal = 'bb-titlebar-button bb10-title-button-colored';
-			highlight = 'bb-titlebar-button bb10-title-button-colored-highlight';
-			outerNormal = 'bb-titlebar-button-container bb10-title-button-container-colored';
+			if (bb.device.newerThan10dot2 === true) {
+				normal = 'bb-titlebar-button bb-titlebar-button-10dot3 bb10-title-button-10dot3-colored';
+				highlight = 'bb-titlebar-button-container-10dot3 bb10-title-button-10dot3-colored-highlight';
+				outerNormal = 'bb-titlebar-button-container-10dot3 bb10-title-button-container-10dot3-colored';
+				innerElement.style['border-style'] = 'none';
+			} else {
+				normal = 'bb-titlebar-button bb10-title-button-colored';
+				highlight = 'bb-titlebar-button bb10-title-button-colored-highlight';
+				outerNormal = 'bb-titlebar-button-container bb10-title-button-container-colored';
+			}
 		} else {
-			normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
-			highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
-			outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
+			if (bb.device.newerThan10dot2 === true) {
+				normal = 'bb-titlebar-button bb-titlebar-button-10dot3 bb-titlebar-button-10dot3-' + bb.screen.controlColor;
+				highlight = 'bb-titlebar-button-container-10dot3 bb-titlebar-button-container-10dot3-' + bb.screen.controlColor + ' bb-titlebar-button-highlight-10dot3-'+ bb.screen.controlColor;
+				outerNormal = 'bb-titlebar-button-container-10dot3 bb-titlebar-button-container-10dot3-' + bb.screen.controlColor;
+			} else {
+				normal = 'bb-titlebar-button bb-titlebar-button-' + bb.screen.controlColor;
+				highlight = 'bb-titlebar-button bb-titlebar-button-highlight-'+ bb.screen.controlColor;
+				outerNormal = 'bb-titlebar-button-container bb-titlebar-button-container-' + bb.screen.controlColor;
+			}
 		}
 		
 		// Remove the moats on 10.2
@@ -3584,10 +4839,20 @@ bb.titleBar = {
 		innerElement.highlight = highlight;
 
 		outerElement.ontouchstart = function() {
-								this.innerElement.setAttribute('class', this.innerElement.highlight);
+								if (bb.device.newerThan10dot2 === true) {
+									this.setAttribute('class', this.innerElement.highlight);
+									this.innerElement.style['border-' + this.borderSide + '-width'] = '0px';
+								} else {
+									this.innerElement.setAttribute('class', this.innerElement.highlight);
+								}
 							};
 		outerElement.ontouchend = function() {
-								this.innerElement.setAttribute('class', this.innerElement.normal);
+								if (bb.device.newerThan10dot2 === true) {
+									this.setAttribute('class', this.outerNormal);
+									this.innerElement.style['border-' + this.borderSide + '-width'] = '2px';
+								} else {
+									this.innerElement.setAttribute('class', this.innerElement.normal);
+								}
 							};
 
 						
@@ -3663,7 +4928,9 @@ _bb10_activityIndicator = {
 					width = '135px';
 				} else if (bb.device.is720x720) {
 					width = '170px';
-				}else {
+				} else if (bb.device.is1440x1440) {
+					width = '300px';
+				} else {
 					width = '184px';
 				}
 			} else if (size == 'small') {
@@ -3673,7 +4940,9 @@ _bb10_activityIndicator = {
 					width = '41px';
 				} else if(bb.device.is1280x720) {
 					width = '35px';
-				} else {
+				} else if (bb.device.is1440x1440) {
+					width = '60px';
+				}else {
 					width = '41px';
 				}
 			} else {
@@ -3686,6 +4955,8 @@ _bb10_activityIndicator = {
 					width = '69px';
 				} else if (bb.device.is720x720) {
 					width = '88px';
+				} else if (bb.device.is1440x1440) {
+					width = '150px';
 				} else {
 					width = '93px';
 				}
@@ -3760,8 +5031,11 @@ _bb10_button = {
 			disabled = outerElement.hasAttribute('data-bb-disabled'),
 			normal = 'bb-button',
 			outerNormal = 'bb-button-container bb-button-container-' + bb.screen.controlColor;
-
-		if (bb.device.newerThan10dot1) {
+		if (bb.device.newerThan10dot2) {
+			normal += ' bb-button-10dot3 bb-button-' + bb.screen.controlColor+'-10dot3';
+			outerNormal += ' bb-button-container-10dot3';
+			highlight = 'bb-button bb-button-10dot3 bb-button-'+ bb.screen.controlColor + ' bb-button-'+ bb.screen.controlColor + '-highlight-10dot3';
+		} else if (bb.device.newerThan10dot1) {
 			normal += ' bb-button-10dot2';
 			outerNormal += ' bb-button-container-10dot2';
 			highlight = 'bb-button bb-button-10dot2 bb-button-'+ bb.screen.controlColor + ' bb-button-'+ bb.screen.controlColor + '-highlight-10dot2';
@@ -3821,6 +5095,9 @@ _bb10_button = {
 	
 		// Set our styles
 		disabledStyle = normal + ' bb-button-disabled-'+bb.screen.controlColor;
+		if (bb.device.newerThan10dot2) {
+			disabledStyle += ' bb-button-disabled-'+bb.screen.controlColor+'-10dot3';
+		}
 		normal = normal + ' bb-button-' + bb.screen.controlColor;
 		
 		if (disabled) {
@@ -3905,7 +5182,12 @@ _bb10_button = {
 					this.captionElement.setAttribute('class','bb-button-caption-with-image');
 					var imgElement = document.createElement('div');
 					this.imgElement = imgElement;
-					imgElement.setAttribute('class','bb-button-image');
+					if (bb.device.newerThan10dot1) {
+						imgElement.setAttribute('class','bb-button-image bb-button-image-10dot2');
+					} else {
+						imgElement.setAttribute('class','bb-button-image');
+					}
+					//imgElement.setAttribute('class','bb-button-image');
 					imgElement.style['background-image'] = 'url("'+value+'")';
 					// Remove and re-order the caption element
 					this.innerElement.removeChild(this.captionElement);
@@ -4006,27 +5288,47 @@ _bb10_checkbox = {
 		input.touchTarget = touchTarget;
 		// Main outer border of the control
 		outerElement = document.createElement('div');
-		outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+		if (bb.device.newerThan10dot2) {
+			outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-'+color);
+		} else {
+			outerElement.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+		}
 		touchTarget.appendChild(outerElement);
 		// Inner check area
 		innerElement = document.createElement('div');
 		innerElement.normal = 'bb-checkbox-inner bb-checkbox-inner-'+color;
+		if (bb.device.newerThan10dot2) {
+			innerElement.normal += ' bb-checkbox-inner-10dot3';
+		}
 		innerElement.setAttribute('class', innerElement.normal);
 		outerElement.appendChild(innerElement);
 		// Create our check element with the image
 		checkElement = document.createElement('div');
 		checkElement.hiddenClass = 'bb-checkbox-check-hidden bb-checkbox-check-image';
 		checkElement.displayClass = 'bb-checkbox-check-display bb-checkbox-check-image';
+		if (bb.device.newerThan10dot2) {
+			checkElement.hiddenClass += ' bb-checkbox-check-hidden-10dot3 bb-checkbox-check-image-10dot3';
+			checkElement.displayClass += ' bb-checkbox-check-display-10dot3 bb-checkbox-check-image-10dot3';
+		}
 		checkElement.setAttribute('class',checkElement.hiddenClass);
-		checkElement.style['-webkit-transition-property'] = 'all';
+		if (bb.device.newerThan10dot2) {
+			checkElement.style['-webkit-transition-property'] = 'opacity';
+		} else {
+			checkElement.style['-webkit-transition-property'] = 'all';
+		}
 		checkElement.style['-webkit-transition-duration'] = '0.1s';
 		innerElement.appendChild(checkElement);
 		touchTarget.checkElement = checkElement;
 		
 		// Set our coloring for later
 		touchTarget.innerElement = innerElement;
-		touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
-		touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		if (bb.device.newerThan10dot2) {
+			touchTarget.highlight = '-webkit-linear-gradient(top,  '+ bb.options.highlightColor +', ' + bb.options.highlightColor + ')';
+			touchTarget.touchHighlight = '-webkit-linear-gradient(top, #C6C6C6 ,#C6C6C6)';
+		} else {
+			touchTarget.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+			touchTarget.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		}
 
 		touchTarget.ontouchstart = function() {
 						if (!this.input.checked && !this.input.disabled) {	
@@ -4058,12 +5360,26 @@ _bb10_checkbox = {
 							this.innerElement.style['background-image'] = '';
 						}
 						if (this.input.disabled){
-							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-disabled-'+color);
-							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-disabled-'+color);
-							this.innerElement.style.background = '#c0c0c0';
+							if (bb.device.newerThan10dot2) {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-disabled-10dot3-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-10dot3 bb-checkbox-inner-disabled-10dot3-'+color);
+								this.innerElement.style['background-image'] = '';
+							} else {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-disabled-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-disabled-'+color);
+								this.innerElement.style.background = '#c0c0c0';
+							}
 						} else{
-							this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
-							this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-'+color);
+							if (bb.device.newerThan10dot2) {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-10dot3 bb-checkbox-outer-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-10dot3 bb-checkbox-inner-10dot3-'+color);
+								if (this.input.checked) {
+									this.innerElement.style['background-image'] = touchTarget.highlight;
+								}
+							} else {
+								this.innerElement.parentNode.setAttribute('class', 'bb-checkbox-outer bb-checkbox-outer-'+color);
+								this.innerElement.setAttribute('class', 'bb-checkbox-inner bb-checkbox-inner-'+color);
+							}
 						}				
 					};
 		touchTarget.drawChecked = touchTarget.drawChecked.bind(touchTarget);
@@ -4191,7 +5507,6 @@ _bb10_contextMenu = {
 		
 		// Add a menu item
 		menu.add = function(action) {
-			alert('add: START');
 			this.actions.push(action);
 			this.appendChild(action);
 			var menuItem = {
@@ -4246,7 +5561,6 @@ _bb10_contextMenu = {
 				this.setAttribute('data-bb-visible','false');
 			}
 			action.hide = action.hide.bind(action);
-			alert('add: END');
 		};
 		menu.add = menu.add.bind(menu);
 		
@@ -4287,14 +5601,12 @@ _bb10_contextMenu = {
 		// This function clears all the items from the context menu.  Typically
 		// called internally when the screen is popped
 		menu.clearWWcontextMenu = function() {
-			alert('clearWWcontextMenu: START');
 			var contexts = [blackberry.ui.contextmenu.CONTEXT_ALL],
 				i,
 				actionId;
 			for (i = 0; i < bb.contextMenu.actionIds.length;i++) {
 				blackberry.ui.contextmenu.removeItem(contexts, bb.contextMenu.actionIds[i]);
 			}
-			alert('clearWWcontextMenu: END');
 		};
 		menu.centerMenuItems = menu.centerMenuItems.bind(menu);
 		
@@ -4336,8 +5648,16 @@ _bb10_dropdown = {
 			outerContainerStyle = 'bb-dropdown-container bb-dropdown-container-' + bb.screen.controlColor,
 			innerContainerStyle = 'bb-dropdown-container-inner bb-dropdown-container-inner-'+bb.screen.controlColor,
 			innerButtonStyle = 'bb-dropdown-inner bb-dropdown-inner-'+bb.screen.controlColor;
-
-		if (bb.device.newerThan10dot1) {
+		
+		if (bb.device.newerThan10dot2 === true) {
+			normal = 'bb-dropdown bb-dropdown-10dot3 bb-dropdown-' + bb.screen.controlColor,
+			highlight = 'bb-dropdown bb-dropdown-10dot3 bb-dropdown-highlight-10dot3-'+ bb.screen.controlColor,
+			outerContainerStyle += ' bb-dropdown-container-10dot3';
+			innerContainerStyle += ' bb-dropdown-container-inner-10dot3';
+			innerButtonStyle += ' bb-dropdown-inner-10dot3';
+			focusedHighlight = highlight + ' bb10Highlight';
+			highlight += ' bb-dropdown-' + bb.screen.controlColor + '-highlight-10dot3';			
+		} else if (bb.device.newerThan10dot1) {
 			outerContainerStyle += ' bb-dropdown-container-10dot2';
 			innerContainerStyle += ' bb-dropdown-container-inner-10dot2';
 			innerButtonStyle += ' bb-dropdown-inner-10dot2';
@@ -4401,7 +5721,10 @@ _bb10_dropdown = {
 		
 		// Create our dropdown arrow
 		img = document.createElement('div');
-		if (bb.device.newerThan10dot1) {
+		if (bb.device.newerThan10dot2 === true) {
+			img.normal = 'bb-dropdown-arrow-'+bb.screen.controlColor + ' bb-dropdown-arrow-10dot3';
+			img.highlight = 'bb-dropdown-arrow-dark bb-dropdown-arrow-10dot3';
+		} else if (bb.device.newerThan10dot1) {
 			img.normal = 'bb-dropdown-arrow-'+bb.screen.controlColor + ' bb-dropdown-arrow-10dot2';
 			img.highlight = 'bb-dropdown-arrow-dark bb-dropdown-arrow-10dot2';
 		} else {
@@ -4414,7 +5737,9 @@ _bb10_dropdown = {
 		// Create the caption for the dropdown
 		captionElement = document.createElement('div');
 		dropdown.captionElement = captionElement;
-		if (bb.device.newerThan10dot1) {
+		if (bb.device.newerThan10dot2 === true) {
+			captionElement.setAttribute('class','bb-dropdown-caption bb-dropdown-caption-10dot3');
+		} else if (bb.device.newerThan10dot1) {
 			captionElement.setAttribute('class','bb-dropdown-caption bb-dropdown-caption-10dot2');
 		} else {
 			captionElement.setAttribute('class','bb-dropdown-caption');
@@ -4424,7 +5749,11 @@ _bb10_dropdown = {
 		// Create the scrolling area
 		var scrollArea = document.createElement('div');
 		scrollArea.style.position = 'relative';
-		scrollArea.style['margin-top'] = '10px';
+		if (bb.device.newerThan10dot2 === true) {
+			scrollArea.style['margin-top'] = '3px';
+		} else {
+			scrollArea.style['margin-top'] = '10px';
+		}
 		scrollArea.style.overflow = 'hidden';
 		innerContainer.appendChild(scrollArea);
 		var innerScroller = document.createElement('div');
@@ -4511,7 +5840,7 @@ _bb10_dropdown = {
 											};
 						
 						item.ontouchend = function(event) {
-												this.style['background-color'] = 'transparent';
+												this.style['background-color'] = '';
 												this.style['color'] = '';
 												if (this.accentText) {
 													this.accentText.style['color'] = '';
@@ -4600,9 +5929,25 @@ _bb10_dropdown = {
 								if (bb.device.is1024x600) {
 									scrollHeight = (this.numItems * 43);
 									this.style.height = 45 + scrollHeight +'px';
-								} else if (bb.device.is1280x768 || bb.device.is1280x720) {
-									scrollHeight = (this.numItems * 99);
-									this.style.height = 95 + scrollHeight +'px';
+								} else if (bb.device.is1280x768) {
+									if (bb.device.newerThan10dot2 === true) {
+										scrollHeight = (this.numItems * 99);
+										this.style.height = 80 + scrollHeight +'px';
+									} else {
+										scrollHeight = (this.numItems * 99);
+										this.style.height = 95 + scrollHeight +'px';
+									}
+								} else if (bb.device.is1280x720) {
+									if (bb.device.newerThan10dot2 === true) {
+										scrollHeight = (this.numItems * 80);
+										this.style.height = 65 + scrollHeight +'px';
+									} else {
+										scrollHeight = (this.numItems * 99);
+										this.style.height = 95 + scrollHeight +'px';
+									}
+								} else if (bb.device.is1440x1440) {
+									scrollHeight = (this.numItems * 120);
+									this.style.height = 96 + scrollHeight +'px';
 								} else if (bb.device.is720x720) {
 									scrollHeight = (this.numItems * 85);
 									this.style.height = 77 + scrollHeight +'px';
@@ -4612,7 +5957,11 @@ _bb10_dropdown = {
 								}
 								
 								// Refresh our scroller based on the height only once
-								this.scrollArea.style.height = scrollHeight - 10 + 'px';
+								if (bb.device.newerThan10dot2 === true) {
+									this.scrollArea.style.height = scrollHeight - 3 + 'px';
+								} else {
+									this.scrollArea.style.height = scrollHeight - 10 + 'px';
+								}
 								if (!this.isRefreshed) {
 									this.scroller.refresh();
 									this.isRefreshed = true;
@@ -4656,12 +6005,22 @@ _bb10_dropdown = {
 								if (bb.device.is1024x600) {
 									this.style.height = '43px';
 								} else if (bb.device.is1280x768) {
-									this.style.height = bb.device.newerThan10dot1 ? '88px' : '95px';
+									if (bb.device.newerThan10dot2 === true) {
+										this.style.height = '83px';
+									} else {
+										this.style.height = bb.device.newerThan10dot1 ? '88px' : '95px';
+									}
 								} else if (bb.device.is720x720) {
 									this.style.height = bb.device.newerThan10dot1 ? '70px' : '77px';
 								} else if (bb.device.is1280x720 && bb.device.newerThan10dot1 && (window.devicePixelRatio < 1.9)) {
-									this.style.height = '76px';
-								}else {
+									if (bb.device.newerThan10dot2 === true) {
+										this.style.height = '64px';
+									} else {
+										this.style.height = '76px';
+									}
+								} else if (bb.device.is1440x1440) {
+									this.style.height = '96px';
+								} else {
 									this.style.height = '95px';
 								}
 								
@@ -4740,7 +6099,7 @@ _bb10_dropdown = {
 				this.dropdown.buttonOuter.ontouchstart = this.dropdown.buttonOuter.dotouchstart;
 				this.dropdown.buttonOuter.ontouchend = this.dropdown.buttonOuter.dotouchend;
 				this.dropdown.buttonOuter.onclick = this.dropdown.buttonOuter.doclick;
-				this.dropdown.buttonOuter.setAttribute('class',normal);
+				this.dropdown.buttonOuter.setAttribute('class',this.dropdown.buttonOuter.normal);
 				this.removeAttribute('disabled');
 				this.enabled = true;
 			};
@@ -4748,12 +6107,12 @@ _bb10_dropdown = {
 		
 		// Assign our disable function
 		select.disable = function(){ 
-				if (!select.enabled) return;
+				if (!this.enabled) return;
 				this.dropdown.internalHide();
 				this.dropdown.buttonOuter.ontouchstart = null;
 				this.dropdown.buttonOuter.ontouchend = null;
 				this.dropdown.buttonOuter.onclick = null;
-				this.dropdown.buttonOuter.setAttribute('class',normal + ' bb-dropdown-disabled-'+bb.screen.controlColor);
+				this.dropdown.buttonOuter.setAttribute('class',this.dropdown.buttonOuter.normal + ' bb-dropdown-disabled-'+bb.screen.controlColor);
 				this.enabled = false;
 				this.setAttribute('disabled','disabled');
 			};
@@ -4889,9 +6248,16 @@ _bb10_grid = {
 							title.normal = title.normal +' bb10Accent';
 							title.style.color = 'white';
 							title.style['border-bottom-color'] = 'transparent';
+							if (bb.device.newerThan10dot2) {
+								title.normal = title.normal + ' bb-grid-header-10dot3 bb-grid-header-normal-'+bb.screen.listColor + '-10dot3';
+							}
 						} else {
 							title.normal = title.normal + ' bb-grid-header-normal-'+bb.screen.listColor;
-							title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							if (bb.device.newerThan10dot2) {
+								title.normal = title.normal + ' bb-grid-header-10dot3 bb-grid-header-normal-'+bb.screen.listColor + '-10dot3';
+							} else {
+								title.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							}
 						}
 						
 						// Style our header for text justification
@@ -5300,7 +6666,11 @@ _bb10_imageList = {
 							innerChildNode.style['border-bottom-color'] = 'transparent';
 						} else {
 							normal = normal + ' bb-image-list-header-normal-'+bb.screen.listColor;
-							innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							if (bb.device.newerThan10dot2) {
+								normal = normal + ' bb-image-list-header-10dot3 bb-image-list-header-normal-'+bb.screen.listColor + '-10dot3';
+							} else {
+								innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							}
 						}
 						
 						// Check for alignment
@@ -5505,10 +6875,17 @@ _bb10_imageList = {
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-59px';
 								}
-							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+							} else if (bb.device.is1280x768) {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-140px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-102px';
+								}
+							} else if (bb.device.is1280x720) {
+								title.style['margin-top'] = '-7px';
+								title.style['padding-top'] = '20px';
+								overlay.style['margin-top'] = '-123px';
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-102px';
 								}
@@ -5519,7 +6896,13 @@ _bb10_imageList = {
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-89px';
 								}
-							}else {
+							} else if (bb.device.is1440x1440) {
+								title.style['padding-top'] = '28px';
+								overlay.style['margin-top'] = '-164px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-126px';
+								}							
+							} else {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-121px';
@@ -5535,6 +6918,8 @@ _bb10_imageList = {
 									accentText.style['margin-top'] = '-82px';
 								} else if (bb.device.is720x720) {
 									accentText.style['margin-top'] = '-75px';
+								} else if (bb.device.is1440x1440) {
+									accentText.style['margin-top'] = '-100px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
 								}
@@ -5593,16 +6978,28 @@ _bb10_imageList = {
 						innerChildNode.touchTimer = innerChildNode.touchTimer.bind(innerChildNode);
 						// Draw the selected state for the context menu
 						innerChildNode.drawSelected = function() {
-														this.setAttribute('class',this.highlight);
 														this.overlay.style['visibility'] = 'visible';
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														if (bb.device.newerThan10dot2) {
+															if (bb.screen.listColor === 'light') {
+																this.style['background-color'] = '#E4E4E4';
+															} else {
+																this.style['background-color'] = bb.options.shades.darkHighlight;
+															}
+														} else {
+															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														}
 													};
 						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
 						// Draw the unselected state for the context menu
 						innerChildNode.drawUnselected = function() {
-														this.setAttribute('class',this.normal);
 														this.overlay.style['visibility'] = 'hidden';
-														this.overlay.style['border-color'] =  'transparent';
+														if (bb.device.newerThan10dot2) {
+															this.style['background-color'] = '';
+														} else {
+															this.setAttribute('class',this.normal);
+															this.overlay.style['border-color'] =  'transparent';
+														}
 													};
 						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);
 						
@@ -5920,20 +7317,33 @@ _bb10_pillButtons = {
 			td,
 			j;
 		
+		// Running 10.3 or higher
+		if (bb.device.newerThan10dot2) {
+			containerStyle = containerStyle + ' bb-pill-buttons-container-' + bb.screen.controlColor + '-10dot3';
+		}
 		outerElement.sidePadding = sidePadding;
 		outerElement.setAttribute('class','bb-pill-buttons');
 		containerDiv = document.createElement('div');
 		outerElement.appendChild(containerDiv);
 		containerDiv.setAttribute('class',containerStyle);
 		// Set our selected color
-		outerElement.selectedColor = (bb.screen.controlColor == 'dark') ? '#909090' : '#555555';
+		if (bb.device.newerThan10dot2) {
+			outerElement.selectedColor = bb.options.highlightColor;
+		} else {
+			outerElement.selectedColor = (bb.screen.controlColor == 'dark') ? '#909090' : '#555555';
+		}
 		
 		// Create our selection pill
 		pill = document.createElement('div');
 		pillInner = document.createElement('div');
 		pill.appendChild(pillInner);
-		pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + ' bb-pill-buttons-pill');
-		pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor);
+		if (bb.device.newerThan10dot2) {
+			pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + '-10dot3 bb-pill-buttons-pill-10dot3');
+			pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor+'-10dot3');
+		} else {
+			pill.setAttribute('class',buttonStyle + ' bb-pill-button-selected-'+ bb.screen.controlColor + ' bb-pill-buttons-pill');
+			pillInner.setAttribute('class','bb-pill-button-inner bb-pill-button-inner-selected-'+bb.screen.controlColor);
+		}
 		pill.style.opacity = '0';
 		outerElement.pill = pill;
 		containerDiv.appendChild(pill);
@@ -5951,6 +7361,35 @@ _bb10_pillButtons = {
 		table.setAttribute('class','bb-pill-buttons-table');
 		table.style.opacity = '0';
 		containerDiv.appendChild(table);				
+		
+		// This is used for 10.3 styling
+		outerElement.redrawBorders = function() {
+			if (bb.device.newerThan10dot2 === false) return;
+			
+			var items = this.table.querySelectorAll('td'),
+				i, 
+				adjacentIndex = 0,
+				innerChildNode;
+			for (i = 0; i < items.length; i++) {
+				innerChildNode = items[i].innerChildNode;
+				if (this.selected == innerChildNode) {
+					innerChildNode.style['border-left'] = 'solid 2px transparent';
+					innerChildNode.style['border-radius'] = '0px';
+					adjacentIndex = i + 1;
+				} else if (adjacentIndex == i) {
+					innerChildNode.style['border-left'] = 'solid 2px transparent';
+					innerChildNode.style['border-radius'] = '0px';
+				} else {
+					if (bb.screen.controlColor == 'light') {
+						innerChildNode.style['border-left'] = 'solid 2px #DCDCDC';
+					} else {
+						innerChildNode.style['border-left'] = 'solid 2px #484848';
+					}
+					innerChildNode.style['border-radius'] = '0px';
+				}
+			}
+		}
+		outerElement.redrawBorders = outerElement.redrawBorders.bind(outerElement);
 		
 		// Style an indiviual button
 		outerElement.styleButton = function(innerChildNode) {
@@ -5973,6 +7412,7 @@ _bb10_pillButtons = {
 				innerBorder.setAttribute('class','bb-pill-button-inner');
 				innerChildNode.style['z-index'] = 4;
 				innerChildNode.style.width = '100%';
+
 				// Set our touch start					
 				innerChildNode.dotouchstart = function(e) {
 											if (this.isSelected) return;
@@ -5998,11 +7438,13 @@ _bb10_pillButtons = {
 											this.isSelected = true;
 											this.outerElement.selected = this;
 											this.style.color = this.outerElement.selectedColor;
-											
+
 											// Remove color styling from pill if light
 											if (bb.screen.controlColor == 'light') {
 												this.outerElement.pill.style['background-color'] = '';
 											}
+											
+											this.outerElement.redrawBorders();
 											
 											// Raise the click event. Need to do it this way to match the
 											// Cascades selection style in pill buttons
@@ -6049,7 +7491,12 @@ _bb10_pillButtons = {
 			td = document.createElement('td');
 			tr.appendChild(td);
 			td.appendChild(innerChildNode);
+			td.innerChildNode = innerChildNode;
 			td.style.width = percentWidth + '%';
+		}
+		// Reset all of the borders for 10.3 look and feel
+		if (bb.device.newerThan10dot2) {
+			outerElement.redrawBorders();
 		}
 		// Determine our pill widths based on size
 		outerElement.recalculateSize = function() {
@@ -6163,6 +7610,7 @@ _bb10_pillButtons = {
 			this.table.tr.appendChild(td);
 			td.appendChild(button);
 			this.initialize();
+			this.redrawBorders();
 		};
 		outerElement.appendButton = outerElement.appendButton.bind(outerElement);
 		
@@ -6199,6 +7647,9 @@ _bb10_radio = {
 		
 		outerElement = document.createElement('div');
 		outerElement.setAttribute('class','bb-radio-container-'+color);
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.setAttribute('class','bb-radio-container-'+color + ' bb-radio-container-10dot3-' + color);
+		}
 		outerElement.input = input;
 		input.outerElement = outerElement;
 
@@ -6215,9 +7666,19 @@ _bb10_radio = {
 		
 		// Create our colored dot
 		dotDiv = document.createElement('div');
-		dotDiv.setAttribute('class','bb-radio-dot');
-		dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
-		dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		if (bb.device.newerThan10dot2 === true) {
+			dotDiv.setAttribute('class','bb-radio-dot bb-radio-dot-10dot3 bb-radio-dot-10dot3-'+color);
+			dotDiv.highlight = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' , '+ bb.options.highlightColor+')';
+			if (color == 'light') {
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top, #C6C6C6 , #C6C6C6)';
+			} else {
+				dotDiv.touchHighlight = '-webkit-linear-gradient(top, #303030 , #303030)';
+			}
+		} else {
+			dotDiv.setAttribute('class','bb-radio-dot');
+			dotDiv.highlight = '-webkit-linear-gradient(top,  rgb('+ (bb.options.shades.R + 32) +', '+ (bb.options.shades.G + 32) +', '+ (bb.options.shades.B + 32) +') 0%, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 100%)';
+			dotDiv.touchHighlight = '-webkit-linear-gradient(top,  rgba('+ (bb.options.shades.R - 64) +', '+ (bb.options.shades.G - 64) +', '+ (bb.options.shades.B - 64) +',0.25) 0%, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +',0.25) 100%)';
+		}
 		if (input.checked) {
 			dotDiv.style.background = dotDiv.highlight;
 		}
@@ -6226,7 +7687,11 @@ _bb10_radio = {
 		
 		// Set up our center dot
 		centerDotDiv = document.createElement('div');
-		centerDotDiv.setAttribute('class','bb-radio-dot-center');
+		if (bb.device.newerThan10dot2 === true) {
+			centerDotDiv.setAttribute('class','bb-radio-dot-center bb-radio-dot-center-10dot3');
+		} else {
+			centerDotDiv.setAttribute('class','bb-radio-dot-center');
+		}
 		if (!input.checked) {
 			bb.radio.resetDot(centerDotDiv);
 		}
@@ -6234,16 +7699,20 @@ _bb10_radio = {
 		dotDiv.centerDotDiv = centerDotDiv;
 		
 		dotDiv.slideOutUp = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '0px';
-								this.style.width = '10px';
-								this.style.top = '9px';
-								this.style.left = '15px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '0px';
+									this.style.width = '10px';
+									this.style.top = '9px';
+									this.style.left = '15px';
+								} else {
+									this.style.height = '0px';
+									this.style.width = '20px';
+									this.style.top = '18px';
+									this.style.left = '30px';
+								}
 							} else {
-								this.style.height = '0px';
-								this.style.width = '20px';
-								this.style.top = '18px';
-								this.style.left = '30px';
+								this.style.background = '';
 							}
 							bb.radio.resetDot(this.centerDotDiv);
 							this.style['-webkit-transition-property'] = 'all';
@@ -6256,16 +7725,20 @@ _bb10_radio = {
 		dotDiv.slideOutUp = dotDiv.slideOutUp.bind(dotDiv);
 		
 		dotDiv.slideOutDown = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '0px';
-								this.style.width = '10px';
-								this.style.top = '30px';
-								this.style.left = '15px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '0px';
+									this.style.width = '10px';
+									this.style.top = '30px';
+									this.style.left = '15px';
+								} else {
+									this.style.height = '0px';
+									this.style.width = '20px';
+									this.style.top = '60px';
+									this.style.left = '30px';
+								}
 							} else {
-								this.style.height = '0px';
-								this.style.width = '20px';
-								this.style.top = '60px';
-								this.style.left = '30px';
+								this.style.background = '';
 							}
 							bb.radio.resetDot(this.centerDotDiv);
 							this.style['-webkit-transition-property'] = 'all';
@@ -6278,24 +7751,28 @@ _bb10_radio = {
 		dotDiv.slideOutDown = dotDiv.slideOutDown.bind(dotDiv);
 		
 		dotDiv.slideIn = function() {
-							if (bb.device.is1024x600) {
-								this.style.height = '20px';
-								this.style.width = '20px';
-								this.style.top = '10px';
-								this.style.left = '9px';
-								this.centerDotDiv.style.height = '10px';
-								this.centerDotDiv.style.width = '10px';
-								this.centerDotDiv.style.top = '5px';
-								this.centerDotDiv.style.left = '5px';
+							if (bb.device.newerThan10dot2 != true) {
+								if (bb.device.is1024x600) {
+									this.style.height = '20px';
+									this.style.width = '20px';
+									this.style.top = '10px';
+									this.style.left = '9px';
+									this.centerDotDiv.style.height = '10px';
+									this.centerDotDiv.style.width = '10px';
+									this.centerDotDiv.style.top = '5px';
+									this.centerDotDiv.style.left = '5px';
+								} else {
+									this.style.height = '40px';
+									this.style.width = '40px';
+									this.style.top = '19px';
+									this.style.left = '19px';
+									this.centerDotDiv.style.height = '18px';
+									this.centerDotDiv.style.width = '18px';
+									this.centerDotDiv.style.top = '11px';
+									this.centerDotDiv.style.left = '11px';
+								}
 							} else {
-								this.style.height = '40px';
-								this.style.width = '40px';
-								this.style.top = '19px';
-								this.style.left = '19px';
-								this.centerDotDiv.style.height = '18px';
-								this.centerDotDiv.style.width = '18px';
-								this.centerDotDiv.style.top = '11px';
-								this.centerDotDiv.style.left = '11px';
+								this.centerDotDiv.style.opacity = '1.0';
 							}
 							this.style['-webkit-transition-property'] = 'all';
 							this.style['-webkit-transition-duration'] = '0.1s';
@@ -6329,17 +7806,19 @@ _bb10_radio = {
 											} 
 											// Reset for our highlights
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.is1024x600) {
-												this.dotDiv.style.height = '20px';
-												this.dotDiv.style.width = '20px';
-												this.dotDiv.style.top = '10px';
-												this.dotDiv.style.left = '9px';
-											} else {
-												this.dotDiv.style.height = '40px';
-												this.dotDiv.style.width = '40px';
-												this.dotDiv.style.top = '19px';
-												this.dotDiv.style.left = '19px';
-											}
+											if (bb.device.newerThan10dot2 != true) {
+												if (bb.device.is1024x600) {
+													this.dotDiv.style.height = '20px';
+													this.dotDiv.style.width = '20px';
+													this.dotDiv.style.top = '10px';
+													this.dotDiv.style.left = '9px';
+												} else {
+													this.dotDiv.style.height = '40px';
+													this.dotDiv.style.width = '40px';
+													this.dotDiv.style.top = '19px';
+													this.dotDiv.style.left = '19px';
+												}
+											} 
 											// Reset our center white dot
 											bb.radio.resetDot(this.dotDiv.centerDotDiv);
 											// Do our touch highlight
@@ -6349,22 +7828,25 @@ _bb10_radio = {
 		outerElement.ontouchend = function() {
 										if (!this.input.checked) {
 											this.dotDiv.style['-webkit-transition'] = 'none';
-											if (bb.device.is1024x600) {
-												this.dotDiv.style.height = '0px';
-												this.dotDiv.style.width = '9px';
-												this.dotDiv.style.left = '16px';
+											if (bb.device.newerThan10dot2 != true) {
+												if (bb.device.is1024x600) {
+													this.dotDiv.style.height = '0px';
+													this.dotDiv.style.width = '9px';
+													this.dotDiv.style.left = '16px';
+												} else {
+													this.dotDiv.style.height = '0px';
+													this.dotDiv.style.width = '18px';
+													this.dotDiv.style.left = '32px';
+												}
+												// Reset top position
+												if (this.slideFromTop) {
+													this.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
+												} else {
+													this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+												}
 											} else {
-												this.dotDiv.style.height = '0px';
-												this.dotDiv.style.width = '18px';
-												this.dotDiv.style.left = '32px';
+												this.dotDiv.style.background = '';
 											}
-											// Reset top position
-											if (this.slideFromTop) {
-												this.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
-											} else {
-												this.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
-											}
-											
 											// Fire our click
 											window.setTimeout(this.doclick,0);
 										}
@@ -6423,20 +7905,25 @@ _bb10_radio = {
 						} 
 						// Emulate TouchEnd
 						this.outerElement.dotDiv.style['-webkit-transition'] = 'none';
-						if (bb.device.is1024x600) {
-							this.outerElement.dotDiv.style.height = '0px';
-							this.outerElement.dotDiv.style.width = '9px';
-							this.outerElement.dotDiv.style.left = '16px';
+						if (bb.device.newerThan10dot2 != true) {
+							if (bb.device.is1024x600) {
+								this.outerElement.dotDiv.style.height = '0px';
+								this.outerElement.dotDiv.style.width = '9px';
+								this.outerElement.dotDiv.style.left = '16px';
+							} else {
+								this.outerElement.dotDiv.style.height = '0px';
+								this.outerElement.dotDiv.style.width = '18px';
+								this.outerElement.dotDiv.style.left = '32px';
+							}
+							// Reset top position
+							if (this.outerElement.slideFromTop) {
+								this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
+							} else {
+								this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+							}
 						} else {
-							this.outerElement.dotDiv.style.height = '0px';
-							this.outerElement.dotDiv.style.width = '18px';
-							this.outerElement.dotDiv.style.left = '32px';
-						}
-						// Reset top position
-						if (this.outerElement.slideFromTop) {
-							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '9px' : '18px';
-						} else {
-							this.outerElement.dotDiv.style.top = bb.device.is1024x600 ? '30px' : '60px';
+							this.outerElement.dotDiv.style.background = '';
+							this.outerElement.dotDiv.centerDotDiv.style.opacity = '0.0';
 						}
 						// Fire our click
 						window.setTimeout(this.outerElement.doclick,0);
@@ -6454,7 +7941,11 @@ _bb10_radio = {
 		input.enable = function() {
 				if (!this.disabled) return;
 				this.disabled = false;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot');
+				if (bb.device.newerThan10dot2 === true) {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot bb-radio-dot-10dot3 bb-radio-dot-10dot3-'+bb.screen.controlColor);
+				} else {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot');
+				}
 			};
 		input.enable = input.enable.bind(input);
 			
@@ -6462,7 +7953,11 @@ _bb10_radio = {
 		input.disable = function() {
 				if (this.disabled) return;
 				this.disabled = true;
-				this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled');
+				if (bb.device.newerThan10dot2 === true) {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled bb-radio-dot-disabled-10dot3');
+				} else {
+					this.outerElement.dotDiv.setAttribute('class', 'bb-radio-dot-disabled');
+				}
 			};
 		input.disable = input.disable.bind(input);
 		
@@ -6498,16 +7993,21 @@ _bb10_radio = {
 	
 	resetDot : function(dot) {
 		dot.style['-webkit-transition'] = 'none';
-		if (bb.device.is1024x600) {
-			dot.style.height = '0px';
-			dot.style.width = '0px';
-			dot.style.top = '10px';
-			dot.style.left = '9px';
-		} else {
-			dot.style.height = '0px';
-			dot.style.width = '0px';
-			dot.style.top = '20px';
-			dot.style.left = '20px';
+		
+		if (bb.device.newerThan10dot2 != true) {
+			if (bb.device.is1024x600) {
+				dot.style.height = '0px';
+				dot.style.width = '0px';
+				dot.style.top = '10px';
+				dot.style.left = '9px';
+			} else {
+				dot.style.height = '0px';
+				dot.style.width = '0px';
+				dot.style.top = '20px';
+				dot.style.left = '20px';
+			}
+		}  else {
+			dot.style.opacity = '0.0';
 		}
 	},
 	
@@ -6543,8 +8043,12 @@ _bb10_roundPanel = {
 			items = outerElement.querySelectorAll('[data-bb-type=panel-header]');
 			for (j = 0; j < items.length; j++) {
 				 header = items[j];
-				 header.setAttribute('class','bb-panel-header bb-panel-header-'+color);
-				 header.style['border-bottom-color'] = bb.options.shades.darkOutline;
+				 if (bb.device.newerThan10dot2) {
+					header.setAttribute('class','bb-panel-header bb-panel-header-'+color+' bb-panel-header-10dot3 bb-panel-header-'+color+'-10dot3');
+				 } else {
+					header.setAttribute('class','bb-panel-header bb-panel-header-'+color);
+					header.style['border-bottom-color'] = bb.options.shades.darkOutline;
+				}
 			}
 		// Add our show function
 		outerElement.show = function() {
@@ -6596,12 +8100,21 @@ _bb10_slider = {
 			// Set our styling and create the inner divs
 			outerElement.className = 'bb-slider';
 			outerElement.outer = document.createElement('div');
-			outerElement.outer.setAttribute('class','outer bb-slider-outer-' + color);
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.outer.setAttribute('class','outer outer-10dot3 bb-slider-outer-' + color+ ' bb-slider-outer-10dot3-'+color);
+			} else {
+				outerElement.outer.setAttribute('class','outer bb-slider-outer-' + color);
+			}
 			outerElement.appendChild(outerElement.outer);
 			outerElement.fill = document.createElement('div');
 			outerElement.fill.className = 'fill';
-			outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
-			outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.fill.active = bb.options.highlightColor;
+				outerElement.fill.dormant = bb.options.highlightColor;
+			} else {
+				outerElement.fill.active = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+				outerElement.fill.dormant = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+			}
 			outerElement.fill.style.background = outerElement.fill.dormant;
 			outerElement.outer.appendChild(outerElement.fill);
 			outerElement.inner = document.createElement('div');
@@ -6609,11 +8122,24 @@ _bb10_slider = {
 			outerElement.inner.outerElement = outerElement;
 			outerElement.outer.appendChild(outerElement.inner);
 			outerElement.halo = document.createElement('div');
-			outerElement.halo.className = 'halo';
-			outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+			if (bb.device.newerThan10dot2 === true) {
+				if (color == 'light') {
+					outerElement.halo.style.background = '#C3C3C3';
+				} else {
+					outerElement.halo.style.background = '#484848';
+				}
+				outerElement.halo.className = 'halo halo-10dot3';
+			} else {
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+				outerElement.halo.className = 'halo';
+			}
 			outerElement.inner.appendChild(outerElement.halo);
 			outerElement.indicator = document.createElement('div');
-			outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color);
+			} else {
+				outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);
+			}
 			outerElement.inner.appendChild(outerElement.indicator);
 			// Assign our function to set the value for the control
 			range.outerElement = outerElement;
@@ -6651,8 +8177,13 @@ _bb10_slider = {
 										this.outerElement.initialXPos = event.touches[0].pageX;	
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color+ ' indicator-hover-'+color);
-										this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+										if (bb.device.newerThan10dot2 === true) {
+											this.outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color + ' indicator-hover-10dot3-'+color);
+											this.outerElement.indicator.style.background = '#FEFEFE';
+										} else {
+											this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color+ ' indicator-hover-'+color);
+											this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+										}
 										this.outerElement.fill.style.background = this.outerElement.fill.active;
 									}
 								};
@@ -6665,7 +8196,11 @@ _bb10_slider = {
 										this.outerElement.value = parseInt(this.outerElement.range.value);
 										this.outerElement.halo.style['-webkit-transform'] = 'scale(0)';
 										this.outerElement.halo.style['-webkit-animation-name'] = 'implode';
-										this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);   
+										if (bb.device.newerThan10dot2 === true) {
+											this.outerElement.indicator.setAttribute('class','indicator indicator-10dot3 bb-slider-indicator-10dot3-' + color);
+										} else {
+											this.outerElement.indicator.setAttribute('class','indicator bb-slider-indicator-' + color);   
+										}
 										this.outerElement.indicator.style.background = '';	
 										this.outerElement.fill.style.background = this.outerElement.fill.dormant;
 									}
@@ -6742,8 +8277,17 @@ _bb10_textInput = {
 		// Set our input styling
 		outerElement.normal = css + ' bb-input';
 		outerElement.focused = css + ' bb-input bb-input-focused';
+		if (bb.device.newerThan10dot2) {
+			container.normal += ' bb-input-container-10dot3 bb-input-container-10dot3-'+bb.screen.controlColor;
+			outerElement.normal += ' bb-input-10dot3 bb-input-10dot3-'+bb.screen.controlColor;
+			outerElement.focused += ' bb-input-10dot3 bb-input-10dot3-'+bb.screen.controlColor+' bb-input-focused-10dot3';
+		}
 		if (outerElement.disabled) {
-			outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled');
+			if (bb.device.newerThan10dot2) {
+				outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled-10dot3-'+bb.screen.controlColor);
+			} else {
+				outerElement.setAttribute('class', outerElement.normal + ' bb-input-disabled');
+			}
 		} else {
 			outerElement.setAttribute('class', outerElement.normal);
 		}
@@ -6775,7 +8319,11 @@ _bb10_textInput = {
 		
 		outerElement.doFocus = function() {
 								if(this.readOnly == false) {
-									this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button bb-input-container-focused');
+									if (bb.device.newerThan10dot2) {
+										this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button-'+ bb.screen.controlColor +' bb-input-container-focused bb-input-container-focused-10dot3 bb-input-container-focused-10dot3-'+ bb.screen.controlColor);
+									} else {
+										this.container.setAttribute('class',this.container.normal + ' bb-input-cancel-button-light bb-input-container-focused');
+									}
 									if (this.clearBtn && this.value) {
 										this.setAttribute('class', this.focused);
 										this.hasClearBtn = true;
@@ -6863,8 +8411,13 @@ _bb10_textInput = {
 		outerElement.disable = function() {
 					if (this.disabled) return;
 					this.disabled = true;
-					this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled');
-					this.setAttribute('class', this.normal + ' bb-input-disabled');
+					if (bb.device.newerThan10dot2) {
+						this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled-10dot3-'+bb.screen.controlColor);
+						this.setAttribute('class', this.normal + ' bb-input-disabled-10dot3-'+bb.screen.controlColor);
+					} else {
+						this.container.setAttribute('class',this.container.normal + ' bb-input-container-disabled');
+						this.setAttribute('class', this.normal + ' bb-input-disabled');
+					}
 				};
 		outerElement.disable = outerElement.disable.bind(outerElement);
 		
@@ -6888,6 +8441,13 @@ _bb10_toggle = {
 		outerElement.checked = false;
 		outerElement.enabled = true;
 		outerElement.buffer = (bb.device.is1024x600) ? 35 : 70;
+		if (bb.device.newerThan10dot2 === true) {
+			if (bb.device.is1280x720) {
+				outerElement.buffer = 57;	
+			} else if (bb.device.is720x720) {
+				outerElement.buffer = 63;
+			}
+		} 
 		outerElement.isActivated = false;
 		outerElement.initialXPos = 0;
 		outerElement.currentXPos = 0;
@@ -6901,10 +8461,16 @@ _bb10_toggle = {
 		}
 		
 		// Set our styling and create the inner divs
-		outerElement.className = 'bb-toggle';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.className = 'bb-toggle bb-toggle-10dot3';
+		} else {
+			outerElement.className = 'bb-toggle';
+		}
 		outerElement.outer = document.createElement('div');
 		if (outerElement.enabled) {
-			if (bb.device.newerThan10dot1) {
+			if (bb.device.newerThan10dot2 === true) {
+				outerElement.normal = 'outer outer-10dot3 bb-toggle-outer-enabled-'+color;
+			} else if (bb.device.newerThan10dot1 === true) {
 				outerElement.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
 			} else {
 				outerElement.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
@@ -6915,7 +8481,11 @@ _bb10_toggle = {
 		outerElement.outer.setAttribute('class',outerElement.normal);
 		outerElement.appendChild(outerElement.outer);
 		outerElement.fill = document.createElement('div');
-		outerElement.fill.className = 'fill';
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.fill.className = 'fill fill-10dot3-'+color;
+		} else {
+			outerElement.fill.className = 'fill';
+		}
 		outerElement.fill.style.background = outerElement.fill.dormant;
 		outerElement.outer.appendChild(outerElement.fill);
 		// Our inner area that will contain the text
@@ -6955,8 +8525,17 @@ _bb10_toggle = {
 		outerElement.appendChild(outerElement.container);
 		// Create the Halo
 		outerElement.halo = document.createElement('div');
-		outerElement.halo.className = 'halo';
-		outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+		if (bb.device.newerThan10dot2 === true) {
+				if (color == 'light') {
+					outerElement.halo.style.background = '#C3C3C3';
+				} else {
+					outerElement.halo.style.background = '#484848';
+				}
+				outerElement.halo.className = 'halo halo-10dot3';
+			} else {
+				outerElement.halo.className = 'halo';
+				outerElement.halo.style.background = '-webkit-gradient(radial, 50% 50%, 0, 50% 50%, 43, from(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), color-stop(0.8, rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.15)), to(rgba('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +', 0.7)))';
+			}
 		outerElement.container.appendChild(outerElement.halo);
 		// Create the indicator
 		outerElement.indicator = document.createElement('div');
@@ -6967,6 +8546,14 @@ _bb10_toggle = {
 		}
 		outerElement.indicator.setAttribute('class',outerElement.indicator.normal);
 		outerElement.container.appendChild(outerElement.indicator);
+		
+		// Add our internal switch for 10.3+
+		if (bb.device.newerThan10dot2 === true) {
+			outerElement.onoff = document.createElement('div');
+			outerElement.onoff.className = 'switch-off-'+color;
+			outerElement.indicator.appendChild(outerElement.onoff);		
+		}
+		
 		// Get our onchange event if any
 		if (outerElement.hasAttribute('onchange')) {
 			outerElement.onchangeEval = outerElement.getAttribute('onchange');
@@ -6985,8 +8572,12 @@ _bb10_toggle = {
 									this.outerElement.initialXPos = event.touches[0].pageX;	
 									this.outerElement.halo.style['-webkit-transform'] = 'scale(1)';
 									this.outerElement.halo.style['-webkit-animation-name'] = 'explode';
-									this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
-									this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+									if (bb.device.newerThan10dot2 == true) {
+										this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
+									} else {
+										this.outerElement.indicator.setAttribute('class','indicator bb-toggle-indicator-enabled-' + color+ ' indicator-hover-'+color);
+										this.outerElement.indicator.style.background = '-webkit-linear-gradient(top, rgb('+ bb.options.shades.R +', '+ bb.options.shades.G +', '+ bb.options.shades.B +') 0%, rgb('+ (bb.options.shades.R + 16) +', '+ (bb.options.shades.G + 16) +', '+ (bb.options.shades.B + 16) +') 100%)';
+									}
 								}
 							};
 		outerElement.inner.animateBegin = outerElement.inner.animateBegin.bind(outerElement.inner);
@@ -7064,9 +8655,27 @@ _bb10_toggle = {
 							});
 							
 					if (this.checked && this.enabled) {
-						this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+						if (bb.device.newerThan10dot2) {
+							this.indicator.style.background = '#FEFEFE';
+							this.indicator.style['border'] = '1px solid #FEFEFE';
+							this.fill.style.background = bb.options.highlightColor;
+							this.onoff.className = 'switch-on';
+							this.onoff.style['background-color'] = bb.options.highlightColor;
+						} else {
+							this.indicator.style['background-image'] = '-webkit-linear-gradient(top, '+ bb.options.highlightColor +' 0%, '+ bb.options.shades.darkHighlight +' 100%)';
+						}
 					} else {
-						this.indicator.style['background-image'] = '';
+						if (bb.device.newerThan10dot2) {
+							if (this.checked === false) {
+								this.fill.style.background = '';
+								this.onoff.className = 'switch-off-'+bb.screen.controlColor;
+								this.onoff.style['background-color'] = '';
+								this.indicator.style.background = '';
+								this.indicator.style['border'] = '';
+							} 
+						} else {
+							this.indicator.style['background-image'] = '';
+						}
 					}
 					
 					this.currentXPos = location;
@@ -7141,14 +8750,18 @@ _bb10_toggle = {
 				if (this.enabled) return;
 				this.enabled = true;
 				// change our styles
-				this.indicator.normal = 'indicator bb-toggle-indicator-enabled-' + color;
-				this.indicator.setAttribute('class',this.indicator.normal);
-				if (bb.device.newerThan10dot1) {
-					this.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+				if (bb.device.newerThan10dot2 === true) {
+					this.style.opacity = '';
 				} else {
-					this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+					this.indicator.normal = 'indicator bb-toggle-indicator-enabled-' + color;
+					this.indicator.setAttribute('class',this.indicator.normal);
+					if (bb.device.newerThan10dot1) {
+						this.normal = 'outer bb-toggle-outer-'+ color +'-10dot2 bb-toggle-outer-enabled-'+color;
+					} else {
+						this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-enabled-'+color;
+					}
+					this.outer.setAttribute('class',this.normal);
 				}
-				this.outer.setAttribute('class',this.normal);
 				// update the button
 				this.positionButton();
 			};
@@ -7159,10 +8772,14 @@ _bb10_toggle = {
 				if (!this.enabled) return;
 				this.enabled = false;
 				// change our styles
-				this.indicator.normal = 'indicator bb-toggle-indicator-disabled-' + color;
-				this.indicator.setAttribute('class',this.indicator.normal);
-				this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-disabled';
-				this.outer.setAttribute('class',this.normal);
+				if (bb.device.newerThan10dot2 === true) {
+					this.style.opacity = '0.45';
+				} else {
+					this.indicator.normal = 'indicator bb-toggle-indicator-disabled-' + color;
+					this.indicator.setAttribute('class',this.indicator.normal);
+					this.normal = 'outer bb-toggle-outer-'+color + ' bb-toggle-outer-disabled';
+					this.outer.setAttribute('class',this.normal);
+				}
 				// Update the button
 				this.positionButton();
 			};
@@ -7614,6 +9231,8 @@ _PlayBook_contextMenu = {
 									itemHeight = 80;
 								} else if (bb.device.is1280x720) {
 									itemHeight = 91;
+								} else if (bb.device.is1440x1440) {
+									itemHeight = 132;
 								} 							
 								headerHeight = (this.actionBar == undefined) ? itemHeight : 0;
 							
@@ -7786,6 +9405,12 @@ _PlayBook_contextMenu = {
 	getWidth : function() {
 		if (bb.device.isPlayBook) {
 			return '300';
+		} else if (bb.device.is1280x720) {
+			return '435';
+		} else if (bb.device.is1440x1440) {
+			return '654';
+		} else if (bb.device.is720x720) {
+			return '490';
 		} else {
 			return '563';		
 		}

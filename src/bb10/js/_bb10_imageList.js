@@ -59,7 +59,11 @@ _bb10_imageList = {
 							innerChildNode.style['border-bottom-color'] = 'transparent';
 						} else {
 							normal = normal + ' bb-image-list-header-normal-'+bb.screen.listColor;
-							innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							if (bb.device.newerThan10dot2) {
+								normal = normal + ' bb-image-list-header-10dot3 bb-image-list-header-normal-'+bb.screen.listColor + '-10dot3';
+							} else {
+								innerChildNode.style['border-bottom-color'] = bb.options.shades.darkOutline;
+							}
 						}
 						
 						// Check for alignment
@@ -264,10 +268,17 @@ _bb10_imageList = {
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-59px';
 								}
-							} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+							} else if (bb.device.is1280x768) {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-140px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-102px';
+								}
+							} else if (bb.device.is1280x720) {
+								title.style['margin-top'] = '-7px';
+								title.style['padding-top'] = '20px';
+								overlay.style['margin-top'] = '-123px';
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-102px';
 								}
@@ -278,7 +289,13 @@ _bb10_imageList = {
 								if (innerChildNode.btn) {
 									innerChildNode.btn.style['margin-top'] = '-89px';
 								}
-							}else {
+							} else if (bb.device.is1440x1440) {
+								title.style['padding-top'] = '28px';
+								overlay.style['margin-top'] = '-164px';
+								if (innerChildNode.btn) {
+									innerChildNode.btn.style['margin-top'] = '-126px';
+								}							
+							} else {
 								title.style['margin-top'] = '-7px';
 								title.style['padding-top'] = '20px';
 								overlay.style['margin-top'] = '-121px';
@@ -294,6 +311,8 @@ _bb10_imageList = {
 									accentText.style['margin-top'] = '-82px';
 								} else if (bb.device.is720x720) {
 									accentText.style['margin-top'] = '-75px';
+								} else if (bb.device.is1440x1440) {
+									accentText.style['margin-top'] = '-100px';
 								} else {
 									accentText.style['margin-top'] = '-82px';
 								}
@@ -352,16 +371,28 @@ _bb10_imageList = {
 						innerChildNode.touchTimer = innerChildNode.touchTimer.bind(innerChildNode);
 						// Draw the selected state for the context menu
 						innerChildNode.drawSelected = function() {
-														this.setAttribute('class',this.highlight);
 														this.overlay.style['visibility'] = 'visible';
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														if (bb.device.newerThan10dot2) {
+															if (bb.screen.listColor === 'light') {
+																this.style['background-color'] = '#E4E4E4';
+															} else {
+																this.style['background-color'] = bb.options.shades.darkHighlight;
+															}
+														} else {
+															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														}
 													};
 						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
 						// Draw the unselected state for the context menu
 						innerChildNode.drawUnselected = function() {
-														this.setAttribute('class',this.normal);
 														this.overlay.style['visibility'] = 'hidden';
-														this.overlay.style['border-color'] =  'transparent';
+														if (bb.device.newerThan10dot2) {
+															this.style['background-color'] = '';
+														} else {
+															this.setAttribute('class',this.normal);
+															this.overlay.style['border-color'] =  'transparent';
+														}
 													};
 						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);
 						

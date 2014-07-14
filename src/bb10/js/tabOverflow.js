@@ -75,10 +75,12 @@ bb.tabOverflow = {
 					this.itemClicked = false;
 					this.visible = true;
 					var tabOverflowBtn = this.actionBar.tabOverflowBtn;
-					this.tabOverflowState.display = tabOverflowBtn.tabHighlight.style.display;
-					this.tabOverflowState.img = tabOverflowBtn.icon.src;
-					this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
-					this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					if (bb.device.newerThan10dot2 === false) {
+						this.tabOverflowState.display = tabOverflowBtn.tabHighlight.style.display;
+						this.tabOverflowState.img = tabOverflowBtn.icon.src;
+						this.tabOverflowState.caption = tabOverflowBtn.display.innerHTML;
+						this.tabOverflowState.style = tabOverflowBtn.icon.getAttribute('class');
+					}
 					this.screen.addEventListener('webkitTransitionEnd',menu.doEndTransition);
 					this.setDimensions();					
 					// Reset our overflow menu button
@@ -122,12 +124,14 @@ bb.tabOverflow = {
 					this.overlay.style.display = 'none';
 					
 					// Re-apply the old button styling if needed
-					if (!this.itemClicked) {
-						var tabOverflowBtn = this.actionBar.tabOverflowBtn;
-						tabOverflowBtn.icon.setAttribute('src',this.tabOverflowState.img);
-						tabOverflowBtn.icon.setAttribute('class',this.tabOverflowState.style);
-						tabOverflowBtn.tabHighlight.style.display = this.tabOverflowState.display;
-						tabOverflowBtn.display.innerHTML = this.tabOverflowState.caption;
+					if (bb.device.newerThan10dot2 === false) {
+						if (!this.itemClicked) {
+							var tabOverflowBtn = this.actionBar.tabOverflowBtn;
+							tabOverflowBtn.icon.setAttribute('src',this.tabOverflowState.img);
+							tabOverflowBtn.icon.setAttribute('class',this.tabOverflowState.style);
+							tabOverflowBtn.tabHighlight.style.display = this.tabOverflowState.display;
+							tabOverflowBtn.display.innerHTML = this.tabOverflowState.caption;
+						}
 					}
 					if(bb.device.isPlayBook){
 						blackberry.app.event.onSwipeDown(bb.menuBar.showMenuBar);
@@ -147,18 +151,18 @@ bb.tabOverflow = {
 								var windowHeight = bb.innerHeight(),
 									itemHeight = 111,
 									margin;
-									
 								if (bb.device.is1024x600) {
 									itemHeight = 53;
 								} else if (bb.device.is720x720) {
 									itemHeight = 80;
 								} else if (bb.device.is1280x720) {
 									itemHeight = 91;
+								} else if (bb.device.is1440x1440) {
+									itemHeight = 132;
 								} else {
 									itemHeight = 111;
 								}
-								
-								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2) - itemHeight; //itemHeight is the header
+								margin = windowHeight - Math.floor(windowHeight/2) - Math.floor((this.actions.length * itemHeight)/2); 
 								if (margin < 0) margin = 0;
 								this.actions[0].style['margin-top'] = margin + 'px';
 							};
@@ -262,13 +266,19 @@ bb.tabOverflow = {
 				action.setOverflowTab = function(hightlight) {
 							var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 							if (hightlight) {
-								bb.actionBar.highlightAction(this.visibleTab, this);
+								if (bb.device.newerThan10dot2 === true) {
+									bb.actionBar10dot3.highlightAction(this.visibleTab, this);
+								} else {
+									bb.actionBar.highlightAction(this.visibleTab, this);
+								}
 							}
 							if (this.visibleTab == tabOverflowBtn) {
-								tabOverflowBtn.icon.setAttribute('src',this.img.src);
-								tabOverflowBtn.icon.setAttribute('class',tabOverflowBtn.icon.highlight);
-								tabOverflowBtn.tabHighlight.style.display = 'block';
-								tabOverflowBtn.display.innerHTML = this.caption;
+								if (bb.device.newerThan10dot2 === false) {
+									tabOverflowBtn.icon.setAttribute('src',this.img.src);
+									tabOverflowBtn.icon.setAttribute('class',tabOverflowBtn.icon.highlight);
+									tabOverflowBtn.tabHighlight.style.display = 'block';
+									tabOverflowBtn.display.innerHTML = this.caption;
+								}
 							}
 						};
 				action.setOverflowTab = action.setOverflowTab.bind(action);
@@ -282,7 +292,11 @@ bb.tabOverflow = {
 				action.onclick = function() {
 									var tabOverflowBtn = this.actionBar.tabOverflowBtn;
 									this.menu.itemClicked = true;
-									bb.actionBar.highlightAction(this.visibleTab, this);
+									if (bb.device.newerThan10dot2 === true) {
+										bb.actionBar10dot3.highlightAction(this.visibleTab, this);
+									} else {
+										bb.actionBar.highlightAction(this.visibleTab, this);
+									}
 									if (this.visibleTab == tabOverflowBtn) {
 										this.setOverflowTab(false);
 									} 
@@ -340,7 +354,11 @@ bb.tabOverflow = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
 		} else if (bb.device.is720x720) {
-			return bb.innerWidth() - 143;
+			return 550;
+		} else if (bb.device.is1280x720) {
+			return 488;
+		} else if (bb.device.is1440x1440) {
+			return 732;
 		} else {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 154 : 700;
 		}

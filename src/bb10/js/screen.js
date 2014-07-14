@@ -216,7 +216,11 @@ bb.screen = {
 			
 			// Apply any action Bar styling
 			if (actionBar) {
-				bb.actionBar.apply(actionBar,outerElement);
+				if (bb.device.newerThan10dot2 === true) {
+					bb.actionBar10dot3.apply(actionBar,outerElement);
+				} else {
+					bb.actionBar.apply(actionBar,outerElement);
+				}
 			}
 			
 			// Assign our context
@@ -441,11 +445,21 @@ bb.screen = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 73 : 73;
 		} else if (bb.device.is1280x768) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+			if (bb.device.newerThan10dot2 === true) {
+				return 120;
+			} else {
+				return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99; 
+			}
 		} else if (bb.device.is1280x720) {
-			return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92; 
+			if (bb.device.newerThan10dot2 === true) {
+				return 96;
+			} else {
+				return (bb.getOrientation().toLowerCase() == 'portrait') ? 116 : 92;
+			}
 		} else if (bb.device.is720x720) {
 			return 109;
+		} else if (bb.device.is1440x1440) {
+			return 144;
 		} else {
 			return (bb.getOrientation().toLowerCase() == 'portrait') ? 139 : 99;
 		}
@@ -455,12 +469,28 @@ bb.screen = {
 		// Set our 'res' for known resolutions, otherwise use the default
 		if (bb.device.is1024x600) {
 			return 65;
-		} else if (bb.device.is1280x768 || bb.device.is1280x720) {
+		} else if (bb.device.is1280x768) {
 			return 111;
+		} else if (bb.device.is1280x720) {
+			if (bb.device.newerThan10dot2) {
+				return 88;
+			} else {
+				return 111;
+			}
 		} else if (bb.device.is720x720) {
-			return 92;
-		}else {
-			return 111;
+			if (bb.device.newerThan10dot2) {
+				return 90;
+			} else {
+				return 92;
+			}
+		} else if (bb.device.is1440x1440) {
+			return 132;
+		} else {
+			if (bb.device.newerThan10dot2) {
+				return 110;
+			} else {
+				return 111;
+			}
 		}
 	}
 		
