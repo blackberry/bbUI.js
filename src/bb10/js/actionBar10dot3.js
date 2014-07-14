@@ -478,11 +478,6 @@ bb.actionBar10dot3 = {
 										} else {
 											firstAction.style['margin-left'] = ((((bb.innerWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth)) - leftBuffer) + 'px';
 										}
-										/*if (count == 1) {
-											firstAction.style['margin-left'] = ((this.getUsableWidth() - actionWidth)/2) + 'px';
-										} else {
-											firstAction.style['margin-left'] = (((this.getUsableWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth))+ 'px';
-										}*/
 									} else {
 										firstAction.style['margin-left'] = ((this.getUsableWidth() - (count * actionWidth))/2) + 'px';
 									}
