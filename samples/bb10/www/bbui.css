@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1856*/
+/* bbUI for BB10 VERSION: 0.9.6.1870*/
 
 body, html {
 	padding:0;
@@ -3453,59 +3453,52 @@ body, html {
 	
 	/* 10.3 Toggle Buttons */
 	.bb-toggle-10dot3 {
-		width: 120px;
-		height: 70px;
+		width: 108px;
+		height: 63px;
 		padding: 0px;
 	}
 
 	.bb-toggle .outer-10dot3 {
-		height: 70px;
-		border-radius: 36px;
-		width:120px;
+		height: 63px;
+		border-radius: 32px;
+		width:108px;
 	}
 
+	.bb-toggle .halo-10dot3 {
+		margin-left: 30px;
+		margin-top: 38px;
+	}
+	
 	.bb-toggle-10dot3 .indicator {
-		width: 57px;
-		height: 57px;
-		border-radius: 29px;
+		width: 47px;
+		height: 47px;
+		border-radius: 26px;
+		margin-top: 62px;
 	}
 
 	.bb-toggle-10dot3 .indicator .switch-on {
 		width: 2px;
-		height: 21px;
-		margin-top: 17px;
-		margin-left: 28px;
+		height: 19px;
+		margin-top: 14px;
+		margin-left: 23px;
 	}
 
-	.bb-toggle-10dot3 .indicator .switch-off-light {
-		width: 20px;
-		height: 20px;
-		border-radius: 11px;
-		margin-top: 17px;
-		margin-left: 17px;
-		border: 2px solid #CBCBCB;
-	}
-
+	.bb-toggle-10dot3 .indicator .switch-off-light,
 	.bb-toggle-10dot3 .indicator .switch-off-dark {
-		width: 20px;
-		height: 20px;
-		border-radius: 11px;
-		margin-top: 17px;
-		margin-left: 17px;
-		border: 2px solid #1E1E1E;
+		width: 18px;
+		height: 18px;
+		border-radius: 10px;
+		margin-top: 13px;
+		margin-left: 13px;
 	}
 
-	.bb-toggle .fill-10dot3-light {
-		width: 120px;
-		height: 70px;
-		border-radius: 36px;
-	}
-
+	.bb-toggle .fill-10dot3-light,
 	.bb-toggle .fill-10dot3-dark {
-		width: 120px;
-		height: 70px;
-		border-radius: 36px;
+		width: 108px;
+		height: 63px;
+		border-radius: 32px;
 	}
+
 
 	/* Buttons */
 	.bb-button-image {

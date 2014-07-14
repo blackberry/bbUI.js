@@ -15,9 +15,13 @@ _bb10_toggle = {
 		outerElement.checked = false;
 		outerElement.enabled = true;
 		outerElement.buffer = (bb.device.is1024x600) ? 35 : 70;
-		if ((bb.device.newerThan10dot2 === true) && (bb.device.is1280x720)){
-			outerElement.buffer = 57;		
-		}
+		if (bb.device.newerThan10dot2 === true) {
+			if (bb.device.is1280x720) {
+				outerElement.buffer = 57;	
+			} else if (bb.device.is720x720) {
+				outerElement.buffer = 63;
+			}
+		} 
 		outerElement.isActivated = false;
 		outerElement.initialXPos = 0;
 		outerElement.currentXPos = 0;
