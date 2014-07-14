@@ -307,10 +307,30 @@
 		font-size:23pt;
 	}
 	
+	.bb-titlebar-button-10dot3 {
+		font-size: 25pt;
+		font-weight: 600;
+		border-radius: 0px;
+		margin-top: 5px;
+	}
+	
+	.bb-title-bar-10dot3 {
+		border-bottom-width: 5px;
+		font-size: 34pt;
+		height: 85px;
+		line-height: 85px;
+		font-weight: 600;
+	}
+	
 	.bb-title-bar-portrait,
 	.bb-title-bar-landscape {
 		height:92px;
 	}
+	
+	.bb-title-bar-10dot3-portrait,
+	.bb-title-bar-10dot3-landscape {
+		height: 85px;
+	} 
 	
 	.bb-title-bar-caption-portrait,
 	.bb-title-bar-caption-landscape,
@@ -322,8 +342,17 @@
 		margin-left: 105px;
 	}
 	
+	.bb-title-bar-caption-details-img-10dot3 {
+		margin-left: 100px;
+	}
+	
 	.bb-title-bar-accent-text {
 		margin-top:-13px;
+	}
+	
+	.bb-title-bar-accent-text-10dot3 {
+		margin-top: -20px;
+		font-size: 22pt;
 	}
 	
 	.bb-title-bar img {
@@ -332,9 +361,25 @@
 		width:92px;
 	}
 	
+	.bb-title-bar-10dot3 img {
+		position:relative;
+		float:left;
+		margin-top: -2px;
+		height:87px;
+		width:87px;
+	}
+	
 	.bb-titlebar-button-container {
 		margin: 6px;
 	}
+	
+	.bb-titlebar-button-container-10dot3 {
+		position: absolute;
+		top: 0px;
+		bottom: 0px;
+		padding: 4px;
+		margin: 0px;
+	}  
 	
 	.bb-titlebar-button-container-10dot2 {
 		margin-top: 10px;

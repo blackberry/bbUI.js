@@ -478,7 +478,11 @@ bb.screen = {
 				return 111;
 			}
 		} else if (bb.device.is720x720) {
-			return 92;
+			if (bb.device.newerThan10dot2) {
+				return 90;
+			} else {
+				return 92;
+			}
 		} else if (bb.device.is1440x1440) {
 			return 132;
 		} else {

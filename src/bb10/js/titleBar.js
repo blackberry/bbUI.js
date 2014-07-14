@@ -173,7 +173,11 @@ bb.titleBar = {
 						caption.style['line-height'] = '70px';
 					}
 				} else if (bb.device.is720x720) {
-					caption.style['line-height'] = '55px';
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '40px';
+					} else { 
+						caption.style['line-height'] = '55px';
+					}
 				} else if (bb.device.is1440x1440) {
 					caption.style['line-height'] = '80px';
 				} else {

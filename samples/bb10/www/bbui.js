@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1872*/
+/* bbUI for BB10 VERSION: 0.9.6.1883*/
 
 bb = {
 	scroller: null,  
@@ -4157,7 +4157,11 @@ bb.screen = {
 				return 111;
 			}
 		} else if (bb.device.is720x720) {
-			return 92;
+			if (bb.device.newerThan10dot2) {
+				return 90;
+			} else {
+				return 92;
+			}
 		} else if (bb.device.is1440x1440) {
 			return 132;
 		} else {
@@ -4711,7 +4715,11 @@ bb.titleBar = {
 						caption.style['line-height'] = '70px';
 					}
 				} else if (bb.device.is720x720) {
-					caption.style['line-height'] = '55px';
+					if (bb.device.newerThan10dot2 === true) {
+						caption.style['line-height'] = '40px';
+					} else { 
+						caption.style['line-height'] = '55px';
+					}
 				} else if (bb.device.is1440x1440) {
 					caption.style['line-height'] = '80px';
 				} else {
@@ -6963,16 +6971,28 @@ _bb10_imageList = {
 						innerChildNode.touchTimer = innerChildNode.touchTimer.bind(innerChildNode);
 						// Draw the selected state for the context menu
 						innerChildNode.drawSelected = function() {
-														this.setAttribute('class',this.highlight);
 														this.overlay.style['visibility'] = 'visible';
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														if (bb.device.newerThan10dot2) {
+															if (bb.screen.listColor === 'light') {
+																this.style['background-color'] = '#E4E4E4';
+															} else {
+																this.style['background-color'] = bb.options.shades.darkHighlight;
+															}
+														} else {
+															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														}
 													};
 						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
 						// Draw the unselected state for the context menu
 						innerChildNode.drawUnselected = function() {
-														this.setAttribute('class',this.normal);
 														this.overlay.style['visibility'] = 'hidden';
-														this.overlay.style['border-color'] =  'transparent';
+														if (bb.device.newerThan10dot2) {
+															this.style['background-color'] = '';
+														} else {
+															this.setAttribute('class',this.normal);
+															this.overlay.style['border-color'] =  'transparent';
+														}
 													};
 						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);
 						

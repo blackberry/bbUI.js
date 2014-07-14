@@ -364,16 +364,28 @@ _bb10_imageList = {
 						innerChildNode.touchTimer = innerChildNode.touchTimer.bind(innerChildNode);
 						// Draw the selected state for the context menu
 						innerChildNode.drawSelected = function() {
-														this.setAttribute('class',this.highlight);
 														this.overlay.style['visibility'] = 'visible';
-														this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														if (bb.device.newerThan10dot2) {
+															if (bb.screen.listColor === 'light') {
+																this.style['background-color'] = '#E4E4E4';
+															} else {
+																this.style['background-color'] = bb.options.shades.darkHighlight;
+															}
+														} else {
+															this.setAttribute('class',this.highlight);
+															this.overlay.style['border-color'] =  bb.options.shades.darkOutline;
+														}
 													};
 						innerChildNode.drawSelected = innerChildNode.drawSelected.bind(innerChildNode);
 						// Draw the unselected state for the context menu
 						innerChildNode.drawUnselected = function() {
-														this.setAttribute('class',this.normal);
 														this.overlay.style['visibility'] = 'hidden';
-														this.overlay.style['border-color'] =  'transparent';
+														if (bb.device.newerThan10dot2) {
+															this.style['background-color'] = '';
+														} else {
+															this.setAttribute('class',this.normal);
+															this.overlay.style['border-color'] =  'transparent';
+														}
 													};
 						innerChildNode.drawUnselected = innerChildNode.drawUnselected.bind(innerChildNode);
 						
