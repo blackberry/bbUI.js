@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1870*/
+/* bbUI for BB10 VERSION: 0.9.6.1872*/
 
 body, html {
 	padding:0;
@@ -3450,6 +3450,32 @@ body, html {
     .bb-screen {
 		font-size: 28pt;
     }
+	
+	/* 10.3 Checkboxes */
+	.bb-checkbox-outer-10dot3 {
+		height: 45px;
+		width: 45px;
+	}
+
+	.bb-checkbox-inner-10dot3 {
+		height: 45px;
+		width: 45px;
+	}
+
+	.bb-checkbox-check-hidden-10dot3 {
+		height: 45px;
+		width: 45px;
+		background-size: 33px 27px;
+	}
+
+	.bb-checkbox-check-display-10dot3 {
+		height: 45px;
+		width: 45px;
+		margin-left: 0px;
+		margin-top: 0px;
+		background-size: 33px 27px;
+	}
+
 	
 	/* 10.3 Toggle Buttons */
 	.bb-toggle-10dot3 {
