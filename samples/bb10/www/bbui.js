@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1889*/
+/* bbUI for BB10 VERSION: 0.9.6.1893*/
 
 bb = {
 	scroller: null,  
@@ -56,8 +56,8 @@ bb = {
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Get our OS version as a convenience
-		bb.device.is10dot3 = (navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
-		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
+		bb.device.is10dot3 = true;//(navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
+		bb.device.is10dot2 = false;//(navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
 		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
 		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2 || bb.device.is10dot3;
@@ -2334,7 +2334,7 @@ bb.actionBar10dot3 = {
 									};
 								}
 								
-								// Align our actions to be centered if there are now tabs
+								// Align our actions to be centered if there are no tabs
 								if (noVisibleTabs && firstAction) {
 									if (this.signatureAction) {
 										var signatureWidth,
@@ -2368,11 +2368,22 @@ bb.actionBar10dot3 = {
 										}
 										this.signatureAction.signatureDiv.style['margin-left'] = ((bb.innerWidth()/2) - (signatureWidth/2)) + 'px';
 										// Set our margin to center our actions
+										var leftBuffer = 0;
+										if (this.backBtn) {
+											leftBuffer += bb.actionBar10dot3.getBackBtnWidth(this.backBtn);
+										} else if (this.tabOverflowBtn) {
+											leftBuffer += bb.actionBar10dot3.getTabOverflowBtnWidth(this.tabOverflowBtn);
+										}
 										if (count == 1) {
+											firstAction.style['margin-left'] = (((bb.innerWidth() - actionWidth)/2) - leftBuffer) + 'px';
+										} else {
+											firstAction.style['margin-left'] = ((((bb.innerWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth)) - leftBuffer) + 'px';
+										}
+										/*if (count == 1) {
 											firstAction.style['margin-left'] = ((this.getUsableWidth() - actionWidth)/2) + 'px';
 										} else {
 											firstAction.style['margin-left'] = (((this.getUsableWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth))+ 'px';
-										}
+										}*/
 									} else {
 										firstAction.style['margin-left'] = ((this.getUsableWidth() - (count * actionWidth))/2) + 'px';
 									}

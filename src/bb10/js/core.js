@@ -38,8 +38,8 @@ bb = {
 		bb.device.requiresScrollingHack = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0) || (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		
 		// Get our OS version as a convenience
-		bb.device.is10dot3 = (navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
-		bb.device.is10dot2 = (navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
+		bb.device.is10dot3 = true;//(navigator.userAgent.toLowerCase().indexOf('version/10.3') >= 0);
+		bb.device.is10dot2 = false;//(navigator.userAgent.toLowerCase().indexOf('version/10.2') >= 0);
 		bb.device.is10dot1 = (navigator.userAgent.toLowerCase().indexOf('version/10.1') >= 0);
 		bb.device.is10dot0 = (navigator.userAgent.toLowerCase().indexOf('version/10.0') >= 0);
 		bb.device.newerThan10dot0 = bb.device.is10dot1 || bb.device.is10dot2 || bb.device.is10dot3;

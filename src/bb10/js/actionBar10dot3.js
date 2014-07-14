@@ -433,7 +433,7 @@ bb.actionBar10dot3 = {
 									};
 								}
 								
-								// Align our actions to be centered if there are now tabs
+								// Align our actions to be centered if there are no tabs
 								if (noVisibleTabs && firstAction) {
 									if (this.signatureAction) {
 										var signatureWidth,
@@ -467,11 +467,22 @@ bb.actionBar10dot3 = {
 										}
 										this.signatureAction.signatureDiv.style['margin-left'] = ((bb.innerWidth()/2) - (signatureWidth/2)) + 'px';
 										// Set our margin to center our actions
+										var leftBuffer = 0;
+										if (this.backBtn) {
+											leftBuffer += bb.actionBar10dot3.getBackBtnWidth(this.backBtn);
+										} else if (this.tabOverflowBtn) {
+											leftBuffer += bb.actionBar10dot3.getTabOverflowBtnWidth(this.tabOverflowBtn);
+										}
 										if (count == 1) {
+											firstAction.style['margin-left'] = (((bb.innerWidth() - actionWidth)/2) - leftBuffer) + 'px';
+										} else {
+											firstAction.style['margin-left'] = ((((bb.innerWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth)) - leftBuffer) + 'px';
+										}
+										/*if (count == 1) {
 											firstAction.style['margin-left'] = ((this.getUsableWidth() - actionWidth)/2) + 'px';
 										} else {
 											firstAction.style['margin-left'] = (((this.getUsableWidth() - (3 * actionWidth))/2) + (multiplier * actionWidth))+ 'px';
-										}
+										}*/
 									} else {
 										firstAction.style['margin-left'] = ((this.getUsableWidth() - (count * actionWidth))/2) + 'px';
 									}
