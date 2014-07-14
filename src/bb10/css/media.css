@@ -913,6 +913,10 @@
 		background-size: 92px 92px;
 	}
 	
+	.bb-image-list-item-noimage {
+		padding-left: 10px;
+	}
+	
 	.bb-image-list-item .button {
 		margin-top: -97px;
 	}

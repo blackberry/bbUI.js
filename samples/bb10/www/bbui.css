@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1883*/
+/* bbUI for BB10 VERSION: 0.9.6.1886*/
 
 body, html {
 	padding:0;
@@ -4346,6 +4346,10 @@ body, html {
 		height: 123px;
 		padding-left: 105px;
 		background-size: 92px 92px;
+	}
+	
+	.bb-image-list-item-noimage {
+		padding-left: 10px;
 	}
 	
 	.bb-image-list-item .button {
