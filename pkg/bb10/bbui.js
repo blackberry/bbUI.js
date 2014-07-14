@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-/* bbUI for BB10 VERSION: 0.9.6.1849*/
+/* bbUI for BB10 VERSION: 0.9.6.1856*/
 
 bb = {
 	scroller: null,  
@@ -2911,7 +2911,11 @@ bb.actionBar10dot3 = {
 		if (bb.device.is1024x600) {
 			return bb.getOrientation() == 'portrait' ? 93 : 150;
 		} else if (bb.device.is720x720) {
-			return 174;
+			if (bb.device.newerThan10dot2) {
+				return 121;
+			} else {
+				return 174;
+			}
 		} else if (bb.device.is1280x720) {
 			return 104;
 		} else if (bb.device.is1440x1440) {
@@ -4522,7 +4526,7 @@ bb.tabOverflow = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
 		} else if (bb.device.is720x720) {
-			return bb.innerWidth() - 143;
+			return 550;
 		} else if (bb.device.is1280x720) {
 			return 488;
 		} else if (bb.device.is1440x1440) {
@@ -9370,10 +9374,12 @@ _PlayBook_contextMenu = {
 	getWidth : function() {
 		if (bb.device.isPlayBook) {
 			return '300';
-		} if (bb.device.is1280x720) {
+		} else if (bb.device.is1280x720) {
 			return '435';
-		} if (bb.device.is1440x1440) {
+		} else if (bb.device.is1440x1440) {
 			return '654';
+		} else if (bb.device.is720x720) {
+			return '490';
 		} else {
 			return '563';		
 		}

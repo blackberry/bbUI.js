@@ -354,7 +354,7 @@ bb.tabOverflow = {
 		if (bb.device.is1024x600) {
 			return (bb.getOrientation() == 'portrait') ? bb.innerWidth() - 77 : 400;
 		} else if (bb.device.is720x720) {
-			return bb.innerWidth() - 143;
+			return 550;
 		} else if (bb.device.is1280x720) {
 			return 488;
 		} else if (bb.device.is1440x1440) {

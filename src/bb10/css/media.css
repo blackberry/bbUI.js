@@ -16,6 +16,62 @@
 		font-size: 28pt;
     }
 	
+	/* 10.3 Toggle Buttons */
+	.bb-toggle-10dot3 {
+		width: 120px;
+		height: 70px;
+		padding: 0px;
+	}
+
+	.bb-toggle .outer-10dot3 {
+		height: 70px;
+		border-radius: 36px;
+		width:120px;
+	}
+
+	.bb-toggle-10dot3 .indicator {
+		width: 57px;
+		height: 57px;
+		border-radius: 29px;
+	}
+
+	.bb-toggle-10dot3 .indicator .switch-on {
+		width: 2px;
+		height: 21px;
+		margin-top: 17px;
+		margin-left: 28px;
+	}
+
+	.bb-toggle-10dot3 .indicator .switch-off-light {
+		width: 20px;
+		height: 20px;
+		border-radius: 11px;
+		margin-top: 17px;
+		margin-left: 17px;
+		border: 2px solid #CBCBCB;
+	}
+
+	.bb-toggle-10dot3 .indicator .switch-off-dark {
+		width: 20px;
+		height: 20px;
+		border-radius: 11px;
+		margin-top: 17px;
+		margin-left: 17px;
+		border: 2px solid #1E1E1E;
+	}
+
+	.bb-toggle .fill-10dot3-light {
+		width: 120px;
+		height: 70px;
+		border-radius: 36px;
+	}
+
+	.bb-toggle .fill-10dot3-dark {
+		width: 120px;
+		height: 70px;
+		border-radius: 36px;
+	}
+
 	/* Buttons */
 	.bb-button-image {
 		height: 65px;
@@ -446,22 +502,23 @@
 	.bb-action-bar-10dot3-back-button-portrait,
 	.bb-action-bar-10dot3-back-button-landscape {
 		height:109px;
-		width:109px;
+		width:100px;
 	}
 	
 	.bb-action-bar-10dot3-back-chevron-dark,
 	.bb-action-bar-10dot3-back-chevron-light {
 		width:20px;
 		height:37px;
-		margin-left: 50px;
-		top: 41px;
+		background-size: 17px 34px;
+		margin-left: 43px;
+		top: 35px;
 	}
 
 	.bb-action-bar-10dot3-colored-slash {
 		width: 3px;
-		height: 100px;
+		height: 90px;
 		top: 10px;
-		left: 8px;
+		left: 9px;
 	}
 
 	.bb-action-bar-10dot3-back-slash-dark,

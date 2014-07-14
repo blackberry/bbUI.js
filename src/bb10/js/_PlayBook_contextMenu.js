@@ -445,10 +445,12 @@ _PlayBook_contextMenu = {
 	getWidth : function() {
 		if (bb.device.isPlayBook) {
 			return '300';
-		} if (bb.device.is1280x720) {
+		} else if (bb.device.is1280x720) {
 			return '435';
-		} if (bb.device.is1440x1440) {
+		} else if (bb.device.is1440x1440) {
 			return '654';
+		} else if (bb.device.is720x720) {
+			return '490';
 		} else {
 			return '563';		
 		}

@@ -1010,7 +1010,11 @@ bb.actionBar10dot3 = {
 		if (bb.device.is1024x600) {
 			return bb.getOrientation() == 'portrait' ? 93 : 150;
 		} else if (bb.device.is720x720) {
-			return 174;
+			if (bb.device.newerThan10dot2) {
+				return 121;
+			} else {
+				return 174;
+			}
 		} else if (bb.device.is1280x720) {
 			return 104;
 		} else if (bb.device.is1440x1440) {
