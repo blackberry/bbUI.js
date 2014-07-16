@@ -17,7 +17,7 @@
 </tr>
 </table> 
 
-## BlackBerry 10 Support Requires WebWorks 2.0
+## BlackBerry 10 Support Requires WebWorks 2.X
 
 [You can download WebWorks 2.0 here](https://developer.blackberry.com/html5/download/)
 
