@@ -650,7 +650,6 @@ body, html {
 
 .bb-menu-bar-item-caption {
 	font-size: 20pt;
-	padding-top: 10px;
 	height: 31px;
 	overflow: hidden;
 	text-overflow: ellipsis;
